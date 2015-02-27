@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Декларації</title>
+
+  {% stylesheet 'css_all' %}
+
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700,100&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css'>
+  <!--<link href="css/material-wfont.min.css" rel="stylesheet">-->
+</head>
+
+<body> 
+<!-- <div id="fullscreen_post_bg" class="fullscreen_post_bg" style="background-image: url(images/black-hole2.gif);"><img src="images/black-hole2.gif"></div>-->
+
+<div class="on-white">
+<div id="top">
+  <div class="container"> 
+   <div class="row">
+   		<div class="col col-sm-5 col-xs-6 text-left">
+	   		<a href="/" class="logo pull-left"><img src="{{ static("images/logo.png") }}" width="135" height="33" alt=""/></a>
+        </div>
+        
+        <div class="col col-sm-4 text-left hidden-xs">
+        	<div class="stats">
+            <p>вже <span class="digits">350 000</span> чиновників</p>
+            <p>більше <span class="digits">295 000</span> декларацій</p>
+            <p>з нами <span class="digits">100</span> волонтерів</p>
+        </div> 
+        </div>
+        
+        <div class="col col-sm-3 col-xs-6 text-left">
+        	<a href="javascript:void(0)" class="btn btn-info pull-right" id="joinus">Стати волонтером</a>
+            
+            <a id="unsubscribe-vol" href="#" class="ajaxx white sm pull-right">я вже не хочу бути волонтером</a>
+        </div>
+        
+       </div> 
+  </div>
+</div>
+
+<nav id="navbar" class="navbar navbar-inverse navbar-default" role="navigation">  
+        <div class="container"> 
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Перемкнути :)</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                
+            </div>
+
+            <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Головна</a></li>
+                    <li><a href="#">Детальний пошук</a></li>
+                    <li><a href="#">Регіони</a></li>
+                    <li><a href="#">Відомства</a></li>
+                    <li><a href="#">Про проект</a></li>
+                    <li><a href="#">Ще шось там</a></li>
+                </ul>
+            </div>
+        </div>
+</nav>
+
+<section id="infobox" class=" hidden-xs">
+ <div class="container">
+    <div class="row">
+      <div class="col col-sm-6">
+      <a  href="#" id="closeme" class="pull-right" ><span  class="glyphicon"></span></a> 
+
+          <p mb10><a class ="mediaimage" href="например линк на информационную страницу"> <img alt="" src="{{ static("images/anonim.png") }}" class="img-circle"> </a> <i>Ми виклали декларації чиновників, щоб прості люди змогли порівняти задекларовані доходи з реальними витратами.</i></p>
+          <a href="#" class="classic green">Дізнатися детально про проект</a>
+      </div>
+      </div>
+      </div>
+</section>
+</div>
+
+
+<section id="searchbox" class="">
+  <div class="container">
+    <div class="row">
+    
+      
+
+      <div class=" col-lg-9 col-md-8 col-sm-8 col-xs-12">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Введіть прізвище чиновника" data-provide="typeahead" data-items="4"
+data-source='["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut",
+"Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas",
+"Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
+"Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey",
+"New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon",
+"Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas",
+"Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
+          <span class="input-group-btn">
+          <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+          </span> </div>
+        <!-- /input-group --> 
+        <p class="white mt20">Наприклад: Гмиря Леонід Вікторович, Слідчий МВC, краби що вкрали ікру, Деу Ланос</p>
+      </div>
+      
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12"></div>
+      
+    </div>
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+   
+    	<div class="copirights-logos">
+        <div class="cl-block"><a class ="clogos clogos_cs" href="а куди ставить лінк?"  target="_blank">Канцелярська сотня</a><span class="ctext">Проект канцелярської сотні</span></div>
+         <div class="cl-block"><a class ="clogos clogos_slab" href="http://schroedingerscatlab.com/" target="_blank">Лабораторія кота Шрьодінгера</a><span class="ctext">Дизайн Лабораторії кота Шрьодінгера</span></div>
+        </div> 
+    
+  </div>
+</footer>
+
+{% javascript 'js_all' %}
+
+<script>
+		
+document.addEventListener("touchstart", function(){}, true);
+	
+jQuery(document).ready(function() { 
+   
+   jQuery.material.init(); 
+   
+   $ib= '#infobox';
+   
+   function hideme($ib)
+	{jQuery($ib).css("height",10);}
+   
+   
+
+				
+	jQuery( "#infobox a#closeme" ).click(function() { //тут проверка, когда клткают на кнопку раскрытия закрытия панели
+
+		jQuery($ib).addClass("animated fadeOutLeftBig").addClass("hideme");
+		jQuery($ib).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', hideme($ib));
+					  
+	});
+				
+			
+				
+});
+        </script>
+</body>
+</html>
