@@ -20,7 +20,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 SECRET_KEY = 'PLEASEREPLACEMEREPLACEMEREPLACEMDONTLEAVEMELIKETHAT'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
@@ -33,7 +33,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django_assets',
     'pipeline',
     'django_jinja',
     'django_jinja.contrib._humanize',
@@ -106,16 +105,14 @@ PIPELINE_JS = {
     'js_all': {
         'source_filenames': (
             "js/jquery-1.10.2.js",
-            "js/bootstrap.min.js",
-            "js/bootstrap3-typeahead.min.js",
+            "js/bootstrap.js",
+            "js/bootstrap3-typeahead.js",
             "js/ripples.min.js",
             "js/material.min.js"
         ),
-        'output_filename': 'css/merged.js',
+        'output_filename': 'js/merged.js',
     }
 }
-
-PIPELINE_ENABLED = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
