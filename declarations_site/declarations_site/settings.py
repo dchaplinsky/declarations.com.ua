@@ -104,7 +104,7 @@ PIPELINE_CSS = {
 PIPELINE_JS = {
     'js_all': {
         'source_filenames': (
-            "js/jquery-1.10.2.js",
+            "js/jquery-1.11.2.js",
             "js/bootstrap.js",
             "js/bootstrap3-typeahead.js",
             "js/ripples.js",
