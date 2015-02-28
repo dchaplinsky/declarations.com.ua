@@ -88,9 +88,9 @@ STATICFILES_FINDERS = (
 PIPELINE_CSS = {
     'css_all': {
         'source_filenames': (
-            'css/bootstrap.min.css',
+            'css/bootstrap.css',
             'css/material.css',
-            'css/ripples.min.css',
+            'css/ripples.css',
             'css/animate.css',
             'css/style.css',
         ),
@@ -107,8 +107,8 @@ PIPELINE_JS = {
             "js/jquery-1.10.2.js",
             "js/bootstrap.js",
             "js/bootstrap3-typeahead.js",
-            "js/ripples.min.js",
-            "js/material.min.js"
+            "js/ripples.js",
+            "js/material.js"
         ),
         'output_filename': 'js/merged.js',
     }
