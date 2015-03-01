@@ -1,1 +1,52 @@
 {% extends "base.jinja" %}
+
+{% block bodyclass %}front{% endblock %}
+
+{% block infobox %}
+                <section id="infobox" class="hidden-xs">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col col-sm-6">
+                                <a href="#" id="closeme" class="pull-right"><span class="glyphicon"></span></a> 
+
+                                <p class="mb10">
+                                    <a class="mediaimage" href="например линк на информационную страницу">
+                                        <img alt="" src="{{ static("images/anonim.png") }}" class="img-circle" />
+                                    </a>
+                                    <i>Ми виклали декларації чиновників, щоб прості люди змогли порівняти задекларовані доходи з реальними витратами.</i>
+                                </p>
+                                <a href="#" class="classic green">Дізнатися детально про проект</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+{% endblock %}
+
+{% block content %}
+            <section id="searchbox">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Введіть прізвище чиновника" data-provide="typeahead" data-items="4"
+                                    data-source='["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut",
+                                    "Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas",
+                                    "Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota",
+                                    "Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey",
+                                    "New Mexico","New York","North Dakota","North Carolina","Ohio","Oklahoma","Oregon",
+                                    "Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas",
+                                    "Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming"]'>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group --> 
+                            <p class="white mt20">Наприклад: Гмиря Леонід Вікторович, Слідчий МВC, краби що вкрали ікру, Деу Ланос</p>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12"></div>
+                    </div>
+                </div>
+            </section>
+{% endblock %}

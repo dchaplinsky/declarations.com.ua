@@ -1,0 +1,21 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<section id="page">
+    <div class="container">
+        <div id="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="{{ url("home") }}">Головна</a></li>
+                <li class="active">{% block page_name %}{% endblock %}</li>
+            </ol> 
+        </div>
+
+        <h1 id="page-header"><span>{% block page_header %}{% endblock %}</span></h1>
+        <div class="page-content">
+        {% block static_content %}
+        {% endblock %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
