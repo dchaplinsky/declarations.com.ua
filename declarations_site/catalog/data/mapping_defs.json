@@ -1,1 +1,631 @@
-{}
+# BEWARE: this is not valid JSON, comments should be dropped before parsing it
+# Here is how you read such a file:
+# data = defs_file.read()
+# data = re.sub("#.*$", "", data, flags=re.MULTILINE)
+# json.loads(data)
+{
+    "intro": {
+        "isnotdeclaration": "0. ЦЕ НЕ ДЕКЛАРАЦІЯ (почищено)",
+        "declaration_year": "0. Це декларація за ____ рік? (почищено)"
+    },
+    "general": {
+        "last_name": "1. П.І.Б (почищено)",  # Петренко
+        "name": "",  # Іван
+        "patronymic": "",  # Сергійович
+        "inn": "ИНН",  # 3003002001
+        "addresses": [
+            {
+                "place": "",   # Область: Вінницька
+                "place_district": "",   # Район: Вінницький
+                "place_city": "",   # Місто: Вінниця
+                "place_city_type": "",  # Тип НП: city
+                "place_address": "",    # Адреса: вул Петренка
+                "place_address_type": ""  # Тип адреси: Фактична адреса
+            }
+        ],
+        "post": {
+            "region": "",   # Посада (область): Київська
+            "office": "",    # Відомство: апеляційний суд
+            "post": ""  # Посада: Суддя
+        },
+        "family": [  # Родина
+            {
+                "relations": "",  # Відношення: жінка
+                "name": "",  # ПІБ: Петренко О. В.
+                "inn": ""  # ІНН: 3003002002
+            }
+        ]
+    },
+    "income": {
+        "5": {
+            "value": "ОБЩ: 5, Загальна сума сукупного доходу Декларанта",
+            "comment": "",
+            "family": "ОБЩ: 5, Загальна сума сукупного доходу Членів сім\"ї",
+            "family_comment": ""
+        },
+        "6": {
+            "value": "",
+            "comment": "",
+            "family": "",
+            "family_comment": ""
+        },
+        "7": {
+            "value": "",
+            "comment": "",
+            "family": "",
+            "family_comment": "",
+            "source_name": ""
+        },
+        "8": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "9": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "10": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "11": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "12": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "13": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "14": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "15": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "16": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "17": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "18": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "19": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "20": {
+            "value": "",
+            "comment": "",
+            "family": ""
+        },
+        "21": [
+            {
+                "country": "",
+                "country_comment": "",
+                "cur": "",
+                "uah_equal": ""
+            },
+            {
+                "country": "",
+                "country_comment": "",
+                "cur": "",
+                "uah_equal": ""
+            }
+        ],
+        "22": [
+            {
+                "country": "",
+                "country_comment": "",
+                "cur": "",
+                "uah_equal": ""
+            },
+            {
+                "country": "",
+                "country_comment": "",
+                "cur": "",
+                "uah_equal": ""
+            }
+        ],
+        "8_family": {
+            "comment": ""
+        },
+        "9_family": {
+            "comment": ""
+        },
+        "10_family": {
+            "comment": ""
+        },
+        "11_family": {
+            "comment": ""
+        },
+        "12_family": {
+            "comment": ""
+        },
+        "13_family": {
+            "comment": ""
+        },
+        "14_family": {
+            "comment": ""
+        },
+        "15_family": {
+            "comment": ""
+        },
+        "16_family": {
+            "comment": ""
+        },
+        "17_family": {
+            "comment": ""
+        },
+        "18_family": {
+            "comment": ""
+        },
+        "19_family": {
+            "comment": ""
+        },
+        "20_family": {
+            "comment": ""
+        }
+    },
+    "estate": {
+        "23": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs": "",
+                "costs_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "24": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs": "",
+                "costs_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "25": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs": "",
+                "costs_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "26": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs": "",
+                "costs_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "27": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs": "",
+                "costs_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "28": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs": "",
+                "costs_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "29": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs_property": "",
+                "costs_property_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "30": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs_property": "",
+                "costs_property_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "31": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs_property": "",
+                "costs_property_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "32": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs_property": "",
+                "costs_property_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "33": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs_property": "",
+                "costs_property_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ],
+        "34": [
+            {
+                "region": "",
+                "address": "",
+                "space": "",
+                "space_units": "",
+                "space_comment": "",
+                "costs_property": "",
+                "costs_property_comment": "",
+                "costs_rent": "",
+                "costs_rent_comment": ""
+            }
+        ]
+    },
+    "vehicle": {
+        "35": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "36": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "37": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "38": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "39": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "40": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "41": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "42": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "43": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ],
+        "44": [
+            {
+                "brand": "",
+                "brand_info": "",
+                "year": "",
+                "sum": "",
+                "sum_comment": "",
+                "sum_rent": "",
+                "sum_rent_comment": ""
+            }
+        ]
+    },
+    "banks": {
+        "45": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ],
+        "46": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ],
+        "47": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ],
+        "48": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ],
+        "49": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ],
+        "50": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ],
+        "51": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ],
+        "52": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ],
+        "53": [
+            {
+                "sum": "",
+                "sum_units": "",
+                "sum_comment": "",
+                "sum_foreign": "",
+                "sum_foreign_units": "",
+                "sum_foreign_comment": ""
+            }
+        ]
+    },
+    "liabilities": {
+        "54": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "55": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "56": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "57": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "58": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "59": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "60": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "61": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "62": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "63": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        },
+        "64": {
+            "sum": "",
+            "sum_comment": "",
+            "sum_foreign": "",
+            "sum_foreign_comment": ""
+        }
+    },
+    "declaration": {
+        "date_day": "",
+        "date_month": "",
+        "date_year": "",
+        "notfull": "",
+        "notfull_lostpages": "",
+        "additional_info": "",
+        "additional_info_text": ""
+    }
+}
