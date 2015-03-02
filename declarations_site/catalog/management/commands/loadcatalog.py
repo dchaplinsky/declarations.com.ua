@@ -9,7 +9,7 @@ from datetime import datetime
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
-from catalog.elastic_models import Declaration
+from catalog.elastic_models import Declaration, declarations_mapping
 
 
 DEFS_PATH = os.path.join(settings.BASE_DIR, 'catalog/data/mapping_defs.json')
@@ -52,6 +52,9 @@ class Command(BaseCommand):
         return data
 
     def handle(self, *args, **options):
+        # ugly, ugly!
+        declarations_mapping.save("catalog")
+
         try:
             file_path = args[0]
         except IndexError:

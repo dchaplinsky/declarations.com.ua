@@ -95,6 +95,19 @@
                 function hideme($ib) {
                     $ib.css("height", 10);
                 }
+
+                $("#search-form").typeahead({
+                    source: function(query, process) {
+                        $.get('/ajax/suggest', {"q": query})
+                            .success(function(data){
+                                process(data);
+                            })
+                    },
+                    matcher: function() {
+                        // Big guys are playing here
+                        return true;
+                    }
+                })
                    
                 $("#infobox a#closeme").click(function() {
                     $ib
