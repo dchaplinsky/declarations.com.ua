@@ -14,7 +14,7 @@ def suggest(request):
         "declarations": {
             "text": request.GET.get("q", ""),
             "completion": {
-                "field": "general.full_name",
+                "field": "general.full_name_suggest",
                 "size": 10,
                 "fuzzy": {
                     "fuzziness": 3,

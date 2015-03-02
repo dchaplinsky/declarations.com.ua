@@ -1,7 +1,8 @@
 Django==1.7.5
 django-jinja==1.1.1
 elasticsearch==1.4.0
-elasticsearch-dsl==0.0.3
+# elasticsearch-dsl==0.0.3
+git+https://github.com/elasticsearch/elasticsearch-dsl-py.git
 Jinja2==2.7.3
 MarkupSafe==0.23
 python-dateutil==2.4.0

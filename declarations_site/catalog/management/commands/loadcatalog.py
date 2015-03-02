@@ -87,6 +87,19 @@ class Command(BaseCommand):
             rec["general"]["name"] = name_chunks[-2]
             rec["general"]["patronymic"] = name_chunks[-1]
 
+        rec["general"]["full_name_suggest"] = {
+            "input": [
+                u" ".join([rec["general"]["last_name"], rec["general"]["name"],
+                           rec["general"]["patronymic"]]),
+                u" ".join([rec["general"]["name"],
+                           rec["general"]["patronymic"],
+                           rec["general"]["last_name"]]),
+                u" ".join([rec["general"]["name"],
+                           rec["general"]["last_name"]])
+            ],
+            "output": rec["general"]["full_name"]
+        }
+
         try:
             rec['declaration']['date'] = datetime.strptime(
                 rec['declaration']['date'], '%Y-%m-%d')
