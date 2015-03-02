@@ -4,6 +4,7 @@ import csv
 import json
 
 from copy import deepcopy
+from datetime import datetime
 
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
@@ -22,7 +23,7 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
 
-        with open(DEFS_PATH) as defs_file:
+        with open(DEFS_PATH, 'r') as defs_file:
             data = defs_file.read()
             # Remove comments from the file
             data = re.sub("#.*$", "", data, flags=re.MULTILINE)
@@ -30,19 +31,23 @@ class Command(BaseCommand):
             self.mapping_defs = json.loads(data)
 
     def recur_map(self, f, data):
+        def step(k, v):
+            if isinstance(v, str):
+                if len(v) > 2 and v[0] == '%' and v[-1] == '%':
+                    # If it's in form "%<value>%", return the value
+                    return v[1:-1]
+                else:
+                    return f(v)
+            elif isinstance(v, (list, dict)):
+                return self.recur_map(f, data[k])
+
         if isinstance(data, dict):
             for k, v in data.items():
-                if isinstance(v, str):
-                    data[k] = f(v)
-                elif isinstance(v, (list, dict)):
-                    data[k] = self.recur_map(f, data[k])
+                data[k] = step(k, v)
 
         if isinstance(data, list):
             for k, v in enumerate(data):
-                if isinstance(v, str):
-                    data[k] = f(v)
-                elif isinstance(v, (list, dict)):
-                    data[k] = self.recur_map(f, data[k])
+                data[k] = step(k, v)
 
         return data
 
@@ -69,14 +74,21 @@ class Command(BaseCommand):
                                 deepcopy(self.mapping_defs)))
 
     def pre_process(self, rec):
-        chunks = rec["general"]["last_name"].split(u" ")
+        name_chunks = rec["general"]["full_name"].split(u" ")
 
-        if len(chunks) == 2:
-            rec["general"]["last_name"] = chunks[0]
-            rec["general"]["name"] = chunks[1]
+        if len(name_chunks) == 2:
+            rec["general"]["last_name"] = name_chunks[0]
+            rec["general"]["name"] = name_chunks[1]
         else:
-            rec["general"]["last_name"] = u" ".join(chunks[:-2])
-            rec["general"]["name"] = chunks[-2]
-            rec["general"]["patronymic"] = chunks[-1]
+            rec["general"]["last_name"] = u" ".join(name_chunks[:-2])
+            rec["general"]["name"] = name_chunks[-2]
+            rec["general"]["patronymic"] = name_chunks[-1]
+
+        try:
+            rec['declaration']['date'] = datetime.strptime(
+                rec['declaration']['date'], '%Y-%m-%d')
+        except ValueError:
+            # Elasticsearch doesn't like dates in bad format
+            rec['declaration']['date'] = None
 
         return rec
