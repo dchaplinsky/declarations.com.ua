@@ -9,7 +9,7 @@
 
         {% stylesheet 'css_all' %}
 
-        <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700,100&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700,100&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css' />
         <!--<link href="css/material-wfont.min.css" rel="stylesheet">-->
     </head>
 
@@ -25,9 +25,9 @@
                             
                             <div class="col col-sm-4 text-left hidden-xs">
                                 <div class="stats">
-                                    <p>вже <span class="digits">350 000</span> чиновників</p>
-                                    <p>більше <span class="digits">295 000</span> декларацій</p>
-                                    <p>з нами більш ніж<span class="digits">3000</span> волонтерів</p>
+                                    <p>вже <span class="digits">{{ total_persons }}</span> чиновників</p>
+                                    <p>більше <span class="digits">{{ total_declarations }}</span> декларацій</p>
+                                    <p>з нами більш ніж <span class="digits">3000</span> волонтерів</p>
                                 </div> 
                             </div>
                             
