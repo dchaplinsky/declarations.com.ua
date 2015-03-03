@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from elasticsearch_dsl.connections import connections
+from catalog.elastic_models import Declaration
 
 
 def home(request):
@@ -30,3 +31,14 @@ def suggest(request):
         return JsonResponse([val["text"] for val in options], safe=False)
     except (IndexError, KeyError):
         return JsonResponse([], safe=False)
+
+
+def search(request):
+    query = request.GET.get("q", "")
+    results = Declaration.search().query(
+        "match", _all=query)[:30]
+
+    return render(request, "results.jinja", {
+        "query": query,
+        "results": results.execute()
+    })

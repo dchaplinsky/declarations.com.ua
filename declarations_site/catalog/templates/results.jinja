@@ -1,0 +1,58 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<section id="page">
+    <div class="container">
+        <div id="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="{{ url("home") }}">Головна</a></li>
+                <li class="active">Результати пошуку</li>
+            </ol> 
+        </div>
+        <h1 id="page-header"><span>{{ query|escape }}</span></h1>
+        <div class="page-content">
+        <div class="container">
+            <div class="btn-group">
+                <a href="#" id="list" class="btn btn-default btn-sm">
+                    <span class="glyphicon glyphicon-th-list"></span> Списком
+                </a> 
+                <a href="#" id="grid" class="btn btn-default btn-sm">
+                    <spanclass="glyphicon glyphicon-th"></span> Картками
+                </a>
+            </div>
+            <div id="search-results" class="row list-group">
+                {% for r in results %}
+                <div class="item col-xs-4 col-lg-4 grid-group-item">
+                    <div class="box">
+                        <h3><a href="#">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a></h3>
+                        <ul class="tags_list">
+                            <li><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>{{ r.intro.declaration_year }}<span>,</span></li>
+                            {% if r.general.post.region %}
+                                <li>{{ r.general.post.region }}<span>,</span></li> 
+                            {% endif %}
+                            {% if r.general.post.office %}
+                                <li>{{ r.general.post.office }}<span>,</span></li> 
+                            {% endif %}
+                            {% if r.general.post.post %}
+                                <li>{{ r.general.post.post }}<span>,</span></li> 
+                            {% endif %}
+                        </ul>
+                        {{ r.general.post.post_raw }}
+
+<!--                         <ul class="search_list">
+                            <li><span class="glyphicon glyphicon-search" aria-hidden="true"></span>краби що вкрали ікру<span>,</span></li>
+                            <li>Булюк<span>,</span></li> 
+                            <li>чорна машина<span>,</span></li>  
+                        </ul>-->                
+                    </div>
+                </div>
+                {% if loop.index is divisibleby 3 %}
+                    <div class="clearfix"></div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

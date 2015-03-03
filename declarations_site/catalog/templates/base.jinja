@@ -52,9 +52,9 @@
                         <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
                             <ul class="nav navbar-nav">
                                 <li><a href="{{ url("home") }}">Головна</a></li>
-                                <li><a href="#">Детальний пошук</a></li>
-                                <li><a href="#">Регіони</a></li>
-                                <li><a href="#">Відомства</a></li>
+                                <!-- <li><a href="#">Детальний пошук</a></li> -->
+<!--                                 <li><a href="#">Регіони</a></li>
+                                <li><a href="#">Відомства</a></li> -->
                                 <li><a href="{{ url("about") }}">Про проект</a></li>
                                 <li><a href="#">Ще шось там</a></li>
                             </ul>
@@ -71,7 +71,7 @@
                 <div class="container">
                     <div class="copirights-logos">
                         <div class="cl-block">
-                            <a class ="clogos clogos_cs" href="а куди ставить лінк?"  target="_blank">Канцелярська сотня</a><span class="ctext">Проект канцелярської сотні</span>
+                            <a class ="clogos clogos_cs" href="https://www.facebook.com/kancelaristy?"  target="_blank">Канцелярська сотня</a><span class="ctext">Проект канцелярської сотні</span>
                         </div>
                         <div class="cl-block">
                             <a class ="clogos clogos_slab" href="http://schroedingerscatlab.com/" target="_blank">Лабораторія кота Шрьодінгера</a><span class="ctext">Дизайн Лабораторії кота Шрьодінгера</span>
@@ -81,42 +81,5 @@
             </footer>
         </div>
         {% javascript 'js_all' %}
-        <script language="javascript">
-            document.addEventListener(
-                "touchstart", 
-                function(){},
-                true
-            ); 
-            
-            $(function() { 
-                $ib = $('#infobox');
-                $.material.init(); 
-           
-                function hideme($ib) {
-                    $ib.css("height", 10);
-                }
-
-                $("#search-form").typeahead({
-                    source: function(query, process) {
-                        $.get('/ajax/suggest', {"q": query})
-                            .success(function(data){
-                                process(data);
-                            })
-                    },
-                    matcher: function() {
-                        // Big guys are playing here
-                        return true;
-                    }
-                })
-                   
-                $("#infobox a#closeme").click(function() {
-                    $ib
-                        .addClass("animated fadeOutLeftBig")
-                        .addClass("hideme")
-                        .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
-                            hideme($ib));
-                });
-            });
-        </script>
     </body>
 </html>

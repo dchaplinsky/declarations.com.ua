@@ -118,7 +118,8 @@ PIPELINE_JS = {
             "js/bootstrap.js",
             "js/bootstrap3-typeahead.js",
             "js/ripples.js",
-            "js/material.js"
+            "js/material.js",
+            "js/main.js"
         ),
         'output_filename': 'js/merged.js',
     }

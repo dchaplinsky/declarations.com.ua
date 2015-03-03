@@ -7,4 +7,6 @@ urlpatterns = patterns(
     url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
     url(r'^about/$', TemplateView.as_view(template_name='about.jinja'),
         name="about"),
+
+    url(r'^search$', 'catalog.views.search', name='search'),
 )
