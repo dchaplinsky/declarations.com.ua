@@ -24,7 +24,7 @@
                 {% for r in results %}
                 <div class="item col-xs-4 col-lg-4 grid-group-item">
                     <div class="box">
-                        <h3><a href="#">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a></h3>
+                        <h3><a href="{{ url("details", declaration_id=r._id) }}">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a></h3>
                         <ul class="tags_list">
                             <li><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>{{ r.intro.declaration_year }}<span>,</span></li>
                             {% if r.general.post.region %}
@@ -38,7 +38,6 @@
                             {% endif %}
                         </ul>
                         {{ r.general.post.post_raw }}
-
 <!--                         <ul class="search_list">
                             <li><span class="glyphicon glyphicon-search" aria-hidden="true"></span>краби що вкрали ікру<span>,</span></li>
                             <li>Булюк<span>,</span></li> 

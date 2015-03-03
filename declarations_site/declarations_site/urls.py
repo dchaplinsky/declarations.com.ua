@@ -9,4 +9,6 @@ urlpatterns = patterns(
         name="about"),
 
     url(r'^search$', 'catalog.views.search', name='search'),
+    url(r'^declaration/(?P<declaration_id>\d+)$', 'catalog.views.details',
+        name='details'),
 )

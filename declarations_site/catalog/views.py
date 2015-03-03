@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
+from elasticsearch.exceptions import NotFoundError
 from elasticsearch_dsl.connections import connections
+
 from catalog.elastic_models import Declaration
 
 
@@ -41,4 +43,15 @@ def search(request):
     return render(request, "results.jinja", {
         "query": query,
         "results": results.execute()
+    })
+
+
+def details(request, declaration_id):
+    try:
+        declaration = Declaration.get(id=int(declaration_id))
+    except (ValueError, NotFoundError):
+        raise Http404("Таких не знаємо!")
+
+    return render(request, "declaration.jinja", {
+        "declaration": declaration
     })

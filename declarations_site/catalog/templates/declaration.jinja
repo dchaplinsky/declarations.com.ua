@@ -1,0 +1,62 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<section id="page">
+    <div class="container">
+
+    <div id="breadcrumbs">
+        <ol class="breadcrumb">
+            <li><a href="{{ url("home") }}">Головна</a></li>
+            <li class="active">Результати пошуку</li>
+            <li class="active">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</li>
+        </ol> 
+    </div>
+
+    <h1 id="page-header"><span>{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span></h1>
+    <h2 class="sub-header">
+        <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+        {{ declaration.intro.declaration_year }}<span>,</span>
+        {% if declaration.general.post.region %}
+            {{ declaration.general.post.region }}<span>,</span>
+        {% endif %}
+        {% if declaration.general.post.office %}
+            {{ declaration.general.post.office }}<span>,</span>
+        {% endif %}
+        {% if declaration.general.post.post %}
+            {{ declaration.general.post.post }}<span>,</span>
+        {% endif %}
+    </h2>
+    <h2 class="sub-header">{{ declaration.general.post.post_raw }}</h2>
+
+    <div class="page-content">
+        <div class="row">
+            <div class="col-sm-2 pull-right">
+                <div class="form-group">
+                    <div class="radio radio-primary">
+                        <label>
+                            <input type="radio" name="fieldsTrigger" id="optionsRadios1" value="short-fields" checked="">
+                            Короткий формат
+                        </label>
+                    </div>
+                    
+                    <div class="radio radio-primary">
+                        <label>
+                            <input type="radio" name="fieldsTrigger" id="optionsRadios2" value="write-fields">
+                            Заповнені поля
+                        </label>
+                    </div>
+                    
+                    <div class="radio radio-primary">
+                        <label>
+                            <input type="radio" name="fieldsTrigger" id="optionsRadios2" value="all-fields">
+                            Всі поля
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="box">
+        </div>
+    </div>
+</section>
+{% endblock %}
