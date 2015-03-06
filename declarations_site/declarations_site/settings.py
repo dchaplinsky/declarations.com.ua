@@ -103,6 +103,7 @@ PIPELINE_CSS = {
             'css/ripples.css',
             'css/animate.css',
             'css/style.css',
+            'css/decls.css',
         ),
         'output_filename': 'css/merged.css',
         'extra_context': {

@@ -1,0 +1,94 @@
+/* @group Declaration-head --------------------------------------------------------------------------- */
+.declaration-head { font-size: 14px; font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif; text-align: center; margin: 1em 0 2em; font-weight: normal; }
+
+.declaration-head__em { display: block; text-transform: uppercase; font-size: 1.619em; line-height: 1.35004em; }
+
+/* @end */
+
+/* ============================================================================ Table support
+============================================================================ */
+/* @group Table generic --------------------------------------------------------------------------- */
+.decl-table { border-collapse: collapse;
+    border-spacing: 0; border-width: 0; width: 100%; empty-cells: hide;
+    margin: 0 0 1.28571em
+}
+.decl-table caption { font-size: 1.079em; line-height: 1.4299em; font-weight: bold; margin-bottom: 1em; }
+.decl-table td, .decl-table th { vertical-align: middle; padding: 5px; border: 1px solid #434343; text-align: left; }
+.decl-table thead td, .decl-table thead th { font-weight: bold; text-align: center; }
+.decl-table tfoot { font-size: .8em; }
+.decl-table tfoot td { text-align: center; border: none; }
+
+/* @end */
+/* @group Table mod: cell fixed width --------------------------------------------------------------------------- */
+.table_fixed { table-layout: fixed; word-wrap: break-word; width: auto; }
+
+/* @end */
+/* @group Table styling --------------------------------------------------------------------------- */
+.decl-table .table__cell_unstyled { border-color: transparent; }
+.decl-table .table__cell_unspaced { padding: 0; }
+.decl-table .table__cell_bd-r { border-color: transparent; border-right: 1px solid #434343; }
+.decl-table .table__cell_bd-l { border-color: transparent; border-left: 1px solid #434343; }
+.decl-table .table__cell_fwn { font-weight: normal; }
+.decl-table .table__psdo-th { font-weight: bold; }
+
+/* @end */
+/* @group Form Layout --------------------------------------------------------------------------- */
+.l-form__row { margin: 10px 0; position: relative; }
+
+.l-form__item {
+    float: left; padding: 0 6px 0 0; line-height: 30px; position: relative;
+    font-size: 15.106px;
+}
+
+.l-form__item_w-30 { width: 30px; }
+
+.l-form__item_w-100 { width: 100px; }
+
+.l-form__item_w-p50 { width: 48%; }
+
+table.l-form__row { border-collapse: collapse; border-spacing: 0; border-width: 0; }
+.ie6-7 table.l-form__row { display: table-row; }
+
+td.l-form__item { float: none; vertical-align: middle; }
+
+fieldset.l-form__row { margin: 10px 0; }
+legend.l-form__item { padding: 0 5px 0 0; }
+
+label, .form__label { display: block; line-height: 29px; -moz-user-select: none; -webkit-user-select: none; user-select: none; font-weight: bold; }
+label > span, .form__label > span { display: inline-block; vertical-align: middle; line-height: 18px; }
+
+/* @end */
+/* @group Form field sets --------------------------------------------------------------------------- */
+fieldset { margin: 0; padding: 0; border: none; position: relative; }
+legend {
+    border: none; padding: 0;
+    width: auto;
+    margin: 0;
+}
+.form__set { padding: 20px 0 0; }
+.form__set-legend { font-size: 22.666px; font-weight: bold; }
+.form__set-legend span { display: block; position: absolute; top: 0; left: 0; width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* @group Form Fieldsets --------------------------------------------------------------------------- */
+.form_declaration { margin: 20px 0; }
+
+.form__set.form__set_paper { padding: 25px 0 0; margin: 1em 0 2em; }
+.form__set-legend span { font-size: 15.106px; font-weight: bold; }
+.form__set_main.form__set_paper { padding: 40px 10px 10px; border: 1px solid #434343; }
+.form__set_main.form__set_paper > .form__set-legend span { font-size: 15.106px; line-height: 26px; border-bottom: 1px solid #434343; text-align: center; }
+.form__set_paper textarea { height: 30px; min-height: 30px; }
+.form__set_paper .form__label { font-size: 15.106px; font-weight: bold; }
+
+textarea.form__textarea_lined { background: url(../images/bg-form-textarea.png) 0 19px repeat; min-height: 5em; }
+
+.form__set_notes.form__set { font-family: Arial, FreeSans, sans-serif; background-color: lightyellow; padding: 20px; }
+
+/* @end */
+/* ============================================================================
+        INCLUDE CLASSES A
+============================================================================= */
+.i-clfx:before, .l-form__row:before, .i-clfx:after, .l-form__row:after { content: ""; display: table; }
+.i-clfx:after, .l-form__row:after { clear: both; }
+.ie6-7 .i-clfx, .ie6-7 .l-form__row { zoom: 1; }
+
+.i-wai { border: none; clip: rect(1px, 1px, 1px, 1px); width: 1px; height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute !important; }

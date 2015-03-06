@@ -1,0 +1,764 @@
+			<div id="section-0">
+		<h1 class="declaration-head">
+			<strong class="declaration-head__em">Декларація</strong>
+			про майно, доходи, витрати і зобов’язання фінансового характеру за {{ declaration.intro.declaration_year }} рік
+		</h1>
+		<fieldset class="form__set form__set_main form__set_paper">
+	<legend class="form__set-legend form__set-legend_main">
+		<span>Розділ I. Загальні відомості</span>
+	</legend>
+
+	<fieldset class="l-form__row">
+		<legend class="l-form__item form__label">
+			<span>1.</span>
+		</legend>
+		<div class="l-form__item l-form__item_lined">
+			<label for="general__last-name" class="i-wai">Прізвище</label>
+			{{ declaration.general.last_name }}
+		</div>
+		<div class="l-form__item l-form__item_lined">
+			<label for="general__name" class="i-wai">Ім’я</label>
+			{{ declaration.general.name }}
+		</div>
+		<div class="l-form__item l-form__item_lined">
+			<label for="general__patronymic" class="i-wai">По-батькові</label>
+			{{ declaration.general.patronymic }}
+		</div>
+	</fieldset>
+
+	<fieldset class="l-form__row">
+		<legend class="l-form__item form__label">
+			<span>2. Місце проживання</span>
+		</legend>
+		<div>
+			{% for address in declaration.general.addresses %}
+			<div class="l-form__item">
+				<div class="l-form__item l-form__item_lined">
+					<label for="general__place" class="i-wai">Область</label>
+					{{ address.place }}
+				</div>
+				<div class="l-form__item l-form__item_lined">
+					<label for="general__place_district" class="i-wai">Район</label>
+					{{ address.place_district }}
+				</div>
+				<div class="l-form__item l-form__item_lined">
+					<label for="general__place_city" class="i-wai">Населений пункт</label>
+					{{ address.place_city }}
+				</div>
+				<div class="l-form__item l-form__item_lined">
+					<label for="general__place_city_type" class="i-wai">Тип населенного пункту</label>
+					{{ address.place_city_type }}
+				</div>
+				<div class="l-form__item l-form__item_lined">
+					<label for="general__place_address" class="i-wai">Решта адреси</label>
+					{{ address.place_address }}
+				</div>
+				<div class="l-form__item l-form__item_lined">
+					<label for="general__place_address_type" class="i-wai">Тип адреси</label>
+					{{ address.place_address_type }}
+				</div>
+			</div>
+			{% endfor %}
+			<div class="l-form__item">
+				{{ declaration.general.addresses_raw }}
+			</div>
+		</div>
+	</fieldset>
+	<fieldset class="l-form__row">
+		<legend class="l-form__item form__label">
+			<span>3. Посада:</span>
+		</legend>
+		<div class="l-form__item">
+			<div class="l-form__item l-form__item_lined">
+				<label for="general__post_region" class="i-wai">Область</label>
+				{{ declaration.general.post.region }}
+			</div>
+			<div class="l-form__item l-form__item_lined">
+				<label for="general__post_office" class="i-wai">Відомство</label>
+				{{ declaration.general.post.office }}
+			</div>
+			<div class="l-form__item l-form__item_lined">
+				<label for="general__post_post" class="i-wai">Посада</label>
+				{{ declaration.general.post.post }}
+			</div>
+		</div>
+		<div class="l-form__item">
+			<div class="l-form__item l-form__item_lined">
+				{{ declaration.general.post.post_raw }}
+			</div>
+		</div>
+	</fieldset>
+
+	<fieldset class="form__set">
+		<legend class="form__set-legend">
+			<span>4. Члени сім’ї декларанта:</span>
+		</legend>
+		<table class="decl-table">
+			<colgroup>
+				<col width="200" />
+				<col />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>
+						Ступінь зв’язку
+					</th>
+					<th>
+						Прізвище ініціали, дата народження
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for member in declaration.general.family %}
+				<tr>
+					<td>
+						<div class="l-form__row">
+							{{ member.relations }}{{ member.relations_other|default("") }}
+						</div>
+					</td>
+					<td>
+						<div class="l-form__row">
+							{{ member.family_name|default("") }}
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+				<tr>
+					<td colspan="2">
+						<div class="l-form__row">
+							{{ declaration.general.family_raw }}
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</fieldset>
+</fieldset>
+		<fieldset class="form__set form__set_main form__set_paper">
+	<legend class="form__set-legend form__set-legend_main">
+		<span>Розділ II. Відомості про доходи</span>
+	</legend>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="35" />
+			<col />
+			<col width="200" />
+			<col width="200" />
+		</colgroup>
+		<caption>
+			А. Одержані (нараховані) з усіх джерел України
+		</caption>
+		<tfoot>
+			<tr>
+				<td colspan="4">
+					(назва закладу, установи тощо, в яких одержано (нараховано) зазначені у цій позиції доходи)
+				</td>
+			</tr>
+		</tfoot>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th rowspan="2">
+					Перелік доходів
+				</th>
+				<th colspan="2">
+					Сума одержаного (нарахованого) доходу
+				</th>
+			</tr>
+			<tr>
+				<th>
+					декларанта
+				</th>
+				<th>
+					членів сім’ї
+				</th>
+			</tr>
+		</thead>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					5.
+				</td>
+				<th class="table__cell_fwn">
+					Загальна сума сукупного доходу, гривні, у т.ч.
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['5'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['5'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['5'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['5'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					6.
+				</td>
+				<th class="table__cell_fwn">
+					Заробітна плата, інші виплати та винагороди, нараховані (виплачені) декларанту відповідно до умов трудового або цивільно-правового договору <em>(крім виплат, зазначених у позиціях 7, 8)</em>
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['6'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['6'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['6'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['6'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					7.
+				</td>
+				<th class="table__cell_fwn">
+					Дохід від викладацької, наукової і творчої діяльності, медичної практики, інструкторіської та суддівської практики із спорту
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['7'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['7'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['7'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['7'].family_comment }}
+					</div>
+				</td>
+			</tr>
+		<tr>
+			<td class="table__cell_bd-r table__psdo-th">
+				&nbsp;
+			</td>
+			<td colspan="3" class="table__cell_unspaced">
+				{{ declaration.income['7'].source_name }}
+			</td>
+		</tr>
+	</table>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="20" />
+			<col />
+			<col width="200" />
+			<col width="200" />
+		</colgroup>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					8.
+				</td>
+				<th class="table__cell_fwn">
+					авторська винагорода, інші доходи від реалізації майнових прав інтелектуальної власності
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['8'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['8'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['8'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['8'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					9.
+				</td>
+				<th class="table__cell_fwn">
+					дивіденди, проценти
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['9'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['9'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['9'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['9'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					10.
+				</td>
+				<th class="table__cell_fwn">
+					матеріальна допомога
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['10'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['10'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['10'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['10'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					11.
+				</td>
+				<th class="table__cell_fwn">
+					дарунки, призи, виграші
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['11'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['11'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['11'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['11'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					12.
+				</td>
+				<th class="table__cell_fwn">
+					допомога по безробіттю
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['12'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['12'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['12'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['12'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					13.
+				</td>
+				<th class="table__cell_fwn">
+					аліменти
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['13'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['13'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['13'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['13'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					14.
+				</td>
+				<th class="table__cell_fwn">
+					спадщина
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['14'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['14'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['14'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['14'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					15.
+				</td>
+				<th class="table__cell_fwn">
+					страхові виплати, страхові відшкодування, викупні суми та пенсійні виплати, що сплачені декларанту за договором страхування, недержавного пенсійного забезпечення та пенсійного вкладу
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['15'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['15'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['15'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['15'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					16.
+				</td>
+				<th class="table__cell_fwn">
+					дохід від відчуження рухомого та нерухомого майна
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['16'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['16'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['16'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['16'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					17.
+				</td>
+				<th class="table__cell_fwn">
+					дохід від провадження підприємницької та незалежної професійної діяльності
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['17'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['17'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['17'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['17'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					18.
+				</td>
+				<th class="table__cell_fwn">
+					дохід від відчуження цінних паперів та корпоративних прав
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['18'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['18'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['18'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['18'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					19.
+				</td>
+				<th class="table__cell_fwn">
+					дохід від передачі в оренду (строкове володіння та/або користування) майна
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['19'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['19'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['19'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['19'].family_comment }}
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					20.
+				</td>
+				<th class="table__cell_fwn">
+					інші види доходів (не зазначені у позиціях 6–19)
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['20'].value }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['20'].comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.income['20'].family }}
+					</div>
+					<div class="l-form__row">
+						{{ declaration.income['20'].family_comment }}
+					</div>
+				</td>
+			</tr>
+	</table>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="20" />
+			<col />
+			<col width="200" />
+			<col width="200" />
+		</colgroup>
+		<caption>
+			Б. Одержані (нараховані) з джерел за межами України декларантом
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th rowspan="2">
+					Назва країни
+				</th>
+				<th colspan="2">
+					Розмір доходу
+				</th>
+			</tr>
+			<tr>
+				<th>
+					в іноземній валюті
+				</th>
+				<th>
+					перерахованого у гривні
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for income in declaration.income['22'] if income.cur != "0" or income.cur != "0" %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						21.
+					</span>
+				</td>
+				<td class="table__cell_fwn">
+					<div class="l-form__row">
+						{{ income.country }}
+					</div>
+					{% if income.country_comment %}
+					<div class="l-form__row">
+						{{ income.country_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ income.cur }} {{ income.cur_units|default('') }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ income.uah_equal }}
+					</div>
+				</td>
+			</tr>
+            {% else %}
+            <tr>
+                <td class="table__cell_bd-r table__psdo-th">
+                    <span>
+                        21.
+                    </span>
+                </td>
+                <td class="table__cell_fwn">
+                    <div class="l-form__row">
+                        &ndash;
+                    </div>
+                </td>
+                <td>
+                    <div class="l-form__row">
+                        0
+                    </div>
+                </td>
+                <td>
+                    <div class="l-form__row">
+                        0
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+	</table>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="20" />
+			<col />
+			<col width="200" />
+			<col width="200" />
+		</colgroup>
+		<caption>
+			В. Одержані (нараховані) з джерел за межами України членами сім’ї декларанта
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th rowspan="2">
+					Назва країни
+				</th>
+				<th colspan="2">
+					Розмір доходу
+				</th>
+			</tr>
+			<tr>
+				<th>
+					в іноземній валюті
+				</th>
+				<th>
+					перерахованого у гривні
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for income in declaration.income['22'] if income.cur != "0" or income.cur != "0" %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						22.
+					</span>
+				</td>
+				<td class="table__cell_fwn">
+					<div class="l-form__row">
+						{{ income.country }}
+					</div>
+					{% if income.country_comment %}
+					<div class="l-form__row">
+						{{ income.country_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ income.cur }} {{ income.cur_units|default('') }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ income.uah_equal }}
+					</div>
+				</td>
+			</tr>
+            {% else %}
+            <tr>
+                <td class="table__cell_bd-r table__psdo-th">
+                    <span>
+                        22.
+                    </span>
+                </td>
+                <td class="table__cell_fwn">
+                    <div class="l-form__row">
+                        &ndash;
+                    </div>
+                </td>
+                <td>
+                    <div class="l-form__row">
+                        0
+                    </div>
+                </td>
+                <td>
+                    <div class="l-form__row">
+                        0
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+		</tbody>
+	</table>
+</fieldset>
+	</div>
+
