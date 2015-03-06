@@ -79,7 +79,7 @@ legend {
 .form__set_paper textarea { height: 30px; min-height: 30px; }
 .form__set_paper .form__label { font-size: 15.106px; font-weight: bold; }
 
-textarea.form__textarea_lined { background: url(../images/bg-form-textarea.png) 0 19px repeat; min-height: 5em; }
+textarea.form__textarea_lined { min-height: 5em; }
 
 .form__set_notes.form__set { font-family: Arial, FreeSans, sans-serif; background-color: lightyellow; padding: 20px; }
 
