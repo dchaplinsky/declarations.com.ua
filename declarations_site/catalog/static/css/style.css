@@ -283,6 +283,7 @@ border: 0;
 
 
 /* search in front */
+.cp {display:block; padding-bottom:80px;} /* clear padding */
 
 #searchbox { background:#21b79a; padding-top:80px; padding-bottom:80px; margin-bottom:40px;}
 
