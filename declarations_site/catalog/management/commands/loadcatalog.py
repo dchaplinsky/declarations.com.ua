@@ -9,7 +9,7 @@ from datetime import datetime
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
-from catalog.elastic_models import Declaration, MyUglyMapping
+from catalog.elastic_models import Declaration
 
 
 DEFS_PATH = os.path.join(settings.BASE_DIR, 'catalog/data/mapping_defs.json')
@@ -52,17 +52,15 @@ class Command(BaseCommand):
         return data
 
     def handle(self, *args, **options):
-        # ugly, ugly!
-        MyUglyMapping().save("catalog")
-
         try:
             file_path = args[0]
         except IndexError:
             raise CommandError('First argument must be a source file')
 
-        with open(file_path, 'r', newline='', encoding='cp1251') as source:
+        with open(file_path, 'r', newline='', encoding='utf-8') as source:
             reader = csv.DictReader(source, delimiter=";")
             counter = 0
+            Declaration.init()  # Apparently this is required to init mappings
             for row in reader:
                 item = Declaration(**self.map_fields(row))
                 item.save()
