@@ -17,16 +17,16 @@
         <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
         {{ declaration.intro.declaration_year }}<span>,</span>
         {% if declaration.general.post.region %}
-            {{ declaration.general.post.region }}<span>,</span>
+            <a href="{{ url('region', region_name=declaration.general.post.region) }}">{{ declaration.general.post.region }}</a><span>,</span>
         {% endif %}
         {% if declaration.general.post.office %}
-            {{ declaration.general.post.office }}<span>,</span>
+            <a href="{{ url('office', office_name=declaration.general.post.office) }}">{{ declaration.general.post.office }}</a><span>,</span>
         {% endif %}
         {% if declaration.general.post.post %}
             {{ declaration.general.post.post }}<span>,</span>
         {% endif %}
     </h2>
-    <h2 class="sub-header">{{ declaration.general.post.post_raw }}</h2>
+    <h2 class="sub-header">{{ declaration.general.post_raw }}</h2>
 
     <div class="page-content">
 <!--         <div class="row">

@@ -28,16 +28,16 @@
                         <ul class="tags_list">
                             <li><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>{{ r.intro.declaration_year }}<span>,</span></li>
                             {% if r.general.post.region %}
-                                <li>{{ r.general.post.region }}<span>,</span></li> 
+                                <li><a href="{{ url('region', region_name=r.general.post.region) }}">{{ r.general.post.region }}</a><span>,</span></li> 
                             {% endif %}
                             {% if r.general.post.office %}
-                                <li>{{ r.general.post.office }}<span>,</span></li> 
+                                <li><a href="{{ url('office', office_name=r.general.post.office) }}">{{ r.general.post.office }}</a><span>,</span></li> 
                             {% endif %}
                             {% if r.general.post.post %}
                                 <li>{{ r.general.post.post }}<span>,</span></li> 
                             {% endif %}
                         </ul>
-                        {{ r.general.post.post_raw }}
+                        {{ r.general.post_raw }}
 <!--                         <ul class="search_list">
                             <li><span class="glyphicon glyphicon-search" aria-hidden="true"></span>краби що вкрали ікру<span>,</span></li>
                             <li>Булюк<span>,</span></li> 

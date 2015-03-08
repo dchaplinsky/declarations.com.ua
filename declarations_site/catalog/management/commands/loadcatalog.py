@@ -2,6 +2,7 @@ import os
 import re
 import csv
 import json
+import random
 
 from copy import deepcopy
 from datetime import datetime
@@ -100,9 +101,15 @@ class Command(BaseCommand):
 
         try:
             rec['declaration']['date'] = datetime.strptime(
-                rec['declaration']['date'], '%Y-%m-%d')
+                rec['declaration']['date'], '%Y-%m-%d').date()
         except ValueError:
             # Elasticsearch doesn't like dates in bad format
-            rec['declaration']['date'] = None
+            rec['declaration']['date'] = ''
+
+        # TODO: Remove this when there's real data for these fields
+        regions_to_choose = ('Київська обл.', 'Львівська обл.', 'Харківська обл.', 'Житомирська обл.')
+        offices_to_choose = ('Господарський суд', 'Апеляційний суд', 'Прокуратура')
+        rec['general']['post']['region'] = random.choice(regions_to_choose)
+        rec['general']['post']['office'] = random.choice(offices_to_choose)
 
         return rec

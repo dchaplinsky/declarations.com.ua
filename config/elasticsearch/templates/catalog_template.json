@@ -1,0 +1,19 @@
+{
+    "catalog_template" : {
+        "template" : "catalog",
+        "mappings" : {
+            "declaration" : {
+                "dynamic_templates": [
+                    {
+                        "no_index": {
+                            "match": "*",
+                            "mapping": {
+                                "index": "no"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

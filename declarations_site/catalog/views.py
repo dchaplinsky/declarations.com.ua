@@ -26,7 +26,10 @@ def suggest(request):
     res = search.execute()
 
     if res.success():
-        return JsonResponse([val['text'] for val in res.suggest['name'][0]['options']], safe=False)
+        return JsonResponse(
+            [val['text'] for val in res.suggest['name'][0]['options']],
+            safe=False
+        )
     else:
         return JsonResponse([], safe=False)
 
@@ -50,4 +53,22 @@ def details(request, declaration_id):
 
     return render(request, "declaration.jinja", {
         "declaration": declaration
+    })
+
+
+def region(request, region_name):
+    search = Declaration.search()\
+        .filter('term', general__post__region=region_name)[:30]
+    return render(request, 'results.jinja', {
+        'query': region_name,
+        'results': search.execute()
+    })
+
+
+def office(request, office_name):
+    search = Declaration.search()\
+        .filter('term', general__post__office=office_name)[:30]
+    return render(request, 'results.jinja', {
+        'query': office_name,
+        'results': search.execute()
     })
