@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse, Http404
 from elasticsearch.exceptions import NotFoundError
-from elasticsearch_dsl.connections import connections
 
 from catalog.elastic_models import Declaration
 
@@ -11,27 +10,24 @@ def home(request):
 
 
 def suggest(request):
-    client = connections.get_connection()
-
-    res = client.suggest(index="catalog", body={
-        "declarations": {
-            "text": request.GET.get("q", ""),
-            "completion": {
-                "field": "general.full_name_suggest",
-                "size": 10,
-                "fuzzy": {
-                    "fuzziness": 3,
-                    "unicode_aware": 1
+    search = Declaration.search()\
+        .suggest(
+            'name',
+            request.GET.get('q', ''),
+            completion={
+                'field': 'general.full_name_suggest',
+                'size': 10,
+                'fuzzy': {
+                    'fuzziness': 3,
+                    'unicode_aware': 1
                 }
             }
-        }}
-    )
+        )
+    res = search.execute()
 
-    try:
-        options = res["declarations"][0]["options"]
-
-        return JsonResponse([val["text"] for val in options], safe=False)
-    except (IndexError, KeyError):
+    if res.success():
+        return JsonResponse([val['text'] for val in res.suggest['name'][0]['options']], safe=False)
+    else:
         return JsonResponse([], safe=False)
 
 
