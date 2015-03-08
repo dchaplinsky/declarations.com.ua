@@ -761,4 +761,2800 @@
 	</table>
 </fieldset>
 	</div>
+	<div id="section-1">
+		<fieldset class="form__set form__set_main form__set_paper">
+	<legend class="form__set-legend form__set-legend_main">
+		<span>Розділ III Відомості про нерухоме майно</span>
+	</legend>
 
+	<table class="decl-table">
+		<colgroup>
+			<col width="35" />
+			<col />
+			<col />
+			<col width="200" />
+			<col width="150" />
+			<col width="150" />
+		</colgroup>
+		<caption>
+			А. Майно, що перебуває у власності, в оренді чи на іншому праві користування декларанта
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th rowspan="2">
+					Перелік об’єктів
+				</th>
+				<th rowspan="2">
+					Місце знаходження об’єкта (країна, адреса)
+				</th>
+				<th rowspan="2">
+					Загальна площа (кв. м)
+				</th>
+				<th colspan="2">
+					Сума витрат (грн) на
+				</th>
+			</tr>
+			<tr>
+				<th>
+					придбання у власність
+				</th>
+				<th>
+					оренду чи на інше право користування
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for estate in declaration.estate['23'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						23.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Земельні ділянки
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						23.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Земельні ділянки
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for estate in declaration.estate['24'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						24.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Житлові будинки
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						24.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Житлові будинки
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for estate in declaration.estate['25'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						25.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Квартири
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						25.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Квартири
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for estate in declaration.estate['26'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						26.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Садовий (дачний) будинок
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						26.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Садовий (дачний) будинок
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for estate in declaration.estate['27'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						27.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Гаражі
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						27.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Гаражі
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for estate in declaration.estate['28'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						28.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Інше нерухоме майно
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						28.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Інше нерухоме майно
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="35" />
+			<col />
+			<col />
+			<col width="150" />
+			<col width="150" />
+			<col width="150" />
+		</colgroup>
+		<caption>
+			Б. Майно, що перебуває у власності, в оренді чи на іншому праві користування сім’ї декларанта
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th rowspan="2">
+					Перелік об’єктів
+				</th>
+				<th rowspan="2">
+					Місце знаходження об’єкта (країна, адреса)
+				</th>
+				<th rowspan="2">
+					Загальна площа (кв. м)
+				</th>
+				<th colspan="2">
+					Сума витрат (грн) на
+				</th>
+			</tr>
+			<tr>
+				<th>
+					придбання
+					у власність
+				</th>
+				<th>
+					оренду чи на інше
+					право користування
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for estate in declaration.estate['29'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						29.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Земельні ділянки
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }}  {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_property }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_property_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						29.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Земельні ділянки
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		<tbody>
+			{% for estate in declaration.estate['30'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						30.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Житлові будинки
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }}  {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_property }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_property_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						30.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Житлові будинки
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		<tbody>
+			{% for estate in declaration.estate['31'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						31.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Квартири
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }}  {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_property }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_property_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						31.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Квартири
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		<tbody>
+			{% for estate in declaration.estate['32'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						32.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Садовий (дачний) будинок
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }}  {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_property }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_property_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						32.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Садовий (дачний) будинок
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		<tbody>
+			{% for estate in declaration.estate['33'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						33.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Гаражі
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }}  {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_property }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_property_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						33.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Гаражі
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		<tbody>
+			{% for estate in declaration.estate['34'] if estate.space or estate.costs or estate.region %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						34.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Інше нерухоме майно
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ estate.region }}
+					</div>
+					<div class="l-form__row">
+						{{ estate.address }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ estate.space }}  {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+					</div>
+					<div class="l-form__row">
+						{{ estate.space_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_property }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_property_comment }}
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ estate.costs_rent }}
+					</div>
+					<div class="l-form_row">
+						{{ estate.costs_rent_comment }}
+					</div>
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						34.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Інше нерухоме майно
+				</th>
+				<td>
+					<div class="l-form__row">
+						&ndash;
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+				<td>
+					<div class="l-form__row">
+						0
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+	</table>
+</fieldset>
+	</div>
+	<div id="section-2">
+		<fieldset class="form__set form__set_main form__set_paper">
+	<legend class="form__set-legend form__set-legend_main">
+		<span>Розділ IV. Відомості про транспортні засоби</span>
+	</legend>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="35" />
+			<col />
+			<col />
+			<col width="120" />
+			<col width="150" />
+			<col width="150" />
+		</colgroup>
+		<caption>
+			А. Транспортні засоби, що перебувають у властності, в оренді чи на іншому праві користування декларанта
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th rowspan="2">
+					Перелік транспортних засобів
+				</th>
+				<th rowspan="2">
+					Марка/модель (об’єм циліндрів двигуна, куб. см, потужність двигуна, кВт, довжина, см)
+				</th>
+				<th rowspan="2">
+					Рік випуску
+				</th>
+				<th colspan="2">
+					Сума витрат (грн) на
+				</th>
+			</tr>
+			<tr>
+				<th>
+					придбання у власність
+				</th>
+				<th>
+					оренду чи на інше право користування
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for vehicle in declaration.vehicle['35'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						35.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Автомобілі легкові
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						35.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Автомобілі легкові
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for vehicle in declaration.vehicle['36'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						36.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Автомобілі вантажні (спеціальні)
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						36.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Автомобілі вантажні (спеціальні)
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for vehicle in declaration.vehicle['37'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						37.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Водні засоби
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						37.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Водні засоби
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for vehicle in declaration.vehicle['38'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						38.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Повітряні судна
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						38.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Повітряні судна
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for vehicle in declaration.vehicle['39'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						39.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Інші засоби
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						39.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Інші засоби
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="35" />
+			<col />
+			<col />
+			<col width="120" />
+			<col width="150" />
+			<col width="150" />
+		</colgroup>
+		<caption>
+			Б. Транспортні засоби, що перебувають у власності, в оренді чи на іншому праві користування членів сім’ї декларанта
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th rowspan="2">
+					Перелік транспортних засобів
+				</th>
+				<th rowspan="2">
+					Марка/модель (об’єм циліндрів двигуна, куб. см, потужність двигуна, кВт, довжина, см)
+				</th>
+				<th rowspan="2">
+					Рік випуску
+				</th>
+				<th colspan="2">
+					Сума витрат (грн) на
+				</th>
+			</tr>
+			<tr>
+				<th>
+					придбання у власність
+				</th>
+				<th>
+					оренду чи на інше право користування
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for vehicle in declaration.vehicle['40'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						40.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Автомобілі легкові
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						40.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Автомобілі легкові
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for vehicle in declaration.vehicle['41'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						41.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Автомобілі вантажні (спеціальні)
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						41.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Автомобілі вантажні (спеціальні)
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for vehicle in declaration.vehicle['42'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						42.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Водні засоби
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						42.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Водні засоби
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for vehicle in declaration.vehicle['43'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						43.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Повітряні судна
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						43.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Повітряні судна
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for vehicle in declaration.vehicle['44'] if vehicle.brand or vehicle.brand_info %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						44.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Інші засоби
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.brand }}
+					</div>
+					{% if vehicle.brand_info %}
+					<div class="l-form__row">
+						{{ vehicle.brand_info }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					{{ vehicle.year }}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum }}
+					</div>
+					{% if vehicle.sum_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						{{ vehicle.sum_rent }}
+					</div>
+					{% if vehicle.sum_rent_comment %}
+					<div class="l-form__row">
+						{{ vehicle.sum_rent_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						44.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Інші засоби
+				</th>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				&ndash;
+				</td>
+				<td>
+				0
+				</td>
+				<td>
+				0
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</fieldset>
+	</div>
+	<div id="section-3">
+		<fieldset class="form__set form__set_main form__set_paper">
+	<legend class="form__set-legend form__set-legend_main">
+		<span>Розділ V. Відомості про вклади у банках, цінні папери та інші активи</span>
+	</legend>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="35" />
+			<col width="200"  />
+			<col />
+			<col width="265" />
+		</colgroup>
+		<caption>
+			А. Вклади у банках, цінні папери та інші активи, що перебувають у власності декларанта (грн)
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th>
+					Перелік
+				</th>
+				<th>
+					Усього
+				</th>
+				<th>
+					у тому числі за кордоном
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for banks in declaration.banks['45'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						45.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Сума коштів на рахунках у банках та інших фінансових установах, у т. ч.:
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						45.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Сума коштів на рахунках у банках та інших фінансових установах, у т. ч.:
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for banks in declaration.banks['46'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						46.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					вкладених у звітному році
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						46.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					вкладених у звітному році
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for banks in declaration.banks['47'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						47.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Номінальна вартість цінних паперів, у т. ч.:
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						47.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Номінальна вартість цінних паперів, у т. ч.:
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for banks in declaration.banks['48'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						48.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					придбаних у звітному році
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						48.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					придбаних у звітному році
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for banks in declaration.banks['49'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						49.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації, у т. ч.:
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						49.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації, у т. ч.:
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for banks in declaration.banks['50'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						50.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					внесених у звітному році
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						50.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					внесених у звітному році
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<table class="decl-table">
+		<colgroup>
+			<col width="35" />
+			<col width="200" />
+			<col />
+			<col width="265" />
+		</colgroup>
+		<caption>
+			Б. Вклади у банках, цінні папери та інші активи, що перебувають у власності членів сім’ї декларанта (грн)
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th>
+					Перелік
+				</th>
+				<th>
+					Усього
+				</th>
+				<th>
+					у тому числі за кордоном
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for banks in declaration.banks['51'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						51.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Сума коштів на рахунках у банках та інших фінансових установах
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						51.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Сума коштів на рахунках у банках та інших фінансових установах
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for banks in declaration.banks['52'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						52.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Номінальна вартість цінних паперів
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						52.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Номінальна вартість цінних паперів
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+		<tbody>
+			{% for banks in declaration.banks['53'] if banks.sum != "0" and banks.sum %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						53.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації
+				</th>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum }}
+							{{ banks.sum_units }}
+						</div>
+					</div>
+					{% if banks.sum_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+						<div class="l-form__item l-form__item_w-p50">
+							{{ banks.sum_foreign}}
+							{{ banks.sum_foreign_units }}
+						</div>
+					</div>
+					{% if banks.sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ banks.sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			{% else %}
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					<span>
+						53.
+					</span>
+				</td>
+				<th class="table__cell_fwn">
+					Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації
+				</th>
+				<td>0</td>
+				<td>0</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</fieldset>
+ 		</div>
+	<div id="section-4">
+		<fieldset class="form__set form__set_main form__set_paper">
+	<legend class="form__set-legend form__set-legend_main">
+		<span>Розділ VI. Відомості про фінансові зобов’язання</span>
+	</legend>
+
+	<table class="decl-table">
+		<colgroup>
+			<col />
+			<col />
+			<col />
+			<col />
+		</colgroup>
+		<caption>
+			А. Фінансові зобов’язання декларанта та інші його витрати (грн)
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th>
+					Перелік фінансових зобов’язань
+				</th>
+				<th>
+					Усього
+				</th>
+				<th>
+					у тому числі за кордоном
+				</th>
+			</tr>
+		</thead>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					54.
+				</td>
+				<th class="table__cell_fwn">
+					Добровільне страхування
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['54'].sum }}
+					</div>
+					{% if declaration.liabilities['54'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['54'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['54'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['54'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['54'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					55.
+				</td>
+				<th class="table__cell_fwn">
+					Недержавне пенсійне забезпечення
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['55'].sum }}
+					</div>
+					{% if declaration.liabilities['55'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['55'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['55'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['55'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['55'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					56.
+				</td>
+				<th class="table__cell_fwn">
+					Утримання зазначеного у розділах ІІІ–V майна
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['56'].sum }}
+					</div>
+					{% if declaration.liabilities['56'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['56'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['56'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['56'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['56'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					57.
+				</td>
+				<th class="table__cell_fwn">
+					Погашення основної суми позики (кредиту)
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['57'].sum }}
+					</div>
+					{% if declaration.liabilities['57'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['57'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['57'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['57'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['57'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					58.
+				</td>
+				<th class="table__cell_fwn">
+					Погашення суми процентів за позикою (кредитом)
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['58'].sum }}
+					</div>
+					{% if declaration.liabilities['58'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['58'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['58'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['58'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['58'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					59.
+				</td>
+				<th class="table__cell_fwn">
+					Інші не зазначені у розділах ІІІ–V витрати
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['59'].sum }}
+					</div>
+					{% if declaration.liabilities['59'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['59'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['59'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['59'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['59'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+	</table>
+
+	<table class="decl-table">
+		<colgroup>
+			<col />
+			<col />
+			<col />
+			<col />
+		</colgroup>
+		<caption>
+			Б. Фінансові зобов’язання членів сім’ї декларанта (грн)
+		</caption>
+		<thead>
+			<tr>
+				<th rowspan="2" class="table__cell_bd-r">
+					<span class="i-wai">
+						№
+					</span>
+				</th>
+				<th>
+					Перелік фінансових зобов’язань
+				</th>
+				<th>
+					Усього
+				</th>
+				<th>
+					у тому числі за кордоном
+				</th>
+			</tr>
+		</thead>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					60.
+				</td>
+				<th class="table__cell_fwn">
+					Добровільне страхування
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['60'].sum }}
+					</div>
+					{% if declaration.liabilities['60'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['60'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['60'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['60'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['60'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					61.
+				</td>
+				<th class="table__cell_fwn">
+					Недержавне пенсійне забезпечення
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['61'].sum }}
+					</div>
+					{% if declaration.liabilities['61'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['61'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['61'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['61'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['61'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					62.
+				</td>
+				<th class="table__cell_fwn">
+					Утримання зазначеного у розділах ІІІ–V майна
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['62'].sum }}
+					</div>
+					{% if declaration.liabilities['62'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['62'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['62'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['62'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['62'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					63.
+				</td>
+				<th class="table__cell_fwn">
+					Погашення основної суми позики (кредиту)
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['63'].sum }}
+					</div>
+					{% if declaration.liabilities['63'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['63'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['63'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['63'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['63'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td class="table__cell_bd-r table__psdo-th">
+					64.
+				</td>
+				<th class="table__cell_fwn">
+					Погашення суми процентів за позикою (кредитом)
+				</th>
+				<td>
+					<div class="l-form__row">
+						{{ declaration.liabilities['64'].sum }}
+					</div>
+					{% if declaration.liabilities['64'].sum_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['64'].sum_comment }}
+					</div>
+					{% endif %}
+				</td>
+				<td>
+					<div class="l-form__row">
+	                    {{ declaration.liabilities['64'].sum_foreign }}
+					</div>
+					{% if declaration.liabilities['64'].sum_foreign_comment %}
+					<div class="l-form__row">
+						{{ declaration.liabilities['64'].sum_foreign_comment }}
+					</div>
+					{% endif %}
+				</td>
+			</tr>
+	</table>
+</fieldset>
+		<fieldset class="form__set form__set_main form__set_notes">
+	<legend class="i-wai">
+		<span>Додаткове про декларацію</span>
+	</legend>
+
+	<fieldset class="l-form__row js-data-note js-clone-wrapper">
+		<legend class="l-form__item form__label">
+			<span>Дата заповнення декларантом</span>
+		</legend>
+		<div class="l-form__item">
+			{{ declaration.declaration.date }}
+		</div>
+	</fieldset>
+
+	<div class="l-form__row js-related-control">
+		<div class="l-form__item">
+			<label class="form__label" for="declaration__notfull">
+				<span>Декларація була не повна</span>
+			</label>
+		</div>
+		<div class="l-form__item">
+			{% if declaration.declaration.notfull == "true" %}
+				Так
+			{% else %}
+				Ні
+			{% endif %}
+		</div>
+	</div>
+
+	{% if declaration.declaration.notfull == "true" %}
+	<div class="l-form__row js-related-section">
+		<div class="l-form__item">
+			<label class="form__label" for="declaration__notfull__lostpages">
+				<span>Яких сторінок (паперових) не вистачало</span>
+			</label>
+		</div>
+		<div class="l-form__item">
+			{{ declaration.declaration.notfull_lostpages }}
+		</div>
+	</div>
+	{% endif %}
+
+	<div class="l-form__row js-related-control">
+		<div class="l-form__item">
+			<label class="form__label" for="declaration__additional-info">
+				<span>Є додаткова інформація</span>
+			</label>
+		</div>
+		<div class="l-form__item">
+			{% if declaration.declaration.additional_info == "true" %}
+				Так
+			{% else %}
+				Ні
+			{% endif %}
+		</div>
+	</div>
+
+	{% if declaration.declaration.additional_info == "true" %}
+	<div class="js-related-section">
+		<div class="l-form__row">
+			<label class="form__label" for="declaration__additional-info__text">
+				<span>Що саме не вмістилось</span>
+			</label>
+		</div>
+		<div class="l-form__row">
+			{{ declaration.declaration.additional_info_text }}
+		</div>
+	</div>
+	{% endif %}
+</fieldset>
+
+
+ 	</div>
