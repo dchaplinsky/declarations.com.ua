@@ -11,6 +11,13 @@ urlpatterns = patterns(
     url(r'^search$', 'catalog.views.search', name='search'),
     url(r'^declaration/(?P<declaration_id>\d+)$', 'catalog.views.details',
         name='details'),
-    url(r'^region/(?P<region_name>.+)$', 'catalog.views.region', name='region'),
-    url(r'^office/(?P<office_name>.+)$', 'catalog.views.office', name='office'),
+    url(r'^region/$', 'catalog.views.regions_home', name='regions_home',),
+
+    url(r'^region/(?P<region_name>.+)/(?P<office_name>.+)$', 'catalog.views.region_office',
+        name='region_office'),
+    url(r'^region/(?P<region_name>.+)$', 'catalog.views.region',
+        name='region'),
+
+    url(r'^office/(?P<office_name>.+)$', 'catalog.views.office',
+        name='office'),
 )

@@ -56,11 +56,38 @@ def details(request, declaration_id):
     })
 
 
+def regions_home(request):
+    search = Declaration.search().params(search_type="count")
+    search.aggs.bucket(
+        'per_region', 'terms', field='general.post.region')
+    res = search.execute()
+
+    return render(request, 'regions.jinja', {
+        'facets': res.aggregations.per_region.buckets
+    })
+
+
 def region(request, region_name):
-    search = Declaration.search()\
-        .filter('term', general__post__region=region_name)[:30]
+    search = Declaration.search().filter(
+        'term', general__post__region=region_name).params(search_type="count")
+
+    search.aggs.bucket(
+        'per_office', 'terms', field='general.post.office')
+    res = search.execute()
+
+    return render(request, 'region_offices.jinja', {
+        'facets': res.aggregations.per_office.buckets,
+        'region_name': region_name
+    })
+
+
+def region_office(request, region_name, office_name):
+    search = Declaration.search().filter(
+        'term', general__post__region=region_name).filter(
+        'term', general__post__office=office_name)
+
     return render(request, 'results.jinja', {
-        'query': region_name,
+        'query': office_name,
         'results': search.execute()
     })
 
@@ -68,6 +95,7 @@ def region(request, region_name):
 def office(request, office_name):
     search = Declaration.search()\
         .filter('term', general__post__office=office_name)[:30]
+
     return render(request, 'results.jinja', {
         'query': office_name,
         'results': search.execute()

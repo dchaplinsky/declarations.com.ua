@@ -123,7 +123,8 @@ a.classic {text-decoration:underline;}
 
 .blue, 
 .breadcrumb a,
-.white:hover 
+.white:hover,
+#glossarium td a
 {color:#2196f3;} 
 
 
@@ -270,16 +271,12 @@ border: 0;
 #search-results .item ul li {display:inline; margin-right:10px; font-size:13px;}
 #search-results .item ul li span.glyphicon {font-size:10px; margin-right:10px;}
 
-
-
-
-
-
-
-
-
-
-
+#glossarium-index a {color:#000000;}
+#glossarium-index .g_i { margin-right:5px;}
+#glossarium-index .g_i a { padding:3px 5px;}
+#glossarium-index .empty a {color:#cdcdd0;}
+#glossarium-index .active a,
+#glossarium-index .g_i a:hover {color:#21b79a; background:#FFFFFF; text-decoration:none; } 
 
 
 /* search in front */
