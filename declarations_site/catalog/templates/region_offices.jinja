@@ -1,0 +1,32 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<section id="page">
+    <div class="container">
+        <div id="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="{{ url("home") }}">Головна</a></li>
+                <li><a href="{{ url("regions_home") }}">Регіони</a></li>
+                <li class="active">{{ region_name|escape }}</li>
+            </ol> 
+        </div>
+        <h1 id="page-header"><span>Регіони: {{ region_name|escape }}</span></h1>
+        <div class="page-content">
+            <div class="box">
+                <div class="table-responsive">
+                    <div id="glossarium">
+                        <table class="table table-bordered table-striped">
+                            {% for f in facets %}
+                            <tr>
+                                <td><a href="{{ url('region_office', region_name=region_name, office_name=f.key) }}">{{ f.key }} ({{ f.doc_count }})</a></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
