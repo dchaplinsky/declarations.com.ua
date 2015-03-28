@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, Http404
 from elasticsearch.exceptions import NotFoundError
+from elasticsearch_dsl.filter import Term, Not
 
 from catalog.elastic_models import Declaration
 
@@ -68,8 +69,11 @@ def regions_home(request):
 
 
 def region(request, region_name):
-    search = Declaration.search().filter(
-        'term', general__post__region=region_name).params(search_type="count")
+    search = Declaration.search()\
+        .filter(
+            Term(general__post__region=region_name) &
+            Not(Term(general__post__office='')))\
+        .params(search_type="count")
 
     search.aggs.bucket(
         'per_office', 'terms', field='general.post.office')
@@ -82,9 +86,9 @@ def region(request, region_name):
 
 
 def region_office(request, region_name, office_name):
-    search = Declaration.search().filter(
-        'term', general__post__region=region_name).filter(
-        'term', general__post__office=office_name)
+    search = Declaration.search()\
+        .filter('term', general__post__region=region_name)\
+        .filter('term', general__post__office=office_name)
 
     return render(request, 'results.jinja', {
         'query': office_name,
