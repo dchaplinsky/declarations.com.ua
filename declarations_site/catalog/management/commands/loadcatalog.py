@@ -2,7 +2,6 @@ import os
 import re
 import csv
 import json
-import random
 
 from copy import deepcopy
 from datetime import datetime
@@ -34,11 +33,7 @@ class Command(BaseCommand):
     def recur_map(self, f, data):
         def step(k, v):
             if isinstance(v, str):
-                if len(v) > 2 and v[0] == '%' and v[-1] == '%':
-                    # If it's in form "%<value>%", return the value
-                    return v[1:-1]
-                else:
-                    return f(v)
+                    return f(k, v)
             elif isinstance(v, (list, dict)):
                 return self.recur_map(f, data[k])
 
@@ -71,8 +66,20 @@ class Command(BaseCommand):
 
     def map_fields(self, row):
         """Map input source field names to the internal names"""
+        def mapping_func(key, value):
+            if len(value) > 2 and value[0] == '%' and value[-1] == '%':
+                # If it's in form "%<value>%", return the value
+                return value[1:-1]
 
-        return self.pre_process(self.recur_map(lambda v: row.get(v, ""),
+            row_value = row.get(value, '')
+            if row_value in ('!notmatched', '!Пусто'):
+                row_value = ''
+            if key == 'is_hidden':
+                return len(row_value) > 0
+            else:
+                return row_value
+
+        return self.pre_process(self.recur_map(mapping_func,
                                 deepcopy(self.mapping_defs)))
 
     def pre_process(self, rec):
@@ -106,10 +113,6 @@ class Command(BaseCommand):
             # Elasticsearch doesn't like dates in bad format
             rec['declaration']['date'] = ''
 
-        # TODO: Remove this when there's real data for these fields
-        regions_to_choose = ('Київська обл.', 'Львівська обл.', 'Харківська обл.', 'Житомирська обл.')
-        offices_to_choose = ('Господарський суд', 'Апеляційний суд', 'Прокуратура')
-        rec['general']['post']['region'] = random.choice(regions_to_choose)
-        rec['general']['post']['office'] = random.choice(offices_to_choose)
+        rec['declaration']['needs_scancopy_check'] = rec['declaration']['needs_scancopy_check'] != 'Ок'
 
         return rec

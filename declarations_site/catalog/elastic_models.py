@@ -32,7 +32,8 @@ class Declaration(DocType):
             'notfull': Boolean(index='no'),
             'notfull_lostpages': String(index='no'),
             'additional_info': Boolean(index='no'),
-            'additional_info_text': String(index='no')
+            'additional_info_text': String(index='no'),
+            'needs_scancopy_check': Boolean(index='no')
         }
     )
 
