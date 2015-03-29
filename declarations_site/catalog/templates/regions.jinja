@@ -56,9 +56,16 @@
                                     </div>
                                 </th>
                             </tr>
- -->                            {% for f in facets %}
+ -->                        
+                            {% for f in facets %}
                             <tr>
-                                <td><a href="{{ url('region', region_name=f.key) }}">{{ f.key }} ({{ f.doc_count }})</a></td>
+                                <td>
+                                    {% if f.key %}
+                                    <a href="{{ url('region', region_name=f.key) }}">{{ f.key }} ({{ f.doc_count }})</a>
+                                    {% else %}
+                                    {{ f.key }} ({{ f.doc_count }})
+                                    {% endif %}
+                                </td>
                             </tr>
                             {% endfor %}
                         </table>

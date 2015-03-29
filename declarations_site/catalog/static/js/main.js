@@ -13,6 +13,8 @@ $(function() {
     }
 
     $("#search-form").typeahead({
+        minLength: 2, 
+        autoSelect: false,
         source: function(query, process) {
             $.get('/ajax/suggest', {"q": query})
                 .success(function(data){

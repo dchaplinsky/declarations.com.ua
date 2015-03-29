@@ -9,7 +9,7 @@
                 <li class="active">Результати пошуку</li>
             </ol> 
         </div>
-        <h1 id="page-header"><span>{{ query|escape }}</span></h1>
+        <h1 id="page-header"><span>{{ query|escape }} ({{ cnt }})</span></h1>
         <div class="page-content">
         <div class="container">
             <div class="btn-group">
@@ -34,7 +34,7 @@
                                 <li><a href="{{ url('office', office_name=r.general.post.office) }}">{{ r.general.post.office }}</a><span>,</span></li> 
                             {% endif %}
                             {% if r.general.post.post %}
-                                <li>{{ r.general.post.post }}<span>,</span></li> 
+                                <li>{{ r.general.post.post }}</li> 
                             {% endif %}
                         </ul>
                     </div>
