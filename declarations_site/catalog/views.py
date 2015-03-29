@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import JsonResponse, Http404
+
 from elasticsearch.exceptions import NotFoundError
 from elasticsearch_dsl.filter import Term, Not
 
 from catalog.elastic_models import Declaration
+from catalog.paginator import paginated_search
 
 
 def home(request):
@@ -37,12 +39,11 @@ def suggest(request):
 
 def search(request):
     query = request.GET.get("q", "")
-    results = Declaration.search().query(
-        "match", _all=query)[:30]
+    search = Declaration.search().query("match", _all=query)
 
     return render(request, "results.jinja", {
         "query": query,
-        "results": results.execute()
+        "results": paginated_search(request, search)
     })
 
 
@@ -92,15 +93,15 @@ def region_office(request, region_name, office_name):
 
     return render(request, 'results.jinja', {
         'query': office_name,
-        'results': search.execute()
+        'results': paginated_search(request, search)
     })
 
 
 def office(request, office_name):
     search = Declaration.search()\
-        .filter('term', general__post__office=office_name)[:30]
+        .filter('term', general__post__office=office_name)
 
     return render(request, 'results.jinja', {
         'query': office_name,
-        'results': search.execute()
+        'results': paginated_search(request, search)
     })
