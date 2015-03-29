@@ -2,7 +2,6 @@ from django.core.paginator import Paginator, Page
 from django.utils import six
 from django.conf import settings
 
-
 from elasticsearch_dsl.result import Response
 
 
@@ -21,7 +20,7 @@ class ElasticPage(Page):
     def __getitem__(self, index):
         if not isinstance(index, (slice,) + six.integer_types):
             raise TypeError
-        # The object_list is converted to a Response so that it result can be
+        # The object_list is converted to a Response so that its result can be
         # used as a normal iterable. Doesn't trigger more than one hit too.
         if not isinstance(self.object_list, Response):
             self.object_list = self.object_list.execute()
