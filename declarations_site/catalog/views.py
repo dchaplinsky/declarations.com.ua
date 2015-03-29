@@ -88,7 +88,7 @@ def region(request, region_name):
 def region_office(request, region_name, office_name):
     search = Declaration.search()\
         .filter('term', general__post__region=region_name)\
-        .filter('term', general__post__office=office_name)
+        .filter('term', general__post__office=office_name)[:30]
 
     return render(request, 'results.jinja', {
         'query': office_name,

@@ -71,10 +71,13 @@ class Command(BaseCommand):
                 # If it's in form "%<value>%", return the value
                 return value[1:-1]
 
-            row_value = row.get(value, '')
+            row_value = row.get(value, '').replace(u"й", u"й").replace(
+                u"ї", u"ї")
+
             if row_value in ('!notmatched', '!Пусто'):
                 row_value = ''
-            if key == 'is_hidden':
+
+            if key.endswith('is_hidden') or key.endswith('is_unreadable'):
                 return len(row_value) > 0
             else:
                 return row_value
