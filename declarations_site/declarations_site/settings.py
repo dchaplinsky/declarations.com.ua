@@ -58,6 +58,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.core.context_processors.tz",
+    "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
     "catalog.context_processors.stats_processor"
 )
@@ -82,8 +83,8 @@ USE_TZ = True
 
 
 TEMPLATE_LOADERS = (
-    'django_jinja.loaders.FileSystemLoader',
     'django_jinja.loaders.AppLoader',
+    'django_jinja.loaders.FileSystemLoader',
 )
 DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja'
 JINJA2_EXTENSIONS = ["pipeline.jinja2.ext.PipelineExtension"]
@@ -135,6 +136,9 @@ STATIC_URL = '/static/'
 
 # We have no DB so far, so just use cookies as the storage
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
+# Application settings
+CATALOG_PER_PAGE = 30
 
 
 try:
