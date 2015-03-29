@@ -1,9 +1,9 @@
 /* ============================================================================
- Results main
+   Declaration Results main
 ============================================================================ */
 
 .declaration-block {
-    font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    font: 14px/1.28571em "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
 }
 
 /* @group Declaration-head
@@ -33,54 +33,66 @@
 /* @group Table generic
   --------------------------------------------------------------------------- */
 
-.decl-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    border-width: 0;
+.weiss-table {
     width: 100%;
     empty-cells: hide;
-    margin: 0 0 1.28571em
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-width: 0;
+    margin-bottom: 15px;
+    table-layout: fixed;
 }
 
-.decl-table caption {
-    font-size: 1.079em;
-    line-height: 1.4299em;
-    font-weight: bold;
-    margin-bottom: 1em;
-}
-
-.decl-table td,
-.decl-table th {
-    vertical-align: middle;
-    padding: 5px;
-    border: 1px solid #434343;
+.weiss-table td,
+.weiss-table th {
     text-align: left;
+    vertical-align: middle;
 }
 
-.decl-table thead td,
-.decl-table thead th {
+.weiss-table thead td,
+.weiss-table thead th {
     font-weight: bold;
     text-align: center;
 }
 
-.decl-table tfoot {
-    font-size: .8em;
+.weiss-table tfoot {
+    font-size: .9em;
 }
 
-.decl-table tfoot td {
+.weiss-table tfoot td {
     text-align: center;
     border: none;
 }
 
 /* @end */
 
-/* @group Table mod: cell fixed width
+/* @group Table helpers
   --------------------------------------------------------------------------- */
 
-.table_fixed {
-    table-layout: fixed;
-    word-wrap: break-word;
-    width: auto;
+.weiss-table .weiss-table__cell_unstyled {
+    border-color: transparent;
+}
+
+.weiss-table .weiss-table__cell_unspaced {
+    padding: 0;
+}
+
+.weiss-table .weiss-table__cell_bd-r {
+    border-color: transparent;
+    border-right: 1px solid #434343;
+}
+
+.weiss-table .weiss-table__cell_bd-l {
+    border-color: transparent;
+    border-left: 1px solid #434343;
+}
+
+.weiss-table .weiss-table__cell_fwn {
+    font-weight: normal;
+}
+
+.weiss-table .weiss-table__psdo-th {
+    font-weight: bold;
 }
 
 /* @end */
@@ -88,101 +100,65 @@
 /* @group Table styling
   --------------------------------------------------------------------------- */
 
-.decl-table .table__cell_unstyled {
-    border-color: transparent;
-}
-
-.decl-table .table__cell_unspaced {
-    padding: 0;
-}
-
-.decl-table .table__cell_bd-r {
-    border-color: transparent;
-    border-right: 1px solid #434343;
-}
-
-.decl-table .table__cell_bd-l {
-    border-color: transparent;
-    border-left: 1px solid #434343;
-}
-
-.decl-table .table__cell_fwn {
-    font-weight: normal;
-}
-
-.decl-table .table__psdo-th {
+.weiss-table_decl caption {
+    font-size: 1.079em;
+    line-height: 1.4299em;
     font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.weiss-table_decl td,
+.weiss-table_decl th {
+    padding: 5px;
+    border: 1px solid #434343;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.weiss-table_decl th {
+    text-align: left;
 }
 
 /* @end */
 
 /* ============================================================================
-  Forms support
+   Form support
 ============================================================================ */
 
 /* @group Form Layout
   --------------------------------------------------------------------------- */
-.l-form__row {
+
+.l-weiss-form__row {
     display: block;
     margin: 10px 0;
     position: relative;
 }
 
-.l-form__item {
+.l-weiss-form__item {
+    line-height: 30px;
     display: block;
     float: left;
-    padding: 0 6px 0 0;
-    line-height: 30px;
+    padding: 0 5px 0 0;
     position: relative;
-    font-size: 15.106px;
 }
 
-.l-form__item_w-30 {
-    width: 30px;
-}
-
-.l-form__item_w-100 {
-    width: 100px;
-}
-
-.l-form__item_w-p50 {
-    width: 48%;
-}
-
-table.l-form__row {
-    border-collapse: collapse;
+table.l-weiss-form__row {
     border-spacing: 0;
+    border-collapse: collapse;
     border-width: 0;
 }
 
-td.l-form__item {
+td.l-weiss-form__item {
     float: none;
     vertical-align: middle;
 }
 
-fieldset.l-form__row {
+.weiss-form fieldset.l-weiss-form__row {
     margin: 10px 0;
 }
 
-legend.l-form__item {
+.weiss-form legend.l-weiss-form__item {
     padding: 0 5px 0 0;
-}
-
-label,
-.form__label {
-    display: block;
-    line-height: 29px;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-    font-weight: bold;
-}
-
-label > span,
-.form__label > span {
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 18px;
 }
 
 /* @end */
@@ -190,78 +166,64 @@ label > span,
 /* @group Form field sets
   --------------------------------------------------------------------------- */
 
-.form__set {
-    margin: 0;
-    padding: 20px 0 0;
-    border: none;
+.weiss-form .weiss-form__set {
+    margin: 15px 0 0;
+    padding: 25px 0 0;
     position: relative;
+    border: none;
 }
 
-.form__set-legend {
-    font: bold 22.666px/1.2 "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+.weiss-form .weiss-form__set-legend {
+    font: bold 22.666px "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
     margin: 0;
     padding: 0;
     border: none;
-    width: auto;
 }
 
-.form__set-legend span {
+.weiss-form .weiss-form__set-legend span {
     display: block;
+    overflow: hidden;
+    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-/* @group Form Fieldsets
-  --------------------------------------------------------------------------- */
-.form_declaration {
-    margin: 20px 0;
-}
+/* Styles */
 
-.form__set.form__set_paper {
+.weiss-form .weiss-form__set.weiss-form__set_paper {
+    margin: 1em 0;
     padding: 25px 0 0;
-    margin: 1em 0 2em;
 }
 
-.form__set-legend span {
+.weiss-form .weiss-form__set-legend span {
     font-size: 15.106px;
     font-weight: bold;
 }
 
-.form__set_main.form__set_paper {
+.weiss-form .weiss-form__set_main.weiss-form__set_paper {
     padding: 40px 10px 10px;
     border: 1px solid #434343;
 }
 
-.form__set_main.form__set_paper > .form__set-legend span {
+.weiss-form .weiss-form__set_main.weiss-form__set_paper > .weiss-form__set-legend span {
     font-size: 15.106px;
     line-height: 26px;
-    border-bottom: 1px solid #434343;
     text-align: center;
+    border-bottom: 1px solid #434343;
 }
 
-.form__set_paper textarea {
-    height: 30px;
-    min-height: 30px;
-}
-
-.form__set_paper .form__label {
+.weiss-form__set_paper .weiss-form__label {
     font-size: 15.106px;
     font-weight: bold;
 }
 
-textarea.form__textarea_lined {
-    min-height: 5em;
-}
-
-.form__set_notes.form__set {
+.weiss-form__set_notes.weiss-form__set {
     font-family: Arial, FreeSans, sans-serif;
-    background-color: lightyellow;
     padding: 20px;
+    background-color: lightyellow;
 }
 
 /* @end */
@@ -269,16 +231,17 @@ textarea.form__textarea_lined {
 /* ============================================================================
   INCLUDE CLASSES A
 ============================================================================= */
+
 .i-clfx:before,
-.l-form__row:before,
+.l-weiss-form__row:before,
 .i-clfx:after,
-.l-form__row:after {
+.l-weiss-form__row:after {
     content: "";
     display: table;
 }
 
 .i-clfx:after,
-.l-form__row:after {
+.l-weiss-form__row:after {
     clear: both;
 }
 
