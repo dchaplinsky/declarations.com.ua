@@ -3,14 +3,14 @@
 ============================================================================ */
 
 .declaration-block {
-    font: 14px/1.28571em "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    font: 16px/1.28571em "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
 }
 
 /* @group Declaration-head
   --------------------------------------------------------------------------- */
 
 .declaration-head {
-    font-size: 14px;
+    font-size: 1em;
     font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
     text-align: center;
     margin: 1em 0 2em;
@@ -101,7 +101,7 @@
   --------------------------------------------------------------------------- */
 
 .weiss-table_decl caption {
-    font-size: 1.079em;
+    font-size: 1em;
     line-height: 1.4299em;
     font-weight: bold;
     margin-bottom: 1em;
@@ -167,14 +167,13 @@ td.l-weiss-form__item {
   --------------------------------------------------------------------------- */
 
 .weiss-form .weiss-form__set {
-    margin: 15px 0 0;
-    padding: 25px 0 0;
+    padding: 30px 0 0;
     position: relative;
     border: none;
 }
 
 .weiss-form .weiss-form__set-legend {
-    font: bold 22.666px "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    font: bold 1em/2 "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
     margin: 0;
     padding: 0;
     border: none;
@@ -198,26 +197,14 @@ td.l-weiss-form__item {
     padding: 25px 0 0;
 }
 
-.weiss-form .weiss-form__set-legend span {
-    font-size: 15.106px;
-    font-weight: bold;
-}
-
 .weiss-form .weiss-form__set_main.weiss-form__set_paper {
     padding: 40px 10px 10px;
     border: 1px solid #434343;
 }
 
 .weiss-form .weiss-form__set_main.weiss-form__set_paper > .weiss-form__set-legend span {
-    font-size: 15.106px;
-    line-height: 26px;
     text-align: center;
     border-bottom: 1px solid #434343;
-}
-
-.weiss-form__set_paper .weiss-form__label {
-    font-size: 15.106px;
-    font-weight: bold;
 }
 
 .weiss-form__set_notes.weiss-form__set {

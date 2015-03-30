@@ -26,7 +26,7 @@
 
             <p class="l-weiss-form__row">
                 <span class="l-weiss-form__item weiss-form__label">
-                    <strong>2. Місце проживання</strong>
+                    <strong>2. Місце проживання:</strong>
                 </span>
                 {% for address in declaration.general.addresses %}
                 <span class="l-weiss-form__item">
@@ -3437,9 +3437,9 @@
             </p>
 
             {% if declaration.declaration.additional_info == "true" %}
-            <p class="js-related-section">
-                <strong class="l-weiss-form__row"> Що саме не вмістилось: </strong>
-                <span class="l-weiss-form__row">
+            <p class="l-weiss-form__row">
+                <strong class="l-weiss-form__item"> Що саме не вмістилось: </strong>
+                <span class="l-weiss-form__item">
                     {{ declaration.declaration.additional_info_text }}
                 </span>
             </p>
