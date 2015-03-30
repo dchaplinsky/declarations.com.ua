@@ -77,7 +77,7 @@ class Command(BaseCommand):
             if row_value in ('!notmatched', '!Пусто'):
                 row_value = ''
 
-            if key.endswith('is_hidden') or key.endswith('is_unreadable'):
+            if key.endswith('_hidden') or key.endswith('_unclear'):
                 return len(row_value) > 0
             else:
                 return row_value
