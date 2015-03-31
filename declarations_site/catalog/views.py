@@ -6,6 +6,7 @@ from elasticsearch_dsl.filter import Term, Not
 
 from catalog.elastic_models import Declaration
 from catalog.paginator import paginated_search
+from catalog.api import hybrid_response
 
 
 def home(request):
@@ -38,28 +39,34 @@ def suggest(request):
         return JsonResponse([], safe=False)
 
 
+@hybrid_response('results.jinja')
 def search(request):
     query = request.GET.get("q", "")
-    search = Declaration.search().query("match", _all=query)
+    search = Declaration.search()
+    if query:
+        search = search.query("match", _all=query)
+    else:
+        search = search.query('match_all')
 
-    return render(request, "results.jinja", {
+    return {
         "query": query,
-        'cnt': search.count(),
         "results": paginated_search(request, search)
-    })
+    }
 
 
+@hybrid_response('declaration.jinja')
 def details(request, declaration_id):
     try:
         declaration = Declaration.get(id=int(declaration_id))
     except (ValueError, NotFoundError):
         raise Http404("Таких не знаємо!")
 
-    return render(request, "declaration.jinja", {
+    return {
         "declaration": declaration
-    })
+    }
 
 
+@hybrid_response('regions.jinja')
 def regions_home(request):
     search = Declaration.search().params(search_type="count")
     search.aggs.bucket(
@@ -67,11 +74,12 @@ def regions_home(request):
 
     res = search.execute()
 
-    return render(request, 'regions.jinja', {
+    return {
         'facets': res.aggregations.per_region.buckets
-    })
+    }
 
 
+@hybrid_response('region_offices.jinja')
 def region(request, region_name):
     search = Declaration.search()\
         .filter(
@@ -83,31 +91,30 @@ def region(request, region_name):
         'per_office', 'terms', field='general.post.office', size=0)
     res = search.execute()
 
-    return render(request, 'region_offices.jinja', {
+    return {
         'facets': res.aggregations.per_office.buckets,
-        'cnt': search.count(),
         'region_name': region_name
-    })
+    }
 
 
+@hybrid_response('results.jinja')
 def region_office(request, region_name, office_name):
     search = Declaration.search()\
         .filter('term', general__post__region=region_name)\
         .filter('term', general__post__office=office_name)
 
-    return render(request, 'results.jinja', {
+    return {
         'query': office_name,
-        'cnt': search.count(),
         'results': paginated_search(request, search),
-    })
+    }
 
 
+@hybrid_response('results.jinja')
 def office(request, office_name):
     search = Declaration.search()\
         .filter('term', general__post__office=office_name)
 
-    return render(request, 'results.jinja', {
+    return {
         'query': office_name,
-        'cnt': search.count(),
         'results': paginated_search(request, search)
-    })
+    }

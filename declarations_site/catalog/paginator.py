@@ -12,6 +12,13 @@ class ElasticPaginator(Paginator):
     def _get_page(self, *args, **kwargs):
         return ElasticPage(*args, **kwargs)
 
+    def to_api(self):
+        return {
+            'count': self.count,
+            'num_pages': self.num_pages,
+            'per_page': self.per_page
+        }
+
 
 class ElasticPage(Page):
     def __len__(self):
@@ -70,6 +77,13 @@ class ElasticPage(Page):
         if current < final - 3:
             included.insert(len(included) - 1, None)
         return included
+
+    def to_api(self):
+        return {
+            'paginator': self.paginator.to_api(),
+            'number': self.number,
+            'object_list': self.object_list.execute()
+        }
 
 
 def paginated_search(request, search):
