@@ -9,7 +9,7 @@
                 <li class="active">Результати пошуку</li>
             </ol> 
         </div>
-        <h1 id="page-header"><span>{{ query|escape }} ({{ cnt }})</span></h1>
+        <h1 id="page-header"><span>{{ query|default("Всі")|escape }} ({{ results.paginator.count }})</span></h1>
         <div class="page-content">
         <div class="container">
             <div class="btn-group">
@@ -44,6 +44,7 @@
                 {% endif %}
                 {% endfor %}
             </div>
+            {% if results.paginator.num_pages > 1 %}
             <ul class="pagination">
                 <li{% if not results.has_previous() %} class="disabled"{% endif %}><a href="{% if results.has_previous() %}?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}{% endif %}">«</a></li>
                 {% for page_num in results.contextual_page_range %}
@@ -55,6 +56,7 @@
                 {% endfor %}
                 <li{% if not results.has_next() %} class="disabled"{% endif %}><a href="{% if results.has_next() %}?{{ updated_querystring(request, {'page': results.next_page_number()}) }}{% endif %}">»</a></li>
             </ul>
+            {% endif %}
         </div>
     </div>
 </section>
