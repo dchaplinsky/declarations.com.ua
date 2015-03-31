@@ -13,7 +13,7 @@ urlpatterns = patterns(
         name='details'),
     url(r'^region$', 'catalog.views.regions_home', name='regions_home',),
 
-    url(r'^region/(?P<region_name>.+)/(?P<office_name>.+)$', 'catalog.views.region_office',
+    url(r'^region/(?P<region_name>[^\/]+)/(?P<office_name>.+)$', 'catalog.views.region_office',
         name='region_office'),
     url(r'^region/(?P<region_name>.+)$', 'catalog.views.region',
         name='region'),
