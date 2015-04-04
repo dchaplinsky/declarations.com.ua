@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
 
 from elasticsearch.exceptions import NotFoundError
@@ -118,3 +119,47 @@ def office(request, office_name):
         'query': office_name,
         'results': paginated_search(request, search)
     }
+
+
+def sitemap(request):
+    # TODO: REFACTOR ME?
+    urls = [
+        reverse("home"),
+        reverse("about"),
+        reverse("regions_home"),
+    ]
+
+    search = Declaration.search().params(search_type="count")
+    search.aggs.bucket(
+        'per_region', 'terms', field='general.post.region', size=0)
+
+    for r in search.execute().aggregations.per_region.buckets:
+        urls.append(reverse("region", kwargs={"region_name": r.key}))
+
+        subsearch = Declaration.search()\
+            .filter(
+                Term(general__post__region=r.key) &
+                Not(Term(general__post__office='')))\
+            .params(search_type="count")
+
+        subsearch.aggs.bucket(
+            'per_office', 'terms', field='general.post.office', size=0)
+
+        for subr in subsearch.execute().aggregations.per_office.buckets:
+            urls.append(reverse(
+                "region_office",
+                kwargs={"region_name": r.key, "office_name": subr.key}))
+
+    search = Declaration.search().params(search_type="count")
+    search.aggs.bucket(
+        'per_office', 'terms', field='general.post.office', size=0)
+
+    for r in search.execute().aggregations.per_office.buckets:
+        urls.append(reverse("office", kwargs={"office_name": r.key}))
+
+    search = Declaration.search().extra(fields=[], size=100000)
+    for r in search.execute():
+        urls.append(reverse("details", kwargs={"declaration_id": r._id}))
+
+    return render(request, "sitemap.jinja",
+                  {"urls": urls}, content_type="application/xml")

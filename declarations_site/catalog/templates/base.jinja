@@ -3,14 +3,13 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
+        <meta name="description" content="{% block html_desc %}{% endblock %}">
         <meta name="author" content="">
-        <title>Декларації</title>
+        <title>{% block html_title %}Декларації{% endblock %}</title>
 
         {% stylesheet 'css_all' %}
 
         <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300,700,100&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css' />
-        <!--<link href="css/material-wfont.min.css" rel="stylesheet">-->
         <link rel="shortcut icon" href="/static/favicon.ico" />
     </head>
 

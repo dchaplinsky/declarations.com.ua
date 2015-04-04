@@ -335,6 +335,7 @@ a.white:hover,
     box-shadow: 0 3px 10px rgba(0, 0, 0, .23), 0 3px 10px rgba(0, 0, 0, .16);
     border-radius: 2px;
     border: 0;
+    position: relative;
 }
 
 #search-results .item {
@@ -682,4 +683,37 @@ display: none;
 
 .sub-header .glyphicon {
     padding-right: 10px;
+}
+
+.d-pdf {
+    position: absolute;
+    right: 30px;
+    top: 42px;
+}
+
+.d-pdf i {
+    background: url(../images/pdf.png) no-repeat; 
+    height: 48px; 
+    width: 48px; 
+    display: block; 
+    margin-right: 10px; 
+    float: left;  
+    opacity: 0.5; 
+    filter: alpha(Opacity=50);
+}
+ 
+.d-pdf a:hover i {
+    opacity: 1; 
+    filter: alpha(Opacity=100); 
+ }
+ 
+.d-pdf a {
+    color: #2196f3;
+    text-decoration: none;
+    line-height: 48px;
+}
+
+.d-pdf a:hover {
+    text-decoration: none;
+    color: #e14045;
 }

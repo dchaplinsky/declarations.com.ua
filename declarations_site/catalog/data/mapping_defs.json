@@ -1203,6 +1203,7 @@
         "notfull_lostpages": "Яких сторінок (паперових) не вистачало",
         "additional_info": "Є додаткова інформація",
         "additional_info_text": "Що саме не вмістилось",
-        "needs_scancopy_check": "Результат сверки машин"
+        "needs_scancopy_check": "Результат сверки машин",
+        "url": "Ссылка на декларацию"
     }
 }
