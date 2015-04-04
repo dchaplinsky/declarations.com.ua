@@ -17,8 +17,10 @@
                     <div id="glossarium">
                         <table class="table table-bordered table-striped">
                             {% for f in facets %}
-                            <tr>
-                                <td><a href="{{ url('region_office', region_name=region_name, office_name=f.key) }}">{{ f.key }} ({{ f.doc_count }})</a></td>
+                            <tr itemscope itemtype="http://schema.org/Organization">
+                                <td><a href="{{ url('region_office', region_name=region_name, office_name=f.key) }}"><span itemprop="name">{{ f.key }}</span> ({{ f.doc_count }})</a>
+                                <span itemprop="address" style="display: none">{{ region_name|escape }}</span>
+                                </td>
                             </tr>
                             {% endfor %}
                         </table>

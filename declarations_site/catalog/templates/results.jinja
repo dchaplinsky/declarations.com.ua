@@ -22,9 +22,9 @@
             </div>
             <div id="search-results" class="row list-group">
                 {% for r in results %}
-                <div class="item col-xs-4 col-lg-4 grid-group-item">
+                <div class="item col-xs-4 col-lg-4 grid-group-item" itemscope itemtype="http://schema.org/Person">
                     <div class="box">
-                        <h3><a href="{{ url("details", declaration_id=r._id) }}">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a></h3>
+                        <h3><a href="{{ url("details", declaration_id=r._id) }}" itemprop="name">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a></h3>
                         <ul class="tags_list">
                             <li><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>{{ r.intro.declaration_year }}<span>,</span></li>
                             {% if r.general.post.region %}
@@ -34,7 +34,7 @@
                                 <li><a href="{{ url('office', office_name=r.general.post.office) }}">{{ r.general.post.office }}</a><span>,</span></li> 
                             {% endif %}
                             {% if r.general.post.post %}
-                                <li>{{ r.general.post.post }}</li> 
+                                <li itemprop="jobTitle">{{ r.general.post.post }}</li> 
                             {% endif %}
                         </ul>
                     </div>
