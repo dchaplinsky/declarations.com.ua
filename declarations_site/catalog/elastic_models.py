@@ -1,6 +1,16 @@
 from elasticsearch_dsl import DocType, Object, String, Completion, Nested, Date, Boolean
 
 
+class NoneAwareDate(Date):
+    """Elasticsearch DSL Date field chokes on None values and parses empty
+    strings as current date, hence the workaround.
+    TODO: move this upstream in some form."""
+    def _to_python(self, data):
+        if data is None:
+            return data
+        return super(NoneAwareDate, self)._to_python(data)
+
+
 class Declaration(DocType):
     """Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
@@ -28,7 +38,7 @@ class Declaration(DocType):
     )
     declaration = Object(
         properties={
-            'date': Date(),
+            'date': NoneAwareDate(),
             'notfull': Boolean(index='no'),
             'notfull_lostpages': String(index='no'),
             'additional_info': Boolean(index='no'),

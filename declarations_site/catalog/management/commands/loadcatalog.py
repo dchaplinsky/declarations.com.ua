@@ -111,10 +111,10 @@ class Command(BaseCommand):
 
         try:
             rec['declaration']['date'] = datetime.strptime(
-                rec['declaration']['date'], '%Y-%m-%d').date()
+                rec['declaration']['date'], '%m/%d/%Y').date()
         except ValueError:
             # Elasticsearch doesn't like dates in bad format
-            rec['declaration']['date'] = ''
+            rec['declaration']['date'] = None
 
         rec['declaration']['needs_scancopy_check'] = rec['declaration']['needs_scancopy_check'] != 'Ок'
 
