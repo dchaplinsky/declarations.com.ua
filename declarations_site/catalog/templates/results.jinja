@@ -1,5 +1,10 @@
 {% extends "base.jinja" %}
 
+{% block extrahead %}
+{% if results.has_previous() %}<link rel="prev" href="?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}" />{% endif %}
+{% if results.has_next() %}<link rel="next" href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" />{% endif %}
+{% endblock %}
+
 {% block content %}
 <section id="page">
     <div class="container">
