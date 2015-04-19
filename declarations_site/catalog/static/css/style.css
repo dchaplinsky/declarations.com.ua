@@ -324,11 +324,6 @@ a.white:hover,
     color: #fff;
 }
 
-.mail-pic {
-    background: url("../images/mail.png") no-repeat left;
-    padding-left: 50px;
-}
-
 .box {
     background: #fff;
     padding: 24px;

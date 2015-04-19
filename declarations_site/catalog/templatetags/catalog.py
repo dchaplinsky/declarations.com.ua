@@ -1,4 +1,5 @@
 from django_jinja import library
+from decimal import Decimal
 
 
 @library.global_function
@@ -15,9 +16,8 @@ def updated_querystring(request, params):
 
 @library.filter
 def curformat(value):
-    if len(value) > 0 and value != '0':
-        value = '{:,}'.format(float(value.replace(',', '.'))) \
-            .replace(',', ' ') \
-            .replace('.', ',')
-
-    return value
+    if value and value != "0":
+        return '{:,.2f}'.format(
+            float(value.replace(',', '.'))).replace(',', ' ').replace('.', ',')
+    else:
+        return '—'
