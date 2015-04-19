@@ -1,9 +1,7 @@
-from django_jinja.library import Library
-
-register = Library()
+from django_jinja import library
 
 
-@register.global_function
+@library.global_function
 def updated_querystring(request, params):
     """Updates current querystring with a given dict of params, removing
     existing occurrences of such params. Returns a urlencoded querystring."""
@@ -13,3 +11,13 @@ def updated_querystring(request, params):
             original_params.pop(key)
     original_params.update(params)
     return original_params.urlencode()
+
+
+@library.filter
+def curformat(value):
+    if len(value) > 0 and value != '0':
+        value = '{:,}'.format(float(value.replace(',', '.'))) \
+            .replace(',', ' ') \
+            .replace('.', ',')
+
+    return value
