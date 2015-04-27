@@ -1,8 +1,6 @@
-import os
-import re
-import csv
 import json
 
+from pprint import pprint
 from copy import deepcopy
 from datetime import datetime
 
@@ -10,42 +8,40 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
 from catalog.elastic_models import Declaration
-
-
-DEFS_PATH = os.path.join(settings.BASE_DIR, 'catalog/data/mapping_defs.json')
+from catalog.data.mapping_chesno import MAPPING, SubDocument
 
 
 class Command(BaseCommand):
     args = '<file_path>'
-    help = ('Loads the CSV catalog of existing declarations '
+    help = ('Loads the JSON catalog of existing declarations from CHESNO.ua'
             'into the persistence storage')
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
 
-        with open(DEFS_PATH, 'r') as defs_file:
-            data = defs_file.read()
-            # Remove comments from the file
-            data = re.sub("#.*$", "", data, flags=re.MULTILINE)
+        self.mapping_defs = MAPPING
 
-            self.mapping_defs = json.loads(data)
-
-    def recur_map(self, f, data):
+    def recur_map(self, resolver_func, mapping_data, source_data):
         def step(k, v):
             if isinstance(v, str):
-                return f(k, v)
+                return resolver_func(k, v, source_data)
             elif isinstance(v, (list, dict)):
-                return self.recur_map(f, data[k])
+                return self.recur_map(resolver_func, mapping_data[k],
+                                      source_data)
+            elif isinstance(v, SubDocument):
+                return [
+                    self.recur_map(resolver_func, deepcopy(v.mapping), sub_d)
+                    for sub_d in resolver_func(k, v.path_prefix, source_data)]
 
-        if isinstance(data, dict):
-            for k, v in data.items():
-                data[k] = step(k, v)
+        if isinstance(mapping_data, dict):
+            for k, v in mapping_data.items():
+                mapping_data[k] = step(k, v)
 
-        if isinstance(data, list):
-            for k, v in enumerate(data):
-                data[k] = step(k, v)
+        if isinstance(mapping_data, list):
+            for k, v in enumerate(mapping_data):
+                mapping_data[k] = step(k, v)
 
-        return data
+        return mapping_data
 
     def handle(self, *args, **options):
         try:
@@ -54,36 +50,47 @@ class Command(BaseCommand):
             raise CommandError('First argument must be a source file')
 
         with open(file_path, 'r', newline='', encoding='utf-8') as source:
-            reader = csv.DictReader(source, delimiter=";")
+            decls = json.load(source)
+
             counter = 0
             Declaration.init()  # Apparently this is required to init mappings
-            for row in reader:
-                item = Declaration(**self.map_fields(row))
-                item.save()
-                counter += 1
+            for row in decls:
+                pprint(self.map_fields(row))
+                # item = Declaration(**self.map_fields(row))
+
+                # item.save()
+                # counter += 1
             self.stdout.write(
                 'Loaded {} items to persistence storage'.format(counter))
 
     def map_fields(self, row):
         """Map input source field names to the internal names"""
-        def mapping_func(key, value):
-            if len(value) > 2 and value[0] == '%' and value[-1] == '%':
-                # If it's in form "%<value>%", return the value
-                return value[1:-1]
+        def get_by_path(val, path):
+            path = [int(p) if p.isdigit() else p for p in path.split("/")]
 
-            row_value = row.get(value, '').replace(u"й", u"й").replace(
-                u"ї", u"ї")
+            for p in path:
+                try:
+                    val = val[p]
+                except (KeyError, IndexError):
+                    return ""
 
-            if row_value in ('!notmatched', '!Пусто'):
-                row_value = ''
+            return val
 
-            if key.endswith('_hidden') or key.endswith('_unclear'):
-                return len(row_value) > 0
-            else:
-                return row_value
+        def mapping_func(key, path, document):
+            if len(path) > 2 and path[0] == '%' and path[-1] == '%':
+                # If it's in form "%<path>%", return the path
+                return path[1:-1]
+
+            row_value = get_by_path(document, path)
+
+            if isinstance(row_value, str):
+                row_value = row_value.replace(u"й", u"й").replace(u"ї", u"ї")
+
+            return row_value
 
         return self.pre_process(self.recur_map(mapping_func,
-                                deepcopy(self.mapping_defs)))
+                                deepcopy(self.mapping_defs),
+                                row))
 
     def pre_process(self, rec):
         name_chunks = rec["general"]["full_name"].split(u" ")
@@ -109,13 +116,6 @@ class Command(BaseCommand):
             "output": rec["general"]["full_name"]
         }
 
-        try:
-            rec['declaration']['date'] = datetime.strptime(
-                rec['declaration']['date'], '%m/%d/%Y').date()
-        except ValueError:
-            # Elasticsearch doesn't like dates in bad format
-            rec['declaration']['date'] = None
-
-        rec['declaration']['needs_scancopy_check'] = rec['declaration']['needs_scancopy_check'] != 'Ок'
+        rec["_id"] = "chesno_{}".format(rec["_id"])
 
         return rec
