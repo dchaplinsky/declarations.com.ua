@@ -30,12 +30,32 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pipeline',
     'django_jinja',
     'django_jinja.contrib._humanize',
+
+    'compressor',
+    'taggit',
+    'modelcluster',
+
+    'wagtail.wagtailcore',
+    'wagtail.wagtailadmin',
+    'wagtail.wagtaildocs',
+    'wagtail.wagtailsnippets',
+    'wagtail.wagtailusers',
+    'wagtail.wagtailimages',
+    'wagtail.wagtailembeds',
+    'wagtail.wagtailsearch',
+    'wagtail.wagtailredirects',
+    'wagtail.wagtailforms',
+
+    'cms_pages',
     'catalog',
 )
 
@@ -43,8 +63,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'wagtail.wagtailcore.middleware.SiteMiddleware',
+    'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 )
 
 ROOT_URLCONF = 'declarations_site.urls'
@@ -60,11 +85,17 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
-    "catalog.context_processors.stats_processor"
+    "catalog.context_processors.stats_processor",
+    "cms_pages.context_processors.menu_processor"
 )
 
 # We don't need a database yet!
-DATABASES = {}
+DATABASES = {
+    'default': {
+        # Strictly PostgreSQL
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    }
+}
 
 # Setup Elasticsearch default connection
 ELASTICSEARCH_CONNECTIONS = {
@@ -93,6 +124,7 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
     'pipeline.finders.PipelineFinder',
 )
 
@@ -140,6 +172,13 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 # Application settings
 CATALOG_PER_PAGE = 30
 
+# django-compressor settings (for a fucking wagtail)
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+LOGIN_URL = "/admin/login/"
+WAGTAIL_SITE_NAME = 'Declarations'
 
 try:
     from .local_settings import *

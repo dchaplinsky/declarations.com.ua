@@ -1,5 +1,9 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
+from wagtail.wagtailcore import urls as wagtail_urls
+from wagtail.wagtailadmin import urls as wagtailadmin_urls
+from django.contrib import admin
+
 
 urlpatterns = patterns(
     '',
@@ -27,4 +31,8 @@ urlpatterns = patterns(
 
     url(r'^sitemap.xml$', 'catalog.views.sitemap',
         name='sitemap'),
+
+    url(r'^admin/', include(admin.site.urls)),
+    url(r'^cms/', include(wagtailadmin_urls)),
+    url(r'', include(wagtail_urls)),
 )
