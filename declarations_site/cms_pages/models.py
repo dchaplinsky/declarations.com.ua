@@ -8,6 +8,8 @@ from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailadmin.edit_handlers import (
     InlinePanel, FieldPanel, PageChooserPanel)
 
+from catalog.models import Region, Office
+
 
 class StaticPage(Page):
     body = RichTextField(verbose_name="Текст сторінки")
@@ -98,3 +100,26 @@ HomePage.content_panels = [
     FieldPanel('body', classname="full"),
     InlinePanel(HomePage, 'top_menu_links', label="Меню зверху"),
 ]
+
+
+class MetaData(models.Model):
+    region = models.ForeignKey(Region, blank=True, null=True)
+    office = models.ForeignKey(Office, blank=True, null=True)
+    title = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = ("region", "office")
+
+    def __unicode__(self):
+        chunks = []
+        if self.region is not None:
+            chunks.append(self.region.region_name)
+
+        if self.office is not None:
+            chunks.append(self.office.name)
+
+        return ": ".join(chunks)
+
+    def __str__(self):
+        return self.__unicode__()
