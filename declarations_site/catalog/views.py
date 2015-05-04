@@ -120,7 +120,7 @@ def office(request, office_name):
 def sitemap(request):
     # TODO: REFACTOR ME?
     urls = [
-        reverse("home"),
+        reverse("wagtail_serve", args=[""]),
         reverse("wagtail_serve", args=["about/"]),
         reverse("wagtail_serve", args=["api/"]),
         reverse("regions_home"),
