@@ -10,4 +10,4 @@ def richtext(value):
     else:
         html = ''
 
-    return mark_safe('<div class="rich-text">' + html + '</div>')
+    return mark_safe(html)

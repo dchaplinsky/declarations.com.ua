@@ -10,10 +10,6 @@ from catalog.paginator import paginated_search
 from catalog.api import hybrid_response
 
 
-def home(request):
-    return render(request, "home.jinja", {})
-
-
 def suggest(request):
     search = Declaration.search()\
         .suggest(

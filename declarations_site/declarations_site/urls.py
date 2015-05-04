@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import TemplateView
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from django.contrib import admin
@@ -7,7 +6,6 @@ from django.contrib import admin
 
 urlpatterns = patterns(
     '',
-    url(r'^$', 'catalog.views.home', name='home'),
     url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
 
     url(r'^search$', 'catalog.views.search', name='search'),

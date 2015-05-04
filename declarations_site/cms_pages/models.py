@@ -80,10 +80,21 @@ class HomePageTopMenuLink(Orderable, LinkFields):
 
 
 class HomePage(Page):
+    body = RichTextField(verbose_name="Текст сторінки")
+
+    template = "cms_pages/home.jinja"
+
+    def get_context(self, request, *args, **kwargs):
+        return {
+            'page': self,
+            'request': request,
+        }
+
     class Meta:
         verbose_name = "Головна сторінка"
 
 HomePage.content_panels = [
     FieldPanel('title', classname="full title"),
+    FieldPanel('body', classname="full"),
     InlinePanel(HomePage, 'top_menu_links', label="Меню зверху"),
 ]
