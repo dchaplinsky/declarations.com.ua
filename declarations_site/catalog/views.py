@@ -125,7 +125,8 @@ def sitemap(request):
     # TODO: REFACTOR ME?
     urls = [
         reverse("home"),
-        reverse("about"),
+        reverse("wagtail_serve", args=["about/"]),
+        reverse("wagtail_serve", args=["api/"]),
         reverse("regions_home"),
     ]
 

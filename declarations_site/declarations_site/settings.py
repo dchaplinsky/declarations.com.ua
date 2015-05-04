@@ -55,8 +55,8 @@ INSTALLED_APPS = (
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
 
-    'cms_pages',
     'catalog',
+    'cms_pages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -166,8 +166,7 @@ PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
 STATIC_URL = '/static/'
 
-# We have no DB so far, so just use cookies as the storage
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application settings
 CATALOG_PER_PAGE = 30

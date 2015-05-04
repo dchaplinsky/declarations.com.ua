@@ -27,6 +27,7 @@
         </script>
     </head>
 
+    {% set calling_page = page.url if page else "" %}
     <body class="{% block bodyclass %}{% endblock %}">
         <div id="wrapper">
             <div class="on-white">
@@ -64,11 +65,11 @@
                         </div>
                         <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
                             <ul class="nav navbar-nav">
-                                <li><a href="{{ url("home") }}">Головна</a></li>
-                                <li><a href="{{ url("regions_home") }}">Регіони</a></li>
-                                <li><a href="http://goo.gl/forms/OTbHz2FVbj">Розшукуємо декларації</a></li>
-                                <li><a href="{{ url("about") }}">Про проект</a></li>
-                                <li><a href="{{ url("api_doc") }}">Відкритий API</a></li>
+                                {% for menuitem in top_menu %}
+                                    <li>
+                                        <a href="{{ menuitem.link }}">{{ menuitem.caption }}</a>
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </div>
                     </div>
