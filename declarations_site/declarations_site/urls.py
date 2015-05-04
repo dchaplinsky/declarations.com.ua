@@ -13,6 +13,7 @@ urlpatterns = patterns(
         name='details'),
 
     url(r'^region$', 'catalog.views.regions_home', name='regions_home',),
+    url(r'^office$', 'catalog.views.offices_home', name='offices_home',),
 
     # Please maintain that order
     url(r'^region/(?P<region_name>[^\/]+)/(?P<office_name>.+)$',
