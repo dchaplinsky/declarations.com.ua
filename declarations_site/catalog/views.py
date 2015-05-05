@@ -8,10 +8,7 @@ from elasticsearch_dsl.filter import Term, Not
 from catalog.elastic_models import Declaration
 from catalog.paginator import paginated_search
 from catalog.api import hybrid_response
-
-
-def home(request):
-    return render(request, "home.jinja", {})
+from catalog.models import Office
 
 
 def suggest(request):
@@ -124,8 +121,9 @@ def office(request, office_name):
 def sitemap(request):
     # TODO: REFACTOR ME?
     urls = [
-        reverse("home"),
-        reverse("about"),
+        reverse("wagtail_serve", args=[""]),
+        reverse("wagtail_serve", args=["about/"]),
+        reverse("wagtail_serve", args=["api/"]),
         reverse("regions_home"),
     ]
 
@@ -163,3 +161,8 @@ def sitemap(request):
 
     return render(request, "sitemap.jinja",
                   {"urls": urls}, content_type="application/xml")
+
+
+def offices_home(request):
+    return render(request, "offices.jinja",
+                  {"offices": Office.dump_bulk()})

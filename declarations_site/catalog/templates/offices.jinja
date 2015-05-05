@@ -1,0 +1,33 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+<section id="page">
+    <div class="container">
+        <div class="page-content">
+            <div class="box">
+                <pre>
+{% for level0 in offices %}
+{{ level0.data.name }}
+{% for level1 in level0.children %}
+    {{ level1.data.name }}
+    {% for level2 in level1.children %}
+        {{ level2.data.name }}
+        {% for level3 in level2.children %}
+            {{ level3.data.name }}
+            {% for level4 in level3.children %}
+                {{ level4.data.name }}
+                {% for level5 in level4.children %}
+                    {{ level5.data.name }}
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+{% endfor %}
+{% endfor %}
+                </pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
