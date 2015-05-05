@@ -95,6 +95,10 @@
     font-weight: bold;
 }
 
+.weiss-table .weiss-table__cell_tar {
+    text-align: right;
+}
+
 /* @end */
 
 /* @group Table styling
@@ -242,3 +246,15 @@ td.l-weiss-form__item {
     padding: 0;
     position: absolute !important;
 }
+
+/* @group Currency align
+  --------------------------------------------------------------------------- */
+
+.currency-empty {
+    display: block;
+    text-align: center;
+    font-style: normal;
+    font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+}
+
+/* @end */
