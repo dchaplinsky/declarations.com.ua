@@ -250,11 +250,15 @@ td.l-weiss-form__item {
 /* @group Currency align
   --------------------------------------------------------------------------- */
 
-.currency-empty {
+.weiss-currency {
+    text-align: right;
+    font: 14px/1.2 "Lucida Console", Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+}
+
+.weiss-currency__empty {
     display: block;
     text-align: center;
     font-style: normal;
-    font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
 }
 
 /* @end */
