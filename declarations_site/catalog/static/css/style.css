@@ -712,3 +712,13 @@ display: none;
     text-decoration: none;
     color: #e14045;
 }
+
+/* General print styles */
+
+@media print {
+    #navbar,
+    .on-white #top,
+    #footer {
+        display: none !important;
+    }
+}

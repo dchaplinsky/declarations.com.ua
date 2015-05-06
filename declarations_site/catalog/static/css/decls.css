@@ -4,6 +4,7 @@
 
 .declaration-block {
     font: 16px/1.28571em "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    color: #5B5B5B;
 }
 
 /* @group Declaration-head
@@ -255,6 +256,21 @@ td.l-weiss-form__item {
     text-align: center;
     font-style: normal;
     font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+}
+
+/* @end */
+
+/* @group Print styles
+  --------------------------------------------------------------------------- */
+
+@media print {
+    .declaration-block {
+        width: 940px;
+    }
+
+    .d-pdf {
+        display: none;
+    }
 }
 
 /* @end */
