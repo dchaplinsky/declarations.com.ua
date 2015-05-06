@@ -1,0 +1,13 @@
+{% extends "static.jinja" %}
+
+{% block page_name -%}
+{{ page.title }}
+{%- endblock %}
+
+{% block page_header -%}
+{{ page.title }}
+{%- endblock %}
+
+{% block static_content %}
+{{ page.body|richtext }}
+{% endblock %}
