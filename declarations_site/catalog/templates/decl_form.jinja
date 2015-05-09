@@ -117,14 +117,30 @@
 							</div>
 						</td>
 					</tr>
+					{% else %}
+						{% for member in parse_raw_family_string(declaration.general.family_raw) %}
+						<tr>
+							{% if "raw" in member %}
+								<td colspan="2">
+									<div class="l-weiss-form__row">
+										{{ member.raw }}
+									</div>
+								</td>
+							{% else %}
+								<th class="weiss-table__cell_fwn">
+									<div class="l-weiss-form__row">
+										{{ member.relations }}{{ member.relations_other|default("") }}
+									</div>
+								</th>
+								<td class="weiss-table__cell_tal">
+									<div class="l-weiss-form__row">
+										{{ member.family_name|default("") }}
+									</div>
+								</td>
+							{% endif %}
+						</tr>
+						{% endfor %}
 					{% endfor %}
-					<tr>
-						<td colspan="2">
-							<div class="l-weiss-form__row">
-								{{ declaration.general.family_raw }}
-							</div>
-						</td>
-					</tr>
 					</tbody>
 				</table>
 			</div>
