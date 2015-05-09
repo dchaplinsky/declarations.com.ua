@@ -1,5 +1,6 @@
 from django_jinja import library
 from decimal import Decimal
+from django.utils.safestring import mark_safe
 
 
 @library.global_function
@@ -20,4 +21,4 @@ def curformat(value):
         return '{:,.2f}'.format(
             float(value.replace(',', '.'))).replace(',', ' ').replace('.', ',')
     else:
-        return '—'
+        return mark_safe('<i class="weiss-digit__empty">—</i>')
