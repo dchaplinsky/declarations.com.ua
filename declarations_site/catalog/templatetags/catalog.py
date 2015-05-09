@@ -20,7 +20,7 @@ def curformat(value):
         return '{:,.2f}'.format(
             float(value.replace(',', '.'))).replace(',', ' ').replace('.', ',')
     else:
-        return mark_safe('<i class="currency-empty">—</i>')
+        return mark_safe('<i class="weiss-digit__empty">—</i>')
 
 
 VALID_POSITIONS = [
