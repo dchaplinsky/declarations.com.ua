@@ -118,28 +118,28 @@
 						</td>
 					</tr>
 					{% else %}
-						{% for member in parse_raw_family_string(declaration.general.family_raw) %}
-						<tr>
-							{% if "raw" in member %}
-								<td colspan="2">
-									<div class="l-weiss-form__row">
-										{{ member.raw }}
-									</div>
-								</td>
-							{% else %}
-								<th class="weiss-table__cell_fwn">
-									<div class="l-weiss-form__row">
-										{{ member.relations }}{{ member.relations_other|default("") }}
-									</div>
-								</th>
-								<td class="weiss-table__cell_tal">
-									<div class="l-weiss-form__row">
-										{{ member.family_name|default("") }}
-									</div>
-								</td>
-							{% endif %}
-						</tr>
-						{% endfor %}
+					{% for member in parse_raw_family_string(declaration.general.family_raw) %}
+					<tr>
+						{% if "raw" in member %}
+						<td colspan="2">
+							<div class="l-weiss-form__row">
+								{{ member.raw }}
+							</div>
+						</td>
+						{% else %}
+						<th class="weiss-table__cell_fwn">
+							<div class="l-weiss-form__row">
+								{{ member.relations }}{{ member.relations_other|default("") }}
+							</div>
+						</th>
+						<td class="weiss-table__cell_tal">
+							<div class="l-weiss-form__row">
+								{{ member.family_name|default("") }}
+							</div>
+						</td>
+						{% endif %}
+					</tr>
+					{% endfor %}
 					{% endfor %}
 					</tbody>
 				</table>
@@ -762,20 +762,22 @@
 					</td>
 					<td class="weiss-table__cell_fwn">
 						<div class="l-weiss-form__row">
-							—
+							<i class="i-value-empty">
+								—
+							</i>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -855,20 +857,22 @@
 					</td>
 					<td class="weiss-table__cell_fwn">
 						<div class="l-weiss-form__row">
-							—
+							<i class="i-value-empty">
+								—
+							</i>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -984,28 +988,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1071,28 +1075,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1158,28 +1162,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1245,28 +1249,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1332,28 +1336,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1419,28 +1423,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1551,28 +1555,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1639,28 +1643,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1727,28 +1731,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1815,28 +1819,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1903,28 +1907,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -1991,28 +1995,28 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2126,24 +2130,26 @@
 						Автомобілі легкові
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2208,24 +2214,26 @@
 						Автомобілі вантажні (спеціальні)
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2290,24 +2298,26 @@
 						Водні засоби
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2372,24 +2382,26 @@
 						Повітряні судна
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2454,24 +2466,26 @@
 						Інші засоби
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2579,24 +2593,26 @@
 						Автомобілі легкові
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2661,24 +2677,26 @@
 						Автомобілі вантажні (спеціальні)
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2743,24 +2761,26 @@
 						Водні засоби
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2825,24 +2845,26 @@
 						Повітряні судна
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -2907,24 +2929,26 @@
 						Інші засоби
 					</th>
 					<td>
-						—
+						<i class="i-value-empty">
+							—
+						</i>
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							<i class="weiss-digit__empty">—</i>
+							<i class="i-value-empty">—</i>
 						</span>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3017,14 +3041,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3080,14 +3104,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3143,14 +3167,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3206,14 +3230,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3269,14 +3293,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3332,14 +3356,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3421,14 +3445,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3480,14 +3504,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
@@ -3539,14 +3563,14 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit weiss-digit_currency">
-								<i class="weiss-digit__empty">—</i>
+								<i class="i-value-empty">—</i>
 							</span>
 						</div>
 					</td>
