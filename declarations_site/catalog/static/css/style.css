@@ -718,6 +718,9 @@ display: none;
 @media print {
     #navbar,
     .on-white #top,
+    #breadcrumbs,
+    #page-header,
+    .sub-header,
     #footer {
         display: none !important;
     }

@@ -264,6 +264,10 @@ td.l-weiss-form__item {
   --------------------------------------------------------------------------- */
 
 @media print {
+    .page-content {
+        margin: 0;
+    }
+
     .declaration-block {
         width: 940px;
     }
