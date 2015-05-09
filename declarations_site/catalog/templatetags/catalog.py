@@ -21,4 +21,4 @@ def curformat(value):
         return '{:,.2f}'.format(
             float(value.replace(',', '.'))).replace(',', ' ').replace('.', ',')
     else:
-        return mark_safe('<i class="weiss-currency__empty">—</i>')
+        return mark_safe('<i class="weiss-digit__empty">—</i>')
