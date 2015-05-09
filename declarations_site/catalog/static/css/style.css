@@ -721,4 +721,13 @@ display: none;
     #footer {
         display: none !important;
     }
+
+    .container {
+        width: auto;
+        padding: 0;
+    }
+
+    .page-content .box {
+        padding: 0;
+    }
 }
