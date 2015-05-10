@@ -17,7 +17,21 @@ def updated_querystring(request, params):
 @library.filter
 def curformat(value):
     if value and value != "0":
-        return '{:,.2f}'.format(
+        currency = ""
+        if "$" in value:
+            value = value.replace("$", "")
+            currency = "USD "
+
+        if "£" in value:
+            value = value.replace("£", "")
+            currency = "GBP "
+
+        if "€" in value:
+            value = value.replace("€", "")
+            currency = "EUR "
+
+        return '{}{:,.2f}'.format(
+            currency,
             float(value.replace(',', '.'))).replace(',', ' ').replace('.', ',')
     else:
         return mark_safe('<i class="i-value-empty">—</i>')
