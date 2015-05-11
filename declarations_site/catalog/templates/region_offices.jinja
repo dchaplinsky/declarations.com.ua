@@ -1,5 +1,9 @@
 {% extends "base.jinja" %}
 
+{% block html_title -%}{{ title }}{%- endblock %}
+
+{% block html_desc %}{{ meta_desc }}{% endblock %}
+
 {% block content %}
 <section id="page">
     <div class="container">

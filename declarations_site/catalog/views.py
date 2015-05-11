@@ -9,6 +9,7 @@ from catalog.elastic_models import Declaration
 from catalog.paginator import paginated_search
 from catalog.api import hybrid_response
 from catalog.models import Office
+from cms_pages.models import MetaData
 
 
 def suggest(request):
@@ -85,13 +86,20 @@ def region(request, region_name):
             Not(Term(general__post__office='')))\
         .params(search_type="count")
 
+    meta_data = MetaData.objects.filter(
+        region_id=region_name,
+        office_id=None
+    ).first()
+
     search.aggs.bucket(
         'per_office', 'terms', field='general.post.office', size=0)
     res = search.execute()
 
     return {
         'facets': res.aggregations.per_office.buckets,
-        'region_name': region_name
+        'region_name': region_name,
+        'title': meta_data.title if meta_data else "",
+        'meta_desc': meta_data.description if meta_data else "",
     }
 
 
