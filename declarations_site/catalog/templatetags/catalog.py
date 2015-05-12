@@ -36,6 +36,13 @@ def curformat(value):
     else:
         return mark_safe('<i class="i-value-empty">—</i>')
 
+@library.filter
+def emptyformat(value):
+    if value and value != "" and value !="0":
+        return value
+    else:
+        return mark_safe('<i class="i-value-empty">—</i>')
+
 
 VALID_POSITIONS = [
     "Син",

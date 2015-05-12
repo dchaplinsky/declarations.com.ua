@@ -287,7 +287,7 @@
 						&nbsp;
 					</td>
 					<td colspan="3" class="weiss-table__cell_unspaced">
-						{{ declaration.income['7'].source_name }}
+						{{ declaration.income['7'].source_name|emptyformat }}
 					</td>
 				</tr>
 			</table>
@@ -725,7 +725,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				{% for income in declaration.income['22'] if income.cur != "0" or income.cur != "0" %}
+				{% for income in declaration.income['21'] if income.cur != "0" or income.cur != "0" %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						21.
@@ -940,7 +940,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -949,7 +949,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1027,7 +1027,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1036,7 +1036,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1114,7 +1114,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1123,7 +1123,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1201,7 +1201,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1210,7 +1210,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1288,7 +1288,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1297,7 +1297,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1375,7 +1375,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1384,7 +1384,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1505,7 +1505,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1514,7 +1514,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1524,7 +1524,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.costs_property }}
+								{{ estate.costs_property|curformat() }}
 							</span>
 						</div>
 						<div class="l-form_row">
@@ -1593,7 +1593,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1602,7 +1602,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1612,7 +1612,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.costs_property }}
+								{{ estate.costs_property|curformat() }}
 							</span>
 						</div>
 						<div class="l-form_row">
@@ -1681,7 +1681,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1690,7 +1690,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1700,7 +1700,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.costs_property }}
+								{{ estate.costs_property|curformat() }}
 							</span>
 						</div>
 						<div class="l-form_row">
@@ -1769,7 +1769,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1778,7 +1778,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1788,7 +1788,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.costs_property }}
+								{{ estate.costs_property|curformat() }}
 							</span>
 						</div>
 						<div class="l-form_row">
@@ -1857,7 +1857,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1866,7 +1866,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1876,7 +1876,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.costs_property }}
+								{{ estate.costs_property|curformat() }}
 							</span>
 						</div>
 						<div class="l-form_row">
@@ -1945,7 +1945,7 @@
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
-							{{ estate.region }}
+							{{ estate.region|emptyformat }}
 						</div>
 						<div class="l-weiss-form__row">
 							{{ estate.address }}
@@ -1954,7 +1954,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.space }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
+								{{ estate.space|emptyformat }} {% if estate.space_units %}({{ estate.space_units }}){% endif %}
 							</span>
 						</div>
 						<div class="l-weiss-form__row">
@@ -1964,7 +1964,7 @@
 					<td>
 						<div class="l-weiss-form__row">
 							<span class="weiss-digit ">
-								{{ estate.costs_property }}
+								{{ estate.costs_property|curformat() }}
 							</span>
 						</div>
 						<div class="l-form_row">
@@ -2093,7 +2093,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2177,7 +2177,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2261,7 +2261,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2345,7 +2345,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2429,7 +2429,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2556,7 +2556,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2640,7 +2640,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2724,7 +2724,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2808,7 +2808,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
@@ -2892,7 +2892,7 @@
 					</td>
 					<td>
 						<span class="weiss-digit ">
-							{{ vehicle.year }}
+							{{ vehicle.year|emptyformat }}
 						</span>
 					</td>
 					<td>
