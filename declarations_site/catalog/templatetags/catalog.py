@@ -26,13 +26,17 @@ def curformat(value):
             value = value.replace("£", "")
             currency = "GBP "
 
-        if "€" in value:
-            value = value.replace("€", "")
+        if "€" in value or "Є" in value:
+            value = value.replace("€", "").replace("Є", "")
             currency = "EUR "
 
-        return '{}{:,.2f}'.format(
-            currency,
-            float(value.replace(',', '.'))).replace(',', ' ').replace('.', ',')
+        try:
+            return '{}{:,.2f}'.format(
+                currency,
+                float(value.replace(',', '.'))).replace(
+                    ',', ' ').replace('.', ',')
+        except ValueError:
+            return value
     else:
         return mark_safe('<i class="i-value-empty">—</i>')
 
