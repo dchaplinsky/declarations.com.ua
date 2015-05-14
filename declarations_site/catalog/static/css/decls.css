@@ -80,12 +80,12 @@
 
 .weiss-table .weiss-table__cell_bd-r {
     border-color: transparent;
-    border-right: 1px solid #434343;
+    border-right: 1px solid silver;
 }
 
 .weiss-table .weiss-table__cell_bd-l {
     border-color: transparent;
-    border-left: 1px solid #434343;
+    border-left: 1px solid silver;
 }
 
 .weiss-table .weiss-table__cell_fwn {
@@ -123,7 +123,7 @@
 .weiss-table_decl td,
 .weiss-table_decl th {
     padding: 10px;
-    border: 1px solid #434343;
+    border: 1px solid silver;
     text-align: center;
     vertical-align: middle;
 }
@@ -211,12 +211,12 @@ td.l-weiss-form__item {
 
 .weiss-form .weiss-form__set_main.weiss-form__set_paper {
     padding: 40px 10px 10px;
-    border: 1px solid #434343;
+    border: 1px solid silver;
 }
 
 .weiss-form .weiss-form__set_main.weiss-form__set_paper > .weiss-form__set-legend span {
     text-align: center;
-    border-bottom: 1px solid #434343;
+    border-bottom: 1px solid silver;
 }
 
 .weiss-form__set_notes.weiss-form__set {
@@ -271,7 +271,7 @@ td.l-weiss-form__item {
     display: block;
     font-style: normal;
     text-align: center;
-    color: silver;
+    color: #999;
     font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
 }
 
