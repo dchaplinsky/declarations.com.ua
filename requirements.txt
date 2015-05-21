@@ -12,3 +12,4 @@ gunicorn==19.2.1
 django-pipeline==1.4.6
 psycopg2==2.6
 wagtail==0.8.7
+rpy2==2.5.6

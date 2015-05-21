@@ -91,7 +91,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "cms_pages.context_processors.menu_processor"
 )
 
-# We don't need a database yet!
 DATABASES = {
     'default': {
         # Strictly PostgreSQL
