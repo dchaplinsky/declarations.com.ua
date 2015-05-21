@@ -140,9 +140,7 @@ PIPELINE_CSS = {
             'css/decls.css',
         ),
         'output_filename': 'css/merged.css',
-        'extra_context': {
-            'media': 'screen,projection',
-        },
+        'extra_context': {},
     },
 }
 

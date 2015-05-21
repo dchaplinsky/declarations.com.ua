@@ -4,6 +4,7 @@
 
 .declaration-block {
     font: 16px/1.28571em "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    color: #222;
 }
 
 /* @group Declaration-head
@@ -79,12 +80,12 @@
 
 .weiss-table .weiss-table__cell_bd-r {
     border-color: transparent;
-    border-right: 1px solid #434343;
+    border-right: 1px solid silver;
 }
 
 .weiss-table .weiss-table__cell_bd-l {
     border-color: transparent;
-    border-left: 1px solid #434343;
+    border-left: 1px solid silver;
 }
 
 .weiss-table .weiss-table__cell_fwn {
@@ -93,6 +94,18 @@
 
 .weiss-table .weiss-table__psdo-th {
     font-weight: bold;
+}
+
+.weiss-table .weiss-table__cell_tar {
+    text-align: right;
+}
+
+.weiss-table .weiss-table__cell_tal {
+    text-align: left;
+}
+
+.weiss-table .weiss-table__cell_tac {
+    text-align: center;
 }
 
 /* @end */
@@ -109,8 +122,8 @@
 
 .weiss-table_decl td,
 .weiss-table_decl th {
-    padding: 5px;
-    border: 1px solid #434343;
+    padding: 10px;
+    border: 1px solid silver;
     text-align: center;
     vertical-align: middle;
 }
@@ -130,7 +143,6 @@
 
 .l-weiss-form__row {
     display: block;
-    margin: 10px 0;
     position: relative;
 }
 
@@ -199,12 +211,12 @@ td.l-weiss-form__item {
 
 .weiss-form .weiss-form__set_main.weiss-form__set_paper {
     padding: 40px 10px 10px;
-    border: 1px solid #434343;
+    border: 1px solid silver;
 }
 
 .weiss-form .weiss-form__set_main.weiss-form__set_paper > .weiss-form__set-legend span {
     text-align: center;
-    border-bottom: 1px solid #434343;
+    border-bottom: 1px solid silver;
 }
 
 .weiss-form__set_notes.weiss-form__set {
@@ -242,3 +254,44 @@ td.l-weiss-form__item {
     padding: 0;
     position: absolute !important;
 }
+
+/* @group Currency align
+  --------------------------------------------------------------------------- */
+
+.weiss-digit {
+    display: block;
+}
+
+.weiss-digit_currency {
+    text-align: right;
+    font: 14px/1.2 "Lucida Console", Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+}
+
+.i-value-empty {
+    display: block;
+    font-style: normal;
+    text-align: center;
+    color: #999;
+    font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+}
+
+/* @end */
+
+/* @group Print styles
+  --------------------------------------------------------------------------- */
+
+@media print {
+    .page-content {
+        margin: 0;
+    }
+
+    .declaration-block {
+        width: 940px;
+    }
+
+    .d-pdf {
+        display: none;
+    }
+}
+
+/* @end */

@@ -9,6 +9,8 @@ from datetime import datetime
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
+from elasticsearch_dsl.filter import Term
+
 from catalog.elastic_models import Declaration
 
 
@@ -19,6 +21,12 @@ class Command(BaseCommand):
     args = '<file_path>'
     help = ('Loads the CSV catalog of existing declarations '
             'into the persistence storage')
+
+    REGIONS_REMAP = {
+        'АРК': 'Кримська Автономна Республіка',
+        'Загальнодержавний': 'Загальнодержавний регіон',
+        'Київ': 'м. Київ',
+    }
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
@@ -58,7 +66,27 @@ class Command(BaseCommand):
             counter = 0
             Declaration.init()  # Apparently this is required to init mappings
             for row in reader:
-                item = Declaration(**self.map_fields(row))
+                mapped = self.map_fields(row)
+
+                res = Declaration.search().filter(
+                    Term(general__last_name=mapped[
+                        "general"]["last_name"].lower().split("-")) &
+                    Term(general__name=mapped[
+                        "general"]["name"].lower().split("-")) &
+                    Term(intro__declaration_year=mapped[
+                        "intro"]["declaration_year"])
+                )
+
+                if mapped["general"]["patronymic"]:
+                    res = res.filter(Term(general__patronymic=mapped[
+                        "general"]["patronymic"].lower()))
+
+                res = res.execute()
+
+                if res.hits:
+                    mapped["id"] = res.hits[0]._id
+
+                item = Declaration(**mapped)
                 item.save()
                 counter += 1
             self.stdout.write(
@@ -108,6 +136,10 @@ class Command(BaseCommand):
             ],
             "output": rec["general"]["full_name"]
         }
+
+        rec["general"]["post"]["region"] = self.REGIONS_REMAP.get(
+            rec["general"]["post"]["region"].strip(),
+            rec["general"]["post"]["region"].strip())
 
         try:
             rec['declaration']['date'] = datetime.strptime(

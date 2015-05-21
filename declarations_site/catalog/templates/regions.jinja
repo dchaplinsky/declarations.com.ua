@@ -1,5 +1,14 @@
 {% extends "base.jinja" %}
 
+{% block html_title -%}
+Декларації українських чиновників по регіонах в онлайн-доступі: шукай правду тут
+{%- endblock %}
+
+{% block html_desc %}
+Всі оброблені податкові декларації українських чиновників надаються в нашому проекті по регіонах. База постійно поповнюється новими даними про прибутки і податки кожного чиновника.
+{% endblock %}
+
+
 {% block content %}
 <section id="page">
     <div class="container">
@@ -15,48 +24,6 @@
                 <div class="table-responsive">
                     <div id="glossarium">
                         <table class="table table-bordered table-striped">
-<!--                            <tr>
-                                <th align="left">
-                                    <div id="glossarium-index">
-                                        <span class="g_i"><a href="#">ВСІ</a></span>
-                                        <span class="g_i empty"><a href="#">0-9</a></span>  
-                                        <span class="g_i"><a href="#">А</a></span> 
-                                        <span class="g_i empty"><a href="#">Б</a></span>
-                                        <span class="g_i active"><a href="#">В</a></span> 
-                                        <span class="g_i"><a href="#">Г</a></span> 
-                                        <span class="g_i"><a href="#">Ґ</a></span> 
-                                        <span class="g_i"><a href="#">Д</a></span> 
-                                        <span class="g_i empty"><a href="#">Е</a></span> 
-                                        <span class="g_i"><a href="#">Є</a></span> 
-                                        <span class="g_i empty"><a href="#">Ж</a></span> 
-                                        <span class="g_i"><a href="#">З</a></span> 
-                                        <span class="g_i"><a href="#">И</a></span> 
-                                        <span class="g_i empty"><a href="#">І</a></span> 
-                                        <span class="g_i"><a href="#">Ї</a></span> 
-                                        <span class="g_i"><a href="#">Й</a></span> 
-                                        <span class="g_i empty"><a href="#">К</a></span> 
-                                        <span class="g_i empty"><a href="#">Л</a></span> 
-                                        <span class="g_i"><a href="#">М</a></span> 
-                                        <span class="g_i empty"><a href="#">Н</a></span> 
-                                        <span class="g_i"><a href="#">О</a></span> 
-                                        <span class="g_i empty"><a href="#">П</a></span> 
-                                        <span class="g_i"><a href="#">Р</a></span> 
-                                        <span class="g_i"><a href="#">С</a></span> 
-                                        <span class="g_i"><a href="#">Т</a></span> 
-                                        <span class="g_i"><a href="#">У</a></span> 
-                                        <span class="g_i"><a href="#">Ф</a></span> 
-                                        <span class="g_i"><a href="#">Х</a></span> 
-                                        <span class="g_i"><a href="#">Ц</a></span> 
-                                        <span class="g_i empty"><a href="#">Ч</a></span> 
-                                        <span class="g_i empty"><a href="#">Ш</a></span> 
-                                        <span class="g_i"><a href="#">Щ</a></span> 
-                                        <span class="g_i"><a href="#">Ь</a></span> 
-                                        <span class="g_i"><a href="#">Ю</a></span> 
-                                        <span class="g_i empty"><a href="#">Я</a></span>
-                                    </div>
-                                </th>
-                            </tr>
- -->                        
                             {% for f in facets %}
                             <tr>
                                 <td>
