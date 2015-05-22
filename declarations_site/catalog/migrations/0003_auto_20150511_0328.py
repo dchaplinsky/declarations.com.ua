@@ -51,7 +51,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('catalog', '0002_auto_20150504_2343'),
-        # ('cms_pages', '0009_auto_20150511_0339'),
+        ('cms_pages', '0009_auto_20150511_0339'),
     ]
 
     operations = [
