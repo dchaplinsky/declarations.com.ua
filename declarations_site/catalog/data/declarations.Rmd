@@ -1,0 +1,994 @@
+---
+title: "Аналіз декларацій чиновників з сайту declarations.com.ua"
+author: "Zakharov K. V."
+bibliography: bibliography.bib
+output:
+  knitrBootstrap::bootstrap_document:
+    bootstrap.title: "Аналіз декларацій чиновників з сайту declarations.com.ua"
+    bootstrap.theme: amelia
+    bootstrap.highlight: sunburst
+    bootstrap.message: FALSE
+    bootstrap.warning: FALSE
+    bootstrap.error: FALSE
+---
+
+```{r, echo=FALSE, message=FALSE}
+
+# Завантажуємо необхідні бібліотеки
+
+library(ggplot2)
+library(dplyr)
+library(xtable)
+#library(googleVis)
+#library(ggvis)
+library(knitr)
+#library(reshape2)
+#library(rCharts)
+#library(htmlwidgets)
+#library(metricsgraphics)
+library(scales)
+library(doBy)
+
+# Користувальницькі функції
+
+print_one <- function (data_row) {
+  p <- as.data.frame(cbind(
+  xtabs(~data_row),
+  round(prop.table(xtabs(~data_row))*100,digits=2)))
+  names(p) <- c("Кількість","%")
+  return(p)
+}
+
+# Створюємо набір міток
+
+id = list (
+  name = "Ім'я",
+  region = "Область проживання",
+  city = "Місто проживання",
+  family_num = "Кількість членів сім'ї",
+  work_region = "Регіон роботи",
+  post = "Посада",
+  office = "Місце роботи",
+  year = "Рік подання декларації",
+  income = "Загальна сума сукупного доходу",
+  f_income = "Загальна сума сукупного доходу членів сім’ї",
+  salary = "Заробітна плата",
+  f_salary = "Заробітна плата членів сім’ї",
+  job = "Дохід від викладацької, наукової і творчої діяльності",
+  f_job = "Дохід від викладацької, наукової і творчої діяльності членів сім’ї",
+  author = "Авторська винагорода",
+  f_author = "Авторська винагорода членів сім’ї",
+  dividends = "Дивіденди, проценти",
+  f_dividends = "Дивіденди, проценти членів сім’ї",
+  help = "Матеріальна допомога",
+  f_help = "Матеріальна допомога членів сім’ї",
+  gifts = "Дарунки",
+  f_gifts = "Дарунки членів сім’ї",
+  jobless = "Допомога по безробіттю",
+  f_jobless = "Допомога по безробіттю членів сім’ї",
+  alimony = "Аліменти",
+  f_alimony = "Аліменти членів сім’ї",
+  heritage = "Спадщина",
+  f_heritage = "Спадщина членів сім’ї",
+  insurance = "Страхові виплати",
+  f_insurance = "Страхові виплати членів сім’ї",
+  sold = "Дохід від відчуження рухомого та нерухомого майна",
+  f_sold = "Дохід від відчуження рухомого та нерухомого майна членів сім’ї",
+  business = "Дохід від провадження підприємницької та незалежної професійної діяльності",
+  f_business = "Дохід від провадження підприємницької та незалежної професійної діяльності членів сім’ї",
+  invest = "Дохід від відчуження цінних паперів",
+  f_invest = "Дохід від відчуження цінних паперів членів сім’ї",
+  rent = "Дохід від передачі в оренду майна",
+  f_rent = "Дохід від передачі в оренду майна членів сім’ї",
+  other = "Інші види доходів",
+  f_other = "Інші види доходів членів сім’ї",
+  foreign = "Одержані з джерел за межами України декларантом",
+  foreign_country = "Країни отримання доходів",
+  f_foreign = "Одержані з джерел за межами України членами сім’ї декларанта",
+  f_foreign_country = "Країни отримання доходів членів сім’ї декларанта",
+  earth_space = "Земельні ділянки (м²)",
+  earth_space_num = "Кількість земельних ділянок",
+  f_earth_space = "Земельні ділянки членів сім’ї (м²)",
+  f_earth_space_num = "Кількість земельних ділянок членів сім’ї",
+  house_space = "Житлові будинки (м²)",
+  house_space_num = "Кількість житлових будинків",
+  f_house_space = "Житлові будинки членів сім’ї (м²)",
+  f_house_space_num = "Кількість житлових будинків членів сім’ї",
+  flat_space = "Квартири (м²)",
+  flat_space_num = "Кількість квартир",
+  f_flat_space = "Квартири членів сім’ї (м²)",
+  f_flat_space_num = "Кількість квартир членів сім’ї",
+  cottage_space = "Дачі (м²)",
+  cottage_space_num = "Кількість дач",
+  f_cottage_space = "Дачі членів сім’ї (м²)",
+  f_cottage_space_num = "Кількість дач членів сім’ї",
+  garage_space = "Гаражі (м²)",
+  garage_space_num = "Кількість гаражів",
+  f_garage_space = "Гаражі членів сім’ї (м²)",
+  f_garage_space_num = "Кількість гаражів членів сім’ї",
+  other_space = "Інше нерухоме майно (м²)",
+  other_space_num = "Кількість іншого нерухомого майна",
+  f_other_space = "Інше нерухоме майно членів сім’ї (м²)",
+  f_other_space_num = "Кількість іншого нерухомого майна членів сім’ї",
+  auto = "Автомобілі легкові",
+  auto_year = "Автомобілі легкові (рік)",
+  auto_num = "Автомобілі легкові (кількість)",
+  f_auto = "Автомобілі легкові членів сім’ї",
+  f_auto_year = "Автомобілі легкові членів сім’ї (рік)",
+  f_auto_num = "Автомобілі легкові членів сім’ї (кількість)",
+  truck = "Автомобілі вантажні",
+  truck_year = "Автомобілі вантажні (рік)",
+  truck_num = "Автомобілі вантажні (кількість)",
+  f_truck = "Автомобілі вантажні членів сім’ї",
+  f_truck_year = "Автомобілі вантажні членів сім’ї (рік)",
+  f_truck_num = "Автомобілі вантажні членів сім’ї (кількість)",
+  boat = "Водні засоби",
+  boat_year = "Водні засоби (рік)",
+  boat_num = "Водні засоби (кількість)",
+  f_boat = "Водні засоби членів сім’ї",
+  f_boat_year = "Водні засоби членів сім’ї (рік)",
+  f_boat_num = "Водні засоби членів сім’ї (кількість)",
+  plane = "Повітряні судна",
+  plane_year = "Повітряні судна (рік)",
+  plane_num = "Повітряні судна (кількість)",
+  f_plane = "Повітряні судна членів сім’ї",
+  f_plane_year = "Повітряні судна членів сім’ї (рік)",
+  f_plane_num = "Повітряні судна членів сім’ї (кількість)",
+  other_vehicle = "Інші транспортні засоби",
+  other_vehicle_year = "Інші транспортні засоби (рік)" ,
+  other_vehicle_num = "Інші транспортні засоби (кількість)",
+  f_other_vehicle = "Інші транспортні засоби членів сім’ї",
+  f_other_vehicle_year = "Інші транспортні засоби членів сім’ї (рік)",
+  f_other_vehicle_num = "Інші транспортні засоби членів сім’ї (кількість)",
+  bank_uah = "Вклади у банках (грн)",
+  bank_usd = "Вклади у банках (дол)",
+  bank_eur = "Вклади у банках (євр)",
+  f_bank_uah = "Вклади у банках членів сім’ї (грн)",
+  f_bank_usd = "Вклади у банках членів сім’ї (дол)",
+  f_bank_eur = "Вклади у банках членів сім’ї (євр)"
+  )
+
+# Завантажуємо дані
+
+# data <- read.csv("decs.csv")
+
+# Очистка даних
+
+data[data["region"] == "","region"] <- NA
+data$region <- factor(data$region)
+data[data$family_num==9,]$family_num = 2
+
+```
+
+Дані отримано за сайту [declarations.com.ua](declarations.com.ua). Вони включають в себе інформацію з декларацій про доходи українських чиновників, переважно з Міністрерства юстиції та судової влади. Дані не є репрезентативними та можуть включати незначні помилки. Аналіз провів [Захаров Кирило](https://github.com/Amice13) ([Promedia Consulting](http://pro-media.com.ua)).
+
+## Топ-10
+
+### Найбагатші чиновники
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,income) %>% arrange(desc(income)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$income)
+kable(p, digits=c(0,1), caption=id$income)
+
+```
+
+### Найбагатші сім'ї чиновників
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,f_income) %>% arrange(desc(f_income)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$f_income)
+kable(p, digits=c(0,1), caption=id$f_income)
+
+```
+
+### Найбільша зарплата чиновника (в місяць)
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,salary) %>% mutate(salary=salary/12) %>% arrange(desc(salary)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$salary)
+kable(p, digits=c(0,1), caption=id$salary)
+
+```
+
+### Найбільші земельні ділянки
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,earth_space) %>% arrange(desc(earth_space)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$earth_space)
+kable(p, digits=c(0,1), caption=id$earth_space)
+
+```
+
+### Найбільші земельні ділянки у членів сім'ї
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,f_earth_space) %>% arrange(desc(f_earth_space)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$f_earth_space)
+kable(p, digits=c(0,1), caption=id$f_earth_space)
+
+```
+
+### Найбільші квартири
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,flat_space) %>% arrange(desc(flat_space)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$flat_space)
+kable(p, digits=c(0,1), caption=id$flat_space)
+
+```
+
+### Найбільші квартири у членів сім'ї
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,f_flat_space) %>% arrange(desc(f_flat_space)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$f_flat_space)
+kable(p, digits=c(0,1), caption=id$f_flat_space)
+
+```
+
+### Найбільші будинки
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,house_space) %>% arrange(desc(house_space)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$house_space)
+kable(p, digits=c(0,1), caption=id$house_space)
+
+```
+
+### Найбільші будинки у членів сім'ї
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,f_house_space) %>% arrange(desc(f_house_space)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$f_house_space)
+kable(p, digits=c(0,1), caption=id$f_house_space)
+
+```
+
+### Найбільші дачі
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,cottage_space) %>% arrange(desc(cottage_space)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$cottage_space)
+kable(p, digits=c(0,1), caption=id$cottage_space)
+
+```
+
+### Найбільші дачі у членів сім'ї
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,f_cottage_space) %>% arrange(desc(f_cottage_space)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$f_cottage_space)
+kable(p, digits=c(0,1), caption=id$f_cottage_space)
+
+```
+
+
+### Найбільші вклади в банках (грн.)
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,bank_uah) %>% arrange(desc(bank_uah)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$bank_uah)
+kable(p, digits=c(0,1), caption=id$bank_uah)
+
+```
+
+### Найбільші вклади в банках у членів сім'ї (грн.)
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,f_bank_uah) %>% arrange(desc(f_bank_uah)) %>% slice(1:10)
+names(p) <- c(id$name,id$office,id$f_bank_uah)
+kable(p, digits=c(0,1), caption=id$f_bank_uah)
+
+```
+
+### Найбільші вклади в банках (дол.)
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,bank_usd) %>% arrange(desc(bank_usd)) %>% slice(1:6)
+names(p) <- c(id$name,id$office,id$bank_usd)
+kable(p, digits=c(0,1), caption=id$bank_usd)
+
+```
+
+### Найбільші вклади в банках у членів сім'ї (дол.)
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,f_bank_usd) %>% arrange(desc(f_bank_usd)) %>% slice(1:2)
+names(p) <- c(id$name,id$office,id$f_bank_usd)
+kable(p, digits=c(0,1), caption=id$f_bank_usd)
+
+```
+
+### Найбільші вклади в банках (євр.)
+
+```{r, echo=FALSE, results='asis'}
+
+p = data %>% select(name,office,bank_eur) %>% arrange(desc(bank_eur)) %>% slice(1:3)
+names(p) <- c(id$name,id$office,id$bank_eur)
+kable(p, digits=c(0,1), caption=id$bank_eur)
+
+```
+
+# Розподіли
+
+## Зведені таблиці даних
+
+```{r, echo=FALSE, results='asis'}
+
+cat("<h3 style='text-align:center;'>",id$region,"</h3>")
+p = print_one(data$region)
+kable(p, digits=c(0,1), caption=id$region)
+
+cat("<h3 style='text-align:center;'>",id$work_region,"</h3>")
+p = print_one(data$work_region)
+kable(p, digits=c(0,1), caption=id$work_region)
+
+cat("<h3 style='text-align:center;'>",id$office,"</h3>")
+p = print_one(data$office)
+kable(p, digits=c(0,1), caption=id$office)
+
+cat("<h3 style='text-align:center;'>",id$family_num,"</h3>")
+p = print_one(data$family_num)
+kable(p, digits=c(0,1), caption=id$family_num)
+
+data$income_cut <- cut(data$income, breaks=c(-1,1,80000,160000,240000,1000000000), 
+                       labels = c("Доходи відсутні","Від 1 до 80 тис. грн.", 
+                                  "Від 80 до 160 тис. грн.", 
+                                  "Від 160 до 240 тис. грн.", 
+                                  "Вище за 240 тис. грн."))  
+
+cat("<h3 style='text-align:center;'>",id$income,"</h3>")
+p = print_one(data$income_cut)
+kable(p, digits=c(0,1), caption=id$income)
+
+data$f_income_cut <- cut(data$f_income, breaks=c(-10,-1,1,80000,160000,240000,1000000000), 
+                         labels = c("Не мають сім'ї","Доходи відсутні","Від 1 до 80 тис. грн.", 
+                                    "Від 80 до 160 тис. грн.", 
+                                    "Від 160 до 240 тис. грн.", 
+                                    "Вище за 240 тис. грн."))
+
+data[data$family_num == 0 & data$f_income == 0,]$f_income_cut <- "Не мають сім'ї"
+
+cat("<h3 style='text-align:center;'>",id$f_income,"</h3>")
+p = print_one(data$f_income_cut)
+kable(p, digits=c(0,1), caption=id$f_income)
+
+data$salary_cut <- cut(data$salary/12, breaks=c(-1,1,4000,8000,12000,16000,20000,24000,1000000000), 
+                         labels = c("Зарплата не нарахована","Від 1 до 4 тис. грн/міс.", 
+                                    "Від 4 до 8 тис. грн/міс.", 
+                                    "Від 8 до 12 тис. грн/міс.", 
+                                    "Від 12 до 16 тис. грн/міс.",
+                                    "Від 16 до 20 тис. грн/міс.",
+                                    "Від 20 до 24 тис. грн/міс.",
+                                    "Вище 24 тис. грн/міс."))
+
+cat("<h3 style='text-align:center;'>",id$salary,"</h3>")
+p = print_one(data$salary_cut)
+kable(p, digits=c(0,1), caption=id$salary)
+
+f_salary_mean <- data %>%  filter(family_num>0) %>% transform(f=f_salary/family_num) %>% select(f)
+
+f_salary_mean <- cut(as.numeric(f_salary_mean[,1])/12, breaks=c(-1,1,4000,8000,12000,16000,20000,24000,1000000000), 
+                         labels = c("Зарплата не нарахована","Від 1 до 4 тис. грн/міс.", 
+                                    "Від 4 до 8 тис. грн/міс.", 
+                                    "Від 8 до 12 тис. грн/міс.", 
+                                    "Від 12 до 16 тис. грн/міс.",
+                                    "Від 16 до 20 тис. грн/міс.",
+                                    "Від 20 до 24 тис. грн/міс.",
+                                    "Вище 24 тис. грн/міс."))
+
+cat("<h3 style='text-align:center;'>Середня заробітна плата на одного члена сім'ї</h3>")
+p = print_one(f_salary_mean)
+kable(p, digits=c(0,1), caption=id$f_salary)
+
+data$earth_space_cut <- cut(data$earth_space, breaks=c(-1,1,1000,5000,10000,20000,1000000000), 
+                       labels = c("Відсутні земельні ділянки",
+                                  "Від 1 до 1000 кв. м.", 
+                                  "Від 1000 до 5000 кв. м.", 
+                                  "Від 5000 до 10000 кв. м.", 
+                                  "Від 10000 до 20000 кв. м.",
+                                  "Більше 20000 кв. м."))  
+
+cat("<h3 style='text-align:center;'>",id$earth_space,"</h3>")
+p = print_one(data$earth_space_cut)
+kable(p, digits=c(0,1), caption=id$earth_space)
+
+data$f_earth_space_cut <- cut(data$f_earth_space, breaks=c(-1,1,1000,5000,10000,20000,1000000000), 
+                       labels = c("Відсутні земельні ділянки",
+                                  "Від 1 до 1000 кв. м.", 
+                                  "Від 1000 до 5000 кв. м.", 
+                                  "Від 5000 до 10000 кв. м.", 
+                                  "Від 10000 до 20000 кв. м.",
+                                  "Більше 20000 кв. м."))  
+
+cat("<h3 style='text-align:center;'>",id$f_earth_space,"</h3>")
+p = print_one(data$f_earth_space_cut)
+kable(p, digits=c(0,1), caption=id$f_earth_space)
+
+#earth_space house_space flat_space cottage_space
+
+data$flat_space_cut <- cut(data$flat_space, breaks=c(-1,1,50,100,150,200,1000000000), 
+                       labels = c("Відсутні квартири",
+                                  "Від 1 до 50 кв. м.", 
+                                  "Від 50 до 100 кв. м.", 
+                                  "Від 100 до 150 кв. м.", 
+                                  "Від 150 до 200 кв. м.",
+                                  "Більше 200 кв. м."))
+
+cat("<h3 style='text-align:center;'>",id$flat_space,"</h3>")
+p = print_one(data$flat_space_cut)
+kable(p, digits=c(0,1), caption=id$flat_space)
+
+data$f_flat_space_cut <- cut(data$f_flat_space, breaks=c(-1,1,50,100,150,200,1000000000), 
+                       labels = c("Відсутні квартири",
+                                  "Від 1 до 50 кв. м.", 
+                                  "Від 50 до 100 кв. м.", 
+                                  "Від 100 до 150 кв. м.", 
+                                  "Від 150 до 200 кв. м.",
+                                  "Більше 200 кв. м."))
+
+cat("<h3 style='text-align:center;'>",id$f_flat_space,"</h3>")
+p = print_one(data$f_flat_space_cut)
+kable(p, digits=c(0,1), caption=id$f_flat_space)
+
+data$house_space_cut <- cut(data$house_space, breaks=c(-1,1,50,100,150,200,1000000000), 
+                       labels = c("Відсутні квартири",
+                                  "Від 1 до 50 кв. м.", 
+                                  "Від 50 до 100 кв. м.", 
+                                  "Від 100 до 150 кв. м.", 
+                                  "Від 150 до 200 кв. м.",
+                                  "Більше 200 кв. м."))
+
+cat("<h3 style='text-align:center;'>",id$house_space,"</h3>")
+p = print_one(data$house_space_cut)
+kable(p, digits=c(0,1), caption=id$house_space)
+
+data$f_house_space_cut <- cut(data$f_house_space, breaks=c(-1,1,50,100,150,200,1000000000), 
+                       labels = c("Відсутні квартири",
+                                  "Від 1 до 50 кв. м.", 
+                                  "Від 50 до 100 кв. м.", 
+                                  "Від 100 до 150 кв. м.", 
+                                  "Від 150 до 200 кв. м.",
+                                  "Більше 200 кв. м."))
+
+cat("<h3 style='text-align:center;'>",id$f_house_space,"</h3>")
+p = print_one(data$f_house_space_cut)
+kable(p, digits=c(0,1), caption=id$f_house_space)
+
+data$cottage_space_cut <- cut(data$cottage_space, breaks=c(-1,1,50,100,150,200,1000000000), 
+                       labels = c("Відсутні квартири",
+                                  "Від 1 до 50 кв. м.", 
+                                  "Від 50 до 100 кв. м.", 
+                                  "Від 100 до 150 кв. м.", 
+                                  "Від 150 до 200 кв. м.",
+                                  "Більше 200 кв. м."))
+
+cat("<h3 style='text-align:center;'>",id$cottage_space,"</h3>")
+p = print_one(data$cottage_space_cut)
+kable(p, digits=c(0,1), caption=id$cottage_space)
+
+data$f_cottage_space_cut <- cut(data$f_cottage_space, breaks=c(-1,1,50,100,150,200,1000000000), 
+                       labels = c("Відсутні квартири",
+                                  "Від 1 до 50 кв. м.", 
+                                  "Від 50 до 100 кв. м.", 
+                                  "Від 100 до 150 кв. м.", 
+                                  "Від 150 до 200 кв. м.",
+                                  "Більше 200 кв. м."))
+
+cat("<h3 style='text-align:center;'>",id$f_cottage_space,"</h3>")
+p = print_one(data$f_cottage_space_cut)
+kable(p, digits=c(0,1), caption=id$f_cottage_space)
+
+data$garage_space_cut <- cut(data$garage_space, breaks=c(-1,1,50,100,150,200,1000000000), 
+                       labels = c("Відсутні квартири",
+                                  "Від 1 до 50 кв. м.", 
+                                  "Від 50 до 100 кв. м.", 
+                                  "Від 100 до 150 кв. м.", 
+                                  "Від 150 до 200 кв. м.",
+                                  "Більше 200 кв. м."))
+
+cat("<h3 style='text-align:center;'>",id$garage_space,"</h3>")
+p = print_one(data$garage_space_cut)
+kable(p, digits=c(0,1), caption=id$garage_space)
+
+data$f_garage_space_cut <- cut(data$f_garage_space, breaks=c(-1,1,50,100,150,200,1000000000), 
+                       labels = c("Відсутні квартири",
+                                  "Від 1 до 50 кв. м.", 
+                                  "Від 50 до 100 кв. м.", 
+                                  "Від 100 до 150 кв. м.", 
+                                  "Від 150 до 200 кв. м.",
+                                  "Більше 200 кв. м."))
+
+cat("<h3 style='text-align:center;'>",id$f_garage_space,"</h3>")
+p = print_one(data$f_garage_space_cut)
+kable(p, digits=c(0,1), caption=id$f_garage_space)
+
+cat("<h3 style='text-align:center;'>",id$auto_num,"</h3>")
+p = print_one(data$auto_num)
+kable(p, digits=c(0,1), caption=id$auto_num)
+
+cat("<h3 style='text-align:center;'>",id$f_auto_num,"</h3>")
+p = print_one(data$f_auto_num)
+kable(p, digits=c(0,1), caption=id$f_auto_num)
+
+cat("<h3 style='text-align:center;'>",id$truck_num,"</h3>")
+p = print_one(data$truck_num)
+kable(p, digits=c(0,1), caption=id$truck_num)
+
+cat("<h3 style='text-align:center;'>",id$f_truck_num,"</h3>")
+p = print_one(data$f_truck_num)
+kable(p, digits=c(0,1), caption=id$f_truck_num)
+
+```
+
+# Статистичні відомості
+
+В таблицях наведено статистичні відомості для згрупованих даних (наприклад, розподіли за місцем роботи, регіоном проживання тощо). Оскільки чисельність груп занадто велика, використано тільки ті групи, в яких кількість чиновників вища за 20.
+
+```{r, echo=FALSE, results='asis'}
+
+cat("<h2 style='text-align:center;'>Загальні дані</h2>")
+
+p <- rbind(
+c(id$income,summary(data$income[complete.cases(data$income)])),
+c(id$f_income,summary(data$f_income[complete.cases(data$f_income)])),
+c(id$salary,summary(data$salary[complete.cases(data$salary)])),
+c(id$f_salary,summary(data$f_salary[complete.cases(data$f_salary)])),
+c(id$earth_space,summary(data$earth_space[complete.cases(data$earth_space)])),
+c(id$f_earth_space,summary(data$f_earth_space[complete.cases(data$f_earth_space)])),
+c(id$flat_space,summary(data$flat_space[complete.cases(data$flat_space)])),
+c(id$f_flat_space,summary(data$f_flat_space[complete.cases(data$f_flat_space)])),
+c(id$house_space,summary(data$house_space[complete.cases(data$house_space)])),
+c(id$f_house_space,summary(data$f_house_space[complete.cases(data$f_house_space)])),
+c(id$cottage_space,summary(data$cottage_space[complete.cases(data$cottage_space)])),
+c(id$f_cottage_space,summary(data$f_cottage_space[complete.cases(data$f_cottage_space)])),
+c(id$garage_space,summary(data$garage_space[complete.cases(data$garage_space)])),
+c(id$f_garage_space,summary(data$f_garage_space[complete.cases(data$f_garage_space)])))
+p <- as.data.frame(p)
+names(p) <- c("Категорія","Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(p,digits=c(1,1,1,1,1,1,1))
+
+cat("<h2 style='text-align:center;'>Річний дохід</h2>")
+
+cat("<h3 style='text-align:center;'>Оцінки річного доходу за регіоном проживання</h3>")
+
+temp <- data %>% select(income,region) %>% filter (!is.na(income), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+temp <- summaryBy(income ~ region, data=temp, FUN=summary)
+names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки річного доходу за місцем роботи</h3>")
+
+temp <- data %>% select(income,office) %>% filter (!is.na(income), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+temp <- summaryBy(income ~ office, data=temp, FUN=summary)
+names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки річного доходу за регіоном роботи</h3>")
+
+temp <- data %>% select(income,work_region) %>% 
+  filter (!is.na(income), !is.na(work_region), 
+          work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
+temp <- summaryBy(income ~ work_region, data=temp, FUN=summary)
+names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї чиновника за регіоном проживання</h3>")
+
+temp <- data %>% select(f_income,region) %>% filter (!is.na(f_income), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+temp <- summaryBy(f_income ~ region, data=temp, FUN=summary)
+names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї чиновника за місцем роботи</h3>")
+
+temp <- data %>% select(f_income,office) %>% filter (!is.na(f_income), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+temp <- summaryBy(f_income ~ office, data=temp, FUN=summary)
+names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї за регіоном чиновника роботи</h3>")
+
+temp <- data %>% select(f_income,work_region) %>% 
+  filter (!is.na(f_income), !is.na(work_region), 
+          work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
+temp <- summaryBy(f_income ~ work_region, data=temp, FUN=summary)
+names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+
+cat("<h2 style='text-align:center;'>Земельні ділянки</h2>")
+
+cat("<h3 style='text-align:center;'>Оцінки земельних ділянок за регіоном проживання</h3>")
+
+temp <- data %>% select(earth_space,region) %>% filter (!is.na(earth_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+temp <- summaryBy(earth_space ~ region, data=temp, FUN=summary)
+names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки земельних ділянок за місцем роботи</h3>")
+
+temp <- data %>% select(earth_space,office) %>% filter (!is.na(earth_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+temp <- summaryBy(earth_space ~ office, data=temp, FUN=summary)
+names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки земельних ділянок за регіоном роботи</h3>")
+
+temp <- data %>% select(earth_space,work_region) %>% 
+  filter (!is.na(earth_space), !is.na(work_region), 
+          work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
+temp <- summaryBy(earth_space ~ work_region, data=temp, FUN=summary)
+names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї чиновника за регіоном проживання</h3>")
+
+temp <- data %>% select(f_earth_space,region) %>% filter (!is.na(f_earth_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+temp <- summaryBy(f_earth_space ~ region, data=temp, FUN=summary)
+names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї чиновника за місцем роботи</h3>")
+
+temp <- data %>% select(f_earth_space,office) %>% filter (!is.na(f_earth_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+temp <- summaryBy(f_earth_space ~ office, data=temp, FUN=summary)
+names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї за регіоном чиновника роботи</h3>")
+
+temp <- data %>% select(f_earth_space,work_region) %>% 
+  filter (!is.na(f_earth_space), !is.na(work_region), 
+          work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
+temp <- summaryBy(f_earth_space ~ work_region, data=temp, FUN=summary)
+names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+
+
+cat("<h2 style='text-align:center;'>Площа квартир</h2>")
+
+cat("<h3 style='text-align:center;'>Оцінки площі квартир за регіоном проживання</h3>")
+
+temp <- data %>% select(flat_space,region) %>% filter (!is.na(flat_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+temp <- summaryBy(flat_space ~ region, data=temp, FUN=summary)
+names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі квартир за місцем роботи</h3>")
+
+temp <- data %>% select(flat_space,office) %>% filter (!is.na(flat_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+temp <- summaryBy(flat_space ~ office, data=temp, FUN=summary)
+names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі квартир за регіоном роботи</h3>")
+
+temp <- data %>% select(flat_space,work_region) %>% 
+  filter (!is.na(flat_space), !is.na(work_region), 
+          work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
+temp <- summaryBy(flat_space ~ work_region, data=temp, FUN=summary)
+names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї чиновника за регіоном проживання</h3>")
+
+temp <- data %>% select(f_flat_space,region) %>% filter (!is.na(f_flat_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+temp <- summaryBy(f_flat_space ~ region, data=temp, FUN=summary)
+names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї чиновника за місцем роботи</h3>")
+
+temp <- data %>% select(f_flat_space,office) %>% filter (!is.na(f_flat_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+temp <- summaryBy(f_flat_space ~ office, data=temp, FUN=summary)
+names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї за регіоном чиновника роботи</h3>")
+
+temp <- data %>% select(f_flat_space,work_region) %>% 
+  filter (!is.na(f_flat_space), !is.na(work_region), 
+          work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
+temp <- summaryBy(f_flat_space ~ work_region, data=temp, FUN=summary)
+names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+data[which.max(data$earth_space),]$earth_space
+
+which.max(data$earth_space)
+
+cat("<h2 style='text-align:center;'>Площа будинків</h2>")
+
+cat("<h3 style='text-align:center;'>Оцінки площі будинків за регіоном проживання</h3>")
+
+temp <- data %>% select(house_space,region) %>% filter (!is.na(house_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+temp <- summaryBy(house_space ~ region, data=temp, FUN=summary)
+names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі будинків за місцем роботи</h3>")
+
+temp <- data %>% select(house_space,office) %>% filter (!is.na(house_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+temp <- summaryBy(house_space ~ office, data=temp, FUN=summary)
+names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі будинків за регіоном роботи</h3>")
+
+temp <- data %>% select(house_space,work_region) %>% 
+  filter (!is.na(house_space), !is.na(work_region), 
+          work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
+temp <- summaryBy(house_space ~ work_region, data=temp, FUN=summary)
+names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї чиновника за регіоном проживання</h3>")
+
+temp <- data %>% select(f_house_space,region) %>% filter (!is.na(f_house_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+temp <- summaryBy(f_house_space ~ region, data=temp, FUN=summary)
+names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї чиновника за місцем роботи</h3>")
+
+temp <- data %>% select(f_house_space,office) %>% filter (!is.na(f_house_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+temp <- summaryBy(f_house_space ~ office, data=temp, FUN=summary)
+names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї за регіоном чиновника роботи</h3>")
+
+temp <- data %>% select(f_house_space,work_region) %>% 
+  filter (!is.na(f_house_space), !is.na(work_region), 
+          work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
+temp <- summaryBy(f_house_space ~ work_region, data=temp, FUN=summary)
+names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(temp, digits=c(1,1,1,1,1,1,1))
+
+
+```
+
+# Графічне відображення даних
+
+## Гістограми розподілів
+
+### Доходи та зарплати
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev='png', fig.height=10,fig.width=10}
+
+m <- ggplot(data[data$income < 1500000,], aes(x=income)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$income) +
+  ylab("Кількість") + ggtitle("Гістограма розподілу чиновників за рівнем доходів \n(для тих, у кого доходи менше 150 тис. грн за рік)") +
+  scale_x_continuous(labels = comma)
+
+m
+
+m <- ggplot(data[data$f_income < 500000 & data$family_num != 0,], aes(x=f_income)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$income) +
+  ylab("Кількість") + ggtitle("Гістограма розподілу сімей чиновників за рівнем доходів \n(для тих, у кого доходи менше 50 тис. грн за рік)") +
+  scale_x_continuous(labels = comma)
+
+m
+
+m <- ggplot(data[data$salary <1200000,], aes(x=salary/12)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$salary) +
+  ylab("Кількість") + ggtitle("Гістограма розподілу чиновників за рівнем зарплати \n(для тих, у кого зарплата менше 100 тис. грн за рік)") +
+  scale_x_continuous(labels = comma)
+m
+
+m <- ggplot(data[data$f_salary < 480000 & data$family_num != 0,], aes(x=f_salary/12)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$salary) +
+  ylab("Кількість") + ggtitle("Гістограма розподілу сімей чиновників за рівнем доходів \n(для тих, у кого зарплата менше 40 тис. грн за рік)") +
+  scale_x_continuous(labels = comma)
+m
+```
+
+### Земельні ділянки
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev='png', fig.height=10,fig.width=10}
+
+m <- ggplot(data[data$earth_space < 80000 & data$earth_space >0,], aes(x=earth_space)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$earth_space) +
+  ylab("Кількість") +
+  ggtitle("Гістограма розподілу чиновників за площею земельних ділянок \n(для тих, у кого такі ділянки є і менше 80 тис. кв. м.)") +
+  scale_x_continuous(labels = comma)
+m
+
+m <- ggplot(data[data$f_earth_space < 80000 & data$f_earth_space >0,], aes(x=f_earth_space)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$f_earth_space) +
+  ylab("Кількість") + 
+  ggtitle("Гістограма розподілу сімей чиновників за площею земельних ділянок \n(для тих, у кого такі ділянки є і менше 80 тис. кв. м.)") +
+  scale_x_continuous(labels = comma)
+m
+
+```
+
+### Квартири
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev='png', fig.height=10,fig.width=10}
+
+m <- ggplot(data[data$flat_space >0,], aes(x=flat_space)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$flat_space) +
+  ylab("Кількість") +
+  ggtitle("Гістограма розподілу чиновників за загальною площею квартир \n(для тих, у кого є квартири)") +
+  scale_x_continuous(labels = comma)
+m
+
+m <- ggplot(data[data$f_flat_space >0,], aes(x=f_flat_space)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$f_flat_space) +
+  ylab("Кількість") +
+  ggtitle("Гістограма розподілу сімей чиновників за загальною площею квартир \n(для тих, у кого є квартири)") +
+  scale_x_continuous(labels = comma)
+m
+```
+
+### Будинки
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev='png', fig.height=10,fig.width=10}
+
+m <- ggplot(data[data$house_space >0,], aes(x=house_space)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$house_space) +
+  ylab("Кількість") +
+  ggtitle("Гістограма розподілу чиновників за загальною площею будинків \n(для тих, у кого є будинківи)") +
+  scale_x_continuous(labels = comma)
+m
+
+m <- ggplot(data[data$f_house_space >0,], aes(x=f_house_space)) + 
+  geom_histogram(aes(fill = ..count..)) + xlab(id$f_house_space) +
+  ylab("Кількість") +
+  ggtitle("Гістограма розподілу сімей чиновників за загальною площею будинків \n(для тих, у кого є будинківи)") +
+  scale_x_continuous(labels = comma)
+m
+```
+
+## Двомірні розподіли
+
+### Доходи та зарплати
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev='png', fig.height=10,fig.width=10}
+
+data$short_office <- data$office
+data$short_office[data$short_office %in% names(table(data$office)[table(data$office)<=40])] <- "Міністерство освіти і науки"
+data$short_office <- factor(data$short_office)
+levels(data$short_office) <- c("Адм. місц. суд", "Апел. адм. суд","Вищ. адм. суд", "Вищ. госп. суд", "Вищ. спец. суд",
+                               "Госп. місц. суд", "Заг. апел. суд", "МВС", "Інші","Мінюст")
+
+m <- ggplot(data[data$income < 1500000 & data$f_income < 500000,], 
+            aes(x=income, y=f_income, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$income) + ylab(id$f_income) + 
+  ggtitle("Двомірний графік розподілу доходів чиновників та їх сімей за місцем роботи") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+m <- ggplot(data[data$salary < 1500000 & data$f_salary < 500000,], 
+            aes(x=salary, y=f_salary, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$salary) + ylab(id$f_salary) + 
+  ggtitle("Двомірний графік розподілу зарплат чиновників та їх сімей за місцем роботи") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+m <- ggplot(data[data$income < 1500000 & data$salary < 500000,], 
+            aes(x=income, y=salary, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$income) + ylab(id$salary) + 
+  ggtitle("Двомірний графік розподілу доходів чиновників та їх зарплат") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+m <- ggplot(data[data$f_income < 1500000 & data$f_salary < 500000,], 
+            aes(x=f_income, y=f_salary, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$f_income) + ylab(id$f_salary) + 
+  ggtitle("Двомірний графік розподілу доходів сімей чиновників та їх зарплат") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+```
+
+### Земельні ділянки
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev='png', fig.height=10,fig.width=10}
+
+m <- ggplot(data[data$income < 1500000 & data$earth_space < 150000,], 
+            aes(x=income, y=earth_space, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$income) + ylab(id$earth_space) + 
+  ggtitle("Двомірний графік розподілу доходів чиновників та їх земельних ділянок\n(доходи < 1.5 млн. грн та ділянки площею < 150 га)") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+m <- ggplot(data[data$f_income < 1500000 & data$f_earth_space < 150000,], 
+            aes(x=f_income, y=f_earth_space, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$f_income) + ylab(id$f_earth_space) + 
+  ggtitle("Двомірний графік розподілу доходів членів сімей чиновників та їх земельних ділянок\n(доходи < 1.5 млн. грн та ділянки площею < 150 га)") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+```
+
+### Квартири
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev='png', fig.height=10,fig.width=10}
+
+m <- ggplot(data[data$income < 1500000 & data$flat_space < 400,], 
+            aes(x=income, y=flat_space, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$income) + ylab(id$earth_space) + 
+  ggtitle("Двомірний графік розподілу доходів чиновників та загальної площі їх квартир\n(доходи < 1.5 млн. грн та загальною площею квартир < 400 кв.м.)") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+m <- ggplot(data[data$f_income < 1500000 & data$f_flat_space < 400,], 
+            aes(x=f_income, y=f_flat_space, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$f_income) + ylab(id$f_flat_space) + 
+  ggtitle("Двомірний графік розподілу доходів членів сімей чиновників та загальної площі їх квартир\n(доходи < 1.5 млн. грн та загальною площею квартир < 400 кв.м.)") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+```
+
+### Будинки
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev='png', fig.height=10,fig.width=10}
+
+m <- ggplot(data[data$income < 1500000 & data$house_space < 500,], 
+            aes(x=income, y=house_space, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$income) + ylab(id$house_space) + 
+  ggtitle("Двомірний графік розподілу доходів чиновників та загальної площі їх будинків\n(доходи < 1.5 млн. грн та загальною площею будинків < 500 кв. м.)") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+m <- ggplot(data[data$f_income < 1500000 & data$f_house_space < 500,], 
+            aes(x=f_income, y=f_house_space, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
+  xlab(id$income) + ylab(id$f_house_space) + 
+  ggtitle("Двомірний графік розподілу доходів членів сімей чиновників та загальної площі їх будинків\n(доходи < 1.5 млн. грн та загальною площею будинків < 500 кв. м.)") +
+  scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
+  theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
+  scale_alpha_continuous(guide=FALSE)
+m
+
+```
+
+# Посилання
+
+1. Проект канцелярської сотні "Декларації". URL: [http://declarations.com.ua/]
+2. David B. Dahl (2014). xtable: Export tables to LaTeX or HTML. R package version 1.7-4. [http://CRAN.R-project.org/package=xtable]
+3. Jim Hester (2013). knitrBootstrap: Knitr Bootstrap framework.. R package version 0.9.0. [http://CRAN.R-project.org/package=knitrBootstrap]
+4. H. Wickham. ggplot2: elegant graphics for data analysis. Springer New York, 2009.
+5. Hadley Wickham (2014). scales: Scale functions for graphics.. R package version 0.2.4. [http://CRAN.R-project.org/package=scales]
+6. Hadley Wickham and Romain Francois (2015). dplyr: A Grammar of Data Manipulation. R package version 0.4.1. [http://CRAN.R-project.org/package=dplyr]
+7. R Core Team (2014). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL [http://www.R-project.org/]
+8. Søren Højsgaard, Ulrich Halekoh with contributions from Jim Robison-Cox, Kevin Wright, Alessandro A. Leidi and others. (2014). doBy:
+9. Groupwise statistics, LSmeans, linear contrasts, utilities. R package version 4.5-13. [http://CRAN.R-project.org/package=doBy]
+Yihui Xie (2015). knitr: A General-Purpose Package for Dynamic Report Generation in R. R package version 1.9.

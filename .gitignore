@@ -58,3 +58,6 @@ target/
 .DS_Store
 *sublime-*
 declarations_site/catalog/data/samples
+.Rhistory
+*/figure/
+declarations.md
