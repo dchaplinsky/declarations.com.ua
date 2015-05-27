@@ -14,8 +14,10 @@ from rpy2 import robjects
 from rpy2.robjects.packages import importr
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from wagtail.wagtailcore.models import Site, Page
 
 from catalog.elastic_models import Declaration
+from cms_pages.models import RawHTMLPage
 
 
 KNITR_SCRIPT_PATH = os.path.join(settings.BASE_DIR, 'catalog/data/declarations.Rmd')
@@ -30,17 +32,26 @@ class Command(BaseCommand):
     help = ('Generates knitr analytics based on all available declarations.',)
 
     def handle(self, *args, **options):
+        dump_to_file = len(args) > 0
         all_decls = Declaration.search().query('match_all').scan()
         table = self._generate_table(all_decls)
-        report = self._run_knitr(table)
+        report = self._run_knitr(table, fragment_only=False)
 
-        if len(args) > 0:
+        if dump_to_file:
             file_path = args[0]
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(report)
         else:
-            # TODO: Load to database
-            pass
+            root_page = Site.objects.get(is_default_site=True).root_page
+            try:
+                analytics_page = root_page.get_children().get(slug=settings.ANALYTICS_SLUG).specific
+            except Page.DoesNotExist:
+                page_instance = RawHTMLPage(owner=None, title=settings.ANALYTICS_TITLE, slug=settings.ANALYTICS_SLUG)
+                analytics_page = root_page.add_child(instance=page_instance)
+            analytics_page.body = '<div class="analytics-wrapper">' + report + '</div>'
+            revision = analytics_page.save_revision(user=None)
+            revision.publish()
+            self.stdout.write('Analytics page "{}" has been published.'.format(analytics_page.url))
 
     def _generate_table(self, declarations):
         """Generates an R data frame table from the list of declarations."""
@@ -167,7 +178,7 @@ class Command(BaseCommand):
             'f_bank_eur': float(declaration.banks['51'][2]['sum'] or 0),
         }
 
-    def _run_knitr(self, table):
+    def _run_knitr(self, table, fragment_only=True):
         """Runs knitr reporting script with an R table data frame and returns plain HTML string."""
         knitr_bootstrap = importr('knitrBootstrap')
         robjects.globalenv['data'] = table
@@ -176,7 +187,8 @@ class Command(BaseCommand):
         output_fd, output_path = tempfile.mkstemp(suffix='.html', text=True)
         knitr_bootstrap.knit_bootstrap(input=KNITR_SCRIPT_PATH, output=output_path, quiet=True, boot_style='flatly',
                                        code_style='sunburst',
-                                       title='Аналіз декларацій чиновників з сайту declarations.com.ua')
+                                       title=settings.ANALYTICS_TITLE,
+                                       **{'fragment.only': fragment_only})
         with open(output_fd, 'r', encoding='utf-8') as output_file:
             output = output_file.read()
         os.remove(output_path)

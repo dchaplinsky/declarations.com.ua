@@ -138,6 +138,7 @@ PIPELINE_CSS = {
             'css/animate.css',
             'css/style.css',
             'css/decls.css',
+            'css/analytics.css',
         ),
         'output_filename': 'css/merged.css',
         'extra_context': {},
@@ -152,7 +153,9 @@ PIPELINE_JS = {
             "js/bootstrap3-typeahead.js",
             "js/ripples.js",
             "js/material.js",
-            "js/main.js"
+            'js/jquery.magnific-popup.js',
+            "js/main.js",
+            "js/analytics.js",
         ),
         'output_filename': 'js/merged.js',
     }
@@ -177,6 +180,10 @@ COMPRESS_PRECOMPILERS = (
 
 LOGIN_URL = "/admin/login/"
 WAGTAIL_SITE_NAME = 'Declarations'
+# Slug of the analytics page. Handle with care as analytics script will use it to find existing page.
+ANALYTICS_SLUG = 'analytics'
+# Only used during page creation (changeable)
+ANALYTICS_TITLE = 'Аналіз декларацій чиновників'
 
 try:
     from .local_settings import *
