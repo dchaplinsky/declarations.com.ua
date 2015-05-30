@@ -196,5 +196,6 @@ class Command(BaseCommand):
                                        **{'fragment.only': fragment_only})
         with open(output_fd, 'r', encoding='utf-8') as output_file:
             output = output_file.read()
-        os.remove(output_path)
+
+        # os.remove(output_path)
         return output
