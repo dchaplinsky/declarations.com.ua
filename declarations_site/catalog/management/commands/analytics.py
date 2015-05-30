@@ -35,7 +35,7 @@ class Command(BaseCommand):
         dump_to_file = len(args) > 0
         all_decls = Declaration.search().query('match_all').scan()
         table = self._generate_table(all_decls)
-        report = self._run_knitr(table, fragment_only=False)
+        report = self._run_knitr(table, fragment_only=not dump_to_file)
 
         if dump_to_file:
             file_path = args[0]
@@ -73,8 +73,7 @@ class Command(BaseCommand):
                     for e in estate if e['space']]
 
         def floatify(val):
-            return float(
-                declaration.income['5']['value'].replace(",", ".") or 0)
+            return float(val.replace(",", ".") or 0)
 
         return {
             'name': declaration.general.full_name,
