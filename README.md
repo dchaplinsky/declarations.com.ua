@@ -8,7 +8,9 @@
 * Assorted scripts to cleanup data: https://github.com/dchaplinsky/open-declaration
 
 #### R pre-requisites to generate analytics
+First of all install ```R 3.1``` or newer
 
+then run ```R``` and install following packages:
 * ```install.packages('knitrBootstrap')```
 * ```install.packages('ggplot2')```
 * ```install.packages('dplyr')```

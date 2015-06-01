@@ -170,7 +170,8 @@ data[data$family_num==9,]$family_num = 2
 
 p = data %>% select(name,office,income) %>% arrange(desc(income)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$income)
-kable(p, digits=c(0,1), caption=id$income)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$income, align=c("l","l","r"))
 
 ```
 
@@ -180,7 +181,8 @@ kable(p, digits=c(0,1), caption=id$income)
 
 p = data %>% select(name,office,f_income) %>% arrange(desc(f_income)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_income)
-kable(p, digits=c(0,1), caption=id$f_income)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$f_income, align=c("l","l","r"))
 
 ```
 
@@ -190,7 +192,8 @@ kable(p, digits=c(0,1), caption=id$f_income)
 
 p = data %>% select(name,office,salary) %>% mutate(salary=salary/12) %>% arrange(desc(salary)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$salary)
-kable(p, digits=c(0,1), caption=id$salary)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$salary, align=c("l","l","r"))
 
 ```
 
@@ -200,7 +203,8 @@ kable(p, digits=c(0,1), caption=id$salary)
 
 p = data %>% select(name,office,earth_space) %>% arrange(desc(earth_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$earth_space)
-kable(p, digits=c(0,1), caption=id$earth_space)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$earth_space, align=c("l","l","r"))
 
 ```
 
@@ -210,7 +214,8 @@ kable(p, digits=c(0,1), caption=id$earth_space)
 
 p = data %>% select(name,office,f_earth_space) %>% arrange(desc(f_earth_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_earth_space)
-kable(p, digits=c(0,1), caption=id$f_earth_space)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$f_earth_space, align=c("l","l","r"))
 
 ```
 
@@ -220,7 +225,8 @@ kable(p, digits=c(0,1), caption=id$f_earth_space)
 
 p = data %>% select(name,office,flat_space) %>% arrange(desc(flat_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$flat_space)
-kable(p, digits=c(0,1), caption=id$flat_space)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$flat_space, align=c("l","l","r"))
 
 ```
 
@@ -230,7 +236,8 @@ kable(p, digits=c(0,1), caption=id$flat_space)
 
 p = data %>% select(name,office,f_flat_space) %>% arrange(desc(f_flat_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_flat_space)
-kable(p, digits=c(0,1), caption=id$f_flat_space)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$f_flat_space, align=c("l","l","r"))
 
 ```
 
@@ -240,7 +247,8 @@ kable(p, digits=c(0,1), caption=id$f_flat_space)
 
 p = data %>% select(name,office,house_space) %>% arrange(desc(house_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$house_space)
-kable(p, digits=c(0,1), caption=id$house_space)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$house_space, align=c("l","l","r"))
 
 ```
 
@@ -250,7 +258,8 @@ kable(p, digits=c(0,1), caption=id$house_space)
 
 p = data %>% select(name,office,f_house_space) %>% arrange(desc(f_house_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_house_space)
-kable(p, digits=c(0,1), caption=id$f_house_space)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$f_house_space, align=c("l","l","r"))
 
 ```
 
@@ -260,7 +269,8 @@ kable(p, digits=c(0,1), caption=id$f_house_space)
 
 p = data %>% select(name,office,cottage_space) %>% arrange(desc(cottage_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$cottage_space)
-kable(p, digits=c(0,1), caption=id$cottage_space)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$cottage_space, align=c("l","l","r"))
 
 ```
 
@@ -270,7 +280,8 @@ kable(p, digits=c(0,1), caption=id$cottage_space)
 
 p = data %>% select(name,office,f_cottage_space) %>% arrange(desc(f_cottage_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_cottage_space)
-kable(p, digits=c(0,1), caption=id$f_cottage_space)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$f_cottage_space, align=c("l","l","r"))
 
 ```
 
@@ -281,7 +292,8 @@ kable(p, digits=c(0,1), caption=id$f_cottage_space)
 
 p = data %>% select(name,office,bank_uah) %>% arrange(desc(bank_uah)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$bank_uah)
-kable(p, digits=c(0,1), caption=id$bank_uah)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$bank_uah, align=c("l","l","r"))
 
 ```
 
@@ -291,7 +303,8 @@ kable(p, digits=c(0,1), caption=id$bank_uah)
 
 p = data %>% select(name,office,f_bank_uah) %>% arrange(desc(f_bank_uah)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_bank_uah)
-kable(p, digits=c(0,1), caption=id$f_bank_uah)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$f_bank_uah, align=c("l","l","r"))
 
 ```
 
@@ -301,7 +314,8 @@ kable(p, digits=c(0,1), caption=id$f_bank_uah)
 
 p = data %>% select(name,office,bank_usd) %>% arrange(desc(bank_usd)) %>% slice(1:6)
 names(p) <- c(id$name,id$office,id$bank_usd)
-kable(p, digits=c(0,1), caption=id$bank_usd)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$bank_usd, align=c("l","l","r"))
 
 ```
 
@@ -311,7 +325,8 @@ kable(p, digits=c(0,1), caption=id$bank_usd)
 
 p = data %>% select(name,office,f_bank_usd) %>% arrange(desc(f_bank_usd)) %>% slice(1:2)
 names(p) <- c(id$name,id$office,id$f_bank_usd)
-kable(p, digits=c(0,1), caption=id$f_bank_usd)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$f_bank_usd, align=c("l","l","r"))
 
 ```
 
@@ -321,7 +336,8 @@ kable(p, digits=c(0,1), caption=id$f_bank_usd)
 
 p = data %>% select(name,office,bank_eur) %>% arrange(desc(bank_eur)) %>% slice(1:3)
 names(p) <- c(id$name,id$office,id$bank_eur)
-kable(p, digits=c(0,1), caption=id$bank_eur)
+p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
+kable(p, digits=c(0,1), caption=id$bank_eur, align=c("l","l","r"))
 
 ```
 
@@ -561,8 +577,13 @@ c(id$f_cottage_space,summary(data$f_cottage_space[complete.cases(data$f_cottage_
 c(id$garage_space,summary(data$garage_space[complete.cases(data$garage_space)])),
 c(id$f_garage_space,summary(data$f_garage_space[complete.cases(data$f_garage_space)])))
 p <- as.data.frame(p)
+#rownames(p) <- p[,1]
+#p <- p[,-1]
+#p <- apply(p,1,as.numeric)
+
 names(p) <- c("Категорія","Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(p,digits=c(1,1,1,1,1,1,1))
+#p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3, scientific=F)
+kable(p, digits=c(1,1,1,1,1,1,1), align=c("l","r","r","r","r","r","r"))
 
 cat("<h2 style='text-align:center;'>Річний дохід</h2>")
 
