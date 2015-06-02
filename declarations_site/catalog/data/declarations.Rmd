@@ -19,13 +19,7 @@ output:
 library(ggplot2)
 library(dplyr)
 library(xtable)
-#library(googleVis)
-#library(ggvis)
 library(knitr)
-#library(reshape2)
-#library(rCharts)
-#library(htmlwidgets)
-#library(metricsgraphics)
 library(scales)
 library(doBy)
 
@@ -797,27 +791,27 @@ kable(temp, digits=c(1,1,1,1,1,1,1))
 
 m <- ggplot(data[data$income < 1500000,], aes(x=income)) + 
   geom_histogram(aes(fill = ..count..)) + xlab(id$income) +
-  ylab("Кількість") + ggtitle("Гістограма розподілу чиновників за рівнем доходів \n(для тих, у кого доходи менше 150 тис. грн за рік)") +
+  ylab("Кількість") + ggtitle("Гістограма розподілу чиновників за рівнем доходів \n(для тих, у кого доходи менше 1,5 млн. грн за рік)") +
   scale_x_continuous(labels = comma)
 
 m
 
 m <- ggplot(data[data$f_income < 500000 & data$family_num != 0,], aes(x=f_income)) + 
   geom_histogram(aes(fill = ..count..)) + xlab(id$income) +
-  ylab("Кількість") + ggtitle("Гістограма розподілу сімей чиновників за рівнем доходів \n(для тих, у кого доходи менше 50 тис. грн за рік)") +
+  ylab("Кількість") + ggtitle("Гістограма розподілу сімей чиновників за рівнем доходів \n(для тих, у кого доходи менше 500 тис. грн за рік)") +
   scale_x_continuous(labels = comma)
 
 m
 
 m <- ggplot(data[data$salary <1200000,], aes(x=salary/12)) + 
   geom_histogram(aes(fill = ..count..)) + xlab(id$salary) +
-  ylab("Кількість") + ggtitle("Гістограма розподілу чиновників за рівнем зарплати \n(для тих, у кого зарплата менше 100 тис. грн за рік)") +
+  ylab("Кількість") + ggtitle("Гістограма розподілу чиновників за рівнем зарплати \n(для тих, у кого зарплата 1,2 млн. грн за рік)") +
   scale_x_continuous(labels = comma)
 m
 
 m <- ggplot(data[data$f_salary < 480000 & data$family_num != 0,], aes(x=f_salary/12)) + 
   geom_histogram(aes(fill = ..count..)) + xlab(id$salary) +
-  ylab("Кількість") + ggtitle("Гістограма розподілу сімей чиновників за рівнем доходів \n(для тих, у кого зарплата менше 40 тис. грн за рік)") +
+  ylab("Кількість") + ggtitle("Гістограма розподілу сімей чиновників за рівнем доходів \n(для тих, у кого зарплата менше 480 тис. грн за рік)") +
   scale_x_continuous(labels = comma)
 m
 ```
@@ -936,7 +930,7 @@ m
 m <- ggplot(data[data$income < 1500000 & data$earth_space < 150000,], 
             aes(x=income, y=earth_space, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
   xlab(id$income) + ylab(id$earth_space) + 
-  ggtitle("Двомірний графік розподілу доходів чиновників та їх земельних ділянок\n(доходи < 1.5 млн. грн та ділянки площею < 150 га)") +
+  ggtitle("Двомірний графік розподілу доходів чиновників та їх земельних ділянок\n(доходи < 1.5 млн. грн та ділянки площею < 15 га)") +
   scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
   theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
   scale_alpha_continuous(guide=FALSE)
@@ -945,7 +939,7 @@ m
 m <- ggplot(data[data$f_income < 1500000 & data$f_earth_space < 150000,], 
             aes(x=f_income, y=f_earth_space, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
   xlab(id$f_income) + ylab(id$f_earth_space) + 
-  ggtitle("Двомірний графік розподілу доходів членів сімей чиновників та їх земельних ділянок\n(доходи < 1.5 млн. грн та ділянки площею < 150 га)") +
+  ggtitle("Двомірний графік розподілу доходів членів сімей чиновників та їх земельних ділянок\n(доходи < 1.5 млн. грн та ділянки площею < 15 га)") +
   scale_x_continuous(labels = comma) + scale_y_continuous(labels = comma) +
   theme(legend.title=element_blank()) + scale_size_continuous(guide=FALSE) +
   scale_alpha_continuous(guide=FALSE)
@@ -1010,6 +1004,5 @@ m
 5. Hadley Wickham (2014). scales: Scale functions for graphics.. R package version 0.2.4. [http://CRAN.R-project.org/package=scales]
 6. Hadley Wickham and Romain Francois (2015). dplyr: A Grammar of Data Manipulation. R package version 0.4.1. [http://CRAN.R-project.org/package=dplyr]
 7. R Core Team (2014). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria. URL [http://www.R-project.org/]
-8. Søren Højsgaard, Ulrich Halekoh with contributions from Jim Robison-Cox, Kevin Wright, Alessandro A. Leidi and others. (2014). doBy:
-9. Groupwise statistics, LSmeans, linear contrasts, utilities. R package version 4.5-13. [http://CRAN.R-project.org/package=doBy]
-Yihui Xie (2015). knitr: A General-Purpose Package for Dynamic Report Generation in R. R package version 1.9.
+8. Søren Højsgaard, Ulrich Halekoh with contributions from Jim Robison-Cox, Kevin Wright, Alessandro A. Leidi and others. (2014). doBy: Groupwise statistics, LSmeans, linear contrasts, utilities. R package version 4.5-13.
+9. Yihui Xie (2015). knitr: A General-Purpose Package for Dynamic Report Generation in R. R package version 1.9.
