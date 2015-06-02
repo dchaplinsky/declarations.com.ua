@@ -576,13 +576,10 @@ c(id$cottage_space,summary(data$cottage_space[complete.cases(data$cottage_space)
 c(id$f_cottage_space,summary(data$f_cottage_space[complete.cases(data$f_cottage_space)])),
 c(id$garage_space,summary(data$garage_space[complete.cases(data$garage_space)])),
 c(id$f_garage_space,summary(data$f_garage_space[complete.cases(data$f_garage_space)])))
+
 p <- as.data.frame(p)
-#rownames(p) <- p[,1]
-#p <- p[,-1]
-#p <- apply(p,1,as.numeric)
 
 names(p) <- c("Категорія","Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-#p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3, scientific=F)
 kable(p, digits=c(1,1,1,1,1,1,1), align=c("l","r","r","r","r","r","r"))
 
 cat("<h2 style='text-align:center;'>Річний дохід</h2>")

@@ -14,6 +14,7 @@ from rpy2 import robjects
 from rpy2.robjects.packages import importr
 from django.core.management.base import BaseCommand
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from wagtail.wagtailcore.models import Site, Page
 
 from catalog.elastic_models import Declaration
@@ -76,7 +77,12 @@ class Command(BaseCommand):
             return float(val.replace(",", ".") or 0)
 
         return {
-            'name': declaration.general.full_name,
+            'name': '<a href="{0}" target="_blank">{1} ({2})</a>'.format(
+                reverse("details", kwargs={"declaration_id": declaration._id}),
+                declaration.general.full_name,
+                # temporary solution, should be removed once we'll have
+                # analytics breakdown by year
+                declaration.intro.declaration_year),
             'region': declaration.general.addresses[0].place,
             'city': declaration.general.addresses[0].place_city,
             'family_num': len(declaration.general.family_raw.split(';')) if declaration.general.family_raw else 0,
