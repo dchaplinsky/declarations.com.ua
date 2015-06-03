@@ -145,8 +145,8 @@ id = list (
 
 # Функція для форматування таблиць
 
-ft <- function(t) {
-   t <- format(t, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3, scientific = F)
+ft <- function(t, d=7) {
+   t <- format(t, digits=d, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3, scientific = F)
    return(t)
 }
 
@@ -539,7 +539,7 @@ kable(ft(p), digits=c(0,1), caption=id$f_truck_num)
 
 ```{r, echo=FALSE, results='asis'}
 
-cat("<h2 style='text-align:center;'>Загальні дані</h2>")
+cat("<h2 style='text-align:center;' class='stats-section'>Загальні дані</h2>")
 
 p <- rbind(
 c(id$income,summary(data$income[complete.cases(data$income)])),
@@ -560,103 +560,103 @@ temp <- as.numeric(p[,2:ncol(p)])
 p <- as.data.frame(p)
 p[,2:ncol(p)] <- temp
 names(p) <- c("Категорія","Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(p), align=c("l","r","r","r","r","r","r"))
+kable(ft(p, d=6), align=c("l","r","r","r","r","r","r"))
 
 cat("<h2 style='text-align:center;'>Річний дохід</h2>")
 cat("<h3 style='text-align:center;'>Оцінки річного доходу за регіоном проживання</h3>")
 
-temp <- data %>% select(income,region) %>% filter (!is.na(income), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
-temp <- summaryBy(income ~ region, data=temp, FUN=summary)
-names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(income,region) %>% filter (!is.na(income), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+p <- summaryBy(income ~ region, data=p, FUN=summary)
+names(p) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу за місцем роботи</h3>")
 
-temp <- data %>% select(income,office) %>% filter (!is.na(income), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
-temp <- summaryBy(income ~ office, data=temp, FUN=summary)
-names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(income,office) %>% filter (!is.na(income), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+p <- summaryBy(income ~ office, data=p, FUN=summary)
+names(p) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу за регіоном роботи</h3>")
 
-temp <- data %>% select(income,work_region) %>% 
+p <- data %>% select(income,work_region) %>% 
   filter (!is.na(income), !is.na(work_region), 
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
-temp <- summaryBy(income ~ work_region, data=temp, FUN=summary)
-names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- summaryBy(income ~ work_region, data=p, FUN=summary)
+names(p) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї чиновника за регіоном проживання</h3>")
 
-temp <- data %>% select(f_income,region) %>% filter (!is.na(f_income), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
-temp <- summaryBy(f_income ~ region, data=temp, FUN=summary)
-names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(f_income,region) %>% filter (!is.na(f_income), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+p <- summaryBy(f_income ~ region, data=p, FUN=summary)
+names(p) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї чиновника за місцем роботи</h3>")
 
-temp <- data %>% select(f_income,office) %>% filter (!is.na(f_income), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
-temp <- summaryBy(f_income ~ office, data=temp, FUN=summary)
-names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(f_income,office) %>% filter (!is.na(f_income), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+p <- summaryBy(f_income ~ office, data=p, FUN=summary)
+names(p) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї за регіоном чиновника роботи</h3>")
 
-temp <- data %>% select(f_income,work_region) %>% 
+p <- data %>% select(f_income,work_region) %>% 
   filter (!is.na(f_income), !is.na(work_region), 
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
-temp <- summaryBy(f_income ~ work_region, data=temp, FUN=summary)
-names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- summaryBy(f_income ~ work_region, data=p, FUN=summary)
+names(p) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 
 cat("<h2 style='text-align:center;'>Земельні ділянки</h2>")
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок за регіоном проживання</h3>")
 
-temp <- data %>% select(earth_space,region) %>% filter (!is.na(earth_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
-temp <- summaryBy(earth_space ~ region, data=temp, FUN=summary)
-names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(earth_space,region) %>% filter (!is.na(earth_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+p <- summaryBy(earth_space ~ region, data=p, FUN=summary)
+names(p) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок за місцем роботи</h3>")
 
-temp <- data %>% select(earth_space,office) %>% filter (!is.na(earth_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
-temp <- summaryBy(earth_space ~ office, data=temp, FUN=summary)
-names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(earth_space,office) %>% filter (!is.na(earth_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+p <- summaryBy(earth_space ~ office, data=p, FUN=summary)
+names(p) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок за регіоном роботи</h3>")
 
-temp <- data %>% select(earth_space,work_region) %>% 
+p <- data %>% select(earth_space,work_region) %>% 
   filter (!is.na(earth_space), !is.na(work_region), 
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
-temp <- summaryBy(earth_space ~ work_region, data=temp, FUN=summary)
-names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- summaryBy(earth_space ~ work_region, data=p, FUN=summary)
+names(p) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї чиновника за регіоном проживання</h3>")
 
-temp <- data %>% select(f_earth_space,region) %>% filter (!is.na(f_earth_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
-temp <- summaryBy(f_earth_space ~ region, data=temp, FUN=summary)
-names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(f_earth_space,region) %>% filter (!is.na(f_earth_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+p <- summaryBy(f_earth_space ~ region, data=p, FUN=summary)
+names(p) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї чиновника за місцем роботи</h3>")
 
-temp <- data %>% select(f_earth_space,office) %>% filter (!is.na(f_earth_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
-temp <- summaryBy(f_earth_space ~ office, data=temp, FUN=summary)
-names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(f_earth_space,office) %>% filter (!is.na(f_earth_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+p <- summaryBy(f_earth_space ~ office, data=p, FUN=summary)
+names(p) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї за регіоном чиновника роботи</h3>")
 
-temp <- data %>% select(f_earth_space,work_region) %>% 
+p <- data %>% select(f_earth_space,work_region) %>% 
   filter (!is.na(f_earth_space), !is.na(work_region), 
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
-temp <- summaryBy(f_earth_space ~ work_region, data=temp, FUN=summary)
-names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- summaryBy(f_earth_space ~ work_region, data=p, FUN=summary)
+names(p) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 
 
@@ -664,49 +664,49 @@ cat("<h2 style='text-align:center;'>Площа квартир</h2>")
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир за регіоном проживання</h3>")
 
-temp <- data %>% select(flat_space,region) %>% filter (!is.na(flat_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
-temp <- summaryBy(flat_space ~ region, data=temp, FUN=summary)
-names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(flat_space,region) %>% filter (!is.na(flat_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+p <- summaryBy(flat_space ~ region, data=p, FUN=summary)
+names(p) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир за місцем роботи</h3>")
 
-temp <- data %>% select(flat_space,office) %>% filter (!is.na(flat_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
-temp <- summaryBy(flat_space ~ office, data=temp, FUN=summary)
-names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(flat_space,office) %>% filter (!is.na(flat_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+p <- summaryBy(flat_space ~ office, data=p, FUN=summary)
+names(p) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир за регіоном роботи</h3>")
 
-temp <- data %>% select(flat_space,work_region) %>% 
+p <- data %>% select(flat_space,work_region) %>% 
   filter (!is.na(flat_space), !is.na(work_region), 
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
-temp <- summaryBy(flat_space ~ work_region, data=temp, FUN=summary)
-names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- summaryBy(flat_space ~ work_region, data=p, FUN=summary)
+names(p) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї чиновника за регіоном проживання</h3>")
 
-temp <- data %>% select(f_flat_space,region) %>% filter (!is.na(f_flat_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
-temp <- summaryBy(f_flat_space ~ region, data=temp, FUN=summary)
-names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(f_flat_space,region) %>% filter (!is.na(f_flat_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+p <- summaryBy(f_flat_space ~ region, data=p, FUN=summary)
+names(p) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї чиновника за місцем роботи</h3>")
 
-temp <- data %>% select(f_flat_space,office) %>% filter (!is.na(f_flat_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
-temp <- summaryBy(f_flat_space ~ office, data=temp, FUN=summary)
-names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(f_flat_space,office) %>% filter (!is.na(f_flat_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+p <- summaryBy(f_flat_space ~ office, data=p, FUN=summary)
+names(p) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї за регіоном чиновника роботи</h3>")
 
-temp <- data %>% select(f_flat_space,work_region) %>% 
+p <- data %>% select(f_flat_space,work_region) %>% 
   filter (!is.na(f_flat_space), !is.na(work_region), 
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
-temp <- summaryBy(f_flat_space ~ work_region, data=temp, FUN=summary)
-names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- summaryBy(f_flat_space ~ work_region, data=p, FUN=summary)
+names(p) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 data[which.max(data$earth_space),]$earth_space
 
@@ -716,49 +716,49 @@ cat("<h2 style='text-align:center;'>Площа будинків</h2>")
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків за регіоном проживання</h3>")
 
-temp <- data %>% select(house_space,region) %>% filter (!is.na(house_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
-temp <- summaryBy(house_space ~ region, data=temp, FUN=summary)
-names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(house_space,region) %>% filter (!is.na(house_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+p <- summaryBy(house_space ~ region, data=p, FUN=summary)
+names(p) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків за місцем роботи</h3>")
 
-temp <- data %>% select(house_space,office) %>% filter (!is.na(house_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
-temp <- summaryBy(house_space ~ office, data=temp, FUN=summary)
-names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(house_space,office) %>% filter (!is.na(house_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+p <- summaryBy(house_space ~ office, data=p, FUN=summary)
+names(p) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків за регіоном роботи</h3>")
 
-temp <- data %>% select(house_space,work_region) %>% 
+p <- data %>% select(house_space,work_region) %>% 
   filter (!is.na(house_space), !is.na(work_region), 
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
-temp <- summaryBy(house_space ~ work_region, data=temp, FUN=summary)
-names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- summaryBy(house_space ~ work_region, data=p, FUN=summary)
+names(p) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї чиновника за регіоном проживання</h3>")
 
-temp <- data %>% select(f_house_space,region) %>% filter (!is.na(f_house_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
-temp <- summaryBy(f_house_space ~ region, data=temp, FUN=summary)
-names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(f_house_space,region) %>% filter (!is.na(f_house_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
+p <- summaryBy(f_house_space ~ region, data=p, FUN=summary)
+names(p) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї чиновника за місцем роботи</h3>")
 
-temp <- data %>% select(f_house_space,office) %>% filter (!is.na(f_house_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
-temp <- summaryBy(f_house_space ~ office, data=temp, FUN=summary)
-names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- data %>% select(f_house_space,office) %>% filter (!is.na(f_house_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
+p <- summaryBy(f_house_space ~ office, data=p, FUN=summary)
+names(p) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї за регіоном чиновника роботи</h3>")
 
-temp <- data %>% select(f_house_space,work_region) %>% 
+p <- data %>% select(f_house_space,work_region) %>% 
   filter (!is.na(f_house_space), !is.na(work_region), 
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
-temp <- summaryBy(f_house_space ~ work_region, data=temp, FUN=summary)
-names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(ft(temp))
+p <- summaryBy(f_house_space ~ work_region, data=p, FUN=summary)
+names(p) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 
 ```
