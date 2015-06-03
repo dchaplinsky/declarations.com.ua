@@ -142,9 +142,13 @@ id = list (
   f_bank_eur = "Вклади у банках членів сім’ї (євр)"
   )
 
-# Завантажуємо дані
 
-# data <- read.csv("decs.csv")
+# Функція для форматування таблиць
+
+ft <- function(t) {
+   t <- format(t, digits=10, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3, scientific = F)
+   return(t)
+}
 
 # Очистка даних
 
@@ -164,8 +168,7 @@ data[data$family_num==9,]$family_num = 2
 
 p = data %>% select(name,office,income) %>% arrange(desc(income)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$income)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$income, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$income, align=c("l","l","r"))
 
 ```
 
@@ -175,8 +178,7 @@ kable(p, digits=c(0,1), caption=id$income, align=c("l","l","r"))
 
 p = data %>% select(name,office,f_income) %>% arrange(desc(f_income)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_income)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$f_income, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$f_income, align=c("l","l","r"))
 
 ```
 
@@ -186,8 +188,7 @@ kable(p, digits=c(0,1), caption=id$f_income, align=c("l","l","r"))
 
 p = data %>% select(name,office,salary) %>% mutate(salary=salary/12) %>% arrange(desc(salary)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$salary)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$salary, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$salary, align=c("l","l","r"))
 
 ```
 
@@ -197,8 +198,7 @@ kable(p, digits=c(0,1), caption=id$salary, align=c("l","l","r"))
 
 p = data %>% select(name,office,earth_space) %>% arrange(desc(earth_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$earth_space)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$earth_space, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$earth_space, align=c("l","l","r"))
 
 ```
 
@@ -208,8 +208,7 @@ kable(p, digits=c(0,1), caption=id$earth_space, align=c("l","l","r"))
 
 p = data %>% select(name,office,f_earth_space) %>% arrange(desc(f_earth_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_earth_space)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$f_earth_space, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$f_earth_space, align=c("l","l","r"))
 
 ```
 
@@ -219,8 +218,7 @@ kable(p, digits=c(0,1), caption=id$f_earth_space, align=c("l","l","r"))
 
 p = data %>% select(name,office,flat_space) %>% arrange(desc(flat_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$flat_space)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$flat_space, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$flat_space, align=c("l","l","r"))
 
 ```
 
@@ -230,8 +228,7 @@ kable(p, digits=c(0,1), caption=id$flat_space, align=c("l","l","r"))
 
 p = data %>% select(name,office,f_flat_space) %>% arrange(desc(f_flat_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_flat_space)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$f_flat_space, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$f_flat_space, align=c("l","l","r"))
 
 ```
 
@@ -241,8 +238,7 @@ kable(p, digits=c(0,1), caption=id$f_flat_space, align=c("l","l","r"))
 
 p = data %>% select(name,office,house_space) %>% arrange(desc(house_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$house_space)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$house_space, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$house_space, align=c("l","l","r"))
 
 ```
 
@@ -252,8 +248,7 @@ kable(p, digits=c(0,1), caption=id$house_space, align=c("l","l","r"))
 
 p = data %>% select(name,office,f_house_space) %>% arrange(desc(f_house_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_house_space)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$f_house_space, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$f_house_space, align=c("l","l","r"))
 
 ```
 
@@ -263,8 +258,7 @@ kable(p, digits=c(0,1), caption=id$f_house_space, align=c("l","l","r"))
 
 p = data %>% select(name,office,cottage_space) %>% arrange(desc(cottage_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$cottage_space)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$cottage_space, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$cottage_space, align=c("l","l","r"))
 
 ```
 
@@ -274,8 +268,7 @@ kable(p, digits=c(0,1), caption=id$cottage_space, align=c("l","l","r"))
 
 p = data %>% select(name,office,f_cottage_space) %>% arrange(desc(f_cottage_space)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_cottage_space)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$f_cottage_space, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$f_cottage_space, align=c("l","l","r"))
 
 ```
 
@@ -286,8 +279,7 @@ kable(p, digits=c(0,1), caption=id$f_cottage_space, align=c("l","l","r"))
 
 p = data %>% select(name,office,bank_uah) %>% arrange(desc(bank_uah)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$bank_uah)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$bank_uah, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$bank_uah, align=c("l","l","r"))
 
 ```
 
@@ -297,8 +289,7 @@ kable(p, digits=c(0,1), caption=id$bank_uah, align=c("l","l","r"))
 
 p = data %>% select(name,office,f_bank_uah) %>% arrange(desc(f_bank_uah)) %>% slice(1:10)
 names(p) <- c(id$name,id$office,id$f_bank_uah)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$f_bank_uah, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$f_bank_uah, align=c("l","l","r"))
 
 ```
 
@@ -308,8 +299,7 @@ kable(p, digits=c(0,1), caption=id$f_bank_uah, align=c("l","l","r"))
 
 p = data %>% select(name,office,bank_usd) %>% arrange(desc(bank_usd)) %>% slice(1:6)
 names(p) <- c(id$name,id$office,id$bank_usd)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$bank_usd, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$bank_usd, align=c("l","l","r"))
 
 ```
 
@@ -319,8 +309,7 @@ kable(p, digits=c(0,1), caption=id$bank_usd, align=c("l","l","r"))
 
 p = data %>% select(name,office,f_bank_usd) %>% arrange(desc(f_bank_usd)) %>% slice(1:2)
 names(p) <- c(id$name,id$office,id$f_bank_usd)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$f_bank_usd, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$f_bank_usd, align=c("l","l","r"))
 
 ```
 
@@ -330,8 +319,7 @@ kable(p, digits=c(0,1), caption=id$f_bank_usd, align=c("l","l","r"))
 
 p = data %>% select(name,office,bank_eur) %>% arrange(desc(bank_eur)) %>% slice(1:3)
 names(p) <- c(id$name,id$office,id$bank_eur)
-p <- format(p, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3)
-kable(p, digits=c(0,1), caption=id$bank_eur, align=c("l","l","r"))
+kable(ft(p), digits=c(0,1), caption=id$bank_eur, align=c("l","l","r"))
 
 ```
 
@@ -343,19 +331,19 @@ kable(p, digits=c(0,1), caption=id$bank_eur, align=c("l","l","r"))
 
 cat("<h3 style='text-align:center;'>",id$region,"</h3>")
 p = print_one(data$region)
-kable(p, digits=c(0,1), caption=id$region)
+kable(ft(p), digits=c(0,1), caption=id$region)
 
 cat("<h3 style='text-align:center;'>",id$work_region,"</h3>")
 p = print_one(data$work_region)
-kable(p, digits=c(0,1), caption=id$work_region)
+kable(ft(p), digits=c(0,1), caption=id$work_region)
 
 cat("<h3 style='text-align:center;'>",id$office,"</h3>")
 p = print_one(data$office)
-kable(p, digits=c(0,1), caption=id$office)
+kable(ft(p), digits=c(0,1), caption=id$office)
 
 cat("<h3 style='text-align:center;'>",id$family_num,"</h3>")
 p = print_one(data$family_num)
-kable(p, digits=c(0,1), caption=id$family_num)
+kable(ft(p), digits=c(0,1), caption=id$family_num)
 
 data$income_cut <- cut(data$income, breaks=c(-1,1,80000,160000,240000,1000000000), 
                        labels = c("Доходи відсутні","Від 1 до 80 тис. грн.", 
@@ -365,7 +353,7 @@ data$income_cut <- cut(data$income, breaks=c(-1,1,80000,160000,240000,1000000000
 
 cat("<h3 style='text-align:center;'>",id$income,"</h3>")
 p = print_one(data$income_cut)
-kable(p, digits=c(0,1), caption=id$income)
+kable(ft(p), digits=c(0,1), caption=id$income)
 
 data$f_income_cut <- cut(data$f_income, breaks=c(-10,-1,1,80000,160000,240000,1000000000), 
                          labels = c("Не мають сім'ї","Доходи відсутні","Від 1 до 80 тис. грн.", 
@@ -377,7 +365,7 @@ data[data$family_num == 0 & data$f_income == 0,]$f_income_cut <- "Не мают�
 
 cat("<h3 style='text-align:center;'>",id$f_income,"</h3>")
 p = print_one(data$f_income_cut)
-kable(p, digits=c(0,1), caption=id$f_income)
+kable(ft(p), digits=c(0,1), caption=id$f_income)
 
 data$salary_cut <- cut(data$salary/12, breaks=c(-1,1,4000,8000,12000,16000,20000,24000,1000000000), 
                          labels = c("Зарплата не нарахована","Від 1 до 4 тис. грн/міс.", 
@@ -390,7 +378,7 @@ data$salary_cut <- cut(data$salary/12, breaks=c(-1,1,4000,8000,12000,16000,20000
 
 cat("<h3 style='text-align:center;'>",id$salary,"</h3>")
 p = print_one(data$salary_cut)
-kable(p, digits=c(0,1), caption=id$salary)
+kable(ft(p), digits=c(0,1), caption=id$salary)
 
 f_salary_mean <- data %>%  filter(family_num>0) %>% transform(f=f_salary/family_num) %>% select(f)
 
@@ -405,7 +393,7 @@ f_salary_mean <- cut(as.numeric(f_salary_mean[,1])/12, breaks=c(-1,1,4000,8000,1
 
 cat("<h3 style='text-align:center;'>Середня заробітна плата на одного члена сім'ї</h3>")
 p = print_one(f_salary_mean)
-kable(p, digits=c(0,1), caption=id$f_salary)
+kable(ft(p), digits=c(0,1), caption=id$f_salary)
 
 data$earth_space_cut <- cut(data$earth_space, breaks=c(-1,1,1000,5000,10000,20000,1000000000), 
                        labels = c("Відсутні земельні ділянки",
@@ -417,7 +405,7 @@ data$earth_space_cut <- cut(data$earth_space, breaks=c(-1,1,1000,5000,10000,2000
 
 cat("<h3 style='text-align:center;'>",id$earth_space,"</h3>")
 p = print_one(data$earth_space_cut)
-kable(p, digits=c(0,1), caption=id$earth_space)
+kable(ft(p), digits=c(0,1), caption=id$earth_space)
 
 data$f_earth_space_cut <- cut(data$f_earth_space, breaks=c(-1,1,1000,5000,10000,20000,1000000000), 
                        labels = c("Відсутні земельні ділянки",
@@ -429,9 +417,7 @@ data$f_earth_space_cut <- cut(data$f_earth_space, breaks=c(-1,1,1000,5000,10000,
 
 cat("<h3 style='text-align:center;'>",id$f_earth_space,"</h3>")
 p = print_one(data$f_earth_space_cut)
-kable(p, digits=c(0,1), caption=id$f_earth_space)
-
-#earth_space house_space flat_space cottage_space
+kable(ft(p), digits=c(0,1), caption=id$f_earth_space)
 
 data$flat_space_cut <- cut(data$flat_space, breaks=c(-1,1,50,100,150,200,1000000000), 
                        labels = c("Відсутні квартири",
@@ -443,7 +429,7 @@ data$flat_space_cut <- cut(data$flat_space, breaks=c(-1,1,50,100,150,200,1000000
 
 cat("<h3 style='text-align:center;'>",id$flat_space,"</h3>")
 p = print_one(data$flat_space_cut)
-kable(p, digits=c(0,1), caption=id$flat_space)
+kable(ft(p), digits=c(0,1), caption=id$flat_space)
 
 data$f_flat_space_cut <- cut(data$f_flat_space, breaks=c(-1,1,50,100,150,200,1000000000), 
                        labels = c("Відсутні квартири",
@@ -455,7 +441,7 @@ data$f_flat_space_cut <- cut(data$f_flat_space, breaks=c(-1,1,50,100,150,200,100
 
 cat("<h3 style='text-align:center;'>",id$f_flat_space,"</h3>")
 p = print_one(data$f_flat_space_cut)
-kable(p, digits=c(0,1), caption=id$f_flat_space)
+kable(ft(p), digits=c(0,1), caption=id$f_flat_space)
 
 data$house_space_cut <- cut(data$house_space, breaks=c(-1,1,50,100,150,200,1000000000), 
                        labels = c("Відсутні квартири",
@@ -467,7 +453,7 @@ data$house_space_cut <- cut(data$house_space, breaks=c(-1,1,50,100,150,200,10000
 
 cat("<h3 style='text-align:center;'>",id$house_space,"</h3>")
 p = print_one(data$house_space_cut)
-kable(p, digits=c(0,1), caption=id$house_space)
+kable(ft(p), digits=c(0,1), caption=id$house_space)
 
 data$f_house_space_cut <- cut(data$f_house_space, breaks=c(-1,1,50,100,150,200,1000000000), 
                        labels = c("Відсутні квартири",
@@ -479,7 +465,7 @@ data$f_house_space_cut <- cut(data$f_house_space, breaks=c(-1,1,50,100,150,200,1
 
 cat("<h3 style='text-align:center;'>",id$f_house_space,"</h3>")
 p = print_one(data$f_house_space_cut)
-kable(p, digits=c(0,1), caption=id$f_house_space)
+kable(ft(p), digits=c(0,1), caption=id$f_house_space)
 
 data$cottage_space_cut <- cut(data$cottage_space, breaks=c(-1,1,50,100,150,200,1000000000), 
                        labels = c("Відсутні квартири",
@@ -491,7 +477,7 @@ data$cottage_space_cut <- cut(data$cottage_space, breaks=c(-1,1,50,100,150,200,1
 
 cat("<h3 style='text-align:center;'>",id$cottage_space,"</h3>")
 p = print_one(data$cottage_space_cut)
-kable(p, digits=c(0,1), caption=id$cottage_space)
+kable(ft(p), digits=c(0,1), caption=id$cottage_space)
 
 data$f_cottage_space_cut <- cut(data$f_cottage_space, breaks=c(-1,1,50,100,150,200,1000000000), 
                        labels = c("Відсутні квартири",
@@ -503,7 +489,7 @@ data$f_cottage_space_cut <- cut(data$f_cottage_space, breaks=c(-1,1,50,100,150,2
 
 cat("<h3 style='text-align:center;'>",id$f_cottage_space,"</h3>")
 p = print_one(data$f_cottage_space_cut)
-kable(p, digits=c(0,1), caption=id$f_cottage_space)
+kable(ft(p), digits=c(0,1), caption=id$f_cottage_space)
 
 data$garage_space_cut <- cut(data$garage_space, breaks=c(-1,1,50,100,150,200,1000000000), 
                        labels = c("Відсутні квартири",
@@ -515,7 +501,7 @@ data$garage_space_cut <- cut(data$garage_space, breaks=c(-1,1,50,100,150,200,100
 
 cat("<h3 style='text-align:center;'>",id$garage_space,"</h3>")
 p = print_one(data$garage_space_cut)
-kable(p, digits=c(0,1), caption=id$garage_space)
+kable(ft(p), digits=c(0,1), caption=id$garage_space)
 
 data$f_garage_space_cut <- cut(data$f_garage_space, breaks=c(-1,1,50,100,150,200,1000000000), 
                        labels = c("Відсутні квартири",
@@ -527,23 +513,23 @@ data$f_garage_space_cut <- cut(data$f_garage_space, breaks=c(-1,1,50,100,150,200
 
 cat("<h3 style='text-align:center;'>",id$f_garage_space,"</h3>")
 p = print_one(data$f_garage_space_cut)
-kable(p, digits=c(0,1), caption=id$f_garage_space)
+kable(ft(p), digits=c(0,1), caption=id$f_garage_space)
 
 cat("<h3 style='text-align:center;'>",id$auto_num,"</h3>")
 p = print_one(data$auto_num)
-kable(p, digits=c(0,1), caption=id$auto_num)
+kable(ft(p), digits=c(0,1), caption=id$auto_num)
 
 cat("<h3 style='text-align:center;'>",id$f_auto_num,"</h3>")
 p = print_one(data$f_auto_num)
-kable(p, digits=c(0,1), caption=id$f_auto_num)
+kable(ft(p), digits=c(0,1), caption=id$f_auto_num)
 
 cat("<h3 style='text-align:center;'>",id$truck_num,"</h3>")
 p = print_one(data$truck_num)
-kable(p, digits=c(0,1), caption=id$truck_num)
+kable(ft(p), digits=c(0,1), caption=id$truck_num)
 
 cat("<h3 style='text-align:center;'>",id$f_truck_num,"</h3>")
 p = print_one(data$f_truck_num)
-kable(p, digits=c(0,1), caption=id$f_truck_num)
+kable(ft(p), digits=c(0,1), caption=id$f_truck_num)
 
 ```
 
@@ -570,27 +556,26 @@ c(id$cottage_space,summary(data$cottage_space[complete.cases(data$cottage_space)
 c(id$f_cottage_space,summary(data$f_cottage_space[complete.cases(data$f_cottage_space)])),
 c(id$garage_space,summary(data$garage_space[complete.cases(data$garage_space)])),
 c(id$f_garage_space,summary(data$f_garage_space[complete.cases(data$f_garage_space)])))
-
+temp <- as.numeric(p[,2:ncol(p)])
 p <- as.data.frame(p)
-
+p[,2:ncol(p)] <- temp
 names(p) <- c("Категорія","Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(p, digits=c(1,1,1,1,1,1,1), align=c("l","r","r","r","r","r","r"))
+kable(ft(p), align=c("l","r","r","r","r","r","r"))
 
 cat("<h2 style='text-align:center;'>Річний дохід</h2>")
-
 cat("<h3 style='text-align:center;'>Оцінки річного доходу за регіоном проживання</h3>")
 
 temp <- data %>% select(income,region) %>% filter (!is.na(income), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
 temp <- summaryBy(income ~ region, data=temp, FUN=summary)
 names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу за місцем роботи</h3>")
 
 temp <- data %>% select(income,office) %>% filter (!is.na(income), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
 temp <- summaryBy(income ~ office, data=temp, FUN=summary)
 names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу за регіоном роботи</h3>")
 
@@ -599,21 +584,21 @@ temp <- data %>% select(income,work_region) %>%
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
 temp <- summaryBy(income ~ work_region, data=temp, FUN=summary)
 names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї чиновника за регіоном проживання</h3>")
 
 temp <- data %>% select(f_income,region) %>% filter (!is.na(f_income), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
 temp <- summaryBy(f_income ~ region, data=temp, FUN=summary)
 names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї чиновника за місцем роботи</h3>")
 
 temp <- data %>% select(f_income,office) %>% filter (!is.na(f_income), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
 temp <- summaryBy(f_income ~ office, data=temp, FUN=summary)
 names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки річного доходу сім'ї за регіоном чиновника роботи</h3>")
 
@@ -622,7 +607,7 @@ temp <- data %>% select(f_income,work_region) %>%
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
 temp <- summaryBy(f_income ~ work_region, data=temp, FUN=summary)
 names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 
 cat("<h2 style='text-align:center;'>Земельні ділянки</h2>")
@@ -632,14 +617,14 @@ cat("<h3 style='text-align:center;'>Оцінки земельних діляно
 temp <- data %>% select(earth_space,region) %>% filter (!is.na(earth_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
 temp <- summaryBy(earth_space ~ region, data=temp, FUN=summary)
 names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок за місцем роботи</h3>")
 
 temp <- data %>% select(earth_space,office) %>% filter (!is.na(earth_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
 temp <- summaryBy(earth_space ~ office, data=temp, FUN=summary)
 names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок за регіоном роботи</h3>")
 
@@ -648,21 +633,21 @@ temp <- data %>% select(earth_space,work_region) %>%
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
 temp <- summaryBy(earth_space ~ work_region, data=temp, FUN=summary)
 names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї чиновника за регіоном проживання</h3>")
 
 temp <- data %>% select(f_earth_space,region) %>% filter (!is.na(f_earth_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
 temp <- summaryBy(f_earth_space ~ region, data=temp, FUN=summary)
 names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї чиновника за місцем роботи</h3>")
 
 temp <- data %>% select(f_earth_space,office) %>% filter (!is.na(f_earth_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
 temp <- summaryBy(f_earth_space ~ office, data=temp, FUN=summary)
 names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки земельних ділянок сім'ї за регіоном чиновника роботи</h3>")
 
@@ -671,7 +656,7 @@ temp <- data %>% select(f_earth_space,work_region) %>%
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
 temp <- summaryBy(f_earth_space ~ work_region, data=temp, FUN=summary)
 names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 
 
@@ -682,14 +667,14 @@ cat("<h3 style='text-align:center;'>Оцінки площі квартир за 
 temp <- data %>% select(flat_space,region) %>% filter (!is.na(flat_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
 temp <- summaryBy(flat_space ~ region, data=temp, FUN=summary)
 names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир за місцем роботи</h3>")
 
 temp <- data %>% select(flat_space,office) %>% filter (!is.na(flat_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
 temp <- summaryBy(flat_space ~ office, data=temp, FUN=summary)
 names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир за регіоном роботи</h3>")
 
@@ -698,21 +683,21 @@ temp <- data %>% select(flat_space,work_region) %>%
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
 temp <- summaryBy(flat_space ~ work_region, data=temp, FUN=summary)
 names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї чиновника за регіоном проживання</h3>")
 
 temp <- data %>% select(f_flat_space,region) %>% filter (!is.na(f_flat_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
 temp <- summaryBy(f_flat_space ~ region, data=temp, FUN=summary)
 names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї чиновника за місцем роботи</h3>")
 
 temp <- data %>% select(f_flat_space,office) %>% filter (!is.na(f_flat_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
 temp <- summaryBy(f_flat_space ~ office, data=temp, FUN=summary)
 names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі квартир сім'ї за регіоном чиновника роботи</h3>")
 
@@ -721,7 +706,7 @@ temp <- data %>% select(f_flat_space,work_region) %>%
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
 temp <- summaryBy(f_flat_space ~ work_region, data=temp, FUN=summary)
 names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 data[which.max(data$earth_space),]$earth_space
 
@@ -734,14 +719,14 @@ cat("<h3 style='text-align:center;'>Оцінки площі будинків з�
 temp <- data %>% select(house_space,region) %>% filter (!is.na(house_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
 temp <- summaryBy(house_space ~ region, data=temp, FUN=summary)
 names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків за місцем роботи</h3>")
 
 temp <- data %>% select(house_space,office) %>% filter (!is.na(house_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
 temp <- summaryBy(house_space ~ office, data=temp, FUN=summary)
 names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків за регіоном роботи</h3>")
 
@@ -750,21 +735,21 @@ temp <- data %>% select(house_space,work_region) %>%
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
 temp <- summaryBy(house_space ~ work_region, data=temp, FUN=summary)
 names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї чиновника за регіоном проживання</h3>")
 
 temp <- data %>% select(f_house_space,region) %>% filter (!is.na(f_house_space), !is.na(region), region %in% names(table(data$region)[table(data$region) >= 20]))
 temp <- summaryBy(f_house_space ~ region, data=temp, FUN=summary)
 names(temp) <- c(id$region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї чиновника за місцем роботи</h3>")
 
 temp <- data %>% select(f_house_space,office) %>% filter (!is.na(f_house_space), !is.na(office), office %in% names(table(data$office)[table(data$office) >= 20]))
 temp <- summaryBy(f_house_space ~ office, data=temp, FUN=summary)
 names(temp) <- c(id$office, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 cat("<h3 style='text-align:center;'>Оцінки площі будинків сім'ї за регіоном чиновника роботи</h3>")
 
@@ -773,7 +758,7 @@ temp <- data %>% select(f_house_space,work_region) %>%
           work_region %in% names(table(data$work_region)[table(data$work_region) >= 20]))
 temp <- summaryBy(f_house_space ~ work_region, data=temp, FUN=summary)
 names(temp) <- c(id$work_region, "Мінімум", "1 квартиль", "Медіана", "Середнє", "3 квартиль", "Максимум")
-kable(temp, digits=c(1,1,1,1,1,1,1))
+kable(ft(temp))
 
 
 ```
