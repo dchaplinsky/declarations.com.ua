@@ -611,5 +611,5 @@ screen and (max-height: 300px) {
 .analytics-wrapper td[align=right] {
     font-size: 14px;
     font-family: "Lucida Console", Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
-    min-width: 120px;
+    min-width: 135px;
 }

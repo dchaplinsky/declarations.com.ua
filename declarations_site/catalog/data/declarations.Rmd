@@ -146,7 +146,7 @@ id = list (
 # Функція для форматування таблиць
 
 ft <- function(t) {
-   t <- format(t, digits=10, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3, scientific = F)
+   t <- format(t, digits=7, big.mark=" ", decimal.mark=",",small.mark=",", small.interval=3, scientific = F)
    return(t)
 }
 
