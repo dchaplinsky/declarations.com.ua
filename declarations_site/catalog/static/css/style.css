@@ -101,7 +101,7 @@ h1#page-header {
     margin-bottom: 10px;
 }
 
-h1#page-header span {
+h1#page-header > span {
     border-bottom: 3px #21b79a solid;
     padding-right: 100px;
 }
@@ -711,6 +711,32 @@ display: none;
 .d-pdf a:hover {
     text-decoration: none;
     color: #e14045;
+}
+
+span.social {
+    float: right;
+    display: inline-block;
+}
+
+span.social iframe,
+span.social .fb_iframe_widget,
+span.social .twitter-share-button,
+span.social .disqus-comments-count {
+    float: right;
+    margin-right: 10px;
+    line-height: 20px;
+}
+
+h1#page-header span.social {
+    border-bottom: none;
+    font-size: 12px;
+    padding: 20px 0;
+}
+
+#disqus_thread {
+    background: white;
+    padding: 20px;
+    margin: -20px 0 40px;
 }
 
 /* General print styles */
