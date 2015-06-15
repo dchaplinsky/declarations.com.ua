@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'pipeline',
     'django_jinja',
     'django_jinja.contrib._humanize',
+    'django_jinja.contrib._easy_thumbnails',
 
     'compressor',
     'taggit',
@@ -109,7 +110,7 @@ ELASTICSEARCH_CONNECTIONS = {
 LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
 
-USE_I18N = False
+USE_I18N = True
 USE_L10N = False
 USE_TZ = True
 
@@ -163,10 +164,10 @@ PIPELINE_JS = {
 
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
-
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_URL = '/media/'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
@@ -180,10 +181,19 @@ COMPRESS_PRECOMPILERS = (
 
 LOGIN_URL = "/admin/login/"
 WAGTAIL_SITE_NAME = 'Declarations'
-# Slug of the analytics page. Handle with care as analytics script will use it to find existing page.
+# Slug of the analytics page. Handle with care as analytics script
+# will use it to find existing page.
 ANALYTICS_SLUG = 'analytics'
 # Only used during page creation (changeable)
 ANALYTICS_TITLE = 'Аналіз декларацій чиновників'
+
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'homepage_news': {'size': (390, 220), 'crop': True}
+    },
+}
+
 
 try:
     from .local_settings import *
