@@ -865,6 +865,8 @@ span.social {
     display: inline-block;
 }
 
+.front span.social  {float:left; margin-bottom:40px;}
+
 span.social iframe,
 span.social .fb_iframe_widget,
 span.social .twitter-share-button,
