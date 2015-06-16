@@ -137,6 +137,7 @@ PIPELINE_CSS = {
             'css/ripples.css',
             'css/animate.css',
             'css/style.css',
+            'css/responsive.css',
             'css/decls.css',
             'css/analytics.css',
         ),
