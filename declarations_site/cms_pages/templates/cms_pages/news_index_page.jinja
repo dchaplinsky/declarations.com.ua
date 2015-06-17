@@ -1,0 +1,31 @@
+{% extends "static.jinja" %}
+
+
+{% block page_name -%}
+Новини
+{%- endblock %}
+
+{% block page_header -%}
+Усі новини
+{%- endblock %}
+
+{% block static_content %}
+    {% if latest_news %}
+    <section id="newslist">
+        <div class="container">
+            <div class="row">
+                {% for row in latest_news|batch(2) %}
+                <div class="newsBox">
+                    {% for news in row %}
+                    <div class="newsRow col-sm-6">
+                        <span class="newsDate">{{ news.date_added|time("H:i") }}, {{ news.date_added|date }}</span>
+                        <a class="newsTitle blue{% if news.important %} important-news{% endif %}" href="{{ news.url }}">{{ news.title }}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}

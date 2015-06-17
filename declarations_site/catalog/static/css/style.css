@@ -889,3 +889,34 @@ h1#page-header span.social {
         padding: 0;
     }
 }
+
+
+#search-form::-webkit-input-placeholder{
+    color: silver;
+}
+
+#search-form:-moz-placeholder{
+    color: silver;
+}
+
+#search-form::-moz-placeholder{
+    color: silver;
+}
+
+#search-form::-ms-input-placeholder {
+    color: silver;
+    opacity: 1;
+}
+
+.big-about {
+    font-size: 16px;
+}
+
+.onpage-img {
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.important-news {
+    font-weight: bold;
+}

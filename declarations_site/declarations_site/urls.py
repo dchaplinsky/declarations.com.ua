@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.conf.urls import patterns, include, url
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
@@ -30,4 +32,4 @@ urlpatterns = patterns(
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'', include(wagtail_urls)),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

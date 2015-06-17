@@ -4,7 +4,7 @@
 
 {% block graph %}
     <section id="graph" class="on-white">
-        <div class="container">
+        {#<div class="container">
             <div class="row">
                 <div class="col col-sm-4 graph text-center">
                    
@@ -58,7 +58,7 @@
                 </div>
                 
             </div>
-        </div>
+        </div> #}
     </section>
     {% endblock %}
     
@@ -66,7 +66,7 @@
     <section id="infobox">
         <div class="container">
             <div class="row">
-                <div class="col col-md-4">
+                <div class="col{% if hp_news %} col-md-4{% else %} big-about{% endif %}">
                     <p class="mb10">
                         <a class="mediaimage" href="{{ url("wagtail_serve", "about/") }}">
                             <img alt="" src="{{ static("images/anonim.png") }}" class="img-circle" />
@@ -74,73 +74,51 @@
                     </p>
                     <a href="{{ url("wagtail_serve", "about/") }}" class="classic green">Дізнатися детально про проект</a>
                 </div>
+                {% if hp_news %}
                 <div id="top-news">
+                    {% if hp_news.image %}
                     <div class="col col-md-4">
-                        <a href="#" class="block">
-                            <img class="img-responsive" src="http://dummyimage.com/390x220/e5e5e5/fff.png&text=image+news" />
+                        <a href="{{ hp_news.url }}" class="block">
+                            <img class="img-responsive" src="{{ hp_news.image.file|thumbnail_url("homepage_news") }}" />
                         </a>
                     </div>
-                    <div class="col col-md-4">
-                        <span class="topMarker">ТОП-новость:</span>
-                        <a href="#" class="block nd">
-                            <h3 class="text-left">Что-то там произошло, волонтеры посчитали и вот</h3>
+                    {% endif %}
+                    <div class="col{% if hp_news.image %} col-md-4{% else %} col-md-8{% endif %}">
+                        <span class="topMarker">ТОП-новина:</span>
+                        <a href="{{ hp_news.url }}" class="block nd">
+                            <h3 class="text-left">{{ hp_news.title }}</h3>
                         </a>
-                        <p class="text-left">Хотел написать хороший пост. А напишу: ОЧЕНЬ НУЖНЫ КСЕРОКСЫ. На несколько дней. Любые рабочие. Не надо промышленных машин. Подойдут обычные офисные МФУшки размером с.. ну, с мфушку. Только чтоб они ксерили. То есть с чб-картриджем и рабочие. <a href="#" class="block">Подробнее...</a></p>
+                        <p class="text-left">{{ hp_news.lead|richtext }} <a href="{{ hp_news.url }}" class="block">Детальніше…</a></p>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </section>
 {% endblock %}
 
 {% block newslist %}
+    {% if latest_news %}
     <section id="newslist" >
-        <div class="container">
+        <div class="container">            
             <div class="row">
-                <h3 class="text-center">Еще новости проекта</h3>
+                <h3 class="text-center">Ще новини проекта</h3>
+
+                {% for row in latest_news|batch(2) %}                
                 <div class="newsBox">
-                    <div class="newsRow column1 col-sm-6">
-                        <span class="newsDate">20 мая 2015</span>
-                        <a class="newsTitle blue" href="#">Столичный воздух ядовит и опасен - мэр Киева</a>
+                    {% for news in row %}
+                    <div class="newsRow col-sm-6">
+                        <span class="newsDate">{{ news.date_added|time("H:i") }}, {{ news.date_added|date }}</span>
+                        <a class="newsTitle blue{% if news.important %} important-news{% endif %}" href="{{ news.url }}">{{ news.title }}</a>
                     </div>
-                    <div class="newsRow column2 col-sm-6">
-                        <span class="newsDate">21 мая 2015</span>
-                        <a class="newsTitle blue" href="#">Чтобы ликвидировать пожар на нефтебазе спасатели решили проложить туда водопровод</a>
-                    </div>
+                    {% endfor %}
                 </div>
-                <div class="newsBox">
-                    <div class="newsRow column1 col-sm-6">
-                        <span class="newsDate">4 июня 2015</span>
-                        <a class="newsTitle blue" href="#">Журналист снял на видео, как сейчас выглядит горящая нефтебаза под Васильковом</a>
-                    </div>
-                    <div class="newsRow column2 col-sm-6">
-                        <span class="newsDate">11 июля 2015</span>
-                        <a class="newsTitle blue" href="#">В Василькове пожарный поезд начал пенную атаку</a>
-                    </div>
-                </div>
-                <div class="newsBox">
-                    <div class="newsRow column1 col-sm-6">
-                        <span class="newsDate">20 мая 2015</span>
-                        <a class="newsTitle blue" href="#">Столичный воздух ядовит и опасен - мэр Киева</a>
-                    </div>
-                    <div class="newsRow column2 col-sm-6">
-                        <span class="newsDate">20 мая 2015</span>
-                        <a class="newsTitle blue" href="#">Чтобы ликвидировать пожар на нефтебазе спасатели решили проложить туда водопровод</a>
-                    </div>
-                </div>
-                <div class="newsBox">
-                    <div class="newsRow column1 col-sm-6">
-                        <span class="newsDate">20 мая 2015</span>
-                        <a class="newsTitle blue" href="#">Журналист снял на видео, как сейчас выглядит горящая нефтебаза под Васильковом</a>
-                    </div>
-                    <div class="newsRow column2 col-sm-6">
-                        <span class="newsDate">20 мая 2015</span>
-                        <a class="newsTitle blue" href="#">В Василькове пожарный поезд начал пенную атаку</a>
-                    </div>
-                </div>
-                <a class = "classic gree text-right pull-right" href="#">Все новости</a> </div>
+                {% endfor %}
+                <a class="classic gree text-right pull-right" href="{{ url("wagtail_serve", "news/") }}">Усі новини</a>
+            </div>
         </div>
     </section>
+    {% endif %}
 {% endblock %}
 
 {% block social %}

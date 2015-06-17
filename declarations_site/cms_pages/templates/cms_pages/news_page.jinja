@@ -1,0 +1,20 @@
+{% extends "static.jinja" %}
+
+
+{% block page_name -%}
+{{ page.title }}
+{%- endblock %}
+
+{% block page_header -%}
+{{ page.title }}
+{%- endblock %}
+
+{% block static_content %}
+<p class="newsDate">{{ page.date_added|time("H:i") }}, {{ page.date_added|date }}</p>
+
+{% if page.image %}
+	<img class="img-responsive pull-left onpage-img" src="{{ page.image.file|thumbnail_url("homepage_news") }}" />
+{% endif %}
+
+{{ page.body|richtext }}
+{% endblock %}
