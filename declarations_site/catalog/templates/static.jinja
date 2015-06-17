@@ -11,7 +11,7 @@
         </div>
 
         <h1 id="page-header"><span>{% block page_header %}{% endblock %}</span>
-        {{ social(page.title,"http://declarations.com.ua%s" % request.path, add_disqus=True) }}</h1>
+        {{ social(page.title,"http://declarations.com.ua%s" % request.path, add_disqus=False) }}</h1>
                   
         <div class="page-content">
         {% block static_content %}
