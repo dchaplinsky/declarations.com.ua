@@ -343,10 +343,15 @@ a.white:hover,
     margin-top:60px;
 }
 
+.newsBox {
+    padding:7px 12px;
+}
 
 .newsBox {
-    padding: 15px 25px;
-    overflow: hidden;
+    display:block;
+    height:100%;
+    clear:both;
+    overflow:auto;
 }
 
 .newsBox:nth-child(odd) {
@@ -355,7 +360,6 @@ a.white:hover,
 .newsBox:nth-child(even) {
     background: white;
 }
-
 
 .newsDate,
 .newsTitle {
@@ -840,6 +844,8 @@ span.social {
     float: right;
     display: inline-block;
 }
+
+.front span.social  {float:left; margin-bottom:40px;}
 
 span.social iframe,
 span.social .fb_iframe_widget,

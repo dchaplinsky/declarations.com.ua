@@ -121,6 +121,14 @@
     {% endif %}
 {% endblock %}
 
+{% block social %}
+    <div class="container">
+        <div class="row">
+            {{ social("Декларації чиновників.", "http://declarations.com.ua", add_disqus=False) }}
+        </div>
+    </div>
+{% endblock %}
+
 {% block content %}
     <div class="cp"></div>
     <!-- clear padding --> 

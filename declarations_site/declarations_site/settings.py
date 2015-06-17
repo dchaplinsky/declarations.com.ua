@@ -140,6 +140,7 @@ PIPELINE_CSS = {
             'css/style.css',
             'css/decls.css',
             'css/analytics.css',
+            'css/responsive.css',
         ),
         'output_filename': 'css/merged.css',
         'extra_context': {},
