@@ -40,9 +40,10 @@ def curformat(value):
     else:
         return mark_safe('<i class="i-value-empty">—</i>')
 
+
 @library.filter
 def emptyformat(value):
-    if value and value != "" and value !="0":
+    if value and value != "" and value != "0":
         return value
     else:
         return mark_safe('<i class="i-value-empty">—</i>')
@@ -58,6 +59,7 @@ VALID_POSITIONS = [
     "Батько",
     "Жінка",
     "Брат",
+    "Дружина брата",
     "Сестра",
     "Теща",
     "Онук",
@@ -111,7 +113,7 @@ def parse_family_member(s):
 
         for pos in VALID_POSITIONS:
             if person.capitalize().startswith(pos):
-                print("%s %s" % (person, pos))
+                print("%s %s %s" % (s, person, pos))
                 raise ValueError
 
         return {

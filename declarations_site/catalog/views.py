@@ -56,7 +56,7 @@ def search(request):
 @hybrid_response('declaration.jinja')
 def details(request, declaration_id):
     try:
-        declaration = Declaration.get(id=int(declaration_id))
+        declaration = Declaration.get(id=declaration_id)
     except (ValueError, NotFoundError):
         raise Http404("Таких не знаємо!")
 

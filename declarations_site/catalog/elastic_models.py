@@ -18,6 +18,9 @@ class Declaration(DocType):
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
             'full_name': String(index='analyzed'),
+            'name': String(index='analyzed'),
+            'patronymic': String(index='analyzed'),
+            'last_name': String(index='analyzed'),
             'family_raw': String(index='analyzed'),
             'family': Nested(
                 properties={
