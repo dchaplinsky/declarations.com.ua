@@ -4,7 +4,7 @@
 {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} - {% if declaration.general.post.post %} {{ declaration.general.post.post }} - {% endif %} декларація за {{ declaration.intro.declaration_year }} рік
 {%- endblock %}
 
-{% block html_desc %}Декларація за {{ declaration.intro.declaration_year }} рік {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} ({{ declaration.general.post.position }} {{ declaration.general.post.post }}) {% endblock %}
+{% block html_desc %}Декларація за {{ declaration.intro.declaration_year }} рік {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} ({{ declaration.general.post.office }} {{ declaration.general.post.post }}) {% endblock %}
 
 {% block content %}
 <section id="page">
@@ -17,7 +17,11 @@
             </ol> 
         </div>
 
-        <h1 id="page-header"><span itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span></h1>
+        <h1 id="page-header"><span itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span>
+        {{ social("%s %s %s. Декларація про доходи. Цікаві дані" % (declaration.general.last_name, declaration.general.name, declaration.general.patronymic),
+                  "http://declarations.com.ua%s" % request.path,
+                  add_disqus=True) }}
+        </h1>
         <h2 class="sub-header">
             <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
             {{ declaration.intro.declaration_year }}<span>,</span>
@@ -40,6 +44,26 @@
                 {% include 'decl_form.jinja' %}
             </div>
         </div>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES * * */
+            var disqus_shortname = 'declarations-ua';
+            
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+
+            (function () {
+            var s = document.createElement('script'); s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+            }());            
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>        
     </div>
-</section>
+    </section>
 {% endblock %}

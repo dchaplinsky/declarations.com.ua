@@ -14,7 +14,11 @@
                 <li class="active">Результати пошуку</li>
             </ol> 
         </div>
-        <h1 id="page-header"><span>{{ query|default("Всі")|escape }} ({{ results.paginator.count }})</span></h1>
+        <h1 id="page-header"><span>{{ query|default("Всі")|escape }} ({{ results.paginator.count }})</span>
+        {{ social("Результати пошуку по: %s. " % query,
+                  "http://declarations.com.ua%s" % request.path ,
+                  add_disqus=False) }}
+        </h1>
         <div class="page-content">
         <div class="container">
             <div class="btn-group">
