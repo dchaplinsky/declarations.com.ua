@@ -41,7 +41,7 @@ MAPPING = {
             "office": "",
             "post": ""
         },
-        "post_raw": "office/0/position",
+        "post_raw": "office/position",
 
         "family": SubDocument(
             "details/fields/4.0/items",

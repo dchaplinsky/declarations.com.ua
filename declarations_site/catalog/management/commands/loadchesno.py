@@ -75,10 +75,6 @@ class Command(BaseCommand):
                     item = Declaration(**mapped)
                     item.save()
                     counter += 1
-                    print(mapped['general']['full_name'])
-                    print(mapped['general']['name'])
-                    print(mapped['general']['patronymic'])
-                    print(mapped['general']['last_name'])
             self.stdout.write(
                 'Loaded {} items to persistence storage'.format(counter))
 
