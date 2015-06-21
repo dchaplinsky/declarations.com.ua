@@ -55,6 +55,9 @@ class Command(BaseCommand):
             counter = 0
             Declaration.init()  # Apparently this is required to init mappings
             for row in decls:
+                if "fields" not in row["details"]:
+                    continue
+
                 mapped = self.map_fields(row)
                 res = Declaration.search().filter(
                     Term(general__last_name=mapped[

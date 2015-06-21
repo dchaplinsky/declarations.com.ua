@@ -924,3 +924,7 @@ h1#page-header span.social {
 .important-news {
     font-weight: bold;
 }
+
+.chesno {
+    border: 1px solid red;
+}

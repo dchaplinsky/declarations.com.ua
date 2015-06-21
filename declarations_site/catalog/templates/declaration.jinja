@@ -39,7 +39,7 @@
         <div class="page-content">
             <div class="box">
                 {% if declaration.declaration.url %}
-                    <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank"><i></i><span>Оригінал декларації</span></a></div>
+                    <div class="d-pdf{% if declaration.declaration.source == "CHESNO" %} chesno{% endif %}"><a href="{{ declaration.declaration.url }}" target="_blank"><i></i><span>Оригінал декларації</span></a></div>
                 {% endif %}
                 {% include 'decl_form.jinja' %}
             </div>

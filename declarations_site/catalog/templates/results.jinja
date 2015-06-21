@@ -31,7 +31,7 @@
             </div>
             <div id="search-results" class="row list-group">
                 {% for r in results %}
-                <div class="item col-xs-4 col-lg-4 grid-group-item" itemscope itemtype="http://schema.org/Person">
+                <div class="item col-xs-4 col-lg-4 grid-group-item{% if r.declaration.source == "CHESNO" %} chesno{% endif %}" itemscope itemtype="http://schema.org/Person">
                     <div class="box">
                         <h3><a href="{{ url("details", declaration_id=r._id) }}" itemprop="name">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a></h3>
                         <ul class="tags_list">
