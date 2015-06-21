@@ -30,7 +30,7 @@
                                     {% if f.key %}
                                     <a href="{{ url('region', region_name=f.key) }}">{{ f.key }} ({{ f.doc_count }})</a>
                                     {% else %}
-                                    {{ f.key }} ({{ f.doc_count }})
+                                    Не зазначено ({{ f.doc_count }})
                                     {% endif %}
                                 </td>
                             </tr>

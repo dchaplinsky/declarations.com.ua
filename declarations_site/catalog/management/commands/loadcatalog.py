@@ -114,15 +114,19 @@ class Command(BaseCommand):
                                 deepcopy(self.mapping_defs)))
 
     def pre_process(self, rec):
-        name_chunks = rec["general"]["full_name"].split(u" ")
-
-        if len(name_chunks) == 2:
-            rec["general"]["last_name"] = name_chunks[0]
-            rec["general"]["name"] = name_chunks[1]
+        if rec['general']['full_name'] == 'Айварас Абромавичус':
+            # This guy's a special case. Otherwise name and last name are mixed up, which affects search.
+            rec['general']['name'] = 'Айварас'
+            rec['general']['last_name'] = 'Абромавичус'
         else:
-            rec["general"]["last_name"] = u" ".join(name_chunks[:-2])
-            rec["general"]["name"] = name_chunks[-2]
-            rec["general"]["patronymic"] = name_chunks[-1]
+            name_chunks = rec["general"]["full_name"].split(u" ")
+            if len(name_chunks) == 2:
+                rec["general"]["last_name"] = name_chunks[0]
+                rec["general"]["name"] = name_chunks[1]
+            else:
+                rec["general"]["last_name"] = u" ".join(name_chunks[:-2])
+                rec["general"]["name"] = name_chunks[-2]
+                rec["general"]["patronymic"] = name_chunks[-1]
 
         rec["general"]["full_name_suggest"] = {
             "input": [

@@ -180,12 +180,12 @@ class Command(BaseCommand):
             'f_other_vehicle': ';'.join(map(lambda x: x['brand'], declaration.vehicle['44'])),
             'f_other_vehicle_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['44'])),
             'f_other_vehicle_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['44'])))),
-            'bank_uah': floatify(declaration.banks['45'][0]['sum']),
-            'bank_usd': floatify(declaration.banks['45'][1]['sum']),
-            'bank_eur': floatify(declaration.banks['45'][2]['sum']),
-            'f_bank_uah': floatify(declaration.banks['51'][0]['sum']),
-            'f_bank_usd': floatify(declaration.banks['51'][1]['sum']),
-            'f_bank_eur': floatify(declaration.banks['51'][2]['sum']),
+            'bank_uah': floatify(declaration.banks['45'][0]['sum'] if len(declaration.banks['45']) > 0 else '0'),
+            'bank_usd': floatify(declaration.banks['45'][1]['sum'] if len(declaration.banks['45']) > 1 else '0'),
+            'bank_eur': floatify(declaration.banks['45'][2]['sum'] if len(declaration.banks['45']) > 2 else '0'),
+            'f_bank_uah': floatify(declaration.banks['51'][0]['sum'] if len(declaration.banks['51']) > 0 else '0'),
+            'f_bank_usd': floatify(declaration.banks['51'][1]['sum'] if len(declaration.banks['51']) > 1 else '0'),
+            'f_bank_eur': floatify(declaration.banks['51'][2]['sum'] if len(declaration.banks['51']) > 2 else '0'),
         }
 
     def _run_knitr(self, table, fragment_only=True):

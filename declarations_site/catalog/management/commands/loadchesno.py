@@ -1,14 +1,14 @@
 import json
 
-from pprint import pprint
 from copy import deepcopy
-from datetime import datetime
 
 from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
+
+from elasticsearch_dsl.filter import Term
 
 from catalog.elastic_models import Declaration
-from catalog.data.mapping_chesno import MAPPING, SubDocument
+from catalog.data.mapping_chesno import MAPPING, SubDocument, NumericOperation, JoinOperation
+from catalog.templatetags.catalog import parse_family_member
 
 
 class Command(BaseCommand):
@@ -23,15 +23,15 @@ class Command(BaseCommand):
 
     def recur_map(self, resolver_func, mapping_data, source_data):
         def step(k, v):
-            if isinstance(v, str):
-                return resolver_func(k, v, source_data)
-            elif isinstance(v, (list, dict)):
+            if isinstance(v, (list, dict)):
                 return self.recur_map(resolver_func, mapping_data[k],
                                       source_data)
             elif isinstance(v, SubDocument):
                 return [
                     self.recur_map(resolver_func, deepcopy(v.mapping), sub_d)
-                    for sub_d in resolver_func(k, v.path_prefix, source_data)]
+                    for sub_d in resolver_func(v.path_prefix, source_data)]
+            else:
+                return resolver_func(v, source_data)
 
         if isinstance(mapping_data, dict):
             for k, v in mapping_data.items():
@@ -55,11 +55,26 @@ class Command(BaseCommand):
             counter = 0
             Declaration.init()  # Apparently this is required to init mappings
             for row in decls:
-                pprint(self.map_fields(row))
-                # item = Declaration(**self.map_fields(row))
+                mapped = self.map_fields(row)
+                res = Declaration.search().filter(
+                    Term(general__last_name=mapped[
+                        'general']['last_name'].lower().split('-')) &
+                    Term(general__name=mapped[
+                        'general']['name'].lower().split('-')) &
+                    Term(intro__declaration_year=mapped[
+                        'intro']['declaration_year'])
+                )
 
-                # item.save()
-                # counter += 1
+                if mapped['general']['patronymic']:
+                    res = res.filter(Term(general__patronymic=mapped[
+                        'general']['patronymic'].lower()))
+
+                res = res.execute()
+
+                if not res.hits:
+                    item = Declaration(**mapped)
+                    item.save()
+                    counter += 1
             self.stdout.write(
                 'Loaded {} items to persistence storage'.format(counter))
 
@@ -76,15 +91,28 @@ class Command(BaseCommand):
 
             return val
 
-        def mapping_func(key, path, document):
+        def mapping_func(path, document):
             if len(path) > 2 and path[0] == '%' and path[-1] == '%':
                 # If it's in form "%<path>%", return the path
                 return path[1:-1]
 
-            row_value = get_by_path(document, path)
+            if isinstance(path, NumericOperation):
+                row_value = str(path.operation(
+                    float(sub_d[path.field])
+                    for sub_d in mapping_func(path.path_prefix, document)
+                    if sub_d[path.field]
+                ))
+            elif isinstance(path, JoinOperation):
+                row_value = path.separator.join(
+                    mapping_func(path, document) for path in path.paths
+                )
+            else:
+                row_value = get_by_path(document, path)
 
             if isinstance(row_value, str):
                 row_value = row_value.replace(u"й", u"й").replace(u"ї", u"ї")
+            elif isinstance(row_value, float):
+                row_value = str(row_value)
 
             return row_value
 
@@ -93,29 +121,37 @@ class Command(BaseCommand):
                                 row))
 
     def pre_process(self, rec):
-        name_chunks = rec["general"]["full_name"].split(u" ")
+        # This guy's really lucky.
+        # Everyone's getting his last name wrong and everyone's testing the code on his declaration.
+        if rec['general']['last_name'] == 'Абромавічус':
+            rec['general']['last_name'] = 'Абромавичус'
+            rec['general']['full_name'] = 'Айварас Абромавичус'
 
-        if len(name_chunks) == 2:
-            rec["general"]["last_name"] = name_chunks[0]
-            rec["general"]["name"] = name_chunks[1]
-        else:
-            rec["general"]["last_name"] = u" ".join(name_chunks[:-2])
-            rec["general"]["name"] = name_chunks[-2]
-            rec["general"]["patronymic"] = name_chunks[-1]
-
-        rec["general"]["full_name_suggest"] = {
-            "input": [
-                u" ".join([rec["general"]["last_name"], rec["general"]["name"],
-                           rec["general"]["patronymic"]]),
-                u" ".join([rec["general"]["name"],
-                           rec["general"]["patronymic"],
-                           rec["general"]["last_name"]]),
-                u" ".join([rec["general"]["name"],
-                           rec["general"]["last_name"]])
+        rec['general']['full_name_suggest'] = {
+            'input': [
+                u' '.join([rec['general']['last_name'], rec['general']['name'],
+                           rec['general']['patronymic']]),
+                u' '.join([rec['general']['name'],
+                           rec['general']['patronymic'],
+                           rec['general']['last_name']]),
+                u' '.join([rec['general']['name'],
+                           rec['general']['last_name']])
             ],
-            "output": rec["general"]["full_name"]
+            'output': rec['general']['full_name']
         }
+        for i, family_member in enumerate(rec['general']['family']):
+            parsed = parse_family_member(family_member['family_name'])
+            if 'raw' in parsed:
+                rec['general']['family_raw'] = parsed['raw']
+            else:
+                rec['general']['family'][i] = parsed
 
-        rec["_id"] = "chesno_{}".format(rec["_id"])
+        rec['_id'] = 'chesno_{}'.format(rec['_id'])
+        if rec['declaration']['url']:
+            rec['declaration']['url'] = 'http://www.chesno.org{}'.format(rec['declaration']['url'])
+        else:
+            rec['declaration']['url'] = rec['declaration']['link']
+            rec['declaration'].pop('link')
+        rec['declaration']['date'] = None
 
         return rec
