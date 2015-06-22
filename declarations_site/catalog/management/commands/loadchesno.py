@@ -78,6 +78,10 @@ class Command(BaseCommand):
                     item = Declaration(**mapped)
                     item.save()
                     counter += 1
+                else:
+                    self.stdout.write(
+                        "%s already exists" % mapped['general']['full_name'])
+
             self.stdout.write(
                 'Loaded {} items to persistence storage'.format(counter))
 

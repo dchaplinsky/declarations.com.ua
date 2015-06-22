@@ -37,9 +37,9 @@ MAPPING = {
         "addresses_raw": "",
         "addresses_raw_hidden": "",
         "post": {
-            "region": "",
-            "office": "",
-            "post": ""
+            "region": "office/region",
+            "office": "office/office",
+            "post": "office/position"
         },
         "post_raw": "office/position",
 
