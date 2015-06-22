@@ -86,7 +86,8 @@ h6 {
     font-weight: normal;
 }
 
-h1#page-header {
+h1#page-header,
+h1.page-header {
     color: #21b79a;
     text-transform: uppercase;
     font-size: 30px;
@@ -94,7 +95,8 @@ h1#page-header {
     margin-bottom: 10px;
 }
 
-h1#page-header > span {
+h1#page-header > span,
+h1.page-header > span {
     border-bottom: 3px #21b79a solid;
     padding-right: 100px;
 }
@@ -875,8 +877,11 @@ display: none;
 }
 
 span.social {
-    float: right;
     display: inline-block;
+}
+
+h1 span.social {
+    float: right;
 }
 
 .front span.social {

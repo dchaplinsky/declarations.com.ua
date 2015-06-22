@@ -74,6 +74,9 @@ class Command(BaseCommand):
                     for e in estate if e['space']]
 
         def floatify(val):
+            if val is None:
+                val = ""
+
             return float(val.replace(",", ".") or 0)
 
         return {
