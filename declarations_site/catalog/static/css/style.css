@@ -425,6 +425,13 @@ a.white:hover,
     border: 0;
     position: relative;
 }
+.chesno .box {
+    background: #fff url(../images/chesno_logo_uk.png) no-repeat right -120px bottom -20px;
+}
+
+.chesno.list-group-item .box {
+    background-position: right 0px bottom 5px;
+}
 
 #search-results .item {
     margin-top: 20px;
@@ -818,6 +825,15 @@ display: none;
     top: 42px;
 }
 
+.d-pdf.chesno a {display:block; height:60px;}
+
+.d-pdf.chesno a span {
+    display: none;
+}
+.d-pdf.chesno a:hover span {
+    display:inline;
+}
+
 .d-pdf i {
     background: url(../images/pdf.png) no-repeat;
     height: 48px;
@@ -827,6 +843,19 @@ display: none;
     float: left;
     opacity: 0.5;
     filter: alpha(Opacity=50);
+}
+
+.d-pdf.chesno i {
+    background:url(../images/chesno_logo_uk.png) no-repeat center center;
+    background-size:contain;
+    opacity: 1;
+    filter: alpha(Opacity=100);
+    width: 120px;
+    height:60px;
+}
+
+.d-pdf.chesno a:hover i {
+    display: none;
 }
 
 .d-pdf a:hover i {
@@ -923,8 +952,4 @@ h1#page-header span.social {
 
 .important-news {
     font-weight: bold;
-}
-
-.chesno {
-    border: 1px solid red;
 }
