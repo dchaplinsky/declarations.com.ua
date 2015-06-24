@@ -4,7 +4,6 @@
 # data = re.sub("#.*$", "", data, flags=re.MULTILINE)
 # json.loads(data)
 {
-    "_id": "N п/п",
     "intro": {
         "isnotdeclaration": "0. ЦЕ НЕ ДЕКЛАРАЦІЯ (почищено)",
         "declaration_year": "0. Це декларація за ____ рік? (почищено)"
@@ -15,12 +14,12 @@
         "name": "",  # Іван
         "patronymic": "",  # Сергійович
 
-        "name_hidden": "ФИО: приховано",
-        "name_unclear": "ФИО: нрзб",
-        "last_name_hidden": "ФИО: приховано",
-        "last_name_unclear": "ФИО: нрзб",
-        "patronymic_hidden": "ФИО: приховано",
-        "patronymic_unclear": "ФИО: нрзб",
+        "name_hidden": "ПІБ: приховано",
+        "name_unclear": "ПІБ: нрзб",
+        "last_name_hidden": "ПІБ: приховано",
+        "last_name_unclear": "ПІБ: нрзб",
+        "patronymic_hidden": "ПІБ: приховано",
+        "patronymic_unclear": "ПІБ: нрзб",
 
         "inn": "ИНН",  # 3003002001
         "addresses": [
@@ -1204,6 +1203,7 @@
         "additional_info": "Є додаткова інформація",
         "additional_info_text": "Що саме не вмістилось",
         "needs_scancopy_check": "Результат сверки машин",
+        "source": "Джерело даних",
         "url": "Ссылка на декларацию"
     }
 }
