@@ -29,7 +29,8 @@ class Command(BaseCommand):
             elif isinstance(v, SubDocument):
                 return [
                     self.recur_map(resolver_func, deepcopy(v.mapping), sub_d)
-                    for sub_d in resolver_func(v.path_prefix, source_data)]
+                    for sub_d in
+                    resolver_func(v.path_prefix, source_data) or []]
             else:
                 return resolver_func(v, source_data)
 
@@ -64,23 +65,30 @@ class Command(BaseCommand):
                         'general']['last_name'].lower().split('-')) &
                     Term(general__name=mapped[
                         'general']['name'].lower().split('-')) &
-                    Term(intro__declaration_year=mapped[
-                        'intro']['declaration_year'])
+                    Term(intro__declaration_year=int(mapped['intro']['declaration_year']))
                 )
 
                 if mapped['general']['patronymic']:
                     res = res.filter(Term(general__patronymic=mapped[
                         'general']['patronymic'].lower()))
 
+                self.stdout.write(
+                    "Checking %s (%s)" % (
+                        mapped['general']['full_name'],
+                        mapped['intro']['declaration_year']))
+
                 res = res.execute()
 
                 if not res.hits:
                     item = Declaration(**mapped)
                     item.save()
+
                     counter += 1
                 else:
                     self.stdout.write(
-                        "%s already exists" % mapped['general']['full_name'])
+                        "%s (%s) already exists" % (
+                            mapped['general']['full_name'],
+                            mapped['intro']['declaration_year']))
 
             self.stdout.write(
                 'Loaded {} items to persistence storage'.format(counter))

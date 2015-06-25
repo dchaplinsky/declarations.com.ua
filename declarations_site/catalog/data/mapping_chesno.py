@@ -5,7 +5,7 @@ NumericOperation = namedtuple("NumericOperation", ["path_prefix", "field", "oper
 JoinOperation = namedtuple("JoinOperation", ["paths", "separator"])
 
 MAPPING = {
-    "_id": "details/person_id",
+    "_id": "details/id",
     "intro": {
         "isnotdeclaration": "",
         "declaration_year": "details/year"
