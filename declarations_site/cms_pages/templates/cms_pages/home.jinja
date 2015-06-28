@@ -4,6 +4,11 @@
 
 {% block graph %}
     <section id="graph" class="on-white">
+        <div class="container">
+            <div class="row">
+                {{ social("Декларації чиновників.", "http://declarations.com.ua", add_disqus=False) }}
+            </div>
+        </div>
         {#<div class="container">
             <div class="row">
                 <div class="col col-sm-4 graph text-center">
@@ -102,7 +107,7 @@
     <section id="newslist" >
         <div class="container">            
             <div class="row">
-                <h3 class="text-center">Ще новини проекта</h3>
+                <h3 class="text-center">Інші новини декларацій</h3>
 
                 {% for row in latest_news|batch(2) %}                
                 <div class="newsBox">
@@ -122,11 +127,13 @@
 {% endblock %}
 
 {% block social %}
+{#   
     <div class="container">
         <div class="row">
             {{ social("Декларації чиновників.", "http://declarations.com.ua", add_disqus=False) }}
         </div>
     </div>
+#}
 {% endblock %}
 
 {% block content %}
