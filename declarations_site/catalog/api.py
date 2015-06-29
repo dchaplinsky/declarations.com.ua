@@ -15,12 +15,15 @@ def serialize_for_api(data):
     TODO: this is rather ugly, would look better if views/models defined
     transformations explicitly. This is hard to achieve with function-based
     views, so it's pending a CBV move."""
+
     if hasattr(data, 'to_api'):
         return serialize_for_api(data.to_api())
     elif isinstance(data, Response):
         return serialize_for_api(data.hits._l_)
     elif isinstance(data, (AttrDict, ObjectBase)):
-        return data.to_dict()
+        res = data.to_dict()
+        res["id"] = data._id
+        return res
     elif isinstance(data, AttrList):
         return data._l_
     elif isinstance(data, dict):
