@@ -48,7 +48,7 @@
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
 						<span  class="i-wai">Тип населенного пункту</span>
-						{{ address.place_city_type }}
+						{{ address.place_city_type|default('') }}
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
 						<span  class="i-wai">Решта адреси</span>
@@ -56,13 +56,15 @@
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
 						<span  class="i-wai">Тип адреси</span>
-						{{ address.place_address_type }}
+						{{ address.place_address_type|default('') }}
 					</span>
 				</span>
 				{% endfor %}
+				{% if declaration.general.addresses_raw %}
 				<span class="l-weiss-form__item">
 					{{ declaration.general.addresses_raw }}
 				</span>
+				{% endif %}
 			</p>
 			<p class="l-weiss-form__row">
 				<span class="l-weiss-form__item weiss-form__label">
