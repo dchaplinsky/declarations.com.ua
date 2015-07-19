@@ -79,6 +79,14 @@ class Command(BaseCommand):
 
             return float(val.replace(",", ".") or 0)
 
+        def family_list():
+            if len(declaration.general.family):
+                return list(filter(lambda x: x['relations'] or x['family_name'], declaration.general.family))
+            elif declaration.general.family_raw:
+                return declaration.general.family_raw.split(';')
+            else:
+                return []
+
         return {
             'name': '<a href="{0}" target="_blank">{1} ({2})</a>'.format(
                 reverse("details", kwargs={"declaration_id": declaration._id}),
@@ -88,11 +96,11 @@ class Command(BaseCommand):
                 declaration.intro.declaration_year),
             'region': declaration.general.addresses[0].place,
             'city': declaration.general.addresses[0].place_city,
-            'family_num': len(declaration.general.family_raw.split(';')) if declaration.general.family_raw else 0,
+            'family_num': len(family_list()),
             'work_region': declaration.general.post.region,
             'post': declaration.general.post.post,
             'office': declaration.general.post.office,
-            'year': int(declaration.intro.declaration_year),
+            'year': int(declaration.intro.declaration_year or 0),
             'income': floatify(declaration.income['5']['value']),
             'f_income': floatify(declaration.income['5']['family']),
             'salary': floatify(declaration.income['6']['value']),
@@ -169,7 +177,7 @@ class Command(BaseCommand):
             'boat_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['37'])),
             'boat_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['37'])))),
             'f_boat': ';'.join(map(lambda x: x['brand'], declaration.vehicle['42'])),
-            'f_boat_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['42'])),
+            'f_boat_year': ';'.join(map(lambda x: x.get('year', ''), declaration.vehicle['42'])),
             'f_boat_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['42'])))),
             'plane': ';'.join(map(lambda x: x['brand'], declaration.vehicle['38'])),
             'plane_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['38'])),

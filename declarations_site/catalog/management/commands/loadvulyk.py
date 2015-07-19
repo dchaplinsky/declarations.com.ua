@@ -109,7 +109,7 @@ class Command(BaseCommand):
             res = res.execute()
 
             if res.hits:
-                mapped['id'] = res.hits[0]._id
+                mapped['_id'] = res.hits[0]._id
 
             item = Declaration(**mapped)
             item.save()
@@ -150,7 +150,7 @@ class Command(BaseCommand):
         def flatten_map_record(record):
             def step(key, value):
                 if isinstance(value, dict):
-                    if all(map(lambda x: x.startswith('0'), value.keys())):
+                    if any(map(lambda x: x.startswith('0'), value.keys())):
                         # Flatten the dicts for 0-indexed keys into a list of values
                         return list(map(lambda x: flatten_map_record(x[1]), sorted(value.items())))
                     elif 'final_value' in value:
@@ -187,8 +187,13 @@ class Command(BaseCommand):
         return self.pre_process(record)
 
     def pre_process(self, rec):
-        rec['general']['full_name'] = ' '.join(
-            [rec['general']['last_name'], rec['general']['name'], rec['general']['patronymic']])
+        # Mr. Abromavičius strikes again!
+        if rec['general']['last_name'] == 'Абромавічус':
+            rec['general']['last_name'] = 'Абромавичус'
+            rec['general']['full_name'] = 'Айварас Абромавичус'
+        else:
+            rec['general']['full_name'] = ' '.join(
+                [rec['general']['last_name'], rec['general']['name'], rec['general']['patronymic']])
         rec['general']['full_name_suggest'] = {
             'input': [
                 rec['general']['full_name'],
@@ -203,6 +208,7 @@ class Command(BaseCommand):
 
         for family_member in rec['general']['family']:
             family_member['family_name'] = family_member.pop('name')
+        rec['general']['family_raw'] = ''
 
         try:
             rec['declaration']['date'] = date(
