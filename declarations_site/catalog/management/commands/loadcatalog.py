@@ -84,7 +84,7 @@ class Command(BaseCommand):
                 res = res.execute()
 
                 if res.hits:
-                    mapped["id"] = res.hits[0]._id
+                    mapped["_id"] = res.hits[0]._id
 
                 item = Declaration(**mapped)
                 item.save()
