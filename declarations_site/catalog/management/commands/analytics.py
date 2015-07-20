@@ -23,9 +23,7 @@ from cms_pages.models import RawHTMLPage
 
 KNITR_SCRIPT_PATH = os.path.join(settings.BASE_DIR, 'catalog/data/declarations.Rmd')
 STR_COLUMNS = ('name', 'region', 'city', 'work_region', 'post', 'office', 'foreign_country', 'f_foreign_country',
-    'auto', 'auto_year', 'f_auto', 'f_auto_year', 'truck', 'truck_year', 'f_truck', 'f_truck_year', 'boat', 'boat_year',
-    'f_boat', 'f_boat_year', 'plane', 'plane_year', 'f_plane', 'f_plane_year', 'other_vehicle', 'other_vehicle_year',
-    'f_other_vehicle', 'f_other_vehicle_year')
+    'auto', 'auto_year', 'f_auto', 'f_auto_year', 'truck', 'truck_year', 'f_truck', 'f_truck_year')
 
 
 class Command(BaseCommand):
@@ -173,24 +171,6 @@ class Command(BaseCommand):
             'f_truck': ';'.join(map(lambda x: x['brand'], declaration.vehicle['41'])),
             'f_truck_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['41'])),
             'f_truck_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['41'])))),
-            'boat': ';'.join(map(lambda x: x['brand'], declaration.vehicle['37'])),
-            'boat_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['37'])),
-            'boat_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['37'])))),
-            'f_boat': ';'.join(map(lambda x: x['brand'], declaration.vehicle['42'])),
-            'f_boat_year': ';'.join(map(lambda x: x.get('year', ''), declaration.vehicle['42'])),
-            'f_boat_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['42'])))),
-            'plane': ';'.join(map(lambda x: x['brand'], declaration.vehicle['38'])),
-            'plane_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['38'])),
-            'plane_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['38'])))),
-            'f_plane': ';'.join(map(lambda x: x['brand'], declaration.vehicle['43'])),
-            'f_plane_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['43'])),
-            'f_plane_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['43'])))),
-            'other_vehicle': ';'.join(map(lambda x: x['brand'], declaration.vehicle['39'])),
-            'other_vehicle_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['39'])),
-            'other_vehicle_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['39'])))),
-            'f_other_vehicle': ';'.join(map(lambda x: x['brand'], declaration.vehicle['44'])),
-            'f_other_vehicle_year': ';'.join(map(lambda x: x['year'], declaration.vehicle['44'])),
-            'f_other_vehicle_num': len(list(filter(None, map(lambda x: x['brand'], declaration.vehicle['44'])))),
             'bank_uah': floatify(declaration.banks['45'][0]['sum'] if len(declaration.banks['45']) > 0 else '0'),
             'bank_usd': floatify(declaration.banks['45'][1]['sum'] if len(declaration.banks['45']) > 1 else '0'),
             'bank_eur': floatify(declaration.banks['45'][2]['sum'] if len(declaration.banks['45']) > 2 else '0'),

@@ -136,8 +136,12 @@ class Command(BaseCommand):
                                 row))
 
     def pre_process(self, rec):
+        # We screwed a bit with pre-processing those data from Chesno
+        rec["general"]["post"]["region"] = "Загальнодержавний регіон"
+
         # This guy's really lucky.
         # Everyone's getting his last name wrong and everyone's testing the code on his declaration.
+
         if rec['general']['last_name'] == 'Абромавічус':
             rec['general']['last_name'] = 'Абромавичус'
             rec['general']['full_name'] = 'Айварас Абромавичус'

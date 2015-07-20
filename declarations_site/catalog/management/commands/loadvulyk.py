@@ -11,7 +11,7 @@ from catalog.elastic_models import Declaration
 
 
 class Command(BaseCommand):
-    args = '<file_path>'
+    args = '<file_path> <prefix>'
     help = ('Loads the CSV catalog of clean vulyk declarations '
             'into the persistence storage')
 
@@ -74,8 +74,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             file_path = args[0]
+            id_prefix = args[1]
         except IndexError:
-            raise CommandError('First argument must be a source file')
+            raise CommandError(
+                'First argument must be a source file and second is a id prefix')
 
         groups = defaultdict(list)
         with open(file_path, 'r', newline='', encoding='utf-8') as source:
@@ -91,7 +93,7 @@ class Command(BaseCommand):
         declarations = map(self.merge_group, groups.values())
         counter = 0
         for declaration in declarations:
-            mapped = self.map_fields(declaration)
+            mapped = self.map_fields(declaration, id_prefix)
 
             res = Declaration.search().filter(
                 Term(general__last_name=mapped[
@@ -109,6 +111,11 @@ class Command(BaseCommand):
             res = res.execute()
 
             if res.hits:
+                self.stdout.write(
+                    "%s (%s) already exists" % (
+                        mapped['general']['full_name'],
+                        mapped['intro']['declaration_year']))
+
                 mapped['_id'] = res.hits[0]._id
 
             item = Declaration(**mapped)
@@ -124,7 +131,7 @@ class Command(BaseCommand):
                 merged_decl[key] = 'on'
         return merged_decl
 
-    def map_fields(self, row):
+    def map_fields(self, row, id_prefix):
         '''Map input source field names to the internal names'''
         def mapping_func(key, value):
             row_value = value.replace(u'й', u'й').replace(u'ї', u'ї').strip()
@@ -184,9 +191,9 @@ class Command(BaseCommand):
         # Now, we know there are list-like dict items so we need to flatten them and map values too
         record = flatten_map_record(record)
 
-        return self.pre_process(record)
+        return self.pre_process(record, id_prefix)
 
-    def pre_process(self, rec):
+    def pre_process(self, rec, id_prefix):
         # Mr. Abromavičius strikes again!
         if rec['general']['last_name'] == 'Абромавічус':
             rec['general']['last_name'] = 'Абромавичус'
@@ -220,10 +227,10 @@ class Command(BaseCommand):
         for key in ('date_year', 'date_year_hidden', 'date_year_unclear',
                     'date_month', 'date_month_hidden', 'date_month_unclear',
                     'date_day', 'date_day_hidden', 'date_day_unclear'):
-            rec['declaration'].pop(key)
+            rec['declaration'].pop(key, None)
 
         rec['declaration']['url'] = rec.pop('task.data.link').replace(' ', '')
-        rec['_id'] = 'vulyk_{}'.format(rec.pop('group'))
+        rec['_id'] = 'vulyk_{}_{}'.format(id_prefix, rec.pop('group'))
         rec['source'] = 'VULYK'
 
         return rec
