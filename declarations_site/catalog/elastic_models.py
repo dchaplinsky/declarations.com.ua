@@ -51,4 +51,4 @@ class Declaration(DocType):
     )
 
     class Meta:
-        index = 'catalog'
+        index = 'declarations'
