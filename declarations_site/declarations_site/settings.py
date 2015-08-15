@@ -8,8 +8,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
+from django_jinja.builtins import DEFAULT_EXTENSIONS
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -22,8 +25,6 @@ SECRET_KEY = 'PLEASEREPLACEMEREPLACEMEREPLACEMDONTLEAVEMELIKETHAT'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -38,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pipeline',
+    'easy_thumbnails',
     'django_jinja',
     'django_jinja.contrib._humanize',
     'django_jinja.contrib._easy_thumbnails',
@@ -78,19 +80,6 @@ ROOT_URLCONF = 'declarations_site.urls'
 
 WSGI_APPLICATION = 'declarations_site.wsgi.application'
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.core.context_processors.request",
-    "django.contrib.messages.context_processors.messages",
-    "catalog.context_processors.stats_processor",
-    "cms_pages.context_processors.menu_processor"
-)
-
 DATABASES = {
     'default': {
         # Strictly PostgreSQL
@@ -113,13 +102,47 @@ USE_I18N = True
 USE_L10N = False
 USE_TZ = True
 
-
-TEMPLATE_LOADERS = (
-    'django_jinja.loaders.AppLoader',
-    'django_jinja.loaders.FileSystemLoader',
-)
-DEFAULT_JINJA2_TEMPLATE_EXTENSION = '.jinja'
-JINJA2_EXTENSIONS = ["pipeline.jinja2.ext.PipelineExtension"]
+TEMPLATES = [
+    {
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "match_extension": ".jinja",
+            "context_processors": (
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.template.context_processors.request",
+                "django.contrib.messages.context_processors.messages",
+                "catalog.context_processors.stats_processor",
+                "cms_pages.context_processors.menu_processor"
+            ),
+            "extensions": DEFAULT_EXTENSIONS + [
+                "pipeline.jinja2.ext.PipelineExtension"
+            ],
+        }
+    },
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "OPTIONS": {
+            "context_processors": (
+                "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.debug",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
+                "django.template.context_processors.request",
+                "django.contrib.messages.context_processors.messages",
+                "catalog.context_processors.stats_processor",
+                "cms_pages.context_processors.menu_processor"
+            ),
+        },
+        "APP_DIRS": True,
+    },
+]
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATICFILES_FINDERS = (
