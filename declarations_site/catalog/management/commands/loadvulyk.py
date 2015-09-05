@@ -71,6 +71,14 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
 
+    def _group_column(self, rec):
+        name = 'group'
+        if '# group' in rec:
+            name = '# group'
+        elif 'Group' in rec:
+            name = 'Group'
+        return name
+
     def handle(self, *args, **options):
         try:
             file_path = args[0]
@@ -84,8 +92,9 @@ class Command(BaseCommand):
             reader = csv.DictReader(source, delimiter=',')
             counter = 0
             for row in reader:
-                if row['Статус'] == 'Ок':
-                    groups[row['group']].append(row)
+                status_col = 'Status' if 'Status' in row else 'Статус'
+                if row[status_col] == '' or row[status_col] == 'Ок':
+                    groups[row[self._group_column(row)]].append(row)
                     counter += 1
             self.stdout.write('Read {} valid rows from the input file'.format(counter))
 
@@ -185,7 +194,7 @@ class Command(BaseCommand):
                     sub_record = sub_record.setdefault(part, {})
                 # Last dict reference is a key to an actual value, store it for later flattening
                 sub_record['final_value'] = value
-            elif key in ('task.data.link', 'group'):
+            elif key in ('task.data.link', 'group', '# group', 'Group'):
                 # Useful technical fields
                 record[key] = value
         # Now, we know there are list-like dict items so we need to flatten them and map values too
@@ -230,7 +239,7 @@ class Command(BaseCommand):
             rec['declaration'].pop(key, None)
 
         rec['declaration']['url'] = rec.pop('task.data.link').replace(' ', '')
-        rec['_id'] = 'vulyk_{}_{}'.format(id_prefix, rec.pop('group'))
+        rec['_id'] = 'vulyk_{}_{}'.format(id_prefix, rec.pop(self._group_column(rec)))
         rec['source'] = 'VULYK'
 
         return rec
