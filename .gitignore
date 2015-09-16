@@ -23,6 +23,10 @@ var/
 .installed.cfg
 *.egg
 local_settings.py
+settings.py 
+
+# data files
+*.csv
 
 # PyInstaller
 #  Usually these files are written by a python script from a template

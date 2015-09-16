@@ -1,0 +1,40 @@
+Тобі будуть потрібні Python3.4, PostgreSQL та ElasticSearch 1.4+
+Робиш virtual environment:
+virtualenv venv
+source venv/bin/activate
+git checkout github/repo/path .
+pip install -r requirements.txt
+
+    Створюєш юзера та БД у постргес у звичайний спосіб.
+    Створюєш файл local_settings.py у папці declaration_site/declaration_site/, у ньому прописуєш щось на кшталт:
+
+ALLOWED_HOSTS = ["*"]
+DEBUG = True
+
+DATABASES = {
+    'default': {
+        # Strictly PostgreSQL
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'decl',
+        'USER': 'decl_user',
+        'PASSWORD': '',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+
+SECRET_KEY = '(s1+=zquex_awj_qqgc^zq)+e8@)ukprjz98fix4)2w5k@0ny@'
+
+де decl та decl_user — то твоя БД та юзер.
+Потім робиш ./manage.py migrate з папки declaration_site.
+Це має додати до БД усе необхідне.
+
+Потім береш файл з атачу й робиш ./manage.py loadcatalog path/to/decl-blah-blah.csv
+
+Після цього має працювати: ./manage.py runserver.
+
+
+cd ~/sites/declarations.com.ua/declarations_site
+source ../../decl_env/bin/activate
+~/tools/elasticsearch-1.7.1/bin/elasticsearch
+./manage.py runserver
