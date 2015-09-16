@@ -199,3 +199,7 @@ def sitemap(request):
 def offices_home(request):
     return render(request, "offices.jinja",
                   {"offices": Office.dump_bulk()})
+
+
+def business_intelligence(request):
+    return render(request, "bi.jinja")
