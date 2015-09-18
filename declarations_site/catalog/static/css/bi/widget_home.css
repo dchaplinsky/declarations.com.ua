@@ -67,3 +67,15 @@ table.first {
   margin-bottom: 10px;
   height: 35px;
 }
+
+#widget_help {
+  float: left; width: 30%; margin-top: 30px; font-size: 1.2em;
+}
+
+#colname_one{
+  padding-left: 80px;
+}
+
+#colname_two{
+  padding-left: 60px;
+}

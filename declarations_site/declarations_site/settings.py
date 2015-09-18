@@ -209,7 +209,7 @@ WAGTAIL_SITE_NAME = 'Declarations'
 # will use it to find existing page.
 ANALYTICS_SLUG = 'analytics'
 # Only used during page creation (changeable)
-ANALYTICS_TITLE = 'analytics title'
+ANALYTICS_TITLE = 'Аналіз декларацій чиновників'
 
 
 THUMBNAIL_ALIASES = {

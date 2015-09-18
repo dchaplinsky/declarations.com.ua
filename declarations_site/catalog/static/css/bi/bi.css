@@ -75,7 +75,7 @@ tbody tr:nth-child(odd) {
 }
 
 #main_table{
-  width: 80%;
+  width: 100%;
   float: left;
 }
 
@@ -84,8 +84,8 @@ tbody tr:nth-child(odd) {
   float: left;
 }
 
-tr td:first-child {
-  width: 300px;
+#example tr td:first-child {
+  width: 400px;
 }
 
 tr td:nth-child(5) {
@@ -128,6 +128,34 @@ select {
 
 div#example_paginate {
     position: relative;
-    right: -200px;
+    right: 0px;
     top: 5px;
+}
+
+#select_box_wrapper {
+  margin-bottom: 20px; display: table-cell; vertical-align: middle; height: 50px;
+}
+
+#total_records{
+  margin-left: 20px; font-size: 1.2em; font-weight: bold;
+}
+
+#clipboard{
+  cursor:pointer; margin-left: 20px; font-size: 1.2em; 
+}
+
+table#example {
+  width: 1200px;
+}
+
+span#table_legend{
+  margin-left: 40px;
+}
+
+span.crimson{
+  color: crimson; 
+}
+
+span#left_sp{
+  margin-left: 40px
 }

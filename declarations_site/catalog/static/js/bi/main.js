@@ -29,18 +29,15 @@ var state = {
     var fil = this.filters[filter];
     fil.v = val;
     fil.v = fil.v === '' ? null : fil.v;
-    //console.log(k) 
-    //console.log(fil.dimension.top(Infinity).length)   
     fil.dimension.filter(fil.v);
     this.current = fil.dimension.top(Infinity) 
     
     this.redraw();
-    //tbl();
+
   },
 
   init_crossfilters: function(){
     
-   //console.log(this.current) 
     for( k in this.filters ){
       var fil = this.filters[k]; 
       fil.dimension = this.cross_data.dimension(fil.accessor);
@@ -86,9 +83,8 @@ function change_text(id, l){
 
 
 function csv_link(current){
-//console.log(current)  
   current = current.map(function(d){d.link = 'http://declarations.com.ua/declaration/' + d.id; return d;});
-  d3.select("#download a").on("click", function(){ console.log('click'); export_csv( current.map(function(d){return d3.values(d) }), 
+  d3.select("#download a").on("click", function(){  export_csv( current.map(function(d){return d3.values(d) }), 
                                                               d3.keys(current[0]),  'declarations_'+ new Date().toString().replace(/ /g, '_') +'.csv') });  
 }
 
@@ -100,7 +96,6 @@ function dash_link(ids){
 
   data.forEach(function(d){ objects[d.id] = d; });
   ids.forEach(function(id){ exp.push(objects[id]) });  
-//console.log(objects)
 
   exp = exp.map(function(d){d.link = 'http://declarations.com.ua/declaration/' + d.id; return d;});
   d3.select("#clipboard").on("click", function(){ export_csv( exp.map(function(d){return d3.values(d) }), 
@@ -114,7 +109,6 @@ function change() {
     var sel = d3.select(this);
     var val = sel.node().value;
     var filter = sel.attr("id"); // select name is an id
-    //var val = node.options[node.selectedIndex].value(); 
     if(filter === 'range_options') { val = eval(val);} // eval array with limits for income range
     state.set_value(filter, val);
 
@@ -147,7 +141,7 @@ function change_select(id, selected){
 var off_opts = d3.set(d3.values(office_list)).values().sort();
 off_opts.unshift(['', 'всі установи']);
 
-//console.log(off_opts)
+
 create_select("#office_options", off_opts, 'всі установи');
 
 var obj_names = ['income', 'income_family', 'flat_area', 'flat_area_family'];
@@ -164,17 +158,17 @@ var ratio_format = function(limit, how_to_compare, inf_message) {
       
                 
                 val = d3.round(+val, 1);
-                //if(display == "sort"){ console.log(display); return val; }
+             
 
                 if(type === 'display' && val > 0){  
-                  /*if(val === Infinity) return '<span style="color: crimson; font-weight: 800; font-size: 0.9em">'+inf_message+'</span>';      */
+              
                   if(val === almost_infinity)
                       return '<span style="color: maroon; font-weight: 400">' + "р" + '</span>';
                   return eval("val"+how_to_compare+"limit") ? 
                       '<span style="color: crimson; font-weight: 800">' + val + '</span>' : val;
                 }      
                 return val; 
-                //return  d3.round(+val, 2);
+              
 
     } 
  }
@@ -198,6 +192,16 @@ function format_nan(val){
    return isNaN(val) ? 0 : val;
 }
 
+function get_office_name(str){
+  //office_list
+  var rez = d3.keys(office_list).filter( function(v){ 
+            var rgx = new RegExp(v, 'i'); 
+            return str.match( rgx ); 
+      });
+  if( rez.length > 0 ) return office_list[rez[0]];
+  else return 'інше';
+}
+
 
 var almost_infinity = 1000000;
 var tab;
@@ -207,7 +211,7 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
   var barwidth = 150;  
   var income_max = 0;
 
-  persons.forEach(function(d){d.off = office_list[d.office]; // shortened names
+  persons.forEach(function(d){d.off = get_office_name(d.office); // shortened names
                               d.income_vs_salary = d.income_salary == 0 ? 0 : d.income / d.income_salary;
                               d.income_vs_family = d.income == 0 ? (d.income_family > 0 ? almost_infinity : 0) : d.income_family / d.income;  
                               d.land_vs_family = d.land_area == 0 ? (d.land_area_family > 0 ? almost_infinity : 0) :  d.land_area_family / d.land_area; 
@@ -223,7 +227,7 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
 
   var reg_opts = states.map(function(d){return d.key;}).filter(function(d){ return d != ''}).sort();
   reg_opts.unshift(['', 'всі регіони']);
-  //console.log(reg_opts);
+  
 
   create_select("#region_options", reg_opts, "всі регіони");    
   
@@ -254,11 +258,6 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
                 '<span class="plus" style=" font-family: Arial; font-size: 1.2em; margin-left: 10px; cursor: copy" onclick="state.to_clipboard(\''+full['id']+'\')" >' +'+'+ '</span>';
             }
           },
-          /*{ "data": "id", title: "", 
-            mRender: function ( id, type, full )  {
-                return  '<span onclick="state.to_clipboard(\''+id+'\')" >' +'+'+ '</span>';
-            }
-          },*/
           { "data": "income", title: "Дохід, млн",
               mRender: millions_format
           },
