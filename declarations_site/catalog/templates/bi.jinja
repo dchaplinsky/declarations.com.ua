@@ -3,9 +3,76 @@
 {% block content %}
 <section id="page">
     <div class="container">
+
+    	<div id="breadcrumbs">
+    	   <h3>Аналіз декларацій</h3>
+           <p>Виберіть регіон, установу, рік та рівень доходу, щоб змінити записи у таблиці. Ви можете клікнути назву будь-якої колонки, щоб відсортувати список. Клік на ім'я відкриє сторінку з декларацією. Ви можете зберегти поточний список, якщо натиснете на "Зберегти список" внизу сторінки - якщо кількість записів не дуже велика. </p>
+        </div>
         <div class="page-content">
-            <div class="box">
-            <h1>Hi from BI</h1>
+            <div class="box" style="width: 1250px; height: 1100px;">
+            <!-- start of content -->
+            <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,900&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+				<link href='/static/css/bi/jq.dataTables.css' rel='stylesheet' type='text/css'>
+				<link href='/static/css/bi/bi.css' rel='stylesheet' type='text/css'>
+
+
+				<div id="bi_container">
+
+				  <!-- filters -->
+				  <div id="select_box_wrapper" style="margin-bottom: 20px; display: table-cell; vertical-align: middle; height: 50px;">
+				    <select id="region_options" name="Регіон">
+				    </select>
+
+				    <select id="office_options"></select>
+
+				    <select id="year_options"> 
+				      <option value="">всі роки</option>
+				      <option value="2011">2011</option>
+				      <option value="2012">2012</option>
+				      <option value="2013">2013</option>
+				      <option value="2014" selected="selected">2014</option>
+				      <option value="2015">2015</option>
+				    </select>
+				    
+
+				    <select id="range_options"> 
+				      <option value="">будь який дохід</option>
+				      <option value="[0, 100000]" selected="selected" >дохід до 100 тис.</option>
+				      <option value="[100000, 1000000]"  >дохід 100тис - 1млн</option>
+				      <option value="[1000000, 10000000]">дохід 1 - 10 млн</option>
+				      <option value="[10000000, Infinity]" >дохід більше 10 млн</option>
+				    </select>
+				    
+				    <span id="total_records" style="margin-left: 20px; font-size: 1.2em; font-weight: bold;">...</span>
+				    <span id="clipboard" style="cursor:pointer; margin-left: 20px; font-size: 1.2em; ">...</span>
+
+
+				  </div>
+
+				  <!-- eof filters -->
+
+				  <div id="main_table">
+				  <table id="example" class="stripe row-border order-column" style="width: 1200px">
+				  </table>
+				  <div id="download"><a href="#">Зберегти список</a> <span style="margin-left: 40px"><span style="color: crimson;">червоний колір</span> - зверніть увагу на показник</span> <span style="margin-left: 40px"> <span style="color: maroon;">р</span> - майно повністю знаходиться на родині</span>  </div>
+				  </div>
+
+
+				</div>
+
+				<script src="/static/js/bi/d3.min.js"></script>
+				<script src="/static/js/bi/crossfilter.min.js"></script>
+				<!--script src="/static/js/bi/jquery-1.11.3.min.js"></script>
+				<script src="/static/js/bi/jquery.dataTables.min.js"></script-->
+
+
+				<script src="/static/js/bi/offices.js"></script>
+				<script src="/static/js/bi/csv.js"></script>
+				<script src="/static/js/bi/main.js"></script>
+				
+
+			
+			<!-- end of content -->
             </div>
         </div>
     </div>

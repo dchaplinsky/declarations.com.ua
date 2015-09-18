@@ -180,6 +180,7 @@ PIPELINE_JS = {
             'js/jquery.magnific-popup.js',
             "js/main.js",
             "js/analytics.js",
+            "js/jquery.dataTables.min.js"
         ),
         'output_filename': 'js/merged.js',
     }
