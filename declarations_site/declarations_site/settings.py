@@ -163,8 +163,18 @@ PIPELINE_CSS = {
             'css/decls.css',
             'css/analytics.css',
             'css/responsive.css',
+            'css/bi/widget_home.css',
         ),
         'output_filename': 'css/merged.css',
+        'extra_context': {},
+    },
+
+    'css_bi': {
+        'source_filenames': (
+            "css/bi/jq.dataTables.css",
+            "css/bi/bi.css",
+        ),
+        'output_filename': 'css/merged_bi.css',
         'extra_context': {},
     },
 }
@@ -180,9 +190,21 @@ PIPELINE_JS = {
             'js/jquery.magnific-popup.js',
             "js/main.js",
             "js/analytics.js",
-            "js/jquery.dataTables.min.js"
+            "js/jquery.dataTables.min.js",
+            "js/bi/d3.min.js",
+            "js/bi/widget_home.js",
         ),
         'output_filename': 'js/merged.js',
+    },
+
+    'js_bi': {
+        'source_filenames': (
+            "js/bi/crossfilter.min.js",
+            "js/bi/offices.js",
+            "js/bi/csv.js",
+            "js/bi/main.js",
+        ),
+        'output_filename': 'js/merged_bi.js',
     }
 }
 
