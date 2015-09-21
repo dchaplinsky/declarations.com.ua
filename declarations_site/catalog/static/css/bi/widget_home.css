@@ -52,6 +52,7 @@ table.first {
 
 .first tr{
   margin-bottom: 0px;
+  cursor: pointer;
 }
 
 

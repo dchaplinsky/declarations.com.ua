@@ -5,27 +5,35 @@ var ascending =  function(_name) {
 }
 
 
-d3.csv("/static/data/declarations.csv", function(error, persons) {
+//d3.csv("/static/data/states.csv", function(error, rows) {
+  d3.csv("/static/data/states.csv", function(error, rows) {
   if (error) throw error;
   
   var barwidth = 150;  
   var income_max = 0;
-
+/*
   var states = d3.nest()
     .key(function(d){return d.region;})
     .rollup(function(leaves) { 
-              var a = leaves.map(function(d){return d.income > 0 ? Math.log(d.income) : 0;});  a.sort(d3.ascending); var end = d3.quantile(a, 0.75);
-              income_max = income_max > a[a.length - 1] ? income_max : a[a.length - 1];
+              var a = leaves.map(function(d){return d.income; });  a.sort(d3.ascending); var end = d3.quantile(a, 0.75);
+              var median = d3.median(a);
+              income_max = income_max > median ? income_max : median;
 
-              var a1 = leaves.map(function(d){return d.income_family > 0 ? Math.log(d.income_family) : 0;});  a1.sort(d3.ascending); var end1 = d3.quantile(a1, 0.75);
-              income_max = income_max > a1[a1.length - 1] ? income_max : a1[a1.length - 1];
+              var a1 = leaves.map( function(d){return d.income_family;} );  a1.sort(d3.ascending); var end1 = d3.quantile(a1, 0.75);
+              var median_fam = d3.median(a1);
+              income_max = income_max > median_fam ? income_max : median_fam;
 
-              return [{"median": d3.median(a),  "start": d3.quantile(a, 0.25), "end": end, lines: a},
-                      {"median": d3.median(a1), "start": d3.quantile(a1, 0.25), "end": end1, lines: a1},
+              return [{"median": median,  "start": d3.quantile(a, 0.25), "end": end},
+                      {"median": median_fam, "start": d3.quantile(a1, 0.25), "end": end1},
                      ]   })
     .entries(persons);
 
+*/
+  var states = rows.map(function(r){ income_max = income_max > +r.m_inc ? income_max : +r.m_inc;  return {key: r.category, values: [{ median: +r.m_inc},{ median: +r.m_finc}]};           } )
+
   states = states.sort(function(a, b) { return b.values[0].median - a.values[0].median; }).slice(0, 15) ;
+
+console.log(states)
 
   var colnames = [0,1];
 
@@ -47,7 +55,7 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
   var svg = tr.selectAll("td")
       .data(function(d) { return d.values; })
     .enter().append("td").append("svg")
-      .attr("width", barwidth)
+      .attr("width", barwidth + 20)
       .attr("height", 14);
 
 var rad = 5;
