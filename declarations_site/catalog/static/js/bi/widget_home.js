@@ -33,7 +33,7 @@ var ascending =  function(_name) {
 
   states = states.sort(function(a, b) { return b.values[0].median - a.values[0].median; }).slice(0, 15) ;
 
-console.log(states)
+
 
   var colnames = [0,1];
 
