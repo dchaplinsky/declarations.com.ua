@@ -1,8 +1,6 @@
 {% extends "base.jinja" %}
 
 {% block bodyclass %}front{% endblock %}
-
-
     {% block infobox %}
     <section id="infobox">
         <div class="container">
@@ -63,13 +61,6 @@
 {% endblock %}
 
 {% block social %}
-{#   
-    <div class="container">
-        <div class="row">
-            {{ social("Декларації чиновників.", "http://declarations.com.ua", add_disqus=False) }}
-        </div>
-    </div>
-#}
 {% endblock %}
 
 {% block content %}
@@ -80,8 +71,7 @@
 {% block graph %}
     <section id="graph" class="on-white">
         <div class="container">
-            <div id="widget_help">ТОП-15 областей за медіанним рівнем доходів чиновників. Клікніть на заголовок колонки, щоб відсортувати таблицю. Для того, щоб перейти на <a href="/BI">сторінку аналітики</a> для конкретної області, клікніть на строку в таблиці</div>
-            <link href='/static/css/bi/widget_home.css' rel='stylesheet' type='text/css'>
+            <div id="widget_help">ТОП-15 областей за медіанним рівнем доходів чиновників. Клікніть на заголовок колонки, щоб відсортувати таблицю. Для того, щоб перейти на <a href="{{ url("business_intelligence") }}">сторінку аналітики</a> для конкретної області, клікніть на строку в таблиці</div>
             <table class="first">
               <thead>
                 <tr class="header">
@@ -93,72 +83,9 @@
               <tbody>
               </tbody>
             </table>
-
             <div id="example">
             </div>
-            <script src="/static/js/bi/d3.min.js"></script>
-            <script src="/static/js/bi/widget_home.js"></script>
-
-
         </div>
-
-
-
-        {#<div class="container">
-            <div class="row">
-                <div class="col col-sm-4 graph text-center">
-                   
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> User option choice 1 <span class="caret"></span> </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
-                    <a class="graph-link" href="#to-graph-page-maybe">
-                        <img class="img-responsive" src="http://dummyimage.com/250x300/e5e5e5/fff.png&text=some+graph" />
-                        <span>Назва графіка 1</span></a>
-                </div>
-                
-                <div class="col col-sm-4 graph text-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> User option choice 1 <span class="caret"></span> </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
-                    <a class="graph-link" href="#to-graph-page-maybe">
-                        <img class="img-responsive" src="http://dummyimage.com/250x300/e5e5e5/fff.png&text=some+graph" />
-                        <span>Назва графіка 1</span>
-                    </a>
-                </div>
-                
-                <div class="col col-sm-4 graph text-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> User option choice 1 <span class="caret"></span> </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
-                    <a class="graph-link" href="#to-graph-page-maybe">
-                        <img class="img-responsive" src="http://dummyimage.com/250x300/e5e5e5/fff.png&text=some+graph" />
-                        <span>Назва графіка 1</span>
-                    </a>
-                </div>
-                
-            </div>
-        </div> #}
     </section>
     {% endblock %}
 
