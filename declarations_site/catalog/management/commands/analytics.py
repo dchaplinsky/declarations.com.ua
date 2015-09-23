@@ -79,7 +79,7 @@ class Command(BaseCommand):
 
         def family_list():
             if len(declaration.general.family):
-                return list(filter(lambda x: x['relations'] or x['family_name'], declaration.general.family))
+                return list(filter(lambda x: x.get('relations') or x.get('family_name'), declaration.general.family))
             elif declaration.general.family_raw:
                 return declaration.general.family_raw.split(';')
             else:
