@@ -852,15 +852,18 @@ data$short_office <- factor(data$short_office)
 
 
 levels(data$short_office)[levels(data$short_office) == newlevels[10]] <- "Інші"
-levels(data$short_office)
 levels(data$short_office)<-gsub("Вищий спеціалізований суд з розгляду цивільних і кримінальних справ","Вищ. спец. суд",levels(data$short_office))
-levels(data$short_office)<-gsub("(А|а)дмін.*?\\s","Адм. ",levels(data$short_office))
+levels(data$short_office)<-gsub("(А|а)дм.*?\\s","Адм. ",levels(data$short_office))
 levels(data$short_office)<-gsub("(В|в)ищ.*?\\s","Вищ. ",levels(data$short_office))
 levels(data$short_office)<-gsub("(М|м)ісц.*?\\s","Місц. ",levels(data$short_office))
 levels(data$short_office)<-gsub("(А|а)пел.*?\\s","Апел. ",levels(data$short_office))
 levels(data$short_office)<-gsub("(М|м)ініст.*?\\s","Мін. ",levels(data$short_office))
 levels(data$short_office)<-gsub("(Г|г)оспод.*?\\s","Госп. ",levels(data$short_office))
 levels(data$short_office)<-gsub("(З|з)агал.*?\\s","Заг. ",levels(data$short_office))
+levels(data$short_office)<-gsub("(О|о)бла.*?\\s","Обл. ",levels(data$short_office))
+levels(data$short_office)<-gsub("(Д|д)ержав.*?\\s","Держ. ",levels(data$short_office))
+levels(data$short_office)<-gsub("Державна фіскальна служба / Державна митна служба / Державна податкова служба / Податкова інспекція / Міністерство зборів та доходів/ ","Держ. фіск. служба",levels(data$short_office))
+
 
 m <- ggplot(data[data$income < 1500000 & data$f_income < 500000,], 
             aes(x=income, y=f_income, color=short_office)) + geom_point(aes(alpha = 1/10,size=0.5)) +
