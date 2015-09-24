@@ -853,7 +853,7 @@ data$short_office <- factor(data$short_office)
 
 levels(data$short_office)[levels(data$short_office) == newlevels[10]] <- "Інші"
 levels(data$short_office)<-gsub("Вищий спеціалізований суд з розгляду цивільних і кримінальних справ","Вищ. спец. суд",levels(data$short_office))
-levels(data$short_office)<-gsub("Державна фіскальна служба / Державна митна служба / Державна податкова служба / Податкова інспекція / Міністерство зборів та доходів/ ","Держ. фіск. служба",levels(data$short_office))
+levels(data$short_office)<-gsub("Державна фіскальна служба / Державна митна служба / Державна податкова служба / Податкова інспекція / Міністерство зборів та доходів/","Держ. фіск. служба",levels(data$short_office))
 levels(data$short_office)<-gsub("(А|а)дм.*?\\s","Адм. ",levels(data$short_office))
 levels(data$short_office)<-gsub("(В|в)ищ.*?\\s","Вищ. ",levels(data$short_office))
 levels(data$short_office)<-gsub("(М|м)ісц.*?\\s","Місц. ",levels(data$short_office))
