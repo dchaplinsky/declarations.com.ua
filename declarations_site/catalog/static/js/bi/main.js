@@ -245,7 +245,7 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
      $('#example').DataTable( {
 
         info:     false,
-        searching: false,
+        searching: true,
         bLengthChange: false,
         
         lengthMenu: [25],
