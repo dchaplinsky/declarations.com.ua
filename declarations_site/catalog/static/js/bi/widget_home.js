@@ -29,7 +29,7 @@ var ascending =  function(_name) {
     .entries(persons);
 
 */
-  var states = rows.map(function(r){ income_max = income_max > +r.m_inc ? income_max : +r.m_inc;  return {key: r.category, values: [{ median: +r.m_inc},{ median: +r.m_finc}]};           } )
+  var states = rows.map(function(r){ income_max = income_max > +r.m_inc ? income_max : +r.m_inc;  return {key: r.region, values: [{ median: +r.m_inc},{ median: +r.m_finc}]};           } )
 
   states = states.sort(function(a, b) { return b.values[0].median - a.values[0].median; }).slice(0, 15) ;
 

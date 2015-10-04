@@ -269,7 +269,7 @@ table.dataTable td {
   float: left;
 }
 .dataTables_wrapper .dataTables_filter {
-  float: right;
+  /*float: right;*/
   text-align: right;
 }
 .dataTables_wrapper .dataTables_filter input {
