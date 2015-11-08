@@ -165,6 +165,9 @@ def sitemap(request):
         'per_region', 'terms', field='general.post.region', size=0)
 
     for r in search.execute().aggregations.per_region.buckets:
+        if r.key == "":
+            continue
+
         urls.append(reverse("region", kwargs={"region_name": r.key}))
 
         subsearch = Declaration.search()\
@@ -186,6 +189,9 @@ def sitemap(request):
         'per_office', 'terms', field='general.post.office', size=0)
 
     for r in search.execute().aggregations.per_office.buckets:
+        if r.key == "":
+            continue
+
         urls.append(reverse("office", kwargs={"office_name": r.key}))
 
     search = Declaration.search().extra(fields=[], size=100000)
