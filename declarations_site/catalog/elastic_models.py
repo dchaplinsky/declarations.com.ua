@@ -49,6 +49,11 @@ class Declaration(DocType):
             'needs_scancopy_check': Boolean(index='no')
         }
     )
+    intro = Object(
+        properties={
+            'declaration_year': String(index="not_analyzed")
+        }
+    )
 
     class Meta:
-        index = 'declarations'
+        index = 'declarations_new'

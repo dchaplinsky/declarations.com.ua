@@ -5,7 +5,7 @@ from collections import defaultdict
 
 from django.core.management.base import BaseCommand, CommandError
 
-from elasticsearch_dsl.filter import Term
+from elasticsearch_dsl.filter import Term, Terms
 
 from catalog.elastic_models import Declaration
 
@@ -105,10 +105,10 @@ class Command(BaseCommand):
             mapped = self.map_fields(declaration, id_prefix)
 
             res = Declaration.search().filter(
-                Term(general__last_name=mapped[
-                    'general']['last_name'].lower().split('-')) &
-                Term(general__name=mapped[
-                    'general']['name'].lower().split('-')) &
+                Terms(general__last_name=mapped[
+                    'general']['last_name'].lower().split("-")) &
+                Terms(general__name=mapped[
+                    'general']['name'].lower().split("-")) &
                 Term(intro__declaration_year=mapped[
                     'intro']['declaration_year'])
             )
@@ -126,6 +126,11 @@ class Command(BaseCommand):
                         mapped['intro']['declaration_year']))
 
                 mapped['_id'] = res.hits[0]._id
+            else:
+                self.stdout.write(
+                    "%s (%s) created" % (
+                        mapped['general']['full_name'],
+                        mapped['intro']['declaration_year']))
 
             item = Declaration(**mapped)
             item.save()

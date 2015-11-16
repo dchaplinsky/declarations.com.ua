@@ -1,7 +1,7 @@
 Django==1.8.3
 django-jinja==1.4.1
-elasticsearch==1.4.0
-elasticsearch-dsl==0.0.4
+elasticsearch==2.1.0
+elasticsearch-dsl==0.0.9
 Jinja2==2.8
 MarkupSafe==0.23
 python-dateutil==2.4.0
