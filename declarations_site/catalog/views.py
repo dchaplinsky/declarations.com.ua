@@ -9,7 +9,7 @@ from catalog.elastic_models import Declaration
 from catalog.paginator import paginated_search
 from catalog.api import hybrid_response
 from catalog.models import Office
-from cms_pages.models import MetaData
+from cms_pages.models import MetaData, NewsPage
 
 
 def suggest(request):
@@ -157,8 +157,13 @@ def sitemap(request):
         reverse("wagtail_serve", args=[""]),
         reverse("wagtail_serve", args=["about/"]),
         reverse("wagtail_serve", args=["api/"]),
+        reverse("wagtail_serve", args=["news/"]),
         reverse("regions_home"),
+        reverse("business_intelligence"),
     ]
+
+    for news in NewsPage.objects.live():
+        urls.append(news.url)
 
     search = Declaration.search().params(search_type="count")
     search.aggs.bucket(
