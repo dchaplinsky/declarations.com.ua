@@ -1,5 +1,4 @@
-
-var state = {
+window.state = {
   cross_data: [],
   current: [],
   clipboard: [],
@@ -290,7 +289,4 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
     } )
 
   );
-  
 });
-
-
