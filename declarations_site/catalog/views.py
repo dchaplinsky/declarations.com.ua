@@ -82,11 +82,11 @@ def search(request):
 def fuzzy_search(request):
     query = request.GET.get("q", "")
     search = Declaration.search()
+    fuzziness = 1
+
     if query:
         search = search.query(
             "match", _all={"query": query, "operator": "and"})
-
-        fuzziness = 1
 
         while search.count() == 0 and fuzziness < 3:
             search = Declaration.search().query(
@@ -103,6 +103,7 @@ def fuzzy_search(request):
 
     return {
         "query": query,
+        "fuzziness": fuzziness - 1,
         "results": paginated_search(request, search)
     }
 
