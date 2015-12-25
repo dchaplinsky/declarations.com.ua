@@ -78,6 +78,35 @@ def search(request):
     }
 
 
+@hybrid_response('results.jinja')
+def fuzzy_search(request):
+    query = request.GET.get("q", "")
+    search = Declaration.search()
+    if query:
+        search = search.query(
+            "match", _all={"query": query, "operator": "and"})
+
+        fuzziness = 1
+
+        while search.count() == 0 and fuzziness < 3:
+            search = Declaration.search().query(
+                "match",
+                _all={
+                    "query": query,
+                    "fuzziness": fuzziness,
+                    "operator": "and"
+                }
+            )
+            fuzziness += 1
+    else:
+        search = search.query('match_all')
+
+    return {
+        "query": query,
+        "results": paginated_search(request, search)
+    }
+
+
 @hybrid_response('declaration.jinja')
 def details(request, declaration_id):
     try:

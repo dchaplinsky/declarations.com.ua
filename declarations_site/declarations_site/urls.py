@@ -11,6 +11,7 @@ urlpatterns = patterns(
     url(r'^ajax/suggest$', 'catalog.views.suggest', name='suggest'),
 
     url(r'^search$', 'catalog.views.search', name='search'),
+    url(r'^fuzzy_search$', 'catalog.views.fuzzy_search'),
     url(r'^declaration/(?P<declaration_id>[\d\w_]+)$', 'catalog.views.details',
         name='details'),
 
