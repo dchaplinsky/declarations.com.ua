@@ -169,14 +169,18 @@ class Command(BaseCommand):
             return row_value
 
         def flatten_map_record(record):
+            def list_filter(field):
+                return any([v['__value__'] for k, v in field.items() if not k.endswith('_units')])
+
             def step(key, value):
                 if isinstance(value, dict):
                     if any(map(lambda x: x.startswith('0'), value.keys())):
-                        # Flatten the dicts for 0-indexed keys into a list of values
-                        return list(map(lambda x: flatten_map_record(x[1]), sorted(value.items())))
-                    elif 'final_value' in value:
+                        # Flatten the dicts for 0-indexed keys into a list of values but only if there's at least
+                        # one value in the list item's inner dict.
+                        return [flatten_map_record(v) for k, v in sorted(value.items()) if list_filter(v)]
+                    elif '__value__' in value:
                         # While we're at it why not map some values
-                        return mapping_func(key, value['final_value'])
+                        return mapping_func(key, value['__value__'])
                     else:
                         return flatten_map_record(value)
                 else:
@@ -198,7 +202,7 @@ class Command(BaseCommand):
                 for part in key_parts[1:]:
                     sub_record = sub_record.setdefault(part, {})
                 # Last dict reference is a key to an actual value, store it for later flattening
-                sub_record['final_value'] = value
+                sub_record['__value__'] = value
             elif key in ('task.data.link', 'group', '# group', 'Group'):
                 # Useful technical fields
                 record[key] = value
