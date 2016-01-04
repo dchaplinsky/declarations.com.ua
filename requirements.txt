@@ -14,3 +14,4 @@ psycopg2==2.6
 wagtail==1.0
 rpy2==2.5.6
 easy-thumbnails==2.2
+dpath==1.4.0
