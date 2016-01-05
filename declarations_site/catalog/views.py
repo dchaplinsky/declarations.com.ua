@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
 
@@ -112,6 +112,13 @@ def fuzzy_search(request):
 def details(request, declaration_id):
     try:
         declaration = Declaration.get(id=declaration_id)
+
+        if "source" in request.GET:
+            return redirect(
+                declaration["declaration"]["url"] or
+                reverse("details", kwargs={"declaration_id": declaration._id})
+            )
+
     except (ValueError, NotFoundError):
         raise Http404("Таких не знаємо!")
 

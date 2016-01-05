@@ -28,6 +28,7 @@ class Command(BaseCommand):
             url = decl["declaration"]["url"]
             if not url:
                 no_url_no_id += 1
+                print(decl.meta.id)
                 continue
 
             if url in urls_in_list:
