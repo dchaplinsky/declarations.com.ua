@@ -1,12 +1,13 @@
 import csv
+import sys
 
 from datetime import date
 from collections import defaultdict
 
+from django.utils.six.moves import input
 from django.core.management.base import BaseCommand, CommandError
 
 from elasticsearch_dsl.filter import Term, Terms
-
 from catalog.elastic_models import Declaration
 
 
@@ -87,6 +88,12 @@ class Command(BaseCommand):
             raise CommandError(
                 'First argument must be a source file and second is a id prefix')
 
+        if hasattr(sys.stdin, 'isatty') and not sys.stdin.isatty():
+            self.stdout.write(
+                "To import something you need to run this command in TTY."
+            )
+            return
+
         groups = defaultdict(list)
         with open(file_path, 'r', newline='', encoding='utf-8') as source:
             reader = csv.DictReader(source, delimiter=',')
@@ -96,7 +103,9 @@ class Command(BaseCommand):
                 if row[status_col] == '' or row[status_col] == 'Ок':
                     groups[row[self._group_column(row)]].append(row)
                     counter += 1
-            self.stdout.write('Read {} valid rows from the input file'.format(counter))
+
+            self.stdout.write(
+                'Read {} valid rows from the input file'.format(counter))
 
         Declaration.init()  # Apparently this is required to init mappings
         declarations = map(self.merge_group, groups.values())
@@ -121,11 +130,43 @@ class Command(BaseCommand):
 
             if res.hits:
                 self.stdout.write(
-                    "%s (%s) already exists" % (
+                    "Person\n%s (%s, %s, %s, %s)\nalready exists" % (
                         mapped['general']['full_name'],
+
+                        mapped['general']['post']['post'],
+                        mapped['general']['post']['office'],
+                        mapped['general']['post']['region'],
+
                         mapped['intro']['declaration_year']))
 
-                mapped['_id'] = res.hits[0]._id
+                for i, hit in enumerate(res.hits):
+                    self.stdout.write(
+                        "%s: %s (%s, %s, %s, %s), %s" % (
+                            i + 1,
+                            hit['general']['full_name'],
+                            hit['general']['post']['post'],
+                            hit['general']['post']['office'],
+                            hit['general']['post']['region'],
+                            hit['intro']['declaration_year'],
+                            hit._id)
+                    )
+
+                msg = (
+                    "Select one of persons above to replace, or press [s] " +
+                    "to skip current record or [c] to create new (default): ")
+
+                r = input(msg).lower() or "c"
+                if r == "s":
+                    self.stdout.write("Ok, skipping")
+                    continue
+
+                if r.isdigit() and int(r) <= len(res.hits):
+                    r = int(r) - 1
+                    mapped['_id'] = res.hits[r]._id
+                    self.stdout.write(
+                        "Ok, replacing %s" % res.hits[r]._id)
+                else:
+                    self.stdout.write("Ok, adding new record")
             else:
                 self.stdout.write(
                     "%s (%s) created" % (
@@ -135,7 +176,8 @@ class Command(BaseCommand):
             item = Declaration(**mapped)
             item.save()
             counter += 1
-        self.stdout.write('Loaded {} items to persistence storage'.format(counter))
+        self.stdout.write(
+            'Loaded {} items to persistence storage'.format(counter))
 
     def merge_group(self, group):
         merged_decl = group[0]
