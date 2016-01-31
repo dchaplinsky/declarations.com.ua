@@ -130,25 +130,25 @@ class Command(BaseCommand):
 
             if res.hits:
                 self.stdout.write(
-                    "Person\n%s (%s, %s, %s, %s)\nalready exists" % (
+                    "Person\n%s (%s, %s, %s, %s)\n%s\nalready exists" % (
                         mapped['general']['full_name'],
-
                         mapped['general']['post']['post'],
                         mapped['general']['post']['office'],
                         mapped['general']['post']['region'],
-
-                        mapped['intro']['declaration_year']))
+                        mapped['intro']['declaration_year'],
+                        mapped['declaration']['url']))
 
                 for i, hit in enumerate(res.hits):
                     self.stdout.write(
-                        "%s: %s (%s, %s, %s, %s), %s" % (
+                        "%s: %s (%s, %s, %s, %s), %s\n%s" % (
                             i + 1,
                             hit['general']['full_name'],
                             hit['general']['post']['post'],
                             hit['general']['post']['office'],
                             hit['general']['post']['region'],
                             hit['intro']['declaration_year'],
-                            hit._id)
+                            hit._id,
+                            hit['declaration']['url'])
                     )
 
                 msg = (
