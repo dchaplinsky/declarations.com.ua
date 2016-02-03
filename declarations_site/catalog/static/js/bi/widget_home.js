@@ -26,7 +26,8 @@ var ascending =  function(_name) {
       tr.sort(function(a, b) { return b.values[k].median - a.values[k].median; });
     });
 
-  var tr = d3.select(".first tbody").selectAll("tr")
+  var tr = d3.select(".first 
+    tbody").selectAll("tr")
       .data(states)
     .enter().append("tr");
 
