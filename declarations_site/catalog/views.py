@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
 
@@ -9,7 +9,7 @@ from catalog.elastic_models import Declaration
 from catalog.paginator import paginated_search
 from catalog.api import hybrid_response
 from catalog.models import Office
-from cms_pages.models import MetaData
+from cms_pages.models import MetaData, NewsPage
 
 
 def suggest(request):
@@ -78,10 +78,47 @@ def search(request):
     }
 
 
+@hybrid_response('results.jinja')
+def fuzzy_search(request):
+    query = request.GET.get("q", "")
+    search = Declaration.search()
+    fuzziness = 1
+
+    if query:
+        search = search.query(
+            "match", _all={"query": query, "operator": "and"})
+
+        while search.count() == 0 and fuzziness < 3:
+            search = Declaration.search().query(
+                "match",
+                _all={
+                    "query": query,
+                    "fuzziness": fuzziness,
+                    "operator": "and"
+                }
+            )
+            fuzziness += 1
+    else:
+        search = search.query('match_all')
+
+    return {
+        "query": query,
+        "fuzziness": fuzziness - 1,
+        "results": paginated_search(request, search)
+    }
+
+
 @hybrid_response('declaration.jinja')
 def details(request, declaration_id):
     try:
         declaration = Declaration.get(id=declaration_id)
+
+        if "source" in request.GET:
+            return redirect(
+                declaration["declaration"]["url"] or
+                reverse("details", kwargs={"declaration_id": declaration._id})
+            )
+
     except (ValueError, NotFoundError):
         raise Http404("Таких не знаємо!")
 
@@ -157,14 +194,22 @@ def sitemap(request):
         reverse("wagtail_serve", args=[""]),
         reverse("wagtail_serve", args=["about/"]),
         reverse("wagtail_serve", args=["api/"]),
+        reverse("wagtail_serve", args=["news/"]),
         reverse("regions_home"),
+        reverse("business_intelligence"),
     ]
+
+    for news in NewsPage.objects.live():
+        urls.append(news.url)
 
     search = Declaration.search().params(search_type="count")
     search.aggs.bucket(
         'per_region', 'terms', field='general.post.region', size=0)
 
     for r in search.execute().aggregations.per_region.buckets:
+        if r.key == "":
+            continue
+
         urls.append(reverse("region", kwargs={"region_name": r.key}))
 
         subsearch = Declaration.search()\
@@ -186,6 +231,9 @@ def sitemap(request):
         'per_office', 'terms', field='general.post.office', size=0)
 
     for r in search.execute().aggregations.per_office.buckets:
+        if r.key == "":
+            continue
+
         urls.append(reverse("office", kwargs={"office_name": r.key}))
 
     search = Declaration.search().extra(fields=[], size=100000)

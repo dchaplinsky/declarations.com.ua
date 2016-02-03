@@ -48,7 +48,8 @@ line:hover {
 }
 
 .first tr {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
+  cursor: pointer;
 }
 
 .first tbody tr:nth-child(odd) {

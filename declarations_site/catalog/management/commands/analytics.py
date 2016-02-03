@@ -79,7 +79,14 @@ class Command(BaseCommand):
 
         def family_list():
             if len(declaration.general.family):
-                return list(filter(lambda x: x['relations'] or x['family_name'], declaration.general.family))
+                # print(declaration.general.family[0])
+                # print(getattr(declaration.general.family[0])))
+
+                return list(
+                    filter(lambda x: (getattr(x, 'relations', None) or
+                                      getattr(x, 'family_name', None)),
+                           declaration.general.family)
+                )
             elif declaration.general.family_raw:
                 return declaration.general.family_raw.split(';')
             else:
@@ -159,18 +166,18 @@ class Command(BaseCommand):
             'other_space_num': len(estate_space(declaration.estate['28'])),
             'f_other_space': sum(estate_space(declaration.estate['34'])),
             'f_other_space_num': len(estate_space(declaration.estate['34'])),
-            'auto': ';'.join(map(lambda x: x.get('brand', ''), declaration.vehicle['35'])),
-            'auto_year': ';'.join(map(lambda x: x.get('year', ''), declaration.vehicle['35'])),
-            'auto_num': len(list(filter(None, map(lambda x: x.get('brand'), declaration.vehicle['35'])))),
-            'f_auto': ';'.join(map(lambda x: x.get('brand', ''), declaration.vehicle['40'])),
-            'f_auto_year': ';'.join(map(lambda x: x.get('year', ''), declaration.vehicle['40'])),
-            'f_auto_num': len(list(filter(None, map(lambda x: x.get('brand'), declaration.vehicle['40'])))),
-            'truck': ';'.join(map(lambda x: x.get('brand', ''), declaration.vehicle['36'])),
-            'truck_year': ';'.join(map(lambda x: x.get('year', ''), declaration.vehicle['36'])),
-            'truck_num': len(list(filter(None, map(lambda x: x.get('brand'), declaration.vehicle['36'])))),
-            'f_truck': ';'.join(map(lambda x: x.get('brand', ''), declaration.vehicle['41'])),
-            'f_truck_year': ';'.join(map(lambda x: x.get('year', ''), declaration.vehicle['41'])),
-            'f_truck_num': len(list(filter(None, map(lambda x: x.get('brand'), declaration.vehicle['41'])))),
+            'auto': ';'.join(map(lambda x: getattr(x, 'brand', ''), declaration.vehicle['35'])),
+            'auto_year': ';'.join(map(lambda x: getattr(x, 'year', ''), declaration.vehicle['35'])),
+            'auto_num': len(list(filter(None, map(lambda x: getattr(x, 'brand'), declaration.vehicle['35'])))),
+            'f_auto': ';'.join(map(lambda x: getattr(x, 'brand', ''), declaration.vehicle['40'])),
+            'f_auto_year': ';'.join(map(lambda x: getattr(x, 'year', ''), declaration.vehicle['40'])),
+            'f_auto_num': len(list(filter(None, map(lambda x: getattr(x, 'brand'), declaration.vehicle['40'])))),
+            'truck': ';'.join(map(lambda x: getattr(x, 'brand', ''), declaration.vehicle['36'])),
+            'truck_year': ';'.join(map(lambda x: getattr(x, 'year', ''), declaration.vehicle['36'])),
+            'truck_num': len(list(filter(None, map(lambda x: getattr(x, 'brand'), declaration.vehicle['36'])))),
+            'f_truck': ';'.join(map(lambda x: getattr(x, 'brand', ''), declaration.vehicle['41'])),
+            'f_truck_year': ';'.join(map(lambda x: getattr(x, 'year', ''), declaration.vehicle['41'])),
+            'f_truck_num': len(list(filter(None, map(lambda x: getattr(x, 'brand'), declaration.vehicle['41'])))),
             'bank_uah': floatify(declaration.banks['45'][0]['sum'] if len(declaration.banks['45']) > 0 else '0'),
             'bank_usd': floatify(declaration.banks['45'][1]['sum'] if len(declaration.banks['45']) > 1 else '0'),
             'bank_eur': floatify(declaration.banks['45'][2]['sum'] if len(declaration.banks['45']) > 2 else '0'),

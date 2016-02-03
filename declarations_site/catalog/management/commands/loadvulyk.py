@@ -1,12 +1,13 @@
 import csv
+import sys
 
 from datetime import date
 from collections import defaultdict
 
+from django.utils.six.moves import input
 from django.core.management.base import BaseCommand, CommandError
 
-from elasticsearch_dsl.filter import Term
-
+from elasticsearch_dsl.filter import Term, Terms
 from catalog.elastic_models import Declaration
 
 
@@ -87,6 +88,12 @@ class Command(BaseCommand):
             raise CommandError(
                 'First argument must be a source file and second is a id prefix')
 
+        if hasattr(sys.stdin, 'isatty') and not sys.stdin.isatty():
+            self.stdout.write(
+                "To import something you need to run this command in TTY."
+            )
+            return
+
         groups = defaultdict(list)
         with open(file_path, 'r', newline='', encoding='utf-8') as source:
             reader = csv.DictReader(source, delimiter=',')
@@ -96,7 +103,9 @@ class Command(BaseCommand):
                 if row[status_col] == '' or row[status_col] == 'Ок':
                     groups[row[self._group_column(row)]].append(row)
                     counter += 1
-            self.stdout.write('Read {} valid rows from the input file'.format(counter))
+
+            self.stdout.write(
+                'Read {} valid rows from the input file'.format(counter))
 
         Declaration.init()  # Apparently this is required to init mappings
         declarations = map(self.merge_group, groups.values())
@@ -105,10 +114,10 @@ class Command(BaseCommand):
             mapped = self.map_fields(declaration, id_prefix)
 
             res = Declaration.search().filter(
-                Term(general__last_name=mapped[
-                    'general']['last_name'].lower().split('-')) &
-                Term(general__name=mapped[
-                    'general']['name'].lower().split('-')) &
+                Terms(general__last_name=mapped[
+                    'general']['last_name'].lower().split("-")) &
+                Terms(general__name=mapped[
+                    'general']['name'].lower().split("-")) &
                 Term(intro__declaration_year=mapped[
                     'intro']['declaration_year'])
             )
@@ -121,16 +130,54 @@ class Command(BaseCommand):
 
             if res.hits:
                 self.stdout.write(
-                    "%s (%s) already exists" % (
+                    "Person\n%s (%s, %s, %s, %s)\n%s\nalready exists" % (
+                        mapped['general']['full_name'],
+                        mapped['general']['post']['post'],
+                        mapped['general']['post']['office'],
+                        mapped['general']['post']['region'],
+                        mapped['intro']['declaration_year'],
+                        mapped['declaration']['url']))
+
+                for i, hit in enumerate(res.hits):
+                    self.stdout.write(
+                        "%s: %s (%s, %s, %s, %s), %s\n%s" % (
+                            i + 1,
+                            hit['general']['full_name'],
+                            hit['general']['post']['post'],
+                            hit['general']['post']['office'],
+                            hit['general']['post']['region'],
+                            hit['intro']['declaration_year'],
+                            hit._id,
+                            hit['declaration']['url'])
+                    )
+
+                msg = (
+                    "Select one of persons above to replace, or press [s] " +
+                    "to skip current record or [c] to create new (default): ")
+
+                r = input(msg).lower() or "c"
+                if r == "s":
+                    self.stdout.write("Ok, skipping")
+                    continue
+
+                if r.isdigit() and int(r) <= len(res.hits):
+                    r = int(r) - 1
+                    mapped['_id'] = res.hits[r]._id
+                    self.stdout.write(
+                        "Ok, replacing %s" % res.hits[r]._id)
+                else:
+                    self.stdout.write("Ok, adding new record")
+            else:
+                self.stdout.write(
+                    "%s (%s) created" % (
                         mapped['general']['full_name'],
                         mapped['intro']['declaration_year']))
-
-                mapped['_id'] = res.hits[0]._id
 
             item = Declaration(**mapped)
             item.save()
             counter += 1
-        self.stdout.write('Loaded {} items to persistence storage'.format(counter))
+        self.stdout.write(
+            'Loaded {} items to persistence storage'.format(counter))
 
     def merge_group(self, group):
         merged_decl = group[0]
@@ -164,14 +211,18 @@ class Command(BaseCommand):
             return row_value
 
         def flatten_map_record(record):
+            def list_filter(field):
+                return any([v['__value__'] for k, v in field.items() if not k.endswith('_units')])
+
             def step(key, value):
                 if isinstance(value, dict):
                     if any(map(lambda x: x.startswith('0'), value.keys())):
-                        # Flatten the dicts for 0-indexed keys into a list of values
-                        return list(map(lambda x: flatten_map_record(x[1]), sorted(value.items())))
-                    elif 'final_value' in value:
+                        # Flatten the dicts for 0-indexed keys into a list of values but only if there's at least
+                        # one value in the list item's inner dict.
+                        return [flatten_map_record(v) for k, v in sorted(value.items()) if list_filter(v)]
+                    elif '__value__' in value:
                         # While we're at it why not map some values
-                        return mapping_func(key, value['final_value'])
+                        return mapping_func(key, value['__value__'])
                     else:
                         return flatten_map_record(value)
                 else:
@@ -193,7 +244,7 @@ class Command(BaseCommand):
                 for part in key_parts[1:]:
                     sub_record = sub_record.setdefault(part, {})
                 # Last dict reference is a key to an actual value, store it for later flattening
-                sub_record['final_value'] = value
+                sub_record['__value__'] = value
             elif key in ('task.data.link', 'group', '# group', 'Group'):
                 # Useful technical fields
                 record[key] = value

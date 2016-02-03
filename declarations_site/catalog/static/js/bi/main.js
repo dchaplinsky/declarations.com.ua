@@ -1,5 +1,4 @@
-
-var state = {
+window.state = {
   cross_data: [],
   current: [],
   clipboard: [],
@@ -245,7 +244,7 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
      $('#example').DataTable( {
 
         info:     false,
-        searching: false,
+        searching: true,
         bLengthChange: false,
         
         lengthMenu: [25],
@@ -268,29 +267,26 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
               mRender: millions_format 
           },
           { "data": "income_vs_salary", title: "Дохід/<br>ЗП", 
-            mRender: ratio_format(2, '>', '&infin;')
+            mRender: ratio_format(3, '>', '&infin;')
           },
           { "data": "income_vs_family", title: "Дохід родини/<br>Дохід",
-            mRender: ratio_format(2, '>', 'на родині')
+            mRender: ratio_format(3, '>', 'на родині')
           },
           { "data": "flat_vs_family", title: "Квартири родини/<br>Квартири",
-            mRender: ratio_format(2, '>', 'на родині')
+            mRender: ratio_format(3, '>', 'на родині')
           },
           { "data": "house_vs_family", title: "Будинки родини/<br>Будинки",
-            mRender: ratio_format(2, '>', 'на родині')
+            mRender: ratio_format(3, '>', 'на родині')
           },
           { "data": "land_vs_family", title: "Земля родини/<br>Земля",
-            mRender: ratio_format(2, '>', 'на родині')
+            mRender: ratio_format(3, '>', 'на родині')
           },
           { "data": "cars_vs_family", title: "Машини родини/<br>Машини",
-            mRender: ratio_format(2, '>', 'на родині')
+            mRender: ratio_format(3, '>', 'на родині')
           }
           
         ]
     } )
 
   );
-  
 });
-
-
