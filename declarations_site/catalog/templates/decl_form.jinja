@@ -2995,7 +2995,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				{% for banks in declaration.banks['45'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['45'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						<span>
@@ -3058,7 +3058,7 @@
 				{% endfor %}
 				</tbody>
 				<tbody>
-				{% for banks in declaration.banks['46'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['46'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						<span>
@@ -3121,7 +3121,7 @@
 				{% endfor %}
 				</tbody>
 				<tbody>
-				{% for banks in declaration.banks['47'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['47'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						<span>
@@ -3184,7 +3184,7 @@
 				{% endfor %}
 				</tbody>
 				<tbody>
-				{% for banks in declaration.banks['48'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['48'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						<span>
@@ -3247,7 +3247,7 @@
 				{% endfor %}
 				</tbody>
 				<tbody>
-				{% for banks in declaration.banks['49'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['49'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						<span>
@@ -3310,7 +3310,7 @@
 				{% endfor %}
 				</tbody>
 				<tbody>
-				{% for banks in declaration.banks['50'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['50'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						<span>
@@ -3403,7 +3403,7 @@
 				</tr>
 				</thead>
 				<tbody>
-				{% for banks in declaration.banks['51'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['51'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						51.
@@ -3462,7 +3462,7 @@
 				{% endfor %}
 				</tbody>
 				<tbody>
-				{% for banks in declaration.banks['52'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['52'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						52.
@@ -3521,7 +3521,7 @@
 				{% endfor %}
 				</tbody>
 				<tbody>
-				{% for banks in declaration.banks['53'] if banks.sum != "0" and banks.sum %}
+				{% for banks in declaration.banks['53'] if banks.sum or banks.sum_foreign %}
 				<tr>
 					<td class="weiss-table__cell_bd-r weiss-table__psdo-th">
 						53.
