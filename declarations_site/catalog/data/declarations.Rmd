@@ -136,7 +136,6 @@ ft <- function(t, d=7) {
 
 data[data["region"] == "","region"] <- NA
 data$region <- factor(data$region)
-data[data$family_num==9,]$family_num = 2
 
 ```
 

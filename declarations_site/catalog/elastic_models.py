@@ -1,4 +1,4 @@
-from elasticsearch_dsl import DocType, Object, String, Completion, Nested, Date, Boolean, Float
+from elasticsearch_dsl import DocType, Object, String, Completion, Nested, Date, Boolean
 
 
 class NoneAwareDate(Date):
@@ -71,10 +71,10 @@ class Declaration(DocType):
     )
 
     INCOME_SINGLE_PROPERTIES = {
-        'value': Float(index='no'),
+        'value': String(index='no'),
         'value_unclear': Boolean(index='no'),
         'comment': String(index='no'),
-        'family': Float(index='no'),
+        'family': String(index='no'),
         'family_unclear': Boolean(index='no'),
         'family_comment': String(index='no')
     }
@@ -83,7 +83,7 @@ class Declaration(DocType):
         'country_comment': String(index='no'),
         'cur': String(index='no'),
         'cur_units': String(index='no'),
-        'uah_equal': Float(index='no')
+        'uah_equal': String(index='no')
     }
     income = Object(
         properties={
@@ -147,14 +147,14 @@ class Declaration(DocType):
     ESTATE_PROPERTIES = {
         'region': String(index='no'),
         'address': String(index='no'),
-        'space': Float(index='no'),
+        'space': String(index='no'),
         'space_units': String(index='no'),
         'space_comment': String(index='no'),
-        'costs': Float(index='no'),
+        'costs': String(index='no'),
         'costs_comment': String(index='no'),
         'costs_rent': String(index='no'),
         'costs_rent_comment': String(index='no'),
-        'costs_property': Float(index='no'),
+        'costs_property': String(index='no'),
         'costs_property_comment': String(index='no')
     }
     estate = Object(
@@ -202,9 +202,9 @@ class Declaration(DocType):
         "brand": String(index='no'),
         "brand_info": String(index='no'),
         "year": String(index='no'),
-        "sum": Float(index='no'),
+        "sum": String(index='no'),
         "sum_comment": String(index='no'),
-        "sum_rent": Float(index='no'),
+        "sum_rent": String(index='no'),
         "sum_rent_comment": String(index='no'),
         "brand_hidden": Boolean(index='no'),
         "brand_info_hidden": Boolean(index='no'),
@@ -246,11 +246,11 @@ class Declaration(DocType):
     )
 
     BANKS_PROPERTIES = {
-        'sum': Float(index='no'),
+        'sum': String(index='no'),
         'sum_hidden': Boolean(index='no'),
         'sum_units': String(index='no'),
         'sum_comment': String(index='no'),
-        'sum_foreign': Float(index='no'),
+        'sum_foreign': String(index='no'),
         'sum_foreign_units': String(index='no'),
         'sum_foreign_comment': String(index='no')
     }
@@ -287,10 +287,10 @@ class Declaration(DocType):
     )
 
     LIABILITIES_PROPERTIES = {
-        'sum': Float(index='no'),
+        'sum': String(index='no'),
         'sum_comment': String(index='no'),
         'sum_units': String(index='no'),
-        'sum_foreign': Float(index='no'),
+        'sum_foreign': String(index='no'),
         'sum_foreign_comment': String(index='no')
     }
     liabilities = Object(
