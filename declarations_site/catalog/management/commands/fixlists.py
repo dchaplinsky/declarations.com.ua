@@ -21,7 +21,7 @@ class Command(BaseCommand):
         return any([v for k, v in field._d_.items() if not k.endswith('_units')])
 
     def _decl_list_fields(self, decl):
-        return [(decl.general, 'family'), (decl.income, '21'), (decl.income, '22'), (decl.income, '23'),
+        return [(decl.general, 'family'), (decl.income, '21'), (decl.income, '22'), (decl.estate, '23'),
                 (decl.estate, '24'), (decl.estate, '25'), (decl.estate, '26'), (decl.estate, '27'), (decl.estate, '28'),
                 (decl.estate, '29'), (decl.estate, '30'), (decl.estate, '31'), (decl.estate, '32'), (decl.estate, '33'),
                 (decl.estate, '34'), (decl.vehicle, '35'), (decl.vehicle, '36'), (decl.vehicle, '37'),
