@@ -3,7 +3,9 @@
 		<strong class="declaration-head__em">Декларація</strong>
 		про майно, доходи, витрати і зобов’язання фінансового характеру за {{ declaration.intro.declaration_year }} рік
 	</h1>
-
+	{% if declaration.declaration.notfull in ["TRUE", "1", 1] %}
+		<div class="alert alert-danger" role="alert">УВАГА! В оригіналі цієї декларації були частково відсутні дані. Перед використанням розшифровки — передивіться <a href="{{ declaration.declaration.url }}" target="_blank">оригінал</a></div>
+	{% endif %}
 	<div id="section-0">
 		<section class="weiss-form__set weiss-form__set_main weiss-form__set_paper">
 			<h2 class="weiss-form__set-legend weiss-form__set-legend_main">
@@ -4029,6 +4031,7 @@
 				<span>Додаткове про декларацію</span>
 			</h2>
 
+			{% if declaration.declaration.date %}
 			<p class="l-weiss-form__row">
 				<strong class="l-weiss-form__item">
 					Дата заповнення декларантом:
@@ -4037,13 +4040,14 @@
 					{{ declaration.declaration.date }}
 				</span>
 			</p>
+			{% endif %}
 
 			<p class="l-weiss-form__row">
 				<strong class="l-weiss-form__item">
 					Декларація була не повна:
 				</strong>
 				<span class="l-weiss-form__item">
-					{% if declaration.declaration.notfull == "true" %}
+					{% if declaration.declaration.notfull in ["TRUE", "1", 1] %}
 					Так
 					{% else %}
 					Ні
@@ -4051,7 +4055,7 @@
 				</span>
 			</p>
 
-			{% if declaration.declaration.notfull == "true" %}
+			{% if declaration.declaration.notfull in ["TRUE", "1", 1] and declaration.declaration.notfull_lostpages %}
 			<p class="l-weiss-form__row">
 				<strong class="l-weiss-form__item">
 					Яких сторінок (паперових) не вистачало:
