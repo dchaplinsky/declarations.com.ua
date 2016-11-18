@@ -67,3 +67,5 @@ declarations_site/catalog/data/samples
 declarations.md
 .vagrant
 declarations_site/media/
+node_modules/
+.sass-cache/

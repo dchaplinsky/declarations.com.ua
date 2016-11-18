@@ -156,16 +156,7 @@ STATICFILES_FINDERS = (
 PIPELINE_CSS = {
     'css_all': {
         'source_filenames': (
-            'css/bootstrap.css',
-            'css/material.css',
-            'css/ripples.css',
-            'css/animate.css',
             'css/style.css',
-            'css/decls.css',
-            'css/analytics.css',
-            'css/responsive.css',
-            'css/nacp_declarations.css',
-            'css/bi/widget_home.css',
         ),
         'output_filename': 'css/merged.css',
         'extra_context': {},
@@ -173,8 +164,7 @@ PIPELINE_CSS = {
 
     'css_bi': {
         'source_filenames': (
-            "css/bi/jq.dataTables.css",
-            "css/bi/bi.css",
+            "css/bi/style.css",
         ),
         'output_filename': 'css/merged_bi.css',
         'extra_context': {},

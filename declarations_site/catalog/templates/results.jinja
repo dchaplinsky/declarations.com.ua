@@ -29,7 +29,7 @@
                     <span class="glyphicon glyphicon-th-list"></span> Списком
                 </a> 
                 <a href="#" id="grid" class="btn btn-default btn-sm">
-                    <spanclass="glyphicon glyphicon-th"></span> Картками
+                    <span class="glyphicon glyphicon-th"></span> Картками
                 </a>
             </div>
             <div id="search-results" class="row list-group">
@@ -44,7 +44,7 @@
                         {% endif %}
                         </h3>
                         <ul class="tags_list">
-                            <li>
+                            <li class="type">
                                 <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
                                 {% if r.intro.declaration_year %}{{ r.intro.declaration_year }}<span>,</span>{% endif %}
                                 {% if r.intro.doc_type %}{{ r.intro.doc_type }}<span>,</span>{% endif %}
@@ -60,7 +60,7 @@
                                 <li itemprop="jobTitle">{{ r.general.post.post }}</li> 
                             {% endif %}
                             {% if r.intro.date %}
-                                <li>подана {{ r.intro.date|date }}</li>
+                                <li class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ r.intro.date|date }}</li>
                             {% endif %}
                         </ul>
                     </div>
