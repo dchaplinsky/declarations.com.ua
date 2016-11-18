@@ -1,20 +1,22 @@
+import re
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
 
 from elasticsearch.exceptions import NotFoundError
+from elasticsearch_dsl import Search
 from elasticsearch_dsl.filter import Term, Not
 
-from catalog.elastic_models import Declaration
+from catalog.elastic_models import Declaration, NACPDeclaration
 from catalog.paginator import paginated_search
 from catalog.api import hybrid_response
 from catalog.models import Office
-from cms_pages.models import MetaData, NewsPage
+from cms_pages.models import MetaData, NewsPage, PersonMeta
 
 
 def suggest(request):
     def assume(q, fuzziness):
-        search = Declaration.search()\
+        search = Search(index=["nacp_declarations", "declarations_v2"]) \
             .suggest(
                 'name',
                 q,
@@ -55,13 +57,20 @@ def suggest(request):
 @hybrid_response('results.jinja')
 def search(request):
     query = request.GET.get("q", "")
-    search = Declaration.search()
+    # search = Declaration.search()
+    search = Search(index=["nacp_declarations", "declarations_v2"])
+
+    try:
+        meta = PersonMeta.objects.get(fullname=query)
+    except PersonMeta.DoesNotExist:
+        meta = None
+
     if query:
         search = search.query(
             "match", _all={"query": query, "operator": "and"})
 
         if not search.count():
-            search = Declaration.search().query(
+            search = Search().query(
                 "match",
                 _all={
                     "query": query,
@@ -74,6 +83,7 @@ def search(request):
 
     return {
         "query": query,
+        "meta": meta,
         "results": paginated_search(request, search)
     }
 
@@ -111,7 +121,21 @@ def fuzzy_search(request):
 @hybrid_response('declaration.jinja')
 def details(request, declaration_id):
     try:
-        declaration = Declaration.get(id=declaration_id)
+        try:
+            declaration = Declaration.get(id=declaration_id)
+        except NotFoundError:
+            declaration = NACPDeclaration.get(id=declaration_id)
+        try:
+            meta = PersonMeta.objects.get(
+                fullname=declaration.general.full_name,
+                year=int(declaration.intro.declaration_year))
+        except (PersonMeta.DoesNotExist, ValueError):
+            try:
+                meta = PersonMeta.objects.get(
+                    fullname=declaration.general.full_name,
+                    year__isnull=True)
+            except PersonMeta.DoesNotExist:
+                meta = None
 
         if "source" in request.GET:
             return redirect(
@@ -123,7 +147,8 @@ def details(request, declaration_id):
         raise Http404("Таких не знаємо!")
 
     return {
-        "declaration": declaration
+        "declaration": declaration,
+        "meta": meta
     }
 
 

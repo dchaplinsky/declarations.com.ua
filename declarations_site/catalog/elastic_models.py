@@ -1,3 +1,6 @@
+import re
+import os.path
+from django.conf import settings
 from elasticsearch_dsl import DocType, Object, String, Completion, Nested, Date, Boolean
 
 
@@ -333,3 +336,53 @@ class Declaration(DocType):
 
     class Meta:
         index = 'declarations_v2'
+
+
+class NACPDeclaration(DocType):
+    """NACP Declaration document.
+    Assumes there's a dynamic mapping with all fields not indexed by default."""
+    general = Object(
+        properties={
+            'full_name_suggest': Completion(preserve_separators=False),
+            'full_name': String(index='analyzed'),
+            'name': String(index='analyzed'),
+            'patronymic': String(index='analyzed'),
+            'last_name': String(index='analyzed'),
+            'post': Object(
+                properties={
+                    'region': String(index='not_analyzed'),
+                    'office': String(index='not_analyzed'),
+                    'post': String(index='analyzed')
+                }
+            )
+        }
+    )
+    declaration = Object(
+        properties={
+            'date': NoneAwareDate(),
+        }
+    )
+    intro = Object(
+        properties={
+            'declaration_year': String(index="not_analyzed"),
+            'declaration_year_to': NoneAwareDate(),
+            'declaration_year_from': NoneAwareDate(),
+            'doc_type': String(index='not_analyzed'),
+        }
+    )
+
+    def raw_html(self):
+        fname = os.path.join(
+            settings.NACP_DECLARATIONS_PATH,
+            self.meta.id[5:7],
+            os.path.basename(self.declaration.basename) + ".html")
+
+        with open(fname, "r") as fp:
+            d = fp.read()
+        m = re.search("<\/style>(.*)</body>", d)
+        declaration_html = m.group(1)
+
+        return declaration_html.replace("</div></div></div><header><h2>", "</div></div><header><h2>")
+
+    class Meta:
+        index = 'nacp_declarations'

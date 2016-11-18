@@ -12,7 +12,7 @@ urlpatterns = patterns(
 
     url(r'^search$', 'catalog.views.search', name='search'),
     url(r'^fuzzy_search$', 'catalog.views.fuzzy_search'),
-    url(r'^declaration/(?P<declaration_id>[\d\w_]+)$', 'catalog.views.details',
+    url(r'^declaration/(?P<declaration_id>[\d\w_\-]+)$', 'catalog.views.details',
         name='details'),
 
     url(r'^region$', 'catalog.views.regions_home', name='regions_home',),

@@ -1,0 +1,153 @@
+/*
+Styles by National agency of Corruption Prevention
+*/
+
+#nacp_decl h2 {
+    text-align: left;
+    background-color: #eee;
+    padding: 10px 20px;
+}
+
+#nacp_decl h2 span {
+    text-transform: uppercase;
+    font-size: 16px;
+}
+
+#nacp_decl .italic {
+    font-style: italic;
+}
+
+#nacp_decl .block {
+    display: block;
+    width: 100%;
+}
+
+#nacp_decl .person-info label {
+    width: 180px;
+    display: inline-block;
+}
+
+#nacp_decl .person-info span {
+    display: inline-block;
+    width: 628px;
+}
+
+#nacp_decl .line-height {
+    line-height: 24px;
+}
+
+#nacp_decl .border {
+    border-bottom: 1px solid #bbb;
+}
+
+#nacp_decl .declar-type {
+    width: 500px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#nacp_decl .year-dates {
+    display: table-cell;
+    width: 250px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#nacp_decl .declar-type span {
+    font-size: 12px;
+    display: table-cell;
+    vertical-align: middle;
+    width: 500px;
+}
+
+#nacp_decl .inline {
+    display: inline-block;
+}
+
+#nacp_decl fieldset {
+    border: none;
+    display: table-cell;
+    min-width: 100%;
+    padding: 0;
+}
+
+#nacp_decl legend {
+    font-weight: 700;
+    padding-bottom: 5px;
+}
+
+#nacp_decl table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#nacp_decl table tr td {
+    font-size: 13px;
+    vertical-align: top;
+    text-align: center;
+    padding: 8px;
+}
+
+#nacp_decl table thead tr td {
+    font-weight: bold;
+    font-size: 13px;
+    background-color: #eee;
+    text-align: left;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+#nacp_decl .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #f9f9f9;
+}
+
+#nacp_decl .table-bordered > thead > tr > th,
+#nacp_decl .table-bordered > thead > tr > td {
+    border-bottom-width: 1px;
+}
+
+#nacp_decl .span-block {
+    display: block;
+}
+
+#nacp_decl .real-estate-header span {
+    font-weight: bold;
+    font-size: 13px;
+    display: block;
+    text-transform: uppercase;
+    padding: 8px;
+}
+
+#nacp_decl .align-right {
+    text-align: right;
+}
+
+#nacp_decl .total-sum-text {
+    display: inline-block;
+    min-width: 200px;
+}
+
+#nacp_decl .total-sum-number {
+    display: inline-block;
+    min-width: 80px;
+    font-weight: 700;
+}
+
+#nacp_decl .table {
+    table-layout: fixed;
+}
+
+#nacp_decl label.line-height {
+    overflow-wrap: break-word;
+}
+
+#nacp_decl .table-bordered,
+#nacp_decl .table-bordered > thead > tr > th,
+#nacp_decl .table-bordered > tbody > tr > th,
+#nacp_decl .table-bordered > tfoot > tr > th,
+#nacp_decl .table-bordered > thead > tr > td,
+#nacp_decl .table-bordered > tbody > tr > td,
+#nacp_decl .table-bordered > tfoot > tr > td {
+    border: 1px solid #ddd;
+}

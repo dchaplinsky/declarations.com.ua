@@ -5,6 +5,9 @@
 {% if results.has_next() %}<link rel="next" href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" />{% endif %}
 {% endblock %}
 
+{% block html_desc %}{% if meta %}{{ meta.description }}{% else %}{{ super() }}{% endif %}{% endblock %}
+{% block html_title %}{% if meta %}{{ meta.title }}{% else %}{{ super() }}{% endif %}{% endblock %}
+
 {% block content %}
 <section id="page">
     <div class="container">
@@ -31,11 +34,22 @@
             </div>
             <div id="search-results" class="row list-group">
                 {% for r in results %}
-                <div class="item col-xs-4 col-lg-4 grid-group-item{% if r.declaration.source == "CHESNO" %} chesno{% endif %}" itemscope itemtype="http://schema.org/Person">
+                <div class="item col-xs-4 col-lg-4 grid-group-item{% if r.declaration.source == "CHESNO" %} chesno{% elif r.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
                     <div class="box">
-                        <h3><a href="{{ url("details", declaration_id=r._id) }}" itemprop="name">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a></h3>
+                        <h3>
+                        {% if r.meta.id %}
+                            <a href="{{ url("details", declaration_id=r.meta.id) }}" itemprop="name">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a>
+                        {% else %}
+                            {{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}
+                        {% endif %}
+                        </h3>
                         <ul class="tags_list">
-                            <li><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>{{ r.intro.declaration_year }}<span>,</span></li>
+                            <li>
+                                <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+                                {% if r.intro.declaration_year %}{{ r.intro.declaration_year }}<span>,</span>{% endif %}
+                                {% if r.intro.doc_type %}{{ r.intro.doc_type }}<span>,</span>{% endif %}
+                                {% if r.intro.corrected %}Уточнена <span>,</span>{% endif %}
+                            </li>
                             {% if r.general.post.region %}
                                 <li><a href="{{ url('region', region_name=r.general.post.region) }}">{{ r.general.post.region }}</a><span>,</span></li> 
                             {% endif %}
@@ -44,6 +58,9 @@
                             {% endif %}
                             {% if r.general.post.post %}
                                 <li itemprop="jobTitle">{{ r.general.post.post }}</li> 
+                            {% endif %}
+                            {% if r.intro.date %}
+                                <li>подана {{ r.intro.date|date }}</li>
                             {% endif %}
                         </ul>
                     </div>

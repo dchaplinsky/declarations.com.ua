@@ -446,6 +446,10 @@ a.white:hover,
     background: #fff url(../images/chesno_logo_uk.png) no-repeat right -120px bottom -20px;
 }
 
+.nacp .box {
+    background: #fff url(../images/nacp_logo.png) no-repeat right bottom;
+}
+
 .chesno.list-group-item .box {
     background-position: right 0px bottom 5px;
 }

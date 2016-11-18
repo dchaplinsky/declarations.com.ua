@@ -98,6 +98,7 @@ ELASTICSEARCH_CONNECTIONS = {
 LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
 
+DATE_FORMAT = "d.m.Y"
 USE_I18N = True
 USE_L10N = False
 USE_TZ = True
@@ -163,6 +164,7 @@ PIPELINE_CSS = {
             'css/decls.css',
             'css/analytics.css',
             'css/responsive.css',
+            'css/nacp_declarations.css',
             'css/bi/widget_home.css',
         ),
         'output_filename': 'css/merged.css',
@@ -214,6 +216,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = '/media/'
+
+NACP_DECLARATIONS_PATH = ""
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 

@@ -182,3 +182,32 @@ class MetaData(models.Model):
 
     def __str__(self):
         return self.__unicode__()
+
+
+class PersonMeta(models.Model):
+    fullname = models.CharField("Повне ім'я", max_length=150)
+    year = models.IntegerField(
+        "Рік декларації", blank=True, null=True, choices=(
+            (2011, 2011),
+            (2012, 2012),
+            (2013, 2013),
+            (2014, 2014),
+            (2015, 2015),))
+    title = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+
+    class Meta:
+        unique_together = ("year", "fullname")
+
+    def __unicode__(self):
+        chunks = []
+        if self.fullname is not None:
+            chunks.append(self.fullname)
+
+        if self.year is not None:
+            chunks.append(str(self.year))
+
+        return ": ".join(chunks)
+
+    def __str__(self):
+        return self.__unicode__()

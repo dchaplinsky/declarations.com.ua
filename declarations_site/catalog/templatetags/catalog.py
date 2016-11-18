@@ -1,5 +1,7 @@
 from django_jinja import library
 from django.utils.safestring import mark_safe
+from django.utils import formats
+from dateutil.parser import parse as dt_parse
 
 
 @library.global_function
@@ -47,6 +49,26 @@ def emptyformat(value):
         return value
     else:
         return mark_safe('<i class="i-value-empty">—</i>')
+
+
+@library.filter
+def date(value):
+    """Formats a date according to the given format."""
+    if value in (None, ''):
+        return ''
+
+    if isinstance(value, str):
+        value = dt_parse(value)
+
+    arg = "DATE_FORMAT"
+    try:
+        return formats.date_format(value, arg)
+    except AttributeError:
+        raise
+        try:
+            return format(value, arg)
+        except AttributeError:
+            return ''
 
 
 VALID_POSITIONS = [
