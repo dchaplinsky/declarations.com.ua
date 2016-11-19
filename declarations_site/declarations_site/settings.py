@@ -153,18 +153,25 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
+PIPELINE_ENABLED = True
+PIPELINE_COMPILERS = ('pipeline.compilers.sass.SASSCompiler',)
+PIPELINE_SASS_BINARY='/usr/local/bin/sass'
+PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.cssmin.CssminCompressor'
+
+PIPELINE_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
 PIPELINE_CSS = {
-    'css_all': {
+    'sass_all': {
         'source_filenames': (
-            'css/style.css',
+            'sass/style.scss',
         ),
         'output_filename': 'css/merged.css',
         'extra_context': {},
     },
 
-    'css_bi': {
+    'sass_bi': {
         'source_filenames': (
-            "css/bi/style.css",
+            "sass/bi/style.scss",
         ),
         'output_filename': 'css/merged_bi.css',
         'extra_context': {},
