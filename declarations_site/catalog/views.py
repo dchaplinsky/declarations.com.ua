@@ -197,6 +197,7 @@ def region(request, region_name):
 
 @hybrid_response('results.jinja')
 def region_office(request, region_name, office_name):
+    # Not using NACP declarations yet to not to blown the list of offices
     search = Declaration.search()\
         .filter('term', general__post__region=region_name)\
         .filter('term', general__post__office=office_name)
