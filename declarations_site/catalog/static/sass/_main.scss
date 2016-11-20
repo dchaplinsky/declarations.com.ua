@@ -109,6 +109,13 @@ h1.page-header > span {
 .sub-header {
     margin: 0;
     font-size: 20px;
+
+    .date {
+        display: block;
+        margin-top: 10px;
+        font-size: 16px;
+        opacity: 0.7;
+    }
 }
 
 .page-content {
@@ -864,19 +871,6 @@ display: none;
     top: 42px;
 }
 
-.d-pdf.chesno a {
-    display: block;
-    height: 60px;
-}
-
-.d-pdf.chesno a span {
-    display: none;
-}
-
-.d-pdf.chesno a:hover span {
-    display: inline;
-}
-
 .d-pdf i {
     background: url(../images/pdf.png) no-repeat;
     height: 48px;
@@ -888,17 +882,47 @@ display: none;
     filter: alpha(Opacity = 50);
 }
 
-.d-pdf.chesno i {
-    background: url(../images/chesno_logo_uk.png) no-repeat center center;
-    background-size: contain;
-    opacity: 1;
-    filter: alpha(Opacity = 100);
-    width: 120px;
-    height: 60px;
+.chesno,
+.nacp {
+    .d-pdf  {
+        a {
+            display: block;
+            height: 60px;
+            width: 120px;
+
+            span {
+                display: none;
+            }
+
+            i {
+                 background: url(../images/chesno_logo_uk.png) no-repeat center center;
+                 background-size: contain;
+                 opacity: 1;
+                 filter: alpha(Opacity = 100);
+                 width: 120px;
+                 height: 60px;
+             }
+
+            &:hover {
+                span {
+                    display: inline;
+                }
+
+                i {
+                    display: none;
+                }
+            }
+        }
+    }
 }
 
-.d-pdf.chesno a:hover i {
-    display: none;
+.nacp .d-pdf a {
+    width: 213px;
+    
+    i {
+        width: 213px;
+        background: url(../images/nacp_logo_big.png) no-repeat center center;
+    }
 }
 
 .d-pdf a:hover i {

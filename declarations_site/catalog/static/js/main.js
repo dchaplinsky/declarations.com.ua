@@ -61,7 +61,6 @@ $(function() {
 
     $(document).ready(function() {
         $.material.init();
-        _setColumnsHeights();
 
         $("#search-form").typeahead({
             minLength: 2,
@@ -78,6 +77,10 @@ $(function() {
             }
         });
 
+    });
+
+    $( window ).load(function() {
+        _setColumnsHeights();
     });
 
     $( window ).on( 'resize', function () {

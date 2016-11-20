@@ -40,13 +40,17 @@
             {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
             {% if declaration.intro.corrected %} Уточнена <span>,</span>{% endif %}
             {% if declaration.intro.date %}
-                подана {{ declaration.intro.date|date }}
+                <span class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|date }}</span>
             {% endif %}
         </h2>
+        {% if declaration.declaration.url %}
+        <div class="page-content{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}">
+        {% else %}
         <div class="page-content">
+        {% endif %}
             <div class="box">
                 {% if declaration.declaration.url %}
-                    <div class="d-pdf{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}"><a href="{{ declaration.declaration.url }}" target="_blank"><i></i><span>Оригінал декларації</span></a></div>
+                    <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank"><i></i><span>Оригінал декларації</span></a></div>
                 {% endif %}
 
                 {% if declaration.declaration.source == "NACP" %}

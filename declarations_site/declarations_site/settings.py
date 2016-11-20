@@ -154,6 +154,7 @@ STATICFILES_FINDERS = (
 )
 
 PIPELINE_ENABLED = True
+PIPELINE_SASS_ARGUMENTS = "-q"
 PIPELINE_COMPILERS = ('pipeline.compilers.sass.SASSCompiler',)
 PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.cssmin.CssminCompressor'
 
