@@ -23,7 +23,7 @@ def serialize_for_api(data):
         return serialize_for_api(data.hits._l_)
     elif isinstance(data, (AttrDict, ObjectBase)):
         res = data.to_dict()
-        res["id"] = data._id
+        res["id"] = data.meta.id
         return res
     elif isinstance(data, AttrList):
         return data._l_

@@ -155,13 +155,12 @@ STATICFILES_FINDERS = (
 
 PIPELINE_ENABLED = True
 PIPELINE_COMPILERS = ('pipeline.compilers.sass.SASSCompiler',)
-PIPELINE_SASS_BINARY='/usr/local/bin/sass'
 PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.cssmin.CssminCompressor'
 
 PIPELINE_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 PIPELINE_CSS = {
-    'sass_all': {
+    'css_all': {
         'source_filenames': (
             'sass/style.scss',
         ),
@@ -169,7 +168,7 @@ PIPELINE_CSS = {
         'extra_context': {},
     },
 
-    'sass_bi': {
+    'css_bi': {
         'source_filenames': (
             "sass/bi/style.scss",
         ),
