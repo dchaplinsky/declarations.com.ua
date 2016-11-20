@@ -98,6 +98,7 @@ ELASTICSEARCH_CONNECTIONS = {
 LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
 
+DATE_FORMAT = "d.m.Y"
 USE_I18N = True
 USE_L10N = False
 USE_TZ = True
@@ -152,18 +153,17 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
+PIPELINE_ENABLED = True
+PIPELINE_SASS_ARGUMENTS = "-q"
+PIPELINE_COMPILERS = ('pipeline.compilers.sass.SASSCompiler',)
+PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.cssmin.CssminCompressor'
+
+PIPELINE_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+
 PIPELINE_CSS = {
     'css_all': {
         'source_filenames': (
-            'css/bootstrap.css',
-            'css/material.css',
-            'css/ripples.css',
-            'css/animate.css',
-            'css/style.css',
-            'css/decls.css',
-            'css/analytics.css',
-            'css/responsive.css',
-            'css/bi/widget_home.css',
+            'sass/style.scss',
         ),
         'output_filename': 'css/merged.css',
         'extra_context': {},
@@ -171,8 +171,7 @@ PIPELINE_CSS = {
 
     'css_bi': {
         'source_filenames': (
-            "css/bi/jq.dataTables.css",
-            "css/bi/bi.css",
+            "sass/bi/style.scss",
         ),
         'output_filename': 'css/merged_bi.css',
         'extra_context': {},
@@ -215,6 +214,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = '/media/'
 
+NACP_DECLARATIONS_PATH = ""
+
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application settings
@@ -240,6 +241,7 @@ THUMBNAIL_ALIASES = {
     },
 }
 
+SITEMAP_DECLARATIONS_PER_PAGE = 50000
 
 try:
     from .local_settings import *

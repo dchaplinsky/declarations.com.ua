@@ -1,10 +1,11 @@
 {% extends "base.jinja" %}
 
 {% block html_title -%}
-{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} - {% if declaration.general.post.post %} {{ declaration.general.post.post }} - {% endif %} декларація за {{ declaration.intro.declaration_year }} рік
+{% if meta %}{{ meta.title }}{% else %}
+{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} - {% if declaration.general.post.post %} {{ declaration.general.post.post }} - {% endif %} декларація за {{ declaration.intro.declaration_year }} рік{% endif %}
 {%- endblock %}
 
-{% block html_desc %}Декларація за {{ declaration.intro.declaration_year }} рік {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} ({{ declaration.general.post.office }} {{ declaration.general.post.post }}) {% endblock %}
+{% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Декларація за {{ declaration.intro.declaration_year }} рік {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} ({{ declaration.general.post.office }} {{ declaration.general.post.post }}) {% endif %}{% endblock %}
 
 {% block content %}
 <section id="page">
@@ -24,7 +25,7 @@
         </h1>
         <h2 class="sub-header">
             <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
-            {{ declaration.intro.declaration_year }}<span>,</span>
+            {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
             <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
             {% if declaration.general.post.region %}
                 <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration.general.post.region }}</a><span>,</span>
@@ -35,13 +36,30 @@
             {% if declaration.general.post.post %}
                 <span itemprop="jobTitle">{{ declaration.general.post.post }}</span>
             {% endif %}
+            
+            {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
+            {% if declaration.intro.corrected %} Уточнена <span>,</span>{% endif %}
+            {% if declaration.intro.date %}
+                <span class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|date }}</span>
+            {% endif %}
         </h2>
+        {% if declaration.declaration.url %}
+        <div class="page-content{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}">
+        {% else %}
         <div class="page-content">
+        {% endif %}
             <div class="box">
                 {% if declaration.declaration.url %}
-                    <div class="d-pdf{% if declaration.declaration.source == "CHESNO" %} chesno{% endif %}"><a href="{{ declaration.declaration.url }}" target="_blank"><i></i><span>Оригінал декларації</span></a></div>
+                    <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank"><i></i><span>Оригінал декларації</span></a></div>
                 {% endif %}
-                {% include 'decl_form.jinja' %}
+
+                {% if declaration.declaration.source == "NACP" %}
+                    <div id="nacp_decl">
+                        {{ declaration.raw_html()|safe }}                        
+                    </div>
+                {% else %}
+                    {% include 'decl_form.jinja' %}
+                {% endif %}
             </div>
         </div>
         <div id="disqus_thread"></div>

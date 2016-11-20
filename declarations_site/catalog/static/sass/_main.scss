@@ -109,6 +109,13 @@ h1.page-header > span {
 .sub-header {
     margin: 0;
     font-size: 20px;
+
+    .date {
+        display: block;
+        margin-top: 10px;
+        font-size: 16px;
+        opacity: 0.7;
+    }
 }
 
 .page-content {
@@ -440,10 +447,15 @@ a.white:hover,
     border-radius: 2px;
     border: 0;
     position: relative;
+    height: 100%;
 }
 
 .chesno .box {
     background: #fff url(../images/chesno_logo_uk.png) no-repeat right -120px bottom -20px;
+}
+
+.nacp .box {
+    background: #fff url(../images/nacp_logo.png) no-repeat right bottom;
 }
 
 .chesno.list-group-item .box {
@@ -453,6 +465,14 @@ a.white:hover,
 #search-results .item {
     margin-top: 20px;
     margin-bottom: 20px;
+
+    .box {
+        transition: all linear 0.3s;
+
+        &:hover {
+            box-shadow: none;
+        }
+    }
 }
 
 #search-results .item h3 {
@@ -489,11 +509,17 @@ a.white:hover,
     display: inline;
     margin-right: 10px;
     font-size: 13px;
+
+    &.date,
+    &.type {
+        display: block;
+    }
 }
 
 #search-results .item ul li span.glyphicon {
     font-size: 10px;
     margin-right: 10px;
+    opacity: 0.7;
 }
 
 #glossarium {}
@@ -845,19 +871,6 @@ display: none;
     top: 42px;
 }
 
-.d-pdf.chesno a {
-    display: block;
-    height: 60px;
-}
-
-.d-pdf.chesno a span {
-    display: none;
-}
-
-.d-pdf.chesno a:hover span {
-    display: inline;
-}
-
 .d-pdf i {
     background: url(../images/pdf.png) no-repeat;
     height: 48px;
@@ -869,17 +882,47 @@ display: none;
     filter: alpha(Opacity = 50);
 }
 
-.d-pdf.chesno i {
-    background: url(../images/chesno_logo_uk.png) no-repeat center center;
-    background-size: contain;
-    opacity: 1;
-    filter: alpha(Opacity = 100);
-    width: 120px;
-    height: 60px;
+.chesno,
+.nacp {
+    .d-pdf  {
+        a {
+            display: block;
+            height: 60px;
+            width: 120px;
+
+            span {
+                display: none;
+            }
+
+            i {
+                 background: url(../images/chesno_logo_uk.png) no-repeat center center;
+                 background-size: contain;
+                 opacity: 1;
+                 filter: alpha(Opacity = 100);
+                 width: 120px;
+                 height: 60px;
+             }
+
+            &:hover {
+                span {
+                    display: inline;
+                }
+
+                i {
+                    display: none;
+                }
+            }
+        }
+    }
 }
 
-.d-pdf.chesno a:hover i {
-    display: none;
+.nacp .d-pdf a {
+    width: 213px;
+    
+    i {
+        width: 213px;
+        background: url(../images/nacp_logo_big.png) no-repeat center center;
+    }
 }
 
 .d-pdf a:hover i {
