@@ -280,7 +280,7 @@ class Command(BaseCommand):
         NACPDeclaration.init()
         counter = 0
 
-        for fname in self.jsons[:100]:
+        for fname in self.jsons:
             try:
                 rec = self.parse_me(fname.replace(".json", ""))
             except BadJSONData as e:
