@@ -36,7 +36,7 @@ urlpatterns = patterns(
     url(r'^sitemap_declarations_(?P<page>[\d]+).xml$',
         'catalog.views.sitemap_declarations', name='sitemap_declarations'),
 
-    url(r'^sitemap_index.xml$', 'catalog.views.sitemap_index',
+    url(r'^sitemap.xml$', 'catalog.views.sitemap_index',
         name='sitemap_index'),
 
     url(r'^admin/', include(admin.site.urls)),
