@@ -1,6 +1,8 @@
+import math
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
+from django.conf import settings
 
 from elasticsearch.exceptions import NotFoundError
 from elasticsearch_dsl import Search
@@ -219,7 +221,7 @@ def office(request, office_name):
     }
 
 
-def sitemap(request):
+def sitemap_general(request):
     # TODO: REFACTOR ME?
     urls = [
         reverse("wagtail_serve", args=[""]),
@@ -267,13 +269,38 @@ def sitemap(request):
 
         urls.append(reverse("office", kwargs={"office_name": r.key}))
 
+    return render(request, "sitemap.jinja",
+                  {"urls": urls}, content_type="application/xml")
+
+
+def sitemap_declarations(request, page):
+    page = int(page)
+    urls = []
+
     search = Search(index=["nacp_declarations", "declarations_v2"]).extra(
-        fields=[], size=200000)
+        fields=[])[(page - 1) * settings.SITEMAP_DECLARATIONS_PER_PAGE:
+                   page * settings.SITEMAP_DECLARATIONS_PER_PAGE]
 
     for r in search.execute():
         urls.append(reverse("details", kwargs={"declaration_id": r.meta.id}))
 
     return render(request, "sitemap.jinja",
+                  {"urls": urls}, content_type="application/xml")
+
+
+def sitemap_index(request):
+    urls = [
+        reverse("sitemap_general"),
+    ]
+
+    decl_count = Search(index=["nacp_declarations", "declarations_v2"]).extra(
+        fields=[]).count()
+
+    pages = math.ceil(decl_count / settings.SITEMAP_DECLARATIONS_PER_PAGE)
+    for i in range(pages):
+        urls.append(reverse("sitemap_declarations", kwargs={"page": i + 1}))
+
+    return render(request, "sitemap_index.jinja",
                   {"urls": urls}, content_type="application/xml")
 
 

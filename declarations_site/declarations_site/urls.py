@@ -30,8 +30,14 @@ urlpatterns = patterns(
     url(r'^office/(?P<office_name>.+)$', 'catalog.views.office',
         name='office'),
 
-    url(r'^sitemap.xml$', 'catalog.views.sitemap',
-        name='sitemap'),
+    url(r'^sitemap_general.xml$', 'catalog.views.sitemap_general',
+        name='sitemap_general'),
+
+    url(r'^sitemap_declarations_(?P<page>[\d]+).xml$',
+        'catalog.views.sitemap_declarations', name='sitemap_declarations'),
+
+    url(r'^sitemap_index.xml$', 'catalog.views.sitemap_index',
+        name='sitemap_index'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),

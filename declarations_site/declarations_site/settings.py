@@ -240,6 +240,7 @@ THUMBNAIL_ALIASES = {
     },
 }
 
+SITEMAP_DECLARATIONS_PER_PAGE = 50000
 
 try:
     from .local_settings import *
