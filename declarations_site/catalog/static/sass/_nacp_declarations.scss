@@ -29,7 +29,11 @@ Styles by National agency of Corruption Prevention
 
 #nacp_decl .person-info span {
     display: inline-block;
-    width: 628px;
+    width: 100%;
+
+    @media (min-width: 768px) {
+        width: 628px;
+    }
 }
 
 #nacp_decl .line-height {
@@ -80,6 +84,11 @@ Styles by National agency of Corruption Prevention
     border-spacing: 0;
     border-collapse: collapse;
     width: 100%;
+
+    th {
+        vertical-align: middle;
+        text-align: center;
+    }
 }
 
 #nacp_decl table tr td {
@@ -135,7 +144,9 @@ Styles by National agency of Corruption Prevention
 }
 
 #nacp_decl .table {
-    table-layout: fixed;
+    @media (min-width: 768px) {
+        table-layout: fixed;
+    }
 }
 
 #nacp_decl label.line-height {

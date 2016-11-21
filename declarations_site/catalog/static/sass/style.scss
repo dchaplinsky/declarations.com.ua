@@ -1,5 +1,6 @@
 @import 'utilites/lists';
 @import 'vars';
+@import 'typography';
 
 @import 'bootstrap';
 @import 'material';
@@ -7,10 +8,18 @@
 @import 'animate';
 
 @import 'main';
+@import 'nav';
 
-@import 'decls';
+.search-page {
+  @import 'search';
+}
+
 @import 'analytics';
 @import 'responsive';
+
+.declaration-page {
+  @import 'declaration';
+}
 
 @import 'nacp_declarations';
 @import 'bi/widget_home';

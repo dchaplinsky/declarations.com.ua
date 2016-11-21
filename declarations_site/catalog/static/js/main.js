@@ -54,6 +54,10 @@ $(function() {
             .addClass('grid-group-item');
     });
 
+    $('.navbar-toggle').on('click', function(){
+        $(this).toggleClass('open');
+    });
+
     //In case we beed to add other blocks from other pages
     function _setColumnsHeights() {
         setColumnsHeights ('#search-results', '.item');

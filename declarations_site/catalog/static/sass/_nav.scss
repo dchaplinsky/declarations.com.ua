@@ -1,0 +1,109 @@
+#navbar {
+  border: none;
+  background: none;
+  border-radius: 0;
+  margin-bottom: 0;
+
+  .navbar-toggle {
+    .glyphicon-remove {
+      color: $decl-blue;
+      display: none;
+      opacity: 1;
+      width: 22px;
+      text-align: center;
+    }
+
+    &.open {
+      .glyphicon-remove {
+        display: inline-block;
+      }
+
+      .icon-bar {
+        display: none;
+      }
+    }
+
+    &:hover {
+      span {
+        color: white;
+
+        &.icon-bar {
+          background-color: white;
+        }
+      }
+    }
+  }
+
+  .navbar-collapse {
+    padding: 0;
+
+    &.in,
+    &.collapsing {
+      width: 100%;
+
+      ul {
+        margin: 0;
+      }
+    }
+  }
+}
+
+#navbar li {
+  margin-right: 40px;
+}
+
+#navbar li:first-child a {
+  padding-left: 0;
+}
+
+#navbar li a {
+  color: black;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-family: 'ws';
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0;
+  border-bottom: 2px white solid;
+}
+
+#navbar li a:hover,
+#navbar li a:active {
+  border-bottom: 2px #2196f3 solid;
+  color: #2196f3;
+}
+
+
+
+.front #navbar {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: none;
+
+  li a {
+    border-bottom: 2px #eee solid;
+  }
+}
+
+.navbar-inverse .navbar-toggle {
+  border-color: #2196f3;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+  background-color: #2196f3;
+}
+
+.navbar-inverse .navbar-toggle {
+  border-color: #2196f3;
+}
+
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+  background-color: #2196f3;
+}
+
+.navbar-inverse .navbar-toggle:hover .icon-bar,
+.navbar-inverse .navbar-toggle:focus .icon-bar {
+  background-color: #fff;
+}
