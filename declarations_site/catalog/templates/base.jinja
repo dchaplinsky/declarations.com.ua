@@ -62,6 +62,7 @@
                             </div>
                             <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
                                 <ul class="nav navbar-nav">
+                                    <li class="joinus"><a href="http://sotnya.org.ua/" target="_blank">Долучитись до розшифровки</a></li>
                                     {% for menuitem in top_menu %}
                                     <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
                                     {% endfor %}
@@ -72,10 +73,14 @@
                         <div id="front-searchbox" class="searchbox col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <form action="{{ url("search") }}" method="GET">
                                 <div class="input-group">
-                                    <input type="text" name="q" class="form-control" id="search-form" placeholder="Введіть, наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" />
+                                    <input type="text" name="q" class="form-control" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" />
+                                    <span id="search_scope" class="input-group-btn">
+                                        <div class="checkbox"><label><input type="checkbox"> <span>Шукати скрізь</span></label></div>
+                                    </span>
                                     <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                                    </span> </div>
+                                        <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+                                    </span>
+                                </div>
                             </form>
                         </div>
             
@@ -114,7 +119,7 @@
                     </div>
                     <div class="cl-block">
                         <a class ="clogos clogos_slab" href="http://schroedingerscatlab.com/" target="_blank">Лабораторія кота Шрьодінгера</a>
-                        <span class="ctext">Дизайн Лабораторії кота Шрьодінгера</span>
+                        <span class="ctext">Фронтенд Лабораторії кота Шрьодінгера</span>
                     </div>
                 </div>
             </div>

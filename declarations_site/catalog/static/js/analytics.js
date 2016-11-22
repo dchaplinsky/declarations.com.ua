@@ -91,6 +91,7 @@ $(function() {
 
         /* style tables */
         analytics_wrapper.find('table').addClass('table table-striped table-bordered table-hover table-condensed');
+        analytics_wrapper.find('table').wrap("<div class='table-responsive'></div>");
 
         /* give images a lightbox and thumbnail classes to allow lightbox and thumbnails TODO: make gallery if graphs are grouped */
         analytics_wrapper.find('div.rimage img').each(function() {
@@ -141,5 +142,25 @@ $(function() {
                 top: 300
             }
         });
+
+        //if toc started in affix mode = position fixed
+        setTocWidth();
+
+        $('#toc').on('affix.bs.affix', function () {
+            setTocWidth();
+        });
+
+        $('#toc').on('affix-top.bs.affix', function () {
+            $('#toc').css('width', '');
+        });
+
+        $( window ).on( 'resize', function () {
+            setTocWidth();
+        });
+    }
+
+    function setTocWidth() {
+        var $parentWidth = $('.page-content').width() / 4;
+        $('#toc').css('width', $parentWidth + 'px');
     }
 });

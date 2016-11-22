@@ -182,6 +182,19 @@ a.white:hover,
 
 #graph {
     padding: 15px 0;
+
+    .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        padding: 1px 3px;
+    }
+
+    .table > thead > tr > th {
+        border: none;
+    }
 }
 
 #graph .social {
@@ -277,11 +290,6 @@ a.white:hover,
     padding-right: 25px;
     font-size: 14px;
     color: #7c7c7c;
-}
-
-#joinus {
-    margin-top: 12px;
-    margin-bottom: 0;
 }
 
 #stats {

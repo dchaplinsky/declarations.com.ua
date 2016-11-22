@@ -1,7 +1,8 @@
 .withripple {
   position: relative;
 }
-.ripple-wrapper {
+.ripple-wrapper,
+.ripple-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -12,6 +13,7 @@
   border-radius: inherit;
   pointer-events: none;
 }
+
 .ripple {
   position: absolute;
   width: 20px;

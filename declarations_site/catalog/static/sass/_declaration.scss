@@ -36,15 +36,17 @@
 }
 
 .d-pdf {
-
   display: block;
 
   @media (min-width: 768px) {
     position: absolute;
     right: 30px;
-    top: 42px;
+    top: 10px;
   }
 
+  @media (min-width: 1200px) {
+    top: 42px;
+  }
 
   i {
     background: url(../images/pdf.png) no-repeat;

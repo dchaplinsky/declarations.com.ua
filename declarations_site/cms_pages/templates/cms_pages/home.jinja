@@ -71,19 +71,24 @@
 {% block graph %}
     <section id="graph" class="on-white">
         <div class="container">
-            <div id="widget_help">ТОП-15 областей за медіанним рівнем доходів чиновників. Клікніть на заголовок колонки, щоб відсортувати таблицю. Для того, щоб перейти на <a href="{{ url("business_intelligence") }}">сторінку аналітики</a> для конкретної області, клікніть на строку в таблиці</div>
-            <table class="first">
-              <thead>
-                <tr class="header">
-                  <th>Регіон</th>
-                  <td id="colname_one">Дохід</td>
-                  <td id="colname_two">Дохід сім'ї</td>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-            <div id="example">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div id="widget_help">ТОП-15 областей за медіанним рівнем доходів чиновників. Клікніть на заголовок колонки, щоб відсортувати таблицю. Для того, щоб перейти на <a href="{{ url("business_intelligence") }}">сторінку аналітики</a> для конкретної області, клікніть на строку в таблиці</div>
+                    <div class="table-responsive">
+                        <table class="first table">
+                          <thead>
+                            <tr class="header">
+                              <th>Регіон</th>
+                              <td id="colname_one">Дохід</td>
+                              <td id="colname_two">Дохід сім'ї</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                    </div>
+                    <div id="example"></div>
+                </div>
             </div>
         </div>
     </section>

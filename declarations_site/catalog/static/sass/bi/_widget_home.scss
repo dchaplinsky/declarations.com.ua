@@ -2,7 +2,10 @@ table.first {
     border-collapse: collapse;
     width: 720px;
     float: left;
-    margin-left: 40px;
+
+    @media (min-width: 1200px) {
+        margin-left: 40px;
+    }
 }
 
 .first th {
@@ -66,10 +69,15 @@ line:hover {
 }
 
 #widget_help {
-    float: left;
-    width: 30%;
     margin-top: 30px;
     font-size: 1.2em;
+    margin-bottom: 20px;
+
+    @media (min-width: 1200px) {
+        float: left;
+        width: 30%;
+        margin-bottom: 0;
+    }
 }
 
 #colname_one {
