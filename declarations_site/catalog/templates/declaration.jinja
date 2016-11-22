@@ -50,12 +50,12 @@
         {% endif %}
             <div class="box">
                 {% if declaration.declaration.url %}
-                    <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank"><i></i><span>Оригінал декларації</span></a></div>
+                    <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank" rel="nofollow"><i></i><span>Оригінал декларації</span></a></div>
                 {% endif %}
 
                 {% if declaration.declaration.source == "NACP" %}
                     <div id="nacp_decl">
-                        {{ declaration.raw_html()|safe }}                        
+                        {{ declaration.raw_html()|safe }}
                     </div>
                 {% else %}
                     {% include 'decl_form.jinja' %}
