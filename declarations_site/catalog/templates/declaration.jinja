@@ -7,6 +7,8 @@
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Декларація за {{ declaration.intro.declaration_year }} рік {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} ({{ declaration.general.post.office }} {{ declaration.general.post.post }}) {% endif %}{% endblock %}
 
+{% block bodyclass %}not-front declaration-page{% endblock %}
+
 {% block content %}
 <section id="page">
     <div class="container" itemscope itemtype="http://schema.org/Person">

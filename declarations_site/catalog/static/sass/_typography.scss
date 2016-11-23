@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'arsenalbold';
+  src: url("../fonts/arsenal-bold.eot");
+  src: url("../fonts/arsenal-bold.eot?#iefix") format("embedded-opentype"), url("../fonts/arsenal-bold.woff") format("woff"), url("../fonts/arsenal-bold.ttf.gz") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'arsenalbold_italic';
+  src: url("../fonts/arsenal-bolditalic.eot");
+  src: url("../fonts/arsenal-bolditalic.eot?#iefix") format("embedded-opentype"), url("../fonts/arsenal-bolditalic.woff") format("woff"), url("../fonts/arsenal-bolditalic.ttf.gz") format("truetype");
+  font-weight: bold;
+}
+
+
+@font-face {
+  font-family: 'arsenalitalic';
+  src: url("../fonts/arsenal-italic.eot");
+  src: url("../fonts/arsenal-italic.eot?#iefix") format("embedded-opentype"), url("../fonts/arsenal-italic.woff") format("woff"), url("../fonts/arsenal-italic.ttf.gz") format("truetype");
+  font-weight: normal;
+}
+
+
+@font-face {
+  font-family: 'arsenalregular';
+  src: url("../fonts/arsenal-regular.eot");
+  src: url("../fonts/arsenal-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/arsenal-regular.woff") format("woff"), url("../fonts/arsenal-regular.ttf.gz") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'ws';
+  src: url("../fonts/web_serveroff-webfont.eot");
+  src: url("../fonts/web_serveroff-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/../fonts/web_serveroff-webfont.woff") format("woff"), url("../fonts/web_serveroff-webfont.ttf") format("truetype"), url("../fonts/web_serveroff-webfont.svg#web_serveroffregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

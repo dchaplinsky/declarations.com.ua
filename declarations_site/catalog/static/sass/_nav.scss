@@ -1,0 +1,187 @@
+#navbar {
+  border: none;
+  background: none;
+  border-radius: 0;
+  margin-bottom: 0;
+
+  .navbar-toggle {
+    margin-right: 0;
+
+    .glyphicon-remove {
+      color: $decl-blue;
+      display: none;
+      opacity: 1;
+      width: 22px;
+      text-align: center;
+    }
+
+    &.open {
+      .glyphicon-remove {
+        display: inline-block;
+      }
+
+      .icon-bar {
+        display: none;
+      }
+    }
+
+    &:hover {
+      span {
+        color: white;
+
+        &.icon-bar {
+          background-color: white;
+        }
+      }
+    }
+  }
+
+  .navbar-collapse {
+    padding: 0;
+
+    @media (max-width: 767px) {
+      margin-bottom: 20px;
+    }
+
+    &.in,
+    &.collapsing {
+      width: 100%;
+
+      ul {
+        margin: 0;
+      }
+    }
+  }
+}
+
+#joinus {
+  margin-top: 12px;
+  margin-bottom: 0;
+
+  @media (max-width: $joinus-bp) {
+    display: none;
+  }
+}
+
+#navbar {
+  li {
+    margin-right: 40px;
+
+    &.joinus {
+      @media (min-width: $joinus-bp+1) {
+        display: none;
+      }
+    }
+  }
+}
+
+#navbar li:first-child a {
+  padding-left: 0;
+}
+
+#navbar li a {
+  color: black;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-family: 'ws';
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0;
+  border-bottom: 2px white solid;
+}
+
+#navbar li a:hover,
+#navbar li a:active {
+  border-bottom: 2px $decl-blue solid;
+  color: $decl-blue;
+}
+
+.front #navbar {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background: none;
+
+  li a {
+    border-bottom: 2px #eee solid;
+  }
+}
+
+.navbar-inverse .navbar-toggle {
+  border-color: $decl-blue;
+}
+
+.navbar-inverse .navbar-toggle .icon-bar {
+  background-color: $decl-blue;
+  border-color: $decl-blue;
+}
+
+.navbar-inverse .navbar-toggle {
+  border-color: $decl-blue;
+}
+
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+  background-color: $decl-blue;
+}
+
+.navbar-inverse .navbar-toggle:hover .icon-bar,
+.navbar-inverse .navbar-toggle:focus .icon-bar {
+  background-color: #fff;
+  border-color: #fff;
+}
+
+#front-searchbox {
+  @media (max-width: 460px) {
+    margin-bottom: 45px;
+  }
+
+  #search_scope {
+    @media (max-width: 460px) {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 40px;
+      margin-left: 0;
+      padding-left: 0;
+      width: auto;
+    }
+
+    span {
+      display: inline-block;
+      font-family: 'arsenalbold';
+      font-size: 10px;
+      text-transform: uppercase;
+      color: black;
+      margin-left: 5px;
+    }
+  }
+
+  .checkbox .checkbox-material:before {
+    top: 0;
+    left: 5px;
+  }
+
+  .input-group-btn {
+    padding-left: 10px;
+    padding-right: 0;
+  }
+
+  .btn {
+    padding: 8px 20px;
+    border-left: 2px $decl-green solid;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    margin-bottom: 0;
+
+    .glyphicon {
+      vertical-align: sub;
+    }
+  }
+
+  input {
+    margin-bottom: 0;
+    margin-left: 10px;
+    padding-right: 10px;
+  }
+}

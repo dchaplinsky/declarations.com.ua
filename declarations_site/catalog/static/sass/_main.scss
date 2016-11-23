@@ -1,46 +1,3 @@
-@font-face {
-    font-family: 'arsenalbold';
-    src: url("../fonts/arsenal-bold.eot");
-    src: url("../fonts/arsenal-bold.eot?#iefix") format("embedded-opentype"), url("../fonts/arsenal-bold.woff") format("woff"), url("../fonts/arsenal-bold.ttf.gz") format("truetype");
-    font-weight: bold;
-    font-style: normal;
-}
-
-
-@font-face {
-    font-family: 'arsenalbold_italic';
-    src: url("../fonts/arsenal-bolditalic.eot");
-    src: url("../fonts/arsenal-bolditalic.eot?#iefix") format("embedded-opentype"), url("../fonts/arsenal-bolditalic.woff") format("woff"), url("../fonts/arsenal-bolditalic.ttf.gz") format("truetype");
-    font-weight: bold;
-}
-
-
-@font-face {
-    font-family: 'arsenalitalic';
-    src: url("../fonts/arsenal-italic.eot");
-    src: url("../fonts/arsenal-italic.eot?#iefix") format("embedded-opentype"), url("../fonts/arsenal-italic.woff") format("woff"), url("../fonts/arsenal-italic.ttf.gz") format("truetype");
-    font-weight: normal;
-}
-
-
-@font-face {
-    font-family: 'arsenalregular';
-    src: url("../fonts/arsenal-regular.eot");
-    src: url("../fonts/arsenal-regular.eot?#iefix") format("embedded-opentype"), url("../fonts/arsenal-regular.woff") format("woff"), url("../fonts/arsenal-regular.ttf.gz") format("truetype");
-    font-weight: normal;
-    font-style: normal;
-}
-
-
-@font-face {
-    font-family: 'ws';
-    src: url("../fonts/web_serveroff-webfont.eot");
-    src: url("../fonts/web_serveroff-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/../fonts/web_serveroff-webfont.woff") format("woff"), url("../fonts/web_serveroff-webfont.ttf") format("truetype"), url("../fonts/web_serveroff-webfont.svg#web_serveroffregular") format("svg");
-    font-weight: normal;
-    font-style: normal;
-}
-
-
 html,
 body {
     margin: 0;
@@ -109,6 +66,7 @@ h1.page-header > span {
 .sub-header {
     margin: 0;
     font-size: 20px;
+    clear: both;
 
     .date {
         display: block;
@@ -222,79 +180,21 @@ a.white:hover,
     box-shadow: none;
 }
 
-/* NAVBAR */
-
-#navbar {
-    border: none;
-    background: none;
-    border-radius: 0;
-    margin-bottom: 0;
-}
-
-.navbar-collapse {
-    padding: 0;
-}
-
-.front #navbar {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    background: none;
-}
-
-#navbar li {
-    margin-right: 40px;
-}
-
-#navbar li:first-child a {
-    padding-left: 0;
-}
-
-#navbar li a {
-    color: black;
-    text-transform: uppercase;
-    font-size: 20px;
-    font-family: 'ws';
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-bottom: 0;
-    bor1der-bottom: 2px white solid;
-}
-
-.front #navbar li a {
-    border-bottom: 2px #eee solid;
-}
-
-#navbar li a:hover,
-#navbar li a:active {
-    border-bottom: 2px #2196f3 solid;
-    color: #2196f3;
-}
-
-.navbar-inverse .navbar-toggle {
-    border-color: #2196f3;
-}
-
-.navbar-inverse .navbar-toggle .icon-bar {
-    background-color: #2196f3;
-}
-
-.navbar-inverse .navbar-toggle {
-    border-color: #2196f3;
-}
-
-.navbar-inverse .navbar-toggle:hover,
-.navbar-inverse .navbar-toggle:focus {
-    background-color: #2196f3;
-}
-
-.navbar-inverse .navbar-toggle:hover .icon-bar,
-.navbar-inverse .navbar-toggle:focus .icon-bar {
-    background-color: #fff;
-}
-
 #graph {
     padding: 15px 0;
+
+    .table > thead > tr > th,
+    .table > tbody > tr > th,
+    .table > tfoot > tr > th,
+    .table > thead > tr > td,
+    .table > tbody > tr > td,
+    .table > tfoot > tr > td {
+        padding: 1px 3px;
+    }
+
+    .table > thead > tr > th {
+        border: none;
+    }
 }
 
 #graph .social {
@@ -392,11 +292,6 @@ a.white:hover,
     color: #7c7c7c;
 }
 
-#joinus {
-    margin-top: 12px;
-    margin-bottom: 0;
-}
-
 #stats {
     font-size: 16px;
     line-height: 1;
@@ -460,66 +355,6 @@ a.white:hover,
 
 .chesno.list-group-item .box {
     background-position: right 0px bottom 5px;
-}
-
-#search-results .item {
-    margin-top: 20px;
-    margin-bottom: 20px;
-
-    .box {
-        transition: all linear 0.3s;
-
-        &:hover {
-            box-shadow: none;
-        }
-    }
-}
-
-#search-results .item h3 {
-    margin-top: 0;
-    font-size: 18px;
-}
-
-.item.list-group-item {
-    float: none;
-    width: 100%;
-    overflow: visible;
-}
-
-.item.list-group-item:before,
-.item.list-group-item:after {
-    display: table;
-    content: " ";
-}
-
-.item.list-group-item img {
-    float: left;
-}
-
-.item.list-group-item:after {
-    clear: both;
-}
-
-#search-results .item ul {
-    padding-left: 0;
-    margin-bottom: 0;
-}
-
-#search-results .item ul li {
-    display: inline;
-    margin-right: 10px;
-    font-size: 13px;
-
-    &.date,
-    &.type {
-        display: block;
-    }
-}
-
-#search-results .item ul li span.glyphicon {
-    font-size: 10px;
-    margin-right: 10px;
-    opacity: 0.7;
 }
 
 #glossarium {}
@@ -865,82 +700,6 @@ display: none;
     padding-right: 10px;
 }
 
-.d-pdf {
-    position: absolute;
-    right: 30px;
-    top: 42px;
-}
-
-.d-pdf i {
-    background: url(../images/pdf.png) no-repeat;
-    height: 48px;
-    width: 48px;
-    display: block;
-    margin-right: 10px;
-    float: left;
-    opacity: 0.5;
-    filter: alpha(Opacity = 50);
-}
-
-.chesno,
-.nacp {
-    .d-pdf  {
-        a {
-            display: block;
-            height: 60px;
-            width: 120px;
-
-            span {
-                display: none;
-            }
-
-            i {
-                 background: url(../images/chesno_logo_uk.png) no-repeat center center;
-                 background-size: contain;
-                 opacity: 1;
-                 filter: alpha(Opacity = 100);
-                 width: 120px;
-                 height: 60px;
-             }
-
-            &:hover {
-                span {
-                    display: inline;
-                }
-
-                i {
-                    display: none;
-                }
-            }
-        }
-    }
-}
-
-.nacp .d-pdf a {
-    width: 213px;
-    
-    i {
-        width: 213px;
-        background: url(../images/nacp_logo_big.png) no-repeat center center;
-    }
-}
-
-.d-pdf a:hover i {
-    opacity: 1;
-    filter: alpha(Opacity = 100);
-}
-
-.d-pdf a {
-    color: #2196f3;
-    text-decoration: none;
-    line-height: 48px;
-}
-
-.d-pdf a:hover {
-    text-decoration: none;
-    color: #e14045;
-}
-
 span.social {
     display: inline-block;
 }
@@ -967,6 +726,20 @@ h1#page-header span.social {
     border-bottom: none;
     font-size: 12px;
     padding: 20px 0;
+}
+
+@media (max-width: 767px) {
+    h1#page-header > span,
+    h1.page-header > span  {
+        padding: 0;
+    }
+
+    h1 {
+        span.social {
+            display: block;
+            float: none;
+        }
+    }
 }
 
 #disqus_thread {

@@ -8,6 +8,8 @@
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}{{ super() }}{% endif %}{% endblock %}
 {% block html_title %}{% if meta %}{{ meta.title }}{% else %}{{ super() }}{% endif %}{% endblock %}
 
+{% block bodyclass %}not-front search-page{% endblock %}
+
 {% block content %}
 <section id="page">
     <div class="container">
@@ -23,7 +25,6 @@
                   add_disqus=False) }}
         </h1>
         <div class="page-content">
-        <div class="container">
             <div class="btn-group">
                 <a href="#" id="list" class="btn btn-default btn-sm">
                     <span class="glyphicon glyphicon-th-list"></span> Списком
@@ -34,7 +35,7 @@
             </div>
             <div id="search-results" class="row list-group">
                 {% for r in results %}
-                <div class="item col-xs-4 col-lg-4 grid-group-item{% if r.declaration.source == "CHESNO" %} chesno{% elif r.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
+                <div class="item col-sm-12  col-md-6 col-lg-4 grid-group-item{% if r.declaration.source == "CHESNO" %} chesno{% elif r.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
                     <div class="box">
                         <h3>
                         {% if r.meta.id %}
@@ -65,9 +66,7 @@
                         </ul>
                     </div>
                 </div>
-                {% if loop.index is divisibleby 3 %}
-                    <div class="clearfix"></div>
-                {% endif %}
+
                 {% endfor %}
             </div>
             {% if results.paginator.num_pages > 1 %}
@@ -83,7 +82,6 @@
                 <li{% if not results.has_next() %} class="disabled"{% endif %}><a href="{% if results.has_next() %}?{{ updated_querystring(request, {'page': results.next_page_number()}) }}{% endif %}">»</a></li>
             </ul>
             {% endif %}
-        </div>
     </div>
 </section>
 

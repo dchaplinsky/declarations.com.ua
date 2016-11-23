@@ -84,7 +84,6 @@ button.thumbnails {
 .sidebar.affix,
 .sidebar.affix-bottom,
 .sidebar.affix-top {
-    width: 280px;
     float: left;
 }
 
@@ -106,6 +105,7 @@ button.thumbnails {
     padding: 10px 0px;
     margin: 0;
     border: 0;
+    width: 25%;
 }
 
 .panel pre {

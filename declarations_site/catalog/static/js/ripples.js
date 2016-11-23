@@ -51,7 +51,7 @@
        * Verify if the user is just touching on a device and return if so
        */
       if(self.isTouch() && event.type === "mousedown") {
-        return false;
+        return;
       }
 
 
@@ -59,15 +59,15 @@
        * Verify if the current element already has a ripple wrapper element and
        * creates if it doesn't
        */
-      if(!($element.find(".ripple-wrapper").length)) {
-        $element.append("<div class=\"ripple-wrapper\"></div>");
+      if(!($element.find(".ripple-container").length)) {
+        $element.append("<div class=\"ripple-container\"></div>");
       }
 
 
       /**
        * Find the ripple wrapper
        */
-      var $wrapper = $element.children(".ripple-wrapper");
+      var $wrapper = $element.children(".ripple-container");
 
 
       /**
@@ -173,7 +173,7 @@
        */
       event = event.originalEvent;
 
-      if(event.touches.length !== 1) {
+      if(event.touches.length === 1) {
         return event.touches[0].pageX - wrapperOffset.left;
       }
 
@@ -200,7 +200,7 @@
        */
       event = event.originalEvent;
 
-      if(event.touches.length !== 1) {
+      if(event.touches.length === 1) {
         return event.touches[0].pageY - wrapperOffset.top;
       }
 

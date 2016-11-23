@@ -1,0 +1,22 @@
+//override default styles
+.form-group {
+  padding-bottom: 0;
+  margin-top: 0;
+}
+
+.btn-info:not(.btn-link):not(.btn-flat) {
+  background-color: $decl-blue;
+  color: rgba(255, 255, 255, 0.84);
+
+  &:hover {
+    background-color: $decl-green;
+  }
+}
+
+.btn-group, .btn-group-vertical {
+  position: relative;
+  border-radius: 2px;
+  margin: 10px 1px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
