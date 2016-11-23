@@ -154,6 +154,23 @@ class Command(BaseCommand):
     def parse_date(self, s):
         return dt_parse(s, dayfirst=True)
 
+    def extract_textual_data(self, decl):
+        res = decl.css(
+            "*:not(td)>span.block::text, *:not(td)>span.border::text, td *::text").extract()
+
+        res += decl.css(
+            "fieldset:contains('Зареєстроване місце проживання') .person-info:contains('Місто')::text").extract()
+
+        res = filter(None, map(lambda x: x.strip().strip("\xa0"), res))
+        res = filter(lambda x: not x.endswith(":"), res)
+        res = filter(lambda x: not x.startswith("["), res)
+        res = filter(lambda x: not x.endswith("]"), res)
+
+        # Very special case
+        res = filter(lambda x: not x.startswith("Загальна площа (м"), res)
+
+        return res
+
     def parse_me(self, base_fname):
         json_fname = "{}.json".format(base_fname)
         html_fname = "{}.html".format(base_fname)
@@ -164,6 +181,9 @@ class Command(BaseCommand):
 
         with open(json_fname, "r") as fp:
             data = json.load(fp)
+
+        with open(html_fname, "r") as fp:
+            html = Selector(fp.read())
 
         id_ = data.get("id")
         created_date = data.get("created_date")
@@ -177,6 +197,7 @@ class Command(BaseCommand):
             raise BadJSONData("Bad header format: {}, {}".format(id_, base_fname))
 
         resp["_id"] = "nacp_{}".format(id_)
+        resp["nacp_src"] = "\n".join(self.extract_textual_data(html))
         resp["declaration"]["url"] = "https://public.nazk.gov.ua/declaration/{}".format(id_)
         resp["declaration"]["source"] = "NACP"
         resp["declaration"]["basename"] = os.path.basename(base_fname)
@@ -235,9 +256,6 @@ class Command(BaseCommand):
         }
 
         if not resp["general"]["post"]["region"]:
-            with open(html_fname, "r") as fp:
-                html = Selector(fp.read())
-
             region_html = html.css("fieldset:contains('Зареєстроване місце проживання') .person-info:contains('Місто')::text").extract()
             if len(region_html) > 1:
                 chunks = region_html[1].split("/")
@@ -249,7 +267,6 @@ class Command(BaseCommand):
         if resp["general"]["post"]["region"].lower() in self.region_mapping:
             resp["general"]["post"]["region"] = self.region_mapping[resp["general"]["post"]["region"].lower()]
         else:
-            # self.region_counters.update([resp["general"]["post"]["region"]])
             resp["general"]["post"]["region"] = ""
 
         return resp
