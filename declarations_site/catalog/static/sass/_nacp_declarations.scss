@@ -24,7 +24,12 @@ Styles by National agency of Corruption Prevention
 
 #nacp_decl .person-info label {
     width: 180px;
+    color: gray;
     display: inline-block;
+}
+
+#nacp_decl label.declar-type {
+    color: gray;
 }
 
 #nacp_decl .person-info span {

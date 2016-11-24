@@ -58,6 +58,24 @@ def suggest(request):
 @hybrid_response('results.jinja')
 def search(request):
     query = request.GET.get("q", "")
+    deepsearch = bool(request.GET.get("deepsearch", ""))
+    if deepsearch:
+        fields = ["_all"]
+    else:
+        fields = [
+            "general.last_name",
+            "general.name",
+            "general.patronymic",
+            "general.full_name",
+            "general.post.post",
+            "general.post.office",
+            "general.post.region",
+            "intro.declaration_year",
+            "intro.doc_type",
+            "declaration.source",
+            "declaration.url",
+        ]
+
     fmt = request.GET.get("format", "")
 
     # For now, until we manage how to merge together formats of old and new
@@ -74,16 +92,19 @@ def search(request):
 
     if query:
         search = base_search.query(
-            "match", _all={"query": query, "operator": "and"})
+            "multi_match",
+            query=query,
+            operator="and",
+            fields=fields
+        )
 
         if not search.count():
             search = base_search.query(
-                "match",
-                _all={
-                    "query": query,
-                    "operator": "or",
-                    "minimum_should_match": "2"
-                }
+                "multi_match",
+                query=query,
+                operator="or",
+                minimum_should_match="2",
+                fields=fields
             )
     else:
         search = base_search.query('match_all')
@@ -91,6 +112,7 @@ def search(request):
     return {
         "query": query,
         "meta": meta,
+        "deepsearch": deepsearch,
         "results": paginated_search(request, search)
     }
 

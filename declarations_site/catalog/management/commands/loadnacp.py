@@ -209,7 +209,7 @@ class Command(BaseCommand):
             resp["intro"]["doc_type"] = "Форма змін"
 
             if "changesYear" in data["step_0"]:
-                resp["intro"]["year"] = int(data["step_0"]["changesYear"])
+                resp["intro"]["declaration_year"] = int(data["step_0"]["changesYear"])
         else:
             resp["intro"]["doc_type"] = self.declaration_types[data["step_0"]["declarationType"]]
             if "declarationYearTo" in data["step_0"]:
