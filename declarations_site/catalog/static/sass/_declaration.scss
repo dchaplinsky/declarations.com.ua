@@ -3,122 +3,114 @@
 ============================================================================ */
 
 .declaration-block {
-  font: 16px/1.28571em "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
-  color: #222;
+    font: 16px/1.28571em "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    color: #222;
 }
 
 /* @group Declaration-head
   --------------------------------------------------------------------------- */
 
 .declaration-head {
-  font-size: 1em;
-  font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
-  text-align: center;
-  margin: 1em 0 2em;
-  font-weight: normal;
+    font-size: 1em;
+    font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    text-align: center;
+    margin: 1em 0 2em;
+    font-weight: normal;
 }
 
 .declaration-head__em {
-  display: block;
-  text-transform: uppercase;
-  font-size: 1.619em;
-  line-height: 1.35004em;
+    display: block;
+    text-transform: uppercase;
+    font-size: 1.619em;
+    line-height: 1.35004em;
 }
 
 /* @end */
 
-.border {
-  &.block {
-    color: $decl-pen;
-    font-family: 'arsenalitalic';
-    font-style: normal;
-  }
-}
-
 .d-pdf {
-  display: block;
-
-  @media (min-width: 768px) {
-    position: absolute;
-    right: 30px;
-    top: 10px;
-  }
-
-  @media (min-width: 1200px) {
-    top: 42px;
-  }
-
-  i {
-    background: url(../images/pdf.png) no-repeat;
-    height: 48px;
-    width: 48px;
     display: block;
-    margin-right: 10px;
-    float: left;
-    opacity: 0.5;
-    filter: alpha(Opacity = 50);
-  }
 
-  a {
-    color: #2196f3;
-    text-decoration: none;
-    line-height: 48px;
-
-    &:hover {
-      text-decoration: none;
-      color: #e14045;
-
-      i {
-        opacity: 1;
-        filter: alpha(Opacity = 100);
-      }
+    @media (min-width: 768px) {
+        position: absolute;
+        right: 30px;
+        top: 10px;
     }
-  }
+
+    @media (min-width: 1200px) {
+        top: 42px;
+    }
+
+    i {
+        background: url(../images/pdf.png) no-repeat;
+        height: 48px;
+        width: 48px;
+        display: block;
+        margin-right: 10px;
+        float: left;
+        opacity: 0.5;
+        filter: alpha(Opacity = 50);
+    }
+
+    a {
+        color: #2196f3;
+        text-decoration: none;
+        line-height: 48px;
+
+        &:hover {
+            text-decoration: none;
+            color: #e14045;
+
+            i {
+                opacity: 1;
+                filter: alpha(Opacity = 100);
+            }
+        }
+    }
 }
 
 .chesno,
 .nacp {
-  .d-pdf  {
-    a {
-      display: block;
-      height: 60px;
-      width: 120px;
+    .d-pdf {
+        a {
+            display: block;
+            height: 60px;
+            width: 120px;
 
-      span {
-        display: none;
-      }
+            span {
+                display: none;
+            }
 
-      i {
-        background: url(../images/chesno_logo_uk.png) no-repeat center center;
-        background-size: contain;
-        opacity: 1;
-        filter: alpha(Opacity = 100);
-        width: 120px;
-        height: 60px;
-      }
+            i {
+                background: url(../images/chesno_logo_uk.png) no-repeat center center;
+                background-size: contain;
+                opacity: 1;
+                filter: alpha(Opacity = 100);
+                width: 120px;
+                height: 60px;
+            }
 
-      &:hover {
-        span {
-          display: inline;
+            &:hover {
+                span {
+                    display: inline;
+                }
+
+                i {
+                    background: url(../images/pdf.png) no-repeat;
+                    width: 48px;
+                    display: block;
+                }
+            }
         }
-
-        i {
-          background: url(../images/pdf.png) no-repeat;
-          width: 48px;
-          display: block;
-        }
-      }
     }
-  }
 }
 
 .nacp .d-pdf a {
-  width: 213px;
-
-  i {
     width: 213px;
-    background: url(../images/nacp_logo_big.png) no-repeat center center;
-  }
+
+    i {
+        width: 213px;
+        background: url(../images/nacp_logo_big.png) no-repeat center center;
+    }
 }
 
 /* ============================================================================
@@ -129,34 +121,34 @@
   --------------------------------------------------------------------------- */
 
 .weiss-table {
-  width: 100%;
-  empty-cells: hide;
-  border-spacing: 0;
-  border-collapse: collapse;
-  border-width: 0;
-  margin-bottom: 15px;
-  table-layout: fixed;
+    width: 100%;
+    empty-cells: hide;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-width: 0;
+    margin-bottom: 15px;
+    table-layout: fixed;
 }
 
 .weiss-table td,
 .weiss-table th {
-  text-align: left;
-  vertical-align: middle;
+    text-align: left;
+    vertical-align: middle;
 }
 
 .weiss-table thead td,
 .weiss-table thead th {
-  font-weight: bold;
-  text-align: center;
+    font-weight: bold;
+    text-align: center;
 }
 
 .weiss-table tfoot {
-  font-size: .9em;
+    font-size: .9em;
 }
 
 .weiss-table tfoot td {
-  text-align: center;
-  border: none;
+    text-align: center;
+    border: none;
 }
 
 /* @end */
@@ -165,41 +157,41 @@
   --------------------------------------------------------------------------- */
 
 .weiss-table .weiss-table__cell_unstyled {
-  border-color: transparent;
+    border-color: transparent;
 }
 
 .weiss-table .weiss-table__cell_unspaced {
-  padding: 0;
+    padding: 0;
 }
 
 .weiss-table .weiss-table__cell_bd-r {
-  border-color: transparent;
-  border-right: 1px solid silver;
+    border-color: transparent;
+    border-right: 1px solid silver;
 }
 
 .weiss-table .weiss-table__cell_bd-l {
-  border-color: transparent;
-  border-left: 1px solid silver;
+    border-color: transparent;
+    border-left: 1px solid silver;
 }
 
 .weiss-table .weiss-table__cell_fwn {
-  font-weight: normal;
+    font-weight: normal;
 }
 
 .weiss-table .weiss-table__psdo-th {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .weiss-table .weiss-table__cell_tar {
-  text-align: right;
+    text-align: right;
 }
 
 .weiss-table .weiss-table__cell_tal {
-  text-align: left;
+    text-align: left;
 }
 
 .weiss-table .weiss-table__cell_tac {
-  text-align: center;
+    text-align: center;
 }
 
 /* @end */
@@ -208,22 +200,22 @@
   --------------------------------------------------------------------------- */
 
 .weiss-table_decl caption {
-  font-size: 1em;
-  line-height: 1.4299em;
-  font-weight: bold;
-  margin-bottom: 1em;
+    font-size: 1em;
+    line-height: 1.4299em;
+    font-weight: bold;
+    margin-bottom: 1em;
 }
 
 .weiss-table_decl td,
 .weiss-table_decl th {
-  padding: 10px;
-  border: 1px solid silver;
-  text-align: center;
-  vertical-align: middle;
+    padding: 10px;
+    border: 1px solid silver;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .weiss-table_decl th {
-  text-align: left;
+    text-align: left;
 }
 
 /* @end */
@@ -236,35 +228,35 @@
   --------------------------------------------------------------------------- */
 
 .l-weiss-form__row {
-  display: block;
-  position: relative;
+    display: block;
+    position: relative;
 }
 
 .l-weiss-form__item {
-  line-height: 30px;
-  display: block;
-  float: left;
-  padding: 0 5px 0 0;
-  position: relative;
+    line-height: 30px;
+    display: block;
+    float: left;
+    padding: 0 5px 0 0;
+    position: relative;
 }
 
 table.l-weiss-form__row {
-  border-spacing: 0;
-  border-collapse: collapse;
-  border-width: 0;
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-width: 0;
 }
 
 td.l-weiss-form__item {
-  float: none;
-  vertical-align: middle;
+    float: none;
+    vertical-align: middle;
 }
 
 .weiss-form fieldset.l-weiss-form__row {
-  margin: 10px 0;
+    margin: 10px 0;
 }
 
 .weiss-form legend.l-weiss-form__item {
-  padding: 0 5px 0 0;
+    padding: 0 5px 0 0;
 }
 
 /* @end */
@@ -273,50 +265,50 @@ td.l-weiss-form__item {
   --------------------------------------------------------------------------- */
 
 .weiss-form .weiss-form__set {
-  padding: 30px 0 0;
-  position: relative;
-  border: none;
+    padding: 30px 0 0;
+    position: relative;
+    border: none;
 }
 
 .weiss-form .weiss-form__set-legend {
-  font: bold 1em/2 "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
-  margin: 0;
-  padding: 0;
-  border: none;
+    font: bold 1em/2 "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    margin: 0;
+    padding: 0;
+    border: none;
 }
 
 .weiss-form .weiss-form__set-legend span {
-  display: block;
-  overflow: hidden;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /* Styles */
 
 .weiss-form .weiss-form__set.weiss-form__set_paper {
-  margin: 1em 0;
-  padding: 25px 0 0;
+    margin: 1em 0;
+    padding: 25px 0 0;
 }
 
 .weiss-form .weiss-form__set_main.weiss-form__set_paper {
-  padding: 40px 10px 10px;
-  border: 1px solid silver;
+    padding: 40px 10px 10px;
+    border: 1px solid silver;
 }
 
 .weiss-form .weiss-form__set_main.weiss-form__set_paper > .weiss-form__set-legend span {
-  text-align: center;
-  border-bottom: 1px solid silver;
+    text-align: center;
+    border-bottom: 1px solid silver;
 }
 
 .weiss-form__set_notes.weiss-form__set {
-  font-family: Arial, FreeSans, sans-serif;
-  padding: 20px;
-  background-color: lightyellow;
+    font-family: Arial, FreeSans, sans-serif;
+    padding: 20px;
+    background-color: lightyellow;
 }
 
 /* @end */
@@ -329,44 +321,44 @@ td.l-weiss-form__item {
 .l-weiss-form__row:before,
 .i-clfx:after,
 .l-weiss-form__row:after {
-  content: "";
-  display: table;
+    content: "";
+    display: table;
 }
 
 .i-clfx:after,
 .l-weiss-form__row:after {
-  clear: both;
+    clear: both;
 }
 
 .i-wai {
-  border: none;
-  clip: rect(1px, 1px, 1px, 1px);
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute !important;
+    border: none;
+    clip: rect(1px, 1px, 1px, 1px);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
 }
 
 /* @group Currency align
   --------------------------------------------------------------------------- */
 
 .weiss-digit {
-  display: block;
+    display: block;
 }
 
 .weiss-digit_currency {
-  text-align: right;
-  font: 14px/1.2 "Lucida Console", Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
+    text-align: right;
+    font: 14px/1.2 "Lucida Console", Monaco, "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
 }
 
 .i-value-empty {
-  display: block;
-  font-style: normal;
-  text-align: center;
-  color: #999;
-  font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    display: block;
+    font-style: normal;
+    text-align: center;
+    color: #999;
+    font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
 }
 
 /* @end */
@@ -375,18 +367,17 @@ td.l-weiss-form__item {
   --------------------------------------------------------------------------- */
 
 @media print {
-  .page-content {
-    margin: 0;
-  }
+    .page-content {
+        margin: 0;
+    }
 
-  .declaration-block {
-    width: 940px;
-  }
+    .declaration-block {
+        width: 940px;
+    }
 
-  .d-pdf {
-    display: none;
-  }
+    .d-pdf {
+        display: none;
+    }
 }
 
 /* @end */
-

@@ -1,5 +1,5 @@
 /*
-Styles by National agency of Corruption Prevention
+Styles by National agency of Corruption Prevention with some minor adjustements
 */
 
 #nacp_decl h2 {
@@ -28,7 +28,9 @@ Styles by National agency of Corruption Prevention
     display: inline-block;
 }
 
-#nacp_decl label.declar-type {
+#nacp_decl .block label,
+#nacp_decl label.declar-type,
+#nacp_decl label.line-height {
     color: gray;
 }
 
@@ -166,4 +168,12 @@ Styles by National agency of Corruption Prevention
 #nacp_decl .table-bordered > tbody > tr > td,
 #nacp_decl .table-bordered > tfoot > tr > td {
     border: 1px solid #ddd;
+}
+
+#nacp_decl {
+    span.border, span.block {
+        color: $decl-pen;
+        font-family: 'arsenalitalic';
+        font-style: normal;
+    }
 }
