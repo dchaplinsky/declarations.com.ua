@@ -11,9 +11,13 @@ from dateutil.parser import parse as dt_parse
 
 from django.core.management.base import BaseCommand, CommandError
 from catalog.elastic_models import NACPDeclaration
+from catalog.utils import replace_apostrophes
 
 
 class BadJSONData(Exception):
+    pass
+
+class BadHTMLData(Exception):
     pass
 
 
@@ -147,6 +151,17 @@ class Command(BaseCommand):
         "алчевськ": "Луганська область",
     }
 
+    dangerous_chunks = [
+        "onchange",
+        "onclick",
+        "onmouseover",
+        "onmouseout",
+        "onkeydown",
+        "onload",
+        "<img",
+        "<scri"
+    ]
+
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
         self.corrected = set()
@@ -183,10 +198,17 @@ class Command(BaseCommand):
             data = json.load(fp)
 
         with open(html_fname, "r") as fp:
-            html = Selector(fp.read())
+            raw_html = fp.read()
+            html = Selector(raw_html)
 
         id_ = data.get("id")
         created_date = data.get("created_date")
+
+        raw_html_lowered = raw_html.lower()
+        for chunk in self.dangerous_chunks:
+            if chunk in raw_html_lowered:
+                raise BadHTMLData("Dangerous fragment found: {}, {}".format(
+                    id_, base_fname))
 
         try:
             data = data["data"]
@@ -228,18 +250,18 @@ class Command(BaseCommand):
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear4"])
 
         resp["general"] = {
-            "last_name": title(data["step_1"]["lastname"]),
-            "name": title(data["step_1"]["firstname"]),
-            "patronymic": title(data["step_1"]["middlename"]),
-            "full_name": "{} {} {}".format(
+            "last_name": replace_apostrophes(title(data["step_1"]["lastname"])),
+            "name": replace_apostrophes(title(data["step_1"]["firstname"])),
+            "patronymic": replace_apostrophes(title(data["step_1"]["middlename"])),
+            "full_name": replace_apostrophes("{} {} {}".format(
                 title(data["step_1"]["lastname"]),
                 title(data["step_1"]["firstname"]),
                 title(data["step_1"]["middlename"]),
-            ),
+            )),
             "post": {
-                "post": data["step_1"].get("workPost", ""),
-                "office": data["step_1"].get("workPlace", ""),
-                "region": self.region_types.get(data["step_1"].get("actual_region", ""), ""),
+                "post": replace_apostrophes(data["step_1"].get("workPost", "")),
+                "office": replace_apostrophes(data["step_1"].get("workPlace", "")),
+                "region": replace_apostrophes(self.region_types.get(data["step_1"].get("actual_region", ""), "")),
             }
         }
 

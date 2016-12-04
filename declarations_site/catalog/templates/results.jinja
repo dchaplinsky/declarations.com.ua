@@ -52,7 +52,7 @@
                                 {% if r.intro.corrected %}Уточнена <span>,</span>{% endif %}
                             </li>
                             {% if r.general.post.region %}
-                                <li><a href="{{ url('region', region_name=r.general.post.region) }}">{{ r.general.post.region }}</a><span>,</span></li> 
+                                <li><a href="{{ url('region', region_name=r.general.post.region) }}" itemprop="homeLocation">{{ r.general.post.region }}</a><span>,</span></li> 
                             {% endif %}
                             {% if r.general.post.office %}
                                 <li><a href="{{ url('office', office_name=r.general.post.office) }}">{{ r.general.post.office }}</a><span>,</span></li> 

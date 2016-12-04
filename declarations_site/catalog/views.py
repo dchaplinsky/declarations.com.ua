@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
 from django.conf import settings
 
+from catalog.utils import replace_apostrophes
 from elasticsearch.exceptions import NotFoundError
 from elasticsearch_dsl import Search
 from elasticsearch_dsl.filter import Term, Not
@@ -38,7 +39,7 @@ def suggest(request):
         else:
             []
 
-    q = request.GET.get('q', '').strip()
+    q = replace_apostrophes(request.GET.get('q', '').strip())
 
     # It seems, that for some reason 'AUTO' setting doesn't work properly
     # for unicode strings

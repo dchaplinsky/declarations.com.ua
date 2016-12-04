@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-
+from catalog.utils import replace_apostrophes
 from catalog.elastic_models import Declaration
 
 
@@ -29,10 +29,6 @@ def filter_only_interesting(src):
                dict_generator(src)))
 
 
-def replace_apostrophes(s):
-    return s.replace("`", "'").replace("’", "'")
-
-
 class Command(BaseCommand):
     help = 'Replace apostrophes in names with correct ones, enable full text search in declaration content'
 
@@ -45,6 +41,17 @@ class Command(BaseCommand):
             decl.general.name = replace_apostrophes(decl.general.name)
             decl.general.last_name = replace_apostrophes(decl.general.last_name)
             decl.general.patronymic = replace_apostrophes(decl.general.patronymic)
+            decl.general.full_name_suggest = {
+                'input': [
+                    decl.general.full_name,
+                    ' '.join([decl.general.name,
+                              decl.general.patronymic,
+                              decl.general.last_name]),
+                    ' '.join([decl.general.name,
+                              decl.general.last_name])
+                ],
+                'output': decl.general.full_name
+            }
 
             decl.ft_src = "\n".join(filter_only_interesting(decl.to_dict()))
 
