@@ -1,4 +1,5 @@
 import os.path
+import re
 from django.core.management.base import BaseCommand
 from urllib.parse import unquote, urlsplit
 from catalog.elastic_models import Declaration
@@ -12,7 +13,10 @@ class Command(BaseCommand):
 
     def check_url(self, url, destination):
         path = unquote(urlsplit(url).path)
-        return os.path.exists(path.replace("/static/", destination))
+        path = path.lstrip("/")
+        path = re.sub("^static\/", "", path)
+
+        return os.path.exists(os.path.join(destination, path))
 
     def handle(self, *args, **options):
         all_decls = Declaration.search().query('match_all').scan()
@@ -25,7 +29,11 @@ class Command(BaseCommand):
         duplicates = 0
 
         for decl in all_decls:
-            url = decl["declaration"]["url"]
+            try:
+                url = decl["declaration"]["url"]
+            except KeyError:
+                url = None
+
             if not url:
                 no_url_no_id += 1
                 print(decl.meta.id)
@@ -33,14 +41,17 @@ class Command(BaseCommand):
 
             if url in urls_in_list:
                 duplicates += 1
-                print(url)
+                print("Duplicates",  url, decl.meta.id)
                 continue
 
             if "unshred.it" in url.lower():
                 on_unshred_it += 1
                 if not self.check_url(url, options["destination"]):
-                    print(url)
                     not_found += 1
+                    print("Not found",  url, decl.meta.id)
+                else:
+                    decl["declaration"]["url"] = url.replace("http://unshred.it/static/", "http://static.declarations.com.ua/")
+                    # decl.save()
 
             elif "static.declarations.com.ua" in url.lower():
                 on_static += 1
