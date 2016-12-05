@@ -71,7 +71,10 @@
 
                 <div class="transliteration-hint">
                     <h4>ПІБ іншими мовами</h4>
-                    {{ transliterations|join(", ") }}
+                    {% set pipe = joiner(", ") %}
+                    {% for t in transliterations -%}
+                    {{ pipe() }}<span itemprop="alternateName">{{ t }}</span>
+                    {%- endfor %}
                 </div>
             </div>
         </div>
