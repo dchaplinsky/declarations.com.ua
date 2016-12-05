@@ -1,7 +1,14 @@
 import re
 import os.path
+from operator import or_
+from functools import reduce
 from django.conf import settings
-from elasticsearch_dsl import DocType, Object, String, Completion, Nested, Date, Boolean
+from catalog.utils import parse_fullname
+from catalog.templatetags.catalog import parse_raw_family_string
+from elasticsearch_dsl import (
+    DocType, Object, String, Completion, Nested, Date, Boolean, Search)
+from elasticsearch_dsl.filter import Term, Not
+from elasticsearch_dsl.query import Q
 
 
 class NoneAwareDate(Date):
@@ -14,7 +21,86 @@ class NoneAwareDate(Date):
         return super(NoneAwareDate, self)._to_python(data)
 
 
-class Declaration(DocType):
+class AbstractDeclaration(DocType):
+    def similar_declarations(self):
+        s = Search(index=["nacp_declarations", "declarations_v2"])
+
+        s = s.query(
+            "multi_match",
+            query=self.general.full_name,
+            operator="and",
+            fields=[
+                "general.last_name",
+                "general.name",
+                "general.patronymic",
+                "general.full_name",
+            ]
+        ).filter(
+            Not(Term(_id=self.meta.id))
+        )
+
+        return s[:12].execute()
+
+    def family_declarations(self):
+        def filter_silly_names(name):
+            if not name:
+                return False
+
+            last_name, first_name, patronymic = parse_fullname(name)
+
+            if len(first_name) == 1 or first_name.endswith("."):
+                return False
+
+            if len(patronymic) == 1 or patronymic.endswith("."):
+                return False
+
+            return True
+
+        s = Search(index=["nacp_declarations", "declarations_v2"])
+        family_members = self.get_family_members()
+        subqs = []
+
+        for name in filter(filter_silly_names, family_members):
+            subqs.append(
+                Q(
+                    "multi_match",
+                    query=name,
+                    operator="and",
+                    fields=[
+                        "general.last_name",
+                        "general.name",
+                        "general.patronymic",
+                        "general.full_name",
+                    ]
+                ))
+
+        if subqs:
+            s = s.query(reduce(or_, subqs)).filter(
+                Not(Term(_id=self.meta.id))
+            )
+
+            return s[:12].execute()
+        else:
+            return None
+
+    def get_family_members(self):
+        """
+        Should return list of family member names
+        """
+        family = getattr(self.general, "family", None)
+        if family:
+            for member in family:
+                if hasattr(member, "family_name"):
+                    yield member.family_name
+        else:
+            for member in parse_raw_family_string(
+                    getattr(self.general, "family_raw", "")):
+                if "family_name" in member:
+                    yield member["family_name"]
+
+
+
+class Declaration(AbstractDeclaration):
     """Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
     general = Object(
@@ -338,7 +424,7 @@ class Declaration(DocType):
         index = 'declarations_v2'
 
 
-class NACPDeclaration(DocType):
+class NACPDeclaration(AbstractDeclaration):
     """NACP Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
     general = Object(
@@ -350,8 +436,8 @@ class NACPDeclaration(DocType):
             'last_name': String(index='analyzed'),
             'post': Object(
                 properties={
-                    'region': String(index='not_analyzed'),
-                    'office': String(index='not_analyzed'),
+                    'region': String(index='analyzed'),
+                    'office': String(index='analyzed'),
                     'post': String(index='analyzed')
                 }
             )
@@ -383,6 +469,7 @@ class NACPDeclaration(DocType):
         declaration_html = m.group(1)
 
         return declaration_html.replace("</div></div></div><header><h2>", "</div></div><header><h2>")
+
 
     class Meta:
         index = 'nacp_declarations'

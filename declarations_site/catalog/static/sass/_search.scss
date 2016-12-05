@@ -1,91 +1,78 @@
-#search-results {
-  .item {
-    margin-top: 20px;
-    margin-bottom: 20px;
+.search-results {
+    .item {
+        margin-top: 20px;
+        margin-bottom: 20px;
 
-    &.list-group-item {
-      height: auto !important;
-      float: none;
-      width: 100%;
-      overflow: visible;
+        &.list-group-item {
+            height: auto !important;
+            float: none;
+            width: 100%;
+            overflow: visible;
 
-      img {
-        float: left;
-      }
+            img {
+                float: left;
+            }
 
-      &:before,
-      &:after {
-        display: table;
-        content: " ";
-      }
+            &:before,
+            &:after {
+                display: table;
+                content: " ";
+            }
 
-      &:after {
-        clear: both;
-      }
-    }
-
-    @media (min-width: 992px) {
-      &:nth-child(2n+1) {
-        clear: both;
-      }
-    }
-
-    @media (min-width: 1200px) {
-      &:nth-child(2n+1) {
-        clear: none;
-      }
-
-      &:nth-child(3n+1) {
-        clear: both;
-      }
-    }
-
-    ul {
-      padding-left: 0;
-      margin-bottom: 0;
-
-      li {
-        display: inline;
-        margin-right: 10px;
-        font-size: 13px;
-
-        &.date,
-        &.type {
-          display: block;
+            &:after {
+                clear: both;
+            }
         }
 
-        span.glyphicon {
-          font-size: 10px;
-          margin-right: 10px;
-          opacity: 0.7;
+        @media (min-width: 992px) {
+            &:nth-child(2n+1) {
+                clear: both;
+            }
         }
-      }
-    }
 
-    h3 {
-      margin-top: 0;
-      font-size: 18px;
-    }
+        @media (min-width: 1200px) {
+            &:nth-child(2n+1) {
+                clear: none;
+            }
 
-    .box {
-      transition: all linear 0.3s;
+            &:nth-child(3n+1) {
+                clear: both;
+            }
+        }
 
-      &:hover {
-        box-shadow: none;
-      }
+        ul {
+            padding-left: 0;
+            margin-bottom: 0;
+
+            li {
+                display: inline;
+                margin-right: 10px;
+                font-size: 13px;
+
+                &.date,
+                &.type {
+                    display: block;
+                }
+
+                span.glyphicon {
+                    font-size: 10px;
+                    margin-right: 10px;
+                    opacity: 0.7;
+                }
+            }
+        }
+
+        h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .box {
+            transition: all linear 0.3s;
+
+            &:hover {
+                box-shadow: none;
+            }
+        }
     }
-  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

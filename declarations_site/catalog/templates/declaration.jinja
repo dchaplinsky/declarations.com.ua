@@ -1,4 +1,5 @@
 {% extends "base.jinja" %}
+{% from "_search_results.jinja" import search_results %}
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
@@ -62,12 +63,43 @@
                 {% if declaration.declaration.source == "NACP" %}
                     <div id="nacp_decl">
                         {{ declaration.raw_html()|safe }}
+                        <hr />
                     </div>
                 {% else %}
                     {% include 'decl_form.jinja' %}
                 {% endif %}
+
+                <div class="transliteration-hint">
+                    <h4>ПІБ іншими мовами</h4>
+                    {{ transliterations|join(", ") }}
+                </div>
             </div>
         </div>
+    </div>
+
+    <div class="container">
+        {% set similar_declarations = declaration.similar_declarations() %}
+        {% if similar_declarations %}
+        <h3>Інші декларації знайдені за ПІБ «{{ declaration.general.full_name }}»</h3>
+        <div class="search-page">
+            <div class="row list-group search-results">
+                {{ search_results(similar_declarations) }}
+            </div>
+        </div>
+        {% endif %}
+
+        {% set family_declarations = declaration.family_declarations() %}
+        {% if family_declarations %}
+        <h3>Декларації осіб, що <u>можуть</u> бути родичами декларанта</h3>
+        <div class="search-page">
+            <div class="row list-group search-results">
+                {{ search_results(family_declarations) }}
+            </div>
+        </div>
+        {% endif %}
+
+
+
         <div id="disqus_thread"></div>
         <script type="text/javascript">
             /* * * CONFIGURATION VARIABLES * * */
@@ -87,7 +119,7 @@
             (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
             }());            
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>        
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     </div>
     </section>
 {% endblock %}

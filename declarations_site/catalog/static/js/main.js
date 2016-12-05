@@ -44,12 +44,12 @@ $(function() {
    
     $('#list').on("click", function(event){
         event.preventDefault();
-        $('#search-results .item').addClass('list-group-item');
+        $('.search-results .item').addClass('list-group-item');
     });
 
     $('#grid').on("click", function(event){
         event.preventDefault();
-        $('#search-results .item')
+        $('.search-results .item')
             .removeClass('list-group-item')
             .addClass('grid-group-item');
     });
@@ -60,7 +60,7 @@ $(function() {
 
     //In case we beed to add other blocks from other pages
     function _setColumnsHeights() {
-        setColumnsHeights ('#search-results', '.item');
+        setColumnsHeights ('.search-results', '.item');
     }
 
     $(document).ready(function() {

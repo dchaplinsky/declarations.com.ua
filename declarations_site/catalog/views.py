@@ -12,6 +12,7 @@ from elasticsearch_dsl.filter import Term, Not
 from catalog.elastic_models import Declaration, NACPDeclaration
 from catalog.paginator import paginated_search
 from catalog.api import hybrid_response
+from catalog.utils import TRANSLITERATOR_SINGLETON
 from catalog.models import Office
 from cms_pages.models import MetaData, NewsPage, PersonMeta
 
@@ -58,7 +59,7 @@ def suggest(request):
 
 @hybrid_response('results.jinja')
 def search(request):
-    query = request.GET.get("q", "")
+    query = replace_apostrophes(request.GET.get("q", ""))
     deepsearch = bool(request.GET.get("deepsearch", ""))
     if deepsearch:
         fields = ["_all"]
@@ -95,6 +96,8 @@ def search(request):
         search = base_search.query(
             "multi_match",
             query=query,
+            # Not ideal yet, as some of those fields aren't analyzed
+            type="cross_fields",
             operator="and",
             fields=fields
         )
@@ -104,6 +107,7 @@ def search(request):
                 "multi_match",
                 query=query,
                 operator="or",
+                type="cross_fields",
                 minimum_should_match="2",
                 fields=fields
             )
@@ -178,6 +182,11 @@ def details(request, declaration_id):
 
     return {
         "declaration": declaration,
+        "transliterations": TRANSLITERATOR_SINGLETON.transliterate(
+            getattr(declaration.general, "last_name", ""),
+            getattr(declaration.general, "name", ""),
+            getattr(declaration.general, "patronymic", ""),
+        ),
         "meta": meta
     }
 

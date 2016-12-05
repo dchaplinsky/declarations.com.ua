@@ -3,7 +3,6 @@ import json
 
 from csv import DictReader
 from parsel import Selector
-from string import capwords
 import os.path
 import glob2
 
@@ -11,20 +10,15 @@ from dateutil.parser import parse as dt_parse
 
 from django.core.management.base import BaseCommand, CommandError
 from catalog.elastic_models import NACPDeclaration
-from catalog.utils import replace_apostrophes
+from catalog.utils import replace_apostrophes, title
 
 
 class BadJSONData(Exception):
     pass
 
+
 class BadHTMLData(Exception):
     pass
-
-
-def title(s):
-    chunks = s.split()
-    chunks = map(lambda x: capwords(x, u"-"), chunks)
-    return u" ".join(chunks)
 
 
 class Command(BaseCommand):
@@ -264,6 +258,26 @@ class Command(BaseCommand):
                 "region": replace_apostrophes(self.region_types.get(data["step_1"].get("actual_region", ""), "")),
             }
         }
+
+        if "step_2" in data:
+            family = data["step_2"]
+
+            if isinstance(family, dict):
+                resp["general"]["family"] = []
+
+                for member in family.values():
+                    if not isinstance(member, dict):
+                        continue
+
+                    resp["general"]["family"].append({
+                        "family_name": replace_apostrophes("{} {} {}".format(
+                            title(member.get("lastname", "")),
+                            title(member.get("firstname", "")),
+                            title(member.get("middlename", "")),
+                        )),
+
+                        "relations": member.get("subjectRelation", "")
+                    })
 
         resp['general']['full_name_suggest'] = {
             'input': [

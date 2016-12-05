@@ -17,3 +17,4 @@ easy-thumbnails==2.2
 dpath==1.4.0
 parsel==1.0.3
 glob2==0.5
+translitua==1.2.2

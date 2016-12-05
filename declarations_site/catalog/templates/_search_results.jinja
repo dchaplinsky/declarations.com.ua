@@ -1,0 +1,35 @@
+{% macro search_results(results) -%}
+    {% for r in results %}
+    <div class="item col-sm-12  col-md-6 col-lg-4 grid-group-item{% if r.declaration.source == "CHESNO" %} chesno{% elif r.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
+        <div class="box">
+            <h3>
+            {% if r.meta.id %}
+                <a href="{{ url("details", declaration_id=r.meta.id) }}" itemprop="name">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a>
+            {% else %}
+                {{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}
+            {% endif %}
+            </h3>
+            <ul class="tags_list">
+                <li class="type">
+                    <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+                    {% if r.intro.declaration_year %}{{ r.intro.declaration_year }}<span>,</span>{% endif %}
+                    {% if r.intro.doc_type %}{{ r.intro.doc_type }}<span>,</span>{% endif %}
+                    {% if r.intro.corrected %}Уточнена <span>,</span>{% endif %}
+                </li>
+                {% if r.general.post.region %}
+                    <li><a href="{{ url('region', region_name=r.general.post.region) }}" itemprop="homeLocation">{{ r.general.post.region }}</a><span>,</span></li> 
+                {% endif %}
+                {% if r.general.post.office %}
+                    <li><a href="{{ url('office', office_name=r.general.post.office) }}">{{ r.general.post.office }}</a><span>,</span></li> 
+                {% endif %}
+                {% if r.general.post.post %}
+                    <li itemprop="jobTitle">{{ r.general.post.post }}</li> 
+                {% endif %}
+                {% if r.intro.date %}
+                    <li class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ r.intro.date|date }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+{%- endmacro %}
