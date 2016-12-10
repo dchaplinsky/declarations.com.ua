@@ -251,7 +251,7 @@ a.white:hover,
 }
 
 #newslist {
-    margin-bottom: 30px;
+    padding-bottom: 30px;
 }
 
 #newslist h3 {
@@ -277,7 +277,7 @@ a.white:hover,
 }
 
 .newsBox:nth-child(even) {
-    background: white;
+    background: #eee;
 }
 
 .newsDate,
@@ -730,7 +730,7 @@ h1#page-header span.social {
 
 @media (max-width: 767px) {
     h1#page-header > span,
-    h1.page-header > span  {
+    h1.page-header > span {
         padding: 0;
     }
 

@@ -3,10 +3,10 @@
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
-{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} - {% if declaration.general.post.post %} {{ declaration.general.post.post }} - {% endif %} декларація за {{ declaration.intro.declaration_year }} рік{% endif %}
+Декларації: {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}{% endif %}
 {%- endblock %}
 
-{% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Декларація за {{ declaration.intro.declaration_year }} рік {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }} ({{ declaration.general.post.office }} {{ declaration.general.post.post }}) {% endif %}{% endblock %}
+{% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Д​екларації про майно, доходи, витрати та зобов'язання фінансового характеру {{ declaration.general.last_name }} {{ declaration.general.name }} за {{ declaration.intro.declaration_year }} рік онлайн у відкритій базі даних проекту{% endif %}{% endblock %}
 
 {% block bodyclass %}not-front declaration-page{% endblock %}
 
@@ -83,7 +83,7 @@
     <div class="container">
         {% set similar_declarations = declaration.similar_declarations() %}
         {% if similar_declarations %}
-        <h3>Інші декларації знайдені за ПІБ «{{ declaration.general.full_name }}»</h3>
+        <h3>Інші декларації, знайдені за ПІБ «{{ declaration.general.full_name }}»</h3>
         <div class="search-page">
             <div class="row list-group search-results">
                 {{ search_results(similar_declarations) }}
