@@ -1,12 +1,31 @@
 {% extends "base.jinja" %}
 
 {% block extrahead %}
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,900&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,900&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css' />
     {% stylesheet 'css_bi' %}
 {% endblock %}
 
+{% block bodyclass %}not-front bi-analytics-page loading{% endblock %}
+
 {% block content %}
 <section id="page">
+
+    <div class="preloading-overlay">
+        <div class="preloader-container">
+            <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div><div class="gap-patch">
+                    <div class="circle"></div>
+                  </div><div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div id="breadcrumbs">
            <h3>Аналіз декларацій</h3>
