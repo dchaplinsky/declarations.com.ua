@@ -289,4 +289,10 @@ d3.csv("/static/data/declarations.csv", function(error, persons) {
     } )
 
   );
+
+  $(document).trigger('biDataLoaded');
+});
+
+$(document).on('biDataLoaded', function (){
+    $('body.bi-analytics-page').removeClass('loading');
 });
