@@ -1,5 +1,29 @@
 {% extends "base.jinja" %}
 
+{% block newslist %}
+    {% if latest_news %}
+    <section id="newslist" class="on-white">
+        <div class="container">            
+            <div class="row">
+                <h3 class="text-center">Новини декларацій</h3>
+
+                {% for row in latest_news|batch(2) %}
+                <div class="newsBox">
+                    {% for news in row %}
+                    <div class="newsRow col-sm-6">
+                        <span class="newsDate">{{ news.date_added|time("H:i") }}, {{ news.date_added|date }}</span>
+                        <a class="newsTitle blue{% if news.important %} important-news{% endif %}" href="{{ news.url }}">{{ news.title }}</a>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+                <a class="classic gree text-right pull-right" href="{{ url("wagtail_serve", "news/") }}">Усі новини</a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}
+
 {% block bodyclass %}front{% endblock %}
     {% block infobox %}
     <section id="infobox">
@@ -36,38 +60,6 @@
     </section>
 {% endblock %}
 
-{% block newslist %}
-    {% if latest_news %}
-    <section id="newslist" class="on-white">
-        <div class="container">            
-            <div class="row">
-                <h3 class="text-center">Інші новини декларацій</h3>
-
-                {% for row in latest_news|batch(2) %}
-                <div class="newsBox">
-                    {% for news in row %}
-                    <div class="newsRow col-sm-6">
-                        <span class="newsDate">{{ news.date_added|time("H:i") }}, {{ news.date_added|date }}</span>
-                        <a class="newsTitle blue{% if news.important %} important-news{% endif %}" href="{{ news.url }}">{{ news.title }}</a>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endfor %}
-                <a class="classic gree text-right pull-right" href="{{ url("wagtail_serve", "news/") }}">Усі новини</a>
-            </div>
-        </div>
-    </section>
-    {% endif %}
-{% endblock %}
-
-{% block social %}
-{% endblock %}
-
-{% block content %}
-    <div class="cp"></div>
-    <!-- clear padding --> 
-{% endblock %}
-
 {% block graph %}
     <section id="graph">
         <div class="container">
@@ -92,5 +84,12 @@
             </div>
         </div>
     </section>
-    {% endblock %}
+{% endblock %}
 
+{% block social %}
+{% endblock %}
+
+{% block content %}
+    <div class="cp"></div>
+    <!-- clear padding -->
+{% endblock %}

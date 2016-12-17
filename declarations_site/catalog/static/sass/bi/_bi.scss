@@ -1,3 +1,9 @@
+.bi-analytics-page {
+    &.loading {
+        overflow-y: hidden;
+    }
+}
+
 div#bi_container {
     font-family: Roboto;
     font-size: 12px;
