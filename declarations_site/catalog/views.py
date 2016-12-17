@@ -125,22 +125,29 @@ def search(request):
 @hybrid_response('results.jinja')
 def fuzzy_search(request):
     query = request.GET.get("q", "")
-    search = Declaration.search()
+    search = Search(index=["nacp_declarations", "declarations_v2"])
     fuzziness = 1
 
     if query:
-        search = search.query(
-            "match", _all={"query": query, "operator": "and"})
-
-        while search.count() == 0 and fuzziness < 3:
-            search = Declaration.search().query(
-                "match",
-                _all={
+        search = search.query({
+            "match": {
+                "general.full_name": {
                     "query": query,
-                    "fuzziness": fuzziness,
                     "operator": "and"
                 }
-            )
+            }
+        })
+
+        while search.count() == 0 and fuzziness < 3:
+            search = Declaration.search().query({
+                "match": {
+                    "general.full_name": {
+                        "query": query,
+                        "fuzziness": fuzziness,
+                        "operator": "and"
+                    }
+                }
+            })
             fuzziness += 1
     else:
         search = search.query('match_all')
