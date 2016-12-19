@@ -11,9 +11,12 @@
 First of all install ```R 3.1``` or newer
 
 then run ```R``` and install following packages:
-* ```install.packages('knitrBootstrap')```
-* ```install.packages('ggplot2')```
+* ```install.packages('devtools')```
+* ```require(devtools)```
+* ```install_version("knitr", version = "1.10", repos = "http://cran.us.r-project.org")```
+* ```install_version("ggplot2", version = "1.0.1", repos = "http://cran.us.r-project.org")```
+* ```install_version("knitrBootstrap", version = "0.9.0", repos = "http://cran.us.r-project.org")```
 * ```install.packages('dplyr')```
-* ```install.packages('xtable')```
-* ```install.packages('scales')```
-* ```install.packages('doBy')```
+* ```install_version("xtable", version = "1.7-4", repos = "http://cran.us.r-project.org")```
+* ```install_version("scales", version = "0.2.4", repos = "http://cran.us.r-project.org")```
+* ```install_version("doBy", version = "4.5-13", repos = "http://cran.us.r-project.org")```

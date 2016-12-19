@@ -71,9 +71,9 @@ class Command(BaseCommand):
             res = []
 
             for e in estate:
-                if not e['space']:
+                if not getattr(e, 'space'):
                     continue
-                
+
                 try:
                     res.append(float(e['space'].replace(",", ".")))
                 except ValueError:
@@ -84,8 +84,8 @@ class Command(BaseCommand):
         def floatify(val):
             if val is None:
                 val = ""
-            
-            try: 
+
+            try:
                 return float(val.replace(",", ".") or 0)
             except ValueError:
                 return 0
@@ -123,7 +123,7 @@ class Command(BaseCommand):
             'office': declaration.general.post.office,
             'year': int(declaration.intro.declaration_year or 0),
             'income': floatify(declaration.income['5']['value']),
-            'f_income': floatify(declaration.income['5']['family']),
+            'f_income': floatify(getattr(declaration.income['5'], 'family')),
             'salary': floatify(declaration.income['6']['value']),
             'f_salary': floatify(declaration.income['6']['family']),
             'job': floatify(declaration.income['7']['value']),
@@ -134,8 +134,8 @@ class Command(BaseCommand):
             'f_dividends': floatify(declaration.income['9']['family'].rstrip('%')),
             'help': floatify(declaration.income['10']['value']),
             'f_help': floatify(declaration.income['10']['family']),
-            'gifts': floatify(declaration.income['11']['value']),
-            'f_gifts': floatify(declaration.income['11']['family']),
+            'gifts': floatify(getattr(declaration.income['11'], 'value')),
+            'f_gifts': floatify(getattr(declaration.income['11'], 'family')),
             'jobless': floatify(declaration.income['12']['value']),
             'f_jobless': floatify(declaration.income['12']['family']),
             'alimony': floatify(declaration.income['13']['value']),
@@ -154,9 +154,9 @@ class Command(BaseCommand):
             'f_rent': floatify(declaration.income['19']['family']),
             'other': floatify(declaration.income['20']['value']),
             'f_other': floatify(declaration.income['20']['family']),
-            'foreign': sum(map(lambda x: floatify(x['uah_equal']), list_field(declaration.income, '21'))),
+            'foreign': sum(map(lambda x: floatify(getattr(x, 'uah_equal')), list_field(declaration.income, '21'))),
             'foreign_country': ';'.join(map(lambda x: x['country'], list_field(declaration.income, '21'))),
-            'f_foreign': sum(map(lambda x: floatify(x['uah_equal']), list_field(declaration.income, '22'))),
+            'f_foreign': sum(map(lambda x: floatify(getattr(x, 'uah_equal')), list_field(declaration.income, '22'))),
             'f_foreign_country': ';'.join(map(lambda x: x['country'], list_field(declaration.income, '22'))),
             'earth_space': sum(estate_space(list_field(declaration.estate, '23'))),
             'earth_space_num': len(estate_space(list_field(declaration.estate, '23'))),
