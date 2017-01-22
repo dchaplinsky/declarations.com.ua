@@ -153,7 +153,7 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
-PIPELINE_ENABLED = True
+# PIPELINE_ENABLED = True
 PIPELINE_SASS_ARGUMENTS = "-q"
 PIPELINE_COMPILERS = ('pipeline.compilers.sass.SASSCompiler',)
 PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.cssmin.CssminCompressor'
@@ -241,7 +241,7 @@ THUMBNAIL_ALIASES = {
     },
 }
 
-SITEMAP_DECLARATIONS_PER_PAGE = 50000
+SITEMAP_DECLARATIONS_PER_PAGE = 10000
 
 try:
     from .local_settings import *

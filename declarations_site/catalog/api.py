@@ -1,6 +1,6 @@
 from functools import wraps
 
-from elasticsearch_dsl.result import Response
+from elasticsearch_dsl.response import Response
 from elasticsearch_dsl.utils import AttrDict, AttrList, ObjectBase
 
 from django.http import JsonResponse
@@ -23,13 +23,14 @@ def serialize_for_api(data):
         return serialize_for_api(data.hits._l_)
     elif isinstance(data, (AttrDict, ObjectBase)):
         res = data.to_dict()
-        res["id"] = data.meta.id
+        if hasattr(data, 'meta'):
+            res['id'] = data.meta.id
         return res
     elif isinstance(data, AttrList):
         return data._l_
     elif isinstance(data, dict):
         return {k: serialize_for_api(v) for k, v in data.items()}
-    elif isinstance(data, (list, tuple)):
+    elif isinstance(data, (list, tuple, set)):
         return list(map(serialize_for_api, data))
     return data
 

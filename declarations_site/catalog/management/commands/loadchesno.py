@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from django.core.management.base import BaseCommand, CommandError
 
-from elasticsearch_dsl.filter import Term
+from elasticsearch_dsl import Q
 
 from catalog.elastic_models import Declaration
 from catalog.data.mapping_chesno import MAPPING, SubDocument, NumericOperation, JoinOperation
@@ -60,17 +60,14 @@ class Command(BaseCommand):
                     continue
 
                 mapped = self.map_fields(row)
-                res = Declaration.search().filter(
-                    Term(general__last_name=mapped[
-                        'general']['last_name'].lower().split('-')) &
-                    Term(general__name=mapped[
-                        'general']['name'].lower().split('-')) &
-                    Term(intro__declaration_year=int(mapped['intro']['declaration_year']))
+                res = Declaration.search().query(
+                    Q('terms', general__last_name=mapped['general']['last_name'].lower().split("-")) &
+                    Q('terms', general__name=mapped['general']['name'].lower().split("-")) &
+                    Q('term', intro__declaration_year=mapped['intro']['declaration_year'])
                 )
 
                 if mapped['general']['patronymic']:
-                    res = res.filter(Term(general__patronymic=mapped[
-                        'general']['patronymic'].lower()))
+                    res = res.query('term', general__patronymic=mapped['general']['patronymic'].lower())
 
                 self.stdout.write(
                     "Checking %s (%s)" % (
@@ -155,8 +152,7 @@ class Command(BaseCommand):
                            rec['general']['last_name']]),
                 u' '.join([rec['general']['name'],
                            rec['general']['last_name']])
-            ],
-            'output': rec['general']['full_name']
+            ]
         }
         for i, family_member in enumerate(rec['general']['family']):
             parsed = parse_family_member(family_member['family_name'])

@@ -1,8 +1,10 @@
-from catalog.elastic_models import Declaration
+from elasticsearch_dsl import Search
+
+from .constants import CATALOG_INDICES
 
 
 def stats_processor(request):
-    s = Declaration.search()
+    s = Search(index=CATALOG_INDICES)
     # res = s.params(search_type="count").aggs.metric(
     #     "distinct_names", "cardinality", field="full_name").execute()
 
