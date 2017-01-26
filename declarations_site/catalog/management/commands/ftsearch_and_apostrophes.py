@@ -49,8 +49,7 @@ class Command(BaseCommand):
                               decl.general.last_name]),
                     ' '.join([decl.general.name,
                               decl.general.last_name])
-                ],
-                'output': decl.general.full_name
+                ]
             }
 
             decl.ft_src = "\n".join(filter_only_interesting(decl.to_dict()))

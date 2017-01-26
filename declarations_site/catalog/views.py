@@ -98,6 +98,7 @@ def search(request):
         search = base_search.query(
             "multi_match",
             query=query,
+            type="cross_fields",
             operator="and",
             fields=fields
         )
@@ -106,6 +107,7 @@ def search(request):
             search = base_search.query(
                 "multi_match",
                 query=query,
+                type="cross_fields",
                 operator="or",
                 minimum_should_match="2",
                 fields=fields
@@ -282,6 +284,8 @@ def sitemap_general(request):
             'per_office', 'terms', field='general.post.office.raw', size=1000)
 
         for subr in subsearch.execute().aggregations.per_office.buckets:
+            if subr.key == '':
+                continue
             urls.append(reverse(
                 "region_office",
                 kwargs={"region_name": r.key, "office_name": subr.key}))

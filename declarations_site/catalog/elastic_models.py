@@ -152,6 +152,7 @@ class Declaration(DocType, RelatedDeclarationsMixin):
             'declaration_year': Keyword(index=True)
         }
     )
+    ft_src = Text(index=True, analyzer='ukrainian')
 
     INCOME_SINGLE_PROPERTIES = {
         'value': Keyword(index=False),
@@ -450,6 +451,7 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
             'doc_type': Keyword(index=True),
         }
     )
+    ft_src = Text(index=True, analyzer='ukrainian')
 
     def raw_html(self):
         fname = os.path.join(
