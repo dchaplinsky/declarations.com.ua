@@ -2,13 +2,14 @@ import re
 import os.path
 from operator import or_
 from functools import reduce
+
 from django.conf import settings
-from catalog.utils import parse_fullname
-from catalog.templatetags.catalog import parse_raw_family_string
-from elasticsearch_dsl import (
-    DocType, Object, String, Completion, Nested, Date, Boolean, Search)
-from elasticsearch_dsl.filter import Term, Not
+from elasticsearch_dsl import DocType, Object, Keyword, Text, Completion, Nested, Date, Boolean, Search
 from elasticsearch_dsl.query import Q
+
+from .constants import CATALOG_INDICES
+from .utils import parse_fullname
+from .templatetags.catalog import parse_raw_family_string
 
 
 class NoneAwareDate(Date):
@@ -21,23 +22,20 @@ class NoneAwareDate(Date):
         return super(NoneAwareDate, self)._to_python(data)
 
 
-class AbstractDeclaration(DocType):
+class RelatedDeclarationsMixin:
     def similar_declarations(self):
-        s = Search(index=["nacp_declarations", "declarations_v2"])
-
-        s = s.query(
-            "multi_match",
-            query=self.general.full_name,
-            operator="and",
-            fields=[
-                "general.last_name",
-                "general.name",
-                "general.patronymic",
-                "general.full_name",
-            ]
-        ).filter(
-            Not(Term(_id=self.meta.id))
-        )
+        s = Search(index=CATALOG_INDICES)\
+            .query(
+                'multi_match',
+                query=self.general.full_name,
+                operator='and',
+                fields=[
+                    'general.last_name',
+                    'general.name',
+                    'general.patronymic',
+                    'general.full_name',
+                ])\
+            .query(~Q('term', _id=self.meta.id))
 
         return s[:12].execute()
 
@@ -56,7 +54,7 @@ class AbstractDeclaration(DocType):
 
             return True
 
-        s = Search(index=["nacp_declarations", "declarations_v2"])
+        s = Search(index=CATALOG_INDICES)
         family_members = self.get_family_members()
         subqs = []
 
@@ -75,10 +73,7 @@ class AbstractDeclaration(DocType):
                 ))
 
         if subqs:
-            s = s.query(reduce(or_, subqs)).filter(
-                Not(Term(_id=self.meta.id))
-            )
-
+            s = s.query(reduce(or_, subqs)).query(~Q('term', _id=self.meta.id))
             return s[:12].execute()
         else:
             return None
@@ -99,46 +94,45 @@ class AbstractDeclaration(DocType):
                     yield member["family_name"]
 
 
-
-class Declaration(AbstractDeclaration):
+class Declaration(DocType, RelatedDeclarationsMixin):
     """Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
-            'full_name': String(index='analyzed'),
-            'name': String(index='analyzed'),
-            'patronymic': String(index='analyzed'),
-            'last_name': String(index='analyzed'),
-            'family_raw': String(index='analyzed'),
+            'full_name': Text(index=True, analyzer='ukrainian'),
+            'name': Text(index=True, analyzer='ukrainian'),
+            'patronymic': Text(index=True, analyzer='ukrainian'),
+            'last_name': Text(index=True, analyzer='ukrainian'),
+            'family_raw': Text(index=True, analyzer='ukrainian'),
             'family': Nested(
                 properties={
-                    'name': String(index='analyzed'),
-                    'relations': String(index='no'),
-                    'inn': String(index='no')
+                    'name': Text(index=True, analyzer='ukrainian'),
+                    'relations': Keyword(index=False),
+                    'inn': Keyword(index=False)
                 }
             ),
-            'post_raw': String(index='analyzed'),
+            'post_raw': Text(index=True, analyzer='ukrainian'),
             'post': Object(
                 properties={
-                    'region': String(index='not_analyzed'),
-                    'office': String(index='not_analyzed'),
-                    'post': String(index='analyzed')
+                    'region': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+                    'office': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+                    'post': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)})
                 }
             ),
             'addresses': Nested(
                 properties={
-                    'place': String(index='no'),
-                    'place_hidden': Boolean(index='no'),
-                    'place_district': String(index='no'),
-                    'place_district_hidden': Boolean(index='no'),
-                    'place_city': String(index='no'),
-                    'place_city_hidden': Boolean(index='no'),
-                    'place_city_type': String(index='no'),
-                    'place_city_type_hidden': Boolean(index='no'),
-                    'place_address': String(index='no'),
-                    'place_address_hidden': Boolean(index='no'),
-                    'place_address_type': String(index='no')
+                    'place': Text(index=False),
+                    'place_hidden': Boolean(index=False),
+                    'place_district': Text(index=False),
+                    'place_district_hidden': Boolean(index=False),
+                    'place_city': Text(index=False),
+                    'place_city_hidden': Boolean(index=False),
+                    'place_city_type': Keyword(index=False),
+                    'place_city_type_hidden': Boolean(index=False),
+                    'place_address': Text(index=False),
+                    'place_address_hidden': Boolean(index=False),
+                    'place_address_type': Keyword(index=False)
                 }
             )
         }
@@ -146,33 +140,34 @@ class Declaration(AbstractDeclaration):
     declaration = Object(
         properties={
             'date': NoneAwareDate(),
-            'notfull': Boolean(index='no'),
-            'notfull_lostpages': String(index='no'),
-            'additional_info': Boolean(index='no'),
-            'additional_info_text': String(index='no'),
-            'needs_scancopy_check': Boolean(index='no')
+            'notfull': Boolean(index=False),
+            'notfull_lostpages': Keyword(index=False),
+            'additional_info': Boolean(index=False),
+            'additional_info_text': Text(index=False),
+            'needs_scancopy_check': Boolean(index=False)
         }
     )
     intro = Object(
         properties={
-            'declaration_year': String(index="not_analyzed")
+            'declaration_year': Keyword(index=True)
         }
     )
+    ft_src = Text(index=True, analyzer='ukrainian')
 
     INCOME_SINGLE_PROPERTIES = {
-        'value': String(index='no'),
-        'value_unclear': Boolean(index='no'),
-        'comment': String(index='no'),
-        'family': String(index='no'),
-        'family_unclear': Boolean(index='no'),
-        'family_comment': String(index='no')
+        'value': Keyword(index=False),
+        'value_unclear': Boolean(index=False),
+        'comment': Text(index=False),
+        'family': Keyword(index=False),
+        'family_unclear': Boolean(index=False),
+        'family_comment': Text(index=False)
     }
     INCOME_LIST_PROPERTIES = {
-        'country': String(index='no'),
-        'country_comment': String(index='no'),
-        'cur': String(index='no'),
-        'cur_units': String(index='no'),
-        'uah_equal': String(index='no')
+        'country': Keyword(index=False),
+        'country_comment': Text(index=False),
+        'cur': Keyword(index=False),
+        'cur_units': Keyword(index=False),
+        'uah_equal': Keyword(index=False)
     }
     income = Object(
         properties={
@@ -234,17 +229,17 @@ class Declaration(AbstractDeclaration):
     )
 
     ESTATE_PROPERTIES = {
-        'region': String(index='no'),
-        'address': String(index='no'),
-        'space': String(index='no'),
-        'space_units': String(index='no'),
-        'space_comment': String(index='no'),
-        'costs': String(index='no'),
-        'costs_comment': String(index='no'),
-        'costs_rent': String(index='no'),
-        'costs_rent_comment': String(index='no'),
-        'costs_property': String(index='no'),
-        'costs_property_comment': String(index='no')
+        'region': Text(index=False),
+        'address': Text(index=False),
+        'space': Keyword(index=False),
+        'space_units': Keyword(index=False),
+        'space_comment': Text(index=False),
+        'costs': Keyword(index=False),
+        'costs_comment': Text(index=False),
+        'costs_rent': Keyword(index=False),
+        'costs_rent_comment': Text(index=False),
+        'costs_property': Keyword(index=False),
+        'costs_property_comment': Text(index=False)
     }
     estate = Object(
         properties={
@@ -288,16 +283,16 @@ class Declaration(AbstractDeclaration):
     )
 
     VEHICLE_PROPERTIES = {
-        "brand": String(index='no'),
-        "brand_info": String(index='no'),
-        "year": String(index='no'),
-        "sum": String(index='no'),
-        "sum_comment": String(index='no'),
-        "sum_rent": String(index='no'),
-        "sum_rent_comment": String(index='no'),
-        "brand_hidden": Boolean(index='no'),
-        "brand_info_hidden": Boolean(index='no'),
-        "brand_info_unclear": Boolean(index='no')
+        "brand": Text(index=False),
+        "brand_info": Text(index=False),
+        "year": Keyword(index=False),
+        "sum": Keyword(index=False),
+        "sum_comment": Text(index=False),
+        "sum_rent": Keyword(index=False),
+        "sum_rent_comment": Text(index=False),
+        "brand_hidden": Boolean(index=False),
+        "brand_info_hidden": Boolean(index=False),
+        "brand_info_unclear": Boolean(index=False)
     }
     vehicle = Object(
         properties={
@@ -335,13 +330,13 @@ class Declaration(AbstractDeclaration):
     )
 
     BANKS_PROPERTIES = {
-        'sum': String(index='no'),
-        'sum_hidden': Boolean(index='no'),
-        'sum_units': String(index='no'),
-        'sum_comment': String(index='no'),
-        'sum_foreign': String(index='no'),
-        'sum_foreign_units': String(index='no'),
-        'sum_foreign_comment': String(index='no')
+        'sum': Keyword(index=False),
+        'sum_hidden': Boolean(index=False),
+        'sum_units': Keyword(index=False),
+        'sum_comment': Text(index=False),
+        'sum_foreign': Keyword(index=False),
+        'sum_foreign_units': Keyword(index=False),
+        'sum_foreign_comment': Text(index=False)
     }
     banks = Object(
         properties={
@@ -376,11 +371,11 @@ class Declaration(AbstractDeclaration):
     )
 
     LIABILITIES_PROPERTIES = {
-        'sum': String(index='no'),
-        'sum_comment': String(index='no'),
-        'sum_units': String(index='no'),
-        'sum_foreign': String(index='no'),
-        'sum_foreign_comment': String(index='no')
+        'sum': Keyword(index=False),
+        'sum_comment': Text(index=False),
+        'sum_units': Keyword(index=False),
+        'sum_foreign': Keyword(index=False),
+        'sum_foreign_comment': Text(index=False)
     }
     liabilities = Object(
         properties={
@@ -424,21 +419,21 @@ class Declaration(AbstractDeclaration):
         index = 'declarations_v2'
 
 
-class NACPDeclaration(AbstractDeclaration):
+class NACPDeclaration(DocType, RelatedDeclarationsMixin):
     """NACP Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
-            'full_name': String(index='analyzed'),
-            'name': String(index='analyzed'),
-            'patronymic': String(index='analyzed'),
-            'last_name': String(index='analyzed'),
+            'full_name': Text(index=True, analyzer='ukrainian'),
+            'name': Text(index=True, analyzer='ukrainian'),
+            'patronymic': Text(index=True, analyzer='ukrainian'),
+            'last_name': Text(index=True, analyzer='ukrainian'),
             'post': Object(
                 properties={
-                    'region': String(index='analyzed'),
-                    'office': String(index='analyzed'),
-                    'post': String(index='analyzed')
+                    'region': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+                    'office': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+                    'post': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)})
                 }
             )
         }
@@ -450,12 +445,13 @@ class NACPDeclaration(AbstractDeclaration):
     )
     intro = Object(
         properties={
-            'declaration_year': String(index="not_analyzed"),
+            'declaration_year': Keyword(index=True),
             'declaration_year_to': NoneAwareDate(),
             'declaration_year_from': NoneAwareDate(),
-            'doc_type': String(index='not_analyzed'),
+            'doc_type': Keyword(index=True),
         }
     )
+    nacp_src = Text(index=True, analyzer='ukrainian')
 
     def raw_html(self):
         fname = os.path.join(
@@ -469,7 +465,6 @@ class NACPDeclaration(AbstractDeclaration):
         declaration_html = m.group(1)
 
         return declaration_html.replace("</div></div></div><header><h2>", "</div></div><header><h2>")
-
 
     class Meta:
         index = 'nacp_declarations'

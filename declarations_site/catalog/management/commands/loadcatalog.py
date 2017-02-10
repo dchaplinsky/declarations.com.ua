@@ -9,7 +9,7 @@ from datetime import datetime
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 
-from elasticsearch_dsl.filter import Term
+from elasticsearch_dsl import Q
 
 from catalog.elastic_models import Declaration
 
@@ -68,18 +68,14 @@ class Command(BaseCommand):
             for row in reader:
                 mapped = self.map_fields(row)
 
-                res = Declaration.search().filter(
-                    Term(general__last_name=mapped[
-                        "general"]["last_name"].lower().split("-")) &
-                    Term(general__name=mapped[
-                        "general"]["name"].lower().split("-")) &
-                    Term(intro__declaration_year=mapped[
-                        "intro"]["declaration_year"])
+                res = Declaration.search().query(
+                    Q('terms', general__last_name=mapped['general']['last_name'].lower().split("-")) &
+                    Q('terms', general__name=mapped['general']['name'].lower().split("-")) &
+                    Q('term', intro__declaration_year=mapped['intro']['declaration_year'])
                 )
 
-                if mapped["general"]["patronymic"]:
-                    res = res.filter(Term(general__patronymic=mapped[
-                        "general"]["patronymic"].lower()))
+                if mapped['general']['patronymic']:
+                    res = res.query('term', general__patronymic=mapped['general']['patronymic'].lower())
 
                 res = res.execute()
 
@@ -137,8 +133,7 @@ class Command(BaseCommand):
                            rec["general"]["last_name"]]),
                 u" ".join([rec["general"]["name"],
                            rec["general"]["last_name"]])
-            ],
-            "output": rec["general"]["full_name"]
+            ]
         }
 
         rec["general"]["post"]["region"] = self.REGIONS_REMAP.get(

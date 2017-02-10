@@ -7,7 +7,7 @@ from collections import defaultdict
 from django.utils.six.moves import input
 from django.core.management.base import BaseCommand, CommandError
 
-from elasticsearch_dsl.filter import Term, Terms
+from elasticsearch_dsl import Q
 from catalog.elastic_models import Declaration
 
 
@@ -113,18 +113,14 @@ class Command(BaseCommand):
         for declaration in declarations:
             mapped = self.map_fields(declaration, id_prefix)
 
-            res = Declaration.search().filter(
-                Terms(general__last_name=mapped[
-                    'general']['last_name'].lower().split("-")) &
-                Terms(general__name=mapped[
-                    'general']['name'].lower().split("-")) &
-                Term(intro__declaration_year=mapped[
-                    'intro']['declaration_year'])
+            res = Declaration.search().query(
+                Q('terms', general__last_name=mapped['general']['last_name'].lower().split("-")) &
+                Q('terms', general__name=mapped['general']['name'].lower().split("-")) &
+                Q('term', intro__declaration_year=mapped['intro']['declaration_year'])
             )
 
             if mapped['general']['patronymic']:
-                res = res.filter(Term(general__patronymic=mapped[
-                    'general']['patronymic'].lower()))
+                res = res.query('term', general__patronymic=mapped['general']['patronymic'].lower())
 
             res = res.execute()
 
@@ -269,8 +265,7 @@ class Command(BaseCommand):
                            rec['general']['last_name']]),
                 u' '.join([rec['general']['name'],
                            rec['general']['last_name']])
-            ],
-            'output': rec['general']['full_name']
+            ]
         }
 
         for family_member in rec['general']['family']:

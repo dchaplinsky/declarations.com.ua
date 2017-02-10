@@ -287,8 +287,7 @@ class Command(BaseCommand):
                           resp['general']['last_name']]),
                 ' '.join([resp['general']['name'],
                           resp['general']['last_name']])
-            ],
-            'output': resp['general']['full_name']
+            ]
         }
 
         if not resp["general"]["post"]["region"]:

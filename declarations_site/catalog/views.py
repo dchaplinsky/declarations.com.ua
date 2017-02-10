@@ -4,22 +4,24 @@ from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
 from django.conf import settings
 
-from catalog.utils import replace_apostrophes
 from elasticsearch.exceptions import NotFoundError
-from elasticsearch_dsl import Search
-from elasticsearch_dsl.filter import Term, Not
+from elasticsearch_dsl import Search, Q
 
-from catalog.elastic_models import Declaration, NACPDeclaration
-from catalog.paginator import paginated_search
-from catalog.api import hybrid_response
-from catalog.utils import TRANSLITERATOR_SINGLETON
-from catalog.models import Office
 from cms_pages.models import MetaData, NewsPage, PersonMeta
+
+from .elastic_models import Declaration, NACPDeclaration
+from .paginator import paginated_search
+from .api import hybrid_response
+from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes
+from .models import Office
+from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
 
 def suggest(request):
     def assume(q, fuzziness):
-        search = Search(index=["nacp_declarations", "declarations_v2"]) \
+        search = Search(index=CATALOG_INDICES)\
+            .params(size=0)\
+            .source(['general.full_name_suggest', 'general.full_name'])\
             .suggest(
                 'name',
                 q,
@@ -28,7 +30,7 @@ def suggest(request):
                     'size': 10,
                     'fuzzy': {
                         'fuzziness': fuzziness,
-                        'unicode_aware': 1
+                        'unicode_aware': True
                     }
                 }
         )
@@ -36,9 +38,9 @@ def suggest(request):
         res = search.execute()
 
         if res.success():
-            return [val['text'] for val in res.suggest['name'][0]['options']]
+            return list(set(val._source.general.full_name for val in res.suggest.name[0]['options']))
         else:
-            []
+            return []
 
     q = replace_apostrophes(request.GET.get('q', '').strip())
 
@@ -85,7 +87,7 @@ def search(request):
     if fmt == "json":
         base_search = Declaration.search()
     else:
-        base_search = Search(index=["nacp_declarations", "declarations_v2"])
+        base_search = Search(index=CATALOG_INDICES)
 
     try:
         meta = PersonMeta.objects.get(fullname=query)
@@ -96,7 +98,6 @@ def search(request):
         search = base_search.query(
             "multi_match",
             query=query,
-            # Not ideal yet, as some of those fields aren't analyzed
             type="cross_fields",
             operator="and",
             fields=fields
@@ -106,8 +107,8 @@ def search(request):
             search = base_search.query(
                 "multi_match",
                 query=query,
-                operator="or",
                 type="cross_fields",
+                operator="or",
                 minimum_should_match="2",
                 fields=fields
             )
@@ -200,9 +201,9 @@ def details(request, declaration_id):
 
 @hybrid_response('regions.jinja')
 def regions_home(request):
-    search = Declaration.search().params(search_type="count")
+    search = Search(index=OLD_DECLARATION_INDEX).params(size=0)
     search.aggs.bucket(
-        'per_region', 'terms', field='general.post.region', size=0)
+        'per_region', 'terms', field='general.post.region.raw', size=30)
 
     res = search.execute()
 
@@ -213,11 +214,9 @@ def regions_home(request):
 
 @hybrid_response('region_offices.jinja')
 def region(request, region_name):
-    search = Search(index=["nacp_declarations", "declarations_v2"])\
-        .filter(
-            Term(general__post__region=region_name) &
-            Not(Term(general__post__office='')))\
-        .params(search_type="count")
+    search = Search(index=OLD_DECLARATION_INDEX)\
+        .query(Q('term', general__post__region__raw=region_name) & ~Q('term', general__post__office__raw=''))\
+        .params(size=0)
 
     meta_data = MetaData.objects.filter(
         region_id=region_name,
@@ -225,7 +224,7 @@ def region(request, region_name):
     ).first()
 
     search.aggs.bucket(
-        'per_office', 'terms', field='general.post.office', size=0)
+        'per_office', 'terms', field='general.post.office.raw', size=1000)
     res = search.execute()
 
     return {
@@ -239,9 +238,9 @@ def region(request, region_name):
 @hybrid_response('results.jinja')
 def region_office(request, region_name, office_name):
     # Not using NACP declarations yet to not to blown the list of offices
-    search = Declaration.search()\
-        .filter('term', general__post__region=region_name)\
-        .filter('term', general__post__office=office_name)
+    search = Search(index=OLD_DECLARATION_INDEX)\
+        .query('term', general__post__region__raw=region_name)\
+        .query('term', general__post__office__raw=office_name)
 
     return {
         'query': office_name,
@@ -251,8 +250,8 @@ def region_office(request, region_name, office_name):
 
 @hybrid_response('results.jinja')
 def office(request, office_name):
-    search = Search(index=["nacp_declarations", "declarations_v2"])\
-        .filter('term', general__post__office=office_name)
+    search = Search(index=OLD_DECLARATION_INDEX)\
+        .query('term', general__post__office__raw=office_name)
 
     return {
         'query': office_name,
@@ -274,9 +273,9 @@ def sitemap_general(request):
     for news in NewsPage.objects.live():
         urls.append(news.url)
 
-    search = Declaration.search().params(search_type="count")
+    search = Search(index=OLD_DECLARATION_INDEX).params(size=0)
     search.aggs.bucket(
-        'per_region', 'terms', field='general.post.region', size=0)
+        'per_region', 'terms', field='general.post.region.raw', size=30)
 
     for r in search.execute().aggregations.per_region.buckets:
         if r.key == "":
@@ -284,23 +283,23 @@ def sitemap_general(request):
 
         urls.append(reverse("region", kwargs={"region_name": r.key}))
 
-        subsearch = Declaration.search()\
-            .filter(
-                Term(general__post__region=r.key) &
-                Not(Term(general__post__office='')))\
-            .params(search_type="count")
+        subsearch = Search(index=OLD_DECLARATION_INDEX)\
+            .query(Q('term', general__post__region__raw=r.key) & ~Q('term', general__post__office_raw=''))\
+            .params(size=0)
 
         subsearch.aggs.bucket(
-            'per_office', 'terms', field='general.post.office', size=0)
+            'per_office', 'terms', field='general.post.office.raw', size=1000)
 
         for subr in subsearch.execute().aggregations.per_office.buckets:
+            if subr.key == '':
+                continue
             urls.append(reverse(
                 "region_office",
                 kwargs={"region_name": r.key, "office_name": subr.key}))
 
-    search = Declaration.search().params(search_type="count")
+    search = Search(index=OLD_DECLARATION_INDEX).params(size=0)
     search.aggs.bucket(
-        'per_office', 'terms', field='general.post.office', size=0)
+        'per_office', 'terms', field='general.post.office.raw', size=5000)
 
     for r in search.execute().aggregations.per_office.buckets:
         if r.key == "":
@@ -316,9 +315,8 @@ def sitemap_declarations(request, page):
     page = int(page)
     urls = []
 
-    search = Search(index=["nacp_declarations", "declarations_v2"]).extra(
-        fields=[])[(page - 1) * settings.SITEMAP_DECLARATIONS_PER_PAGE:
-                   page * settings.SITEMAP_DECLARATIONS_PER_PAGE]
+    search = Search(index=CATALOG_INDICES).extra(stored_fields=[])
+    search = search[(page - 1) * settings.SITEMAP_DECLARATIONS_PER_PAGE:page * settings.SITEMAP_DECLARATIONS_PER_PAGE]
 
     for r in search.execute():
         urls.append(reverse("details", kwargs={"declaration_id": r.meta.id}))
@@ -332,8 +330,7 @@ def sitemap_index(request):
         reverse("sitemap_general"),
     ]
 
-    decl_count = Search(index=["nacp_declarations", "declarations_v2"]).extra(
-        fields=[]).count()
+    decl_count = Search(index=CATALOG_INDICES).extra(stored_fields=[]).count()
 
     pages = math.ceil(decl_count / settings.SITEMAP_DECLARATIONS_PER_PAGE)
     for i in range(pages):

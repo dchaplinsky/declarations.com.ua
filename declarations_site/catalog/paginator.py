@@ -2,7 +2,7 @@ from django.core.paginator import Paginator, Page
 from django.utils import six
 from django.conf import settings
 
-from elasticsearch_dsl.result import Response
+from elasticsearch_dsl.response import Response
 
 
 class ElasticPaginator(Paginator):
