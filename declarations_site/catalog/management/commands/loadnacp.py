@@ -7,10 +7,13 @@ import os.path
 import glob2
 
 from dateutil.parser import parse as dt_parse
+from multiprocessing import Pool
 
 from django.core.management.base import BaseCommand, CommandError
 from catalog.elastic_models import NACPDeclaration
+from elasticsearch_dsl.connections import connections
 from catalog.utils import replace_apostrophes, title
+from elasticsearch.helpers import bulk
 
 
 class BadJSONData(Exception):
@@ -21,11 +24,7 @@ class BadHTMLData(Exception):
     pass
 
 
-class Command(BaseCommand):
-    args = '<file_path> <corrected_file>'
-    help = ('Loads the JSONs of declarations downloaded from NACP '
-            'into the persistence storage')
-
+class DeclarationStaticObj(object):
     declaration_types = {
         "1": "Щорічна",
         "2": "Перед звільненням",
@@ -155,15 +154,14 @@ class Command(BaseCommand):
         "<img",
         "<scri"
     ]
+    corrected = set()
 
-    def __init__(self, *args, **kwargs):
-        super(Command, self).__init__(*args, **kwargs)
-        self.corrected = set()
-
-    def parse_date(self, s):
+    @staticmethod
+    def parse_date(s):
         return dt_parse(s, dayfirst=True)
 
-    def extract_textual_data(self, decl):
+    @staticmethod
+    def extract_textual_data(decl):
         res = decl.css(
             "*:not(td)>span.block::text, *:not(td)>span.border::text, td *::text").extract()
 
@@ -180,7 +178,8 @@ class Command(BaseCommand):
 
         return res
 
-    def parse_me(self, base_fname):
+    @classmethod
+    def _parse_me(cls, base_fname):
         json_fname = "{}.json".format(base_fname)
         html_fname = "{}.html".format(base_fname)
         resp = {
@@ -199,7 +198,7 @@ class Command(BaseCommand):
         created_date = data.get("created_date")
 
         raw_html_lowered = raw_html.lower()
-        for chunk in self.dangerous_chunks:
+        for chunk in cls.dangerous_chunks:
             if chunk in raw_html_lowered:
                 raise BadHTMLData("Dangerous fragment found: {}, {}".format(
                     id_, base_fname))
@@ -213,13 +212,13 @@ class Command(BaseCommand):
             raise BadJSONData("Bad header format: {}, {}".format(id_, base_fname))
 
         resp["_id"] = "nacp_{}".format(id_)
-        resp["nacp_src"] = "\n".join(self.extract_textual_data(html))
+        resp["nacp_src"] = "\n".join(cls.extract_textual_data(html))
         resp["declaration"]["url"] = "https://public.nazk.gov.ua/declaration/{}".format(id_)
         resp["declaration"]["source"] = "NACP"
         resp["declaration"]["basename"] = os.path.basename(base_fname)
 
-        resp["intro"]["corrected"] = id_ in self.corrected
-        resp["intro"]["date"] = self.parse_date(created_date)
+        resp["intro"]["corrected"] = id_ in cls.corrected
+        resp["intro"]["date"] = cls.parse_date(created_date)
 
         if "declarationType" not in data["step_0"] or "changesYear" in data["step_0"]:
             resp["intro"]["doc_type"] = "Форма змін"
@@ -227,12 +226,12 @@ class Command(BaseCommand):
             if "changesYear" in data["step_0"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["changesYear"])
         else:
-            resp["intro"]["doc_type"] = self.declaration_types[data["step_0"]["declarationType"]]
+            resp["intro"]["doc_type"] = cls.declaration_types[data["step_0"]["declarationType"]]
             if "declarationYearTo" in data["step_0"]:
-                resp["intro"]["declaration_year_to"] = self.parse_date(data["step_0"]["declarationYearTo"])
+                resp["intro"]["declaration_year_to"] = cls.parse_date(data["step_0"]["declarationYearTo"])
 
             if "declarationYearFrom" in data["step_0"]:
-                resp["intro"]["declaration_year_from"] = self.parse_date(data["step_0"]["declarationYearFrom"])
+                resp["intro"]["declaration_year_from"] = cls.parse_date(data["step_0"]["declarationYearFrom"])
 
             if "declarationYear1" in data["step_0"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear1"])
@@ -255,7 +254,7 @@ class Command(BaseCommand):
             "post": {
                 "post": replace_apostrophes(data["step_1"].get("workPost", "")),
                 "office": replace_apostrophes(data["step_1"].get("workPlace", "")),
-                "region": replace_apostrophes(self.region_types.get(data["step_1"].get("actual_region", ""), "")),
+                "region": replace_apostrophes(cls.region_types.get(data["step_1"].get("actual_region", ""), "")),
             }
         }
 
@@ -299,12 +298,31 @@ class Command(BaseCommand):
                 else:
                     pass
 
-        if resp["general"]["post"]["region"].lower() in self.region_mapping:
-            resp["general"]["post"]["region"] = self.region_mapping[resp["general"]["post"]["region"].lower()]
+        if resp["general"]["post"]["region"].lower() in cls.region_mapping:
+            resp["general"]["post"]["region"] = cls.region_mapping[resp["general"]["post"]["region"].lower()]
         else:
             resp["general"]["post"]["region"] = ""
 
-        return resp
+        return NACPDeclaration(**resp).to_dict(True)
+
+    @classmethod
+    def parse(cls, fname):
+        try:
+            return cls._parse_me(fname.replace(".json", ""))
+        except BadJSONData as e:
+            print("{}: on file {}".format(e, fname))
+            return None
+
+
+class Command(BaseCommand):
+    number_of_processes = 8
+    chunk_size = 100
+    args = '<file_path> <corrected_file>'
+    help = ('Loads the JSONs of declarations downloaded from NACP '
+            'into the persistence storage')
+
+    def __init__(self, *args, **kwargs):
+        super(Command, self).__init__(*args, **kwargs)
 
     def handle(self, *args, **options):
         try:
@@ -324,27 +342,31 @@ class Command(BaseCommand):
         self.jsons = list(glob2.glob(os.path.join(base_dir, "**/*.json")))
         self.stdout.write("Gathered {} JSON documents".format(len(self.jsons)))
 
+        corrected = set()
         with open(corrected_file, "r") as fp:
             r = DictReader(fp)
             for l in r:
-                self.corrected.add(l["uuid"])
+                corrected.add(l["uuid"])
+
+        DeclarationStaticObj.corrected = corrected
 
         NACPDeclaration.init()
         counter = 0
 
-        for fname in self.jsons:
-            try:
-                rec = self.parse_me(fname.replace(".json", ""))
-            except BadJSONData as e:
-                self.stdout.write("{}: on file {}".format(e, fname))
-                continue
+        my_tiny_pool = Pool(self.number_of_processes)
 
-            item = NACPDeclaration(**rec)
-            item.save()
-            counter += 1
-            if counter and counter % 100 == 0:
+        for ix in range(0, len(self.jsons), self.chunk_size):
+            chunk = self.jsons[ix:ix + self.chunk_size]
+
+            result = list(
+                filter(None, my_tiny_pool.map(DeclarationStaticObj.parse, chunk)))
+            counter += len(result)
+
+            bulk(connections.get_connection(), result)
+
+            if ix:
                 self.stdout.write(
-                    'Loaded {} items to persistence storage'.format(counter))
+                    'Loaded {} items to persistence storage'.format(ix))
 
         self.stdout.write(
             'Finished loading {} items to persistence storage'.format(counter))
