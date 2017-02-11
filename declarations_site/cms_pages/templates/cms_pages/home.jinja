@@ -17,7 +17,7 @@
                     {% endfor %}
                 </div>
                 {% endfor %}
-                <a class="classic gree text-right pull-right" href="{{ url("wagtail_serve", "news/") }}">Усі новини</a>
+                <a class="classic gree text-right pull-right" href="{{ slugurl("news") }}">Усі новини</a>
             </div>
         </div>
     </section>
@@ -31,18 +31,18 @@
             <div class="row">
                 <div class="col{% if hp_news %} col-md-4{% else %} big-about{% endif %}">
                     <p class="mb10">
-                        <a class="mediaimage" href="{{ url("wagtail_serve", "about/") }}">
+                        <a class="mediaimage" href="{{ slugurl("about") }}">
                             <img alt="" src="{{ static("images/anonim.png") }}" class="img-circle" />
                         </a> <i>{{ page.body|richtext }}</i>
                     </p>
-                    <a href="{{ url("wagtail_serve", "about/") }}" class="classic green">Дізнатися детально про проект</a>
+                    <a href="{{ slugurl("about") }}" class="classic green">Дізнатися детально про проект</a>
                 </div>
                 {% if hp_news %}
                 <div id="top-news">
                     {% if hp_news.image %}
                     <div class="col col-md-4">
                         <a href="{{ hp_news.url }}" class="block">
-                            <img class="img-responsive" src="{{ hp_news.image.file|thumbnail_url("homepage_news") }}" />
+                            {{ image(hp_news.image, "fill-390x220", class="img-responsive") }}
                         </a>
                     </div>
                     {% endif %}

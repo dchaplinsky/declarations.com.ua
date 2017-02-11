@@ -39,12 +39,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pipeline',
-    'easy_thumbnails',
     'django_jinja',
     'django_jinja.contrib._humanize',
-    'django_jinja.contrib._easy_thumbnails',
 
-    'compressor',
     'taggit',
     'modelcluster',
 
@@ -121,7 +118,9 @@ TEMPLATES = [
                 "cms_pages.context_processors.menu_processor"
             ),
             "extensions": DEFAULT_EXTENSIONS + [
-                "pipeline.jinja2.ext.PipelineExtension"
+                'pipeline.jinja2.PipelineExtension',
+                'wagtail.wagtailcore.jinja2tags.core',
+                'wagtail.wagtailimages.jinja2tags.images',
             ],
         }
     },
@@ -149,65 +148,61 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'compressor.finders.CompressorFinder',
     'pipeline.finders.PipelineFinder',
 )
 
-# PIPELINE_ENABLED = True
-PIPELINE_SASS_ARGUMENTS = "-q"
-PIPELINE_COMPILERS = ('pipeline.compilers.sass.SASSCompiler',)
-PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.cssmin.CssminCompressor'
+PIPELINE = {
+    'COMPILERS': ('pipeline.compilers.sass.SASSCompiler',),
+    'SASS_ARGUMENTS': '-q',
+    'CSS_COMPRESSOR': 'pipeline.compressors.cssmin.CssminCompressor',
+    'JS_COMPRESSOR': 'pipeline.compressors.uglifyjs.UglifyJSCompressor',
+    'STYLESHEETS': {
+        'css_all': {
+            'source_filenames': (
+                'sass/style.scss',
+            ),
+            'output_filename': 'css/merged.css',
+            'extra_context': {},
+        },
 
-PIPELINE_STORAGE = 'pipeline.storage.PipelineCachedStorage'
-
-PIPELINE_CSS = {
-    'css_all': {
-        'source_filenames': (
-            'sass/style.scss',
-        ),
-        'output_filename': 'css/merged.css',
-        'extra_context': {},
+        'css_bi': {
+            'source_filenames': (
+                "sass/bi/style.scss",
+            ),
+            'output_filename': 'css/merged_bi.css',
+            'extra_context': {},
+        },
     },
+    'JAVASCRIPT': {
+        'js_all': {
+            'source_filenames': (
+                "js/jquery-1.11.2.js",
+                "js/bootstrap.js",
+                "js/bootstrap3-typeahead.js",
+                "js/ripples.js",
+                "js/material.js",
+                'js/jquery.magnific-popup.js',
+                "js/main.js",
+                "js/analytics.js",
+                "js/jquery.dataTables.min.js",
+                "js/bi/d3.min.js",
+                "js/bi/widget_home.js",
+            ),
+            'output_filename': 'js/merged.js',
+        },
 
-    'css_bi': {
-        'source_filenames': (
-            "sass/bi/style.scss",
-        ),
-        'output_filename': 'css/merged_bi.css',
-        'extra_context': {},
-    },
-}
-
-PIPELINE_JS = {
-    'js_all': {
-        'source_filenames': (
-            "js/jquery-1.11.2.js",
-            "js/bootstrap.js",
-            "js/bootstrap3-typeahead.js",
-            "js/ripples.js",
-            "js/material.js",
-            'js/jquery.magnific-popup.js',
-            "js/main.js",
-            "js/analytics.js",
-            "js/jquery.dataTables.min.js",
-            "js/bi/d3.min.js",
-            "js/bi/widget_home.js",
-        ),
-        'output_filename': 'js/merged.js',
-    },
-
-    'js_bi': {
-        'source_filenames': (
-            "js/bi/crossfilter.min.js",
-            "js/bi/offices.js",
-            "js/bi/csv.js",
-            "js/bi/main.js",
-        ),
-        'output_filename': 'js/merged_bi.js',
+        'js_bi': {
+            'source_filenames': (
+                "js/bi/crossfilter.min.js",
+                "js/bi/offices.js",
+                "js/bi/csv.js",
+                "js/bi/main.js",
+            ),
+            'output_filename': 'js/merged_bi.js',
+        }
     }
 }
 
-PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -221,10 +216,6 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 # Application settings
 CATALOG_PER_PAGE = 30
 
-# django-compressor settings (for a fucking wagtail)
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
 
 LOGIN_URL = "/admin/login/"
 WAGTAIL_SITE_NAME = 'Declarations'
@@ -233,13 +224,6 @@ WAGTAIL_SITE_NAME = 'Declarations'
 ANALYTICS_SLUG = 'analytics'
 # Only used during page creation (changeable)
 ANALYTICS_TITLE = 'Аналіз декларацій чиновників'
-
-
-THUMBNAIL_ALIASES = {
-    '': {
-        'homepage_news': {'size': (390, 220), 'crop': True}
-    },
-}
 
 SITEMAP_DECLARATIONS_PER_PAGE = 50000
 
