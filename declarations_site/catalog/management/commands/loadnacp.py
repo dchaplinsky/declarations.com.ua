@@ -278,17 +278,31 @@ class DeclarationStaticObj(object):
                         "relations": member.get("subjectRelation", "")
                     })
 
-        resp['general']['full_name_suggest'] = {
-            'input': [
-                resp['general']['full_name'],
-                ' '.join([resp['general']['name'],
-                          resp['general']['patronymic'],
-                          resp['general']['last_name']]),
-                ' '.join([resp['general']['name'],
-                          resp['general']['last_name']])
-            ],
-            'output': resp['general']['full_name']
-        }
+        resp['general']['full_name_suggest'] = [
+            {
+                'input': resp['general']['full_name'],
+                'weight': 5
+            },
+            {
+                'input': ' '.join(
+                    [
+                        resp['general']['name'],
+                        resp['general']['patronymic'],
+                        resp['general']['last_name']
+                    ]
+                ),
+                'weight': 3
+            },
+            {
+                'input': ' '.join(
+                    [
+                        resp['general']['name'],
+                        resp['general']['last_name']
+                    ]
+                ),
+                'weight': 3
+            }
+        ]
 
         if not resp["general"]["post"]["region"]:
             region_html = html.css("fieldset:contains('Зареєстроване місце проживання') .person-info:contains('Місто')::text").extract()
