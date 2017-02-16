@@ -7,8 +7,9 @@ class MetaDataAdmin(admin.ModelAdmin):
 
 
 class PersonMetaAdmin(admin.ModelAdmin):
-    list_display = ("fullname", "year", "title", "description")
+    list_display = ("pk", "fullname", "year", "title", "description")
     list_editable = ("fullname", "year", "title", "description")
+
 
 admin.site.register(MetaData, MetaDataAdmin)
 admin.site.register(PersonMeta, PersonMetaAdmin)

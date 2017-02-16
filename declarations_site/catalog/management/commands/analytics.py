@@ -43,7 +43,7 @@ class Command(BaseCommand):
         else:
             root_page = Site.objects.get(is_default_site=True).root_page
             try:
-                analytics_page = root_page.get_children().get(slug=settings.ANALYTICS_SLUG).specific
+                analytics_page = root_page.get_children().get(slug=settings.ANALYTICS_SLUG).specific()
             except Page.DoesNotExist:
                 page_instance = RawHTMLPage(owner=None, title=settings.ANALYTICS_TITLE, slug=settings.ANALYTICS_SLUG)
                 analytics_page = root_page.add_child(instance=page_instance)

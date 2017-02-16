@@ -12,20 +12,13 @@ from wagtail.wagtailadmin.edit_handlers import (
 from catalog.models import Region, Office
 
 
-class AbstractJinjaPage(object):
-    def get_context(self, request, *args, **kwargs):
-        return {
-            'page': self,
-            'request': request,
-        }
-
-
-class StaticPage(AbstractJinjaPage, Page):
+class StaticPage(Page):
     body = RichTextField(verbose_name="Текст сторінки")
     template = "cms_pages/static_page.jinja"
 
     class Meta:
         verbose_name = "Статична сторінка"
+
 
 StaticPage.content_panels = [
     FieldPanel('title', classname="full title"),
@@ -33,7 +26,7 @@ StaticPage.content_panels = [
 ]
 
 
-class RawHTMLPage(AbstractJinjaPage, Page):
+class RawHTMLPage(Page):
     body = models.TextField(verbose_name="Текст сторінки")
     template = "cms_pages/static_page.jinja"
 
@@ -41,7 +34,7 @@ class RawHTMLPage(AbstractJinjaPage, Page):
         verbose_name = "Raw-HTML сторінка"
 
 
-class NewsPage(AbstractJinjaPage, Page):
+class NewsPage(Page):
     lead = RichTextField(verbose_name="Лід", blank=True)
     body = RichTextField(verbose_name="Текст новини")
     date_added = models.DateTimeField(verbose_name="Опубліковано")
@@ -63,18 +56,19 @@ class NewsPage(AbstractJinjaPage, Page):
     class Meta:
         verbose_name = "Новина"
 
+
 NewsPage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('lead', classname="full"),
     FieldPanel('body', classname="full"),
-    FieldPanel('date_added', classname="full"),
-    FieldPanel('sticky', classname="full"),
-    FieldPanel('important', classname="full"),
+    FieldPanel('date_added'),
+    FieldPanel('sticky'),
+    FieldPanel('important'),
     ImageChooserPanel('image'),
 ]
 
 
-class NewsIndexPage(AbstractJinjaPage, Page):
+class NewsIndexPage(Page):
     template = "cms_pages/news_index_page.jinja"
 
     def get_context(self, request, *args, **kwargs):
@@ -104,7 +98,8 @@ class LinkFields(models.Model):
         'wagtailcore.Page',
         null=True,
         blank=True,
-        related_name='+'
+        related_name='+',
+        on_delete=models.CASCADE
     )
 
     @property
@@ -128,7 +123,7 @@ class HomePageTopMenuLink(Orderable, LinkFields):
     page = ParentalKey('cms_pages.HomePage', related_name='top_menu_links')
 
 
-class HomePage(AbstractJinjaPage, Page):
+class HomePage(Page):
     body = RichTextField(verbose_name="Текст сторінки")
     news_count = models.IntegerField(
         default=6,
@@ -153,17 +148,18 @@ class HomePage(AbstractJinjaPage, Page):
     class Meta:
         verbose_name = "Головна сторінка"
 
+
 HomePage.content_panels = [
     FieldPanel('title', classname="full title"),
     FieldPanel('body', classname="full"),
     FieldPanel('news_count'),
-    InlinePanel(HomePage, 'top_menu_links', label="Меню зверху"),
+    InlinePanel('top_menu_links', label="Меню зверху"),
 ]
 
 
 class MetaData(models.Model):
-    region = models.ForeignKey(Region, blank=True, null=True)
-    office = models.ForeignKey(Office, blank=True, null=True)
+    region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.SET_NULL)
+    office = models.ForeignKey(Office, blank=True, null=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True)
 

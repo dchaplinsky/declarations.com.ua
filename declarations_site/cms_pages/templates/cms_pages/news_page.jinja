@@ -13,7 +13,7 @@
 <p class="newsDate">{{ page.date_added|time("H:i") }}, {{ page.date_added|date }}</p>
 
 {% if page.image %}
-	<img class="img-responsive pull-left onpage-img" src="{{ page.image.file|thumbnail_url("homepage_news") }}" />
+    {{ image(page.image, "fill-390x220", class="img-responsive pull-left onpage-img") }}
 {% endif %}
 
 {{ page.body|richtext }}
