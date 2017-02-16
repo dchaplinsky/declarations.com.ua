@@ -286,7 +286,8 @@ class DeclarationStaticObj(object):
                           resp['general']['last_name']]),
                 ' '.join([resp['general']['name'],
                           resp['general']['last_name']])
-            ]
+            ],
+            'output': resp['general']['full_name']
         }
 
         if not resp["general"]["post"]["region"]:
@@ -317,7 +318,11 @@ class DeclarationStaticObj(object):
 class Command(BaseCommand):
     number_of_processes = 8
     chunk_size = 100
-    args = '<file_path> <corrected_file>'
+
+    def add_arguments(self, parser):
+        parser.add_argument('file_path')
+        parser.add_argument('corrected_file')
+
     help = ('Loads the JSONs of declarations downloaded from NACP '
             'into the persistence storage')
 
@@ -326,8 +331,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            base_dir = args[0]
-            corrected_file = args[1]
+            base_dir = options['file_path']
+            corrected_file = options['corrected_file']
         except IndexError:
             raise CommandError(
                 'First argument must be a path to source files and second is file name of CSV with corrected declarations')
