@@ -58,6 +58,7 @@ INSTALLED_APPS = (
 
     'catalog',
     'cms_pages',
+    'raven.contrib.django.raven_compat',
 )
 
 MIDDLEWARE_CLASSES = (
