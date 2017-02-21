@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
 from django.conf import settings
 
-from elasticsearch.exceptions import NotFoundError
+from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
 
 from cms_pages.models import MetaData, NewsPage, PersonMeta
@@ -19,6 +19,7 @@ from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
 def suggest(request):
     def assume(q, fuzziness):
+
         search = Search(index=CATALOG_INDICES)\
             .params(size=0)\
             .source(['general.full_name_suggest', 'general.full_name'])\
@@ -35,14 +36,19 @@ def suggest(request):
                 }
         )
 
-        res = search.execute()
+        try:
+            res = search.execute()
 
-        if res.success():
-            return list(set(val._source.general.full_name for val in res.suggest.name[0]['options']))
-        else:
+            if res.success():
+                return list(set(val._source.general.full_name for val in res.suggest.name[0]['options']))
+            else:
+                return []
+        except TransportError:
             return []
 
     q = replace_apostrophes(request.GET.get('q', '').strip())
+    # Too long request can make elastic sick when applying fuzzy search
+    q = q[:40]
 
     # It seems, that for some reason 'AUTO' setting doesn't work properly
     # for unicode strings
