@@ -232,6 +232,7 @@ class DeclarationStaticObj(object):
 
             if "declarationYearFrom" in data["step_0"]:
                 resp["intro"]["declaration_year_from"] = cls.parse_date(data["step_0"]["declarationYearFrom"])
+                resp["intro"]["declaration_year"] = resp["intro"]["declaration_year_from"].year
 
             if "declarationYear1" in data["step_0"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear1"])
@@ -241,6 +242,7 @@ class DeclarationStaticObj(object):
 
             if "declarationYear4" in data["step_0"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear4"])
+
 
         resp["general"] = {
             "last_name": replace_apostrophes(title(data["step_1"]["lastname"])),
