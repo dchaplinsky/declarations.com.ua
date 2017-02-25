@@ -1,8 +1,5 @@
 from django.core.paginator import Paginator, Page
-from django.utils import six
 from django.conf import settings
-
-from elasticsearch_dsl.response import Response
 
 
 class ElasticPaginator(Paginator):
@@ -23,15 +20,6 @@ class ElasticPaginator(Paginator):
 class ElasticPage(Page):
     def __len__(self):
         raise NotImplemented
-
-    def __getitem__(self, index):
-        if not isinstance(index, (slice,) + six.integer_types):
-            raise TypeError
-        # The object_list is converted to a Response so that its result can be
-        # used as a normal iterable. Doesn't trigger more than one hit too.
-        if not isinstance(self.object_list, Response):
-            self.object_list = self.object_list.execute()
-        return self.object_list[index]
 
     @property
     def contextual_page_range(self):
