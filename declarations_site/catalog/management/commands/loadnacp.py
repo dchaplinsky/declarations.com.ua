@@ -213,6 +213,7 @@ class DeclarationStaticObj(object):
 
         resp["_id"] = "nacp_{}".format(id_)
         resp["nacp_src"] = "\n".join(cls.extract_textual_data(html))
+        resp["nacp_orig"] = data
         resp["declaration"]["url"] = "https://public.nazk.gov.ua/declaration/{}".format(id_)
         resp["declaration"]["source"] = "NACP"
         resp["declaration"]["basename"] = os.path.basename(base_fname)
