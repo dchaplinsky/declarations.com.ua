@@ -26,6 +26,14 @@ class BadHTMLData(Exception):
     pass
 
 
+def parse_guid_from_fname(json_fname):
+    m = re.search("([0-9\-a-z]{36})", os.path.basename(json_fname))
+
+    if m:
+        return m.group(1), json_fname
+    else:
+        return False
+
 class DeclarationStaticObj(object):
     declaration_types = {
         "1": "Щорічна",
@@ -189,12 +197,17 @@ class DeclarationStaticObj(object):
             "declaration": {}
         }
 
-        with open(json_fname, "r") as fp:
-            data = json.load(fp)
+        try:
+            with open(json_fname, "r") as fp:
+                data = json.load(fp)
 
-        with open(html_fname, "r") as fp:
-            raw_html = fp.read()
-            html = Selector(raw_html)
+            with open(html_fname, "r") as fp:
+                raw_html = fp.read()
+                html = Selector(raw_html)
+        except FileNotFoundError:
+            print(
+                "File {} or it's HTML counterpart cannot be found".format(json_fname))
+            return None
 
         id_ = data.get("id")
         created_date = data.get("created_date")
@@ -336,16 +349,13 @@ class DeclarationStaticObj(object):
 
 class Command(BaseCommand):
     number_of_processes = 8
-    chunk_size = 100
+    chunk_size = 1000
     help = ('Loads the JSONs of declarations downloaded from NACP '
             'into the persistence storage')
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
         self.es = connections.get_connection()
-
-        s = NACPDeclaration.search().source([])
-        self.existing_ids = [h.meta.id.replace("nacp_", "") for h in s.scan()]
 
     def add_arguments(self, parser):
         parser.add_argument('file_path')
@@ -358,15 +368,6 @@ class Command(BaseCommand):
             default=False,
             help='Reload all docs into index',
         )
-
-    def check_if_document_present(self, json_fname):
-        m = re.search("([0-9\-a-z]{36})", os.path.basename(json_fname))
-
-        if m:
-            return m.group(1) not in self.existing_ids
-        else:
-            return False
-
 
     def handle(self, *args, **options):
         try:
@@ -400,15 +401,43 @@ class Command(BaseCommand):
         my_tiny_pool = Pool(self.number_of_processes)
 
         if not options["update_all_docs"]:
-            self.jsons = list(
+            self.stdout.write("Obtaining uuids of already indexed documents")
+
+            s = NACPDeclaration.search().source([])
+            existing_guids = set(
+                h.meta.id.replace("nacp_", "") for h in s.scan())
+            self.stdout.write("{} uuids are currently in index".format(
+                len(existing_guids)))
+
+            incoming_files = dict(
                 filter(
-                    lambda x: self.check_if_document_present(x), self.jsons))
+                    None,
+                    my_tiny_pool.map(parse_guid_from_fname, self.jsons)
+                )
+            )
+
+            incoming_guids = set(incoming_files.keys())
+
+            self.stdout.write("{} uuids are found in input folder".format(
+                len(incoming_guids)))
+
+            self.jsons = [
+                incoming_files[k] for k in incoming_guids - existing_guids
+            ]
+
+            self.stdout.write("{} uuids left after the filtering".format(
+                len(self.jsons)))
 
         for ix in range(0, len(self.jsons), self.chunk_size):
             chunk = self.jsons[ix:ix + self.chunk_size]
 
             result = list(
-                filter(None, my_tiny_pool.map(DeclarationStaticObj.parse, chunk)))
+                filter(
+                    None,
+                    my_tiny_pool.map(DeclarationStaticObj.parse, chunk)
+                )
+            )
+
             counter += len(result)
 
             bulk(self.es, result)
