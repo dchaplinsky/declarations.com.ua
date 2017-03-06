@@ -58,6 +58,27 @@ $(function() {
         $(this).toggleClass('open');
     });
 
+    $('#login-modal').on('shown.bs.modal', function (e) {
+        var href = $(e.relatedTarget).data('href');
+        if (href) {
+            href = href.replace('?', '%3F').replace('&', '%26');
+            $(e.currentTarget).find('#signin a').each(function (){
+                this.href = this.href.replace('?next=', '?next='+href+'&origin=');
+            });
+        }
+    });
+
+    function _showLoginModal() {
+        var href = window.location.href,
+            pos = href.search('login_to=');
+        if (pos > 0)
+            href = href.substr(pos+9);
+        $('#login-modal #signin a').each(function (){
+            this.href = this.href.replace('?next=', '?next='+href+'&origin=');
+        });
+        $('#login-modal').modal('show');
+    }
+
     //In case we beed to add other blocks from other pages
     function _setColumnsHeights() {
         setColumnsHeights ('.search-results', '.item');
@@ -81,6 +102,9 @@ $(function() {
             }
         });
 
+        if (window.location.href.search('login_to=') > 0) {
+            setTimeout(_showLoginModal, 500);
+        }
     });
 
     $( window ).load(function() {

@@ -1,4 +1,6 @@
-{% from "_social.jinja" import social %}<!DOCTYPE html>
+{% from "_social.jinja" import social -%}
+{% from "_spotter.jinja" import login_button, spotter_button -%}
+<!DOCTYPE html>
 <html lang="uk" prefix="og: http://ogp.me/ns#">
     <head>
         <meta charset="utf-8">
@@ -18,7 +20,7 @@
                   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
                   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        
+
                   ga('create', 'UA-61411581-1', 'auto');
                   ga('send', 'pageview');</script>
 
@@ -41,22 +43,24 @@
             <div id="top">
                 <div class="container">
                     <div class="row">
-                        <div class="col col-xs-6 text-left">
+                        <div class="col col-xs-4 text-left">
                             <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
                                 <img src="{{ static("images/logo.png") }}" width="135" height="33" alt="" />
                             </a>
                         </div>
-                        <div class="col col-xs-6 text-left pull-right">
+                        <div class="col col-xs-8 text-left pull-right">
                             <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info pull-right" id="joinus">Долучитись до розшифровки</a>
+                            {% set current = request.path + '%3F' + request.META['QUERY_STRING']|replace('&', '%26') %}
+                            {{ login_button(request, current) }}
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div id="nav-search">
                 <div class="container">
                     <div class="row">
-                       
+
                         <nav id="navbar" class="navbar navbar-inverse navbar-default col-lg-9 col-md-8 col-sm-8 col-xs-12" role="navigation">
                             <div class="navbar-header">
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
@@ -70,7 +74,7 @@
                                 </ul>
                             </div>
                         </nav>
-                        
+
                         <div id="front-searchbox" class="searchbox col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <form action="{{ url("search") }}" method="GET">
                                 <div class="input-group">
@@ -84,33 +88,33 @@
                                 </div>
                             </form>
                         </div>
-            
+
                         <div id="stats" class="col col-lg-3 col-md-4 col-sm-4 text-left hidden-xs pull-right">
                             <p>Відкрито <span class="digits">{{ total_persons }}</span> чиновників</p>
                             <p>Оброблено <span class="digits">{{ total_declarations }}</span> декларацій</p>
                             <p>Долучився <span class="digits">3001</span> волонтер</p>
                         </div>
-                        
+
                     </div>
                 </div>
-            </div>   
-            
+            </div>
+
             {% block infobox %}
             {% endblock %}
-            
+
             {% block newslist %}
             {% endblock %}
 
             {% block graph %}
             {% endblock %}
-            
+
             {% block social %}
             {% endblock %}
-            
+
             </div> <!--div class=""-->
         {% block content %}
         {% endblock %}
-        
+
         <footer id="footer">
             <div class="container">
                 <div class="copirights-logos">
@@ -125,7 +129,7 @@
                 </div>
             </div>
         </footer>
-        
+
     </div>
     {% javascript 'js_all' %}
 

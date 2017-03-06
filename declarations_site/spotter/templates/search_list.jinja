@@ -1,0 +1,101 @@
+{% extends "base.jinja" %}
+
+{% block html_title -%}Мої запити{%- endblock %}
+
+
+{% block content %}
+<section id="page">
+    <div class="container">
+        <div id="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/">Головна</a></li>
+                <li class="active">Мої запити</li>
+            </ol>
+        </div>
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-dismissible alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                <button type="button" class="close" data-dismiss="alert"
+                    aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <h1 id="page-header"><span>Мої запити</span></h1>
+        <div class="page-content">
+            <div class="box">
+                <div class="table-responsive">
+                    <div id="glossarium">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Запит</th>
+                                    <th>Знайдено</th>
+                                    <th>За тиждень</th>
+                                    <th>Сповіщення на</th>
+                                    <th>Статус</th>
+                                    <th>Операції</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for task in task_list %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url('search') }}?q={{ task.query }}{%
+                                            if task.deepsearch %}&deepsearch=on{% endif %}" title="Перейти до пошуку">
+                                            {{ task.query }}{% if task.deepsearch %} (шукати скрізь){% endif %}
+                                        </a>
+                                    </td>
+                                    <td>{{ task.found_total }}</td>
+                                    <td>{{ task.found_week }}</td>
+                                    <td>{% if task.is_enabled %}
+                                        <a href="#" data-toggle="modal" data-target="#address-modal">{{
+                                        task.user.email }}</a>{% else %}-{% endif %}
+                                    </td>
+                                    <td>{% if task.is_enabled %}В роботі{% else %}На паузі{% endif %}</td>
+                                    <td>
+                                        {% if task.is_enabled %}
+                                        <a href="{{ url('toggle_task', task.id, 'disable') }}">Призупинити</a>
+                                        {% else %}
+                                        <a href="{{ url('toggle_task', task.id, 'enable') }}">Відновити</a>
+                                        {% endif %} |
+                                        <a href="{{ url('delete_task', task.id) }}" onclick="return confirm('Точно видалити?');">Видалити</a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        Тут пусто, спробуйте створити перше завдання.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center">
+                <br><br>Щоб створити нове завдання спробуйте щось пошукати, а потім нажміть "моніторити цей запит".
+            </p>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="address-modal" tabindex="-1" role="dialog" aria-labelledby="address-label">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="x"><span aria-hidden="true">×</span></button>
+            <h4 class="modal-title" id="address-label">Адреса для сповіщень</h4>
+        </div>
+        <div class="modal-body">
+            <p>Використовується підтверджена адреса, що була надана при реєстрації.</p>
+            <p>Щоб отримувати сповіщення на іншу адресу — вийдіть і зареєструйтесь з новою адресою.</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
