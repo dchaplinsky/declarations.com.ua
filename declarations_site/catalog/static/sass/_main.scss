@@ -60,7 +60,6 @@ h1.page-header {
 h1#page-header > span,
 h1.page-header > span {
     border-bottom: 3px #21b79a solid;
-    padding-right: 100px;
 }
 
 .sub-header {
@@ -700,6 +699,63 @@ display: none;
     padding-right: 10px;
 }
 
+#profile {
+    background-color: #fff;
+    margin-top: 12px;
+    margin-bottom: 0;
+}
+
+.profile-dropdown {
+    margin-right: 10px;
+    .dropdown-menu {
+        width: 100%;
+        min-width: 160px;
+        .glyphicon {
+            margin-right: 10px;
+            vertical-align: sub;
+        }
+        li:last-child .glyphicon {
+            vertical-align: baseline;
+        }
+    }
+}
+
+#login-modal .modal-header {
+    background: url(../images/header.jpg) no-repeat center top;
+}
+
+#signin {
+    width: 188px;
+    padding: 0;
+    margin: 20px auto 40px;
+    li {
+        display: block;
+        margin: 0 0 20px 0;
+        a {
+            background: transparent url(../images/signin.png) left top no-repeat;
+            display: block;
+            width: 188px;
+            height: 34px;
+            overflow: hidden;
+            text-indent: -1000px;
+        }
+        .facebook {
+            background-position: 0 -39px;
+            background-color: #3b5998;
+        }
+        .twitter {
+            background-position: 0 0;
+            background-color: #0084b4;
+        }
+        .google {
+            background-position: 0 -117px;
+            background-position-x: 0px;
+            background-position-y: -117px;
+            background-color: #d14836;
+        }
+    }
+}
+
 span.social {
     display: inline-block;
 }
@@ -714,6 +770,7 @@ h1 span.social {
 }
 
 span.social iframe,
+span.social .save-search,
 span.social .fb_iframe_widget,
 span.social .twitter-share-button,
 span.social .disqus-comments-count {
@@ -722,10 +779,16 @@ span.social .disqus-comments-count {
     line-height: 20px;
 }
 
+span.social .save-search {
+    background-color: #fff;
+    margin: -5px 0 0 0;
+}
+
 h1#page-header span.social {
     border-bottom: none;
     font-size: 12px;
     padding: 20px 0;
+    padding-left: 50px;
 }
 
 @media (max-width: 767px) {
