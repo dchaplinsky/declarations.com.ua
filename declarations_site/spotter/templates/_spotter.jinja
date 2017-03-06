@@ -1,0 +1,54 @@
+{% macro login_button(request, path) -%}
+	{% if request.user.is_authenticated %}
+    <div class="dropdown profile-dropdown pull-right">
+		<button class="btn btn-primary dropdown-toggle" type="button" id="profile" data-toggle="dropdown">
+		{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}
+		{% else %}{{ request.user.username }}{% endif %} <span class="caret"></span></button>
+		<ul class="dropdown-menu">
+			<li><a href="{{ url("search_list") }}"><span class="glyphicon glyphicon-tasks"></span> Мої запити</a></li>
+			<li class="divider"></li>
+			<li><a href="{{ url("logout") }}"><span class="glyphicon glyphicon-off"></span> Вийти</a></li>
+		</ul>
+	 </div>
+	{% else %}
+    <div class="dropdown profile-dropdown pull-right">
+	  	<button class="btn btn-primary dropdown-toggle" type="button" id="profile" data-toggle="dropdown">
+	  		Зареєструватись / Увійти <span class="caret"></span></button>
+		<ul class="dropdown-menu">
+         	<li><a href="{{ url("social:begin", "facebook") }}?next={{ path }}"
+         		title="Facebook"><span class="glyphicon glyphicon-new-window"></span> Через Facebook</a></li>
+            <li><a href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
+            	title="Google+/Gmail"><span class="glyphicon glyphicon-new-window"></span> Через Google</a></li>
+		</ul>
+	</div>
+	<!-- login modal -->
+	<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-label">
+	  <div class="modal-dialog modal-sm" role="document">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+	    		<button type="button" class="close" data-dismiss="modal" aria-label="x"><span aria-hidden="true">×</span></button>
+	    		<h4 class="modal-title" id="login-label">Будь ласка увійдіть</h4>
+	    	</div>
+	    	<div class="modal-body text-center">
+	    		<p>Щоб роспочати моніторинг необхідно авторизуватись</p>
+				<ul id="signin">
+                 	<li><a class="facebook" href="{{ url("social:begin", "facebook") }}?next={{ path }}"
+                 		title="Facebook">Facebook</a></li>
+                    <li><a class="google" href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
+                    	title="Google+/Gmail">Google+/Gmail</a></li>
+				</ul>
+	    	</div>
+	    </div>
+	  </div>
+	</div>
+	{% endif %}
+{%- endmacro %}
+{% macro spotter_button(label, query_string, is_authenticated) -%}
+<span class="social">
+	<a id="save-search" class="btn btn-raised btn-sm save-search"
+		{% if is_authenticated %}href="{{ url('save_search') }}?{{ query_string }}"
+		{% else %}href="#" data-toggle="modal" data-target="#login-modal"
+		data-href="{{ url('save_search') }}?{{ query_string }}"{% endif %}>
+		<span class="glyphicon glyphicon-plus"></span> {{ label }}</a>
+</span>
+{%- endmacro %}

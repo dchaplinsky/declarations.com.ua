@@ -1,0 +1,3 @@
+{% autoescape off %}
+За вашим запитом "{{ query }}" знайдено {{ found_new }} {% if found_new == 1 %}нову декларацію{% else %}нових декларацій{% endif %}
+{% endautoescape %}
