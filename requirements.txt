@@ -1,5 +1,6 @@
 Django==1.10.5
 django-jinja==2.2.2
+social-auth-app-django==1.1.0
 elasticsearch==5.0.1
 elasticsearch-dsl==5.1.0
 Jinja2==2.9.5

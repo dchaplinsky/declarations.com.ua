@@ -1,5 +1,6 @@
 {% extends "base.jinja" %}
 {% from "_search_results.jinja" import search_results %}
+{% from "_spotter.jinja" import spotter_button %}
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
@@ -18,13 +19,15 @@
                 <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
                 <li class="active">Результати пошуку</li>
                 <li class="active">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</li>
-            </ol> 
+            </ol>
         </div>
 
         <h1 id="page-header"><span itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span>
         {{ social("%s %s %s. Декларація про доходи. Цікаві дані" % (declaration.general.last_name, declaration.general.name, declaration.general.patronymic),
                   "http://declarations.com.ua%s" % request.path,
                   add_disqus=True) }}
+        {{ spotter_button("Моніторити за іменем", "q=%s+%s+%s" % (declaration.general.last_name,
+                  declaration.general.name, declaration.general.patronymic)) }}
         </h1>
         {% if declaration.general.post.region %}
             <meta itemprop="homeLocation" content="{{ declaration.general.post.region }}"/>
@@ -43,7 +46,7 @@
             {% if declaration.general.post.post %}
                 <span itemprop="jobTitle">{{ declaration.general.post.post }}</span>
             {% endif %}
-            
+
             {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
             {% if declaration.intro.corrected %} Уточнена <span>,</span>{% endif %}
             {% if declaration.intro.date %}
@@ -107,7 +110,7 @@
         <script type="text/javascript">
             /* * * CONFIGURATION VARIABLES * * */
             var disqus_shortname = 'declarations-ua';
-            
+
             /* * * DON'T EDIT BELOW THIS LINE * * */
             (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -120,7 +123,7 @@
             s.type = 'text/javascript';
             s.src = '//' + disqus_shortname + '.disqus.com/count.js';
             (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-            }());            
+            }());
         </script>
         <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     </div>

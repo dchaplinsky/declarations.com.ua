@@ -1,0 +1,16 @@
+{% load spotter_tags %}{% autoescape off %}
+Вітаємо,
+
+За запитом "{{ query }}" знайдено {{ found_new }} {{ found_new|uk_plural:"нову декларацію,нові декларації,нових декларацій" }},
+переглянути їх можна за посиланнями:
+{% for declaration in decl_list %}
+{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}
+{% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year}}, {% endif %}{% if declaration.general.post.region %}{{ declaration.general.post.region }}, {% endif %}{% if declaration.general.post.office %}{{ declaration.general.post.office }}, {% endif %}{% if declaration.general.post.post %}{{ declaration.general.post.post }}{% endif %}
+https://declarations.com.ua/declaration/{{ declaration.meta.id }}
+{% endfor %}
+--
+З найкращими побажаннями,
+Команда declarations.com.ua
+
+P.S. Щоб відключити сповіщення перейдіть за посиланням: https://declarations.com.ua/search-list/
+{% endautoescape %}
