@@ -27,7 +27,7 @@
                   "http://declarations.com.ua%s" % request.path,
                   add_disqus=True) }}
         {{ spotter_button("Моніторити за іменем", "q=%s+%s+%s" % (declaration.general.last_name,
-                  declaration.general.name, declaration.general.patronymic)) }}
+                  declaration.general.name, declaration.general.patronymic), "from-declaration") }}
         </h1>
         {% if declaration.general.post.region %}
             <meta itemprop="homeLocation" content="{{ declaration.general.post.region }}"/>

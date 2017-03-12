@@ -25,7 +25,7 @@
         {{ social("Результати пошуку по: %s. " % query,
                   "http://declarations.com.ua%s" % request.path ,
                   add_disqus=False) }}
-        {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'] ) }}
+        {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
         </h1>
         <div class="page-content">
             <div class="btn-group">

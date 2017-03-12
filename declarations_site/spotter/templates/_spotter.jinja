@@ -4,10 +4,10 @@
         <div class="dropdown profile-dropdown pull-right">
             <button class="btn btn-primary dropdown-toggle" type="button" id="profile"
                 data-toggle="dropdown">Увійти <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="{{ url("social:begin", "facebook") }}?next={{ path }}"
+            <ul class="dropdown-menu signin-menu">
+                <li><a class="facebook" href="{{ url("social:begin", "facebook") }}?next={{ path }}"
                      title="Facebook"><span class="glyphicon glyphicon-new-window"></span> Через Facebook</a></li>
-                <li><a href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
+                <li><a class="google" href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
                     title="Google / Gmail"><span class="glyphicon glyphicon-new-window"></span> Через Google</a></li>
             </ul>
         </div>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="modal-body text-center">
                         <p>Щоб розпочати моніторинг необхідно авторизуватись</p>
-                        <ul id="signin">
+                        <ul id="signin" class="signin-menu">
                             <li><a class="facebook" href="{{ url("social:begin", "facebook") }}?next={{ path }}"
                                 title="Facebook">Facebook</a></li>
                             <li><a class="google" href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
@@ -34,10 +34,10 @@
         </div>
     </div>
 {%- endmacro %}
-{% macro spotter_button(label, query_string) -%}
+{% macro spotter_button(label, query_string, from) -%}
     <span class="social">
         <a id="save-search" class="btn btn-raised btn-sm save-search" data-target="#login-modal"
-            href="{{ url('save_search') }}?{{ query_string }}">
+            href="{{ url('save_search') }}?{{ query_string }}" data-from="{{ from }}">
         <span class="glyphicon glyphicon-plus"></span> {{ label }}</a>
     </span>
     <div class="modal" id="wait-modal" tabindex="-1" role="dialog">

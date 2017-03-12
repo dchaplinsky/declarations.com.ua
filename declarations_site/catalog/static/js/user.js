@@ -33,7 +33,9 @@ $(function() {
     function userIsAuthenticated(menu) {
         $('#login-button').html(menu);
 
-        $('#logout').click(function () {
+        $('#logout').click(function (e) {
+            if (ga)
+                ga('send', 'event', 'user-logout', e.target.className);
             if (username_key)
                 localStorage.removeItem(username_key);
         });
@@ -60,6 +62,14 @@ $(function() {
         if (username_key && localStorage.getItem(username_key))
             localStorage.removeItem(username_key);
     }
+
+    $('.signin-menu a').on('click', function (e) {
+        ga('send', 'event', 'user-login', e.target.className);
+    });
+
+    $('a.save-search').on('click', function (e) {
+        ga('send', 'event', 'save-search', $(e.target).data('from'));
+    });
 
     $('#login-modal').on('shown.bs.modal', function (e) {
         var href = $(e.relatedTarget).data('href');
