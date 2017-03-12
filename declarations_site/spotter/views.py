@@ -43,6 +43,10 @@ def save_search(request):
         messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
         return redirect('search_list')
 
+    if not request.user.email:
+        messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти.')
+        return redirect('search_list')
+
     # don't add twice
     if SearchTask.objects.filter(user=request.user,
             query=query, deepsearch=deepsearch, is_deleted=False).exists():
