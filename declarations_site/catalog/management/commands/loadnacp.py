@@ -377,12 +377,6 @@ class Command(BaseCommand):
             raise CommandError(
                 'First argument must be a path to source files and second is file name of CSV with corrected declarations')
 
-        if hasattr(sys.stdin, 'isatty') and not sys.stdin.isatty():
-            self.stdout.write(
-                "To import something you need to run this command in TTY."
-            )
-            return
-
         self.stdout.write("Gathering JSON documents from {}".format(base_dir))
         self.jsons = list(glob2.glob(os.path.join(base_dir, "**/*.json")))
         self.stdout.write("Gathered {} JSON documents".format(len(self.jsons)))
