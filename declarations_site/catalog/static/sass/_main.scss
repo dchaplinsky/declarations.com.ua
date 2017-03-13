@@ -60,7 +60,6 @@ h1.page-header {
 h1#page-header > span,
 h1.page-header > span {
     border-bottom: 3px #21b79a solid;
-    padding-right: 100px;
 }
 
 .sub-header {
@@ -726,6 +725,7 @@ h1#page-header span.social {
     border-bottom: none;
     font-size: 12px;
     padding: 20px 0;
+    padding-left: 50px;
 }
 
 @media (max-width: 767px) {

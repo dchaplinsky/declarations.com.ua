@@ -1,0 +1,3 @@
+{% load spotter_tags %}{% autoescape off %}
+За запитом "{{ query }}" знайдено {{ found_new }} {{ found_new|uk_plural:"нову декларацію,нові декларації,нових декларацій" }}
+{% endautoescape %}

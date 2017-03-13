@@ -1,0 +1,10 @@
+<div class="dropdown profile-dropdown pull-right">
+	<button class="btn btn-primary dropdown-toggle logged-in" type="button" id="profile" data-toggle="dropdown">
+	{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}
+	{% else %}{{ request.user.username }}{% endif %} <span class="caret"></span></button>
+	<ul class="dropdown-menu">
+		<li><a href="{{ url("search_list") }}"><span class="glyphicon glyphicon-tasks"></span> Мої запити</a></li>
+		<li class="divider"></li>
+		<li><a href="{{ url("logout") }}" id="logout"><span class="glyphicon glyphicon-off"></span> Вийти</a></li>
+	</ul>
+</div>

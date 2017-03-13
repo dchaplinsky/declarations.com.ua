@@ -6,6 +6,7 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from django.contrib import admin
 
 from catalog import views as catalog_views
+from spotter import urls as spotter_urls
 
 
 urlpatterns = [
@@ -42,5 +43,7 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),
+    url(r'user/', include('social_django.urls', namespace='social')),
+    url(r'user/', include(spotter_urls)),
     url(r'', include(wagtail_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
