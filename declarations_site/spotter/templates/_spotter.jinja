@@ -32,6 +32,23 @@
                 </div>
             </div>
         </div>
+        <!-- login error modal -->
+        <div class="modal fade" id="login-error-modal" tabindex="-2" role="dialog" aria-labelledby="login-error-label">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="x"><span
+                            aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="login-error-label">Помилка входу</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Помилка входу, не надано доступ.</p>
+                        <p>
+                        <a href="#" class="btn btn-default btn-raised" id="show-login-modal">Повторити</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {%- endmacro %}
 {% macro spotter_button(label, query_string, from) -%}

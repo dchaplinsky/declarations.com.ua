@@ -1,5 +1,7 @@
 import re
+import hmac
 import logging
+from time import time
 from datetime import timedelta
 from unidecode import unidecode
 from django.conf import settings
@@ -187,6 +189,54 @@ def load_declarations(new_ids, limit=LOAD_DECLS_LIMIT):
         logger.error("load new_ids %d docs not found", len(new_ids) - len(decl_list))
 
     return decl_list
+
+
+def get_verification_hmac(user, email, time):
+    key = settings.SECRET_KEY
+    msg = '{user.id}{user.username}{email}{time}'.format(user=user, email=email, time=time)
+    mac = hmac.new(key.encode('utf8'), msg.encode('utf8'))
+    return mac.hexdigest()
+
+
+def get_verified_email(request):
+    args = {
+        'user': request.user,
+        'time': request.GET.get('time', 0),
+        'email': request.GET.get('email', '')
+    }
+    mac = request.GET.get('mac', '')
+    try:
+        if time() - float(args['time']) > 86400:
+            raise ValueError('too late')
+        if mac != get_verification_hmac(**args):
+            raise ValueError('bad mac')
+    except (TypeError, ValueError):
+        return None
+    return args['email']
+
+
+def send_confirm_email(request, email):
+    args = {
+        'email': email,
+        'time': time(),
+    }
+    args['mac'] = get_verification_hmac(request.user, **args)
+    context = {
+        'email': email,
+        'link': reverse_qs('confirm_email', args),
+        'site_url': settings.EMAIL_SITE_URL,
+    }
+    from_email = settings.FROM_EMAIL
+    subject = render_to_string("email_confirm_subject.txt", context).strip()
+    message = render_to_string("email_confirm_message.txt", context)
+    msghtml = render_to_string("email_confirm_message.html", context)
+    try:
+        res = send_mail(subject, message, from_email, [email],
+            html_message=msghtml)
+    except Exception as e:
+        logger.error("send_mail %s failed with error: %s", email, e)
+        res = False
+    return bool(res)
 
 
 def send_newtask_notify(task):

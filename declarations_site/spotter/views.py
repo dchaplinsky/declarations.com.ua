@@ -10,7 +10,8 @@ from functools import partial
 from catalog.utils import replace_apostrophes
 from spotter.models import SearchTask
 from spotter.forms import UserProfileForm
-from spotter.utils import first_run, send_newtask_notify, reverse_qs
+from spotter.utils import (first_run, send_newtask_notify, send_confirm_email,
+    get_verified_email, reverse_qs)
 
 
 login_required = partial(login_required, redirect_field_name='login_to', login_url='/')
@@ -49,7 +50,8 @@ def save_search(request):
         return redirect('search_list')
 
     if not request.user.email:
-        messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти.')
+        messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти. '+
+            'Спочатку введіть адресу.')
         return redirect(reverse_qs('edit_email', qs={'next': request.get_full_path()}))
 
     # don't add twice
@@ -75,12 +77,26 @@ def edit_email(request, template_name='edit_email.jinja'):
         initial={'email': request.user.email})
 
     if request.POST and form.is_valid():
-        request.user.email = form.cleaned_data['email']
-        request.user.save()
-        path = request.GET.get('next', '')
-        return redirect(path or 'search_list')
+        email = form.cleaned_data['email']
+        if send_confirm_email(request, email):
+            messages.success(request, 'На вказану адресу відправлено лист. ' +
+                'Будь ласка перейдіть за посиланням в листі для підтвердження адреси.')
+        else:
+            messages.warning(request, 'Не вдалось відправити лист на адресу %s' % email)
 
     return render(request, template_name, {'form': form})
+
+
+@login_required
+def confirm_email(request):
+    email = get_verified_email(request)
+    if email:
+        request.user.email = email
+        request.user.save()
+        messages.success(request, 'Адресу %s підтверджено.' % email)
+    else:
+        messages.warning(request, 'Не вдалось підтвердити адресу.')
+    return redirect('search_list')
 
 
 @require_POST

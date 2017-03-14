@@ -1,0 +1,3 @@
+{% autoescape off %}
+Підтвердіть адресу електронної пошти
+{% endautoescape %}
