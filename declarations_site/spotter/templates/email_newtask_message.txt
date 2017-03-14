@@ -9,5 +9,5 @@
 З найкращими побажаннями,
 Команда declarations.com.ua
 
-P.S. Щоб відключити сповіщення перейдіть за посиланням: https://declarations.com.ua/search-list/
+P.S. Щоб відключити сповіщення перейдіть за посиланням: {{ site_url }}{% url 'search_list' %}
 {% endautoescape %}

@@ -9,7 +9,8 @@ from functools import partial
 
 from catalog.utils import replace_apostrophes
 from spotter.models import SearchTask
-from spotter.utils import first_run, send_newtask_notify
+from spotter.forms import UserProfileForm
+from spotter.utils import first_run, send_newtask_notify, reverse_qs
 
 
 login_required = partial(login_required, redirect_field_name='login_to', login_url='/')
@@ -43,9 +44,13 @@ def save_search(request):
         messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
         return redirect('search_list')
 
+    if len(query) > 150:
+        messages.warning(request, 'Не вдалось створити завдання з таким довгим запитом.')
+        return redirect('search_list')
+
     if not request.user.email:
         messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти.')
-        return redirect('search_list')
+        return redirect(reverse_qs('edit_email', qs={'next': request.get_full_path()}))
 
     # don't add twice
     if SearchTask.objects.filter(user=request.user,
@@ -62,6 +67,20 @@ def save_search(request):
 
     messages.success(request, 'Завдання "%s" створено.' % task.query)
     return redirect('search_list')
+
+
+@login_required
+def edit_email(request, template_name='edit_email.jinja'):
+    form = UserProfileForm(request.POST or None,
+        initial={'email': request.user.email})
+
+    if request.POST and form.is_valid():
+        request.user.email = form.cleaned_data['email']
+        request.user.save()
+        path = request.GET.get('next', '')
+        return redirect(path or 'search_list')
+
+    return render(request, template_name, {'form': form})
 
 
 @require_POST

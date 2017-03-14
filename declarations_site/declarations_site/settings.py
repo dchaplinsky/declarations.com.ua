@@ -104,6 +104,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
 SOCIAL_AUTH_CLEAN_USERNAME_FUNCTION = 'spotter.utils.clean_username'
 SOCIAL_AUTH_PIPELINE = (
@@ -128,13 +129,11 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email'}
 LOGOUT_REDIRECT = '/'
 
+# EMAIL_SITE_URL used for full hrefs in email templates
+EMAIL_SITE_URL = 'https://declarations.com.ua'
 
 FROM_EMAIL = 'robot@declarations.com.ua'
 EMAIL_HOST = 'localhost'
-# EMAIL_HOST_USER = ''
-# EMAIL_HOST_PASSWORD = ''
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
 
 
 LANGUAGE_CODE = 'uk-ua'
