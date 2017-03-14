@@ -1,5 +1,7 @@
 {% extends "base.jinja" %}
 
+{% from "_spotter.jinja" import flash_messages %}
+
 {% block html_title -%}Мої запити{%- endblock %}
 
 
@@ -12,17 +14,7 @@
                 <li class="active">Мої запити</li>
             </ol>
         </div>
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            <div class="alert alert-dismissible alert-{% if message.tags %}{{ message.tags }}{% endif %}">
-                <button type="button" class="close" data-dismiss="alert"
-                    aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+        {{ flash_messages(messages) }}
         <h1 id="page-header"><span>Мої запити</span></h1>
         <div class="page-content">
             <div class="box">
@@ -82,8 +74,8 @@
                     </div>
                 </div>
             </div>
-            <p class="text-center">
-                <br><br>Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "+ МОНІТОРИТИ ЦЕЙ ЗАПИТ".
+            <p class="text-center help-footer">
+                Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "+ МОНІТОРИТИ ЦЕЙ ЗАПИТ".
             </p>
         </div>
     </div>

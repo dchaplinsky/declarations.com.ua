@@ -15,7 +15,7 @@
 	</p>
 
 	{% for declaration in decl_list %}
-	<p><a href="https://declarations.com.ua/declaration/{{ declaration.meta.id }}">{{ declaration.general.last_name }}
+	<p><a href="{{ site_url }}{% url 'details' declaration.meta.id %}">{{ declaration.general.last_name }}
 			{{ declaration.general.name }} {{ declaration.general.patronymic }}</a><br>
 		{% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}, {% endif %}
 		{% if declaration.general.post.region %}{{ declaration.general.post.region }}, {% endif %}
@@ -30,7 +30,7 @@
 	</p>
 
 	<address>
-	P.S. Щоб відключити сповіщення перейдіть за <a href="https://declarations.com.ua/search-list/">посиланням</a>.
+	P.S. Щоб відключити сповіщення перейдіть за <a href="{{ site_url }}{% url 'search_list' %}">посиланням</a>.
 	</address>
 </body>
 </html>

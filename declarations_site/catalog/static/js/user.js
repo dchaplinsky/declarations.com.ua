@@ -15,7 +15,7 @@ $(function() {
 
     function setLoginNext(href) {
         if (href && href.search(/\?/) > 0)
-            href = escape(href);
+            href = encodeURI(href);
         $('#login-modal #signin a').each(function () {
             this.href = this.href.replace(/next=[^&]+/, 'next=' + href);
         });
@@ -40,7 +40,7 @@ $(function() {
                 localStorage.removeItem(username_key);
         });
 
-        $('#save-search').click(function (e) {
+        $('.save-search').click(function (e) {
             $(document.body).addClass('wait')
                 .css({'cursor' : 'wait'});
             $('#wait-modal').modal('show');
@@ -51,7 +51,7 @@ $(function() {
     }
 
     function userNotAuthenticated() {
-        var ss = $('#save-search');
+        var ss = $('a.save-search');
         if (ss.length) {
             setLoginNext(ss.attr('href'));
             ss.click(function (e) {
@@ -83,22 +83,11 @@ $(function() {
         }
     });
 
-    // submit search form on enter (fix typeahead)
-    $('#search-form').on('keydown', function(e) {
-        if (e.keyCode == 13) {
-            var ta = $(this).data('typeahead'),
-                val = ta.$menu.find('.active').data('value');
-            if (val)
-                $('#search-form').val(val);
-            $('#front-searchbox form').submit();
-        }
-    });
-
     location_href = window.location.pathname + window.location.search;
 
     // get user menu via ajax
     $.ajax({
-        url: '/user/login-menu/?next=' + escape(location_href),
+        url: '/user/login-menu/?next=' + encodeURI(location_href),
     }).done(function (data) {
         if (data.search('logout') > 0) {
             userIsAuthenticated(data, username_key);

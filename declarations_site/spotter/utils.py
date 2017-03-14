@@ -3,7 +3,9 @@ import logging
 from datetime import timedelta
 from unidecode import unidecode
 from django.conf import settings
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.http import urlencode
 from django.db.models import Sum
 from django.template.loader import render_to_string
 from elasticsearch_dsl import Search
@@ -28,6 +30,13 @@ def clean_username(value):
     value = NO_ASCII_REGEX.sub('', value)
     value = NO_SPECIAL_REGEX.sub('', value)
     return value
+
+
+def reverse_qs(viewname, qs=None, **kwargs):
+    url = reverse(viewname, **kwargs)
+    if qs:
+        url += '?' + urlencode(qs)
+    return url
 
 
 def do_search(task):
@@ -62,7 +71,7 @@ def do_search(task):
 
     search.found_total = search.count()
 
-    if not search.found_total:
+    if not search.found_total and task.deepsearch:
         search = base_search.query(
             "multi_match",
             query=task.query,
@@ -77,7 +86,7 @@ def do_search(task):
     return search
 
 
-def merge_found(task, report, first_run=False):
+def merge_found(task, report):
     if task.found_ids:
         # remove possible '\r' from task_ids after edits in admin on Mac
         report_ids = set(report.found_ids)
@@ -183,6 +192,7 @@ def load_declarations(new_ids, limit=LOAD_DECLS_LIMIT):
 def send_newtask_notify(task):
     context = {
         'query': task.query,
+        'site_url': settings.EMAIL_SITE_URL,
     }
     from_email = settings.FROM_EMAIL
     subject = render_to_string("email_newtask_subject.txt", context).strip()
@@ -197,11 +207,12 @@ def send_newtask_notify(task):
     return bool(res)
 
 
-def send_found_nootify(notify):
+def send_found_notify(notify):
     context = {
         'query': notify.task.query,
         'decl_list': load_declarations(notify.new_ids),
         'found_new': notify.found_new,
+        'site_url': settings.EMAIL_SITE_URL,
     }
     from_email = settings.FROM_EMAIL
     subject = render_to_string("email_found_subject.txt", context).strip()
@@ -219,6 +230,6 @@ def send_found_nootify(notify):
 def create_notify(task, report):
     notify = NotifySend(task=task, email=task.user.email, found_new=report.found_new,
         new_ids=list(report.new_ids))
-    send_found_nootify(notify)
+    send_found_notify(notify)
     notify.save()
     return notify

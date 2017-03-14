@@ -95,3 +95,13 @@ span.social .save-search {
         color: #e95000;
     }
 }
+
+.form-group .help-block-text,
+.form-group .help-block-error {
+    position: static;
+    display: block;
+}
+
+.help-footer {
+    margin-top: 50px;
+}

@@ -18,7 +18,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="x"><span
                             aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="login-label">Будь ласка увійдіть</h4>
+                        <h4 class="modal-title" id="login-label">Будь ласка, увійдіть</h4>
                     </div>
                     <div class="modal-body text-center">
                         <p>Щоб розпочати моніторинг необхідно авторизуватись</p>
@@ -49,4 +49,17 @@
             </div>
         </div>
     </div>
+{%- endmacro %}
+{% macro flash_messages(messages) -%}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-dismissible alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+            <button type="button" class="close" data-dismiss="alert"
+                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 {%- endmacro %}
