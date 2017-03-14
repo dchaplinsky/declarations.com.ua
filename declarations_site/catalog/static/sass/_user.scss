@@ -29,7 +29,8 @@
     }
 }
 
-#login-modal .modal-header {
+#login-modal .modal-header,
+#login-error-modal .modal-header {
     background: url(../images/header.jpg) no-repeat center top;
 }
 
