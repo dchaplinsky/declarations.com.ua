@@ -43,8 +43,7 @@
                                     <td>{{ task.found_total }}</td>
                                     <td>{{ task.found_week }}</td>
                                     <td>{% if task.is_enabled %}
-                                        <a href="#" data-toggle="modal" data-target="#address-modal"
-                                            >{{ task.user.email }}</a>{% else %}-{% endif %}
+                                        <a href="{{ url('edit_email') }}">{{ task.user.email }}</a>{% else %}-{% endif %}
                                     </td>
                                     <td>{% if task.is_enabled %}В роботі{% else %}На паузі{% endif %}</td>
                                     <td>
@@ -80,20 +79,5 @@
         </div>
     </div>
 </section>
-
-<div class="modal fade" id="address-modal" tabindex="-1" role="dialog" aria-labelledby="address-label">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="x"><span aria-hidden="true">×</span></button>
-            <h4 class="modal-title" id="address-label">Адреса для сповіщень</h4>
-        </div>
-        <div class="modal-body">
-            <p>Використовується підтверджена адреса, що була надана при реєстрації.</p>
-            <p>Щоб отримувати сповіщення на іншу адресу — вийдіть і зареєструйтесь з новою адресою.</p>
-        </div>
-    </div>
-  </div>
-</div>
 
 {% endblock %}
