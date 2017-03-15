@@ -1,8 +1,8 @@
 document.addEventListener(
-    "touchstart", 
+    "touchstart",
     function(){},
     true
-); 
+);
 
 $(function() {
     function setColumnsHeights (list, item) {
@@ -31,7 +31,7 @@ $(function() {
     function hideme($ib) {
         $ib.css("height", 10);
     }
-       
+
     $("#infobox a#closeme").on("click", function() {
         $ib = $('#infobox');
 
@@ -41,7 +41,7 @@ $(function() {
             .one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend',
                 hideme($ib));
     });
-   
+
     $('#list').on("click", function(event){
         event.preventDefault();
         $('.search-results .item').addClass('list-group-item');
@@ -81,6 +81,16 @@ $(function() {
             }
         });
 
+        // submit search form on enter (fix typeahead)
+        $('#search-form').on('keydown', function(e) {
+            if (e.keyCode == 13) {
+                var ta = $(this).data('typeahead'),
+                    val = ta.$menu.find('.active').data('value');
+                if (val)
+                    $('#search-form').val(val);
+                $('#front-searchbox form').submit();
+            }
+        });
     });
 
     $( window ).load(function() {

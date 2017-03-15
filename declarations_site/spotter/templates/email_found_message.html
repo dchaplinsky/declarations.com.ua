@@ -1,0 +1,36 @@
+{% load spotter_tags %}<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Ззнайдено нові декларації</title>
+	<style>p{font-family:"Trebuchet MS",Tahoma,Arial,Helvetica,sans-serif;}</style>
+</head>
+<body>
+	<p>Вітаємо,</p>
+
+	<p>
+		За запитом "{{ query }}" знайдено {{ found_new }}
+		{{ found_new|uk_plural:"нову декларацію,нові декларації,нових декларацій" }},<br>
+		переглянути їх можна за посиланнями:
+	</p>
+
+	{% for declaration in decl_list %}
+	<p><a href="{{ site_url }}{% url 'details' declaration.meta.id %}">{{ declaration.general.last_name }}
+			{{ declaration.general.name }} {{ declaration.general.patronymic }}</a><br>
+		{% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}, {% endif %}
+		{% if declaration.general.post.region %}{{ declaration.general.post.region }}, {% endif %}
+		{% if declaration.general.post.office %}{{ declaration.general.post.office }}, {% endif %}
+		{% if declaration.general.post.post %}{{ declaration.general.post.post }}{% endif %}
+	</p>
+
+	{% endfor %}
+	<p>--<br>
+		З найкращими побажаннями,<br>
+		Команда declarations.com.ua
+	</p>
+
+	<address>
+	P.S. Щоб відключити сповіщення перейдіть за <a href="{{ site_url }}{% url 'search_list' %}">посиланням</a>.
+	</address>
+</body>
+</html>

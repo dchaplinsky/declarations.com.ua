@@ -56,6 +56,9 @@ INSTALLED_APPS = (
     'wagtail.wagtailredirects',
     'wagtail.wagtailforms',
 
+    'social_django',
+    'spotter',
+
     'catalog',
     'cms_pages',
     'procurements',
@@ -70,6 +73,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
@@ -94,6 +98,45 @@ ELASTICSEARCH_CONNECTIONS = {
     }
 }
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
+SOCIAL_AUTH_CLEAN_USERNAME_FUNCTION = 'spotter.utils.clean_username'
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details'
+)
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email']
+
+SOCIAL_AUTH_FACEBOOK_KEY = ''
+SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email'}
+LOGOUT_REDIRECT = '/'
+
+# EMAIL_SITE_URL used for full hrefs in email templates
+EMAIL_SITE_URL = 'https://declarations.com.ua'
+
+FROM_EMAIL = 'robot@declarations.com.ua'
+EMAIL_HOST = 'localhost'
+
+
 LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
 
@@ -116,6 +159,8 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
                 "catalog.context_processors.stats_processor",
                 "cms_pages.context_processors.menu_processor"
             ),
@@ -185,6 +230,7 @@ PIPELINE = {
                 "js/material.js",
                 'js/jquery.magnific-popup.js',
                 "js/main.js",
+                "js/user.js",
                 "js/analytics.js",
                 "js/jquery.dataTables.min.js",
                 "js/bi/d3.min.js",

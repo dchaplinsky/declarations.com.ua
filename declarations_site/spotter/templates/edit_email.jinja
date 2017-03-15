@@ -1,0 +1,51 @@
+{% extends "base.jinja" %}
+
+{% from "_spotter.jinja" import flash_messages %}
+
+{% block html_title -%}Мій профіль{%- endblock %}
+
+
+{% block content %}
+<section id="page">
+    <div class="container">
+        <div id="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="/">Головна</a></li>
+                <li class="active">Мій профіль</li>
+            </ol>
+        </div>
+        {{ flash_messages(messages) }}
+        <h1 id="page-header"><span>Мій профіль</span></h1>
+        <div class="page-content">
+            <div class="box row">
+                <form class="form col-md-4" method="post">
+                    <p>Для продовження необхідно вказати свій e-mail.</p>
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="row form-group{% if field.errors %} has-error{% endif %}">
+                            <label for="id_{{ field.name }}">{{ field.label }}</label>
+                            <div>
+                                {{ field|replace('/>', ' class="form-control"/>')|safe }}
+                                {% if field.errors %}
+                                <span class="help-block help-block-error">
+                                    {% for error in  field.errors %}{{ error }}{% endfor %}
+                                </span>
+                                {% endif %}
+                                {% if field.help_text %}
+                                    <p class="help-block help-block-text"><small>{{ field.help_text }}</small></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <div>
+                            <button type="submit" class="btn btn-primary btn-raised">Зберегти</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

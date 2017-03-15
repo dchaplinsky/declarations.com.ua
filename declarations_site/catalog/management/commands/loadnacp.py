@@ -1,19 +1,21 @@
+import re
 import sys
 import json
-
 from csv import DictReader
 from parsel import Selector
 import os.path
 import glob2
-
 from dateutil.parser import parse as dt_parse
 from multiprocessing import Pool
 
 from django.core.management.base import BaseCommand, CommandError
-from catalog.elastic_models import NACPDeclaration
-from elasticsearch_dsl.connections import connections
-from catalog.utils import replace_apostrophes, title
+
 from elasticsearch.helpers import bulk
+from elasticsearch_dsl import Search
+from elasticsearch_dsl.connections import connections
+
+from catalog.elastic_models import NACPDeclaration
+from catalog.utils import replace_apostrophes, title
 
 
 class BadJSONData(Exception):
@@ -23,6 +25,14 @@ class BadJSONData(Exception):
 class BadHTMLData(Exception):
     pass
 
+
+def parse_guid_from_fname(json_fname):
+    m = re.search("([0-9\-a-z]{36})", os.path.basename(json_fname))
+
+    if m:
+        return m.group(1), json_fname
+    else:
+        return False
 
 class DeclarationStaticObj(object):
     declaration_types = {
@@ -187,12 +197,17 @@ class DeclarationStaticObj(object):
             "declaration": {}
         }
 
-        with open(json_fname, "r") as fp:
-            data = json.load(fp)
+        try:
+            with open(json_fname, "r") as fp:
+                data = json.load(fp)
 
-        with open(html_fname, "r") as fp:
-            raw_html = fp.read()
-            html = Selector(raw_html)
+            with open(html_fname, "r") as fp:
+                raw_html = fp.read()
+                html = Selector(raw_html)
+        except FileNotFoundError:
+            print(
+                "File {} or it's HTML counterpart cannot be found".format(json_fname))
+            return None
 
         id_ = data.get("id")
         created_date = data.get("created_date")
@@ -213,6 +228,7 @@ class DeclarationStaticObj(object):
 
         resp["_id"] = "nacp_{}".format(id_)
         resp["nacp_src"] = "\n".join(cls.extract_textual_data(html))
+        resp["nacp_orig"] = data
         resp["declaration"]["url"] = "https://public.nazk.gov.ua/declaration/{}".format(id_)
         resp["declaration"]["source"] = "NACP"
         resp["declaration"]["basename"] = os.path.basename(base_fname)
@@ -333,17 +349,25 @@ class DeclarationStaticObj(object):
 
 class Command(BaseCommand):
     number_of_processes = 8
-    chunk_size = 100
-
-    def add_arguments(self, parser):
-        parser.add_argument('file_path')
-        parser.add_argument('corrected_file')
-
+    chunk_size = 1000
     help = ('Loads the JSONs of declarations downloaded from NACP '
             'into the persistence storage')
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
+        self.es = connections.get_connection()
+
+    def add_arguments(self, parser):
+        parser.add_argument('file_path')
+        parser.add_argument('corrected_file')
+
+        parser.add_argument(
+            '--update_all_docs',
+            action='store_true',
+            dest='update_all_docs',
+            default=False,
+            help='Reload all docs into index',
+        )
 
     def handle(self, *args, **options):
         try:
@@ -352,12 +376,6 @@ class Command(BaseCommand):
         except IndexError:
             raise CommandError(
                 'First argument must be a path to source files and second is file name of CSV with corrected declarations')
-
-        if hasattr(sys.stdin, 'isatty') and not sys.stdin.isatty():
-            self.stdout.write(
-                "To import something you need to run this command in TTY."
-            )
-            return
 
         self.stdout.write("Gathering JSON documents from {}".format(base_dir))
         self.jsons = list(glob2.glob(os.path.join(base_dir, "**/*.json")))
@@ -376,14 +394,47 @@ class Command(BaseCommand):
 
         my_tiny_pool = Pool(self.number_of_processes)
 
+        if not options["update_all_docs"]:
+            self.stdout.write("Obtaining uuids of already indexed documents")
+
+            s = NACPDeclaration.search().source([])
+            existing_guids = set(
+                h.meta.id.replace("nacp_", "") for h in s.scan())
+            self.stdout.write("{} uuids are currently in index".format(
+                len(existing_guids)))
+
+            incoming_files = dict(
+                filter(
+                    None,
+                    my_tiny_pool.map(parse_guid_from_fname, self.jsons)
+                )
+            )
+
+            incoming_guids = set(incoming_files.keys())
+
+            self.stdout.write("{} uuids are found in input folder".format(
+                len(incoming_guids)))
+
+            self.jsons = [
+                incoming_files[k] for k in incoming_guids - existing_guids
+            ]
+
+            self.stdout.write("{} uuids left after the filtering".format(
+                len(self.jsons)))
+
         for ix in range(0, len(self.jsons), self.chunk_size):
             chunk = self.jsons[ix:ix + self.chunk_size]
 
             result = list(
-                filter(None, my_tiny_pool.map(DeclarationStaticObj.parse, chunk)))
+                filter(
+                    None,
+                    my_tiny_pool.map(DeclarationStaticObj.parse, chunk)
+                )
+            )
+
             counter += len(result)
 
-            bulk(connections.get_connection(), result)
+            bulk(self.es, result)
 
             if ix:
                 self.stdout.write(

@@ -1,0 +1,107 @@
+#profile {
+    background-color: #fff;
+    margin-top: 12px;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 250px;
+    @media (max-width: 1000px) {
+        max-width: 180px;
+    }
+    @media (max-width: 400px) {
+        max-width: 130px;
+    }
+}
+
+.profile-dropdown {
+    margin-right: 10px;
+    .dropdown-menu {
+        width: 100%;
+        min-width: 160px;
+        .glyphicon {
+            margin-right: 10px;
+            vertical-align: sub;
+        }
+        li:last-child .glyphicon {
+            vertical-align: baseline;
+        }
+    }
+}
+
+#login-modal .modal-header {
+    background: url(../images/header.jpg) no-repeat center top;
+}
+
+#wait-modal .modal-body {
+    padding-bottom: 34px;
+}
+
+#signin {
+    width: 188px;
+    padding: 0;
+    margin: 20px auto 40px;
+    li {
+        display: block;
+        margin: 0 0 20px 0;
+        a {
+            background: transparent url(../images/signin.png) left top no-repeat;
+            display: block;
+            width: 188px;
+            height: 34px;
+            overflow: hidden;
+            text-indent: -1000px;
+        }
+        .facebook {
+            background-position: 0 -39px;
+            background-color: #3b5998;
+        }
+        .twitter {
+            background-position: 0 0;
+            background-color: #0084b4;
+        }
+        .google {
+            background-position: 0 -117px;
+            background-position-x: 0px;
+            background-position-y: -117px;
+            background-color: #d14836;
+        }
+    }
+}
+
+span.social .save-search {
+    float: right;
+    margin-right: 10px;
+    line-height: 20px;
+    background-color: #fff;
+    margin: -5px 0 0 0;
+}
+
+#search-list {
+    .btn-link {
+        margin: 0;
+        padding: 0;
+        color: #2196f3;
+        font-size: 16px;
+        will-change: auto;
+        box-shadow: none;
+        text-transform: none;
+        transform: none;
+    }
+    .btn-link:focus {
+        outline: none;
+    }
+    .delete:hover {
+        color: #e95000;
+    }
+}
+
+.form-group .help-block-text,
+.form-group .help-block-error {
+    position: static;
+    display: block;
+}
+
+.help-footer {
+    margin-top: 50px;
+}

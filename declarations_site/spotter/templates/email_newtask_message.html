@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>За вашим запитом знайдено нові декларації</title>
+	<style>p{font-family:"Trebuchet MS",Tahoma,Arial,Helvetica,sans-serif;}</style>
+</head>
+<body>
+	<p>Вітаємо,</p>
+
+	<p>щойно було створено новий моніторинг за запитом "{{ query }}",</p>
+	<p>тепер на цю адресу будуть надходити листи як тільки будуть знайдені нові декларації.</p>
+
+	<p>--<br>
+		З найкращими побажаннями,<br>
+		Команда declarations.com.ua
+	</p>
+
+	<address>
+	P.S. Щоб відключити сповіщення перейдіть за <a href="{{ site_url }}{% url 'search_list' %}">посиланням</a>.
+	</address>
+</body>
+</html>

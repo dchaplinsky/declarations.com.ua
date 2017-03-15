@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
 from django.conf import settings
 
-from elasticsearch.exceptions import NotFoundError
+from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
 
 from cms_pages.models import MetaData, NewsPage, PersonMeta
@@ -19,6 +19,7 @@ from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
 def suggest(request):
     def assume(q, fuzziness):
+
         search = Search(index=CATALOG_INDICES)\
             .params(size=0)\
             .source(['general.full_name_suggest', 'general.full_name'])\
@@ -35,14 +36,19 @@ def suggest(request):
                 }
         )
 
-        res = search.execute()
+        try:
+            res = search.execute()
 
-        if res.success():
-            return list(set(val._source.general.full_name for val in res.suggest.name[0]['options']))
-        else:
+            if res.success():
+                return list(set(val._source.general.full_name for val in res.suggest.name[0]['options']))
+            else:
+                return []
+        except TransportError:
             return []
 
     q = replace_apostrophes(request.GET.get('q', '').strip())
+    # Too long request can make elastic sick when applying fuzzy search
+    q = q[:40]
 
     # It seems, that for some reason 'AUTO' setting doesn't work properly
     # for unicode strings
@@ -201,7 +207,7 @@ def details(request, declaration_id):
 
 @hybrid_response('regions.jinja')
 def regions_home(request):
-    search = Search(index=OLD_DECLARATION_INDEX).params(size=0)
+    search = Search(index=CATALOG_INDICES).params(size=0)
     search.aggs.bucket(
         'per_region', 'terms', field='general.post.region.raw', size=30)
 
@@ -214,7 +220,7 @@ def regions_home(request):
 
 @hybrid_response('region_offices.jinja')
 def region(request, region_name):
-    search = Search(index=OLD_DECLARATION_INDEX)\
+    search = Search(index=CATALOG_INDICES)\
         .query(Q('term', general__post__region__raw=region_name) & ~Q('term', general__post__office__raw=''))\
         .params(size=0)
 
@@ -224,7 +230,7 @@ def region(request, region_name):
     ).first()
 
     search.aggs.bucket(
-        'per_office', 'terms', field='general.post.office.raw', size=1000)
+        'per_office', 'terms', field='general.post.office.raw', size=100)
     res = search.execute()
 
     return {
@@ -238,7 +244,7 @@ def region(request, region_name):
 @hybrid_response('results.jinja')
 def region_office(request, region_name, office_name):
     # Not using NACP declarations yet to not to blown the list of offices
-    search = Search(index=OLD_DECLARATION_INDEX)\
+    search = Search(index=CATALOG_INDICES)\
         .query('term', general__post__region__raw=region_name)\
         .query('term', general__post__office__raw=office_name)
 
@@ -250,7 +256,7 @@ def region_office(request, region_name, office_name):
 
 @hybrid_response('results.jinja')
 def office(request, office_name):
-    search = Search(index=OLD_DECLARATION_INDEX)\
+    search = Search(index=CATALOG_INDICES)\
         .query('term', general__post__office__raw=office_name)
 
     return {
