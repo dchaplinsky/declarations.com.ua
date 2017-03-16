@@ -170,9 +170,9 @@ def fuzzy_search(request):
 def details(request, declaration_id):
     try:
         try:
-            declaration = Declaration.get(id=declaration_id)
-        except NotFoundError:
             declaration = NACPDeclaration.get(id=declaration_id)
+        except NotFoundError:
+            declaration = Declaration.get(id=declaration_id)
         try:
             meta = PersonMeta.objects.get(
                 fullname=declaration.general.full_name,

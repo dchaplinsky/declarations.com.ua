@@ -88,7 +88,6 @@ class CurrencyRates(models.Model):
     class Meta:
         managed = False
         db_table = 'currency_rates'
-        unique_together = (('id', 'date'), ('id', 'date', 'currency_id'),)
 
 
 class PurchaseResultTypes(models.Model):

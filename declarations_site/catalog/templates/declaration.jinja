@@ -65,6 +65,27 @@
 
                 {% if declaration.declaration.source == "NACP" %}
                     <div id="nacp_decl">
+                        {% set earnings = declaration.get_procurement_earnings() %}
+                        {% if earnings %}
+                            <table style="width: 500px">
+                                <thead>
+                                    <tr>
+                                        <th>Рік</th>
+                                        <th>Кількість</th>
+                                        <th>Сума</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for earning in earnings|sort(attribute="year") %}
+                                    <tr>
+                                        <td style="text-align: right">{{ earning.year }}</td>
+                                        <td style="text-align: right">{{ earning.count }}</td>
+                                        <td style="text-align: right">{{ earning.sum_uah|string|curformat }} UAH</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
                         {{ declaration.raw_html()|safe }}
                         <hr />
                     </div>

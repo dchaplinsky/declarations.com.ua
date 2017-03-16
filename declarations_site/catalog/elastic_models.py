@@ -1,12 +1,18 @@
 import re
+import json
 import os.path
 from operator import or_
 from functools import reduce
 
 from django.conf import settings
+from django.db.models.functions import ExtractYear
+from django.db.models import Sum, Count
+
 from elasticsearch_dsl import DocType, Object, Keyword, Text, Completion, Nested, Date, Boolean, Search
 from elasticsearch_dsl.query import Q
+import dpath.util
 
+from procurements.models import Transactions
 from .constants import CATALOG_INDICES
 from .utils import parse_fullname
 from .templatetags.catalog import parse_raw_family_string
@@ -465,7 +471,53 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         m = re.search("<\/style>(.*)</body>", d)
         declaration_html = m.group(1)
 
-        return declaration_html.replace("</div></div></div><header><h2>", "</div></div><header><h2>")
+        return declaration_html.replace(
+            "</div></div></div><header><h2>",
+            "</div></div><header><h2>"
+        )
+
+    def affiliated_companies(self):
+        paths = [
+            "step_11.*.source_ua_company_code",
+            "step_12.*.organization_ua_company_code",
+            "step_11.*.rights.*.ua_company_code",
+            "step_13.*.emitent_ua_company_code",
+            "step_3.*.rights.*.ua_company_code",
+            "step_7.*.emitent_ua_company_code",
+            "step_15.*.emitent_ua_company_code",
+            "step_8.*.corporate_rights_company_code",
+            "step_2.*.source_ua_company_code",
+            "step_9.*.beneficial_owner_company_code",
+            "step_7.*.rights.*.ua_company_code",
+            "step_4.*.rights.*.ua_company_code",
+            "step_12.*.rights.*.ua_company_code",
+            "step_6.*.rights.*.ua_company_code",
+            "step_4.*.addition_company_code",
+            "step_13.*.guarantor_realty.*.realty_rights_ua_company_code",
+            "step_13.*.guarantor.*.guarantor_ua_company_code",
+            "step_8.*.rights.*.ua_company_code",
+            "step_10.*.rights.*.ua_company_code",
+            "step_4.undefined.rights.*.ua_company_code",
+            "step_5.*.emitent_ua_company_code",
+            "step_6.*.corporate_rights_company_code",
+            "step_5.*.rights.*.ua_company_code",
+            "step_13.*.*.emitent_ua_company_code",
+        ]
+
+        results = []
+        for path in paths:
+            results += dpath.util.values(
+                self.nacp_orig.to_dict(), path, separator='.')
+
+        return  filter(None, map(lambda x: x.strip().lstrip("0"), set(results)))
+
+    def get_procurement_earnings(self):
+        return Transactions.objects. \
+            select_related("seller"). \
+            filter(seller__code__in=self.affiliated_companies()). \
+            annotate(year=ExtractYear('date')). \
+            values("year"). \
+            annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 
     class Meta:
         index = 'nacp_declarations'
