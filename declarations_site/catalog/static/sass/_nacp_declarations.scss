@@ -177,3 +177,54 @@ Styles by National agency of Corruption Prevention with some minor adjustements
         font-style: normal;
     }
 }
+
+#nacp-toc {
+    $w: 300px;
+    $pad: 20px;
+
+    position: fixed;
+    top: 50%;
+    right: 0;
+    width: $w;
+    background: white;
+    z-index: index($elements, hover);
+    font-size: 12px;
+    transform: translateY(-50%);
+    transition: all 0.3s ease-in-out;
+    padding: $pad;
+    box-sizing: border-box;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+    border-radius: 2px;
+
+    &.closed {
+        right: (-1 * $w) + $pad + $pad / 2;
+    }
+
+    ul {
+        padding-left: $pad;
+
+        li {
+            list-style: none;
+        }
+    }
+
+    #toc-collapse {
+        position: absolute;
+        top: 45%;
+        left: $pad / 2;
+        cursor: pointer;
+
+        &:before {
+            position: relative;
+            top: 1px;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            font-style: normal;
+            font-weight: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            content: '\e079'
+        }
+    }
+}

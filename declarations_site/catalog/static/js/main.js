@@ -63,8 +63,47 @@ $(function() {
         setColumnsHeights ('.search-results', '.item');
     }
 
+    //generate table of contest for nacp decls
+    function generateTocNacp() {
+
+        $( "<div id='nacp-toc'><a id='toc-collapse'></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".sub-header" );
+
+        var $headers = $('#nacp_decl header h2');
+
+        $headers.each(function( index ) {
+            //console.log( index + ": " + $( this ).text() );
+            var $this = $(this),
+                text = $this.text(),
+                a = $('<a />', {
+                    'href' : '#toc-id-' + index,
+                    'text' : text
+                });
+
+            $this.attr('id', 'toc-id-' + index);
+
+            li = $('<li />').append(a).appendTo('#nacp-toc ul');
+        });
+
+        $( "#nacp-toc" )
+            .animate({
+                right: -270
+            }, {
+                duration: 1000
+            })
+            .addClass('closed');
+
+        $(document).on('click', '#toc-collapse', function(){
+            $('#nacp-toc').toggleClass('closed').css('right', '');
+        });
+
+    }
+
     $(document).ready(function() {
         $.material.init();
+
+        if($('.declaration-page-nacp').length > 0) {
+            generateTocNacp();
+        }
 
         $("#search-form").typeahead({
             minLength: 2,
