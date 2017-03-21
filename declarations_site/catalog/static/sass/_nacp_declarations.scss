@@ -181,6 +181,10 @@ Styles by National agency of Corruption Prevention with some minor adjustements
 .nacp-section {
     &.empty {
         //background: red;
+        
+        header {
+            cursor: pointer;
+        }
     }
 }
 

@@ -87,9 +87,14 @@ $(function() {
                 $emptyMarker = $this.find('.empty-marker'),
                 emptyClass = '';
 
+            $this.find('header').children().not('h2').insertAfter($this.find('header'));
+            $this.children().not('header').wrapAll('<div class="body" />');
+
             if($emptyMarker.length > 0) {
                 emptyClass = 'empty';
                 $this.addClass(emptyClass);
+                $this.find('header').attr('data-toggle', 'collapse').attr('data-target', '#collapse-'+index).attr('aria-expanded', 'false');
+                $this.find('.body').addClass('collapse').attr('id', 'collapse-'+index).attr('aria-expanded', 'false');
             }
 
             var a = $('<a />', {
