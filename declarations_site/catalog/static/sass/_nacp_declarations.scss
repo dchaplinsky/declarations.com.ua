@@ -41,6 +41,12 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     @media (min-width: 768px) {
         width: 628px;
     }
+
+    .decl-hidden-info {
+        span {
+            width: auto;
+        }
+    }
 }
 
 #nacp_decl .line-height {
@@ -175,5 +181,145 @@ Styles by National agency of Corruption Prevention with some minor adjustements
         color: $decl-pen;
         font-family: 'arsenalitalic';
         font-style: normal;
+    }
+
+    .nacp-section {
+        &.empty {
+            //background: red;
+
+            header {
+                cursor: pointer;
+
+                h2 {
+                    &:after {
+                        content: '(інформація відсутня)';
+                        font-size: 12px;
+                        margin-left: 30px;
+                        color: #666;
+                    }
+                }
+
+                &:hover {
+                    color: white;
+
+                    h2 {
+                        background: $decl-green;
+
+                        &:after {
+                            color: white;
+                        }
+                    }
+                }
+            }
+        }
+
+        .decl-hidden-info {
+            cursor: pointer;
+            color: #666;
+            display: inline-block;
+        }
+    }
+}
+
+#nacp-toc {
+    $w: 300px;
+    $pad: 20px;
+
+    position: fixed;
+    top: 50%;
+    right: 0;
+    width: $w;
+    background: white;
+    z-index: index($elements, hover);
+    font-size: 12px;
+    transform: translateY(-50%);
+    transition: all 0.3s ease-in-out;
+    padding: $pad $pad $pad $pad + $pad / 2;
+    box-sizing: border-box;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+    border-radius: 2px;
+    cursor: pointer;
+
+    h2 {
+        padding-top: 0;
+        margin-top: 0;
+        margin-left: 10px;
+        font-size: 24px;
+    }
+
+    ul {
+        padding-left: $pad / 2;
+
+        li {
+            list-style: none;
+
+            a {
+                &.empty {
+                    color: #c3c2c2;
+                }
+            }
+        }
+    }
+
+    #toc-collapse {
+        position: absolute;
+        top: 0;
+        cursor: pointer;
+        color: gray;
+        display: inline-block;
+        left: 0;
+        height: 100%;
+        font-size: 18px;
+        background: #eee;
+        width: 25px;
+
+        span {
+            display: none;
+        }
+
+        &:before {
+            @include gi;
+            content: '\e167';
+            top: 45%;
+            left: 4px;
+            transform: rotate(90deg);
+        }
+
+        &:hover {
+            background-color: $decl-green;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+
+            &:before {
+                color: white;
+            }
+        }
+    }
+
+    &.closed {
+        right: -320px;
+
+        #toc-collapse {
+            transform: rotate(-90deg);
+            text-indent: 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+            background: white;
+            padding: 5px 20px;
+            font-family: 'Roboto Slab', serif;
+            font-weight: bold;
+            font-size: 16px;
+            left: -125px;
+            color: $decl-red;
+            top: 50%;
+            height: auto;
+            width: auto;
+
+            span {
+                display: inline-block;
+            }
+
+            &:before {
+                display: none;
+            }
+        }
     }
 }

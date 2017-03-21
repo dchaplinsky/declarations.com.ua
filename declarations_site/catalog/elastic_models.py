@@ -465,7 +465,11 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         m = re.search("<\/style>(.*)</body>", d)
         declaration_html = m.group(1)
 
-        return declaration_html.replace("</div></div></div><header><h2>", "</div></div><header><h2>")
+        # OH LORD, THAT'S NOT WHAT I'VE BEEN TAUGHT IN UNIVERSITY
+        doc = declaration_html.replace("</div></div></div><header><h2>", "</div></div><header><h2>")
+        # MY ASS IS ON FIRE
+        doc = re.sub("</table>\s*<header>", "</table></div><header>", doc)
+        return doc
 
     class Meta:
         index = 'nacp_declarations'

@@ -9,7 +9,7 @@
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Д​екларації про майно, доходи, витрати та зобов'язання фінансового характеру {{ declaration.general.last_name }} {{ declaration.general.name }} за {{ declaration.intro.declaration_year }} рік онлайн у відкритій базі даних проекту{% endif %}{% endblock %}
 
-{% block bodyclass %}not-front declaration-page{% endblock %}
+{% block bodyclass %}not-front declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
 
 {% block content %}
 <section id="page">
