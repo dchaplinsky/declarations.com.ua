@@ -178,6 +178,12 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     }
 }
 
+.nacp-section {
+    &.empty {
+        //background: red;
+    }
+}
+
 #nacp-toc {
     $w: 300px;
     $pad: 20px;
@@ -196,35 +202,67 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
     border-radius: 2px;
 
-    &.closed {
-        right: (-1 * $w) + $pad + $pad / 2;
+    h2 {
+        padding-top: 0;
+        margin-top: 0;
+        margin-left: 10px;
+        font-size: 24px;
     }
 
     ul {
-        padding-left: $pad;
+        padding-left: $pad / 2;
 
         li {
             list-style: none;
+
+            a {
+                &.empty {
+                    color: #c3c2c2;
+                }
+            }
         }
     }
 
     #toc-collapse {
         position: absolute;
         top: 45%;
-        left: $pad / 2;
         cursor: pointer;
+        color: gray;
+        display: inline-block;
+        left: $pad / 2;
+
+        span {
+            display: none;
+        }
 
         &:before {
-            position: relative;
-            top: 1px;
-            display: inline-block;
-            font-family: 'Glyphicons Halflings';
-            font-style: normal;
-            font-weight: normal;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            content: '\e079'
+            @include gi;
+            content: '\e080'
+        }
+    }
+
+    &.closed {
+        right: -320px;
+
+        #toc-collapse {
+            transform: rotate(-90deg);
+            text-indent: 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+            background: white;
+            padding: 5px 20px;
+            font-family: 'Roboto Slab', serif;
+            font-weight: bold;
+            font-size: 16px;
+            left: -125px;
+            color: $decl-red;
+
+            span {
+                display: inline-block;
+            }
+
+            &:before {
+                display: none;
+            }
         }
     }
 }
