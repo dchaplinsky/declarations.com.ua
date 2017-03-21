@@ -65,7 +65,7 @@ $(function() {
 
     //generate table of contest for nacp decls
     function generateTocNacp() {
-        $( "<div id='nacp-toc'><a id='toc-collapse' style='display: none'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".sub-header" );
+        $( "<div id='nacp-toc'><a id='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".sub-header" );
 
         //lets find all text without tag = text nodes
         $("#nacp_decl")
@@ -84,13 +84,14 @@ $(function() {
             var $this = $(this),
                 $h2 = $this.find('h2'),
                 text = $h2.text(),
-                $emptyMarker = $this.find('.empty-marker'),
+                //$emptyMarker = $this.find('.empty-marker'),
+                $someInfo = $this.find('table, .personal-info, label');
                 emptyClass = '';
 
             $this.find('header').children().not('h2').insertAfter($this.find('header'));
             $this.children().not('header').wrapAll('<div class="body" />');
 
-            if($emptyMarker.length > 0) {
+            if($someInfo.length == 0) {
                 emptyClass = 'empty';
                 $this.addClass(emptyClass);
                 $this.find('header').attr('data-toggle', 'collapse').attr('data-target', '#collapse-'+index).attr('aria-expanded', 'false');
@@ -107,27 +108,46 @@ $(function() {
             li = $('<li />').append(a).appendTo('#nacp-toc ul');
         });
 
-        $( "#nacp-toc" ).animate({
-            right: -320
-        }, 1000, function() {
-            $( "#nacp-toc" ).addClass('closed');
+        if($(window).width() < 1600) {
             $( "#toc-collapse" ).css('display', 'inline-block');
-        });
 
-        /*$(document).on('click', '#nacp-toc ul a', function(){
-            $('#nacp-toc').toggleClass('closed');
-        });*/
+            $( "#nacp-toc" ).animate({
+                right: -320
+            }, 1000, function() {
+                $( "#nacp-toc" ).addClass('closed');
+                $( "#toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
+            });
+        }
+
+        $(document).on('click', '#nacp-toc ul a', function(){
+            if($(window).width() < 1600) {
+                $('#nacp-toc').toggleClass('closed');
+            }
+        });
 
         $(document).on('click', '#toc-collapse', function(){
             $('#nacp-toc').toggleClass('closed').css('right', '');
+
+            if ($('#nacp-toc').hasClass('closed')) {
+                $('#toc-collapse').attr('data-original-title', 'Відкрити');
+            } else {
+                $('#toc-collapse').attr('data-original-title', 'Згорнути');
+            }
         });
+    }
+    
+    function replaceDeclText4Icons() {
+        $('span:contains("[Конфіденційна інформація]")').html('<div class="decl-hidden-info" data-toggle="tooltip" data-placement="top" title="Конфіденційна інформація"><span class="glyphicon glyphicon-eye-close"></span></div>');
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
     $(document).ready(function() {
         $.material.init();
+        $('[data-toggle="tooltip"]').tooltip();
 
         if($('.declaration-page-nacp').length > 0) {
             generateTocNacp();
+            replaceDeclText4Icons();
         }
 
         $("#search-form").typeahead({

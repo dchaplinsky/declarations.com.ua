@@ -41,6 +41,12 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     @media (min-width: 768px) {
         width: 628px;
     }
+
+    .decl-hidden-info {
+        span {
+            width: auto;
+        }
+    }
 }
 
 #nacp_decl .line-height {
@@ -176,14 +182,28 @@ Styles by National agency of Corruption Prevention with some minor adjustements
         font-family: 'arsenalitalic';
         font-style: normal;
     }
-}
 
-.nacp-section {
-    &.empty {
-        //background: red;
-        
-        header {
+    .nacp-section {
+        &.empty {
+            //background: red;
+
+            header {
+                cursor: pointer;
+
+                &:hover {
+                    color: white;
+
+                    h2 {
+                        background: $decl-green;
+                    }
+                }
+            }
+        }
+
+        .decl-hidden-info {
             cursor: pointer;
+            color: #666;
+            display: inline-block;
         }
     }
 }
@@ -201,10 +221,11 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     font-size: 12px;
     transform: translateY(-50%);
     transition: all 0.3s ease-in-out;
-    padding: $pad;
+    padding: $pad $pad $pad $pad + $pad / 2;
     box-sizing: border-box;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
     border-radius: 2px;
+    cursor: pointer;
 
     h2 {
         padding-top: 0;
@@ -226,14 +247,36 @@ Styles by National agency of Corruption Prevention with some minor adjustements
             }
         }
     }
+    /*.btn-container {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background: #eee;
+        width: 25px;
+
+        &:hover {
+            background-color: $decl-green;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+
+            #toc-collapse {
+                color: white;
+            }
+        }
+    }*/
 
     #toc-collapse {
         position: absolute;
-        top: 45%;
+        top: 0;
         cursor: pointer;
         color: gray;
         display: inline-block;
-        left: $pad / 2;
+        left: 0;
+        height: 100%;
+        font-size: 18px;
+        background: #eee;
+        width: 25px;
 
         span {
             display: none;
@@ -241,7 +284,19 @@ Styles by National agency of Corruption Prevention with some minor adjustements
 
         &:before {
             @include gi;
-            content: '\e080'
+            content: '\e167';
+            top: 45%;
+            left: 4px;
+            transform: rotate(90deg);
+        }
+
+        &:hover {
+            background-color: $decl-green;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+
+            &:before {
+                color: white;
+            }
         }
     }
 
@@ -259,6 +314,9 @@ Styles by National agency of Corruption Prevention with some minor adjustements
             font-size: 16px;
             left: -125px;
             color: $decl-red;
+            top: 50%;
+            height: auto;
+            width: auto;
 
             span {
                 display: inline-block;
