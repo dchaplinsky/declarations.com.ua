@@ -132,6 +132,7 @@
             text-transform: none;
             font-style: normal;
             font-family: 'arsenalregular';
+            display: none;
 
             &:after {
                 position: relative;
@@ -145,6 +146,12 @@
                 -moz-osx-font-smoothing: grayscale;
                 content: '\e114';
                 font-size: 14px;
+            }
+        }
+
+        &.collapsed {
+            span i {
+                display: inline;
             }
         }
     }
