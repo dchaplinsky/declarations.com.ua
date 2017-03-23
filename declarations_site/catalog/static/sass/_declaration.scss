@@ -113,6 +113,43 @@
     }
 }
 
+.decl-earnings {
+    header {
+        cursor: pointer;
+
+        h2 {
+            padding-right: 220px; //logo offset
+        }
+
+        &:hover {
+            h2 {
+                background-color: $decl-green;
+                color: white;
+            }
+        }
+
+        span i {
+            text-transform: none;
+            font-style: normal;
+            font-family: 'arsenalregular';
+
+            &:after {
+                position: relative;
+                top: 2px;
+                display: inline-block;
+                font-family: 'Glyphicons Halflings';
+                font-style: normal;
+                font-weight: normal;
+                line-height: 1;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+                content: '\e114';
+                font-size: 14px;
+            }
+        }
+    }
+}
+
 /* ============================================================================
   Table support
 ============================================================================ */
