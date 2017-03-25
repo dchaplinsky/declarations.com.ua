@@ -218,6 +218,16 @@ Styles by National agency of Corruption Prevention with some minor adjustements
             color: #666;
             display: inline-block;
         }
+
+        .collapse-help-text {
+            cursor: pointer;
+
+            &:before {
+                content: "\e234";
+                font-size: 22px;
+                color: #666;
+            }
+        }
     }
 }
 

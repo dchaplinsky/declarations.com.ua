@@ -74,7 +74,7 @@ $(function() {
                 // get only the text nodes
                 return this.nodeType === 3;
             })
-            .wrap( "<p class='empty-marker'></p>" );
+            .wrap( "<p></p>" );
 
         $('#nacp_decl header').each(function(){
             $(this).nextUntil("header").andSelf().wrapAll('<div class="nacp-section" />');
@@ -84,7 +84,6 @@ $(function() {
             var $this = $(this),
                 $h2 = $this.find('h2'),
                 text = $h2.text(),
-                //$emptyMarker = $this.find('.empty-marker'),
                 $someInfo = $this.find('table, .personal-info, label');
                 emptyClass = '';
 
@@ -106,6 +105,17 @@ $(function() {
 
             $this.attr('id', 'toc-id-' + index);
             li = $('<li />').append(a).appendTo('#nacp-toc ul');
+
+            // [2.2] - [15]
+            if(index > 1 && index < 16) {
+                var $body = $this.find('.body');
+                $body.each(function(index2) {
+                    $(this).find('p').nextUntil('div').andSelf().wrapAll('<div class="help-text collapse" />');
+                    var $helpText = $(this).find('.help-text');
+                    $helpText.attr('id', 'help-text-collapse-' + index).attr('aria-expanded', 'false');
+                    $('<span data-toggle="tooltip" data-placement="top" title="Пояснення щодо цього розділу декларації"><span class="collapse-help-text glyphicon glyphicon-option-horizontal" role="button" data-toggle="collapse" data-target="#help-text-collapse-' + index +'" aria-expanded="false"></span></span>').insertBefore($helpText);
+                });
+            }
         });
 
         if($(window).width() < 1600) {
