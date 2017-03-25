@@ -108,12 +108,12 @@ $(function() {
 
             // [2.2] - [15]
             if(index > 1 && index < 16) {
-                var $body = $this.find('.body'),
-                    currentSection = index;
+                var $body = $this.find('.body');
                 $body.each(function(index2) {
                     $(this).find('p').nextUntil('div').andSelf().wrapAll('<div class="help-text collapse" />');
-                    $(this).find('.help-text').attr('id', 'help-text-collapse-'+ currentSection).attr('aria-expanded', 'false');
-                    $( '<span  data-toggle="tooltip" data-placement="top" title="Пояснення щодо цього розділу декларації"><span class="collapse-help-text glyphicon glyphicon-option-horizontal" role="button" data-toggle="collapse" data-target="#help-text-collapse-' + currentSection +'" aria-expanded="false"></span></span>' ).insertBefore($(this).find('.help-text'));
+                    var $helpText = $(this).find('.help-text');
+                    $helpText.attr('id', 'help-text-collapse-' + index).attr('aria-expanded', 'false');
+                    $('<span data-toggle="tooltip" data-placement="top" title="Пояснення щодо цього розділу декларації"><span class="collapse-help-text glyphicon glyphicon-option-horizontal" role="button" data-toggle="collapse" data-target="#help-text-collapse-' + index +'" aria-expanded="false"></span></span>').insertBefore($helpText);
                 });
             }
         });
