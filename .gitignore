@@ -66,7 +66,15 @@ declarations_site/catalog/data/samples
 */figure/
 declarations.md
 .vagrant
+Vagrantfile
+
 declarations_site/media/
 node_modules/
 .sass-cache/
 00/
+declarations_bank/
+corrected.csv
+declarations.dump
+
+# Text Editor files
+.idea/
