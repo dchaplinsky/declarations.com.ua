@@ -128,6 +128,8 @@ SOCIAL_AUTH_FACEBOOK_KEY = ''
 SOCIAL_AUTH_FACEBOOK_SECRET = ''
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email'}
+
+SOCIAL_AUTH_LOGIN_ERROR_URL = '/?login_error'
 LOGOUT_REDIRECT = '/'
 
 # EMAIL_SITE_URL used for full hrefs in email templates

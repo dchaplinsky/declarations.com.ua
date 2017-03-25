@@ -1,7 +1,8 @@
 $(function() {
     var login_arg_name = 'login_to=',
+        login_err_name = 'login_error',
         username_key = 'cached_user',
-        username_html, location_href;
+        username_html;
 
     try {
         username_html = localStorage.getItem(username_key);
@@ -26,8 +27,14 @@ $(function() {
             pos = href.search(login_arg_name);
         if (pos > 0)
             href = href.substr(pos + login_arg_name.length);
+        if (href.search(login_err_name) > 0)
+            href = href.replace(login_err_name, '');
         setLoginNext(href);
         $('#login-modal').modal('show');
+    }
+
+    function showLoginErrorModal() {
+        $('#login-error-modal').modal('show');
     }
 
     function userIsAuthenticated(menu) {
@@ -83,11 +90,16 @@ $(function() {
         }
     });
 
-    location_href = window.location.pathname + window.location.search;
+    $('#show-login-modal').click(function () {
+        $('#login-error-modal').modal('hide');
+        setTimeout(showLoginModal, 500);
+    });
+
+    var full_path = window.location.pathname + window.location.search;
 
     // get user menu via ajax
     $.ajax({
-        url: '/user/login-menu/?next=' + encodeURI(location_href),
+        url: '/user/login-menu/?next=' + encodeURI(full_path),
     }).done(function (data) {
         if (data.search('logout') > 0) {
             userIsAuthenticated(data, username_key);
@@ -96,6 +108,8 @@ $(function() {
         }
     });
 
-    if (window.location.href.search(login_arg_name) > 0)
+    if (full_path.search(login_arg_name) > 0)
         setTimeout(showLoginModal, 500);
+    else if (full_path.search(login_err_name) > 0)
+       setTimeout(showLoginErrorModal, 500);
 });
