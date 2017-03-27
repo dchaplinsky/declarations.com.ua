@@ -38,6 +38,25 @@
     padding-bottom: 34px;
 }
 
+#add-one-modal,
+#add-multi-modal {
+    .modal-header {
+        background: url(../images/header.jpg) no-repeat center top;
+    }
+    .modal-body {
+        li {
+            margin: 5px 0;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+        }
+    }
+    .modal-footer {
+        padding: 7px 24px 24px;
+    }
+}
+
 #signin {
     width: 188px;
     padding: 0;
@@ -70,12 +89,21 @@
     }
 }
 
-span.social .save-search {
+.social .save-search {
     float: right;
     margin-right: 10px;
     line-height: 20px;
     background-color: #fff;
     margin: -5px 0 0 0;
+}
+
+#add-search a {
+    line-height: 20px;
+    background-color: #fff;
+}
+
+.search-page {
+    margin-top: 10px;
 }
 
 #search-list {

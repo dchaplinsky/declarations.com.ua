@@ -70,6 +70,73 @@ $(function() {
             localStorage.removeItem(username_key);
     }
 
+    function addMultiQueries() {
+        var text = $('#add-multi-modal #queries').val(),
+            queries = $.trim(text).split(/[\r\n]/),
+            max_queries = 50, counter = 0;
+
+        if (queries.length < 1) {
+            $('#queries-error').html('Нема чого додавати.');
+            return
+        }
+        if (queries.length > max_queries) {
+            $('#queries-error').html('Забагато запитів, максимум ' + max_queries);
+            return
+        }
+        $('#queries-error').html('');
+
+        var save_url = $('#add-multi').data('href');
+
+        function do_ajax() {
+            if (counter >= queries.length) {
+                location.reload();
+                return;
+            }
+
+            var q = $.trim(queries[counter]),
+                ajax_url = save_url + '?q=' + encodeURI(q);
+
+            if (q.length < 3 || q.length > 100) {
+                counter += 1;
+                return do_ajax();
+            }
+
+            $.ajax({
+                url: ajax_url,
+                success: function () {
+                    counter += 1;
+                    var ps = 100 * counter / queries.length;
+                    $('.add-progress .progress-bar').css('width', ps+'%');
+                    do_ajax();
+                },
+                error: function () {
+                    $('.add-progress').html('Виникла помилка :(');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 3000);
+                }
+            });
+        }
+
+        $('#add-multi-modal .add-form').hide();
+        $('#add-multi-modal .modal-footer').hide();
+        $('#add-multi-modal .add-progress').show();
+
+        do_ajax();
+    }
+
+    $('#add-multi-btn').on('click', function (e){
+        addMultiQueries();
+    });
+
+    $('#add-multi-modal').on('show.bs.modal', function (e) {
+        $('#add-multi-modal .add-progress').hide();
+        $('#add-multi-modal .modal-footer').show();
+        $('#add-multi-modal .add-form').show();
+        $('#add-multi-modal #queries').val('');
+        $('#add-multi-modal #queries-error').html('');
+    });
+
     $('.signin-menu a').on('click', function (e) {
         ga('send', 'event', 'user-login', e.target.className);
     });
