@@ -67,6 +67,9 @@ def save_search(request):
     if not send_newtask_notify(task):
         messages.warning(request, 'Не вдалось відправити лист на адресу %s' % task.user.email)
 
+    if request.is_ajax():
+        return HttpResponse('OK')
+
     messages.success(request, 'Завдання "%s" створено.' % task.query)
     return redirect('search_list')
 
