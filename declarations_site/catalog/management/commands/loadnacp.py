@@ -204,6 +204,10 @@ class DeclarationStaticObj(object):
             with open(html_fname, "r") as fp:
                 raw_html = fp.read()
                 html = Selector(raw_html)
+        except ValueError:
+            print(
+                "File {} or it's HTML counterpart cannot be parsed".format(json_fname))
+            return None
         except FileNotFoundError:
             print(
                 "File {} or it's HTML counterpart cannot be found".format(json_fname))
