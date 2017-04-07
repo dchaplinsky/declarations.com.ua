@@ -76,7 +76,7 @@ $(function() {
             })
             .wrap( "<p></p>" );
 
-        $('#nacp_decl header').each(function(){
+        $('#nacp_decl header:not(.decl-earnings-header)').each(function(){
             $(this).nextUntil("header").andSelf().wrapAll('<div class="nacp-section" />');
         });
 

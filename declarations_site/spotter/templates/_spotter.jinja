@@ -52,11 +52,9 @@
     </div>
 {%- endmacro %}
 {% macro spotter_button(label, query_string, from) -%}
-    <span class="social">
-        <a id="save-search" class="btn btn-raised btn-sm save-search" data-target="#login-modal"
-            href="{{ url('save_search') }}?{{ query_string }}" data-from="{{ from }}">
-        <span class="glyphicon glyphicon-plus"></span> {{ label }}</a>
-    </span>
+    <a id="save-search" class="btn btn-raised btn-sm save-search" data-target="#login-modal"
+        href="{{ url('save_search') }}?{{ query_string }}" data-from="{{ from }}">
+    <span class="glyphicon glyphicon-plus"></span> {{ label }}</a>
     <div class="modal" id="wait-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">

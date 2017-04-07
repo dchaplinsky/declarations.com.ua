@@ -55,6 +55,7 @@ h1.page-header {
     font-size: 30px;
     line-height: 60px;
     margin-bottom: 10px;
+    clear: both;
 }
 
 h1#page-header > span,
@@ -150,7 +151,6 @@ a.white:hover,
 
 .logo {
     display: block;
-    width: 135px;
     height: auto;
     margin-top: 12px;
 }
@@ -163,6 +163,7 @@ a.white:hover,
     background: none;
     padding: 8px 0;
     margin-top: 15px;
+    float: left;
 }
 
 #nav-search {
@@ -701,10 +702,11 @@ display: none;
 
 span.social {
     display: inline-block;
-}
 
-h1 span.social {
-    float: right;
+    @media (min-width: 767px) {
+        float: right;
+        margin-top: 25px;
+    }
 }
 
 .front span.social {

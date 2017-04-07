@@ -70,12 +70,14 @@
     }
 }
 
-span.social .save-search {
-    float: right;
-    margin-right: 10px;
+#save-search {
     line-height: 20px;
     background-color: #fff;
-    margin: -5px 0 0 0;
+    margin: 20px 0 20px 0;
+
+    @media (min-width: 767px) {
+        float: right;
+    }
 }
 
 #search-list {

@@ -20,12 +20,13 @@
                 <li class="active">Результати пошуку</li>
                 <li class="active">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</li>
             </ol>
+            {{ social("%s %s %s. Декларація про доходи. Цікаві дані" % (declaration.general.last_name, declaration.general.name, declaration.general.patronymic),
+                              "http://declarations.com.ua%s" % request.path,
+                              add_disqus=True) }}
         </div>
 
         <h1 id="page-header"><span itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span>
-        {{ social("%s %s %s. Декларація про доходи. Цікаві дані" % (declaration.general.last_name, declaration.general.name, declaration.general.patronymic),
-                  "http://declarations.com.ua%s" % request.path,
-                  add_disqus=True) }}
+
         {{ spotter_button("Моніторити за іменем", "q=%s+%s+%s" % (declaration.general.last_name,
                   declaration.general.name, declaration.general.patronymic), "from-declaration") }}
         </h1>
@@ -67,8 +68,8 @@
                     <div id="nacp_decl" class="nacp-decl">
                         {% set earnings = declaration.get_procurement_earnings_by_year() %}
                         {% if earnings %}
-                            <div class="nacp-section decl-earnings">
-                                <header data-toggle="collapse" data-target="#earnings" aria-expanded="false" class="collapsed">
+                            <div class="decl-earnings">
+                                <header data-toggle="collapse" data-target="#earnings" aria-expanded="false" class="collapsed decl-earnings-header">
                                     <h2><span><b>{{earnings|sum(attribute='sum_uah')|string|curformat}} UAH</b> — виторг афілійованих з декларантом компаній на державних тендерах <br/>
                                     <i>натисніть для деталізації</i></span></h2>
                                 </header>
