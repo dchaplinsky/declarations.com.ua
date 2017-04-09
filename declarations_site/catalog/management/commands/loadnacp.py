@@ -332,7 +332,7 @@ class DeclarationStaticObj(object):
             ).extract()
             if len(region_html) > 1:
                 for pattern, region in cls.region_regexps:
-                    if re.search(pattern, region_html[1].strip().lower().replace('м.', '')):
+                    if re.search(pattern, region_html[1].lower().replace('м.', '').strip()):
                         resp["general"]["post"]["region"] = region
                         break
 
