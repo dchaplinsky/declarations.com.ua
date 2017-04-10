@@ -13,7 +13,7 @@ from elasticsearch_dsl.query import Q
 import dpath.util
 
 from procurements.models import Transactions
-from .constants import CATALOG_INDICES, BANK_EDRPOUS
+from .constants import CATALOG_INDICES, BANK_EDRPOUS, INCOME_TYPES, MONETARY_ASSETS_TYPES
 from .utils import parse_fullname
 from .templatetags.catalog import parse_raw_family_string
 
@@ -491,12 +491,6 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
             "step_8.*.corporate_rights_company_code",
             "step_8.*.rights.*.ua_company_code",
             "step_9.*.beneficial_owner_company_code",
-            
-            # For now
-            "step_11.*.rights.*.ua_company_code",
-            "step_11.*.source_ua_company_code",
-            "step_12.*.organization_ua_company_code",
-            "step_12.*.rights.*.ua_company_code",
         ]
 
         src = self.nacp_orig.to_dict()
@@ -506,16 +500,23 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
                 src, path, separator='.')
 
 
-        # for section in dpath.util.values(
-        #         src, "step_11.*", separator='.'):
+        for section in dpath.util.values(
+                src, "step_11.*", separator='.'):
 
-        #     obj_type = section.get("objectType").lower()
-        #     print(obj_type)
-            # ".rights.*.ua_company_code",
-            # "step_11.*.source_ua_company_code",
+            obj_type = section.get("objectType", "").lower()
+            other_obj_type = section.get(
+                "otherObjectType", "").lower()
 
-            # "step_12.*.organization_ua_company_code",
-            # "step_12.*.rights.*.ua_company_code",
+            if obj_type in INCOME_TYPES or other_obj_type in INCOME_TYPES:
+                results += [section.get("source_ua_company_code", "")]
+
+        for section in dpath.util.values(
+                src, "step_12.*", separator='.'):
+
+            obj_type = section.get("objectType", "").lower()
+
+            if obj_type in MONETARY_ASSETS_TYPES:
+                results += [section.get("organization_ua_company_code", "")]
 
 
         results = filter(
