@@ -16,10 +16,18 @@
         </div>
         {{ flash_messages(messages) }}
         <h1 id="page-header"><span>Мої запити</span></h1>
-        <div class="page-content">
-            <p class="text-center help-footer">
-                Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "+ МОНІТОРИТИ ЦЕЙ ЗАПИТ".
-            </p>
+
+        <div id="add-search" class="text-right">
+            <a id="add-one" class="btn btn-raised btn-sm" data-toggle="modal" data-target="#add-one-modal"
+                href="#"><span class="glyphicon glyphicon-plus"></span> Додати один запит</a>
+            {% if request.user.email %}
+            <a id="add-multi" class="btn btn-raised btn-sm" data-toggle="modal" data-target="#add-multi-modal"
+                href="#" data-href={{ url('save_search') }}><span class="glyphicon glyphicon-plus"></span>
+                <span class="glyphicon glyphicon-plus"></span> Додати багато запитів</a>
+            {% endif %}
+        </div>
+
+        <div class="page-content search-page">
             <div class="box">
                 <div class="table-responsive">
                     <div id="glossarium">
@@ -76,8 +84,71 @@
                     </div>
                 </div>
             </div>
+            <p class="text-center help-footer">
+                Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "+ МОНІТОРИТИ ЦЕЙ ЗАПИТ".
+            </p>
         </div>
     </div>
 </section>
+
+<div class="modal fade add-dialog" id="add-one-modal" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Додати запити</h4>
+      </div>
+      <div class="modal-body">
+        <p>Щоб поставити запит на моніторинг:</p>
+        <ol>
+            <li>Введіть запит в пошуковий рядок що знаходиться зверху сторніки;</li>
+            <li>Спробуйте щось знайти, при необхідності уточніть запит;</li>
+            <li>В результатах пошуку нажміть кнопку "+ МОНІТОРИТИ ЦЕЙ ЗАПИТ".</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade add-dialog" id="add-multi-modal" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Додати запити</h4>
+      </div>
+      <div class="modal-body">
+        <div class="add-form">
+            <p>Впишіть запити які бажаєте моніторити по одному на рядок:</p>
+            <textarea id="queries"></textarea>
+            <span class="text-danger" id="queries-error"></span>
+        </div>
+        <div class="add-progress">
+            <div>Додаю...</div>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="0"
+                    aria-valuemin="0" aria-valuemax="100" style="">
+                <span class="sr-only"></span>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-raised" id="add-multi-btn">Додати</button>
+        <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">Відмінити</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="wait-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <h2>Зачекайте...</h2>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
