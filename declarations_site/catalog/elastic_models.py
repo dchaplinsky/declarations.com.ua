@@ -494,11 +494,13 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         ]
 
         src = self.nacp_orig.to_dict()
+        if self.intro.doc_type and self.intro.doc_type == "Форма змін":
+            return []
+
         results = []
         for path in paths:
             results += dpath.util.values(
                 src, path, separator='.')
-
 
         for section in dpath.util.values(
                 src, "step_11.*", separator='.'):
