@@ -67,7 +67,7 @@
                 {% if declaration.declaration.source == "NACP" %}
                     <div id="nacp_decl" class="nacp-decl">
                         {% set earnings = declaration.get_procurement_earnings_by_year() %}
-                        {% if earnings %}
+                        {% if earnings and false %}
                             <div class="decl-earnings">
                                 <header data-toggle="collapse" data-target="#earnings" aria-expanded="false" class="collapsed decl-earnings-header">
                                     <h2><span><b>{{earnings|sum(attribute='sum_uah')|string|curformat}} UAH</b> — виторг афілійованих з декларантом компаній на державних тендерах <br/>

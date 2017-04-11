@@ -510,11 +510,11 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
                 obj_type = section.get("objectType", "").lower()
                 other_obj_type = section.get(
                     "otherObjectType", "").lower()
+
+                if obj_type in INCOME_TYPES or other_obj_type in INCOME_TYPES:
+                    results += [section.get("source_ua_company_code", "")]
             except AttributeError:
                 pass
-
-            if obj_type in INCOME_TYPES or other_obj_type in INCOME_TYPES:
-                results += [section.get("source_ua_company_code", "")]
 
         for section in dpath.util.values(
                 src, "step_12.*", separator='.'):
@@ -522,12 +522,13 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
             try:
                 section = section or {}
                 obj_type = section.get("objectType", "").lower()
+
+                if obj_type in MONETARY_ASSETS_TYPES:
+                    results += [
+                        section.get("organization_ua_company_code", "")
+                    ]
             except AttributeError:
                 pass
-
-            if obj_type in MONETARY_ASSETS_TYPES:
-                results += [section.get("organization_ua_company_code", "")]
-
 
         results = filter(
             None,
