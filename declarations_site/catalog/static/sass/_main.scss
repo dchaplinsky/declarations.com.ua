@@ -399,6 +399,12 @@ a.white:hover,
     margin-bottom: 20px;
 }
 
+.search-page {
+    #front-searchbox {
+        visibility: hidden; //ask Dima
+    }
+}
+
 #front-searchbox form {
     background: white;
     -webkit-border-radius: 5px;

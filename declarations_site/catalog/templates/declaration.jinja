@@ -143,7 +143,7 @@
     <div class="container">
         {% set similar_declarations = declaration.similar_declarations() %}
         {% if similar_declarations %}
-        <h3>Інші декларації, знайдені за ПІБ «{{ declaration.general.full_name }}»</h3>
+        <h3 id="similar_by_sirname">Інші декларації, знайдені за ПІБ «{{ declaration.general.full_name }}»</h3>
         <div class="search-page">
             <div class="row list-group search-results">
                 {{ search_results(similar_declarations) }}
@@ -153,7 +153,7 @@
 
         {% set family_declarations = declaration.family_declarations() %}
         {% if family_declarations %}
-        <h3>Декларації осіб, що <u>можуть</u> бути родичами декларанта</h3>
+        <h3 id="similar_by_relations">Декларації осіб, що <u>можуть</u> бути родичами декларанта</h3>
         <div class="search-page">
             <div class="row list-group search-results">
                 {{ search_results(family_declarations) }}

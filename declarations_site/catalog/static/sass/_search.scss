@@ -76,3 +76,38 @@
         }
     }
 }
+
+#ex-search-form {
+    clear: both;
+
+    form {
+        .row {
+            display: flex;
+
+            .col {
+                float: none;
+            }
+        }
+    }
+
+    .col-1 {
+        .fieldset-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
+            > fieldset {
+                height: 50%;
+                margin: 0;
+            }
+        }
+    }
+
+    .col-2,
+    .col-3 {
+        fieldset {
+            height: 100%;
+        }
+    }
+
+}
