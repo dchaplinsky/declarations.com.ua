@@ -28,7 +28,7 @@
         <div id="ex-search-form">
             <form class="box" action="{{ url("search") }}" method="GET">
 
-                <div class="input-group">
+                <div class="input-group search-string">
                     <input type="text" name="q" class="form-control" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
                     <span id="search_scope" class="input-group-btn">
                         <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
@@ -130,22 +130,25 @@
                             </div>
                             <input id="search-field-region" class="linked-input" type="hidden" />
 
-                            <div>
-                                <span class="form-group">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="search-field-region_type-1"><span>Регіон прописки</span></label>
-                                    </div>
-                                </span>
-                                <span class="form-group">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="search-field-region_type-2"><span>Регіон фактичного приживання</span></label>
-                                    </div>
-                                </span>
-                                <span class="form-group">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="search-field-region_type-3"><span>Регіон задекларованної нерухомості</span></label>
-                                    </div>
-                                </span>
+                            <div class="form-group">
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="search-field-region_type" value="option1" checked="" id="search-field-region_type-1">
+                                  Регіон прописки
+                                </label>
+                              </div>
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="search-field-region_type" value="option1" id="search-field-region_type-2">
+                                  Регіон фактичного приживання
+                                </label>
+                              </div>
+                              <div class="radio">
+                                <label>
+                                  <input type="radio" name="search-field-region_type" value="option1" id="search-field-region_type-3">
+                                  Регіон задекларованної нерухомості
+                                </label>
+                              </div>
                             </div>
                         </fieldset>
                     </div>

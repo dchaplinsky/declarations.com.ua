@@ -9,3 +9,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/*
+X - equal to the letter-tracking value in Photoshop
+S - the font-size in pixels
+*/
+@mixin letter-spacing($x, $s) {
+  letter-spacing: $x * $s / 1000 * 1px;
+}
