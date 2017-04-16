@@ -36,11 +36,7 @@ def search_list(request, template_name='search_list.jinja'):
     return render(request, template_name, {'task_list': task_list})
 
 
-@login_required
-def save_search(request):
-    query = replace_apostrophes(request.GET.get("q", "")).strip()
-    deepsearch = bool(request.GET.get("deepsearch", ""))
-
+def do_save_search(request, query, deepsearch):
     if len(query) < 2:
         messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
         return redirect('search_list')
@@ -63,15 +59,32 @@ def save_search(request):
     task = SearchTask(user=request.user, query=query, deepsearch=deepsearch)
     task.save()
 
-    first_run(task)
-    if not send_newtask_notify(task):
+    if not first_run(task):
+        messages.warning(request, 'Не вдалось створити завдання "%s", спростіть запит.' % task.query)
+        task.is_deleted = True
+        task.save()
+        return redirect('search_list')
+
+    elif not send_newtask_notify(task):
         messages.warning(request, 'Не вдалось відправити лист на адресу %s' % task.user.email)
+
+    if not request.is_ajax():
+        messages.success(request, 'Завдання "%s" створено.' % task.query)
+
+    return redirect('search_list')
+
+
+@login_required
+def save_search(request):
+    query = replace_apostrophes(request.GET.get("q", "")).strip()
+    deepsearch = bool(request.GET.get("deepsearch", ""))
+
+    response = do_save_search(request, query, deepsearch)
 
     if request.is_ajax():
         return HttpResponse('OK')
 
-    messages.success(request, 'Завдання "%s" створено.' % task.query)
-    return redirect('search_list')
+    return response
 
 
 @login_required

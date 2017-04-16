@@ -25,6 +25,52 @@ def replace_apostrophes(s):
     return s.replace("`", "'").replace("’", "'")
 
 
+def base_search_query(base_search, query, deepsearch):
+    if deepsearch:
+        fields = ["_all"]
+    else:
+        fields = [
+            "general.last_name",
+            "general.name",
+            "general.patronymic",
+            "general.full_name",
+            "general.post.post",
+            "general.post.office",
+            "general.post.region",
+            "intro.declaration_year",
+            "intro.doc_type",
+            "declaration.source",
+            "declaration.url",
+        ]
+
+    if query:
+        search = base_search.query(
+            "multi_match",
+            query=query,
+            type="cross_fields",
+            operator="and",
+            fields=fields
+        )
+
+        num_words = len(re.findall(r'\w{4,}', query))
+
+        if num_words > 2 and not search.count():
+            should_match = num_words - 2 if num_words > 4 else num_words - 1
+
+            search = base_search.query(
+                "multi_match",
+                query=query,
+                type="cross_fields",
+                operator="or",
+                minimum_should_match=should_match,
+                fields=fields
+            )
+    else:
+        search = base_search.query('match_all')
+
+    return search
+
+
 def parse_fullname(person_name):
     # Extra care for initials (especialy those without space)
     person_name = re.sub("\s+", " ",

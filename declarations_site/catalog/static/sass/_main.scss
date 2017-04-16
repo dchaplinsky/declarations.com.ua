@@ -728,6 +728,17 @@ h1#page-header span.social {
     padding-left: 50px;
 }
 
+ol.social-list {
+    list-style: none;
+    background: none;
+    padding: 8px 0;
+    margin-top: 17px;
+}
+
+ol.social-list > li {
+    display: inline-block;
+}
+
 @media (max-width: 767px) {
     h1#page-header > span,
     h1.page-header > span {

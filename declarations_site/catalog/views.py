@@ -12,7 +12,7 @@ from cms_pages.models import MetaData, NewsPage, PersonMeta
 from .elastic_models import Declaration, NACPDeclaration
 from .paginator import paginated_search
 from .api import hybrid_response
-from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes
+from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes, base_search_query
 from .models import Office
 from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
@@ -69,22 +69,6 @@ def suggest(request):
 def search(request):
     query = replace_apostrophes(request.GET.get("q", ""))
     deepsearch = bool(request.GET.get("deepsearch", ""))
-    if deepsearch:
-        fields = ["_all"]
-    else:
-        fields = [
-            "general.last_name",
-            "general.name",
-            "general.patronymic",
-            "general.full_name",
-            "general.post.post",
-            "general.post.office",
-            "general.post.region",
-            "intro.declaration_year",
-            "intro.doc_type",
-            "declaration.source",
-            "declaration.url",
-        ]
 
     fmt = request.GET.get("format", "")
 
@@ -95,31 +79,12 @@ def search(request):
     else:
         base_search = Search(index=CATALOG_INDICES)
 
+    search = base_search_query(base_search, query, deepsearch)
+
     try:
         meta = PersonMeta.objects.get(fullname=query)
     except PersonMeta.DoesNotExist:
         meta = None
-
-    if query:
-        search = base_search.query(
-            "multi_match",
-            query=query,
-            type="cross_fields",
-            operator="and",
-            fields=fields
-        )
-
-        if not search.count():
-            search = base_search.query(
-                "multi_match",
-                query=query,
-                type="cross_fields",
-                operator="or",
-                minimum_should_match="2",
-                fields=fields
-            )
-    else:
-        search = base_search.query('match_all')
 
     return {
         "query": query,

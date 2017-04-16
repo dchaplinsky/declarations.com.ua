@@ -15,17 +15,21 @@
 <section id="page">
     <div class="container" itemscope itemtype="http://schema.org/Person">
         <div id="breadcrumbs">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb pull-left">
                 <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
                 <li class="active">Результати пошуку</li>
                 <li class="active">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</li>
             </ol>
+            <ol class="social-list pull-right">
+                <li>{{ social("%s %s %s. Декларація про доходи. Цікаві дані" % (
+                            declaration.general.last_name, declaration.general.name, declaration.general.patronymic),
+                            "http://declarations.com.ua%s" % request.path,
+                            add_disqus=True) }}
+                </li>
+            </ol>
+            <div class="clearfix"></div>
         </div>
-
         <h1 id="page-header"><span itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span>
-        {{ social("%s %s %s. Декларація про доходи. Цікаві дані" % (declaration.general.last_name, declaration.general.name, declaration.general.patronymic),
-                  "http://declarations.com.ua%s" % request.path,
-                  add_disqus=True) }}
         {{ spotter_button("Моніторити за іменем", "q=%s+%s+%s" % (declaration.general.last_name,
                   declaration.general.name, declaration.general.patronymic), "from-declaration") }}
         </h1>
