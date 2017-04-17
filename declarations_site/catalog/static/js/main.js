@@ -58,6 +58,42 @@ $(function() {
         $(this).toggleClass('open');
     });
 
+    //two-way-binding 'dropdown as select' and intput field
+    //eg.: <ul class="dropdown-as-select" data-linked-input="someID">
+    //     <li><a href="#" data-value="value">value</a></li>
+    //..
+    //<input id="someID" class="linked-input" value="value" />
+    $(".dropdown-as-select li a").click(function(){
+        var $dropdown = $(this).parents(".dropdown"),
+            $dropdownButton = $dropdown.find('.btn'),
+            $linkedInput = $('#' + $(this).parents(".dropdown-as-select").data('linked-input'));
+
+        $dropdownButton.html($(this).text() + ' <span class="caret"></span>');
+        $dropdownButton.val($(this).data('value'));
+        $linkedInput.val($(this).data('value'));
+
+        $dropdown.find('li').removeClass('selected');
+        $(this).parent('li').addClass('selected');
+    });
+
+    function setDropdownsValue() {
+        var $linkedInputs = $('.linked-input');
+
+        $linkedInputs.each(function( index ) {
+            var $this = $(this),
+                id = $this.attr('id'),
+                value = $this.val(),
+                $dropdownAsSelect = $("[data-linked-input='" + id + "']"),
+                $link = $dropdownAsSelect.find("[data-value='" + value + "']");
+
+            if ($link.length > 0) {
+                $dropdownAsSelect.find('li').removeClass('selected');
+                $link.parent('li').addClass('selected');
+                $link.click();
+            }
+        });
+    }//end of two-way-binding 'dropdown as select' and intput field
+
     //In case we beed to add other blocks from other pages
     function _setColumnsHeights() {
         setColumnsHeights ('.search-results', '.item');
@@ -76,7 +112,7 @@ $(function() {
             })
             .wrap( "<p></p>" );
 
-        $('#nacp_decl header').each(function(){
+        $('#nacp_decl header:not(.decl-earnings-header)').each(function(){
             $(this).nextUntil("header").andSelf().wrapAll('<div class="nacp-section" />');
         });
 
@@ -118,6 +154,16 @@ $(function() {
             }
         });
 
+        //add two blocks to TOC
+        if( $('#similar_by_sirname').length > 0 ) {
+            $('<li class="devider"></li>').appendTo('#nacp-toc ul');
+            $('<li><a href="#similar_by_sirname">Інші декларації за тим же прізвищем</a></li>').appendTo('#nacp-toc ul');
+        }
+
+        if( $('#similar_by_relations').length > 0 ) {
+            $('<li><a href="#similar_by_relations">Декларації осіб, що можуть бути родичами декларанта</a></li>').appendTo('#nacp-toc ul');
+        }
+
         if($(window).width() < 1600) {
             $( "#toc-collapse" ).css('display', 'inline-block');
 
@@ -130,9 +176,15 @@ $(function() {
         }
 
         $(document).on('click', '#nacp-toc ul a', function(){
+            event.preventDefault();
+
             if($(window).width() < 1600) {
                 $('#nacp-toc').toggleClass('closed');
             }
+
+            $('html, body').animate({
+                scrollTop: $( $.attr(this, 'href') ).offset().top
+            }, 500);
         });
 
         $(document).on('click', '#toc-collapse', function(){
@@ -154,6 +206,7 @@ $(function() {
     $(document).ready(function() {
         $.material.init();
         $('[data-toggle="tooltip"]').tooltip();
+        setDropdownsValue();
 
         if($('.declaration-page-nacp').length > 0) {
             generateTocNacp();

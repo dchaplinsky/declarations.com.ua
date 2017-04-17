@@ -59,7 +59,7 @@
                     <div class="row">
                         <div class="col col-xs-4 text-left">
                             <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
-                                <img src="{{ static("images/logo.png") }}" width="135" height="33" alt="" />
+                                <img src="{{ static("images/logo_big.png") }}" width="40" height="40" class="inline-logo" /><img src="{{ static("images/logo.png") }}" width="135" height="33" alt="" />
                             </a>
                         </div>
                         <div class="col col-xs-8 text-left pull-right" id="top-toolbar">
@@ -100,6 +100,7 @@
                                     </span>
                                 </div>
                             </form>
+                            <a class="ex-search-link" href="/search" class="text-right">Розширений пошук</a>
                         </div>
 
                         <div id="stats" class="col col-lg-3 col-md-4 col-sm-4 text-left hidden-xs pull-right">

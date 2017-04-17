@@ -2,7 +2,7 @@
 Styles by National agency of Corruption Prevention with some minor adjustements
 */
 
-#nacp_decl h2 {
+.nacp-decl h2 {
     text-align: left;
     background-color: #eee;
     padding: 10px 20px;
@@ -263,9 +263,16 @@ Styles by National agency of Corruption Prevention with some minor adjustements
         li {
             list-style: none;
 
+            &.devider {
+                display: block;
+                padding-top: 5px;
+                margin-top: 5px;
+                border-top: $decl-gray-text 1px solid;
+            }
+
             a {
                 &.empty {
-                    color: #c3c2c2;
+                    color: $decl-gray-text;
                 }
             }
         }
