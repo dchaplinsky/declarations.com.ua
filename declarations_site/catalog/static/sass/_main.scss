@@ -766,6 +766,16 @@ ol.social-list > li {
     display: inline-block;
 }
 
+.feed {
+  padding: 0 10px 0 25px;
+  background: url("../images/feed-icon.png") no-repeat 0 50%;
+  background-size: 20px 20px;
+  color: #2196f3;
+}
+.feed:hover {
+  color: #2196f3;
+}
+
 @media (max-width: 767px) {
     h1#page-header > span,
     h1.page-header > span {

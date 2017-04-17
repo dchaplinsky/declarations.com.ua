@@ -45,7 +45,7 @@ def reverse_qs(viewname, qs=None, **kwargs):
 def do_search(task):
     base_search = Search(index=CATALOG_INDICES)
     source = False
-    sort = "_doc"
+    sort = '_doc'
 
     search = base_search_query(base_search, task.query, task.deepsearch)
     search = search.sort(sort).source(source)

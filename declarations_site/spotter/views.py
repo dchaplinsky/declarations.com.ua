@@ -41,7 +41,7 @@ def do_save_search(request, query, deepsearch):
         messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
         return redirect('search_list')
 
-    if len(query) > 150:
+    if len(query) > 100 or len(query.split(' ')) > 10:
         messages.warning(request, 'Не вдалось створити завдання з таким довгим запитом.')
         return redirect('search_list')
 
@@ -60,7 +60,8 @@ def do_save_search(request, query, deepsearch):
     task.save()
 
     if not first_run(task):
-        messages.warning(request, 'Не вдалось створити завдання "%s", спростіть запит.' % task.query)
+        messages.warning(request, 'Не вдалось створити завдання, спробуйте спростити '+
+                         'запит "%s"' % task.query)
         task.is_deleted = True
         task.save()
         return redirect('search_list')

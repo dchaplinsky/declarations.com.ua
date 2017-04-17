@@ -54,7 +54,8 @@ def base_search_query(base_search, query, deepsearch):
 
         num_words = len(re.findall(r'\w{4,}', query))
 
-        if num_words > 2 and not search.count():
+        # simplify queris only in deepsearch mode
+        if deepsearch and num_words > 2 and not search.count():
             should_match = num_words - 2 if num_words > 4 else num_words - 1
 
             search = base_search.query(

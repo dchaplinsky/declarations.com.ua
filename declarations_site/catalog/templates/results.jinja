@@ -5,6 +5,8 @@
 {% block extrahead %}
 {% if results.has_previous() %}<link rel="prev" href="?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}" />{% endif %}
 {% if results.has_next() %}<link rel="next" href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" />{% endif %}
+<link href="{{ request.get_full_path() }}&amp;format=rss" rel="alternate" type="application/rss+xml" title="Результати пошуку '{{ query }}' в RSS 2.0" />
+<link href="{{ request.get_full_path() }}&amp;format=atom" rel="alternate" type="application/atom+xml" title="Результати пошуку '{{ query }}' в Atom" />
 {% endblock %}
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}{{ super() }}{% endif %}{% endblock %}
@@ -21,8 +23,9 @@
                 <li class="active">Результати пошуку</li>
             </ol>
             {{ social("Результати пошуку по: %s. " % query,
-                              "http://declarations.com.ua%s" % request.path ,
-                              add_disqus=False) }}
+                              "http://declarations.com.ua%s" % request.get_full_path() ,
+                              add_disqus=False,
+                              add_rss=True) }}
         </div>
 
         <div id="ex-search-form">
