@@ -22,6 +22,7 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="96x96" href="/static/favicon-96x96.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+        <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
         <link rel="manifest" href="/static/manifest.json">
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="/static/ms-icon-144x144.png">
@@ -59,7 +60,7 @@
                     <div class="row">
                         <div class="col col-xs-4 text-left">
                             <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
-                                <img src="{{ static("images/logo_big.png") }}" width="40" height="40" class="inline-logo" /><img src="{{ static("images/logo.png") }}" width="135" height="33" alt="" />
+                                <img src="{{ static("images/logo_big.png") }}" width="40" height="40" class="inline-logo hidden-xs" /><img src="{{ static("images/logo.png") }}" width="135" height="33" alt="" />
                             </a>
                         </div>
                         <div class="col col-xs-8 text-left pull-right" id="top-toolbar">
@@ -91,7 +92,7 @@
                         <div id="front-searchbox" class="searchbox col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <form action="{{ url("search") }}" method="GET">
                                 <div class="input-group">
-                                    <input type="text" name="q" class="form-control" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                                    <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
                                     <span id="search_scope" class="input-group-btn">
                                         <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
                                     </span>
@@ -133,12 +134,16 @@
             <div class="container">
                 <div class="copirights-logos">
                     <div class="cl-block">
-                        <a class ="clogos clogos_cs" href="https://www.facebook.com/kancelaristy?"  target="_blank">Канцелярська сотня</a>
+                        <a class="clogos clogos_cs" href="https://www.facebook.com/kancelaristy?"  target="_blank">Канцелярська сотня</a>
                         <span class="ctext">Проект канцелярської сотні</span>
                     </div>
                     <div class="cl-block">
-                        <a class ="clogos clogos_slab" href="http://schroedingerscatlab.com/" target="_blank">Лабораторія кота Шрьодінгера</a>
+                        <a class="clogos clogos_slab" href="http://schroedingerscatlab.com/" target="_blank">Лабораторія кота Шрьодінгера</a>
                         <span class="ctext">Фронтенд Лабораторії кота Шрьодінгера</span>
+                    </div>
+                    <div class="cl-block">
+                        <a class="clogos clogos_ok" href="http://okfactory.it/" target="_blank">OK Factory</a>
+                        <span class="ctext">SEO<br>optimization</span>
                     </div>
                 </div>
             </div>
