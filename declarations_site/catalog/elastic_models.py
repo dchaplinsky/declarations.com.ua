@@ -457,7 +457,7 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
             'doc_type': Keyword(index=True),
         }
     )
-    nacp_src = Text(index=True, analyzer='ukrainian')
+    ft_src = Text(index=True, analyzer='ukrainian')
     nacp_orig = Object(include_in_all=False, enabled=False)
 
     def raw_html(self):
