@@ -70,6 +70,27 @@ def date(value):
         except AttributeError:
             return ''
 
+@library.filter
+def datetime(value):
+    """Formats a date according to the given format."""
+    if value in (None, ''):
+        return ''
+
+    if isinstance(value, str):
+        value = dt_parse(value)
+
+    if value.hour == 0 and value.minute == 0 and value.second == 0:
+        arg = "DATE_FORMAT"
+    else:
+        arg = "DATETIME_FORMAT"
+    try:
+        return formats.date_format(value, arg)
+    except AttributeError:
+        raise
+        try:
+            return format(value, arg)
+        except AttributeError:
+            return ''
 
 VALID_POSITIONS = [
     "Син",

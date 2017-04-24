@@ -26,7 +26,7 @@
                     <li itemprop="jobTitle">{{ r.general.post.post }}</li> 
                 {% endif %}
                 {% if r.intro.date %}
-                    <li class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ r.intro.date|date }}</li>
+                    <li class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ r.intro.date|datetime }}</li>
                 {% endif %}
             </ul>
         </div>

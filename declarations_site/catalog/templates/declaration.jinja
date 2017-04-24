@@ -51,7 +51,7 @@
             {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
             {% if declaration.intro.corrected %} Уточнена <span>,</span>{% endif %}
             {% if declaration.intro.date %}
-                <span class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|date }}</span>
+                <span class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|datetime }}</span>
             {% endif %}
         </h2>
         {% if declaration.declaration.url %}

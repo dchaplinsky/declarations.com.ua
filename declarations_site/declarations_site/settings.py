@@ -143,6 +143,7 @@ LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
 
 DATE_FORMAT = "d.m.Y"
+DATETIME_FORMAT = 'd.m.Y H:i:s'
 USE_I18N = True
 USE_L10N = False
 USE_TZ = True
