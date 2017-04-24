@@ -114,6 +114,8 @@
 }
 
 .decl-earnings {
+    margin-bottom: 40px;
+
     header {
         cursor: pointer;
 
@@ -154,6 +156,39 @@
             span i {
                 display: inline;
             }
+        }
+    }
+
+    .accordion {
+        .panel {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .panel + .panel {
+            margin-top: 10px;
+        }
+
+        header {
+            padding: 0;
+            border-radius: 0;
+
+            a {
+                &:hover {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
+            span {
+                display: block;
+                line-height: 160%;
+
+                i {
+                    display: block;
+                }
+            }
+
         }
     }
 }
