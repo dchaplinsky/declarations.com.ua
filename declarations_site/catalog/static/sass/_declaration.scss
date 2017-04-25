@@ -209,7 +209,16 @@
 
         }
     }
+
+    table td.company-name {
+        text-align: left!important;
+    }
+
+    table td.amount {
+        text-align: right!important;
+    }
 }
+
 
 /* ============================================================================
   Table support
