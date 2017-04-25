@@ -31,7 +31,7 @@
                                         <tr>
                                             <td>{{ earning.year }}</td>
                                             <td>{{ earning.count }}</td>
-                                            <td><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
+                                            <td class="amount"><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -50,13 +50,13 @@
                                     <tbody>
                                         {% for earning in earnings_by_company %}
                                         <tr>
-                                            <td>
+                                            <td class="company-name">
                                                 <a href="http://z.texty.org.ua/seller/{{ earning.seller__pk }}" target="_blank">
                                                   {{ earning.seller__name }} ({{ earning.seller__code }})
                                                 </a>
                                             </td>
                                             <td>{{ earning.count }}</td>
-                                            <td><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
+                                            <td class="amount"><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -95,7 +95,7 @@
                                         <tr>
                                             <td>{{ earning.year }}</td>
                                             <td>{{ earning.count }}</td>
-                                            <td><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
+                                            <td class="amount"><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -114,13 +114,13 @@
                                     <tbody>
                                     {% for earning in earnings_by_company %}
                                     <tr>
-                                        <td>
+                                        <td class="company-name">
                                             <a href="http://z.texty.org.ua/seller/{{ earning.seller__pk }}" target="_blank">
                                                 {{ earning.seller__name }} ({{ earning.seller__code }})
                                             </a>
                                         </td>
                                         <td>{{ earning.count }}</td>
-                                        <td><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
+                                        <td class="amount"><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
                                     </tr>
                                     {% endfor %}
                                     </tbody>
