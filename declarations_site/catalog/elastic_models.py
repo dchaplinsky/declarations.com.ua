@@ -484,25 +484,25 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         )
         return doc
 
-    def related_companies(self, affiliated=True):
+    def related_companies(self, affiliated_only=True):
         results = []
         src = self.nacp_orig.to_dict()
         if self.intro.doc_type and self.intro.doc_type == "Форма змін":
             return []
 
-        if affiliated:
-            paths = [
-                "step_7.*.emitent_ua_company_code",
-                "step_7.*.rights.*.ua_company_code",
-                "step_8.*.corporate_rights_company_code",
-                "step_8.*.rights.*.ua_company_code",
-                "step_9.*.beneficial_owner_company_code",
-            ]
+        paths = [
+            "step_7.*.emitent_ua_company_code",
+            "step_7.*.rights.*.ua_company_code",
+            "step_8.*.corporate_rights_company_code",
+            "step_8.*.rights.*.ua_company_code",
+            "step_9.*.beneficial_owner_company_code",
+        ]
 
-            for path in paths:
-                results += dpath.util.values(
-                    src, path, separator='.')
-        else:
+        for path in paths:
+            results += dpath.util.values(
+                src, path, separator='.')
+
+        if not affiliated_only:
             for section in dpath.util.values(
                     src, "step_11.*", separator='.'):
 
@@ -539,18 +539,18 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
 
         return list(set(results) - BANK_EDRPOUS)
 
-    def get_procurement_earnings_by_year(self, affiliated=True):
+    def get_procurement_earnings_by_year(self, affiliated_only=True):
         return Transactions.objects. \
             select_related("seller"). \
-            filter(seller__code__in=self.related_companies(affiliated)). \
+            filter(seller__code__in=self.related_companies(affiliated_only)). \
             annotate(year=ExtractYear('date')). \
             values("year"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 
-    def get_procurement_earnings_by_company(self, affiliated=True):
+    def get_procurement_earnings_by_company(self, affiliated_only=True):
         return Transactions.objects. \
             select_related("seller"). \
-            filter(seller__code__in=self.related_companies(affiliated)). \
+            filter(seller__code__in=self.related_companies(affiliated_only)). \
             values("seller__code", "seller__pk", "seller__name"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 

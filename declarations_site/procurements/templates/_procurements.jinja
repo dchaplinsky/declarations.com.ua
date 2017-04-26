@@ -27,7 +27,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for earning in affiliated_earnings|sort(attribute="year") %}
+                                        {% for earning in affiliated_earnings|sort(attribute="year", reverse=True) %}
                                         <tr>
                                             <td>{{ earning.year }}</td>
                                             <td>{{ earning.count }}</td>
@@ -91,7 +91,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for earning in indirect_earnings|sort(attribute="year") %}
+                                        {% for earning in indirect_earnings|sort(attribute="year", reverse=True) %}
                                         <tr>
                                             <td>{{ earning.year }}</td>
                                             <td>{{ earning.count }}</td>
