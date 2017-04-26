@@ -48,7 +48,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for earning in earnings_by_company %}
+                                        {% for earning in earnings_by_company|sort(attribute="sum_uah", reverse=True) %}
                                         <tr>
                                             <td class="company-name">
                                                 <a href="http://z.texty.org.ua/seller/{{ earning.seller__pk }}" target="_blank">
@@ -112,7 +112,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {% for earning in earnings_by_company %}
+                                    {% for earning in earnings_by_company|sort(attribute="sum_uah", reverse=True) %}
                                     <tr>
                                         <td class="company-name">
                                             <a href="http://z.texty.org.ua/seller/{{ earning.seller__pk }}" target="_blank">
