@@ -16,6 +16,9 @@ def replace_hilight(s):
         "||!", '<span style="color: red">').replace("||", "</span>")
 
 
+MARGIN_SCORE = 12
+
+
 class Command(BaseCommand):
     help = 'Reunite corrected declarations with original ones'
 
@@ -78,7 +81,7 @@ class Command(BaseCommand):
                 post = resolve_hilite(
                     a, "general.post.post", a.general.post.post)
                 office = resolve_hilite(
-                    a, "general.post.office", a.general.post.post)
+                    a, "general.post.office", a.general.post.office)
                 region = resolve_hilite(
                     a, "general.post.region", a.general.post.region)
 
@@ -89,8 +92,7 @@ class Command(BaseCommand):
                     family = ", ".join(
                         sorted(
                             [f.family_name
-                                for f in getattr(a.general, "family",  [])
-                            ]
+                                for f in getattr(a.general, "family",  [])]
                         )
                     )
 
@@ -116,7 +118,7 @@ class Command(BaseCommand):
                     "cand_family": family
                 })
 
-            if a._score > 12 and pos == 0:
+            if a._score > MARGIN_SCORE and pos == 0:
                 a.original_declarations = [orig.meta.id]
                 orig.corrected_declarations = [a.meta.id]
 
@@ -267,7 +269,7 @@ class Command(BaseCommand):
         IS_MISS = 0
 
         def is_hit(rec):
-            if rec["score"] > 12:
+            if rec["score"] > MARGIN_SCORE:
                 if rec["pos"] == 0:
                     return IS_HIT
                 else:
