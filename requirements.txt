@@ -18,3 +18,4 @@ parsel==1.0.3
 glob2==0.5
 translitua==1.2.2
 raven==6.0.0
+XlsxWriter==0.9.6
