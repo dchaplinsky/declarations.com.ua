@@ -52,7 +52,7 @@
                                         <tr>
                                             <td class="company-name">
                                                 <a href="http://z.texty.org.ua/seller/{{ earning.seller__pk }}" target="_blank">
-                                                  {{ earning.seller__name }} ({{ earning.seller__code }})
+                                                  {{ earning.seller__name }}, ЄДРПОУ {{ '{:0>8}'.format(earning.seller__code) }}
                                                 </a>
                                             </td>
                                             <td>{{ earning.count }}</td>
@@ -124,7 +124,7 @@
                                     <tr>
                                         <td class="company-name">
                                             <a href="http://z.texty.org.ua/seller/{{ earning.seller__pk }}" target="_blank">
-                                                {{ earning.seller__name }} ({{ earning.seller__code }})
+                                                {{ earning.seller__name }}, ЄДРПОУ {{ '{:0>8}'.format(earning.seller__code) }}
                                             </a>
                                         </td>
                                         <td>{{ earning.count }}</td>
