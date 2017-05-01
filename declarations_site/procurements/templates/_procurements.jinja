@@ -10,7 +10,7 @@
                     <header class="panel-heading decl-earnings-header" role="tab" id="headingOne">
                         <h2 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                <span><b>{{affiliated_earnings|sum(attribute='sum_uah')|string|curformat}} UAH</b> — в яких декларант є бенефіціаром <br/>
+                                <span><b>{{ affiliated_earnings|sum(attribute='sum_uah')|string|curformat }} UAH</b> — в яких декларант є бенефіціаром <br/>
                                 <i>натисніть для деталізації</i></span>
                             </a>
                         </h2>
@@ -68,13 +68,21 @@
                         </div>
                     </div>
                 </div>
+                {% else %}
+                    <div class="panel panel-default">
+                        <header class="panel-heading decl-earnings-header" role="tab" id="headingOne">
+                            <h2 class="panel-title">
+                                <span><b>{{ "0.00"|curformat }} UAH</b> — в яких декларант є бенефіціаром</span>
+                            </h2>
+                        </header>
+                    </div>
                 {% endif %}
                 {% if indirect_earnings %}
                 <div class="panel panel-default">
                     <header class="panel-heading decl-earnings-header" role="tab" id="headingTwo">
                         <h2 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <span><b>{{indirect_earnings|sum(attribute='sum_uah')|string|curformat}} UAH</b> — пов'язаних з декларантом <br/>
+                                <span><b>{{ indirect_earnings|sum(attribute='sum_uah')|string|curformat }} UAH</b> — пов'язаних з декларантом <br/>
                                 <i>натисніть для деталізації</i></span>
                             </a>
                         </h2>
