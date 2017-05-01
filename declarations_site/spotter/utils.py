@@ -6,6 +6,7 @@ from datetime import timedelta
 from unidecode import unidecode
 from django.conf import settings
 from django.urls import reverse
+from django.http import QueryDict
 from django.utils import timezone
 from django.utils.http import urlencode
 from django.db.models import Sum
@@ -46,8 +47,9 @@ def do_search(task):
     base_search = Search(index=CATALOG_INDICES)
     source = False
     sort = '_doc'
+    params = QueryDict(task.query_params)
 
-    search = base_search_query(base_search, task.query, task.deepsearch)
+    search = base_search_query(base_search, task.query, task.deepsearch, params)
     search = search.sort(sort).source(source)
 
     if not hasattr(search, 'found_total'):

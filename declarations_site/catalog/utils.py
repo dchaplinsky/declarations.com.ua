@@ -3,6 +3,7 @@ import csv
 import os.path
 from string import capwords
 
+from elasticsearch.exceptions import TransportError
 from translitua import translit, ALL_RUSSIAN, ALL_UKRAINIAN
 from django.conf import settings
 
@@ -25,49 +26,70 @@ def replace_apostrophes(s):
     return s.replace("`", "'").replace("’", "'")
 
 
-def base_search_query(base_search, query, deepsearch):
-    if deepsearch:
-        fields = ["_all"]
-    else:
-        fields = [
-            "general.last_name",
-            "general.name",
-            "general.patronymic",
-            "general.full_name",
-            "general.post.post",
-            "general.post.office",
-            "general.post.region",
-            "intro.declaration_year",
-            "intro.doc_type",
-            "declaration.source",
-            "declaration.url",
-        ]
+def apply_term_filter(search, filters, key, field):
+    value = filters.get(key, "")
+    if value:
+        filter_kw = {field: value}
+        search = search.filter("term", **filter_kw)
+    return search
 
-    if query:
-        search = base_search.query(
-            "multi_match",
-            query=query,
-            type="cross_fields",
-            operator="and",
-            fields=fields
-        )
 
-        num_words = len(re.findall(r'\w{4,}', query))
+def apply_search_filters(search, filters):
+    search = apply_term_filter(search, filters, "declaration_year", "intro.declaration_year")
+    search = apply_term_filter(search, filters, "doc_type", "intro.doc_type")
+    return search
 
-        # simplify queris only in deepsearch mode
-        if deepsearch and num_words > 2 and not search.count():
-            should_match = num_words - 2 if num_words > 4 else num_words - 1
 
-            search = base_search.query(
-                "multi_match",
-                query=query,
-                type="cross_fields",
-                operator="or",
-                minimum_should_match=should_match,
-                fields=fields
-            )
-    else:
+QS_OPS = re.compile(r'(["*?:~(]| AND | OR | NOT | -\w)')
+QS_NOT = re.compile(r'[/]')  # do not allow regex queries
+
+
+def base_search_query(base_search, query, deepsearch, filters):
+    if not query:
         search = base_search.query('match_all')
+        search = apply_search_filters(search, filters)
+        return search
+
+    default_field = "_all" if deepsearch else "ft_src"
+
+    # try Lucene syntax query first
+    if QS_OPS.search(query) and not QS_NOT.search(query):
+        query_kw = {
+            "analyze_wildcard": True,
+            "allow_leading_wildcard": False,
+            "default_field": default_field,
+            "default_operator": "and",
+            "query": query
+        }
+
+        search = base_search.query("query_string", **query_kw)
+        search = apply_search_filters(search, filters)
+
+        try:
+            if search.count():
+                return search
+        except TransportError:
+            # if Lucene query fail return to regular
+            pass
+
+        # before pass to match_query remove all unnecessary chars
+        query = re.sub(r'["*?:~()[\]/]', '', query)
+
+    query_op = {"query": query, "operator": "and"}
+    query_kw = {default_field: query_op}
+
+    search = base_search.query("match", **query_kw)
+    search = apply_search_filters(search, filters)
+
+    nwords = len(re.findall(r'\w{4,}', query))
+
+    if nwords > 2 and not filters and not search.count():
+        should_match = nwords - int(nwords > 4) - 1
+
+        query_op["minimum_should_match"] = should_match
+        query_op["operator"] = "or"
+
+        search = base_search.query("match", **query_kw)
 
     return search
 

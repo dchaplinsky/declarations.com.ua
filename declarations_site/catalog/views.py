@@ -74,12 +74,12 @@ def search(request):
 
     # For now, until we manage how to merge together formats of old and new
     # declarations
-    if fmt == "json":
+    if fmt == "jsonx":
         base_search = Declaration.search()
     else:
         base_search = Search(index=CATALOG_INDICES)
 
-    search = base_search_query(base_search, query, deepsearch)
+    search = base_search_query(base_search, query, deepsearch, request.GET)
 
     try:
         meta = PersonMeta.objects.get(fullname=query)

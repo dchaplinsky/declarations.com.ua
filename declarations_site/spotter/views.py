@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from functools import partial
+from json import dumps
 
 from catalog.utils import replace_apostrophes
 from spotter.models import SearchTask
@@ -36,7 +37,7 @@ def search_list(request, template_name='search_list.jinja'):
     return render(request, template_name, {'task_list': task_list})
 
 
-def do_save_search(request, query, deepsearch):
+def do_save_search(request, query, deepsearch, query_params):
     if len(query) < 2:
         messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
         return redirect('search_list')
@@ -57,6 +58,7 @@ def do_save_search(request, query, deepsearch):
         return redirect('search_list')
 
     task = SearchTask(user=request.user, query=query, deepsearch=deepsearch)
+    task.query_params = query_params
     task.save()
 
     if not first_run(task):
@@ -80,7 +82,12 @@ def save_search(request):
     query = replace_apostrophes(request.GET.get("q", "")).strip()
     deepsearch = bool(request.GET.get("deepsearch", ""))
 
-    response = do_save_search(request, query, deepsearch)
+    params = request.GET.copy()
+    for key, value in params.items():
+        if not value or key in ("q", "deepsearch", "page", "format"):
+            params.pop(key)
+
+    response = do_save_search(request, query, deepsearch, params.urlencode())
 
     if request.is_ajax():
         return HttpResponse('OK')
