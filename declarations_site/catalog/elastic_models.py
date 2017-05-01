@@ -457,7 +457,7 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
             'doc_type': Keyword(index=True),
         }
     )
-    nacp_src = Text(index=True, analyzer='ukrainian')
+    ft_src = Text(index=True, analyzer='ukrainian')
     nacp_orig = Object(include_in_all=False, enabled=False)
 
     def raw_html(self):
@@ -484,7 +484,12 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         )
         return doc
 
-    def affiliated_companies(self):
+    def related_companies(self, affiliated_only=True):
+        results = []
+        src = self.nacp_orig.to_dict()
+        if self.intro.doc_type and self.intro.doc_type == "Форма змін":
+            return []
+
         paths = [
             "step_7.*.emitent_ua_company_code",
             "step_7.*.rights.*.ua_company_code",
@@ -493,42 +498,39 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
             "step_9.*.beneficial_owner_company_code",
         ]
 
-        src = self.nacp_orig.to_dict()
-        if self.intro.doc_type and self.intro.doc_type == "Форма змін":
-            return []
-
-        results = []
         for path in paths:
             results += dpath.util.values(
                 src, path, separator='.')
 
-        for section in dpath.util.values(
-                src, "step_11.*", separator='.'):
+        if not affiliated_only:
+            for section in dpath.util.values(
+                    src, "step_11.*", separator='.'):
 
-            try:
-                section = section or {}
-                obj_type = section.get("objectType", "").lower()
-                other_obj_type = section.get(
-                    "otherObjectType", "").lower()
+                try:
+                    section = section or {}
+                    obj_type = section.get("objectType", "").lower()
+                    other_obj_type = section.get(
+                        "otherObjectType", "").lower()
 
-                if obj_type in INCOME_TYPES or other_obj_type in INCOME_TYPES:
-                    results += [section.get("source_ua_company_code", "")]
-            except AttributeError:
-                pass
+                    if (obj_type in INCOME_TYPES or
+                            other_obj_type in INCOME_TYPES):
+                        results += [section.get("source_ua_company_code", "")]
+                except AttributeError:
+                    pass
 
-        for section in dpath.util.values(
-                src, "step_12.*", separator='.'):
+            for section in dpath.util.values(
+                    src, "step_12.*", separator='.'):
 
-            try:
-                section = section or {}
-                obj_type = section.get("objectType", "").lower()
+                try:
+                    section = section or {}
+                    obj_type = section.get("objectType", "").lower()
 
-                if obj_type in MONETARY_ASSETS_TYPES:
-                    results += [
-                        section.get("organization_ua_company_code", "")
-                    ]
-            except AttributeError:
-                pass
+                    if obj_type in MONETARY_ASSETS_TYPES:
+                        results += [
+                            section.get("organization_ua_company_code", "")
+                        ]
+                except AttributeError:
+                    pass
 
         results = filter(
             None,
@@ -537,18 +539,18 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
 
         return list(set(results) - BANK_EDRPOUS)
 
-    def get_procurement_earnings_by_year(self):
+    def get_procurement_earnings_by_year(self, affiliated_only=True):
         return Transactions.objects. \
             select_related("seller"). \
-            filter(seller__code__in=self.affiliated_companies()). \
+            filter(seller__code__in=self.related_companies(affiliated_only)). \
             annotate(year=ExtractYear('date')). \
             values("year"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 
-    def get_procurement_earnings_by_company(self):
+    def get_procurement_earnings_by_company(self, affiliated_only=True):
         return Transactions.objects. \
             select_related("seller"). \
-            filter(seller__code__in=self.affiliated_companies()). \
+            filter(seller__code__in=self.related_companies(affiliated_only)). \
             values("seller__code", "seller__pk", "seller__name"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 

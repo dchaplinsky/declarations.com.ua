@@ -114,6 +114,8 @@
 }
 
 .decl-earnings {
+    margin-bottom: 40px;
+
     header {
         cursor: pointer;
 
@@ -156,7 +158,67 @@
             }
         }
     }
+
+    .warning-hint {
+        padding: 10px 20px;
+        margin: 0 0 20px;
+        font-size: 17.5px;
+        border-left: 5px solid $decl-warning;
+
+        small {
+            display: block;
+            font-size: 80%;
+            line-height: 1.42857143;
+            color: #777;
+
+            &:before {
+                content: '* \00A0';
+            }
+        }
+    }
+
+    .accordion {
+        .panel {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .panel + .panel {
+            margin-top: 10px;
+        }
+
+        header {
+            padding: 0;
+            border-radius: 0;
+
+            a {
+                &:hover {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+
+            span {
+                display: block;
+                line-height: 160%;
+
+                i {
+                    display: block;
+                }
+            }
+
+        }
+    }
+
+    table td.company-name {
+        text-align: left!important;
+    }
+
+    table td.amount {
+        text-align: right!important;
+    }
 }
+
 
 /* ============================================================================
   Table support
