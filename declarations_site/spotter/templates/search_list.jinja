@@ -47,7 +47,9 @@
                                 <tr>
                                     <td>
                                         <a href="{{ url('search') }}?q={{ task.query }}{%
-                                                if task.deepsearch %}&deepsearch=on{% endif %}" title="Перейти до пошуку">
+                                                if task.deepsearch %}&deepsearch=on{% endif %}{%
+                                                if task.query_params %}&{{ task.query_params }}{% endif %}"
+                                                title="Перейти до пошуку">
                                             {{ task.query }}{% if task.deepsearch %} (шукати скрізь){% endif %}
                                         </a>
                                     </td>

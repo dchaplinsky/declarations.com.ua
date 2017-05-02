@@ -83,8 +83,8 @@ def save_search(request):
     deepsearch = bool(request.GET.get("deepsearch", ""))
 
     params = request.GET.copy()
-    for key, value in params.items():
-        if not value or key in ("q", "deepsearch", "page", "format"):
+    for key in ("q", "deepsearch", "format", "page"):
+        if key in params:
             params.pop(key)
 
     response = do_save_search(request, query, deepsearch, params.urlencode())

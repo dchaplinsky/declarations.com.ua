@@ -79,7 +79,7 @@ def search(request):
     else:
         base_search = Search(index=CATALOG_INDICES)
 
-    search = base_search_query(base_search, query, deepsearch, request.GET)
+    search = base_search_query(base_search, query, deepsearch, request.GET.copy())
 
     try:
         meta = PersonMeta.objects.get(fullname=query)

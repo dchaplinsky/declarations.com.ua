@@ -160,6 +160,9 @@ class Declaration(DocType, RelatedDeclarationsMixin):
     )
     ft_src = Text(index=True, analyzer='ukrainian')
 
+    # concatinated from set of fields for regular search (not deepsearch mode)
+    index_card = Text(index=True, analyzer='ukrainian')
+
     INCOME_SINGLE_PROPERTIES = {
         'value': Keyword(index=False),
         'value_unclear': Boolean(index=False),
@@ -437,8 +440,10 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
             'last_name': Text(index=True, analyzer='ukrainian'),
             'post': Object(
                 properties={
+                    'actual_region': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
                     'region': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
                     'office': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+                    'post_type': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
                     'post': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)})
                 }
             )
@@ -447,6 +452,11 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
     declaration = Object(
         properties={
             'date': NoneAwareDate(),
+        }
+    )
+    estate = Object(
+        properties={
+            'region': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)})
         }
     )
     intro = Object(
@@ -459,6 +469,9 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
     )
     ft_src = Text(index=True, analyzer='ukrainian')
     nacp_orig = Object(include_in_all=False, enabled=False)
+
+    # concatinated from set of fields for regular search (not deepsearch mode)
+    index_card = Text(index=True, analyzer='ukrainian')
 
     def raw_html(self):
         fname = os.path.join(

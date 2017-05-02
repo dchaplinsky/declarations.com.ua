@@ -26,17 +26,32 @@ def replace_apostrophes(s):
     return s.replace("`", "'").replace("’", "'")
 
 
-def apply_term_filter(search, filters, key, field):
-    value = filters.get(key, "")
-    if value:
-        filter_kw = {field: value}
+def apply_term_filter(search, filter_value, field):
+    if filter_value:
+        filter_kw = {field: filter_value}
         search = search.filter("term", **filter_kw)
     return search
 
 
+def apply_match_filter(search, filter_list, field, operator='or'):
+    if filter_list:
+        value = " ".join(filter_list)
+        filter_kw = {field: {'query': value, 'operator': operator}}
+        search = search.filter("match", **filter_kw)
+    return search
+
+
 def apply_search_filters(search, filters):
-    search = apply_term_filter(search, filters, "declaration_year", "intro.declaration_year")
-    search = apply_term_filter(search, filters, "doc_type", "intro.doc_type")
+    region_type = filters.get("region_type", "")
+    region_value = filters.get("region_value", "")
+    if region_type and region_value:
+        filters[region_type] = region_value
+    search = apply_term_filter(search, filters.get("declaration_year", ""), "intro.declaration_year")
+    search = apply_term_filter(search, filters.get("doc_type", ""), "intro.doc_type")
+    search = apply_term_filter(search, filters.get("region", ""), "general.post.region.raw")
+    search = apply_term_filter(search, filters.get("actual_region"), "general.post.actual_region.raw")
+    search = apply_term_filter(search, filters.get("estate_region"), "estate.region.raw")
+    search = apply_match_filter(search, filters.getlist("post_type"), "general.post.post_type")
     return search
 
 
@@ -50,7 +65,7 @@ def base_search_query(base_search, query, deepsearch, filters):
         search = apply_search_filters(search, filters)
         return search
 
-    default_field = "_all" if deepsearch else "ft_src"
+    default_field = "_all" if deepsearch else "index_card"
 
     # try Lucene syntax query first
     if QS_OPS.search(query) and not QS_NOT.search(query):

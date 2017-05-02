@@ -258,7 +258,7 @@ class Command(BaseCommand):
     def save_to_excel(self, fname):
         workbook = xlsxwriter.Workbook(fname)
         hits_worksheet = workbook.add_worksheet()
-        mediocre_worksheet = workbook.add_worksheet() 
+        mediocre_worksheet = workbook.add_worksheet()
         misses_worksheet = workbook.add_worksheet()
 
         # Set up some formats to use.

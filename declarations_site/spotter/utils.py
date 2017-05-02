@@ -47,7 +47,7 @@ def do_search(task):
     base_search = Search(index=CATALOG_INDICES)
     source = False
     sort = '_doc'
-    params = QueryDict(task.query_params)
+    params = QueryDict(task.query_params, mutable=True)
 
     search = base_search_query(base_search, task.query, task.deepsearch, params)
     search = search.sort(sort).source(source)
