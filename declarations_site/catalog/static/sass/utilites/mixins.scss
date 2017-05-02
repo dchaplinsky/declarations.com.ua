@@ -17,3 +17,21 @@ S - the font-size in pixels
 @mixin letter-spacing($x, $s) {
   letter-spacing: $x * $s / 1000 * 1px;
 }
+
+@mixin rft($mysizeValue-min, $mysizeValue-max) {
+
+  $delta: $mysizeValue-max - $mysizeValue-min;
+  $step: $delta / 3;
+
+  font-size: $mysizeValue-min * 1px;
+
+  @media (min-width: $screen-sm-min) {
+    font-size: $mysizeValue-max - $step * 2 * 1px;
+  }
+  @media (min-width: $screen-md-min) {
+    font-size: ($mysizeValue-max - $step) * 1px;
+  }
+  @media (min-width: $screen-lg-min) {
+    font-size: $mysizeValue-max * 1px;
+  }
+}

@@ -5,7 +5,15 @@ $decl-pen: #3933c5;
 $decl-red: #e95000;
 $decl-gray-text: #c3c2c2;
 $decl-warning: #aa6708;
+$bg: #EEE;
+$line: #d2d2d2;
+
+//grid
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+$screen-lg-min: 1200px;
 
 //bp
-$joinus-bp: 768px;
+$joinus-bp: $screen-sm-min;
+
 

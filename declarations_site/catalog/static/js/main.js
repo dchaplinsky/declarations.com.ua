@@ -213,7 +213,7 @@ $(function() {
             replaceDeclText4Icons();
         }
 
-        $("#search-form").typeahead({
+        $(".search-name").typeahead({
             minLength: 2,
             autoSelect: false,
             source: function(query, process) {

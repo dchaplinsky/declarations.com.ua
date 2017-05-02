@@ -32,7 +32,7 @@
             <form class="box" action="{{ url("search") }}" method="GET">
 
                 <div class="input-group search-string">
-                    <input type="text" name="q" class="form-control" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                    <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
                     <span id="search_scope" class="input-group-btn">
                         <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
                     </span>
@@ -190,7 +190,7 @@
         {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
         </h1>
         <div class="page-content">
-            <div class="btn-group">
+            <div class="btn-group toggle-view">
                 <a href="#" id="list" class="btn btn-default btn-sm">
                     <span class="glyphicon glyphicon-th-list"></span> Списком
                 </a>
@@ -198,9 +198,20 @@
                     <span class="glyphicon glyphicon-th"></span> Картками
                 </a>
             </div>
+
+            <div class="toggle-search">
+                <span>Сортувати:</span>
+                    <div class="btn-group">
+                        <a href="#" id="sort-year" class="btn btn-default btn-sm">Рік</a>
+                        <a href="#" id="sort-date" class="btn btn-default btn-sm">Дата</a>
+                        <a href="#" id="sort-name" class="btn btn-default btn-sm">П.І.Б.</a>
+                  </div>
+            </div>
+
             <div class="row list-group search-results">
                 {{ search_results(results) }}
             </div>
+
             {% if results.paginator.num_pages > 1 %}
             <ul class="pagination">
                 <li{% if not results.has_previous() %} class="disabled"{% endif %}><a href="{% if results.has_previous() %}?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}{% endif %}">«</a></li>

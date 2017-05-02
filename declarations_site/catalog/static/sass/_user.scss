@@ -15,7 +15,10 @@
 }
 
 .profile-dropdown {
-    margin-right: 10px;
+    @media(min-width:768px) {
+        margin-right: 10px;
+    }
+
     .dropdown-menu {
         width: 100%;
         min-width: 160px;

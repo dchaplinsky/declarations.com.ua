@@ -1729,7 +1729,7 @@ fieldset[disabled] .form-group .form-control {
 fieldset[disabled] .form-control,
 fieldset[disabled] .form-group .form-control {
   background-image: none;
-  border-bottom: 1px dotted #D2D2D2;
+  border-bottom: 1px dotted $line;
 }
 .form-group {
   position: relative;
@@ -2088,7 +2088,7 @@ select.form-control {
 .form-group.is-focused select.form-control {
   -webkit-box-shadow: none;
           box-shadow: none;
-  border-color: #D2D2D2;
+  border-color: $line;
 }
 select.form-control[multiple],
 .form-group.is-focused select.form-control[multiple] {
