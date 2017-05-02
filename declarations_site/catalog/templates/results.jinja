@@ -187,7 +187,7 @@
         </div>
 
         <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span>
-        {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
+        {{ spotter_button("Моніторити цей запит", request.get_full_path(), "from-search") }}
         </h1>
         <div class="page-content">
             <div class="btn-group toggle-view">
@@ -202,9 +202,8 @@
             <div class="toggle-search">
                 <span>Сортувати:</span>
                     <div class="btn-group">
-                        <a href="#" id="sort-year" class="btn btn-default btn-sm">Рік</a>
-                        <a href="#" id="sort-date" class="btn btn-default btn-sm">Дата</a>
-                        <a href="#" id="sort-name" class="btn btn-default btn-sm">П.І.Б.</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'year') }}" id="sort-year" class="btn btn-default btn-sm">Рік</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'name') }}" id="sort-name" class="btn btn-default btn-sm">П.І.Б.</a>
                   </div>
             </div>
 

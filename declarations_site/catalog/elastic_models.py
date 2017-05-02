@@ -106,7 +106,7 @@ class Declaration(DocType, RelatedDeclarationsMixin):
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
-            'full_name': Text(index=True, analyzer='ukrainian'),
+            'full_name': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
@@ -434,7 +434,7 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
-            'full_name': Text(index=True, analyzer='ukrainian'),
+            'full_name': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),

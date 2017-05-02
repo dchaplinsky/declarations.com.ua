@@ -12,7 +12,7 @@ from cms_pages.models import MetaData, NewsPage, PersonMeta
 from .elastic_models import Declaration, NACPDeclaration
 from .paginator import paginated_search
 from .api import hybrid_response
-from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes, base_search_query
+from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes, base_search_query, apply_search_sorting
 from .models import Office
 from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
@@ -80,6 +80,7 @@ def search(request):
         base_search = Search(index=CATALOG_INDICES)
 
     search = base_search_query(base_search, query, deepsearch, request.GET.copy())
+    search = apply_search_sorting(search, request.GET.get("sort", ""))
 
     try:
         meta = PersonMeta.objects.get(fullname=query)

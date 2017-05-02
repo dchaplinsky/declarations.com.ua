@@ -26,6 +26,19 @@ def replace_apostrophes(s):
     return s.replace("`", "'").replace("’", "'")
 
 
+def replace_arg(request, key, value):
+    args = request.GET.copy()
+    args[key] = value
+    return args.urlencode()
+
+
+def apply_search_sorting(search, sort=""):
+    sort_keys = {'name': 'general.full_name.raw', 'year': 'intro.declaration_year'}
+    if sort and sort in sort_keys:
+        search = search.sort(sort_keys[sort])
+    return search
+
+
 def apply_term_filter(search, filter_value, field):
     if filter_value:
         filter_kw = {field: filter_value}
@@ -98,13 +111,14 @@ def base_search_query(base_search, query, deepsearch, filters):
 
     nwords = len(re.findall(r'\w{4,}', query))
 
-    if nwords > 2 and not filters and not search.count():
+    if nwords > 2 and deepsearch and not search.count():
         should_match = nwords - int(nwords > 4) - 1
 
         query_op["minimum_should_match"] = should_match
         query_op["operator"] = "or"
 
         search = base_search.query("match", **query_kw)
+        search = apply_search_filters(search, filters)
 
     return search
 

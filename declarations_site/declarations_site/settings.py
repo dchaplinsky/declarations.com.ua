@@ -176,6 +176,9 @@ TEMPLATES = [
                 'wagtail.wagtailcore.jinja2tags.core',
                 'wagtail.wagtailimages.jinja2tags.images',
             ],
+            "globals": {
+                "replace_arg": "catalog.utils.replace_arg",
+            }
         }
     },
     {
