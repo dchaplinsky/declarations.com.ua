@@ -74,7 +74,7 @@ def search(request):
 
     # For now, until we manage how to merge together formats of old and new
     # declarations
-    if fmt == "jsonx":
+    if fmt == "json":
         base_search = Declaration.search()
     else:
         base_search = Search(index=CATALOG_INDICES)
