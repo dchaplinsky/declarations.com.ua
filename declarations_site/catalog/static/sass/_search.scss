@@ -99,6 +99,8 @@
     }
 
     form {
+        padding: 24px 24px 5px 24px;
+
         .row {
             @media(min-width:768px) {
                 display: flex;
@@ -232,6 +234,15 @@
                 color: white;
             }
         }
+    }
+
+    #clear-filters {
+        margin-top: 5px;
+        display: block;
+        text-align: right;
+        text-transform: uppercase;
+        font-size: 14px;
+        color: black;
     }
 }
 

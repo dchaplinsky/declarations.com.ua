@@ -94,6 +94,74 @@ $(function() {
         });
     }//end of two-way-binding 'dropdown as select' and intput field
 
+    function getURLParameters() {
+        var url = window.location.href,
+            result = [],
+            searchIndex = url.indexOf("?");
+
+        if (searchIndex == -1 ) return result;
+
+        var sPageURL = url.substring(searchIndex +1),
+            sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            result[i] = decodeURIComponent(sURLVariables[i]);
+        }
+        return result;
+    }
+
+    function setExFormStateFromUrl() {
+        var urlParams = getURLParameters();
+        for (var i = 0; i < urlParams.length; i++) {
+            var sParameter = urlParams[i].split('='),
+                sValue = sParameter[1],
+                sName = sParameter[0];
+
+            if(sValue.length > 0) {
+                if(sName === 'post_type') {
+                    $('input[value="' + sValue + '"]').prop('checked', true);
+                }
+
+                if(sName === 'region_type') {
+                    $('input[value="' + sValue + '"]').prop('checked', true);
+                }
+
+                if(sName === 'region_value') {
+                    $('input[name="region_value"]').val(sValue.replace("+"," "));
+                }
+
+                if(sName === 'declaration_year')  {
+                    $('input[name="declaration_year"]').val(sValue);
+                }
+
+                if(sName === 'doc_type') {
+                    $('input[name="doc_type"]').val(sValue.replace("+"," "));
+                }
+            }
+        }
+
+        $(document).on('click', '#clear-filters', function(){
+            $('input[name="declaration_year"]').val('');
+            $('input[name="doc_type"]').val('');
+            $('input[name="region_value"]').val('');
+            setDropdownsValue();
+            $(":checked").attr('checked', false);
+        });
+
+        $(document).on('submit', '#ex-form', function(){
+            if (!$('input[name="declaration_year"]').val()) {
+                $('input[name="declaration_year"]').remove();
+            }
+
+            if (!$('input[name="doc_type"]').val()) {
+                $('input[name="doc_type"]').remove();
+            }
+
+            if (!$('input[name="region_value"]').val()) {
+                $('input[name="region_value"]').remove();
+            }
+        });
+    }
+
     //In case we beed to add other blocks from other pages
     function _setColumnsHeights() {
         setColumnsHeights ('.search-results', '.item');
@@ -206,6 +274,7 @@ $(function() {
     $(document).ready(function() {
         $.material.init();
         $('[data-toggle="tooltip"]').tooltip();
+        setExFormStateFromUrl();
         setDropdownsValue();
 
         if($('.declaration-page-nacp').length > 0) {

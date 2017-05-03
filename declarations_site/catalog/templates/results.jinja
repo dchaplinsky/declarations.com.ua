@@ -29,7 +29,7 @@
         </div>
 
         <div id="ex-search-form">
-            <form class="box" action="{{ url("search") }}" method="GET">
+            <form class="box" action="{{ url("search") }}" method="GET" id="ex-form">
 
                 <div class="input-group search-string">
                     <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
@@ -127,33 +127,33 @@
                                 <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownDocType" data-linked-input="search-field-region">
                                     <li><a href="#" data-value="">Регіон:</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#" data-value="м. Київ">м. Київ</li>
-                                    <li><a href="#" data-value="Вінницька область">Вінницька область</li>
-                                    <li><a href="#" data-value="Волинська область">Волинська область</li>
-                                    <li><a href="#" data-value="Дніпропетровська область">Дніпропетровська область</li>
-                                    <li><a href="#" data-value="Донецька область">Донецька область</li>
-                                    <li><a href="#" data-value="Житомирська область">Житомирська область</li>
-                                    <li><a href="#" data-value="Закарпатська область">Закарпатська область</li>
-                                    <li><a href="#" data-value="Запорізька область">Запорізька область</li>
-                                    <li><a href="#" data-value="Івано-Франківська область">Івано-Франківська область</li>
-                                    <li><a href="#" data-value="Київська область">Київська область</li>
-                                    <li><a href="#" data-value="Кіровоградська область">Кіровоградська область</li>
-                                    <li><a href="#" data-value="Львівська область">Львівська область</li>
-                                    <li><a href="#" data-value="Луганська область">Луганська область</li>
-                                    <li><a href="#" data-value="Миколаївська область">Миколаївська область</li>
-                                    <li><a href="#" data-value="Одеська область">Одеська область</li>
-                                    <li><a href="#" data-value="Полтавська область">Полтавська область</li>
-                                    <li><a href="#" data-value="Рівненська область">Рівненська область</li>
-                                    <li><a href="#" data-value="Сумська область">Сумська область</li>
-                                    <li><a href="#" data-value="Тернопільська область">Тернопільська область</li>
-                                    <li><a href="#" data-value="Харківська область">Харківська область</li>
-                                    <li><a href="#" data-value="Херсонська область">Херсонська область</li>
-                                    <li><a href="#" data-value="Хмельницька область">Хмельницька область</li>
-                                    <li><a href="#" data-value="Черкаська область">Черкаська область</li>
-                                    <li><a href="#" data-value="Чернівецька область">Чернівецька область</li>
-                                    <li><a href="#" data-value="Чернігівська область">Чернігівська область</li>
-                                    <li><a href="#" data-value="Кримська Автономна Республіка">Кримська Автономна Республіка</li>
-                                    <li><a href="#" data-value="Севастополь">м. Севастополь</li>
+                                    <li><a href="#" data-value="м. Київ">м. Київ</a></li>
+                                    <li><a href="#" data-value="Вінницька область">Вінницька область</a></li>
+                                    <li><a href="#" data-value="Волинська область">Волинська область</a></li>
+                                    <li><a href="#" data-value="Дніпропетровська область">Дніпропетровська область</a></li>
+                                    <li><a href="#" data-value="Донецька область">Донецька область</a></li>
+                                    <li><a href="#" data-value="Житомирська область">Житомирська область</a></li>
+                                    <li><a href="#" data-value="Закарпатська область">Закарпатська область</a></li>
+                                    <li><a href="#" data-value="Запорізька область">Запорізька область</a></li>
+                                    <li><a href="#" data-value="Івано-Франківська область">Івано-Франківська область</a></li>
+                                    <li><a href="#" data-value="Київська область">Київська область</a></li>
+                                    <li><a href="#" data-value="Кіровоградська область">Кіровоградська область</a></li>
+                                    <li><a href="#" data-value="Львівська область">Львівська область</a></li>
+                                    <li><a href="#" data-value="Луганська область">Луганська область</a></li>
+                                    <li><a href="#" data-value="Миколаївська область">Миколаївська область</a></li>
+                                    <li><a href="#" data-value="Одеська область">Одеська область</a></li>
+                                    <li><a href="#" data-value="Полтавська область">Полтавська область</a></li>
+                                    <li><a href="#" data-value="Рівненська область">Рівненська область</a></li>
+                                    <li><a href="#" data-value="Сумська область">Сумська область</a></li>
+                                    <li><a href="#" data-value="Тернопільська область">Тернопільська область</a></li>
+                                    <li><a href="#" data-value="Харківська область">Харківська область</a></li>
+                                    <li><a href="#" data-value="Херсонська область">Херсонська область</a></li>
+                                    <li><a href="#" data-value="Хмельницька область">Хмельницька область</a></li>
+                                    <li><a href="#" data-value="Черкаська область">Черкаська область</a></li>
+                                    <li><a href="#" data-value="Чернівецька область">Чернівецька область</a></li>
+                                    <li><a href="#" data-value="Чернігівська область">Чернігівська область</a></li>
+                                    <li><a href="#" data-value="Кримська Автономна Республіка">Кримська Автономна Республіка</a></li>
+                                    <li><a href="#" data-value="Севастополь">м. Севастополь</a></li>
                                 </ul>
                             </div>
                             <input id="search-field-region" class="linked-input" type="hidden" name="region_value" />
@@ -182,7 +182,7 @@
                     </div>
 
                 </div>
-
+                <a id="clear-filters" href="#">Скинути усі фільтри</a>
             </form>
         </div>
 
