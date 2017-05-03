@@ -223,9 +223,9 @@ $(function() {
         });
 
         //add two blocks to TOC
-        if( $('#similar_by_sirname').length > 0 ) {
-            $('<li class="devider"></li>').appendTo('#nacp-toc ul');
-            $('<li><a href="#similar_by_sirname">Інші декларації за тим же прізвищем</a></li>').appendTo('#nacp-toc ul');
+        if( $('#similar_by_surname').length > 0 ) {
+            $('<li class="divider"></li>').appendTo('#nacp-toc ul');
+            $('<li><a href="#similar_by_surname">Інші декларації за тим же прізвищем</a></li>').appendTo('#nacp-toc ul');
         }
 
         if( $('#similar_by_relations').length > 0 ) {
