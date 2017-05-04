@@ -243,7 +243,6 @@ class Command(BaseCommand):
             cntr += 1
 
             if cntr and cntr % 5000 == 0:
-                break
                 self.stdout.write(
                     "%s declarations processed, SR: %s%%" % (cntr, success_rate / cntr * 100)
                 )
