@@ -119,6 +119,9 @@ class Command(BaseCommand):
                 })
 
             if a._score > MARGIN_SCORE and pos == 0:
+                a.original_declarations = []
+                orig.corrected_declarations = []
+
                 a.corrected_declarations = [orig.meta.id]
                 orig.original_declarations = [a.meta.id]
 
