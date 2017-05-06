@@ -45,6 +45,7 @@ class Command(BaseCommand):
         properties = mapping[index]['mappings'][doc_type]['properties']
 
         if 'index_card' not in properties:
+            sys.stdout.write('Update mapping: add index_card\n')
             index_card_properties = {
                 'properties': {
                     'index_card': Text(index=True, analyzer='ukrainian').to_dict()
@@ -53,11 +54,12 @@ class Command(BaseCommand):
             es.indices.put_mapping(index=index, doc_type=doc_type, body=index_card_properties)
 
         if 'full_name_for_sorting' not in properties['general']['properties']:
+            sys.stdout.write('Update mapping: add full_name_for_sorting\n')
             full_name_properties = {
                 'properties': {
                     'general': {
                         'properties': {
-                            'full_name_for_sorting': Keyword(index=True).to_dict()
+                            'full_name_for_sorting': Keyword(index=True, ignore_above=100).to_dict()
                         }
                     }
                 }

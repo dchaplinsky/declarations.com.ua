@@ -24,8 +24,8 @@ class SearchTask(models.Model):
     def title(self):
         title = self.query
         if not title:
-            title = "#{}".format(self.id)
-        if self.deepsearch:
+            title = "(пустий) #{}".format(self.id)
+        elif self.deepsearch:
             title += " (скрізь)"
         return title
 

@@ -107,7 +107,7 @@ class Declaration(DocType, RelatedDeclarationsMixin):
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
             'full_name': Text(index=True, analyzer='ukrainian'),
-            'full_name_for_sorting': Keyword(index=True),   # only for sorting purposes
+            'full_name_for_sorting': Keyword(index=True, ignore_above=100),   # only for sorting purposes
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
@@ -451,7 +451,7 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
             'full_name': Text(index=True, analyzer='ukrainian'),
-            'full_name_for_sorting': Keyword(index=True),   # only for sorting purposes
+            'full_name_for_sorting': Keyword(index=True, ignore_above=100),   # only for sorting purposes
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
