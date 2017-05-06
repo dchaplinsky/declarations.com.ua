@@ -27,7 +27,7 @@
             {% endif %}
         </div>
 
-        <div class="page-content search-page">
+        <div class="page-content spotter-page">
             <div class="box">
                 <div class="table-responsive">
                     <div id="glossarium">
@@ -47,8 +47,10 @@
                                 <tr>
                                     <td>
                                         <a href="{{ url('search') }}?q={{ task.query }}{%
-                                                if task.deepsearch %}&deepsearch=on{% endif %}" title="Перейти до пошуку">
-                                            {{ task.query }}{% if task.deepsearch %} (шукати скрізь){% endif %}
+                                                if task.deepsearch %}&deepsearch=on{% endif %}{%
+                                                if task.query_params %}&{{ task.query_params }}{% endif %}"
+                                                title="Перейти до пошуку">
+                                            {{ task.title }}
                                         </a>
                                     </td>
                                     <td>{{ task.found_total }}</td>

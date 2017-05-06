@@ -67,6 +67,7 @@
 {%- endmacro %}
 {% macro flash_messages(messages) -%}
     {% if messages %}
+    <div class="clearfix"></div>
     <div class="messages">
         {% for message in messages %}
         <div class="alert alert-dismissible alert-{% if message.tags %}{{ message.tags }}{% endif %}">

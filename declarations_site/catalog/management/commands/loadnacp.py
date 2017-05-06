@@ -13,7 +13,7 @@ from elasticsearch.helpers import bulk
 from elasticsearch_dsl.connections import connections
 
 from catalog.elastic_models import NACPDeclaration
-from catalog.utils import replace_apostrophes, title
+from catalog.utils import replace_apostrophes, title, concat_fields, keyword_for_sorting
 
 
 class BadJSONData(Exception):
@@ -190,6 +190,14 @@ class DeclarationStaticObj(object):
         return res
 
     @classmethod
+    def decode_region(cls, region_html):
+        if len(region_html) > 2:
+            for pattern, region in cls.region_regexps:
+                if re.search(pattern, region_html.lower().replace('м.', '').strip()):
+                    return region
+        return ""
+
+    @classmethod
     def _parse_me(cls, base_fname):
         json_fname = "{}.json".format(base_fname)
         html_fname = "{}.html".format(base_fname)
@@ -275,8 +283,10 @@ class DeclarationStaticObj(object):
             )),
             "post": {
                 "post": replace_apostrophes(data["step_1"].get("workPost", "")),
+                "post_type": replace_apostrophes(data["step_1"].get("postType", "")),
                 "office": replace_apostrophes(data["step_1"].get("workPlace", "")),
-                "region": replace_apostrophes(cls.region_types.get(data["step_1"].get("actual_region", ""), "")),
+                "actual_region": replace_apostrophes(cls.region_types.get(data["step_1"].get("actual_region", ""), "")),
+                "region": replace_apostrophes(cls.region_types.get(data["step_1"].get("region", ""), "")),
             }
         }
 
@@ -299,6 +309,35 @@ class DeclarationStaticObj(object):
 
                         "relations": member.get("subjectRelation", "")
                     })
+
+        # get regions from estate list
+        if "step_3" in data and isinstance(data["step_3"], dict) and data["step_3"]:
+            if "estate" not in resp:
+                resp["estate"] = []
+            for estate in data["step_3"].values():
+                if "region" in estate:
+                    region = replace_apostrophes(cls.region_types.get(estate.get("region", ""), ""))
+                    if region:
+                        resp["estate"].append({"region": region})
+
+        if "step_4" in data and isinstance(data["step_4"], dict) and data["step_4"]:
+            if "estate" not in resp:
+                resp["estate"] = []
+            for estate in data["step_4"].values():
+                if "region" in estate:
+                    region = replace_apostrophes(cls.region_types.get(estate.get("region", ""), ""))
+                    if region:
+                        resp["estate"].append({"region": region})
+
+        if "estate" in resp:
+            estate_list = html.css(
+                "table:contains('Місцезнаходження') td:contains('Населений пункт') span::text"
+            ).extract()
+
+            for estate in estate_list:
+                region = cls.decode_region(estate)
+                if region:
+                    resp["estate"].append({"region": region})
 
         resp['general']['full_name_suggest'] = [
             {
@@ -326,15 +365,29 @@ class DeclarationStaticObj(object):
             }
         ]
 
+        resp['general']['full_name_for_sorting'] = keyword_for_sorting(resp['general']['full_name'])
+
         if not resp["general"]["post"]["region"]:
             region_html = html.css(
                 "fieldset:contains('Зареєстроване місце проживання') .person-info:contains('Місто')::text"
             ).extract()
             if len(region_html) > 1:
-                for pattern, region in cls.region_regexps:
-                    if re.search(pattern, region_html[1].lower().replace('м.', '').strip()):
-                        resp["general"]["post"]["region"] = region
-                        break
+                resp["general"]["post"]["region"] = cls.decode_region(region_html[1])
+
+        if not resp["general"]["post"]["actual_region"]:
+            region_html = html.css(
+                "fieldset:contains('Місце фактичного проживання') .person-info:contains('Місто')::text"
+            ).extract()
+            if len(region_html) > 1:
+                resp["general"]["post"]["actual_region"] = cls.decode_region(region_html[1])
+
+        # if set only one region use it value for second one
+        if not resp["general"]["post"]["actual_region"] and resp["general"]["post"]["region"]:
+            resp["general"]["post"]["actual_region"] = resp["general"]["post"]["region"]
+        elif not resp["general"]["post"]["region"] and resp["general"]["post"]["actual_region"]:
+            resp["general"]["post"]["region"] = resp["general"]["post"]["actual_region"]
+
+        resp["index_card"] = concat_fields(resp, NACPDeclaration.INDEX_CARD_FIELDS)
 
         return NACPDeclaration(**resp).to_dict(True)
 

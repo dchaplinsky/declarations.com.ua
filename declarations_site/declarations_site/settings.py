@@ -138,6 +138,10 @@ EMAIL_SITE_URL = 'https://declarations.com.ua'
 FROM_EMAIL = 'robot@declarations.com.ua'
 EMAIL_HOST = 'localhost'
 
+RSS_AUTHOR_NAME = 'Сайт «Декларації» - проект Канцелярської сотні'
+RSS_AUTHOR_LINK = 'https://declarations.com.ua'
+RSS_AUTHOR_EMAIL = 'dbihus@declarations.com.ua'
+RSS_TTL = 10800
 
 LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
@@ -172,6 +176,9 @@ TEMPLATES = [
                 'wagtail.wagtailcore.jinja2tags.core',
                 'wagtail.wagtailimages.jinja2tags.images',
             ],
+            "globals": {
+                "replace_arg": "catalog.utils.replace_arg",
+            }
         }
     },
     {

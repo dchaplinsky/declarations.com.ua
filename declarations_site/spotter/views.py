@@ -36,42 +36,62 @@ def search_list(request, template_name='search_list.jinja'):
     return render(request, template_name, {'task_list': task_list})
 
 
+def do_save_search(request, query, deepsearch, query_params):
+    if len(query) < 2 and len(query_params.split('&')) < 2:
+        messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
+        return redirect('search_list')
+
+    if len(query) > 100 or len(query.split(' ')) > 10:
+        messages.warning(request, 'Не вдалось створити завдання з таким довгим запитом.')
+        return redirect('search_list')
+
+    if not request.user.email:
+        messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти. ' +
+            'Спочатку введіть адресу.')
+        return redirect(reverse_qs('edit_email', qs={'next': request.get_full_path()}))
+
+    # don't add twice
+    if SearchTask.objects.filter(user=request.user, query=query,
+            deepsearch=deepsearch, query_params=query_params, is_deleted=False).exists():
+        messages.warning(request, 'Таке завдання вже існує.')
+        return redirect('search_list')
+
+    task = SearchTask(user=request.user, query=query, deepsearch=deepsearch)
+    task.query_params = query_params
+    task.save()
+
+    if not first_run(task):
+        messages.warning(request, 'Не вдалось створити завдання, спробуйте спростити ' +
+                         'запит "%s"' % task.query)
+        task.is_deleted = True
+        task.save()
+        return redirect('search_list')
+
+    elif not send_newtask_notify(task):
+        messages.warning(request, 'Не вдалось відправити лист на адресу %s' % task.user.email)
+
+    if not request.is_ajax():
+        messages.success(request, 'Завдання "%s" створено.' % task.query)
+
+    return redirect('search_list')
+
+
 @login_required
 def save_search(request):
     query = replace_apostrophes(request.GET.get("q", "")).strip()
     deepsearch = bool(request.GET.get("deepsearch", ""))
 
-    if len(query) < 2:
-        messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
-        return redirect('search_list')
+    params = request.GET.copy()
+    for key in ("q", "deepsearch", "format", "page"):
+        if key in params:
+            params.pop(key)
 
-    if len(query) > 150:
-        messages.warning(request, 'Не вдалось створити завдання з таким довгим запитом.')
-        return redirect('search_list')
-
-    if not request.user.email:
-        messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти. '+
-            'Спочатку введіть адресу.')
-        return redirect(reverse_qs('edit_email', qs={'next': request.get_full_path()}))
-
-    # don't add twice
-    if SearchTask.objects.filter(user=request.user,
-            query=query, deepsearch=deepsearch, is_deleted=False).exists():
-        messages.warning(request, 'Таке завдання вже існує.')
-        return redirect('search_list')
-
-    task = SearchTask(user=request.user, query=query, deepsearch=deepsearch)
-    task.save()
-
-    first_run(task)
-    if not send_newtask_notify(task):
-        messages.warning(request, 'Не вдалось відправити лист на адресу %s' % task.user.email)
+    response = do_save_search(request, query, deepsearch, params.urlencode())
 
     if request.is_ajax():
         return HttpResponse('OK')
 
-    messages.success(request, 'Завдання "%s" створено.' % task.query)
-    return redirect('search_list')
+    return response
 
 
 @login_required

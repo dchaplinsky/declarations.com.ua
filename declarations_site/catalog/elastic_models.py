@@ -108,6 +108,7 @@ class Declaration(DocType, RelatedDeclarationsMixin):
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
             'full_name': Text(index=True, analyzer='ukrainian'),
+            'full_name_for_sorting': Keyword(index=True, ignore_above=100),   # only for sorting purposes
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
@@ -160,6 +161,24 @@ class Declaration(DocType, RelatedDeclarationsMixin):
         }
     )
     ft_src = Text(index=True, analyzer='ukrainian')
+
+    # concatinated from set of fields for regular search (not deepsearch mode)
+    index_card = Text(index=True, analyzer='ukrainian')
+
+    INDEX_CARD_FIELDS = [
+        "general.last_name",
+        "general.name",
+        "general.patronymic",
+        "general.full_name",
+        "general.post.post",
+        "general.post.office",
+        "general.post.region",
+        "general.post.actual_region",
+        "intro.declaration_year",
+        "intro.doc_type",
+        "declaration.source",
+        "declaration.url"
+    ]
 
     INCOME_SINGLE_PROPERTIES = {
         'value': Keyword(index=False),
@@ -433,13 +452,16 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
             'full_name': Text(index=True, analyzer='ukrainian'),
+            'full_name_for_sorting': Keyword(index=True, ignore_above=100),   # only for sorting purposes
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
             'post': Object(
                 properties={
+                    'actual_region': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
                     'region': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
                     'office': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+                    'post_type': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
                     'post': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)})
                 }
             )
@@ -448,6 +470,11 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
     declaration = Object(
         properties={
             'date': NoneAwareDate(),
+        }
+    )
+    estate = Object(
+        properties={
+            'region': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)})
         }
     )
     intro = Object(
@@ -460,6 +487,24 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
     )
     ft_src = Text(index=True, analyzer='ukrainian')
     nacp_orig = Object(include_in_all=False, enabled=False)
+
+    # concatinated from set of fields for regular search (not deepsearch mode)
+    index_card = Text(index=True, analyzer='ukrainian')
+
+    INDEX_CARD_FIELDS = [
+        "general.last_name",
+        "general.name",
+        "general.patronymic",
+        "general.full_name",
+        "general.post.post",
+        "general.post.office",
+        "general.post.region",
+        "general.post.actual_region",
+        "intro.declaration_year",
+        "intro.doc_type",
+        "declaration.source",
+        "declaration.url"
+    ]
 
     def raw_html(self):
         fname = os.path.join(

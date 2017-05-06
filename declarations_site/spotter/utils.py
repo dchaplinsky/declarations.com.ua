@@ -6,6 +6,7 @@ from datetime import timedelta
 from unidecode import unidecode
 from django.conf import settings
 from django.urls import reverse
+from django.http import QueryDict
 from django.utils import timezone
 from django.utils.http import urlencode
 from django.db.models import Sum
@@ -13,6 +14,7 @@ from django.template.loader import render_to_string
 from elasticsearch_dsl import Search
 from catalog.constants import CATALOG_INDICES
 from catalog.elastic_models import Declaration, NACPDeclaration
+from catalog.utils import base_search_query
 from spotter.models import TaskReport, NotifySend
 from spotter.sender import send_mail
 
@@ -42,47 +44,15 @@ def reverse_qs(viewname, qs=None, **kwargs):
 
 
 def do_search(task):
-    if task.deepsearch:
-        fields = ["_all"]
-    else:
-        fields = [
-            "general.last_name",
-            "general.name",
-            "general.patronymic",
-            "general.full_name",
-            "general.post.post",
-            "general.post.office",
-            "general.post.region",
-            "intro.declaration_year",
-            "intro.doc_type",
-            "declaration.source",
-            "declaration.url",
-        ]
-
     base_search = Search(index=CATALOG_INDICES)
     source = False
-    sort = "_doc"
+    sort = '_doc'
+    params = QueryDict(task.query_params, mutable=True)
 
-    search = base_search.query(
-        "multi_match",
-        query=task.query,
-        type="cross_fields",
-        operator="and",
-        fields=fields
-    ).sort(sort).source(source)
+    search = base_search_query(base_search, task.query, task.deepsearch, params)
+    search = search.sort(sort).source(source)
 
-    search.found_total = search.count()
-
-    if not search.found_total and task.deepsearch:
-        search = base_search.query(
-            "multi_match",
-            query=task.query,
-            type="cross_fields",
-            operator="or",
-            minimum_should_match="2",
-            fields=fields
-        ).sort(sort).source(source)
-
+    if not hasattr(search, 'found_total'):
         search.found_total = search.count()
 
     return search
@@ -155,6 +125,8 @@ def create_report(task, search):
 
 def first_run(task):
     search = do_search(task)
+    if search.found_total >= MAX_SEARCH_LIMIT:
+        return None
     report = create_report(task, search)
     return report
 

@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.http.response import HttpResponseBase
 from django.shortcuts import render
 
+from .rss import Atom1FeedResponse, RssFeedResponse
+
 
 def serialize_for_api(data):
     """Transform complex types that we use into simple ones recursively.
@@ -49,8 +51,14 @@ def hybrid_response(template_name):
             if isinstance(context, HttpResponseBase):
                 return context
 
-            if request.GET.get('format', 'html') == 'json':
+            fmt = request.GET.get('format', 'html')
+
+            if fmt == 'json':
                 return JsonResponse(serialize_for_api(context), safe=False)
+            elif fmt == 'atom':
+                return Atom1FeedResponse(request, serialize_for_api(context))
+            elif fmt == 'rss':
+                return RssFeedResponse(request, serialize_for_api(context))
             else:
                 return render(request, template_name, context)
         return func_wrapper

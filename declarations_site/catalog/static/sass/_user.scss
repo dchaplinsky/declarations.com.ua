@@ -15,7 +15,10 @@
 }
 
 .profile-dropdown {
-    margin-right: 10px;
+    @media(min-width:768px) {
+        margin-right: 10px;
+    }
+
     .dropdown-menu {
         width: 100%;
         min-width: 160px;
@@ -102,6 +105,10 @@
 #add-search a {
     line-height: 20px;
     background-color: #fff;
+}
+
+.spotter-page {
+    margin-top: 10px;
 }
 
 #search-list {

@@ -6,7 +6,7 @@ body {
 }
 
 body {
-    background: #EEE;
+    background: $bg;
     font-family: 'arsenalregular';
     font-size: 16px;
 }
@@ -56,6 +56,7 @@ h1.page-header {
     line-height: 60px;
     margin-bottom: 10px;
     clear: both;
+    @include rft(24, 30);
 }
 
 h1#page-header > span,
@@ -77,8 +78,13 @@ h1.page-header > span {
 }
 
 .page-content {
-    margin-top: 40px;
-    margin-bottom: 60px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+
+    @media(min-width:768px) {
+        margin-top: 40px;
+        margin-bottom: 60px;
+    }
 }
 
 .col {
@@ -163,7 +169,10 @@ a.white:hover,
     background: none;
     padding: 8px 0;
     margin-top: 15px;
-    float: left;
+
+    @media(min-width:768px) {
+        float: left;
+    }
 }
 
 #nav-search {
@@ -171,6 +180,22 @@ a.white:hover,
     -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
     -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
+
+    .searchbox {
+        .ex-search-link {
+            text-align: right;
+            display: block;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: black;
+            font-family: 'arsenalbold';
+            margin-top: 5px;
+
+            &:hover {
+                color: $decl-green;
+            }
+        }
+    }
 }
 
 .front #nav-search {
@@ -396,7 +421,7 @@ a.white:hover,
 /* clear padding */
 
 #front-searchbox {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 #front-searchbox form {
@@ -681,19 +706,29 @@ display: none;
 .clogos_cs {
     width: 42px;
     background: url(../images/sc-logo.png) no-repeat 0 0;
-}
 
-.clogos_cs:hover {
-    background-position: -42px 0;
+    &:hover {
+        background-position: -42px 0;
+    }
 }
 
 .clogos_slab {
     width: 60px;
     background: url(../images/slab-logo.png) no-repeat;
+
+    &:hover {
+        background: url(../images/slab-logo-ani.gif) no-repeat;
+    }
 }
 
-.clogos_slab:hover {
-    background: url(../images/slab-logo-ani.gif) no-repeat;
+.clogos_ok {
+    width: 55px;
+    background: url(../images/ok-factory-black.png) no-repeat 0 0;
+    opacity: 0.4;
+
+    &:hover {
+        opacity: 1;
+    }
 }
 
 .sub-header .glyphicon {
@@ -728,6 +763,27 @@ h1#page-header span.social {
     font-size: 12px;
     padding: 20px 0;
     padding-left: 50px;
+}
+
+ol.social-list {
+    list-style: none;
+    background: none;
+    padding: 8px 0;
+    margin-top: 17px;
+}
+
+ol.social-list > li {
+    display: inline-block;
+}
+
+.feed {
+  padding: 0 10px 0 25px;
+  background: url("../images/feed-icon.png") no-repeat 0 50%;
+  background-size: 20px 20px;
+  color: #2196f3;
+}
+.feed:hover {
+  color: #2196f3;
 }
 
 @media (max-width: 767px) {

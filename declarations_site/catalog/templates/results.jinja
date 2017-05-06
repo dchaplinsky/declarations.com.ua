@@ -1,10 +1,13 @@
 {% extends "base.jinja" %}
 {% from "_search_results.jinja" import search_results %}
+{% from "_search_form.jinja" import ex_search_form %}
 {% from "_spotter.jinja" import spotter_button -%}
 
 {% block extrahead %}
 {% if results.has_previous() %}<link rel="prev" href="?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}" />{% endif %}
 {% if results.has_next() %}<link rel="next" href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" />{% endif %}
+<link href="{{ request.get_full_path() }}&amp;format=rss" rel="alternate" type="application/rss+xml" title="Результати пошуку '{{ query }}' в RSS 2.0" />
+<link href="{{ request.get_full_path() }}&amp;format=atom" rel="alternate" type="application/atom+xml" title="Результати пошуку '{{ query }}' в Atom" />
 {% endblock %}
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}{{ super() }}{% endif %}{% endblock %}
@@ -16,21 +19,23 @@
 <section id="page">
     <div class="container">
         <div id="breadcrumbs">
-            <ol class="breadcrumb">
+            <ol class="breadcrumb pull-left">
                 <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
                 <li class="active">Результати пошуку</li>
             </ol>
             {{ social("Результати пошуку по: %s. " % query,
-                              "http://declarations.com.ua%s" % request.path ,
-                              add_disqus=False) }}
+                              "http://declarations.com.ua%s" % request.get_full_path() ,
+                              add_disqus=False,
+                              add_rss=True) }}
         </div>
 
-        <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span>
+        {{ ex_search_form(query, deepsearch) }}
 
+        <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span>
         {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
         </h1>
         <div class="page-content">
-            <div class="btn-group">
+            <div class="btn-group toggle-view">
                 <a href="#" id="list" class="btn btn-default btn-sm">
                     <span class="glyphicon glyphicon-th-list"></span> Списком
                 </a>
@@ -38,9 +43,19 @@
                     <span class="glyphicon glyphicon-th"></span> Картками
                 </a>
             </div>
+
+            <div class="toggle-search">
+                <span>Сортувати:</span>
+                    <div class="btn-group">
+                        <a href="?{{ replace_arg(request, 'sort', 'year') }}" id="sort-year" class="btn btn-default btn-sm">Рік</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'name') }}" id="sort-name" class="btn btn-default btn-sm">П.І.Б.</a>
+                  </div>
+            </div>
+
             <div class="row list-group search-results">
                 {{ search_results(results) }}
             </div>
+
             {% if results.paginator.num_pages > 1 %}
             <ul class="pagination">
                 <li{% if not results.has_previous() %} class="disabled"{% endif %}><a href="{% if results.has_previous() %}?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}{% endif %}">«</a></li>

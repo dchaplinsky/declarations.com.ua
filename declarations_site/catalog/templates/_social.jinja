@@ -1,4 +1,4 @@
-{% macro social(text, link, add_disqus=False) -%}
+{% macro social(text, link, add_disqus=False, add_rss=False) -%}
 <span class="social">
 {% if add_disqus %}
 <div class="disqus-comments-count">
@@ -9,5 +9,8 @@
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 <div class="fb-share-button" data-href="{{ link }}" data-layout="button_count"></div>
 <div class="fb-like" data-href="{{ link }}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+{% if add_rss %}
+<a href="{{ link }}&amp;format=atom" class="feed">Atom</a> <a href="{{ link }}&amp;format=rss" class="feed">RSS</a>
+{% endif %}
 </span>
 {%- endmacro %}
