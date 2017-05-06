@@ -106,7 +106,8 @@ class Declaration(DocType, RelatedDeclarationsMixin):
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
-            'full_name': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+            'full_name': Text(index=True, analyzer='ukrainian'),
+            'full_name_for_sorting': Keyword(index=True),   # only for sorting purposes
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
@@ -162,6 +163,21 @@ class Declaration(DocType, RelatedDeclarationsMixin):
 
     # concatinated from set of fields for regular search (not deepsearch mode)
     index_card = Text(index=True, analyzer='ukrainian')
+
+    INDEX_CARD_FIELDS = [
+        "general.last_name",
+        "general.name",
+        "general.patronymic",
+        "general.full_name",
+        "general.post.post",
+        "general.post.office",
+        "general.post.region",
+        "general.post.actual_region",
+        "intro.declaration_year",
+        "intro.doc_type",
+        "declaration.source",
+        "declaration.url"
+    ]
 
     INCOME_SINGLE_PROPERTIES = {
         'value': Keyword(index=False),
@@ -434,7 +450,8 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
-            'full_name': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+            'full_name': Text(index=True, analyzer='ukrainian'),
+            'full_name_for_sorting': Keyword(index=True),   # only for sorting purposes
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
@@ -472,6 +489,21 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
 
     # concatinated from set of fields for regular search (not deepsearch mode)
     index_card = Text(index=True, analyzer='ukrainian')
+
+    INDEX_CARD_FIELDS = [
+        "general.last_name",
+        "general.name",
+        "general.patronymic",
+        "general.full_name",
+        "general.post.post",
+        "general.post.office",
+        "general.post.region",
+        "general.post.actual_region",
+        "intro.declaration_year",
+        "intro.doc_type",
+        "declaration.source",
+        "declaration.url"
+    ]
 
     def raw_html(self):
         fname = os.path.join(

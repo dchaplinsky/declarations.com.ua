@@ -161,7 +161,7 @@
                             <div class="form-group">
                               <div class="radio">
                                 <label>
-                                  <input type="radio" checked="" name="region_type" value="region" id="search-field-region_type-1">
+                                  <input type="radio" name="region_type" value="region" id="search-field-region_type-1">
                                   Регіон реєстрації
                                 </label>
                               </div>
@@ -187,7 +187,7 @@
         </div>
 
         <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span>
-        {{ spotter_button("Моніторити цей запит", request.get_full_path(), "from-search") }}
+        {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
         </h1>
         <div class="page-content">
             <div class="btn-group toggle-view">

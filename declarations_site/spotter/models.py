@@ -20,6 +20,15 @@ class SearchTask(models.Model):
     def __str__(self):
         return self.query
 
+    @property
+    def title(self):
+        title = self.query
+        if not title:
+            title = "#{}".format(self.id)
+        if self.deepsearch:
+            title += " (скрізь)"
+        return title
+
 
 class TaskReport(models.Model):
     task = models.ForeignKey(SearchTask)

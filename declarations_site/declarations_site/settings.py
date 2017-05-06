@@ -138,9 +138,9 @@ EMAIL_SITE_URL = 'https://declarations.com.ua'
 FROM_EMAIL = 'robot@declarations.com.ua'
 EMAIL_HOST = 'localhost'
 
-RSS_AUTHOR_NAME = 'Сайт «Декларації» - проект канцелярської сотні'
+RSS_AUTHOR_NAME = 'Сайт «Декларації» - проект Канцелярської сотні'
 RSS_AUTHOR_LINK = 'https://declarations.com.ua'
-RSS_AUTHOR_EMAIL = 'monti.czardas@gmail.com'
+RSS_AUTHOR_EMAIL = 'dbihus@declarations.com.ua'
 RSS_TTL = 10800
 
 LANGUAGE_CODE = 'uk-ua'

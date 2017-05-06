@@ -37,7 +37,7 @@ def search_list(request, template_name='search_list.jinja'):
 
 
 def do_save_search(request, query, deepsearch, query_params):
-    if len(query) < 2:
+    if len(query) < 2 and len(query_params.split('&')) < 2:
         messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
         return redirect('search_list')
 
@@ -46,13 +46,13 @@ def do_save_search(request, query, deepsearch, query_params):
         return redirect('search_list')
 
     if not request.user.email:
-        messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти. '+
+        messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти. ' +
             'Спочатку введіть адресу.')
         return redirect(reverse_qs('edit_email', qs={'next': request.get_full_path()}))
 
     # don't add twice
-    if SearchTask.objects.filter(user=request.user,
-            query=query, deepsearch=deepsearch, is_deleted=False).exists():
+    if SearchTask.objects.filter(user=request.user, query=query,
+            deepsearch=deepsearch, query_params=query_params, is_deleted=False).exists():
         messages.warning(request, 'Таке завдання вже існує.')
         return redirect('search_list')
 
@@ -61,7 +61,7 @@ def do_save_search(request, query, deepsearch, query_params):
     task.save()
 
     if not first_run(task):
-        messages.warning(request, 'Не вдалось створити завдання, спробуйте спростити '+
+        messages.warning(request, 'Не вдалось створити завдання, спробуйте спростити ' +
                          'запит "%s"' % task.query)
         task.is_deleted = True
         task.save()

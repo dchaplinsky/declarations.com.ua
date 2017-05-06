@@ -265,7 +265,7 @@ $(function() {
             }
         });
     }
-    
+
     function replaceDeclText4Icons() {
         $('span:contains("[Конфіденційна інформація]")').html('<div class="decl-hidden-info" data-toggle="tooltip" data-placement="top" title="Конфіденційна інформація"><span class="glyphicon glyphicon-eye-close"></span></div>');
         $('[data-toggle="tooltip"]').tooltip();
@@ -298,13 +298,13 @@ $(function() {
         });
 
         // submit search form on enter (fix typeahead)
-        $('#search-form').on('keydown', function(e) {
+        $('.search-name').on('keydown', function(e) {
             if (e.keyCode == 13) {
                 var ta = $(this).data('typeahead'),
                     val = ta.$menu.find('.active').data('value');
                 if (val)
-                    $('#search-form').val(val);
-                $('#front-searchbox form').submit();
+                    $(this).val(val);
+                $(this.form).submit();
             }
         });
     });

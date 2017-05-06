@@ -1,5 +1,8 @@
+import sys
+from elasticsearch import Elasticsearch
+from elasticsearch_dsl import Text, Keyword
 from django.core.management.base import BaseCommand
-from catalog.utils import replace_apostrophes
+from catalog.utils import replace_apostrophes, concat_fields, keyword_for_sorting
 from catalog.elastic_models import Declaration
 
 
@@ -32,10 +35,41 @@ def filter_only_interesting(src):
 class Command(BaseCommand):
     help = 'Replace apostrophes in names with correct ones, enable full text search in declaration content'
 
+    def apply_migrations(self):
+        # add index_card mapping if not exists
+        index = 'declarations_v2'
+        doc_type = 'declaration'
+
+        es = Elasticsearch()
+        mapping = es.indices.get_mapping(index=index, doc_type=doc_type)
+        properties = mapping[index]['mappings'][doc_type]['properties']
+
+        if 'index_card' not in properties:
+            index_card_properties = {
+                'properties': {
+                    'index_card': Text(index=True, analyzer='ukrainian').to_dict()
+                }
+            }
+            es.indices.put_mapping(index=index, doc_type=doc_type, body=index_card_properties)
+
+        if 'full_name_for_sorting' not in properties['general']['properties']:
+            full_name_properties = {
+                'properties': {
+                    'general': {
+                        'properties': {
+                            'full_name_for_sorting': Keyword(index=True).to_dict()
+                        }
+                    }
+                }
+            }
+            es.indices.put_mapping(index=index, doc_type=doc_type, body=full_name_properties)
+
     def handle(self, *args, **options):
+        self.apply_migrations()
         all_decls = Declaration.search().query('match_all').scan()
         for decl in all_decls:
-            print('Processing decl for {}'.format(decl.general.full_name))
+            sys.stdout.write('Processing decl for {}\n'.format(decl.general.full_name))
+            sys.stdout.flush()
 
             decl.general.full_name = replace_apostrophes(decl.general.full_name)
             decl.general.name = replace_apostrophes(decl.general.name)
@@ -53,5 +87,9 @@ class Command(BaseCommand):
             }
 
             decl.ft_src = "\n".join(filter_only_interesting(decl.to_dict()))
+
+            decl.general.full_name_for_sorting = keyword_for_sorting(decl.general.full_name)
+            decl.index_card = concat_fields(decl.to_dict(),
+                                            Declaration.INDEX_CARD_FIELDS)
 
             decl.save()

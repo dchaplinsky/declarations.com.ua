@@ -24,7 +24,10 @@ def populate_feed(request, data, feed_type):
 
     current_site = get_current_site(request)
 
-    link = request.get_full_path().replace('format=', 'from_format=')
+    args = request.GET.copy()
+    args.pop('format')
+
+    link = '{}?{}'.format(request.path, args.urlencode())
     link = add_domain(current_site.domain, link, request.is_secure())
     guid = md5(request.get_full_path().encode('utf-8')).hexdigest()
 
