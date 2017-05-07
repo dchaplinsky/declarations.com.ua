@@ -315,7 +315,7 @@ class DeclarationStaticObj(object):
             if "estate" not in resp:
                 resp["estate"] = []
             for estate in data["step_3"].values():
-                if "region" in estate:
+                if isinstance(estate, dict) and "region" in estate:
                     region = replace_apostrophes(cls.region_types.get(estate.get("region", ""), ""))
                     if region:
                         resp["estate"].append({"region": region})
@@ -324,7 +324,7 @@ class DeclarationStaticObj(object):
             if "estate" not in resp:
                 resp["estate"] = []
             for estate in data["step_4"].values():
-                if "region" in estate:
+                if isinstance(estate, dict) and "region" in estate:
                     region = replace_apostrophes(cls.region_types.get(estate.get("region", ""), ""))
                     if region:
                         resp["estate"].append({"region": region})
