@@ -104,7 +104,7 @@ $(function() {
         var sPageURL = url.substring(searchIndex +1),
             sURLVariables = sPageURL.split('&');
         for (var i = 0; i < sURLVariables.length; i++) {
-            result[i] = decodeURIComponent(sURLVariables[i]);
+            result[i] = decodeURIComponent(sURLVariables[i].replace(/\+/g, '%20'));
         }
         return result;
     }
@@ -126,7 +126,7 @@ $(function() {
                 }
 
                 if(sName === 'region_value') {
-                    $('input[name="region_value"]').val(sValue.replace("+"," "));
+                    $('input[name="region_value"]').val(sValue);
                 }
 
                 if(sName === 'declaration_year')  {
@@ -134,7 +134,7 @@ $(function() {
                 }
 
                 if(sName === 'doc_type') {
-                    $('input[name="doc_type"]').val(sValue.replace("+"," "));
+                    $('input[name="doc_type"]').val(sValue);
                 }
             }
         }
