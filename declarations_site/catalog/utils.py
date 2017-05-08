@@ -164,6 +164,12 @@ def parse_fullname(person_name):
     return last_name, first_name, patronymic
 
 
+def blacklist(dct, fields):
+    return {
+        k: v for k, v in dct.items() if k not in fields
+    }
+
+
 class Transliterator(object):
     def __init__(self, *args, **kwargs):
         self.ru_translations = {}

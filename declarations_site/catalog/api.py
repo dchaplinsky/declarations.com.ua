@@ -10,7 +10,7 @@ from django.shortcuts import render
 from .rss import Atom1FeedResponse, RssFeedResponse
 
 
-def serialize_for_api(data):
+def serialize_for_api(data, new_api=False):
     """Transform complex types that we use into simple ones recursively.
     Note: recursion isn't followed when we know that transformed types aren't
     supposed to contain any more complex types.
@@ -18,22 +18,26 @@ def serialize_for_api(data):
     TODO: this is rather ugly, would look better if views/models defined
     transformations explicitly. This is hard to achieve with function-based
     views, so it's pending a CBV move."""
-
     if hasattr(data, 'to_api'):
-        return serialize_for_api(data.to_api())
+        return serialize_for_api(data.to_api(), new_api=True)
     elif isinstance(data, Response):
-        return serialize_for_api(data.hits._l_)
+        return serialize_for_api(data.hits._l_, new_api=True)
     elif isinstance(data, (AttrDict, ObjectBase)):
-        res = data.to_dict()
-        if hasattr(data, 'meta'):
-            res['id'] = data.meta.id
-        return res
+        if new_api:
+            return data.api_response()
+        else:
+            res = data.to_dict()
+            if hasattr(data, 'meta'):
+                res['id'] = data.meta.id
+            return res
     elif isinstance(data, AttrList):
         return data._l_
     elif isinstance(data, dict):
-        return {k: serialize_for_api(v) for k, v in data.items()}
+        return {
+            k: serialize_for_api(v, new_api=new_api) for k, v in data.items()
+        }
     elif isinstance(data, (list, tuple, set)):
-        return list(map(serialize_for_api, data))
+        return list(map(lambda x: serialize_for_api(x, new_api=new_api), data))
     return data
 
 
@@ -59,6 +63,11 @@ def hybrid_response(template_name):
                 return Atom1FeedResponse(request, serialize_for_api(context))
             elif fmt == 'rss':
                 return RssFeedResponse(request, serialize_for_api(context))
+            elif fmt == 'opendata':
+                return JsonResponse(
+                    serialize_for_api(context, new_api=True),
+                    safe=False
+                )
             else:
                 return render(request, template_name, context)
         return func_wrapper

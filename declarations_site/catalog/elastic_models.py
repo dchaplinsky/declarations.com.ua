@@ -6,6 +6,7 @@ from functools import reduce
 from datetime import date
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db.models.functions import ExtractYear
 from django.db.models import Sum, Count
 
@@ -15,7 +16,7 @@ import dpath.util
 
 from procurements.models import Transactions
 from .constants import CATALOG_INDICES, BANK_EDRPOUS, INCOME_TYPES, MONETARY_ASSETS_TYPES
-from .utils import parse_fullname
+from .utils import parse_fullname, blacklist
 from .templatetags.catalog import parse_raw_family_string
 
 
@@ -29,7 +30,36 @@ class NoneAwareDate(Date):
         return super(NoneAwareDate, self)._to_python(data)
 
 
-class RelatedDeclarationsMixin:
+class AbstractDeclaration(object):
+    def infocard(self):
+        pass
+
+    def raw_source(self):
+        pass
+
+    def unified_source(self):
+        pass
+
+    def related_entities(self):
+        pass
+
+    def api_response(self, fields=None):
+        all_fields = [
+            "infocard",
+            "raw_source",
+            "unified_source",
+            "related_entities"
+        ]
+
+        if fields is None:
+            fields = all_fields
+        else:
+            fields = [f for f in fields if f in all_fields]
+
+        return {
+            f: getattr(self, f)() for f in fields
+        }
+
     def similar_declarations(self):
         s = Search(index=CATALOG_INDICES)\
             .query(
@@ -101,7 +131,7 @@ class RelatedDeclarationsMixin:
                     yield member["family_name"]
 
 
-class Declaration(DocType, RelatedDeclarationsMixin):
+class Declaration(DocType, AbstractDeclaration):
     """Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
     general = Object(
@@ -441,11 +471,32 @@ class Declaration(DocType, RelatedDeclarationsMixin):
         }
     )
 
+    def raw_source(self):
+        src = self.to_dict()
+        return blacklist(src, ["ft_src", "index_card"])
+
+    def infocard(self):
+        return {
+            "first_name": self.general.name,
+            "patronymic": self.general.patronymic,
+            "last_name": self.general.last_name,
+            "office": self.general.office,
+            "position": self.general.post,
+            "source": self.declaration.source,
+            "id": self.meta.id,
+            "url": settings.SITE_URL + reverse(
+                "details", kwargs={"declaration_id": self.meta.id}
+            ),
+            "document_type": "Щорічна",
+            "is_corrected": False,
+            "created_date": self.intro.date
+        }
+
     class Meta:
         index = 'declarations_v2'
 
 
-class NACPDeclaration(DocType, RelatedDeclarationsMixin):
+class NACPDeclaration(DocType, AbstractDeclaration):
     """NACP Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
     general = Object(
@@ -611,6 +662,48 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
             ). \
             values("seller__code", "seller__pk", "seller__name"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
+
+    def infocard(self):
+        return {
+            "first_name": self.general.name,
+            "patronymic": self.general.patronymic,
+            "last_name": self.general.last_name,
+            "office": self.general.office,
+            "position": self.general.post,
+            "source": self.declaration.source,
+            "id": self.meta.id,
+            "url": settings.SITE_URL + reverse(
+                "details", kwargs={"declaration_id": self.meta.id}
+            ),
+            "document_type": self.intro.doc_type,
+            "is_corrected": self.intro.corrected,
+            "created_date": self.intro.date
+        }
+
+    def raw_source(self):
+        return {
+            "url": "https://public-api.nazk.gov.ua/v1/declaration/%s" %
+            self.meta.id.replace("nacp_", "")
+        }
+
+    def related_entities(self):
+        # Boilerplating for now
+        return {
+            "people": {
+                "family": []
+            },
+
+            "documents": {
+                "corrected": [],
+                "originals": [],
+            },
+
+            "companies": {
+                "owned": [],
+                "related": [],
+                "all": []
+            }
+        }
 
     class Meta:
         index = 'nacp_declarations'

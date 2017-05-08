@@ -1,5 +1,6 @@
-from elasticsearch_dsl import Search
+from django.conf import settings
 
+from elasticsearch_dsl import Search
 from .constants import CATALOG_INDICES
 
 
@@ -11,4 +12,10 @@ def stats_processor(request):
     return {
         'total_declarations': s.count(),
         'total_persons': s.count()  # res.aggregations.distinct_names.value
+    }
+
+
+def settings_processor(request):
+    return {
+        "SITE_URL": settings.SITE_URL
     }
