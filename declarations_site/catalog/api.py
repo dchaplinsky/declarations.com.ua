@@ -23,7 +23,7 @@ def serialize_for_api(data, new_api=False):
     elif isinstance(data, Response):
         return serialize_for_api(data.hits._l_, new_api=True)
     elif isinstance(data, (AttrDict, ObjectBase)):
-        if new_api:
+        if new_api and hasattr(data, "api_response"):
             return data.api_response()
         else:
             res = data.to_dict()

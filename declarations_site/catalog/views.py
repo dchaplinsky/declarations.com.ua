@@ -77,7 +77,10 @@ def search(request):
     if fmt == "json":
         base_search = Declaration.search()
     else:
-        base_search = Search(index=CATALOG_INDICES)
+        base_search = Search(index=CATALOG_INDICES).doc_type(
+            NACPDeclaration, Declaration
+        )
+
 
     search = base_search_query(base_search, query, deepsearch, request.GET.copy())
     search = apply_search_sorting(search, request.GET.get("sort", ""))
@@ -98,11 +101,14 @@ def search(request):
 @hybrid_response('results.jinja')
 def fuzzy_search(request):
     query = request.GET.get("q", "")
-    search = Search(index=["nacp_declarations", "declarations_v2"])
+    base_search = Search(
+        index=["nacp_declarations", "declarations_v2"]).doc_type(
+        NACPDeclaration, Declaration
+    )
     fuzziness = 1
 
     if query:
-        search = search.query({
+        search = base_search.query({
             "match": {
                 "general.full_name": {
                     "query": query,
@@ -112,7 +118,7 @@ def fuzzy_search(request):
         })
 
         while search.count() == 0 and fuzziness < 3:
-            search = Declaration.search().query({
+            search = base_search.query({
                 "match": {
                     "general.full_name": {
                         "query": query,
@@ -123,7 +129,7 @@ def fuzzy_search(request):
             })
             fuzziness += 1
     else:
-        search = search.query('match_all')
+        search = base_search.query('match_all')
 
     return {
         "query": query,
@@ -209,8 +215,8 @@ def region(request, region_name):
 
 @hybrid_response('results.jinja')
 def region_office(request, region_name, office_name):
-    # Not using NACP declarations yet to not to blown the list of offices
     search = Search(index=CATALOG_INDICES)\
+        .doc_type(NACPDeclaration, Declaration)\
         .query('term', general__post__region__raw=region_name)\
         .query('term', general__post__office__raw=office_name)
 
@@ -223,6 +229,7 @@ def region_office(request, region_name, office_name):
 @hybrid_response('results.jinja')
 def office(request, office_name):
     search = Search(index=CATALOG_INDICES)\
+        .doc_type(NACPDeclaration, Declaration)\
         .query('term', general__post__office__raw=office_name)
 
     return {

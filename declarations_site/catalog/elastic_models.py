@@ -668,8 +668,8 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             "first_name": self.general.name,
             "patronymic": self.general.patronymic,
             "last_name": self.general.last_name,
-            "office": self.general.office,
-            "position": self.general.post,
+            "office": self.general.post.office,
+            "position": self.general.post.post,
             "source": self.declaration.source,
             "id": self.meta.id,
             "url": settings.SITE_URL + reverse(
