@@ -3,6 +3,7 @@ import json
 import os.path
 from operator import or_
 from functools import reduce
+from datetime import date
 
 from django.conf import settings
 from django.db.models.functions import ExtractYear
@@ -585,17 +586,29 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         return list(set(results) - BANK_EDRPOUS)
 
     def get_procurement_earnings_by_year(self, affiliated_only=True):
+        # Safety valve against transactions with malformed dates
+        next_year_dt = date(date.today().year + 1, 1, 1)
+
         return Transactions.objects. \
             select_related("seller"). \
-            filter(seller__code__in=self.related_companies(affiliated_only)). \
+            filter(
+                seller__code__in=self.related_companies(affiliated_only),
+                date__lt=next_year_dt
+            ). \
             annotate(year=ExtractYear('date')). \
             values("year"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 
     def get_procurement_earnings_by_company(self, affiliated_only=True):
+        # Safety valve against transactions with malformed dates
+        next_year_dt = date(date.today().year + 1, 1, 1)
+
         return Transactions.objects. \
             select_related("seller"). \
-            filter(seller__code__in=self.related_companies(affiliated_only)). \
+            filter(
+                seller__code__in=self.related_companies(affiliated_only),
+                date__lt=next_year_dt
+            ). \
             values("seller__code", "seller__pk", "seller__name"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 
