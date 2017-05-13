@@ -110,7 +110,8 @@ $(function() {
     }
 
     function setExFormStateFromUrl() {
-        var urlParams = getURLParameters();
+        var urlParams = getURLParameters(),
+            usedParams = 0;
         for (var i = 0; i < urlParams.length; i++) {
             var sParameter = urlParams[i].split('='),
                 sValue = sParameter[1],
@@ -119,24 +120,35 @@ $(function() {
             if(sValue.length > 0) {
                 if(sName === 'post_type') {
                     $('input[value="' + sValue + '"]').prop('checked', true);
+                    usedParams++;
                 }
 
                 if(sName === 'region_type') {
                     $('input[value="' + sValue + '"]').prop('checked', true);
+                    usedParams++;
                 }
 
                 if(sName === 'region_value') {
                     $('input[name="region_value"]').val(sValue);
+                    usedParams++
                 }
 
                 if(sName === 'declaration_year')  {
                     $('input[name="declaration_year"]').val(sValue);
+                    usedParams++
                 }
 
                 if(sName === 'doc_type') {
                     $('input[name="doc_type"]').val(sValue);
+                    usedParams++
                 }
             }
+        }
+
+        if(usedParams > 0) {
+            $('#ex-search-form').addClass('ex-search');
+            $('#collapseExSearch').addClass('in');
+            $(".ex-search-link").attr("aria-expanded","true");
         }
 
         $(document).on('click', '#clear-filters', function(){
