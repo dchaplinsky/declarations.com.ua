@@ -1,3 +1,4 @@
+import sys
 import logging
 from django.core.management.base import BaseCommand
 
@@ -16,7 +17,7 @@ class Command(BaseCommand):
                                               found_total__gt=1000):
             try:
                 task_reports = TaskReport.objects.filter(task=task.id)
-                print('Task "{}" total found {} total reports {}'.format(
+                sys.stdout.write('Task "{}" total found {} total reports {}\n'.format(
                     task.query, task.found_total, task_reports.count()))
                 task_reports.delete()
                 task.found_total = 0
@@ -25,6 +26,6 @@ class Command(BaseCommand):
                 task.last_run = None
                 first_run(task)
                 task.save()
-                print('\t-> new total found {}'.format(task.found_total))
+                sys.stdout.write('\t-> new total found {}\n'.format(task.found_total))
             except Exception as e:
-                print('Reset task "{}" failed: {}'.format(task.query, e))
+                sys.stdout.write('Reset task "{}" failed: {}\n'.format(task.query, e))

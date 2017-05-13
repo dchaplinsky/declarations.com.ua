@@ -1,6 +1,7 @@
 import re
 import csv
 import os.path
+import dpath.util
 from string import capwords
 
 from elasticsearch.exceptions import TransportError
@@ -32,8 +33,26 @@ def replace_arg(request, key, value):
     return args.urlencode()
 
 
+def concat_fields(resp, fields):
+    out = list()
+    for f in fields:
+        out.extend(dpath.util.values(resp, f, '.'))
+    return " ".join(map(str, out))
+
+
+def keyword_for_sorting(keyword, maxlen=40):
+    if is_cyr(keyword):
+        keyword = keyword.upper().replace('I', 'І')
+    return keyword.upper().replace('Є', 'ЖЄ').replace('І', 'ЙІ').replace('Ї', 'ЙЇ')[:maxlen]
+
+
 def apply_search_sorting(search, sort=""):
-    sort_keys = {'name': 'general.full_name.raw', 'year': 'intro.declaration_year'}
+    sort_keys = {
+        'name':         'general.full_name_for_sorting',
+        'name_desc':    '-general.full_name_for_sorting',
+        'year':         'intro.declaration_year',
+        'year_desc':    '-intro.declaration_year',
+    }
     if sort and sort in sort_keys:
         search = search.sort(sort_keys[sort])
     return search
@@ -55,7 +74,7 @@ def apply_match_filter(search, filter_list, field, operator='or'):
 
 
 def apply_search_filters(search, filters):
-    region_type = filters.get("region_type", "")
+    region_type = filters.get("region_type", "region")
     region_value = filters.get("region_value", "")
     if region_type and region_value:
         filters[region_type] = region_value

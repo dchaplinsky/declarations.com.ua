@@ -13,7 +13,7 @@ from elasticsearch.helpers import bulk
 from elasticsearch_dsl.connections import connections
 
 from catalog.elastic_models import NACPDeclaration
-from catalog.utils import replace_apostrophes, title
+from catalog.utils import replace_apostrophes, title, concat_fields, keyword_for_sorting
 
 
 class BadJSONData(Exception):
@@ -153,21 +153,6 @@ class DeclarationStaticObj(object):
         (r'черн[і|и]г[і|о]всь?к(?:а|ої|ая|ой) обл', 'Чернігівська область'),
         (r'^черн[і|и]г[і|о]в / укра[и|ї]на$', 'Чернігівська область'),
         (r'^черн[і|и]г[і|о]в$', 'Чернігівська область')
-    ]
-
-    card_fields = [
-        "general.last_name",
-        "general.name",
-        "general.patronymic",
-        "general.full_name",
-        "general.post.post",
-        "general.post.office",
-        "general.post.region",
-        "general.post.actual_region",
-        "intro.declaration_year",
-        "intro.doc_type",
-        "declaration.source",
-        "declaration.url"
     ]
 
     dangerous_chunks = [
@@ -327,13 +312,24 @@ class DeclarationStaticObj(object):
 
         # get regions from estate list
         if "step_3" in data and isinstance(data["step_3"], dict) and data["step_3"]:
-            resp["estate"] = []
+            if "estate" not in resp:
+                resp["estate"] = []
             for estate in data["step_3"].values():
-                if "region" in estate:
+                if isinstance(estate, dict) and "region" in estate:
                     region = replace_apostrophes(cls.region_types.get(estate.get("region", ""), ""))
                     if region:
                         resp["estate"].append({"region": region})
 
+        if "step_4" in data and isinstance(data["step_4"], dict) and data["step_4"]:
+            if "estate" not in resp:
+                resp["estate"] = []
+            for estate in data["step_4"].values():
+                if isinstance(estate, dict) and "region" in estate:
+                    region = replace_apostrophes(cls.region_types.get(estate.get("region", ""), ""))
+                    if region:
+                        resp["estate"].append({"region": region})
+
+        if "estate" in resp:
             estate_list = html.css(
                 "table:contains('Місцезнаходження') td:contains('Населений пункт') span::text"
             ).extract()
@@ -369,6 +365,8 @@ class DeclarationStaticObj(object):
             }
         ]
 
+        resp['general']['full_name_for_sorting'] = keyword_for_sorting(resp['general']['full_name'])
+
         if not resp["general"]["post"]["region"]:
             region_html = html.css(
                 "fieldset:contains('Зареєстроване місце проживання') .person-info:contains('Місто')::text"
@@ -389,18 +387,7 @@ class DeclarationStaticObj(object):
         elif not resp["general"]["post"]["region"] and resp["general"]["post"]["actual_region"]:
             resp["general"]["post"]["region"] = resp["general"]["post"]["actual_region"]
 
-        # concatenate some fields for library index card
-        index_card = ""
-
-        for path in cls.card_fields:
-            head = resp
-            for p in path.split('.'):
-                head = head.get(p, "")
-                if not head:
-                    break
-            index_card += str(head or "") + " "
-
-        resp["index_card"] = index_card.strip()
+        resp["index_card"] = concat_fields(resp, NACPDeclaration.INDEX_CARD_FIELDS)
 
         return NACPDeclaration(**resp).to_dict(True)
 

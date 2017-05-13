@@ -3,6 +3,7 @@ import json
 import os.path
 from operator import or_
 from functools import reduce
+from datetime import date
 
 from django.conf import settings
 from django.db.models.functions import ExtractYear
@@ -106,7 +107,8 @@ class Declaration(DocType, RelatedDeclarationsMixin):
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
-            'full_name': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+            'full_name': Text(index=True, analyzer='ukrainian'),
+            'full_name_for_sorting': Keyword(index=True, ignore_above=100),   # only for sorting purposes
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
@@ -162,6 +164,21 @@ class Declaration(DocType, RelatedDeclarationsMixin):
 
     # concatinated from set of fields for regular search (not deepsearch mode)
     index_card = Text(index=True, analyzer='ukrainian')
+
+    INDEX_CARD_FIELDS = [
+        "general.last_name",
+        "general.name",
+        "general.patronymic",
+        "general.full_name",
+        "general.post.post",
+        "general.post.office",
+        "general.post.region",
+        "general.post.actual_region",
+        "intro.declaration_year",
+        "intro.doc_type",
+        "declaration.source",
+        "declaration.url"
+    ]
 
     INCOME_SINGLE_PROPERTIES = {
         'value': Keyword(index=False),
@@ -434,7 +451,8 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
-            'full_name': Text(index=True, analyzer='ukrainian', fields={'raw': Keyword(index=True)}),
+            'full_name': Text(index=True, analyzer='ukrainian'),
+            'full_name_for_sorting': Keyword(index=True, ignore_above=100),   # only for sorting purposes
             'name': Text(index=True, analyzer='ukrainian'),
             'patronymic': Text(index=True, analyzer='ukrainian'),
             'last_name': Text(index=True, analyzer='ukrainian'),
@@ -472,6 +490,21 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
 
     # concatinated from set of fields for regular search (not deepsearch mode)
     index_card = Text(index=True, analyzer='ukrainian')
+
+    INDEX_CARD_FIELDS = [
+        "general.last_name",
+        "general.name",
+        "general.patronymic",
+        "general.full_name",
+        "general.post.post",
+        "general.post.office",
+        "general.post.region",
+        "general.post.actual_region",
+        "intro.declaration_year",
+        "intro.doc_type",
+        "declaration.source",
+        "declaration.url"
+    ]
 
     def raw_html(self):
         fname = os.path.join(
@@ -553,17 +586,29 @@ class NACPDeclaration(DocType, RelatedDeclarationsMixin):
         return list(set(results) - BANK_EDRPOUS)
 
     def get_procurement_earnings_by_year(self, affiliated_only=True):
+        # Safety valve against transactions with malformed dates
+        next_year_dt = date(date.today().year + 1, 1, 1)
+
         return Transactions.objects. \
             select_related("seller"). \
-            filter(seller__code__in=self.related_companies(affiliated_only)). \
+            filter(
+                seller__code__in=self.related_companies(affiliated_only),
+                date__lt=next_year_dt
+            ). \
             annotate(year=ExtractYear('date')). \
             values("year"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 
     def get_procurement_earnings_by_company(self, affiliated_only=True):
+        # Safety valve against transactions with malformed dates
+        next_year_dt = date(date.today().year + 1, 1, 1)
+
         return Transactions.objects. \
             select_related("seller"). \
-            filter(seller__code__in=self.related_companies(affiliated_only)). \
+            filter(
+                seller__code__in=self.related_companies(affiliated_only),
+                date__lt=next_year_dt
+            ). \
             values("seller__code", "seller__pk", "seller__name"). \
             annotate(count=Count("pk"), sum_uah=Sum("volume_uah"))
 

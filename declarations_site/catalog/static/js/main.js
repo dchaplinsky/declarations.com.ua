@@ -104,7 +104,7 @@ $(function() {
         var sPageURL = url.substring(searchIndex +1),
             sURLVariables = sPageURL.split('&');
         for (var i = 0; i < sURLVariables.length; i++) {
-            result[i] = decodeURIComponent(sURLVariables[i]);
+            result[i] = decodeURIComponent(sURLVariables[i].replace(/\+/g, '%20'));
         }
         return result;
     }
@@ -126,7 +126,7 @@ $(function() {
                 }
 
                 if(sName === 'region_value') {
-                    $('input[name="region_value"]').val(sValue.replace("+"," "));
+                    $('input[name="region_value"]').val(sValue);
                 }
 
                 if(sName === 'declaration_year')  {
@@ -134,7 +134,7 @@ $(function() {
                 }
 
                 if(sName === 'doc_type') {
-                    $('input[name="doc_type"]').val(sValue.replace("+"," "));
+                    $('input[name="doc_type"]').val(sValue);
                 }
             }
         }
@@ -265,7 +265,7 @@ $(function() {
             }
         });
     }
-    
+
     function replaceDeclText4Icons() {
         $('span:contains("[Конфіденційна інформація]")').html('<div class="decl-hidden-info" data-toggle="tooltip" data-placement="top" title="Конфіденційна інформація"><span class="glyphicon glyphicon-eye-close"></span></div>');
         $('[data-toggle="tooltip"]').tooltip();
@@ -298,13 +298,13 @@ $(function() {
         });
 
         // submit search form on enter (fix typeahead)
-        $('#search-form').on('keydown', function(e) {
+        $('.search-name').on('keydown', function(e) {
             if (e.keyCode == 13) {
                 var ta = $(this).data('typeahead'),
                     val = ta.$menu.find('.active').data('value');
                 if (val)
-                    $('#search-form').val(val);
-                $('#front-searchbox form').submit();
+                    $(this).val(val);
+                $(this.form).submit();
             }
         });
     });
