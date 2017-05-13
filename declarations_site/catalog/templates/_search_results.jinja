@@ -16,14 +16,16 @@
                     {% if r.intro.doc_type %}{{ r.intro.doc_type }}<span>,</span>{% endif %}
                     {% if r.intro.corrected %}Уточнена <span>,</span>{% endif %}
                 </li>
-                {% if r.general.post.region %}
-                    <li><a href="{{ url('region', region_name=r.general.post.region) }}" itemprop="homeLocation">{{ r.general.post.region }}</a><span>,</span></li> 
+                {% if r.general.post.actual_region %}
+                    <li><a href="{{ url('region', region_name=r.general.post.actual_region) }}" itemprop="homeLocation">{{ r.general.post.actual_region }}</a><span>,</span></li>
+                {% elif r.general.post.region %}
+                    <li><a href="{{ url('region', region_name=r.general.post.region) }}" itemprop="homeLocation">{{ r.general.post.region }}</a><span>,</span></li>
                 {% endif %}
                 {% if r.general.post.office %}
-                    <li><a href="{{ url('office', office_name=r.general.post.office) }}">{{ r.general.post.office }}</a><span>,</span></li> 
+                    <li><a href="{{ url('office', office_name=r.general.post.office) }}">{{ r.general.post.office }}</a><span>,</span></li>
                 {% endif %}
                 {% if r.general.post.post %}
-                    <li itemprop="jobTitle">{{ r.general.post.post }}</li> 
+                    <li itemprop="jobTitle">{{ r.general.post.post }}</li>
                 {% endif %}
                 {% if r.intro.date %}
                     <li class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ r.intro.date|datetime }}</li>

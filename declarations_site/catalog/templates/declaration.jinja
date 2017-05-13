@@ -29,7 +29,9 @@
         {{ spotter_button("Моніторити за іменем", "q=%s+%s+%s" % (declaration.general.last_name,
                   declaration.general.name, declaration.general.patronymic), "from-declaration") }}
         </h1>
-        {% if declaration.general.post.region %}
+        {% if declaration.general.post.actual_region %}
+            <meta itemprop="homeLocation" content="{{ declaration.general.post.actual_region }}"/>
+        {% elif declaration.general.post.region %}
             <meta itemprop="homeLocation" content="{{ declaration.general.post.region }}"/>
         {% endif %}
 
@@ -37,7 +39,9 @@
             <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
             {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
             <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
-            {% if declaration.general.post.region %}
+            {% if declaration.general.post.actual_region %}
+                <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration.general.post.actual_region }}</a><span>,</span>
+            {% elif declaration.general.post.region %}
                 <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration.general.post.region }}</a><span>,</span>
             {% endif %}
             {% if declaration.general.post.office %}
