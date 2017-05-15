@@ -1,6 +1,7 @@
 import re
 import json
 import os.path
+import itertools
 from operator import or_
 from functools import reduce
 from datetime import date
@@ -13,6 +14,7 @@ from django.db.models import Sum, Count
 from elasticsearch_dsl import DocType, Object, Keyword, Text, Completion, Nested, Date, Boolean, Search
 from elasticsearch_dsl.query import Q
 import dpath.util
+import jmespath
 
 from procurements.models import Transactions
 from .constants import CATALOG_INDICES, BANK_EDRPOUS, INCOME_TYPES, MONETARY_ASSETS_TYPES
@@ -492,6 +494,26 @@ class Declaration(DocType, AbstractDeclaration):
             "created_date": self.intro.date
         }
 
+    def related_entities(self):
+        # Mostly boilerplating for now
+
+        return {
+            "people": {
+                "family": list(self.get_family_members())
+            },
+
+            "documents": {
+                "corrected": [],
+                "originals": [],
+            },
+
+            "companies": {
+                "owned": [],
+                "related": [],
+                "all": [],
+            }
+        }
+
     class Meta:
         index = 'declarations_v2'
 
@@ -581,60 +603,134 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         )
         return doc
 
-    def related_companies(self, affiliated_only=True):
-        results = []
-        src = self.nacp_orig.to_dict()
-        if self.intro.doc_type and self.intro.doc_type == "Форма змін":
+    af_paths = [
+        jmespath.compile("step_7.*.emitent_ua_company_code"),
+        jmespath.compile("step_7.*.rights[].*.ua_company_code[]"),
+        jmespath.compile("step_8.*.corporate_rights_company_code"),
+        jmespath.compile("step_8.*.rights[].*.ua_company_code[]"),
+        jmespath.compile("step_9.*.beneficial_owner_company_code"),
+    ]
+
+    def _is_change_form(self):
+        return self.intro.doc_type and self.intro.doc_type == "Форма змін"
+
+    def _affiliated_companies(self, src=None):
+        # For now
+        if self._is_change_form():
             return []
 
-        paths = [
-            "step_7.*.emitent_ua_company_code",
-            "step_7.*.rights.*.ua_company_code",
-            "step_8.*.corporate_rights_company_code",
-            "step_8.*.rights.*.ua_company_code",
-            "step_9.*.beneficial_owner_company_code",
-        ]
+        results = []
+        if src is None:
+            src = self.nacp_orig.to_dict()
 
-        for path in paths:
-            results += dpath.util.values(
-                src, path, separator='.')
+        for path in self.af_paths:
+            results += path.search(src) or []
 
+        return set(filter(None, results))
+
+    rl_paths = {
+        "step_11": jmespath.compile("step_11.*"),
+        "step_12": jmespath.compile("step_12.*"),
+    }
+
+    def _related_companies(self, src=None):
+        # For now
+        if self._is_change_form():
+            return []
+
+        results = []
+        if src is None:
+            src = self.nacp_orig.to_dict()
+
+        for section in (self.rl_paths["step_11"].search(src) or []):
+            try:
+                section = section or {}
+                obj_type = section.get("objectType", "").lower()
+                other_obj_type = section.get(
+                    "otherObjectType", "").lower()
+
+                if (obj_type in INCOME_TYPES or
+                        other_obj_type in INCOME_TYPES):
+                    results += [section.get("source_ua_company_code", "")]
+            except AttributeError:
+                pass
+
+        for section in (self.rl_paths["step_12"].search(src) or []):
+            try:
+                section = section or {}
+                obj_type = section.get("objectType", "").lower()
+
+                if obj_type in MONETARY_ASSETS_TYPES:
+                    results += [
+                        section.get("organization_ua_company_code", "")
+                    ]
+            except AttributeError:
+                pass
+
+        return set(filter(None, results))
+
+    ac_paths = [
+        jmespath.compile("step_2.*.source_ua_company_code[]",),
+        jmespath.compile("step_3.*.beneficial_owner_company_code[]",),
+        jmespath.compile("step_3.*.rights[].*.ua_company_code[]",),
+        jmespath.compile("step_4.*.addition_company_code[]",),
+        jmespath.compile("step_4.*.rights[].*.ua_company_code[]",),
+        jmespath.compile("step_4.undefined.rights[].*.ua_company_code[]",),
+        jmespath.compile("step_5.*.emitent_ua_company_code[]",),
+        jmespath.compile("step_5.*.rights[].*.ua_company_code[]",),
+        jmespath.compile("step_6.*.corporate_rights_company_code[]",),
+        jmespath.compile("step_6.*.rights[].*.ua_company_code[]",),
+        jmespath.compile("step_10.*.rights[].*.ua_company_code[]",),
+        jmespath.compile("step_11.*.rights[].*.ua_company_code[]",),
+        jmespath.compile("step_11.*.rights[].*.ua_company_name[]",),
+        jmespath.compile("step_12.*.rights[].*.ua_company_code[]",),
+        jmespath.compile("step_13.*.emitent_ua_company_code[]",),
+        jmespath.compile("step_13.*.emitent_ua_company_name[]",),
+        jmespath.compile("step_13.*.guarantor[].*.guarantor_ua_company_code[]",),
+        jmespath.compile("step_13.*.guarantor_realty[].*.realty_rights_ua_company_code[]",),
+        jmespath.compile("step_13.*.guarantor_realty[].*.realty_rights_ua_company_code[]",),
+        jmespath.compile("step_15.*.emitent_ua_company_code[]",),
+        jmespath.compile("step_16.org.*.reestrCode[]",),
+        jmespath.compile("step_16.part_org.*.reestrCode[]",),
+        jmespath.compile("step_7.*.emitent_ua_company_code"),
+        jmespath.compile("step_7.*.rights[].*.ua_company_code[]"),
+        jmespath.compile("step_8.*.corporate_rights_company_code"),
+        jmespath.compile("step_8.*.rights[].*.ua_company_code[]"),
+        jmespath.compile("step_9.*.beneficial_owner_company_code"),
+        jmespath.compile("step_11.*.source_ua_company_code"),
+        jmespath.compile("step_12.*.organization_ua_company_code"),
+    ]
+
+    def _all_companies(self, src=None):
+        # For now
+        if self._is_change_form():
+            return []
+
+        results = []
+        if src is None:
+            src = self.nacp_orig.to_dict()
+
+        for path in self.ac_paths:
+            results += path.search(src) or []
+
+        return set(filter(None, results))
+
+    def related_companies(self, affiliated_only=True):
+        """
+        Prepares data to use with procurement dataset
+        """
+        src = self.nacp_orig.to_dict()
+
+        res = self._affiliated_companies(src)
         if not affiliated_only:
-            for section in dpath.util.values(
-                    src, "step_11.*", separator='.'):
+            res += self._related_companies(src)
 
-                try:
-                    section = section or {}
-                    obj_type = section.get("objectType", "").lower()
-                    other_obj_type = section.get(
-                        "otherObjectType", "").lower()
-
-                    if (obj_type in INCOME_TYPES or
-                            other_obj_type in INCOME_TYPES):
-                        results += [section.get("source_ua_company_code", "")]
-                except AttributeError:
-                    pass
-
-            for section in dpath.util.values(
-                    src, "step_12.*", separator='.'):
-
-                try:
-                    section = section or {}
-                    obj_type = section.get("objectType", "").lower()
-
-                    if obj_type in MONETARY_ASSETS_TYPES:
-                        results += [
-                            section.get("organization_ua_company_code", "")
-                        ]
-                except AttributeError:
-                    pass
-
-        results = filter(
+        res = filter(
             None,
-            map(lambda x: x.strip().lstrip("0"), set(results))
+            map(lambda x: x.strip().lstrip("0"), set(res))
         )
 
-        return list(set(results) - BANK_EDRPOUS)
+        return list(set(res) - BANK_EDRPOUS)
 
     def get_procurement_earnings_by_year(self, affiliated_only=True):
         # Safety valve against transactions with malformed dates
@@ -687,23 +783,32 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         }
 
     def related_entities(self):
-        # Boilerplating for now
+        # Mostly boilerplating for now
+
+        src = self.nacp_orig.to_dict()
+        owned_companies = self._affiliated_companies(src)
+        related_companies = self._related_companies(src)
+        all_companies = self._all_companies(src)
+
         return {
             "people": {
-                "family": []
+                "family": list(self.get_family_members())
             },
 
             "documents": {
-                "corrected": [],
-                "originals": [],
+                "corrected": getattr(self, "corrected_declarations", None),
+                "originals": getattr(self, "original_declarations", None),
             },
 
             "companies": {
-                "owned": [],
-                "related": [],
-                "all": []
+                "owned": list(owned_companies),
+                "related": list(related_companies),
+                "all": list(all_companies),
             }
         }
+
+    def unified_source(self):
+        return self.nacp_orig.to_dict()
 
     class Meta:
         index = 'nacp_declarations'
