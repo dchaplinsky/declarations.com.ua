@@ -6,8 +6,10 @@
 {% block extrahead %}
 {% if results.has_previous() %}<link rel="prev" href="?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}" />{% endif %}
 {% if results.has_next() %}<link rel="next" href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" />{% endif %}
+{% if request.META['QUERY_STRING'] %}
 <link href="{{ request.get_full_path() }}&amp;format=rss" rel="alternate" type="application/rss+xml" title="Результати пошуку '{{ query }}' в RSS 2.0" />
 <link href="{{ request.get_full_path() }}&amp;format=atom" rel="alternate" type="application/atom+xml" title="Результати пошуку '{{ query }}' в Atom" />
+{% endif %}
 {% endblock %}
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}{{ super() }}{% endif %}{% endblock %}
@@ -26,13 +28,15 @@
             {{ social("Результати пошуку по: %s. " % query,
                               "http://declarations.com.ua%s" % request.get_full_path() ,
                               add_disqus=False,
-                              add_rss=True) }}
+                              add_rss=request.META['QUERY_STRING']) }}
         </div>
 
         {{ ex_search_form(query, deepsearch) }}
 
         <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span>
+        {% if request.META['QUERY_STRING'] %}
         {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
+        {% endif %}
         </h1>
         <div class="page-content">
             <div class="btn-group toggle-view">
