@@ -1,7 +1,6 @@
 {% macro procurements_details(declaration) -%}
     {% set affiliated_earnings = declaration.get_procurement_earnings_by_year(True) %}
-    {% set indirect_earnings = declaration.get_procurement_earnings_by_year(False) %}
-    {% if affiliated_earnings or indirect_earnings %}
+    {% if affiliated_earnings %}
         <h5>Виторг на тендерах компаній:</h5>
         <div class="decl-earnings">
             <div class="panel-group accordion" id="accordion" role="tablist" aria-multiselectable="true">
@@ -75,69 +74,6 @@
                                 <span><b>{{ "0.00"|curformat }} UAH</b> — в яких декларант є бенефіціаром</span>
                             </h2>
                         </header>
-                    </div>
-                {% endif %}
-                {% if indirect_earnings %}
-                <div class="panel panel-default">
-                    <header class="panel-heading decl-earnings-header" role="tab" id="headingTwo">
-                        <h2 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <span><b>{{ indirect_earnings|sum(attribute='sum_uah')|string|curformat }} UAH</b> — пов'язаних з декларантом <br/>
-                                <i>натисніть для деталізації</i></span>
-                            </a>
-                        </h2>
-                    </header>
-                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                        <div class="panel-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Рік</th>
-                                            <th>Кількість виграних тендерів</th>
-                                            <th>Сума</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for earning in indirect_earnings|sort(attribute="year", reverse=True) %}
-                                        <tr>
-                                            <td>{{ earning.year }}</td>
-                                            <td>{{ earning.count }}</td>
-                                            <td class="amount"><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            {% set earnings_by_company = declaration.get_procurement_earnings_by_company(False) %}
-                            <div class="table-responsive">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Компанія</th>
-                                            <th>Кількість виграних тендерів</th>
-                                            <th>Сума</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for earning in earnings_by_company|sort(attribute="sum_uah", reverse=True) %}
-                                    <tr>
-                                        <td class="company-name">
-                                            <a href="http://z.texty.org.ua/seller/{{ earning.seller__pk }}" target="_blank">
-                                                {{ earning.seller__name }}, ЄДРПОУ {{ '{:0>8}'.format(earning.seller__code) }}
-                                            </a>
-                                        </td>
-                                        <td>{{ earning.count }}</td>
-                                        <td class="amount"><span>{{ earning.sum_uah|string|curformat }}</span> UAH</td>
-                                    </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <blockquote class="warning-hint">
-                                <small>До переліку входять усі компанії, які здійснювали виплати декларанту, включно із його викладацькою діяльністю та соціальними виплатами. Ці компанії можуть бути непідконтрольними декларанту.</small>
-                            </blockquote>
-                        </div>
                     </div>
                 {% endif %}
             </div>
