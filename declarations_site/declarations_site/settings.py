@@ -58,6 +58,7 @@ INSTALLED_APPS = (
 
     'social_django',
     'spotter',
+    'chatbot',
 
     'catalog',
     'cms_pages',
