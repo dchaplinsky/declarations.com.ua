@@ -24,19 +24,13 @@ def send_greetings(data):
         chat_response(data, message)
 
 
-def show_details(data):
-    decl_id = data['text'][6:]
-    chat_response(data, decl_id)
-
-
 def join_res(d, keys, sep=' '):
     return sep.join([str(d[k]) for k in keys if k in d and d[k]])
 
 
 def search_reply(data):
     if 'text' not in data or len(data['text']) < 4:
-        chat_response(data, 'Не зрозумів, уточніть запит.')
-        return
+        return chat_response(data, 'Не зрозумів, уточніть запит.')
 
     text = data['text'].strip().lower()
 
@@ -44,8 +38,7 @@ def search_reply(data):
         message = COMMON_ANSWERS[text]
         if isinstance(message, list) or isinstance(message, tuple):
             message = choice(message)
-        chat_response(data, message)
-        return
+        return chat_response(data, message)
 
     search = simple_search(data['text'])
     plural = ukr_plural(search.found_total, 'декларація', 'декларації', 'декларацій')
@@ -107,7 +100,7 @@ def search_reply(data):
                 attachments.append(att)
                 break
 
-    chat_response(data, message, attachments=attachments)
+    return chat_response(data, message, attachments=attachments)
 
 
 @csrf_exempt
