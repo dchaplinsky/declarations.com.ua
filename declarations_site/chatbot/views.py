@@ -42,7 +42,7 @@ def search_reply(data):
         return chat_response(data, message)
 
     search = simple_search(data['text'])
-    plural = ukr_plural(search.found_total, 'декларація', 'декларації', 'декларацій')
+    plural = ukr_plural(search.found_total, 'декларацію', 'декларації', 'декларацій')
     message = 'Знайдено {} {}'.format(search.found_total, plural)
     if search.found_total > 10:
         message += '\n\nПоказані перші 10'
