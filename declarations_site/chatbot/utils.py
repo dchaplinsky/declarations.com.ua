@@ -66,7 +66,7 @@ def botframework_jwt_keys():
 def get_jwt_public_key(kid, channel):
     keys = botframework_jwt_keys()
     for k in keys['keys']:
-        if k['kid'] == kid and channel not in k.get('endorsements', []):
+        if k['kid'] == kid and channel in k.get('endorsements', []):
             break
     assert k['kid'] == kid, 'Key not found'
     pem_cert = '-----BEGIN CERTIFICATE-----\n{}\n-----END CERTIFICATE-----'.format(k['x5c'][0])
@@ -104,7 +104,8 @@ def verify_jwt(auth, data):
         logger.warning('Bad JWT issuer')
         return False
 
-    if payload['serviceUrl'] != data['serviceUrl']:
+    # JWT payload has serviceurl (lowercase) and data has serviceUrl (camel)
+    if payload['serviceurl'] != data['serviceUrl']:
         logger.warning('Bad JWT serviceUrl')
         return False
 
