@@ -1,6 +1,7 @@
 import jwt
 import requests
 import logging
+from hashlib import sha1
 from datetime import datetime
 from django.conf import settings
 from django.core.cache import cache
@@ -76,6 +77,7 @@ def verify_jwt(auth, data):
 
     try:
         method, token = auth.split(' ')
+        token_fingerprint = sha1(token).hexdigest()
     except:
         logger.warning('Bad auth string')
         return False
@@ -84,7 +86,7 @@ def verify_jwt(auth, data):
         logger.warning('Bad auth method')
         return False
 
-    if len(token) > 250 and cache.get(token[:250]):
+    if len(token) > 200 and cache.get(token_fingerprint):
         return True
 
     try:
@@ -104,7 +106,7 @@ def verify_jwt(auth, data):
         logger.warning('Bad JWT serviceUrl')
         return False
 
-    cache.set(token[:250], 1, 300)
+    cache.set(token_fingerprint, 1, 300)
     return True
 
 
