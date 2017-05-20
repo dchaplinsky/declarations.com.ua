@@ -84,7 +84,7 @@ def verify_jwt(auth, data):
         logger.warning('Bad auth method')
         return False
 
-    if len(token) > 300 and cache.get(token[:300]):
+    if len(token) > 250 and cache.get(token[:250]):
         return True
 
     try:
@@ -104,7 +104,7 @@ def verify_jwt(auth, data):
         logger.warning('Bad JWT serviceUrl')
         return False
 
-    cache.set(token[:300], 1, 300)
+    cache.set(token[:250], 1, 300)
     return True
 
 
