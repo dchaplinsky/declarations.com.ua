@@ -99,6 +99,9 @@ ELASTICSEARCH_CONNECTIONS = {
     }
 }
 
+BOTAPI_APP_ID = 'x'
+BOTAPI_APP_SECRET = ''
+
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
