@@ -42,6 +42,9 @@ def search_reply(data):
         return chat_response(data, message)
 
     search = simple_search(data['text'])
+    if search.found_total == 0:
+        search = simple_search(data['text'], deepsearch=True)
+
     plural = ukr_plural(search.found_total, 'декларацію', 'декларації', 'декларацій')
     message = 'Знайдено {} {}'.format(search.found_total, plural)
     if search.found_total > 10:
