@@ -77,7 +77,7 @@ def verify_jwt(auth, data):
 
     try:
         method, token = auth.split(' ')
-        token_fingerprint = sha1(token).hexdigest()
+        token_fingerprint = sha1(token.encode()).hexdigest()
     except:
         logger.warning('Bad auth string')
         return False
