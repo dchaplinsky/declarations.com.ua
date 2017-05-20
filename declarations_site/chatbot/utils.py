@@ -58,14 +58,17 @@ def botframework_jwt_keys():
 
     response = requests.get(config['jwks_uri'], timeout=10)
     keys = response.json()
-    cache.set(openidURL, keys, 86400 * 5)
+    if 'keys' in keys and keys['keys']:
+        cache.set(openidURL, keys, 86400)
     return keys
 
 
-def get_jwt_public_key(keys, kid, channel):
-    for k in keys:
+def get_jwt_public_key(kid, channel):
+    keys = botframework_jwt_keys()
+    for k in keys['keys']:
         if k['kid'] == kid and channel not in k.get('endorsements', []):
             break
+    assert k['kid'] == kid, 'Key not found'
     pem_cert = '-----BEGIN CERTIFICATE-----\n{}\n-----END CERTIFICATE-----'.format(k['x5c'][0])
     cert = load_pem_x509_certificate(pem_cert.encode(), default_backend())
     return cert.public_key()
@@ -90,9 +93,8 @@ def verify_jwt(auth, data):
         return True
 
     try:
-        keys = botframework_jwt_keys()
         headers = jwt.get_unverified_header(token)
-        pub_key = get_jwt_public_key(keys, headers['kid'], data['channelId'])
+        pub_key = get_jwt_public_key(headers['kid'], data['channelId'])
         payload = jwt.decode(token, pub_key, audience=settings.BOTAPI_APP_ID, leeway=300)
     except Exception as e:
         logger.warning('JWT decode error {}'.format(e))
