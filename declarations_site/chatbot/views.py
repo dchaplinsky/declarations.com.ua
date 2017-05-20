@@ -109,7 +109,7 @@ def search_reply(data):
 @csrf_exempt
 def messages(request):
     if request.method != 'POST':
-        return HttpResponseNotAllowed('Not Allowed')
+        return HttpResponseNotAllowed(['POST'], 'Method Not Allowed')
 
     if len(request.body) < 100 or len(request.body) > 1000:
         return HttpResponseBadRequest('Bad Request')
