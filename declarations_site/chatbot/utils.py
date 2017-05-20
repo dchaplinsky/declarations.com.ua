@@ -46,7 +46,7 @@ def client_credentials():
         'client_secret': settings.BOTAPI_APP_SECRET,
         'scope': 'https://api.botframework.com/.default'
     }
-    response = requests.post(tokenURL, data)
+    response = requests.post(tokenURL, data, timeout=10)
     creds = response.json()
     if creds and creds['expires_in']:
         cache.set(settings.BOTAPI_APP_ID, creds, creds['expires_in'] - 5)
@@ -56,15 +56,18 @@ def client_credentials():
 def chat_response(data, message='', messageType='message', attachments=None):
     if data.get('text'):
         ChatHistory(
-            from_id=data['from']['id'],
-            from_name=data['from']['name'],
-            conversation=data['conversation']['id'],
-            query=data['text'],
-            answer=message,
-            timestamp=data['timestamp']
+            from_id=data['from']['id'][:250],
+            from_name=data['from']['name'][:250],
+            conversation=data['conversation']['id'][:250],
+            query=data['text'][:250],
+            answer=message[:250],
+            timestamp=data['timestamp'][:40]
         ).save()
 
     creds = client_credentials()
+
+    if not settings.DEBUG:
+        data['serviceUrl'] = 'https://api.botframework.com'
     responseURL = "{}/v3/conversations/{}/activities/{}".format(
         data['serviceUrl'],
         data['conversation']['id'],
@@ -83,4 +86,4 @@ def chat_response(data, message='', messageType='message', attachments=None):
     headers = {
         'Authorization': '{} {}'.format(creds['token_type'], creds['access_token'])
     }
-    requests.post(responseURL, json=resp, headers=headers)
+    requests.post(responseURL, json=resp, headers=headers, timeout=10)

@@ -25,18 +25,19 @@ def send_greetings(data):
 
 
 def join_res(d, keys, sep=' '):
+    """template like join dict values in signle string, safe for nonexists keys"""
     return sep.join([str(d[k]) for k in keys if k in d and d[k]])
 
 
 def search_reply(data):
-    if 'text' not in data or len(data['text']) < 4:
+    if 'text' not in data or len(data['text']) < 4 or len(data['text']) > 100:
         return chat_response(data, 'Не зрозумів, уточніть запит.')
 
     text = data['text'].strip().lower()
 
     if text in COMMON_ANSWERS:
         message = COMMON_ANSWERS[text]
-        if isinstance(message, list) or isinstance(message, tuple):
+        if isinstance(message, (list, tuple, set)):
             message = choice(message)
         return chat_response(data, message)
 
@@ -55,6 +56,7 @@ def search_reply(data):
             if 'corrected' in found.intro:
                 if found.intro.corrected:
                     found.intro.corrected = 'Уточнена'
+            # TODO replace EMAIL_SITE_URL -> SITE_URL
             url = settings.EMAIL_SITE_URL + reverse('details', args=[found.meta.id])
             att = {
                 "contentType": "application/vnd.microsoft.card.hero",
@@ -82,6 +84,7 @@ def search_reply(data):
             attachments.append(att)
 
             if len(attachments) >= 10:
+                # TODO replace EMAIL_SITE_URL -> SITE_URL
                 url = settings.EMAIL_SITE_URL + reverse_qs('search', qs={'q': data['text']})
                 att = {
                     "contentType": "application/vnd.microsoft.card.hero",
@@ -107,6 +110,9 @@ def search_reply(data):
 def messages(request):
     if request.method != 'POST':
         return HttpResponse('Method Not Allowed', status_code=405)
+
+    if len(request.body) < 100 or len(request.body) > 1000:
+        return HttpResponse('Bad Request', status_code=400)
 
     data = json.loads(request.body.decode('utf-8'))
 
