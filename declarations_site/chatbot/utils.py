@@ -127,21 +127,21 @@ def client_credentials():
     }
     response = requests.post(tokenURL, data, timeout=10)
     creds = response.json()
-    if creds and creds['expires_in']:
-        cache.set(settings.BOTAPI_APP_ID, creds, creds['expires_in'] - 5)
+    if creds and creds.get('expires_in'):
+        cache.set(settings.BOTAPI_APP_ID, creds, creds['expires_in'] - 10)
     return creds
 
 
 def chat_response(data, message='', messageType='message', attachments=None):
     if data.get('text'):
         ChatHistory(
-            from_id=data['from']['id'][:250],
-            from_name=data['from']['name'][:250],
-            channel=data['channelId'][:250],
-            conversation=data['conversation']['id'][:250],
+            from_id=data.get('from', {}).get('id', '')[:250],
+            from_name=data.get('from', {}).get('name', '')[:250],
+            channel=data.get('channelId', '')[:250],
+            conversation=data.get('conversation', {}).get('id', '')[:250],
             query=data['text'][:250],
             answer=message[:250],
-            timestamp=data['timestamp'][:40]
+            timestamp=data.get('timestamp', '')[:40]
         ).save()
 
     creds = client_credentials()
