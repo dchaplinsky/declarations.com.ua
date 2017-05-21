@@ -58,7 +58,7 @@ def botframework_jwt_keys():
 
     response = requests.get(config['jwks_uri'], timeout=10)
     keys = response.json()
-    if 'keys' in keys and keys['keys']:
+    if keys.get('keys'):
         cache.set(openidURL, keys, 86400)
     return keys
 
@@ -81,7 +81,7 @@ def verify_jwt(auth, data):
     try:
         method, token = auth.split(' ')
         token_fingerprint = sha1(token.encode()).hexdigest()
-    except:
+    except (TypeError, ValueError, AttributeError):
         logger.warning('Bad auth string')
         return False
 
