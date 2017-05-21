@@ -2,10 +2,10 @@ import json
 from random import choice
 from django.urls import reverse
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 from spotter.utils import reverse_qs
-from chatbot.utils import ukr_plural, chat_response, simple_search
+from chatbot.utils import ukr_plural, chat_response, simple_search, verify_jwt
 
 
 COMMON_ANSWERS = {
@@ -42,7 +42,13 @@ def search_reply(data):
         return chat_response(data, message)
 
     search = simple_search(data['text'])
-    plural = ukr_plural(search.found_total, 'декларація', 'декларації', 'декларацій')
+    deepsearch = ''
+
+    if search.found_total == 0:
+        search = simple_search(data['text'], deepsearch=True)
+        deepsearch = 'on'
+
+    plural = ukr_plural(search.found_total, 'декларацію', 'декларації', 'декларацій')
     message = 'Знайдено {} {}'.format(search.found_total, plural)
     if search.found_total > 10:
         message += '\n\nПоказані перші 10'
@@ -85,7 +91,8 @@ def search_reply(data):
 
             if len(attachments) >= 10:
                 # TODO replace EMAIL_SITE_URL -> SITE_URL
-                url = settings.EMAIL_SITE_URL + reverse_qs('search', qs={'q': data['text']})
+                url = settings.EMAIL_SITE_URL + reverse_qs('search',
+                    qs={'q': data['text'], 'deepsearch': deepsearch})
                 att = {
                     "contentType": "application/vnd.microsoft.card.hero",
                     "content": {
@@ -109,12 +116,15 @@ def search_reply(data):
 @csrf_exempt
 def messages(request):
     if request.method != 'POST':
-        return HttpResponse('Method Not Allowed', status=405)
+        return HttpResponseNotAllowed(['POST'], 'Method Not Allowed')
 
     if len(request.body) < 100 or len(request.body) > 1000:
-        return HttpResponse('Bad Request', status=400)
+        return HttpResponseBadRequest('Bad Request')
 
     data = json.loads(request.body.decode('utf-8'))
+
+    if not verify_jwt(request.META.get('HTTP_AUTHORIZATION', ' '), data):
+        return HttpResponseForbidden('Forbidden')
 
     if data['type'] == 'conversationUpdate':
         send_greetings(data)
