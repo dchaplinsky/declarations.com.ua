@@ -9,17 +9,23 @@ from chatbot.utils import ukr_plural, chat_response, simple_search, verify_jwt
 
 
 COMMON_ANSWERS = {
+    '?': "Вітаю, я бот для пошуку декларацій чиновників.\n\nHello, I'm bot for search of declarations of Ukrainian officials.",
+    'hi': "Hello, I'm bot for search of declarations of Ukrainian officials. I don't speak English, please ask me in Ukrainian only.",
+    'hello': "Hello, I'm bot for search of declarations of Ukrainian officials. I don't speak English, please ask me in Ukrainian only.",
+    'вітаю': 'Вітаю, я бот для пошуку декларацій. Яку декларацію ти шукаєш сьогодні?',
+    'привіт': 'Вітаю, я бот для пошуку декларацій. Яку декларацію ти шукаєш сьогодні?',
+    'привет': 'Привет, я бот для поиска деклараций украинских чиновников. Я понимаю запросы только на украинском языке.',
     'дякую': ['Будь ласка.', 'Нема за що!', 'Користуйтесь на здоров\'я', 'Дякую, що користуєтесь.'],
     'спасибо': ['Пожалуйста', 'Не за что', 'Чому не державною?'],
 }
 
 
 def send_greetings(data):
-    for member in data['membersAdded']:
-        if 'Bot' in member['name']:
+    for member in data.get('membersAdded', []):
+        if 'bot' in member.get('name', '').lower():
             continue
         data['from'] = {'id': data['conversation']['id']}
-        message = 'Вітаю, {}!\n\n'.format(member['name'])
+        message = 'Вітаю, {}!\n\n'.format(member.get('name', 'незнайомцю'))
         message += 'Яку декларацію ти шукаєш сьогодні?'
         chat_response(data, message)
 
@@ -30,7 +36,7 @@ def join_res(d, keys, sep=' '):
 
 
 def search_reply(data):
-    if 'text' not in data or len(data['text']) < 4 or len(data['text']) > 100:
+    if not data.get('text') or len(data['text']) > 100:
         return chat_response(data, 'Не зрозумів, уточніть запит.')
 
     text = data['text'].strip().lower()
