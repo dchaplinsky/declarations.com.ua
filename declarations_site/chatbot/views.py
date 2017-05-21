@@ -42,8 +42,11 @@ def search_reply(data):
         return chat_response(data, message)
 
     search = simple_search(data['text'])
+    deepsearch = ''
+
     if search.found_total == 0:
         search = simple_search(data['text'], deepsearch=True)
+        deepsearch = 'on'
 
     plural = ukr_plural(search.found_total, 'декларацію', 'декларації', 'декларацій')
     message = 'Знайдено {} {}'.format(search.found_total, plural)
@@ -88,7 +91,8 @@ def search_reply(data):
 
             if len(attachments) >= 10:
                 # TODO replace EMAIL_SITE_URL -> SITE_URL
-                url = settings.EMAIL_SITE_URL + reverse_qs('search', qs={'q': data['text']})
+                url = settings.EMAIL_SITE_URL + reverse_qs('search',
+                    qs={'q': data['text'], 'deepsearch': deepsearch})
                 att = {
                     "contentType": "application/vnd.microsoft.card.hero",
                     "content": {
