@@ -74,6 +74,8 @@ def apply_match_filter(search, filter_list, field, operator='or'):
 
 
 def apply_search_filters(search, filters):
+    if not filters:
+        return search
     region_type = filters.get("region_type", "region")
     region_value = filters.get("region_value", "")
     if region_type and region_value:
@@ -91,7 +93,7 @@ QS_OPS = re.compile(r'(["*?:~(]| AND | OR | NOT | -\w)')
 QS_NOT = re.compile(r'[/]')  # do not allow regex queries
 
 
-def base_search_query(base_search, query, deepsearch, filters):
+def base_search_query(base_search, query, deepsearch, filters=None):
     if not query:
         search = base_search.query('match_all')
         search = apply_search_filters(search, filters)

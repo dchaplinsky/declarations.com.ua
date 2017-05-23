@@ -58,6 +58,7 @@ INSTALLED_APPS = (
 
     'social_django',
     'spotter',
+    'chatbot',
 
     'catalog',
     'cms_pages',
@@ -95,6 +96,16 @@ ELASTICSEARCH_CONNECTIONS = {
     'default': {
         'hosts': 'localhost',
         'timeout': 20
+    }
+}
+
+BOTAPI_APP_ID = 'x'
+BOTAPI_APP_SECRET = ''
+BOTAPI_JWT_VERIFY = False
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
 }
 

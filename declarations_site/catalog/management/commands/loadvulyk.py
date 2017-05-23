@@ -72,6 +72,10 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
 
+    def add_arguments(self, parser):
+        parser.add_argument('file_path')
+        parser.add_argument('prefix')
+
     def _group_column(self, rec):
         name = 'group'
         if '# group' in rec:
@@ -82,8 +86,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            file_path = args[0]
-            id_prefix = args[1]
+            file_path = options["file_path"]
+            id_prefix = options["prefix"]
         except IndexError:
             raise CommandError(
                 'First argument must be a source file and second is a id prefix')
