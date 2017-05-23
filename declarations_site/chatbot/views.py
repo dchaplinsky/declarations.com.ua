@@ -1,3 +1,4 @@
+import re
 import json
 from random import choice
 from django.urls import reverse
@@ -8,16 +9,15 @@ from spotter.utils import reverse_qs
 from chatbot.utils import ukr_plural, chat_response, simple_search, verify_jwt
 
 
-COMMON_ANSWERS = {
-    '?': "Вітаю, я бот для пошуку декларацій чиновників.\n\nHello, I'm bot for search of declarations of Ukrainian officials.",
-    'hi': "Hello, I'm bot for search of declarations of Ukrainian officials. I don't speak English, please ask me in Ukrainian only.",
-    'hello': "Hello, I'm bot for search of declarations of Ukrainian officials. I don't speak English, please ask me in Ukrainian only.",
-    'вітаю': 'Вітаю, я бот для пошуку декларацій. Яку декларацію ти шукаєш сьогодні?',
-    'привіт': 'Вітаю, я бот для пошуку декларацій. Яку декларацію ти шукаєш сьогодні?',
-    'привет': 'Привет, я бот для поиска деклараций украинских чиновников. Я понимаю запросы только на украинском языке.',
-    'дякую': ['Будь ласка.', 'Нема за що!', 'Користуйтесь на здоров\'я', 'Дякую, що користуєтесь.'],
-    'спасибо': ['Пожалуйста', 'Не за что', 'Чому не державною?'],
-}
+COMMON_ANSWERS = (
+    (re.compile('\?$'), "Вітаю, я бот для пошуку декларацій чиновників.\n\nHello, I'm bot for search of declarations of Ukrainian officials."),
+    (re.compile('(hi|help|hello)$'), "Hello, I'm bot for search of declarations of Ukrainian officials. I don't speak English, please ask me in Ukrainian."),
+    (re.compile('(вітаю|привіт)$'), 'Вітаю, я бот для пошуку декларацій. Яку декларацію ти шукаєш сьогодні?'),
+    (re.compile('привет$'), 'Привет, я бот для поиска деклараций украинских чиновников. Я понимаю запросы только на украинском языке.'),
+    (re.compile('дякую$'), ['Будь ласка.', 'Нема за що!', 'Користуйтесь на здоров\'я', 'Дякую, що користуєтесь.']),
+    (re.compile('спасибо$'), ['Пожалуйста', 'Не за что', 'Чому не державною?']),
+    (re.compile('слава україні', 'Героям слава!'))
+)
 
 
 def send_greetings(data):
@@ -25,9 +25,10 @@ def send_greetings(data):
         if 'bot' in member.get('name', '').lower():
             continue
         data['from'] = {'id': data['conversation']['id']}
-        message = 'Вітаю, {}!\n\n'.format(member.get('name', 'незнайомцю'))
-        message += 'Яку декларацію ти шукаєш сьогодні?'
+        message = 'Вітаю!\n\nЯку декларацію ти шукаєш сьогодні?'
         chat_response(data, message)
+        # send greetings only once
+        break
 
 
 def join_res(d, keys, sep=' '):
@@ -39,13 +40,13 @@ def search_reply(data):
     if not data.get('text') or len(data['text']) > 100:
         return chat_response(data, 'Не зрозумів, уточніть запит.')
 
-    text = data['text'].strip().lower()
+    text = data['text'].strip(' .,;!\n').lower()
 
-    if text in COMMON_ANSWERS:
-        message = COMMON_ANSWERS[text]
-        if isinstance(message, (list, tuple, set)):
-            message = choice(message)
-        return chat_response(data, message)
+    for r, message in COMMON_ANSWERS:
+        if r.match(text):
+            if isinstance(message, (list, tuple, set)):
+                message = choice(message)
+            return chat_response(data, message)
 
     search = simple_search(data['text'])
     deepsearch = ''
