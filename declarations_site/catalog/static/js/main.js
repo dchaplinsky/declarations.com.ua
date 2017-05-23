@@ -151,6 +151,10 @@ $(function() {
             $(".ex-search-link").attr("aria-expanded","true");
         }
 
+        $(".ex-search-link").click(function(){
+            $(this).hide(400);
+        });
+
         $(document).on('click', '#clear-filters', function(){
             $('input[name="declaration_year"]').val('');
             $('input[name="doc_type"]').val('');
