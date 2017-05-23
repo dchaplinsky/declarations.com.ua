@@ -39,7 +39,7 @@ def search_reply(data):
     if not data.get('text') or len(data['text']) > 100:
         return chat_response(data, 'Не зрозумів, уточніть запит.')
 
-    text = data['text'].strip().lower()
+    text = data['text'].strip(' .,;!\n').lower()
 
     for r, message in COMMON_ANSWERS:
         if r.match(text):
