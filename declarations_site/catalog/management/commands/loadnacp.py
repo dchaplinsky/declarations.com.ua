@@ -266,10 +266,10 @@ class DeclarationStaticObj(object):
             if "declarationYear1" in data["step_0"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear1"])
 
-            if "declarationYear3" in data["step_0"]:
+            if "declarationYear3" in data["step_0"] and data["step_0"]["declarationYear3"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear3"])
 
-            if "declarationYear4" in data["step_0"]:
+            if "declarationYear4" in data["step_0"] and data["step_0"]["declarationYear4"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear4"])
 
         resp["general"] = {
