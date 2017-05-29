@@ -143,14 +143,16 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email'}
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/?login_error'
 LOGOUT_REDIRECT = '/'
 
+SITE_URL = 'https://declarations.com.ua'
+
 # EMAIL_SITE_URL used for full hrefs in email templates
-EMAIL_SITE_URL = 'https://declarations.com.ua'
+EMAIL_SITE_URL = SITE_URL
 
 FROM_EMAIL = 'robot@declarations.com.ua'
 EMAIL_HOST = 'localhost'
 
 RSS_AUTHOR_NAME = 'Сайт «Декларації» - проект Канцелярської сотні'
-RSS_AUTHOR_LINK = 'https://declarations.com.ua'
+RSS_AUTHOR_LINK = SITE_URL
 RSS_AUTHOR_EMAIL = 'dbihus@declarations.com.ua'
 RSS_TTL = 10800
 
@@ -180,6 +182,7 @@ TEMPLATES = [
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
                 "catalog.context_processors.stats_processor",
+                "catalog.context_processors.settings_processor",
                 "cms_pages.context_processors.menu_processor"
             ),
             "extensions": DEFAULT_EXTENSIONS + [
@@ -205,6 +208,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "catalog.context_processors.stats_processor",
+                "catalog.context_processors.settings_processor",
                 "cms_pages.context_processors.menu_processor"
             ),
         },
