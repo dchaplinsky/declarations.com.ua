@@ -6,6 +6,7 @@ from string import capwords
 
 from elasticsearch.exceptions import TransportError
 from translitua import translit, ALL_RUSSIAN, ALL_UKRAINIAN
+from catalog.constants import VALID_RELATIONS
 from django.conf import settings
 
 
@@ -170,6 +171,31 @@ def blacklist(dct, fields):
     return {
         k: v for k, v in dct.items() if k not in fields
     }
+
+
+def parse_family_member(s):
+    try:
+        position, person = s.split(None, 1)
+        if "-" in position:
+            position, person = s.split("-", 1)
+
+        position = position.strip(u" -—,.:").capitalize()
+        person = person.strip(u" -—,")
+
+        if position not in VALID_RELATIONS:
+            raise ValueError
+
+        for pos in VALID_RELATIONS:
+            if person.capitalize().startswith(pos):
+                print("%s %s %s" % (s, person, pos))
+                raise ValueError
+
+        return {
+            "relations": position,
+            "family_name": person
+        }
+    except ValueError:
+        return {"raw": s}
 
 
 class Transliterator(object):

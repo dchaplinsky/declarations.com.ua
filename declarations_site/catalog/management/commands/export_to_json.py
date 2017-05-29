@@ -1,8 +1,8 @@
 import re
 import sys
-import json
 import argparse
 from django.core.management.base import BaseCommand
+from elasticsearch.serializer import JSONSerializer
 from elasticsearch_dsl import Search
 from catalog.constants import CATALOG_INDICES
 from catalog.elastic_models import Declaration, NACPDeclaration
@@ -19,6 +19,13 @@ class Command(BaseCommand):
             default=["infocard", "raw_source", "unified_source",
                      "related_entities"],
         )
+
+        parser.add_argument(
+            '--indexes', nargs='*',
+            choices=CATALOG_INDICES,
+            default=CATALOG_INDICES,
+        )
+
         parser.add_argument(
             '--from', default=0, type=int)
         parser.add_argument(
@@ -28,13 +35,15 @@ class Command(BaseCommand):
             default=sys.stdout)
 
     def handle(self, *args, **options):
-        all_decls = Search(index=CATALOG_INDICES).doc_type(
-            NACPDeclaration, Declaration).query('match_all')
+        json = JSONSerializer()
+
+        all_decls = Search(index=options["indexes"]).doc_type(
+            NACPDeclaration, Declaration)
 
         if options["to"] is not None:
-            all_decls = all_decls[options["from"]:options["to"]].execute()
+            all_decls = all_decls.query('match_all')[options["from"]:options["to"]].execute()
         elif options["from"]:
-            all_decls = all_decls[options["from"]:].execute()
+            all_decls = all_decls.query('match_all')[options["from"]:].execute()
         else:
             all_decls = all_decls.scan()
 

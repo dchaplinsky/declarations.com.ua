@@ -13,13 +13,13 @@ from django.db.models import Sum, Count
 
 from elasticsearch_dsl import DocType, Object, Keyword, Text, Completion, Nested, Date, Boolean, Search
 from elasticsearch_dsl.query import Q
-import dpath.util
 import jmespath
 
 from procurements.models import Transactions
 from .constants import CATALOG_INDICES, BANK_EDRPOUS, INCOME_TYPES, MONETARY_ASSETS_TYPES
 from .utils import parse_fullname, blacklist
 from .templatetags.catalog import parse_raw_family_string
+from .converters import PaperToNACPConverter, ConverterError
 
 
 class NoneAwareDate(Date):
@@ -34,16 +34,16 @@ class NoneAwareDate(Date):
 
 class AbstractDeclaration(object):
     def infocard(self):
-        pass
+        raise NotImplemented()
 
     def raw_source(self):
-        pass
+        raise NotImplemented()
 
     def unified_source(self):
-        pass
+        raise NotImplemented()
 
     def related_entities(self):
-        pass
+        raise NotImplemented()
 
     def api_response(self, fields=None):
         all_fields = [
@@ -482,16 +482,22 @@ class Declaration(DocType, AbstractDeclaration):
             "first_name": self.general.name,
             "patronymic": self.general.patronymic,
             "last_name": self.general.last_name,
-            "office": self.general.office,
-            "position": self.general.post,
-            "source": self.declaration.source,
+            "office": self.general.post.office,
+            "position": self.general.post.post,
+            "source": getattr(
+                self.declaration, "source",
+                getattr(self, "source", "")
+            ),
             "id": self.meta.id,
             "url": settings.SITE_URL + reverse(
                 "details", kwargs={"declaration_id": self.meta.id}
             ),
             "document_type": "Щорічна",
             "is_corrected": False,
-            "created_date": self.intro.date
+            "created_date": getattr(
+                self.intro, "date",
+                getattr(self.declaration, "date", "")
+            )
         }
 
     def related_entities(self):
@@ -513,6 +519,15 @@ class Declaration(DocType, AbstractDeclaration):
                 "all": [],
             }
         }
+
+    def unified_source(self):
+        try:
+            doc = self.to_dict()
+            doc["id"] = self.meta.id
+            converter = PaperToNACPConverter(doc)
+            return converter.convert()
+        except ConverterError:
+            return None
 
     class Meta:
         index = 'declarations_v2'
