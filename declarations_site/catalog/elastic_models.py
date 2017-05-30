@@ -811,8 +811,8 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             },
 
             "documents": {
-                "corrected": getattr(self, "corrected_declarations", None),
-                "originals": getattr(self, "original_declarations", None),
+                "corrected": getattr(src, "corrected_declarations", None),
+                "originals": getattr(src, "original_declarations", None),
             },
 
             "companies": {

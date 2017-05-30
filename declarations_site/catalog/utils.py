@@ -187,7 +187,6 @@ def parse_family_member(s):
 
         for pos in VALID_RELATIONS:
             if person.capitalize().startswith(pos):
-                print("%s %s %s" % (s, person, pos))
                 raise ValueError
 
         return {
