@@ -45,8 +45,12 @@ class AbstractDeclaration(object):
     def related_entities(self):
         raise NotImplemented()
 
+    def guid(self):
+        return self.meta.id
+
     def api_response(self, fields=None):
         all_fields = [
+            "guid",
             "infocard",
             "raw_source",
             "unified_source",
@@ -56,7 +60,7 @@ class AbstractDeclaration(object):
         if fields is None:
             fields = all_fields
         else:
-            fields = [f for f in fields if f in all_fields]
+            fields = [f for f in fields if f in set(all_fields + ["guid"])]
 
         return {
             f: getattr(self, f)() for f in fields
@@ -501,8 +505,6 @@ class Declaration(DocType, AbstractDeclaration):
         }
 
     def related_entities(self):
-        # Mostly boilerplating for now
-
         return {
             "people": {
                 "family": list(self.get_family_members())
@@ -798,8 +800,6 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         }
 
     def related_entities(self):
-        # Mostly boilerplating for now
-
         src = self.nacp_orig.to_dict()
         owned_companies = self._affiliated_companies(src)
         related_companies = self._related_companies(src)
