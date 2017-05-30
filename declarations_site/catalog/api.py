@@ -19,9 +19,9 @@ def serialize_for_api(data, new_api=False):
     transformations explicitly. This is hard to achieve with function-based
     views, so it's pending a CBV move."""
     if hasattr(data, 'to_api'):
-        return serialize_for_api(data.to_api(), new_api=True)
+        return serialize_for_api(data.to_api(), new_api=new_api)
     elif isinstance(data, Response):
-        return serialize_for_api(data.hits._l_, new_api=True)
+        return serialize_for_api(data.hits._l_, new_api=new_api)
     elif isinstance(data, (AttrDict, ObjectBase)):
         if new_api and hasattr(data, "api_response"):
             return data.api_response()
