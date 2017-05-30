@@ -52,4 +52,4 @@ class Command(BaseCommand):
             options["outfile"].write(json.dumps(decl_json) + "\n")
 
             if i and i % 1000 == 0:
-                self.stdout.write("Exported %s declarations" % i)
+                self.stderr.write("Exported %s declarations" % i)
