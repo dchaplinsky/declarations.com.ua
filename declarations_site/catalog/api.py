@@ -10,7 +10,7 @@ from django.shortcuts import render
 from .rss import Atom1FeedResponse, RssFeedResponse
 
 
-def serialize_for_api(data, new_api=False):
+def serialize_for_api(data, new_api=False, sections=None):
     """Transform complex types that we use into simple ones recursively.
     Note: recursion isn't followed when we know that transformed types aren't
     supposed to contain any more complex types.
@@ -19,12 +19,12 @@ def serialize_for_api(data, new_api=False):
     transformations explicitly. This is hard to achieve with function-based
     views, so it's pending a CBV move."""
     if hasattr(data, 'to_api'):
-        return serialize_for_api(data.to_api(), new_api=new_api)
+        return serialize_for_api(data.to_api(), new_api=new_api, sections=sections)
     elif isinstance(data, Response):
-        return serialize_for_api(data.hits._l_, new_api=new_api)
+        return serialize_for_api(data.hits._l_, new_api=new_api, sections=sections)
     elif isinstance(data, (AttrDict, ObjectBase)):
         if new_api and hasattr(data, "api_response"):
-            return data.api_response()
+            return data.api_response(fields=sections)
         else:
             res = data.to_dict()
             if hasattr(data, 'meta'):
@@ -34,10 +34,13 @@ def serialize_for_api(data, new_api=False):
         return data._l_
     elif isinstance(data, dict):
         return {
-            k: serialize_for_api(v, new_api=new_api) for k, v in data.items()
+            k: serialize_for_api(v, new_api=new_api, sections=sections)
+            for k, v in data.items()
         }
     elif isinstance(data, (list, tuple, set)):
-        return list(map(lambda x: serialize_for_api(x, new_api=new_api), data))
+        return list(map(lambda x: serialize_for_api(
+            x, new_api=new_api, sections=sections), data)
+        )
     return data
 
 
@@ -56,6 +59,9 @@ def hybrid_response(template_name):
                 return context
 
             fmt = request.GET.get('format', 'html')
+            sections = request.GET.getlist('section', None)
+            if not sections:
+                sections = None
 
             if fmt == 'json':
                 return JsonResponse(serialize_for_api(context), safe=False)
@@ -65,7 +71,7 @@ def hybrid_response(template_name):
                 return RssFeedResponse(request, serialize_for_api(context))
             elif fmt == 'opendata':
                 return JsonResponse(
-                    serialize_for_api(context, new_api=True),
+                    serialize_for_api(context, new_api=True, sections=sections),
                     safe=False
                 )
             else:
