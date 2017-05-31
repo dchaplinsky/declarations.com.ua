@@ -7,17 +7,8 @@
             <div class="row">
                 <h3 class="text-center">Новини декларацій</h3>
 
-                {% for row in latest_news|batch(2) %}
-                <div class="newsBox">
-                    {% for news in row %}
-                    <div class="newsRow col-sm-6">
-                        <span class="newsDate">{{ news.date_added|time("H:i") }}, {{ news.date_added|date }}</span>
-                        <a class="newsTitle blue{% if news.important %} important-news{% endif %}" href="{{ news.url }}">{{ news.title }}</a>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endfor %}
-                <a class="classic gree text-right pull-right" href="{{ slugurl("news") }}">Усі новини</a>
+                <div id="bihus-news"></div>
+
             </div>
         </div>
     </section>
@@ -55,32 +46,6 @@
                     </div>
                 </div>
                 {% endif %}
-            </div>
-        </div>
-    </section>
-{% endblock %}
-
-{% block graph %}
-    <section id="graph">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div id="widget_help">ТОП-15 областей за медіанним рівнем доходів чиновників. Клікніть на заголовок колонки, щоб відсортувати таблицю. Для того, щоб перейти на <a href="{{ url("business_intelligence") }}">сторінку аналітики</a> для конкретної області, клікніть на строку в таблиці</div>
-                    <div class="table-responsive">
-                        <table class="first table">
-                          <thead>
-                            <tr class="header">
-                              <th>Регіон</th>
-                              <td id="colname_one">Дохід</td>
-                              <td id="colname_two">Дохід сім'ї</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                        </table>
-                    </div>
-                    <div id="example"></div>
-                </div>
             </div>
         </div>
     </section>

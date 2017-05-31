@@ -5,6 +5,8 @@ document.addEventListener(
 );
 
 $(function() {
+    var declNews = '';
+
     function setColumnsHeights (list, item) {
         $list = $(list);
         $items = $list.find(item);
@@ -287,7 +289,52 @@ $(function() {
         $('[data-toggle="tooltip"]').tooltip();
     }
 
+    function fetchBihusNews() {
+        $('body').addClass('ajax-run');
+
+        $.ajax({
+                url: 'https://bihus.info/restapi/decl-news',
+                type: 'GET'
+            })
+            .done(function(data) {
+                for(i = 0; i < data.length; i ++) {
+                    console.log(data[i]);
+                    var title = data[i].title,
+                        nid = data[i].nid,
+                        teaset_text = data[i].field_teaser_text,
+                        created = data[i].created,
+                        teaser_media = data[i].field_teaser_media;
+
+                    //console.log(teaser_media);
+
+                    declNews = declNews +  '<div class="media">';
+                    declNews = declNews +  '<div class="media-left">';
+                    declNews = declNews +  '<a title="' + title +'" href="https://bihus.info/node/' + nid +'">';
+                    declNews = declNews +  '<img class="media-object" src="' + teaser_media +'" alt="' + title +'">';
+                    declNews = declNews +  '</a></div>';
+                    declNews = declNews +  '<div class="media-body">';
+                    declNews = declNews +  '<h4 class="media-heading">' + title + '</h4>';
+                    declNews = declNews +  '<h6>' + created + '</h6><p>' + teaset_text + '</p>';
+                    declNews = declNews +  '</div></div>';
+                }
+
+                aRun = false;
+                //return declNews;
+                
+            })
+            .fail(function(event) {
+                console.log(event.status);
+            });
+    }
+
+    $(document).ajaxStop(function () {
+        if(aRun === false) {
+            $('#bihus-news').append(declNews);
+        }
+    });
+
     $(document).ready(function() {
+        fetchBihusNews();
         $.material.init();
         $('[data-toggle="tooltip"]').tooltip();
         setExFormStateFromUrl();

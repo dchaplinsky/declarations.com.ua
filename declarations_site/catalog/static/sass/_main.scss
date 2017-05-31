@@ -9,6 +9,19 @@ body {
     background: $bg;
     font-family: 'arsenalregular';
     font-size: 16px;
+    //border-top: $decl-green 5px solid;
+
+    &:before {
+        content: '';
+        width: 100%;
+        height: 5px;
+        display: block;
+        background: #21b79a; /* Old browsers */
+        background: -moz-linear-gradient(left, #21b79a 0%, #10f0c6 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(left, #21b79a 0%,#10f0c6 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right, #21b79a 0%,#10f0c6 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#21b79a', endColorstr='#10f0c6',GradientType=1 ); /* IE6-9 */
+    }
 }
 
 #wrapper {
@@ -158,7 +171,12 @@ a.white:hover,
 .logo {
     display: block;
     height: auto;
-    margin-top: 12px;
+    margin-top: 10px;
+    margin-right: 20px;
+
+    img {
+        width: 70px;
+    }
 }
 
 .on-white {
@@ -244,6 +262,23 @@ a.white:hover,
     padding: 20px 0;
     font-size: 14px;
     line-height: 20px;
+    position: relative;
+    overflow: hidden;
+
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 200%;
+        background: #10f0c6; /* Old browsers */
+        background: -moz-radial-gradient(center, ellipse cover, #10f0c6 0%, #21b79a 100%); /* FF3.6-15 */
+        background: -webkit-radial-gradient(center, ellipse cover, #10f0c6 0%,#21b79a 100%); /* Chrome10-25,Safari5.1-6 */
+        background: radial-gradient(ellipse at center, #10f0c6 0%,#21b79a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#10f0c6', endColorstr='#21b79a',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+        top: 0;
+        left: 0;
+    }
 }
 
 #infobox a {

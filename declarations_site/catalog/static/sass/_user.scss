@@ -1,14 +1,26 @@
 #profile {
-    background-color: #fff;
-    margin-top: 12px;
+    //background-color: $decl-blue;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#03a9f4+1,41c4fc+98 */
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#1cb7eb+0,33c6f7+99 */
+    background: #1cb7eb; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover, #1cb7eb 0%, #33c6f7 99%); /* FF3.6-15 */
+    background: -webkit-radial-gradient(center, ellipse cover, #1cb7eb 0%,#33c6f7 99%); /* Chrome10-25,Safari5.1-6 */
+    background: radial-gradient(ellipse at center, #1cb7eb 0%,#33c6f7 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1cb7eb', endColorstr='#33c6f7',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+    margin-top: 8px;
     margin-bottom: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 250px;
+    color: white;
+
     @media (max-width: 1000px) {
         max-width: 180px;
     }
+
     @media (max-width: 400px) {
         max-width: 130px;
     }
@@ -46,6 +58,7 @@
     .modal-header {
         background: url(../images/header.jpg) no-repeat center top;
     }
+
     .modal-body {
         li {
             margin: 5px 0;
@@ -55,6 +68,7 @@
             height: 150px;
         }
     }
+
     .modal-footer {
         padding: 7px 24px 24px;
     }
@@ -64,9 +78,11 @@
     width: 188px;
     padding: 0;
     margin: 20px auto 40px;
+
     li {
         display: block;
         margin: 0 0 20px 0;
+
         a {
             background: transparent url(../images/signin.png) left top no-repeat;
             display: block;
@@ -75,14 +91,17 @@
             overflow: hidden;
             text-indent: -1000px;
         }
+
         .facebook {
             background-position: 0 -39px;
             background-color: #3b5998;
         }
+
         .twitter {
             background-position: 0 0;
             background-color: #0084b4;
         }
+
         .google {
             background-position: 0 -117px;
             background-position-x: 0px;
@@ -122,9 +141,11 @@
         text-transform: none;
         transform: none;
     }
+
     .btn-link:focus {
         outline: none;
     }
+
     .delete:hover {
         color: #e95000;
     }

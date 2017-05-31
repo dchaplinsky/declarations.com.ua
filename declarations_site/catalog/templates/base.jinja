@@ -55,42 +55,44 @@
 
     <div id="wrapper">
         <div>
-            <div id="top">
-                <div class="container">
-                    <div class="row">
-                        <div class="col col-xs-4 text-left">
-                            <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
-                                <img src="{{ static("images/logo_big.png") }}" width="40" height="40" class="inline-logo hidden-xs" /><img src="{{ static("images/logo.png") }}" width="135" height="33" alt="" />
-                            </a>
-                        </div>
-                        <div class="col col-xs-8 text-left pull-right" id="top-toolbar">
-                            <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info pull-right" id="joinus">Долучитись до розшифровки</a>
-                            {{ login_button(request.get_full_path()) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div id="nav-search">
                 <div class="container">
                     <div class="row">
 
-                        <nav id="navbar" class="navbar navbar-inverse navbar-default col-lg-9 col-md-8 col-sm-8 col-xs-12" role="navigation">
-                            <div class="navbar-header">
-                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
-                            </div>
-                            <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
-                                <ul class="nav navbar-nav">
-                                    <li class="joinus"><a href="http://sotnya.org.ua/" target="_blank">Долучитись до розшифровки</a></li>
-                                    {% for menuitem in top_menu %}
-                                    <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </nav>
+                        <div class="nav-block">
+                            <nav id="navbar" class="navbar navbar-inverse navbar-default col-lg-8 col-md-7 col-sm-7 col-xs-12" role="navigation">
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
+                                </div>
+                                <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
+                                    <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
+                                        <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
+                                    </a>
+                                    <ul class="nav navbar-nav">
+                                        <li><a href="http://goo.gl/forms/OTbHz2FVbj">Розшукуємо декларації</a></li>
+                                        <li><a href="/about/">Про проект</a></li>
+                                        <li><a href="/analytics/">Аналітика</a></li>
+                                        <li><a href="/business-intelligence/">BI</a></li>
+                                    </ul>
+                                </div>
+                            </nav>
 
-                        <div id="front-searchbox" class="searchbox col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <form action="{{ url("search") }}" method="GET">
+                            <section id="block-sociallinksblock" class="col col-lg-4 col-md-4 col-sm-5 pull-right">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </section>
+                        </div>
+
+
+                        <div class="search-block">
+                            <div id="front-searchbox" class="searchbox col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <form action="{{ url("search") }}" method="GET">
                                 <div class="input-group">
                                     <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
                                     <span id="search_scope" class="input-group-btn">
@@ -100,15 +102,15 @@
                                         <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
                                     </span>
                                 </div>
-                            </form>
-                            <a class="ex-search-link" href="/search" class="text-right">Розширений пошук</a>
+                                </form>
+                                <a class="ex-search-link" href="/search" class="text-right">Розширений пошук</a>
+                            </div>
+
+                            <div class="col col-lg-3 col-md-4 col-sm-4 pull-right">
+                                {{ login_button(request.get_full_path()) }}
+                            </div>
                         </div>
 
-                        <div id="stats" class="col col-lg-3 col-md-4 col-sm-4 text-left hidden-xs pull-right">
-                            <p>Відкрито <span class="digits">{{ total_persons }}</span> чиновників</p>
-                            <p>Оброблено <span class="digits">{{ total_declarations }}</span> декларацій</p>
-                            <p>Долучився <span class="digits">3001</span> волонтер</p>
-                        </div>
 
                     </div>
                 </div>
@@ -120,8 +122,7 @@
             {% block newslist %}
             {% endblock %}
 
-            {% block graph %}
-            {% endblock %}
+
 
             {% block social %}
             {% endblock %}
