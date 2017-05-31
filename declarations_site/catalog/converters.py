@@ -662,7 +662,7 @@ class PaperToNACPConverter(object):
             "64": "Розмір сплачених коштів в рахунок процентів за позикою (кредитом)"
         }
         liabilities_info = {}
-        for key in liabilities_desc_dict.keys():
+        for key in liabilities_desc_dict:
             liabilities_info[key] = self._jsrch('liabilities."{}"'.format(key))
 
         if liabilities_info:
@@ -906,10 +906,11 @@ class PaperToNACPConverter(object):
             '59': 'Інші не зазначені у розділах ІІІ–V витрати',
             '62': 'Утримання зазначеного у розділах ІІІ–V майна',
         }
-        charges_info = {}
-        charges_info['56'] = self._jsrch('liabilities."56"')
-        charges_info['59'] = self._jsrch('liabilities."59"')
-        charges_info['62'] = self._jsrch('liabilities."62"')
+        charges_info = {
+            '56': self._jsrch('liabilities."56"'),
+            '59': self._jsrch('liabilities."59"'),
+            '62': self._jsrch('liabilities."62"')
+        }
 
         if charges_info:
             for charge_id, charges_dict in charges_info.items():
