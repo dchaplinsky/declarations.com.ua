@@ -661,7 +661,9 @@ class PaperToNACPConverter(object):
             "63": "Розмір сплачених коштів в рахунок основної суми позики (кредиту)",
             "64": "Розмір сплачених коштів в рахунок процентів за позикою (кредитом)"
         }
-        liabilities_info = self._jsrch("liabilities")
+        liabilities_info = {}
+        for key in liabilities_desc_dict:
+            liabilities_info[key] = self._jsrch('liabilities."{}"'.format(key))
 
         if liabilities_info:
             for liability_id, liability_dict in liabilities_info.items():
@@ -896,6 +898,54 @@ class PaperToNACPConverter(object):
             "step_11": extract
         }
 
+    def _convert_step14(self):
+        extract = {}
+        record_counter = 1
+        charges_desc_dict = {
+            '56': 'Утримання зазначеного у розділах ІІІ–V майна',
+            '59': 'Інші не зазначені у розділах ІІІ–V витрати',
+            '62': 'Утримання зазначеного у розділах ІІІ–V майна',
+        }
+        charges_info = {
+            '56': self._jsrch('liabilities."56"'),
+            '59': self._jsrch('liabilities."59"'),
+            '62': self._jsrch('liabilities."62"')
+        }
+
+        if charges_info:
+            for charge_id, charges_dict in charges_info.items():
+                owner_id = ('1'
+                            if int(charge_id) in [56,59]
+                            else '')
+                if charges_dict and \
+                    (charges_dict.get('sum') or charges_dict.get('sum_foreign')):
+                    extract[record_counter] = self._convert_using_rules(
+                        [
+                          (None, 'person', owner_id),
+                          (None, 'type', "1"),
+                          (None, 'country', "1"),
+                          ('sum', 'costAmount', ""),
+                          ('sum_foreign', 'costAmount_abroad_declcomua', ''),
+                          (None, 'specExpenses', "Iнше"),
+                          (None, 'specExpensesAssetsSubject', ""),
+                          (None, 'specExpensesMovableSubject', ""),
+                          (None, 'specExpensesOtherMovableSubject', ""),
+                          (None, 'specExpensesOtherRealtySubject', ""),
+                          (None, 'specExpensesOtherSubject', ""),
+                          (None, 'specExpensesRealtySubject', ""),
+                          (None, 'specExpensesSubject', ""),
+                          (None, 'specOtherExpenses', "")
+                        ],
+                        charges_dict
+                    )
+                    extract[record_counter]['specOtherExpenses'] = \
+                        charges_desc_dict[charge_id]
+                    
+                    record_counter += 1
+        return {
+            "step_14": extract
+        }
+
     def convert(self):
         new_doc = self._meta_information()
 
@@ -928,13 +978,15 @@ class PaperToNACPConverter(object):
 
         # step_11
         new_doc["data"].update(self._convert_step11())
+
+        # step_14
+        new_doc["data"].update(self._convert_step14()) 
         # Filling in the empty spaces
         new_doc["data"].update({
             "step_4": {},   # Об'єкти незавершеного будівництва
             "step_5": {},   # Бенефіціарна власність
             "step_9": {},   # Ціне рухоме майно
             "step_10": {},  # Нематеріальні активи
-            "step_14": {},  # Видатки та правочини
             "step_15": {},  # Робота за сумісництвом
             "step_16": {},  # Членство декларанта в організаціях та їх органах
         })
