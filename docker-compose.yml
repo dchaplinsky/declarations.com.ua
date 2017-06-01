@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:9.6
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  elasticsearch:
+    build: ./elasticsearch
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    environment:
+      - network.host=0.0.0.0
+      - transport.host=localhost
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    env_file: .local_env
+    volumes:
+      - ./declarations_site:/usr/local/declarations_site
+      - ./declarations_bank:/mnt/declarations_bank
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+      - elasticsearch
+
+  elasticdump:
+    image: taskrabbit/elasticsearch-dump:v3.3.0
+    depends_on:
+      - elasticsearch
+
+volumes:
+  pgdata:
+  esdata:

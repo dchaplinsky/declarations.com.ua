@@ -39,7 +39,7 @@ def suggest(request):
         try:
             res = search.execute()
 
-            if res.success():
+            if res.success() and hasattr(res, 'suggest'):
                 return list(set(val._source.general.full_name for val in res.suggest.name[0]['options']))
             else:
                 return []

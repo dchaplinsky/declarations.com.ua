@@ -21,10 +21,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'PLEASEREPLACEMEREPLACEMEREPLACEMDONTLEAVEMELIKETHAT'
+SECRET_KEY = os.getenv('APP_SECRET_KEY', 'verysecretsecretthatmustbereset')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('APP_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -88,13 +88,18 @@ DATABASES = {
     'default': {
         # Strictly PostgreSQL
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT')
     }
 }
 
 # Setup Elasticsearch default connection
 ELASTICSEARCH_CONNECTIONS = {
     'default': {
-        'hosts': 'localhost',
+        'hosts': os.getenv('ES_HOST', 'localhost'),
         'timeout': 20
     }
 }
@@ -282,7 +287,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = '/media/'
 
-NACP_DECLARATIONS_PATH = ""
+NACP_DECLARATIONS_PATH = os.getenv('APP_NACP_PATH', '')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
