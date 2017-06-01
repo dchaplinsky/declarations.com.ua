@@ -102,7 +102,7 @@ def search(request):
 def fuzzy_search(request):
     query = request.GET.get("q", "")
     base_search = Search(
-        index=[CATALOG_INDICES]).doc_type(
+        index=CATALOG_INDICES).doc_type(
         NACPDeclaration, Declaration
     )
     fuzziness = 1
