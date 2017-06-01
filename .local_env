@@ -1,5 +1,6 @@
 APP_SECRET_KEY=J:MA'"qkSIZ|x8dfxW7bij[X%2,Ft$XnK!w]n1^Eo[k[KNL*_{TS1:IJH0wo~<)
 APP_DEBUG=True
+APP_NACP_PATH=/mnt/declarations_bank
 DB_NAME=postgres
 DB_USER=postgres
 DB_PASS=postgres

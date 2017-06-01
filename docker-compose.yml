@@ -31,6 +31,7 @@ services:
     env_file: .local_env
     volumes:
       - ./declarations_site:/usr/local/declarations_site
+      - ./declarations_bank:/mnt/declarations_bank
     ports:
       - 8000:8000
     depends_on:

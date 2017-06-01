@@ -35,7 +35,13 @@ steps from the repository root:
 2. docker-compose run web python3 manage.py migrate
 3. (optional) docker-compose run web python3 manage.py createsuperuser
 4. docker-compose run web python3 manage.py createindices declarations_v2 nacp_declarations
-5. Run any data import as required similarly to previous steps
+
+In order to import NACP data:
+1. Create a `declarations_bank` directory in the repo root (don't worry, it's gitignored)
+2. Copy the NACP dump archive into it along with possibly empty `corrected.csv` file
+3. docker-compose run web python3 manage.py loadnacp /mnt/declarations_bank/your_nacp_archive_dir /mnt/declarations_bank/corrected.csv
+
+You may use `/mnt/declarations_bank` volume for other import dumps as well and remap to a different host path if needed.
 
 If everything's good then the site should be available at `http://localhost:8000/`.
 
