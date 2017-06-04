@@ -12,7 +12,7 @@
 
 .declaration-head {
     font-size: 1em;
-    font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    //font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
     text-align: center;
     margin: 1em 0 2em;
     font-weight: normal;
@@ -133,7 +133,7 @@
         span i {
             text-transform: none;
             font-style: normal;
-            font-family: 'arsenalregular';
+            //font-family: 'arsenalregular';
             display: none;
 
             &:after {
@@ -413,7 +413,7 @@ td.l-weiss-form__item {
 }
 
 .weiss-form__set_notes.weiss-form__set {
-    font-family: Arial, FreeSans, sans-serif;
+    //font-family: Arial, FreeSans, sans-serif;
     padding: 20px;
     background-color: lightyellow;
 }
@@ -465,7 +465,7 @@ td.l-weiss-form__item {
     font-style: normal;
     text-align: center;
     color: #999;
-    font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
+    //font-family: "Times New Roman", Times, "FreeSerif", "Nimbus Roman No9 L", serif;
 }
 
 /* @end */

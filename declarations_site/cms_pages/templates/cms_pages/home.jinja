@@ -1,51 +1,113 @@
 {% extends "base.jinja" %}
 
 {% block newslist %}
-    {% if latest_news %}
     <section id="newslist" class="on-white">
         <div class="container">            
             <div class="row">
-                <h3 class="text-center">Новини декларацій</h3>
-
-                <div id="bihus-news"></div>
-
+                <div class="bihus-news" id="decl-news-block"></div>
+                <div class="bihus-news" id="decl-bihus-block"></div>
             </div>
         </div>
     </section>
-    {% endif %}
+
+{% endblock %}
+
+{% block donate %}
+<section id="donate" class="on-white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="media">
+                    <div class="media-left">
+                        <img alt="" src="/static/images/anonim.c03a67ae788c.png">
+                    </div>
+                    <div class="media-body">
+                        <p>Якщо у вас є змога, можете допомогти проекту грошима, жодних сторонніх джерел фінансування у нього немає. Моя картка 5168 7423 3713 2520 (ПриватБанк).</p>
+                        <p>З вдячністю, ініціативна група Канцелярської сотні, та Денис Бігус</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
 
 {% block bodyclass %}front{% endblock %}
+    {% block header %}
+<div id="nav-search">
+    <div class="container">
+        <div class="row">
+
+            <div class="search-block">
+                <div id="front-searchbox" class="searchbox col-sm-12">
+                    <form action="{{ url("search") }}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                                    <span id="search_scope" class="input-group-btn">
+                                        <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
+                                    </span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+                                    </span>
+                    </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="nav-block">
+    <div class="container">
+        <div class="row">
+            <nav id="navbar" class="navbar navbar-inverse navbar-default col-sm-12" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
+                </div>
+                <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
+                    <ul class="nav navbar-nav text-center">
+                        <li class="visible-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_big.png") }}" class="inline-logo" /></a></li>
+                        <li class="left-item"><a href="/">Про проект</a></li>
+                        <li class="left-item"><a href="/">Відкритий API</a></li>
+                        <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_big.png") }}" class="inline-logo" /></a></li>
+                        <li class="right-item"><a href="/">Розширений пошук</a></li>
+                        <li class="right-item"><a href="/">BI</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <p class="about-text text-center">Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб викрити їхню брехню про статки та майно.</p>
+            <section id="block-sociallinksblock">
+                <ul>
+                    <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                    <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                    <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
+                    <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<p>dsfsd</p>
     {% block infobox %}
     <section id="infobox">
         <div class="container">
-            <div class="row">
-                <div class="col{% if hp_news %} col-md-4{% else %} big-about{% endif %}">
-                    <p class="mb10">
-                        <a class="mediaimage" href="{{ slugurl("about") }}">
-                            <img alt="" src="{{ static("images/anonim.png") }}" class="img-circle" />
-                        </a> <i>{{ page.body|richtext }}</i>
-                    </p>
-                    <a href="{{ slugurl("about") }}" class="classic green">Дізнатися детально про проект</a>
-                </div>
-                {% if hp_news %}
-                <div id="top-news">
-                    {% if hp_news.image %}
-                    <div class="col col-md-4">
-                        <a href="{{ hp_news.url }}" class="block">
-                            {{ image(hp_news.image, "fill-390x220", class="img-responsive") }}
-                        </a>
-                    </div>
-                    {% endif %}
-                    <div class="col{% if hp_news.image %} col-md-4{% else %} col-md-8{% endif %}">
-                        <span class="topMarker">ТОП-новина:</span>
-                        <a href="{{ hp_news.url }}" class="block nd">
-                            <h3 class="text-left">{{ hp_news.title }}</h3>
-                        </a>
-                        <p class="text-left">{{ hp_news.lead|richtext }} <a href="{{ hp_news.url }}" class="block">Детальніше…</a></p>
+            <div class="infobanner">
+                <div class="infobanner-content">
+                    <div class="infobanner-text text-center">
+                        <p class="infobanner-top-text">Потрібна допомога у <a href="#" target="_blank">пошуку</a> та <a href="http://sotnya.org.ua/" target="_blank">розшифровці декларацій</a></p>
+                        <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info" id="joinus">Долучитись до розшифровки</a>
+                        <p>або допоможіть знайти <a href="#" target="_blank">такі</a> декларації</p>
                     </div>
                 </div>
-                {% endif %}
             </div>
         </div>
     </section>

@@ -55,66 +55,61 @@
 
     <div id="wrapper">
         <div>
-            <div id="nav-search">
-                <div class="container">
-                    <div class="row">
-
-                        <div class="nav-block">
-                            <nav id="navbar" class="navbar navbar-inverse navbar-default col-lg-8 col-md-7 col-sm-7 col-xs-12" role="navigation">
-                                <div class="navbar-header">
-                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
-                                </div>
-                                <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
-                                    <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
-                                        <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
-                                    </a>
-                                    <ul class="nav navbar-nav">
-                                        <li><a href="http://goo.gl/forms/OTbHz2FVbj">Розшукуємо декларації</a></li>
-                                        <li><a href="/about/">Про проект</a></li>
-                                        <li><a href="/analytics/">Аналітика</a></li>
-                                        <li><a href="/business-intelligence/">BI</a></li>
+            {% block header %}
+                <div id="nav-search">
+                    <div class="container">
+                        <div class="row">
+                            <div class="nav-block">
+                                <nav id="navbar" class="navbar navbar-inverse navbar-default col-lg-8 col-md-7 col-sm-7 col-xs-12" role="navigation">
+                                    <div class="navbar-header">
+                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
+                                    </div>
+                                    <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
+                                        <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
+                                            <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
+                                        </a>
+                                        <ul class="nav navbar-nav">
+                                            <li><a href="http://goo.gl/forms/OTbHz2FVbj">Розшукуємо декларації</a></li>
+                                            <li><a href="/about/">Про проект</a></li>
+                                            <li><a href="/analytics/">Аналітика</a></li>
+                                            <li><a href="/business-intelligence/">BI</a></li>
+                                        </ul>
+                                    </div>
+                                </nav>
+                                <section id="block-sociallinksblock" class="col col-lg-4 col-md-4 col-sm-5 pull-right">
+                                    <ul>
+                                        <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
                                     </ul>
-                                </div>
-                            </nav>
-
-                            <section id="block-sociallinksblock" class="col col-lg-4 col-md-4 col-sm-5 pull-right">
-                                <ul>
-                                    <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
-                                    <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                                </ul>
-                            </section>
-                        </div>
-
-
-                        <div class="search-block">
-                            <div id="front-searchbox" class="searchbox col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                <form action="{{ url("search") }}" method="GET">
-                                <div class="input-group">
-                                    <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
-                                    <span id="search_scope" class="input-group-btn">
-                                        <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
-                                    </span>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                                    </span>
-                                </div>
-                                </form>
+                                </section>
+                            </div>
+                            <div class="search-block">
+                                <div id="front-searchbox" class="searchbox col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <form action="{{ url("search") }}" method="GET">
+                                        <div class="input-group">
+                                            <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                                            <span id="search_scope" class="input-group-btn">
+                                                <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+                                            </span>
+                                        </div>
+                                    </form>
                                 <a class="ex-search-link" href="/search" class="text-right">Розширений пошук</a>
-                            </div>
-
-                            <div class="col col-lg-3 col-md-4 col-sm-4 pull-right">
-                                {{ login_button(request.get_full_path()) }}
+                                </div>
+                                <div class="col col-lg-3 col-md-4 col-sm-4 pull-right">
+                                    {{ login_button(request.get_full_path()) }}
+                                </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-            </div>
+            {% endblock %}
 
             {% block infobox %}
             {% endblock %}
@@ -122,7 +117,8 @@
             {% block newslist %}
             {% endblock %}
 
-
+            {% block donate %}
+            {% endblock %}
 
             {% block social %}
             {% endblock %}
@@ -133,27 +129,164 @@
 
         <footer id="footer">
             <div class="container">
-                <div class="copirights-logos">
-                    <div class="cl-block">
-                        <a class="clogos clogos_cs" href="https://www.facebook.com/kancelaristy?"  target="_blank">Канцелярська сотня</a>
-                        <span class="ctext">Проект канцелярської сотні</span>
+
+                <div class="row">
+                    <div class="col-sm-5 col">
+                        <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
+                        <i>+</i>
+                        <img src="{{ static("images/cs-bihus-logo.png") }}" class="inline-logo" />
+                        <i>=</i>
+                        <i class="fa fa-heart-o" aria-hidden="true"></i>
+                        <p class="footer-desc-text">"Канцелярська сотня" - ініціатива зі створення інформаційних проектів із залученням тисяч волонтерів в інтернеті.</p>
+                        <h4>Інші проекті ГО "Канцелярська сотня":</h4>
+                        <ul>
+                            <li>
+                                <a href="https://bihus.info/projects/nevid-dragnet" target="_blank" title="НЕВІД (DRAGNET)">
+                                    <h5>НЕВІД (DRAGNET)</h5>
+                                    <p>IT-проект «Невід» (Dragnet) - це розробка програмно-аналітичного блоку ініціативи “Декларації”, створеної активістами “Канцелярської сотні” у 2014-му році.</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bihus.info/projects/posipaki" target="_blank" title="ПОСІПАКИ">
+                                    <h5>ПОСІПАКИ</h5>
+                                    <p>Відкрита база даних помічників народних депутатів Верховної Ради України, створена з інформації агенції журналістських розслідувань “Слідство.Інфо”.</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bihus.info/projects/elektronne-bti-ebti" target="_blank" title="ЕЛЕКТРОННЕ БТІ (ЕБТІ)">
+                                    <h5>ЕЛЕКТРОННЕ БТІ (ЕБТІ)</h5>
+                                    <p>Проект “Електронне БТІ” є продовженням створення серії інструментів, які розширюють доступ до даних про нерухомість.</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bihus.info/projects/garnahata" target="_blank" title="ГАРНАХАТА">
+                                    <h5>ГАРНАХАТА</h5>
+                                    <p>Cтартував одночасно із відкриттям Міністерством юстиції офіційного Реєстру речових прав на нерухоме майно. Простіше кажучи – реєстру нерухомості.</p>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="cl-block">
-                        <a class="clogos clogos_slab" href="http://schroedingerscatlab.com/" target="_blank">Лабораторія кота Шрьодінгера</a>
-                        <span class="ctext">Фронтенд Лабораторії кота Шрьодінгера</span>
+                    <div class="col-sm-4 col">
+                        <img src="{{ static("images/t14-bihus-logo.png") }}" class="inline-logo" />
+                        <i>+</i>
+                        <img src="{{ static("images/bihus-logo.png") }}" class="inline-logo" />
+                        <i>=</i>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <p class="footer-desc-text">Громадська організація "ТОМ 14" заснована ядром авторського колективу телепрограми "Наші гроші".</p>
+                        <h4>Проекти ГО "ТОМ 14":</h4>
+                        <ul>
+                            <li>
+                                <a href="https://bihus.info/projects/teleprograma-nasi-grosi" target="_blank" title='ТЕЛЕПРОГРАМА "НАШІ ГРОШІ"'>
+                                    <h5>ТЕЛЕПРОГРАМА "НАШІ ГРОШІ"</h5>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bihus.info/projects/push" target="_blank" title="ТИСНИ!">
+                                    <h5>ТИСНИ!</h5>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bihus.info/projects/pidsumki-dna" target="_blank" title="ПІДСУМКИ ДНА">
+                                    <h5>ПІДСУМКИ ДНА</h5>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bihus.info/projects/narodne-nazk" target="_blank" title="НАРОДНЕ НАЗК">
+                                    <h5>НАРОДНЕ НАЗК</h5>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bihus.info/projects/nasi-grosi-dosudilisa" target="_blank" title="НАШІ ГРОШІ. ДОСУДИЛИСЯ.">
+                                    <h5>НАШІ ГРОШІ. ДОСУДИЛИСЯ.</h5>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://bihus.info/projects/tbi-znak-okliku-ta-tendernews" target="_blank" title='TBI: "ЗНАК ОКЛИКУ" ТА TENDERNEWS'>
+                                    <h5>TBI: "ЗНАК ОКЛИКУ" ТА TENDERNEWS</h5>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="cl-block">
-                        <a class="clogos clogos_ok" href="http://okfactory.it/" target="_blank">OK Factory</a>
-                        <span class="ctext">SEO<br>optimization</span>
+                    <div class="col-sm-3 col">
+                        <div class="side-social"><div class="twitter_button"><a class="twitter-follow-button" href="https://twitter.com/BihusInfo" data-size="large" data-show-count="false">Follow @BihusInfo</a></div>
+                        <div><div class="g-ytsubscribe" data-channel="nashigroshiTV" data-layout="default" data-count="default"></div></div>
+                        <div><div class="fb-follow" data-href="https://www.facebook.com/bihus.info" data-layout="button_count" data-size="large" data-width="154" data-show-faces="true"></div></div></div>
+
+                        <h4>Мапа сайту:</h4>
+                        <ul>
+                            <li class="joinus"><a href="http://sotnya.org.ua/" target="_blank">Долучитись до розшифровки</a></li>
+                            <li><a href="/">Головна</a></li>
+                            <li><a href="/region">Регіони</a></li>
+                            <li><a href="http://goo.gl/forms/OTbHz2FVbj">Розшукуємо декларації</a></li>
+                            <li><a href="/about/">Про проект</a></li>
+                            <li><a href="/analytics/">Аналітика</a></li>
+                            <li><a href="/api/">Новий API</a></li>
+                            <li><a href="/business-intelligence/">BI</a></li>
+                        </ul>
                     </div>
+                </div>
+
+                <div class="row copyrights">
+                    <div class="copyrights-logos col-md-6">
+                        <div class="cl-block">
+                            <a class="clogos clogos_cs" href="https://www.facebook.com/kancelaristy?"  target="_blank">Канцелярська сотня</a>
+                            <span class="ctext">Проект канцелярської сотні</span>
+                        </div>
+                        <div class="cl-block">
+                            <a class="clogos clogos_slab" href="http://schroedingerscatlab.com/" target="_blank">Лабораторія кота Шрьодінгера</a>
+                            <span class="ctext">Фронтенд Лабораторії кота Шрьодінгера</span>
+                        </div>
+                        <div class="cl-block">
+                            <a class="clogos clogos_ok" href="http://okfactory.it/" target="_blank">OK Factory</a>
+                            <span class="ctext">SEO<br>optimization</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 copyrights-text">
+                        <p>У розробці проекту брали участь: Денис Бігус, Дмитро Чаплинський, Ольга Макарова, Артем Глувчинський, Володимир Фльонц,
+                            Дмитро Нечипоренко, Андрій Турик, Дмитро Гамбаль, Гліб Козак, Володимир Гоцик, Олександр Ботезату, Ігор Рубан, Кирило Захаров</p>
+                        <p>Автори висловлюють вдячність Громадському люстраційному комітету й Громадському руху Чесно за допомогу у зборі декларацій</p>
+                    </div>
+
                 </div>
             </div>
         </footer>
-
     </div>
     {% javascript 'js_all' %}
 
     {% block extra_js %}
     {% endblock %}
+
+    <script>window.twttr = (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0],
+                t = window.twttr || {};
+        if (d.getElementById(id)) return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+
+        t._e = [];
+        t.ready = function(f) {
+            t._e.push(f);
+        };
+
+        return t;
+    }(document, "script", "twitter-wjs"));</script>
+
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script>
+        function onYtEvent(payload) {
+            if (payload.eventType == 'subscribe') {
+                // Add code to handle subscribe event.
+            } else if (payload.eventType == 'unsubscribe') {
+                // Add code to handle unsubscribe event.
+            }
+            if (window.console) { // for debugging only
+                window.console.log('YT event: ', payload);
+            }
+        }
+    </script>
+
 </body>
 </html>

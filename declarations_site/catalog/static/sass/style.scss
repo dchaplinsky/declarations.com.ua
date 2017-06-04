@@ -9,10 +9,16 @@
 @import 'animate';
 @import 'preloader';
 
-@import 'main';
+@import 'base';
 @import 'user';
 @import 'forms';
-@import 'nav';
+
+@import 'blocks/small-blocks';
+@import 'blocks/nav-block';
+@import 'blocks/search-block';
+@import 'blocks/infobox';
+@import 'blocks/news';
+@import 'blocks/footer';
 
 .search-page {
   @import 'search';
@@ -27,3 +33,8 @@
 
 @import 'nacp_declarations';
 @import 'bi/widget_home';
+
+.front {
+  @import 'pages/front';
+  background: white;
+}

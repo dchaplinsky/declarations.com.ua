@@ -1,0 +1,219 @@
+.bihus-news {
+  margin-top: $pad * 4;
+
+  @media (min-width: $screen-md-min) {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    min-height: 100%;
+  }
+
+  a {
+    color: #151515; //todo
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .top-news,
+  .more-news {
+    @media (min-width: $screen-md-min) {
+      width: 50%;
+      box-sizing: border-box;
+    }
+  }
+
+  .more-news-container {
+    height: 100%;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+
+  }
+
+  .top-news {
+    padding-left: $pad * 4;
+
+    .top-news-card {
+      background: white;
+      display: block;
+      -webkit-box-shadow: 0px 0px 21px 0px rgba(50, 50, 50, 0.34);
+      -moz-box-shadow:    0px 0px 21px 0px rgba(50, 50, 50, 0.34);
+      box-shadow:         0px 0px 21px 0px rgba(50, 50, 50, 0.34);
+      border-radius: 3px;
+
+      &:hover {
+        .top-teaser {
+          display: block;
+        }
+      }
+    }
+
+    .news-block-title {
+      @include greenGradient;
+      color: white;
+      font-weight: 500;
+      font-size: 20px;
+      padding: 10px 20px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    .top-teaser {
+      display: none;
+    }
+
+    h4, h6 {
+      margin: 0;
+    }
+
+    .top-news-container {
+      position: relative;
+    }
+
+    .top-news-info {
+      padding: 20px 40px;
+      background: white;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+
+      h4 {
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+      }
+
+      h6 {
+        color: #808080;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: $pad;
+      }
+
+      .top-teaser {
+        margin-top: 10px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .more-news {
+    padding:  0 $pad * 4;
+
+    .media {
+      .media-object {
+        position: relative;
+        width: 70px;
+        height: 50px;
+        overflow: hidden;
+
+        img {
+          width: auto;
+          height: 50px;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+        }
+      }
+    }
+
+    .more-news-more-link {
+      text-decoration: underline;
+      font-size: 10px;
+      color: #808080;
+    }
+
+    .news-row {
+      cursor: pointer;
+
+      h4 {
+        font-size: 13px;
+        line-height: 18px;
+        margin-bottom: 0;
+      }
+
+      h6 {
+        font-size: 10px;
+        color: #808080;
+        margin-top: 5px;
+        margin-bottom: 0;
+      }
+
+      .card-flip{
+        .face {
+          &.front {
+            background: white;
+          }
+
+          &.back {
+            background: white;
+            display: none;
+          }
+        }
+      }
+
+      &:hover {
+        .media-left,
+        .media-object,
+        img {
+          width: 1px;
+          opacity: 0;
+        }
+
+        .card-flip .face.front {
+          display: none;
+        }
+
+        .card-flip .face.back {
+          display: block;
+          font-size: 12px;
+          line-height: 14px;
+        }
+      }
+    }
+
+  }
+}
+
+#decl-bihus-block {
+  .news-block-title {
+    @include blueGradient;
+  }
+}
+

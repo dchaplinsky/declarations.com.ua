@@ -5,11 +5,15 @@
 }
 
 .btn-info:not(.btn-link):not(.btn-flat) {
-  background-color: $decl-blue;
-  color: rgba(255, 255, 255, 0.84);
+  //@include blueGradient;
+  @include gradient-animation(left, #2e68f6, #01adef, 0.25s );
+  font-size: 14px;
+  font-weight: 300;
+  color: white;
+ // transition: all 0.3s linear;
 
   &:hover {
-    background-color: $decl-green;
+   // @include greenGradient;
   }
 }
 
@@ -39,7 +43,7 @@ fieldset {
     width: auto;
     padding: 0 10px;
     border-bottom: none;
-    font-family: 'Roboto Slab', serif;
+    //font-family: 'Roboto Slab', serif;
     margin-bottom: 5px;
   }
 }
