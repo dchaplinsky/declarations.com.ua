@@ -28,13 +28,17 @@
 @import 'responsive';
 
 .declaration-page {
-  @import 'declaration';
+  @import 'pages/declaration';
 }
 
-@import 'nacp_declarations';
+@import 'pages/nacp_declarations';
 @import 'bi/widget_home';
 
 .front {
   @import 'pages/front';
   background: white;
+}
+
+.not-front {
+  @import 'pages/regular-page';
 }

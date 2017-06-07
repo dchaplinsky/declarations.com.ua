@@ -113,11 +113,60 @@
 
 #save-search {
     line-height: 20px;
-    background-color: #fff;
-    margin: 20px 0 20px 0;
+    margin: 10px 0 20px 0;
+    font-weight: 300;
+    font-size: 15px;
+    text-transform: uppercase;
+    color: white;
+    padding: 10px 20px 10px 50px;
+    @include gradient-animation(left, #9c21ff, #5d46ff, 0.3s );
+
+    background: #9c21ff;
+    background: -moz-linear-gradient(left, #9c21ff 0%, #5d46ff 80%, #9c21ff 100%);
+    background: -webkit-linear-gradient(left, #9c21ff 0%,#5d46ff 80%,#9c21ff 100%);
+    background: linear-gradient(to right, #9c21ff 0%,#5d46ff 80%,#9c21ff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9c21ff', endColorstr='#9c21ff',GradientType=1 );
+    overflow: hidden;
+    position: relative;
+
+    &:before {
+        background: #9c21ff;
+        background: -moz-linear-gradient(left, #9c21ff 0%, #5d46ff 20%, #9c21ff 100%);
+        background: -webkit-linear-gradient(left, #9c21ff 0%,#5d46ff 20%,#9c21ff 100%);
+        background: linear-gradient(to right, #9c21ff 0%,#5d46ff 20%,#9c21ff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9c21ff', endColorstr='#9c21ff',GradientType=1 );
+
+        content: '';
+        display: block;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0; left: 0;
+        opacity: 0;
+        z-index: -100;
+        -moz-transition: opacity 0.3s ease-in-out;
+        -webkit-transition: opacity 0.3s ease-in-out;
+        transition: opacity 0.3s ease-in-out;
+        border-radius: inherit;
+    }
+
+    &:hover {
+        box-shadow: none;
+
+        &:before {
+            opacity: 1;
+        }
+    }
 
     @media (min-width: 767px) {
         float: right;
+    }
+
+    i {
+        position: absolute;
+        font-size: 40px;
+        left: -3px;
+        bottom: -6px;
     }
 }
 

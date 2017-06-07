@@ -1,102 +1,8 @@
-#nav-search {
-  @include greenGradient();
-  padding-top: $pad20;
-  padding-bottom: $pad20;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-
-#front-searchbox {
-  @media (max-width: 460px) {
-    margin-bottom: 45px;
-  }
-
-  #search_scope {
-    @media (max-width: 460px) {
-      display: block;
-      position: absolute;
-      left: 0;
-      top: 40px;
-      margin-left: 0;
-      padding-left: 0;
-      width: auto;
-    }
-
-    span {
-      display: inline-block;
-      //font-family: 'arsenalbold';
-      font-size: 10px;
-      text-transform: uppercase;
-      color: black;
-      margin-left: 5px;
-    }
-  }
-
-  .checkbox .checkbox-material:before {
-    top: 0;
-    left: 5px;
-  }
-
-  .input-group-btn {
-    padding-left: 10px;
-    padding-right: 0;
-  }
-
-  .btn {
-    padding: 8px 20px;
-    border-left: 2px $decl-green solid;
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    margin-bottom: 0;
-
-    .glyphicon {
-      top: 3px;
-    }
-  }
-
-  input {
-    margin-bottom: 0;
-    margin-left: 10px;
-    padding-right: 10px;
-  }
-}
-
-#front-searchbox form {
-  background: white;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
-  -moz-box-shadow:    0px 0px 5px 0px rgba(50, 50, 50, 0.75);
-  box-shadow:         0px 0px 5px 0px rgba(50, 50, 50, 0.75);
-
-}
-
-#front-searchbox .form-control-wrapper input {
-  margin-top: 5px;
-}
-
-#front-searchbox .form-control-wrapper .form-control::-webkit-input-placeholder {
-  color: #CFCFCF;
-}
-
-#front-searchbox .form-control-wrapper .form-control:-moz-placeholder {
-  color: #CFCFCF;
-}
-
-#front-searchbox .form-control-wrapper .form-control::-moz-placeholder {
-  color: #CFCFCF;
-}
-
-#front-searchbox .form-control-wrapper .form-control:-ms-input-placeholder {
-  color: #CFCFCF;
-}
-
-
 /////////////
 #navbar {
   float: none;
+  margin-top: $pad20;
+  margin-bottom: $pad;
 
   .navbar-collapse ul {
     float: none;
@@ -118,20 +24,6 @@
       &.right-item {
         margin-right: 20px;
         margin-left: 0;
-      }
-
-      a {
-        color: #535353;
-        font-size: 15px;
-        font-weight: 600;
-        text-transform: uppercase;
-        padding-top: 0;
-        transition: all 0.3s linear;
-        padding: 10px;
-
-        &:hover {
-          color: $decl-blue;
-        }
       }
 
       a, img {

@@ -63,8 +63,6 @@
   }
 
   .top-news {
-    padding-left: $pad * 4;
-
     .top-news-card {
       background: white;
       display: block;
@@ -72,6 +70,12 @@
       -moz-box-shadow:    0px 0px 21px 0px rgba(50, 50, 50, 0.34);
       box-shadow:         0px 0px 21px 0px rgba(50, 50, 50, 0.34);
       border-radius: 3px;
+      margin-bottom: $pad20 * 2;
+
+      @media (min-width: 992px) {
+        padding-left: $pad * 4;
+        margin-bottom: 0;
+      }
 
       &:hover {
         .top-teaser {

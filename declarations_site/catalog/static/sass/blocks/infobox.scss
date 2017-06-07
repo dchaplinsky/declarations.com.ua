@@ -49,6 +49,12 @@
       .infobanner-text {
         align-self: center;
 
+        @media (max-width: 991px) {
+          width: 100%;
+          padding-left: $pad20 / 2;
+          padding-right: $pad20 / 2;
+        }
+
         .infobanner-top-text {
           font-weight: 500;
         }

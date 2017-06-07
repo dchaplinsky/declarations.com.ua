@@ -56,21 +56,20 @@
     <div id="wrapper">
         <div>
             {% block header %}
-                <div id="nav-search">
-                    <div class="container">
-                        <div class="row">
-                            <div class="nav-block">
-                                <nav id="navbar" class="navbar navbar-inverse navbar-default col-lg-8 col-md-7 col-sm-7 col-xs-12" role="navigation">
+                <div class="nav-block">
+                        <div class="container">
+                            <div class="row">
+                                <nav id="navbar" class="navbar navbar-default col-lg-8 col-md-12" role="navigation">
                                     <div class="navbar-header">
-                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
-                                    </div>
-                                    <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
                                         <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
                                             <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
                                         </a>
+                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
+                                    </div>
+                                    <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
                                         <ul class="nav navbar-nav">
-                                            <li><a href="http://goo.gl/forms/OTbHz2FVbj">Розшукуємо декларації</a></li>
-                                            <li><a href="/about/">Про проект</a></li>
+                                            <li><a href="/about">Про проект</a></li>
+                                            <li><a href="/">Відкритий API</a></li>
                                             <li><a href="/analytics/">Аналітика</a></li>
                                             <li><a href="/business-intelligence/">BI</a></li>
                                         </ul>
@@ -86,9 +85,18 @@
                                         <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </section>
+                                <div class="pull-right">
+                                    <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info" id="joinus">Долучитись до розшифровки</a>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+
+                <div class="nav-search">
+                    <div class="container">
+                        <div class="row">
                             <div class="search-block">
-                                <div id="front-searchbox" class="searchbox col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div id="front-searchbox" class="searchbox col-sm-12">
                                     <form action="{{ url("search") }}" method="GET">
                                         <div class="input-group">
                                             <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
@@ -100,15 +108,13 @@
                                             </span>
                                         </div>
                                     </form>
-                                <a class="ex-search-link" href="/search" class="text-right">Розширений пошук</a>
-                                </div>
-                                <div class="col col-lg-3 col-md-4 col-sm-4 pull-right">
-                                    {{ login_button(request.get_full_path()) }}
+                                    <a class="ex-search-link" href="/search" class="text-right">Розширений пошук</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             {% endblock %}
 
             {% block infobox %}
@@ -123,13 +129,12 @@
             {% block social %}
             {% endblock %}
 
-            </div> <!--div class=""-->
+            </div>
         {% block content %}
         {% endblock %}
 
         <footer id="footer">
             <div class="container">
-
                 <div class="row">
                     <div class="col-sm-5 col">
                         <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
@@ -225,7 +230,6 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="row copyrights">
                     <div class="copyrights-logos col-md-6">
                         <div class="cl-block">

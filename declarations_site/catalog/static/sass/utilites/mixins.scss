@@ -82,3 +82,27 @@ S - the font-size in pixels
   background: linear-gradient(to right, #2e68f6 0%,#01adef 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e68f6', endColorstr='#01adef',GradientType=1 );
 }
+
+@mixin gradient-text($gradient) {
+  @supports(mix-blend-mode: lighten) {
+    display: inline-block;
+    position: relative;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background: unquote($gradient);
+      pointer-events: none;
+    }
+
+    color: #000;
+    background: #fff;
+    mix-blend-mode: multiply;
+
+    &::before {
+      mix-blend-mode: screen;
+    }
+  }
+}

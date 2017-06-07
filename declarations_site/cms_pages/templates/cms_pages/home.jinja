@@ -34,30 +34,24 @@
 
 {% block bodyclass %}front{% endblock %}
     {% block header %}
-<div id="nav-search">
+<div class="nav-search">
     <div class="container">
         <div class="row">
-
             <div class="search-block">
                 <div id="front-searchbox" class="searchbox col-sm-12">
                     <form action="{{ url("search") }}" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
-                                    <span id="search_scope" class="input-group-btn">
-                                        <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
-                                    </span>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                                    </span>
-                    </div>
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                            <span id="search_scope" class="input-group-btn">
+                                <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
+                            </span>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+                            </span>
+                        </div>
                     </form>
-
                 </div>
-
-
             </div>
-
-
         </div>
     </div>
 </div>
@@ -67,11 +61,13 @@
         <div class="row">
             <nav id="navbar" class="navbar navbar-inverse navbar-default col-sm-12" role="navigation">
                 <div class="navbar-header">
+                    <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left visible-xs">
+                        <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
+                    </a>
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
                 </div>
                 <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
                     <ul class="nav navbar-nav text-center">
-                        <li class="visible-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_big.png") }}" class="inline-logo" /></a></li>
                         <li class="left-item"><a href="/">Про проект</a></li>
                         <li class="left-item"><a href="/">Відкритий API</a></li>
                         <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_big.png") }}" class="inline-logo" /></a></li>

@@ -1,0 +1,23 @@
+.nav-block {
+
+}
+
+.nav-search {
+  padding-top: $pad20 * 2;
+  padding-bottom: $pad20;
+}
+
+#joinus {
+  margin-top: 0;
+
+
+  @media (min-width: 1200px) {
+    margin-bottom: $pad;
+  }
+}
+
+#block-sociallinksblock {
+  @media (max-width: 1199px) {
+    margin-top: 0;
+  }
+}
