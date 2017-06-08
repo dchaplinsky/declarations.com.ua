@@ -2,7 +2,6 @@
   font-weight: 300;
   font-size: 14px;
   padding: 8px 0;
-  margin-top: 15px;
 
   @media(min-width:768px) {
     float: left;
@@ -10,6 +9,8 @@
 
   .breadcrumb {
     background: none;
+    padding-left: 0;
+    margin-bottom: 0;
   }
 }
 
@@ -26,10 +27,6 @@
 
 #block-sociallinksblock {
   margin-top: 15px;
-
-  @media (min-width: 1200px) {
-    padding-right: 0;
-  }
 
   ul {
     margin-left: 0;
@@ -80,3 +77,21 @@
     background: #e13f4c;
   }
 }
+
+.pagination {
+  > li > a,
+  > li > span {
+    color: $decl-blue;
+  }
+
+  > .active > a,
+  > .active > span,
+  > .active > a:hover,
+  > .active > span:hover,
+  > .active > a:focus,
+  > .active > span:focus {
+    background-color: $decl-blue;
+    border-color: $decl-blue;
+  }
+}
+

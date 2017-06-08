@@ -145,6 +145,14 @@ $(function() {
             }
         }
 
+        if(window.location.hash) {
+            var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+
+            if(hash === 'exsearch') {
+                usedParams++;
+            }
+        }
+
         if(usedParams > 0) {
             $('#ex-search-form').addClass('ex-search');
             $('#collapseExSearch').addClass('in');
@@ -295,7 +303,7 @@ $(function() {
             big_teaser_media = data[0].field_teaser_media_1.replace(/^\s+|\s+$/g,''),
             declNews = '';
 
-        declNews = declNews + '<div class="top-news"><a class="top-news-card" href="https://bihus.info/node/' + nid +'"><div class="news-block-title">Останні новини ' + ntitle + '</div>';
+        declNews = declNews + '<div class="top-news"><a target="_blank" class="top-news-card" href="https://bihus.info/node/' + nid +'"><div class="news-block-title">Останні новини ' + ntitle + '</div>';
         declNews = declNews +  '<div class="top-news-container"><img src="' +  big_teaser_media +'" />';
         declNews = declNews +  '<div class="top-news-info"><h4>' + title  + '</h4>';
         declNews = declNews +  '<h6>' + created + '</h6><div class="top-teaser">' + teaser_text + '</div></div>';
@@ -310,7 +318,7 @@ $(function() {
                 created = data[i].created,
                 teaser_media = data[i].field_teaser_media;
 
-            declNews = declNews +  '<a class="news-row" title="' + title +'" href="https://bihus.info/node/' + nid +'"><div class="media">';
+            declNews = declNews +  '<a target="_blank" class="news-row" title="' + title +'" href="https://bihus.info/node/' + nid +'"><div class="media">';
             declNews= declNews + '<div class="media-left">';
             declNews= declNews + '<div class="media-object"><img src="' + teaser_media +'" />';
             declNews= declNews + '</div></div>';
@@ -320,7 +328,7 @@ $(function() {
             declNews= declNews + '</div></div></a>';
         }
 
-        declNews = declNews + '<a href="' + link + '" class="more-news-more-link">Більше новин тут</a></div></div>';
+        declNews = declNews + '<a target="_blank" href="' + link + '" class="more-news-more-link">Більше новин тут</a></div></div>';
         $($container).append(declNews);
     }
 

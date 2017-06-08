@@ -1,28 +1,33 @@
 @media(max-width:767px) {
-.newsBox {
-    display: block;
-    height: 100%;
-    clear: both;
-    overflow: auto;
-    padding-top:0;
-    padding-bottom:0;
+    .newsBox {
+        display: block;
+        height: 100%;
+        clear: both;
+        overflow: auto;
+        padding-top:0;
+        padding-bottom:0;
+    }
+    .newsBox:nth-child(odd),  .newsBox:nth-child(even) {
+        background: none;
+    }
+    .newsRow:nth-child(odd) {
+        background: none;
+    }
+    .newsRow:nth-child(even) {
+        background: white;
+    }
+    .newsRow {
+        display: block;
+        height: 100%;
+        clear: both;
+        overflow: auto;
+        padding: 7px 12px;
+    }
 }
-.newsBox:nth-child(odd),  .newsBox:nth-child(even) {
-    background: none;
-}
-.newsRow:nth-child(odd) {
-    background: none;
-}
-.newsRow:nth-child(even) {
-    background: white;
-}
-.newsRow {
-    display: block;
-    height: 100%;
-    clear: both;
-    overflow: auto;
-    padding: 7px 12px;
-}
+
+.col {
+    padding-left: $pad;
+    padding-right: $pad;
 }
 
 @media(min-width:768px) {

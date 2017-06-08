@@ -46,6 +46,15 @@
   }
 }
 
+#ex-search-form {
+  @include greenGradient();
+  padding-top: $pad20;
+  padding-bottom: $pad20;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
 #front-searchbox {
   @media (max-width: 460px) {
     margin-bottom: 45px;

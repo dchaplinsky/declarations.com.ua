@@ -39,6 +39,12 @@
     }
   }
 
+  .top-news {
+    @media (min-width: 992px) {
+      padding-left: $pad * 4;
+    }
+  }
+
   .more-news-container {
     height: 100%;
     display: -ms-flexbox;
@@ -73,7 +79,6 @@
       margin-bottom: $pad20 * 2;
 
       @media (min-width: 992px) {
-        padding-left: $pad * 4;
         margin-bottom: 0;
       }
 
@@ -93,7 +98,7 @@
     }
 
     img {
-      max-width: 100%;
+      width: 100%;
     }
 
     .top-teaser {
@@ -140,6 +145,10 @@
     padding:  0 $pad * 4;
 
     .media {
+      @media (max-width: 991px) {
+        margin-bottom: $pad;
+      }
+
       .media-object {
         position: relative;
         width: 70px;

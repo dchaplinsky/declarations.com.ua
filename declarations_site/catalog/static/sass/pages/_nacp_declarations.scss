@@ -249,6 +249,11 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     border-radius: 2px;
     cursor: pointer;
 
+    a {
+        color: $decl-blue;
+        font-size: 11px;
+    }
+
     h2 {
         padding-top: 0;
         margin-top: 0;
