@@ -8,8 +8,8 @@
                 <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
                 <li class="active">{% block page_name %}{% endblock %}</li>
             </ol>
-            {{ social(page.title,"http://declarations.com.ua%s" % request.path, add_disqus=False) }}
         </div>
+        {{ social(page.title,"http://declarations.com.ua%s" % request.path, add_disqus=False) }}
 
         <h1 class="page-header"><span>{% block page_header %}{% endblock %}</span></h1>
 

@@ -47,7 +47,7 @@ button.thumbnails {
 .sidebar .nav > .active > a,
 .sidebar .nav > .active:hover > a,
 .sidebar .nav > .active:focus > a {
-    font-weight: bold;
+    color: $decl-blue;
     background-color: transparent;
     border-right: 1px solid;
 }

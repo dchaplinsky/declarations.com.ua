@@ -12,26 +12,6 @@
 
 {% endblock %}
 
-{% block donate %}
-<section id="donate" class="on-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="media">
-                    <div class="media-left">
-                        <img alt="" src="/static/images/anonim.c03a67ae788c.png">
-                    </div>
-                    <div class="media-body">
-                        <p>Якщо у вас є змога, можете допомогти проекту грошима, жодних сторонніх джерел фінансування у нього немає. Моя картка 5168 7423 3713 2520 (ПриватБанк).</p>
-                        <p>З вдячністю, ініціативна група Канцелярської сотні, та Денис Бігус</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-{% endblock %}
-
 {% block bodyclass %}front{% endblock %}
     {% block header %}
 <div class="nav-search">
@@ -69,7 +49,7 @@
                 <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
                     <ul class="nav navbar-nav text-center">
                         <li class="left-item"><a href="/about">Про проект</a></li>
-                        <li class="left-item"><a href="/api">Відкритий API</a></li>
+                        <li class="left-item"><a href="/API">Відкритий API</a></li>
                         <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_big.png") }}" class="inline-logo" /></a></li>
                         <li class="right-item"><a href="/search#exsearch">Розширений пошук</a></li>
                         <li class="right-item"><a href="/business-intelligence/">BI</a></li>
@@ -99,9 +79,9 @@
             <div class="infobanner">
                 <div class="infobanner-content">
                     <div class="infobanner-text text-center">
-                        <p class="infobanner-top-text">Потрібна допомога у <a href="#" target="_blank">пошуку</a> та <a href="http://sotnya.org.ua/" target="_blank">розшифровці декларацій</a></p>
-                        <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info" id="joinus">Долучитись до розшифровки</a>
-                        <p>або допоможіть знайти <a href="#" target="_blank">такі</a> декларації</p>
+                        <p class="infobanner-top-text">Потрібна допомога у пошуку та розшифровці декларацій</p>
+                        <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info" id="joinus">Долучіться до розшифровки</a>
+                        <p>або допоможіть знайти <a href="http://goo.gl/forms/OTbHz2FVbj" target="_blank">такі</a> декларації</p>
                     </div>
                 </div>
             </div>

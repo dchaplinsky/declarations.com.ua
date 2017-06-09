@@ -123,9 +123,6 @@
             {% block newslist %}
             {% endblock %}
 
-            {% block donate %}
-            {% endblock %}
-
             {% block social %}
             {% endblock %}
 
@@ -220,13 +217,9 @@
                         <h4>Мапа сайту:</h4>
                         <ul>
                             <li class="joinus"><a href="http://sotnya.org.ua/" target="_blank">Долучитись до розшифровки</a></li>
-                            <li><a href="/">Головна</a></li>
-                            <li><a href="/region">Регіони</a></li>
-                            <li><a href="http://goo.gl/forms/OTbHz2FVbj">Розшукуємо декларації</a></li>
-                            <li><a href="/about/">Про проект</a></li>
-                            <li><a href="/analytics/">Аналітика</a></li>
-                            <li><a href="/api/">Новий API</a></li>
-                            <li><a href="/business-intelligence/">BI</a></li>
+                            {% for menuitem in top_menu %}
+                            <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
