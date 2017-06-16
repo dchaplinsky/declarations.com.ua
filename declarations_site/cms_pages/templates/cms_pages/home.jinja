@@ -13,81 +13,84 @@
 {% endblock %}
 
 {% block bodyclass %}front{% endblock %}
-    {% block header %}
-<div class="nav-search">
-    <div class="container">
-        <div class="row">
-            <div class="search-block">
-                <div id="front-searchbox" class="searchbox col-sm-12">
-                    <form action="{{ url("search") }}" method="GET">
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
-                            <span id="search_scope" class="input-group-btn">
-                                <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
-                            </span>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                            </span>
+
+    {% block infobox %}
+        <section id="infobox">
+            <div class="container">
+                <div class="infobanner">
+                    <div class="infobanner-content">
+                        <div class="infobanner-text text-center">
+                            <p class="infobanner-top-text">Потрібна допомога у пошуку та розшифровці декларацій</p>
+                            <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info" id="joinus">Долучіться до розшифровки</a>
+                            <p>або допоможіть знайти <a href="http://goo.gl/forms/OTbHz2FVbj" target="_blank">такі</a> декларації</p>
                         </div>
-                    </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endblock %}
+
+    {% block header %}
+        <div class="nav-block">
+            <div class="container">
+                <div class="row">
+                    <nav id="navbar" class="navbar navbar-inverse navbar-default col-sm-12" role="navigation">
+                        <div class="navbar-header">
+                            <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left visible-xs">
+                                <img src="{{ static("images/logo_front.png") }}" class="inline-logo" />
+                            </a>
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
+                        </div>
+                        <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
+                            <ul class="nav navbar-nav text-center">
+                                <li class="left-item"><a href="/about">Про проект</a></li>
+                                <li class="left-item"><a href="/API">Відкритий API</a></li>
+                                <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_front.png") }}" class="inline-logo" /></a></li>
+                                <li class="right-item"><a href="/search#exsearch">Розширений пошук</a></li>
+                                <li class="right-item"><a href="/business-intelligence/">BI</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                    <p class="about-text text-center">Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб викрити їхню брехню про статки та майно.</p>
+                    <section id="block-sociallinksblock">
+                        <ul>
+                            <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                            <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                            <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
+                            <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </section>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="nav-block">
-    <div class="container">
-        <div class="row">
-            <nav id="navbar" class="navbar navbar-inverse navbar-default col-sm-12" role="navigation">
-                <div class="navbar-header">
-                    <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left visible-xs">
-                        <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
-                    </a>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
-                </div>
-                <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
-                    <ul class="nav navbar-nav text-center">
-                        <li class="left-item"><a href="/about">Про проект</a></li>
-                        <li class="left-item"><a href="/API">Відкритий API</a></li>
-                        <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_big.png") }}" class="inline-logo" /></a></li>
-                        <li class="right-item"><a href="/search#exsearch">Розширений пошук</a></li>
-                        <li class="right-item"><a href="/business-intelligence/">BI</a></li>
-                    </ul>
-                </div>
-            </nav>
-            <p class="about-text text-center">Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб викрити їхню брехню про статки та майно.</p>
-            <section id="block-sociallinksblock">
-                <ul>
-                    <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                    <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                    <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                    <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
-                    <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                </ul>
-            </section>
-        </div>
-    </div>
-</div>
-{% endblock %}
-
-<p>dsfsd</p>
-    {% block infobox %}
-    <section id="infobox">
-        <div class="container">
-            <div class="infobanner">
-                <div class="infobanner-content">
-                    <div class="infobanner-text text-center">
-                        <p class="infobanner-top-text">Потрібна допомога у пошуку та розшифровці декларацій</p>
-                        <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info" id="joinus">Долучіться до розшифровки</a>
-                        <p>або допоможіть знайти <a href="http://goo.gl/forms/OTbHz2FVbj" target="_blank">такі</a> декларації</p>
+        
+        <div class="nav-search">
+            <div class="container">
+                <div class="row">
+                    <div class="search-block">
+                        <div id="front-searchbox" class="searchbox col-sm-12">
+                            <form action="{{ url("search") }}" method="GET">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                                    <span id="search_scope" class="input-group-btn">
+                                        <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
+                                    </span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+                                    </span>
+                            </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-{% endblock %}
+    {% endblock %}
+
+
+
 
 {% block social %}
 {% endblock %}

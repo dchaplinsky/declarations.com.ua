@@ -55,6 +55,9 @@
 
     <div id="wrapper">
         <div>
+            {% block infobox %}
+            {% endblock %}
+
             {% block header %}
                 <div class="nav-block">
                         <div class="container">
@@ -115,9 +118,6 @@
                     </div>
                 </div>
 
-            {% endblock %}
-
-            {% block infobox %}
             {% endblock %}
 
             {% block newslist %}
@@ -210,9 +210,12 @@
                         </ul>
                     </div>
                     <div class="col-sm-3 col">
-                        <div class="side-social"><div class="twitter_button"><a class="twitter-follow-button" href="https://twitter.com/BihusInfo" data-size="large" data-show-count="false">Follow @BihusInfo</a></div>
-                        <div><div class="g-ytsubscribe" data-channel="nashigroshiTV" data-layout="default" data-count="default"></div></div>
-                        <div><div class="fb-follow" data-href="https://www.facebook.com/bihus.info" data-layout="button_count" data-size="large" data-width="154" data-show-faces="true"></div></div></div>
+                        <div class="side-social">
+                            <h4>Підпишіться на Bihus.info у соц.медіа:</h4>
+                            <div class="twitter_button"><a class="twitter-follow-button" href="https://twitter.com/BihusInfo" data-size="large" data-show-count="false">Follow @BihusInfo</a></div>
+                            <div><div class="g-ytsubscribe" data-channel="nashigroshiTV" data-layout="default" data-count="default"></div></div>
+                            <div><div class="fb-follow" data-href="https://www.facebook.com/bihus.info" data-layout="button_count" data-size="large" data-width="154" data-show-faces="true"></div></div>
+                        </div>
 
                         <h4>Мапа сайту:</h4>
                         <ul>
