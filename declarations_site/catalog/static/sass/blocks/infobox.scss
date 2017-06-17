@@ -1,0 +1,87 @@
+#infobox {
+  @include greenGradient;
+  position: relative;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  .infobanner {
+    position: relative;
+    background: white;
+
+    $w: 50px;
+
+    &:after,
+    &:before {
+      content: '';
+      display: block;
+      width: $w;
+      height: 100%;
+      background: white;
+      top: 0;
+      position: absolute;
+      z-index: 1;
+    }
+
+    &:before {
+      left: -1 * $w;
+      right: auto;
+    }
+
+    &:after {
+      left: auto;
+      right: -1 * $w;
+    }
+
+    .infobanner-content {
+      background: white;
+      border-bottom: #ccc 1px solid;
+      border-radius: 3px;
+      position: relative;
+      z-index: 2;
+      min-height: 145px;
+      display: flex;
+      justify-content: space-between;
+
+      .infobanner-text {
+        align-self: center;
+
+        @media (max-width: 991px) {
+          width: 100%;
+          padding-left: $pad20 / 2;
+          padding-right: $pad20 / 2;
+        }
+
+        .infobanner-top-text {
+          font-weight: 500;
+        }
+
+        #joinus {
+          margin-top: 10px;
+          margin-bottom: 10px;
+        }
+      }
+
+      @media (min-width: $screen-md-min) {
+        &:after,
+        &:before {
+          content: '';
+          display: inline-block;
+          width: 266px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center center;
+        }
+
+        &:before {
+          background-image: url('../images/banner-help2decode.jpg');
+        }
+
+        &:after {
+          background-image: url('../images/banner-help2find.jpg');
+        }
+      }
+    }
+  }
+}

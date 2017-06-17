@@ -18,6 +18,9 @@
 {% block bodyclass %}not-front search-page{% endblock %}
 
 {% block content %}
+
+{{ ex_search_form(query, deepsearch) }}
+
 <section id="page">
     <div class="container">
         <div id="breadcrumbs">
@@ -25,13 +28,7 @@
                 <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
                 <li class="active">Результати пошуку</li>
             </ol>
-            {{ social("Результати пошуку по: %s. " % query,
-                              "http://declarations.com.ua%s" % request.get_full_path() ,
-                              add_disqus=False,
-                              add_rss=request.META['QUERY_STRING']) }}
         </div>
-
-        {{ ex_search_form(query, deepsearch) }}
 
         <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span>
         {% if request.META['QUERY_STRING'] %}

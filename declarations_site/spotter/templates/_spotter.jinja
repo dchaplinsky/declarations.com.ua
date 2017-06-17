@@ -54,7 +54,7 @@
 {% macro spotter_button(label, query_string, from) -%}
     <a id="save-search" class="btn btn-raised btn-sm save-search" data-target="#login-modal"
         href="{{ url('save_search') }}?{{ query_string }}" data-from="{{ from }}">
-    <span class="glyphicon glyphicon-plus"></span> {{ label }}</a>
+        <i class="fa fa-envelope-o" aria-hidden="true"></i> {{ label }}</a>
     <div class="modal" id="wait-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">

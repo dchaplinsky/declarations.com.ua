@@ -123,6 +123,10 @@ class HomePageTopMenuLink(Orderable, LinkFields):
     page = ParentalKey('cms_pages.HomePage', related_name='top_menu_links')
 
 
+class HomePageBottomMenuLink(Orderable, LinkFields):
+    page = ParentalKey('cms_pages.HomePage', related_name='bottom_menu_links')
+
+
 class HomePage(Page):
     body = RichTextField(verbose_name="Текст сторінки")
     news_count = models.IntegerField(
@@ -130,20 +134,6 @@ class HomePage(Page):
         verbose_name="Кількість новин на сторінку")
 
     template = "cms_pages/home.jinja"
-
-    def get_context(self, request, *args, **kwargs):
-        ctx = super(HomePage, self).get_context(request, *args, **kwargs)
-
-        hp_news = NewsPage.objects.live().filter(
-            sticky=True).order_by("-date_added").first()
-
-        latest_news = NewsPage.objects.live().exclude(
-            pk=hp_news.pk if hp_news is not None else None).order_by(
-            "-date_added")[:self.news_count]
-
-        ctx["hp_news"] = hp_news
-        ctx["latest_news"] = latest_news
-        return ctx
 
     class Meta:
         verbose_name = "Головна сторінка"
@@ -154,6 +144,7 @@ HomePage.content_panels = [
     FieldPanel('body', classname="full"),
     FieldPanel('news_count'),
     InlinePanel('top_menu_links', label="Меню зверху"),
+    InlinePanel('bottom_menu_links', label="Меню знизу"),
 ]
 
 

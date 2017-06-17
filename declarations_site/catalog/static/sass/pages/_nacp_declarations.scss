@@ -179,8 +179,7 @@ Styles by National agency of Corruption Prevention with some minor adjustements
 #nacp_decl {
     span.border, span.block {
         color: $decl-pen;
-        font-family: 'arsenalitalic';
-        font-style: normal;
+        font-style: italic;
     }
 
     .nacp-section {
@@ -249,6 +248,11 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
     border-radius: 2px;
     cursor: pointer;
+
+    a {
+        color: $decl-blue;
+        font-size: 11px;
+    }
 
     h2 {
         padding-top: 0;
@@ -319,13 +323,13 @@ Styles by National agency of Corruption Prevention with some minor adjustements
             transform: rotate(-90deg);
             text-indent: 0;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
-            background: white;
+            background: $decl-green;
             padding: 5px 20px;
-            font-family: 'Roboto Slab', serif;
+            //font-family: 'Roboto Slab', serif;
             font-weight: bold;
             font-size: 16px;
-            left: -125px;
-            color: $decl-red;
+            left: -120px;
+            color: white;
             top: 50%;
             height: auto;
             width: auto;

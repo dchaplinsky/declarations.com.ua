@@ -1,0 +1,165 @@
+#footer {
+  padding-top: $pad20 * 2;
+  background: #292929;
+  color: #c8c8c8;
+
+  a {
+    color: #c8c8c8;
+  }
+
+  .inline-logo {
+    max-height: 60px;
+    width: auto;
+
+    @media(min-width:768px) {
+      max-height: 50px;
+    }
+
+    @media(min-width:1200px) {
+      max-height: 96px;
+    }
+  }
+
+  .col > i {
+    font-size: 30px;
+    color: white;
+    padding: 0 10px;
+    font-weight: 300;
+
+    @media(min-width:768px) {
+      font-size: 24px;
+    }
+
+    @media(min-width:1200px) {
+      font-size: 34px;
+    }
+  }
+
+  .fa {
+    font-size: 60px;
+    color: white;
+  }
+
+  .footer-desc-text {
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: $pad20;
+    margin-bottom: $pad20 * 2;
+  }
+
+  h4 {
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: underline;
+    margin-bottom: $pad20;
+  }
+
+  h5 {
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  ul {
+    margin-left: 0;
+    padding-left: 0;
+
+    p {
+      font-size: 12px;
+      font-weight: 300;
+    }
+  }
+
+  .col:first-child {
+    ul {
+      li {
+        list-style: none;
+        margin-bottom: $pad20;
+      }
+    }
+  }
+
+  .col:last-child {
+    h4 {
+      margin-top: $pad20 * 2;
+    }
+
+    ul {
+      font-size: 14px;
+      text-transform: uppercase;
+
+      li {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .copyrights {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: #3e3e3e 1px solid;
+
+    p {
+      font-size: 10px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 12px;
+    }
+  }
+}
+
+.copyrights-logos {
+  margin-top: 16px;
+  overflow: hidden;
+
+  @media (max-width: 991px) {
+    margin-bottom: $pad20;
+  }
+}
+
+.cl-block {
+  float: left;
+  margin-right: 10px;
+  margin-bottom: $pad;
+}
+
+.ctext {
+  display: block;
+  float: left;
+  font-size: 12px;
+  width: 100px;
+  line-height: 14px;
+}
+
+.clogos {
+  display: block;
+  text-indent: -9999px;
+  height: 49px;
+  float: left;
+  margin-right: 20px;
+}
+
+.clogos_cs {
+  width: 42px;
+  background: url(../images/sc-logo.png) no-repeat 0 0;
+
+  &:hover {
+    background-position: -42px 0;
+  }
+}
+
+.clogos_slab {
+  width: 60px;
+  background: url(../images/lab-logo.png) no-repeat;
+
+  &:hover {
+    background: url(../images/lab-logo.gif) no-repeat;
+  }
+}
+
+.clogos_ok {
+  width: 55px;
+  background: url(../images/ok-factory-inverse.png) no-repeat 0 0;
+}
