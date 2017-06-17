@@ -43,11 +43,12 @@
                         </div>
                         <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
                             <ul class="nav navbar-nav text-center">
-                                <li class="left-item"><a href="/about">Про проект</a></li>
-                                <li class="left-item"><a href="/API">Відкритий API</a></li>
-                                <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_front.png") }}" class="inline-logo" /></a></li>
-                                <li class="right-item"><a href="/search#exsearch">Розширений пошук</a></li>
-                                <li class="right-item"><a href="/business-intelligence/">BI</a></li>
+                                {% for menuitem in top_menu %}
+                                    <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}"><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
+                                    {% if loop.index == 2 %}
+                                        <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_front.png") }}" class="inline-logo" /></a></li>
+                                    {% endif %}
+                                {% endfor %}
                             </ul>
                         </div>
                     </nav>

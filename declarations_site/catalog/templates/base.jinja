@@ -71,10 +71,9 @@
                                     </div>
                                     <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
                                         <ul class="nav navbar-nav">
-                                            <li><a href="/about">Про проект</a></li>
-                                            <li><a href="/API">Відкритий API</a></li>
-                                            <li><a href="/analytics/">Аналітика</a></li>
-                                            <li><a href="/business-intelligence/">BI</a></li>
+                                            {% for menuitem in top_menu %}
+                                            <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
+                                            {% endfor %}
                                         </ul>
                                     </div>
                                 </nav>
@@ -220,7 +219,7 @@
                         <h4>Мапа сайту:</h4>
                         <ul>
                             <li class="joinus"><a href="http://sotnya.org.ua/" target="_blank">Долучитись до розшифровки</a></li>
-                            {% for menuitem in top_menu %}
+                            {% for menuitem in bottom_menu %}
                             <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
                             {% endfor %}
                         </ul>
