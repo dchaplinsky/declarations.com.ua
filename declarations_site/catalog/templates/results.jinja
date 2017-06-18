@@ -32,7 +32,8 @@
 
         <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span>
         {% if request.META['QUERY_STRING'] %}
-        {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
+            <a title="Моніторити цей запит по RSS" class="btn save-search rss-feed" href=" http://declarations.com.ua{{ request.get_full_path() }}&format=rss"><i class="fa fa-rss" aria-hidden="true"></i></a>
+            {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
         {% endif %}
         </h1>
         <div class="page-content">

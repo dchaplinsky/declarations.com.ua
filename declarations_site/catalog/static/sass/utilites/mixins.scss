@@ -88,7 +88,7 @@ S - the font-size in pixels
     display: inline-block;
     position: relative;
 
-    &::before {
+    &::after {
       content: '';
       display: block;
       position: absolute;
@@ -101,7 +101,7 @@ S - the font-size in pixels
     background: #fff;
     mix-blend-mode: multiply;
 
-    &::before {
+    &::after {
       mix-blend-mode: screen;
     }
   }

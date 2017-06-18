@@ -2,8 +2,8 @@
     {% set path = href|urlencode %}
     <div id="login-button">
         <div class="dropdown profile-dropdown pull-right">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="profile"
-                data-toggle="dropdown">Увійти <span class="caret"></span></button>
+            <button class="btn btn-info dropdown-toggle" type="button" id="profile" title="Увійти для перегляду підписок та збереженних пошуків"
+                data-toggle="dropdown"><i class="fa fa-sign-in" aria-hidden="true"></i> Увійти <span class="caret"></span></button>
             <ul class="dropdown-menu signin-menu">
                 <li><a class="facebook" href="{{ url("social:begin", "facebook") }}?next={{ path }}"
                      title="Facebook"><span class="glyphicon glyphicon-new-window"></span> Через Facebook</a></li>
