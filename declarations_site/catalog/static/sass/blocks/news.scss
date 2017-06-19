@@ -176,9 +176,10 @@
       cursor: pointer;
 
       h4 {
-        font-size: 13px;
+        font-size: 15px;
         line-height: 18px;
         margin-bottom: 0;
+        font-weight: 500;
       }
 
       h6 {
@@ -201,6 +202,7 @@
         }
       }
 
+      /*
       &:hover {
         .media-left,
         .media-object,
@@ -219,6 +221,7 @@
           line-height: 14px;
         }
       }
+      */
     }
 
   }
