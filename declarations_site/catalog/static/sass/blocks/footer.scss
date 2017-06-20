@@ -7,6 +7,10 @@
     color: #c8c8c8;
   }
 
+  img {
+    max-width: 100%;
+  }
+
   .inline-logo {
     max-height: 60px;
     width: auto;
@@ -71,7 +75,7 @@
     }
   }
 
-  .col:first-child {
+  .wh100-col {
     ul {
       li {
         list-style: none;
@@ -80,7 +84,7 @@
     }
   }
 
-  .col:last-child {
+  .vol14-col {
     h4 {
       margin-top: $pad20 * 2;
     }
@@ -92,6 +96,14 @@
       li {
         margin-top: 10px;
         margin-bottom: 10px;
+      }
+    }
+  }
+
+  .bihus-col {
+    .footer-logo {
+      img {
+        max-width: 200px;
       }
     }
   }

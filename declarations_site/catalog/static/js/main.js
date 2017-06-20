@@ -359,7 +359,7 @@ $(function() {
     }
 
     $(document).ajaxStop(function () {
-        $('body').removeClass('ajax-run');
+        $('body').removeClass('ajax-run').addClass('bihus-news-ready');
     });
 
     $(document).ready(function() {

@@ -6,6 +6,18 @@
     margin-bottom: 0;
   }
 
+  #login-button {
+    display: inline-block;
+
+    .dropdown {
+      float: none;
+
+      #profile {
+        margin-top: 0;
+      }
+    }
+  }
+
   .infobanner {
     position: relative;
     background: white;
@@ -57,9 +69,11 @@
           font-weight: 500;
         }
 
-        #joinus {
+        #joinus,
+        #login-button {
           margin-top: 10px;
           margin-bottom: 10px;
+          vertical-align: middle;
         }
       }
 
