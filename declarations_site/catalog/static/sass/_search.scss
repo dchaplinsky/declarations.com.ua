@@ -1,3 +1,9 @@
+.breadcrumbs-container {
+    @media (min-width: 767px) {
+        float: left;
+    }
+}
+
 #stats {
     display: none;
 }
@@ -17,6 +23,10 @@
 
 .page-content {
     margin-top: $pad20;
+
+    @media (min-width: 767px) {
+        clear: both;
+    }
 }
 
 .search-results {

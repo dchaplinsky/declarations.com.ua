@@ -13,6 +13,10 @@
   border-radius: 0;
   margin-bottom: 0;
 
+  @media (min-width: 767px) {
+    margin-top: $pad;
+  }
+
   a {
     color: #535353;
     font-size: 15px;
@@ -69,6 +73,10 @@
       margin-bottom: 20px;
     }
 
+    @media (min-width: 767px) {
+      margin-top: 5px;
+    }
+
     ul {
       margin-top: 35px;
     }
@@ -106,7 +114,7 @@
 }
 
 .nav-block {
-  overflow: hidden;
+  //overflow: hidden;
   background: white;
   //margin-top: 10px;
   //margin-bottom: 20px;

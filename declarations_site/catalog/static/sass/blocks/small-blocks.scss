@@ -81,7 +81,7 @@
 .pagination {
   > li > a,
   > li > span {
-    color: $decl-blue;
+    color: $decl-green;
   }
 
   > .active > a,
@@ -90,8 +90,20 @@
   > .active > span:hover,
   > .active > a:focus,
   > .active > span:focus {
-    background-color: $decl-blue;
-    border-color: $decl-blue;
+    background-color: $decl-green;
+    border-color: $decl-green;
+  }
+}
+
+.watching-block {
+  margin-top: $pad20;
+
+  @media (min-width: 767px) {
+    float: right;
+
+    p {
+      text-align: right;
+    }
   }
 }
 

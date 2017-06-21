@@ -133,12 +133,8 @@
         <footer id="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-5 col">
-                        <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
-                        <i>+</i>
+                    <div class="col-sm-5 col wh100-col">
                         <img src="{{ static("images/cs-bihus-logo.png") }}" class="inline-logo" />
-                        <i>=</i>
-                        <i class="fa fa-heart-o" aria-hidden="true"></i>
                         <p class="footer-desc-text">"Канцелярська сотня" - ініціатива зі створення інформаційних проектів із залученням тисяч волонтерів в інтернеті.</p>
                         <h4>Інші проекті ГО "Канцелярська сотня":</h4>
                         <ul>
@@ -168,12 +164,19 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-sm-4 col">
+                    <div class="col-sm-3 col bihus-col">
+                        <a class="footer-logo" href="/"><img src="{{ static("images/bihus-logo-inverse.png") }}" alt="Bihus.info"/></a>
+                        <p>Bihus.info об'єднує антикорупційні проекти, які створює ГО "ТОМ 14" та ГО "Канцелярська сотня". <a href="/about">Детальніше</a></p>
+                        <div class="twitter_button"><a class="twitter-follow-button" href="https://twitter.com/BihusInfo" data-size="large" data-show-count="false">Follow @BihusInfo</a></div>
+                        <div><div class="g-ytsubscribe" data-channel="nashigroshiTV" data-layout="default" data-count="default"></div></div>
+                        <div><div class="fb-follow" data-href="https://www.facebook.com/bihus.info" data-layout="button_count" data-size="large" data-width="154" data-show-faces="true"></div></div>
+                        <div class="esputnik-mail">
+                            <h3>Підпишись на новини</h3>
+                            <iframe frameborder="0" src="https://secure.esputnik.com.ua/23oNbk6320s" width="80%" height="109" scrolling="no"></iframe>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col vol14-col">
                         <img src="{{ static("images/t14-bihus-logo.png") }}" class="inline-logo" />
-                        <i>+</i>
-                        <img src="{{ static("images/bihus-logo.png") }}" class="inline-logo" />
-                        <i>=</i>
-                        <i class="fa fa-star-o" aria-hidden="true"></i>
                         <p class="footer-desc-text">Громадська організація "ТОМ 14" заснована ядром авторського колективу телепрограми "Наші гроші".</p>
                         <h4>Проекти ГО "ТОМ 14":</h4>
                         <ul>
@@ -207,22 +210,6 @@
                                     <h5>TBI: "ЗНАК ОКЛИКУ" ТА TENDERNEWS</h5>
                                 </a>
                             </li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-3 col">
-                        <div class="side-social">
-                            <h4>Підпишіться на Bihus.info у соц.медіа:</h4>
-                            <div class="twitter_button"><a class="twitter-follow-button" href="https://twitter.com/BihusInfo" data-size="large" data-show-count="false">Follow @BihusInfo</a></div>
-                            <div><div class="g-ytsubscribe" data-channel="nashigroshiTV" data-layout="default" data-count="default"></div></div>
-                            <div><div class="fb-follow" data-href="https://www.facebook.com/bihus.info" data-layout="button_count" data-size="large" data-width="154" data-show-faces="true"></div></div>
-                        </div>
-
-                        <h4>Мапа сайту:</h4>
-                        <ul>
-                            <li class="joinus"><a href="http://sotnya.org.ua/" target="_blank">Долучитись до розшифровки</a></li>
-                            {% for menuitem in bottom_menu %}
-                            <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
-                            {% endfor %}
                         </ul>
                     </div>
                 </div>

@@ -1,5 +1,23 @@
+.ajax-run {
+  .news-preloader {
+    display: block;
+  }
+}
+
+.bihus-news-ready {
+  .bihus-news {
+    display: block;
+  }
+}
+
+.news-preloader {
+  margin-top: $pad * 4;
+  display: none;
+}
+
 .bihus-news {
   margin-top: $pad * 4;
+  display: none;
 
   @media (min-width: $screen-md-min) {
     display: -ms-flexbox;

@@ -4,6 +4,23 @@
     <section id="newslist" class="on-white">
         <div class="container">            
             <div class="row">
+
+                <div class="text-center">
+                    <div class="news-preloader">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bihus-news" id="decl-news-block"></div>
                 <div class="bihus-news" id="decl-bihus-block"></div>
             </div>
@@ -22,6 +39,7 @@
                         <div class="infobanner-text text-center">
                             <p class="infobanner-top-text">Потрібна допомога у пошуку та розшифровці декларацій</p>
                             <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info" id="joinus">Долучіться до розшифровки</a>
+                            {{ login_button(request.get_full_path()) }}
                             <p>або допоможіть знайти <a href="http://goo.gl/forms/OTbHz2FVbj" target="_blank">такі</a> декларації</p>
                         </div>
                     </div>
