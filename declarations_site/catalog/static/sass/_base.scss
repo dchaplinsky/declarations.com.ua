@@ -160,13 +160,30 @@ a.white:hover,
     text-align: center;
 }
 
+.svg-image {
+    line-height: 0;
+    font-size: 0;
+
+    svg {
+        max-height: 100%;
+        max-width: 100%;
+        line-height: 0;
+        font-size: 0;
+    }
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
 .logo {
     display: block;
     height: auto;
     margin-top: 10px;
 
-    img {
+    svg {
         width: 70px;
+        height: 80px;
     }
 }
 
