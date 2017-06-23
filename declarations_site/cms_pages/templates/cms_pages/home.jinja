@@ -55,7 +55,7 @@
                     <nav id="navbar" class="navbar navbar-inverse navbar-default col-sm-12" role="navigation">
                         <div class="navbar-header">
                             <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left visible-xs">
-                                <img src="{{ static("images/logo_front.png") }}" class="inline-logo" />
+                                <span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span>
                             </a>
                             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
                         </div>
@@ -64,7 +64,7 @@
                                 {% for menuitem in top_menu %}
                                     <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}"><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
                                     {% if loop.index == 2 %}
-                                        <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><img src="{{ static("images/logo_front.png") }}" class="inline-logo" /></a></li>
+                                        <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span></a></li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>

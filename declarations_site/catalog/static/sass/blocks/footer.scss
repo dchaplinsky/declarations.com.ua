@@ -11,16 +11,21 @@
     max-width: 100%;
   }
 
-  .inline-logo {
-    max-height: 60px;
-    width: auto;
+  .inline-logo,
+  .inline-logo svg {
+    height: 115px;
+    width: 100px;
 
-    @media(min-width:768px) {
-      max-height: 50px;
+    &.bihis-inverse svg {
+      max-width: 100%;
+      width: 260px;
+      height: 90px;
     }
+  }
 
-    @media(min-width:1200px) {
-      max-height: 96px;
+  .inline-logo {
+    &.no-logo svg {
+      opacity: 0.5;
     }
   }
 
@@ -55,7 +60,7 @@
     font-size: 14px;
     font-weight: 500;
     text-decoration: underline;
-    margin-bottom: $pad20;
+    margin-bottom: $pad20 * 2;
   }
 
   h5 {
@@ -65,45 +70,23 @@
     margin-bottom: 10px;
   }
 
-  ul {
-    margin-left: 0;
-    padding-left: 0;
-
+  .media {
     p {
       font-size: 12px;
       font-weight: 300;
     }
-  }
 
-  .wh100-col {
-    ul {
-      li {
-        list-style: none;
-        margin-bottom: $pad20;
+    &.project-list {
+      .inline-logo svg {
+        height: 80px;
+        width: 70px;
       }
     }
-  }
 
-  .vol14-col {
-    h4 {
-      margin-top: $pad20 * 2;
-    }
-
-    ul {
-      font-size: 14px;
-      text-transform: uppercase;
-
-      li {
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
-    }
-  }
-
-  .bihus-col {
-    .footer-logo {
-      img {
-        max-width: 200px;
+    &.wh100,
+    &.tom14 {
+      .media-body {
+        vertical-align: middle;
       }
     }
   }
@@ -120,6 +103,12 @@
       line-height: 12px;
     }
   }
+
+  .clogos_cs svg {
+    width: 40px;
+    height: 50px;
+  }
+
 }
 
 .copyrights-logos {
@@ -135,6 +124,18 @@
   float: left;
   margin-right: 10px;
   margin-bottom: $pad;
+
+  .svg-image,
+  .clogos {
+    height: 49px;
+    float: left;
+    margin-right: 20px;
+  }
+
+  .clogos {
+    display: block;
+    text-indent: -9999px;
+  }
 }
 
 .ctext {
@@ -143,23 +144,6 @@
   font-size: 12px;
   width: 100px;
   line-height: 14px;
-}
-
-.clogos {
-  display: block;
-  text-indent: -9999px;
-  height: 49px;
-  float: left;
-  margin-right: 20px;
-}
-
-.clogos_cs {
-  width: 42px;
-  background: url(../images/sc-logo.png) no-repeat 0 0;
-
-  &:hover {
-    background-position: -42px 0;
-  }
 }
 
 .clogos_slab {

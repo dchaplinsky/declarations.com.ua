@@ -65,7 +65,7 @@
                                 <nav id="navbar" class="navbar navbar-default col-lg-8 col-md-12" role="navigation">
                                     <div class="navbar-header">
                                         <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
-                                            <img src="{{ static("images/logo_big.png") }}" class="inline-logo" />
+                                            <span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo") }}"></use></svg></span>
                                         </a>
                                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
                                     </div>
@@ -131,41 +131,65 @@
         {% endblock %}
 
         <footer id="footer">
-            <div class="container">
+            <div class="container wide-container">
                 <div class="row">
-                    <div class="col-sm-5 col wh100-col">
-                        <img src="{{ static("images/cs-bihus-logo.png") }}" class="inline-logo" />
-                        <p class="footer-desc-text">"Канцелярська сотня" - ініціатива зі створення інформаційних проектів із залученням тисяч волонтерів в інтернеті.</p>
+                    <div class="col-md-4 col wh100-col">
+                        <div class="media wh100">
+                            <div class="media-left">
+                                <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#wh100") }}"></use></svg></span>
+                            </div>
+                            <div class="media-body">
+                                "Канцелярська сотня" - ініціатива зі створення інформаційних проектів із залученням тисяч волонтерів в інтернеті.
+                            </div>
+                        </div>
                         <h4>Інші проекті ГО "Канцелярська сотня":</h4>
-                        <ul>
-                            <li>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/nevid-dragnet" target="_blank" title="НЕВІД (DRAGNET)">
-                                    <h5>НЕВІД (DRAGNET)</h5>
-                                    <p>IT-проект «Невід» (Dragnet) - це розробка програмно-аналітичного блоку ініціативи “Декларації”, створеної активістами “Канцелярської сотні” у 2014-му році.</p>
+                                    <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#nevid") }}"></use></svg></span>
                                 </a>
-                            </li>
-                            <li>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">НЕВІД (DRAGNET)</h5>
+                                <p>IT-проект «Невід» (Dragnet) - це розробка програмно-аналітичного блоку ініціативи “Декларації”, створеної активістами “Канцелярської сотні” у 2014-му році.</p>
+                            </div>
+                        </div>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/posipaki" target="_blank" title="ПОСІПАКИ">
-                                    <h5>ПОСІПАКИ</h5>
-                                    <p>Відкрита база даних помічників народних депутатів Верховної Ради України, створена з інформації агенції журналістських розслідувань “Слідство.Інфо”.</p>
+                                    <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#posipaky") }}"></use></svg></span>
                                 </a>
-                            </li>
-                            <li>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">ПОСІПАКИ</h5>
+                                <p>Відкрита база даних помічників народних депутатів Верховної Ради України, створена з інформації агенції журналістських розслідувань “Слідство.Інфо”.</p>
+                            </div>
+                        </div>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/elektronne-bti-ebti" target="_blank" title="ЕЛЕКТРОННЕ БТІ (ЕБТІ)">
-                                    <h5>ЕЛЕКТРОННЕ БТІ (ЕБТІ)</h5>
-                                    <p>Проект “Електронне БТІ” є продовженням створення серії інструментів, які розширюють доступ до даних про нерухомість.</p>
+                                    <span class="svg-image inline-logo no-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#wh100") }}"></use></svg></span>
                                 </a>
-                            </li>
-                            <li>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">ЕЛЕКТРОННЕ БТІ (ЕБТІ)</h5>
+                                <p>Проект “Електронне БТІ” є продовженням створення серії інструментів, які розширюють доступ до даних про нерухомість.</p>
+                            </div>
+                        </div>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/garnahata" target="_blank" title="ГАРНАХАТА">
-                                    <h5>ГАРНАХАТА</h5>
-                                    <p>Cтартував одночасно із відкриттям Міністерством юстиції офіційного Реєстру речових прав на нерухоме майно. Простіше кажучи – реєстру нерухомості.</p>
+                                    <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#garnahata") }}"></use></svg></span>
                                 </a>
-                            </li>
-                        </ul>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">ГАРНАХАТА</h5>
+                                <p>Cтартував одночасно із відкриттям Міністерством юстиції офіційного Реєстру речових прав на нерухоме майно. Простіше кажучи – реєстру нерухомості.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-3 col bihus-col">
-                        <a class="footer-logo" href="/"><img src="{{ static("images/bihus-logo-inverse.png") }}" alt="Bihus.info"/></a>
+                    <div class="col-md-3 col bihus-col">
+                        <a class="footer-logo" href="/"><span class="svg-image inline-logo bihis-inverse"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#bihus-inverse") }}"></use></svg></span></a>
                         <p>Bihus.info об'єднує антикорупційні проекти, які створює ГО "ТОМ 14" та ГО "Канцелярська сотня". <a href="/about">Детальніше</a></p>
                         <div class="twitter_button"><a class="twitter-follow-button" href="https://twitter.com/BihusInfo" data-size="large" data-show-count="false">Follow @BihusInfo</a></div>
                         <div><div class="g-ytsubscribe" data-channel="nashigroshiTV" data-layout="default" data-count="default"></div></div>
@@ -175,48 +199,79 @@
                             <iframe frameborder="0" src="https://secure.esputnik.com.ua/23oNbk6320s" width="80%" height="109" scrolling="no"></iframe>
                         </div>
                     </div>
-                    <div class="col-sm-4 col vol14-col">
-                        <img src="{{ static("images/t14-bihus-logo.png") }}" class="inline-logo" />
-                        <p class="footer-desc-text">Громадська організація "ТОМ 14" заснована ядром авторського колективу телепрограми "Наші гроші".</p>
+                    <div class="col-md-5 col vol14-col">
+                        <div class="media tom14">
+                            <div class="media-left">
+                                <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#tom14") }}"></use></svg></span>
+                            </div>
+                            <div class="media-body">
+                                Громадська організація "ТОМ 14" заснована ядром авторського колективу телепрограми "Наші гроші".
+                            </div>
+                        </div>
                         <h4>Проекти ГО "ТОМ 14":</h4>
-                        <ul>
-                            <li>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/teleprograma-nasi-grosi" target="_blank" title='ТЕЛЕПРОГРАМА "НАШІ ГРОШІ"'>
-                                    <h5>ТЕЛЕПРОГРАМА "НАШІ ГРОШІ"</h5>
+                                    <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#ng") }}"></use></svg></span>
                                 </a>
-                            </li>
-                            <li>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">ТЕЛЕПРОГРАМА "НАШІ ГРОШІ"</h5>
+                                <p>Проект антикорупційних розслідувань "Наші гроші. Головна ідея програми - викриття корупційних схем українських чиновників.</p>
+                            </div>
+                        </div>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/push" target="_blank" title="ТИСНИ!">
-                                    <h5>ТИСНИ!</h5>
+                                    <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#push") }}"></use></svg></span>
                                 </a>
-                            </li>
-                            <li>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">ТИСНИ!</h5>
+                                <p>Юридична ініціатива ГО "ТОМ 14", спрямована на підтримку роботи журналістів після виходу розслідувань.</p>
+                            </div>
+                        </div>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/pidsumki-dna" target="_blank" title="ПІДСУМКИ ДНА">
-                                    <h5>ПІДСУМКИ ДНА</h5>
+                                    <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#dno") }}"></use></svg></span>
                                 </a>
-                            </li>
-                            <li>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">ПІДСУМКИ ДНА</h5>
+                                <p>Чесна та відверта програма про наше сьогодення. Хіба що трохи занадто емоційна. В форматі 5 хвилин говоримо на актуальні теми.</p>
+                            </div>
+                        </div>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/narodne-nazk" target="_blank" title="НАРОДНЕ НАЗК">
-                                    <h5>НАРОДНЕ НАЗК</h5>
+                                    <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#pnazk") }}"></use></svg></span>
                                 </a>
-                            </li>
-                            <li>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">НАРОДНЕ НАЗК</h5>
+                                <p>Розслідувально-аналітичний проект ГО “ТОМ 14”. Стартував одразу після оприлюднення перших електронних декларацій.</p>
+                            </div>
+                        </div>
+                        <div class="media project-list">
+                            <div class="media-left">
                                 <a href="https://bihus.info/projects/nasi-grosi-dosudilisa" target="_blank" title="НАШІ ГРОШІ. ДОСУДИЛИСЯ.">
-                                    <h5>НАШІ ГРОШІ. ДОСУДИЛИСЯ.</h5>
+                                    <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#dosud") }}"></use></svg></span>
                                 </a>
-                            </li>
-                            <li>
-                                <a href="https://bihus.info/projects/tbi-znak-okliku-ta-tendernews" target="_blank" title='TBI: "ЗНАК ОКЛИКУ" ТА TENDERNEWS'>
-                                    <h5>TBI: "ЗНАК ОКЛИКУ" ТА TENDERNEWS</h5>
-                                </a>
-                            </li>
-                        </ul>
+                            </div>
+                            <div class="media-body">
+                                <h5 class="media-heading">НАШІ ГРОШІ. ДОСУДИЛИСЯ.</h5>
+                                <p>Телевезійний спецпроект про суди, суддів і судову реформу. За півроку «Досудилися» опублікували понад два десятки телерозслідувань.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row copyrights">
                     <div class="copyrights-logos col-md-6">
                         <div class="cl-block">
-                            <a class="clogos clogos_cs" href="https://www.facebook.com/kancelaristy?"  target="_blank">Канцелярська сотня</a>
+                            <a class="clogos_cs" href="https://www.facebook.com/kancelaristy?"  target="_blank">
+                                <span class="svg-image"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#wh100gray") }}"></use></svg></span>
+                            </a>
                             <span class="ctext">Проект канцелярської сотні</span>
                         </div>
                         <div class="cl-block">
