@@ -1,7 +1,7 @@
 {% macro login_button(href) -%}
     {% set path = href|urlencode %}
     <div id="login-button">
-        <div class="dropdown profile-dropdown pull-right">
+        <div class="dropdown profile-dropdown">
             <button class="btn btn-info dropdown-toggle" type="button" id="profile" title="Увійти для перегляду підписок та збереженних пошуків"
                 data-toggle="dropdown"><i class="fa fa-sign-in" aria-hidden="true"></i> Увійти <span class="caret"></span></button>
             <ul class="dropdown-menu signin-menu">

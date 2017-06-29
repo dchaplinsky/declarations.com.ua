@@ -21,8 +21,8 @@
                     </div>
                 </div>
 
-                <div class="bihus-news" id="decl-news-block"></div>
-                <div class="bihus-news" id="decl-bihus-block"></div>
+                <div class="bihus-news col-sm-12 col-md-6" id="decl-news-block"></div>
+                <div class="bihus-news col-sm-12 col-md-6" id="decl-bihus-block"></div>
             </div>
         </div>
     </section>
@@ -30,23 +30,6 @@
 {% endblock %}
 
 {% block bodyclass %}front{% endblock %}
-
-    {% block infobox %}
-        <section id="infobox">
-            <div class="container">
-                <div class="infobanner">
-                    <div class="infobanner-content">
-                        <div class="infobanner-text text-center">
-                            <p class="infobanner-top-text">Потрібна допомога у пошуку та розшифровці декларацій</p>
-                            <a href="http://sotnya.org.ua/" target="_blank" class="btn btn-info" id="joinus">Долучіться до розшифровки</a>
-                            {{ login_button(request.get_full_path()) }}
-                            <p>або допоможіть знайти <a href="http://goo.gl/forms/OTbHz2FVbj" target="_blank">такі</a> декларації</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    {% endblock %}
 
     {% block header %}
         <div class="nav-block">
@@ -62,15 +45,18 @@
                         <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
                             <ul class="nav navbar-nav text-center">
                                 {% for menuitem in top_menu %}
-                                    <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}"><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
-                                    {% if loop.index == 2 %}
-                                        <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span></a></li>
-                                    {% endif %}
+                                <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}"><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
+                                {% if loop.index == 2 %}
+                                <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span></a></li>
+                                {% endif %}
                                 {% endfor %}
                             </ul>
                         </div>
                     </nav>
-                    <p class="about-text text-center">Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб викрити їхню брехню про статки та майно.</p>
+                    <div class="login-text">
+                        <p class="about-text text-center">Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб викрити їхню брехню про статки та майно.</p>
+                        {{ login_button(request.get_full_path()) }}
+                    </div>
                     <section id="block-sociallinksblock">
                         <ul>
                             <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
@@ -101,6 +87,7 @@
                                     </span>
                             </div>
                             </form>
+                            <a class="ex-search-link" href="/search#exsearch" class="text-right">Розширений пошук</a>
                         </div>
                     </div>
                 </div>

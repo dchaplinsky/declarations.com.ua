@@ -21,12 +21,10 @@
   .infobanner {
     position: relative;
     background: white;
-
     $w: 50px;
 
     &:after,
     &:before {
-      content: '';
       display: block;
       width: $w;
       height: 100%;
@@ -34,6 +32,10 @@
       top: 0;
       position: absolute;
       z-index: 1;
+
+      @media (min-width: $screen-md-min) {
+        content: '';
+      }
     }
 
     &:before {
@@ -49,12 +51,15 @@
     .infobanner-content {
       background: white;
       border-bottom: #ccc 1px solid;
-      border-radius: 3px;
       position: relative;
       z-index: 2;
-      min-height: 145px;
+      min-height: 120px;
       display: flex;
       justify-content: space-between;
+
+      @media (min-width: $screen-md-min) {
+        border-radius: 3px;
+      }
 
       .infobanner-text {
         align-self: center;
@@ -95,6 +100,19 @@
         &:after {
           background-image: url('../images/banner-help2find.jpg');
         }
+      }
+    }
+  }
+}
+
+.not-front {
+  #infobox {
+    background: white;
+
+    .infobanner {
+      .infobanner-content {
+        border: #ccc 1px solid;
+        border-top: none;
       }
     }
   }
