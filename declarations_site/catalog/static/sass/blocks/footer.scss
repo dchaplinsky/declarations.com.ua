@@ -5,6 +5,10 @@
 
   a {
     color: #c8c8c8;
+
+    &.more-link {
+      text-decoration: underline;
+    }
   }
 
   img {
@@ -91,6 +95,10 @@
     }
   }
 
+  .bihusinfo-subblock {
+    margin-bottom: $pad20 * 2;
+  }
+
   .copyrights {
     margin-top: 30px;
     padding-top: 30px;
@@ -109,10 +117,19 @@
     height: 50px;
   }
 
+  .clogos_ok svg {
+    width: 55px;
+    height: 50px;
+  }
+
+  .clogos_slab svg {
+    width: 60px;
+    height: 50px;
+  }
+
 }
 
 .copyrights-logos {
-  margin-top: 16px;
   overflow: hidden;
 
   @media (max-width: 991px) {
@@ -144,18 +161,4 @@
   font-size: 12px;
   width: 100px;
   line-height: 14px;
-}
-
-.clogos_slab {
-  width: 60px;
-  background: url(../images/lab-logo.png) no-repeat;
-
-  &:hover {
-    background: url(../images/lab-logo.gif) no-repeat;
-  }
-}
-
-.clogos_ok {
-  width: 55px;
-  background: url(../images/ok-factory-inverse.png) no-repeat 0 0;
 }

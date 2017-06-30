@@ -1,9 +1,3 @@
-.breadcrumbs-container {
-    @media (min-width: 767px) {
-        float: left;
-    }
-}
-
 #stats {
     display: none;
 }
@@ -23,6 +17,7 @@
 
 .page-content {
     margin-top: $pad20;
+    clear: both;
 
     @media (min-width: 767px) {
         clear: both;

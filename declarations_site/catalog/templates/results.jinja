@@ -22,7 +22,7 @@
 {{ ex_search_form(query, deepsearch) }}
 
 <section id="page">
-    <div class="container">
+    <div class="container rc">
         <div class="breadcrumbs-container">
             <div id="breadcrumbs">
                 <ol class="breadcrumb pull-left">
@@ -32,14 +32,13 @@
             </div>
 
             <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span></h1>
-
         </div>
 
         {% if request.META['QUERY_STRING'] %}
         <div class="watching-block">
             <p>Моніторити цей запит по:</p>
-            {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
             <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href=" http://declarations.com.ua{{ request.get_full_path() }}&format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
+            {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
         </div>
         {% endif %}
 

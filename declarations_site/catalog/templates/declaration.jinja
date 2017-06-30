@@ -16,28 +16,27 @@
 <section id="page">
     <div itemscope itemtype="http://schema.org/Person">
         <div class="decl-header-wrap">
-            <div class="container">
-                <div id="breadcrumbs">
-                    <ol class="breadcrumb pull-left">
-                        <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
-                        <li class="active">Результати пошуку</li>
-                        <li class="active">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</li>
-                    </ol>
-                </div>
+            <div class="container rc">
+                <div class="breadcrumbs-container">
+                    <div id="breadcrumbs">
+                        <ol class="breadcrumb pull-left">
+                            <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
+                            <li class="active">Результати пошуку</li>
+                            <li class="active">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</li>
+                        </ol>
+                    </div>
 
-                <h1 id="page-header"><span itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span>
-                    {{ spotter_button("+ Моніторити декларанта", "q=%s+%s+%s" % (declaration.general.last_name,
-                    declaration.general.name, declaration.general.patronymic), "from-declaration") }}
-                </h1>
-                {% if declaration.general.post.actual_region %}
-                <meta itemprop="homeLocation" content="{{ declaration.general.post.actual_region }}"/>
-                {% elif declaration.general.post.region %}
-                <meta itemprop="homeLocation" content="{{ declaration.general.post.region }}"/>
-                {% endif %}
+                    <h1 id="page-header"><span itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span></h1>
 
-                <h2 class="sub-header">
-                    <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
-                    {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
+                    {% if declaration.general.post.actual_region %}
+                    <meta itemprop="homeLocation" content="{{ declaration.general.post.actual_region }}"/>
+                    {% elif declaration.general.post.region %}
+                    <meta itemprop="homeLocation" content="{{ declaration.general.post.region }}"/>
+                    {% endif %}
+
+                    <h2 class="sub-header">
+                        <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+                        {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
                 <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
                 {% if declaration.general.post.actual_region %}
                     <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration.general.post.actual_region }}</a><span>,</span>
@@ -46,17 +45,27 @@
                 {% endif %}
                 {% if declaration.general.post.office %}
                     <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration.general.post.office }}</span></a><span>,</span>
-                    {% endif %}
-                    {% if declaration.general.post.post %}
-                    <span itemprop="jobTitle">{{ declaration.general.post.post }}</span><span>,</span>
-                    {% endif %}
+                        {% endif %}
+                        {% if declaration.general.post.post %}
+                        <span itemprop="jobTitle">{{ declaration.general.post.post }}</span><span>,</span>
+                        {% endif %}
 
-                    {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
-                    {% if declaration.intro.corrected %} Уточнена <span>,</span>{% endif %}
-                    {% if declaration.intro.date %}
-                    <span class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|datetime }}</span>
-                    {% endif %}
-                </h2>
+                        {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
+                        {% if declaration.intro.corrected %} Уточнена <span>,</span>{% endif %}
+                        {% if declaration.intro.date %}
+                        <span class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|datetime }}</span>
+                        {% endif %}
+                    </h2>
+
+                </div>
+
+                <div class="watching-block">
+                    <p>Моніторити декларанта по:</p>
+                    <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href="http://declarations.com.ua/{{ "q=%s+%s+%s" % (declaration.general.last_name,
+                       declaration.general.name, declaration.general.patronymic) }}&format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
+                    {{ spotter_button("+ Моніторити декларанта", "q=%s+%s+%s" % (declaration.general.last_name,
+                    declaration.general.name, declaration.general.patronymic), "from-declaration") }}
+                </div>
             </div>
         </div>
         {% if declaration.declaration.url %}
