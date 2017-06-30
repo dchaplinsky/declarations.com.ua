@@ -4,6 +4,7 @@ from django.conf.urls import include, url
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from django.contrib import admin
+from django.views.generic import TemplateView
 
 from catalog import views as catalog_views
 from chatbot import urls as chatbot_urls
@@ -40,6 +41,10 @@ urlpatterns = [
 
     url(r'^sitemap.xml$', catalog_views.sitemap_index,
         name='sitemap_index'),
+
+    url(r'^compare',
+        TemplateView.as_view(template_name='compare.jinja'),
+        name='compare'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^cms/', include(wagtailadmin_urls)),

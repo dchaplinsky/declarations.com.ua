@@ -358,6 +358,63 @@ $(function() {
             });
     }
 
+    //read decl.ID from localstorage and populate compare list
+    function getCompareList() {
+        $.each(localStorage, function(key, value){
+            if (key.indexOf('declarationID-') >= 0) {
+                var declarationID = key.substring(14);
+                $('.compare-list').removeClass('hidden');
+                $(value).appendTo($('.compare-list .row'));
+                $(".search-results").find(".decl-item[data-declid='" + declarationID + "']").addClass('selected');
+            }
+        });
+        setColumnsHeights ('.compare-list', '.item');
+    }
+
+    //add declaration 2 compare list by click
+    $(document).on('click', '.search-results .add2compare-list', function(e){
+        e.preventDefault();
+        console.log(e.target);
+        
+        var $this = $(e.target),
+            $parentBox = $this.parents('.decl-item'),
+            $compareContainer = $('.compare-list .row'),
+            $cloneItem = $parentBox.clone(),
+            declarationID = $parentBox.data('declid');
+
+        //add only if not in list already
+        if (localStorage.getItem("declarationID-" + declarationID) === null) {
+            localStorage.setItem("declarationID-" + declarationID, $cloneItem.addClass('selected').prop('outerHTML'));
+            $cloneItem.addClass('selected').appendTo($compareContainer);
+            $this.parents('.decl-item').addClass('selected');
+        }
+
+        //show list if not empty
+        if($('.compare-list .decl-item').length > 0) {
+            $('.compare-list').removeClass('hidden');
+        }
+    });
+
+    //remove declaration from compare-list
+    $(document).on('click', '.compare-list .add2compare-list', function(e){
+        e.preventDefault();
+
+        var $this = $(e.target),
+            $parentBox = $this.parents('.decl-item'),
+            declarationID = $parentBox.data('declid');
+
+        $parentBox.remove();
+
+        //remove from local storage
+        localStorage.removeItem("declarationID-" + declarationID);
+        $(".search-results").find(".decl-item[data-declid='" + declarationID + "']").removeClass('selected');
+
+        //hide list if empty
+        if($('.compare-list .decl-item').length < 1) {
+            $('.compare-list').addClass('hidden');
+        }
+    });
+
     $(document).ajaxStop(function () {
         $('body').removeClass('ajax-run').addClass('bihus-news-ready');
     });
@@ -371,6 +428,7 @@ $(function() {
         $('[data-toggle="tooltip"]').tooltip();
         setExFormStateFromUrl();
         setDropdownsValue();
+        getCompareList();
 
         if($('.declaration-page-nacp').length > 0) {
             generateTocNacp();

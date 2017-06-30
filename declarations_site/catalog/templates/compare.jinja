@@ -1,0 +1,49 @@
+{% extends "base.jinja" %}
+
+{% block bodyclass %}not-front compare-page{% endblock %}
+
+{% block content %}
+<section id="page">
+    <div class="container">
+        <div id="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
+                <li class="active">Список порівнянь декларацій</li>
+            </ol>
+        </div>
+
+        <h1 class="page-header"><span>Список порівнянь декларацій</span></h1>
+
+        <div class="page-content">
+
+            <div class="comparedata-section">
+                <h2>Родственники</h2>
+                <canvas id="declRelatives" data-jurl="https://api.myjson.com/bins/xqek3"></canvas>
+            </div>
+
+            <div class="comparedata-section">
+                <h2>Объекты недвижимости декларанта и родственников.</h2>
+                <canvas id="declLand" data-jurl="https://api.myjson.com/bins/xdz0z"></canvas>
+            </div>
+
+            <div class="comparedata-section">
+                <h2>ЦІННЕ РУХОМЕ МАЙНО - ТРАНСПОРТНІ ЗАСОБИ</h2>
+                <canvas id="declAutoMotive" data-jurl="https://api.myjson.com/bins/ryhzn"></canvas>
+            </div>
+
+            <div class="comparedata-section">
+                <h2>ЦІННІ ПАПЕРИ, КОРПОРАТИВНІ ПРАВА, ЮРИДИЧНІ ОСОБИ, КІНЦЕВИМ БЕНЕФІЦІАРНИМ ВЛАСНИКОМ (КОНТРОЛЕРОМ) ЯКИХ Є СУБ’ЄКТ ДЕКЛАРУВАННЯ АБО ЧЛЕНИ ЙОГО СІМ’Ї</h2>
+                <!-- todo Dima-->
+            </div>
+
+        {% block static_content %}
+        {% endblock %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    {% javascript 'js_charts' %}
+{% endblock %}

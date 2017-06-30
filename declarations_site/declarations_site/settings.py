@@ -278,6 +278,14 @@ PIPELINE = {
                 "js/bi/main.js",
             ),
             'output_filename': 'js/merged_bi.js',
+        },
+
+        'js_charts': {
+            'source_filenames': (
+                 "js/Chart.bundle.js",
+                 "js/compare-charts.js",
+            ),
+            'output_filename': 'js/merged_charts.js',
         }
     }
 }

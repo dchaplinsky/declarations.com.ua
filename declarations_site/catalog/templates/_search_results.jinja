@@ -1,7 +1,8 @@
 {% macro search_results(results) -%}
     {% for r in results %}
-    <div class="item col-sm-12  col-md-6 col-lg-4 grid-group-item{% if r.declaration.source == "CHESNO" %} chesno{% elif r.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
+    <div data-declid="{{ r.meta.id }}" class="decl-item item col-sm-12  col-md-6 col-lg-4 grid-group-item{% if r.declaration.source == "CHESNO" %} chesno{% elif r.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
         <div class="box">
+            <a href="#" class="add2compare-list" title="Додати у список порівнянь"><i class="fa fa-times" aria-hidden="true"></i><i class="fa fa-plus" aria-hidden="true"></i><i class="fa fa-balance-scale" aria-hidden="true"></i></a>
             <h3>
             {% if r.meta.id %}
                 <a href="{{ url("details", declaration_id=r.meta.id) }}" itemprop="name">{{ r.general.last_name }} {{ r.general.name }} {{ r.general.patronymic }}</a>
