@@ -17,6 +17,11 @@
 
 .page-content {
     margin-top: $pad20;
+    clear: both;
+
+    @media (min-width: 767px) {
+        clear: both;
+    }
 }
 
 .search-results {

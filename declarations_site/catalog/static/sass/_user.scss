@@ -1,6 +1,4 @@
 #profile {
-
-
     margin-top: 8px;
     margin-bottom: 0;
     overflow: hidden;
@@ -110,45 +108,24 @@
     color: white;
     padding: 10px 20px 10px 50px;
 
-    @media (min-width: 767px) {
-        float: right;
-    }
-
-    &.rss-feed {
-        padding: 8px 16px;
-        font-size: 25px;
-
-        i {
-            background: $bg;
-            color: $bihus-red;
-            transition: all 0.3s linear;
-        }
-
-        &:hover {
-            background: $bg;
-
-            i {
-                color: $decl-blue;
-            }
-        }
-    }
-}
-
-#save-search {
     @include gradient-animation(left, #9c21ff, #5d46ff, 0.3s );
     background: #9c21ff;
-    background: -moz-linear-gradient(left, #9c21ff 0%, #5d46ff 80%, #9c21ff 100%);
-    background: -webkit-linear-gradient(left, #9c21ff 0%,#5d46ff 80%,#9c21ff 100%);
-    background: linear-gradient(to right, #9c21ff 0%,#5d46ff 80%,#9c21ff 100%);
+    background: -moz-linear-gradient(left, #9c21ff 0%, #5d46ff 100%);
+    background: -webkit-linear-gradient(left, #9c21ff 0%,#5d46ff 100%);
+    background: linear-gradient(to right, #9c21ff 0%,#5d46ff 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9c21ff', endColorstr='#9c21ff',GradientType=1 );
     overflow: hidden;
     position: relative;
 
+    &.rss-feed {
+        margin-left: 5px;
+    }
+
     &:before {
-        background: #9c21ff;
-        background: -moz-linear-gradient(left, #9c21ff 0%, #5d46ff 20%, #9c21ff 100%);
-        background: -webkit-linear-gradient(left, #9c21ff 0%,#5d46ff 20%,#9c21ff 100%);
-        background: linear-gradient(to right, #9c21ff 0%,#5d46ff 20%,#9c21ff 100%);
+        background: #5d46ff;
+        background: -moz-linear-gradient(left, #5d46ff 0%, #9c21ff 100%);
+        background: -webkit-linear-gradient(left, #5d46ff 0%,#9c21ff 100%);
+        background: linear-gradient(to right, #5d46ff 0%,#9c21ff 100%);
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9c21ff', endColorstr='#9c21ff',GradientType=1 );
 
         content: '';

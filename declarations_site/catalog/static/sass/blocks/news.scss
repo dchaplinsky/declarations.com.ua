@@ -1,26 +1,35 @@
+.ajax-run {
+  .news-preloader {
+    display: block;
+  }
+}
+
+.bihus-news-ready {
+  .bihus-news {
+    display: block;
+  }
+}
+
+.news-preloader {
+  margin-top: $pad * 4;
+  display: none;
+}
+
 .bihus-news {
   margin-top: $pad * 4;
+  display: none;
 
   @media (min-width: $screen-md-min) {
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: row;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-align-content: flex-start;
-    -ms-flex-line-pack: start;
-    align-content: flex-start;
-    -webkit-align-items: stretch;
-    -ms-flex-align: stretch;
-    align-items: stretch;
-    min-height: 100%;
+    //width: 50%;
+    box-sizing: border-box;
+  //  float: left;
+    padding-left: $pad * 4;
+    padding-right: $pad * 2;
+
+    & + .bihus-news {
+      padding-left: $pad * 2;
+      padding-right: $pad * 4;
+    }
   }
 
   a {
@@ -31,44 +40,9 @@
     }
   }
 
-  .top-news,
-  .more-news {
-    @media (min-width: $screen-md-min) {
-      width: 50%;
-      box-sizing: border-box;
-    }
-  }
-
   .top-news {
-    @media (min-width: 992px) {
-      padding-left: $pad * 4;
-    }
-  }
+    margin-bottom: $pad * 2;
 
-  .more-news-container {
-    height: 100%;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-flex-wrap: nowrap;
-    -ms-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-align-content: flex-start;
-    -ms-flex-line-pack: start;
-    align-content: flex-start;
-    -webkit-align-items: flex-start;
-    -ms-flex-align: start;
-    align-items: flex-start;
-
-  }
-
-  .top-news {
     .top-news-card {
       background: white;
       display: block;
@@ -142,8 +116,6 @@
   }
 
   .more-news {
-    padding:  0 $pad * 4;
-
     .media {
       @media (max-width: 991px) {
         margin-bottom: $pad;
@@ -173,7 +145,13 @@
     }
 
     .news-row {
+      display: block;
       cursor: pointer;
+      margin-bottom: $pad;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
 
       h4 {
         font-size: 15px;

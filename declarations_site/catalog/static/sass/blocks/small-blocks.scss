@@ -81,7 +81,7 @@
 .pagination {
   > li > a,
   > li > span {
-    color: $decl-blue;
+    color: $decl-green;
   }
 
   > .active > a,
@@ -90,8 +90,44 @@
   > .active > span:hover,
   > .active > a:focus,
   > .active > span:focus {
-    background-color: $decl-blue;
-    border-color: $decl-blue;
+    background-color: $decl-green;
+    border-color: $decl-green;
+  }
+}
+
+$wbw: 250px;
+
+.watching-block {
+  margin-top: $pad20;
+
+  @media (min-width: 767px) {
+    position: absolute;
+    top: 0;
+    right: $pad;
+    width: $wbw;
+
+    p {
+      text-align: right;
+    }
+  }
+
+  @media (min-width: 992px) and (max-width: 1030px) {
+    right: 35px;
+  }
+}
+
+.breadcrumbs-container {
+  @media (min-width: 767px) {
+    margin-right: $wbw;
+  }
+}
+
+.watching-block,
+.breadcrumbs-container {
+  .btn {
+    @media (min-width: 767px) {
+      float: right;
+    }
   }
 }
 
