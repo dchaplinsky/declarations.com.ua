@@ -8,17 +8,7 @@
 }
 
 #joinus {
-  margin-top: 0;
-  color: $decl-blue;
-  text-transform: uppercase;
-  display: block;
-  padding-top: $pad;
-  clear: both;
-  font-size: 13px;
-
-  @media (min-width: 1200px) {
-    margin-bottom: $pad;
-  }
+  @include gradient-animation(left, #02aab0, #00ccac, 0.25s );
 }
 
 #block-sociallinksblock {
