@@ -1,7 +1,8 @@
 import jwt
 import json
-import requests
 import logging
+import requests
+from time import sleep
 from hashlib import sha1
 from random import randint
 from datetime import timedelta
@@ -11,6 +12,7 @@ from django.core.cache import cache
 from elasticsearch_dsl import Search
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.backends import default_backend
+from requests.exceptions import RequestException, BaseHTTPError
 from catalog.constants import CATALOG_INDICES
 from catalog.utils import base_search_query
 from chatbot.models import ChatHistory
@@ -48,6 +50,19 @@ def simple_search(query, deepsearch=False):
     return search
 
 
+def requests_retry(func, *args, **kwargs):
+    max_retries = kwargs.pop('max_retries', 5)
+    retry_sleep = kwargs.pop('retry_sleep', 0)
+    # send response with retry
+    for retry in range(max_retries):
+        try:
+            return func(*args, **kwargs)
+        except (IOError, RequestException, BaseHTTPError) as e:
+            logger.error('Retry({}) {} {}'.format(retry, args, e))
+            if retry_sleep:
+                sleep(retry_sleep)
+
+
 def botframework_jwt_keys():
     # This is a static URL that you can hardcode into your application.
     openidURL = 'https://login.botframework.com/v1/.well-known/openidconfiguration'
@@ -55,13 +70,13 @@ def botframework_jwt_keys():
     if cached_keys:
         return cached_keys
 
-    response = requests.get(openidURL, timeout=10)
+    response = requests_retry(requests.get, openidURL, timeout=30)
     config = response.json()
 
     if config['issuer'] != 'https://api.botframework.com':
         return False
 
-    response = requests.get(config['jwks_uri'], timeout=10)
+    response = requests_retry(requests.get, config['jwks_uri'], timeout=30)
     keys = response.json()
     if keys.get('keys'):
         cache.set(openidURL, keys, 86400)
@@ -130,7 +145,7 @@ def client_credentials():
         'client_secret': settings.BOTAPI_APP_SECRET,
         'scope': 'https://api.botframework.com/.default'
     }
-    response = requests.post(tokenURL, data, timeout=10)
+    response = requests_retry(requests.post, tokenURL, data, timeout=30)
     creds = response.json()
     if creds and creds.get('expires_in'):
         cache.set(settings.BOTAPI_APP_ID, creds, creds['expires_in'] - 10)
@@ -234,7 +249,9 @@ def chat_response(data, message='', messageType='message', attachments=None, aut
     headers = {
         'Authorization': '{} {}'.format(creds['token_type'], creds['access_token'])
     }
-    requests.post(responseURL, json=resp, headers=headers, timeout=10)
+    retry_sleep = 5 if auto_reply else 0
+    requests_retry(requests.post, responseURL, json=resp, headers=headers, timeout=30,
+        retry_sleep=retry_sleep)
 
 
 def create_subscription(data, query):
