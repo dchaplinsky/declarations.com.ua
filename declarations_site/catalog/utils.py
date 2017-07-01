@@ -133,8 +133,8 @@ def base_search_query(base_search, query, deepsearch, filters=None):
 
     nwords = len(re.findall(r'\w{4,}', query))
 
-    if nwords > 2 and deepsearch and not search.count():
-        should_match = nwords - int(nwords > 4) - 1
+    if nwords > 3 and deepsearch and not search.count():
+        should_match = nwords - int(nwords > 6) - 1
 
         query_op["minimum_should_match"] = should_match
         query_op["operator"] = "or"
