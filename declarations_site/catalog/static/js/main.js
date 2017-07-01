@@ -4,30 +4,30 @@ document.addEventListener(
     true
 );
 
-$(function() {
-    function setColumnsHeights (list, item) {
-        $list = $(list);
-        $items = $list.find(item);
-        $items.css('height', 'auto');
-        var perRow = Math.round($list.width() / $items.width());
+function setColumnsHeights (list, item) {
+    $list = $(list);
+    $items = $list.find(item);
+    $items.css('height', 'auto');
+    var perRow = Math.round($list.width() / $items.width());
 
-        //let's calc how many cards in row now
-        if (perRow == null || perRow < 2) {
-            return true;
-        }
-
-        for (var i = 0, j = $items.length; i < j; i += perRow) {
-            //set all heights in current row to max.height in current row
-            var maxHeight = 0,
-                $row = $items.slice(i, i + perRow);
-            $row.each(function () {
-                var itemHeight = parseInt($(this).outerHeight());
-                if (itemHeight > maxHeight) maxHeight = itemHeight;
-            });
-            $row.css('height', maxHeight);
-        }
+    //let's calc how many cards in row now
+    if (perRow == null || perRow < 2) {
+        return true;
     }
 
+    for (var i = 0, j = $items.length; i < j; i += perRow) {
+        //set all heights in current row to max.height in current row
+        var maxHeight = 0,
+            $row = $items.slice(i, i + perRow);
+        $row.each(function () {
+            var itemHeight = parseInt($(this).outerHeight());
+            if (itemHeight > maxHeight) maxHeight = itemHeight;
+        });
+        $row.css('height', maxHeight);
+    }
+}
+
+$(function() {
     function hideme($ib) {
         $ib.css("height", 10);
     }
@@ -193,7 +193,7 @@ $(function() {
 
     //generate table of contest for nacp decls
     function generateTocNacp() {
-        $( "<div id='nacp-toc'><a id='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".sub-header" );
+        $( "<div id='nacp-toc'><a id='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".decl-header-wrap .sub-header" );
 
         //lets find all text without tag = text nodes
         $("#nacp_decl")
@@ -358,63 +358,17 @@ $(function() {
             });
     }
 
-    //read decl.ID from localstorage and populate compare list
-    function getCompareList() {
-        $.each(localStorage, function(key, value){
-            if (key.indexOf('declarationID-') >= 0) {
-                var declarationID = key.substring(14);
-                $('.compare-list').removeClass('hidden');
-                $(value).appendTo($('.compare-list .row'));
-                $(".search-results").find(".decl-item[data-declid='" + declarationID + "']").addClass('selected');
-            }
-        });
-        setColumnsHeights ('.compare-list', '.item');
-    }
+    bootstrap_alert = function () {};
+    bootstrap_alert.warning = function (message, alert, timeout) {
+        $('<div id="floating_alert" class="alert alert-' + alert + ' fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' + message + '&nbsp;&nbsp;</div>').appendTo('body');
 
-    //add declaration 2 compare list by click
-    $(document).on('click', '.search-results .add2compare-list', function(e){
-        e.preventDefault();
-        console.log(e.target);
-        
-        var $this = $(e.target),
-            $parentBox = $this.parents('.decl-item'),
-            $compareContainer = $('.compare-list .row'),
-            $cloneItem = $parentBox.clone(),
-            declarationID = $parentBox.data('declid');
 
-        //add only if not in list already
-        if (localStorage.getItem("declarationID-" + declarationID) === null) {
-            localStorage.setItem("declarationID-" + declarationID, $cloneItem.addClass('selected').prop('outerHTML'));
-            $cloneItem.addClass('selected').appendTo($compareContainer);
-            $this.parents('.decl-item').addClass('selected');
-        }
+        setTimeout(function () {
+            $(".alert").alert('close');
+        }, timeout);
 
-        //show list if not empty
-        if($('.compare-list .decl-item').length > 0) {
-            $('.compare-list').removeClass('hidden');
-        }
-    });
-
-    //remove declaration from compare-list
-    $(document).on('click', '.compare-list .add2compare-list', function(e){
-        e.preventDefault();
-
-        var $this = $(e.target),
-            $parentBox = $this.parents('.decl-item'),
-            declarationID = $parentBox.data('declid');
-
-        $parentBox.remove();
-
-        //remove from local storage
-        localStorage.removeItem("declarationID-" + declarationID);
-        $(".search-results").find(".decl-item[data-declid='" + declarationID + "']").removeClass('selected');
-
-        //hide list if empty
-        if($('.compare-list .decl-item').length < 1) {
-            $('.compare-list').addClass('hidden');
-        }
-    });
-
+    };
+    
     $(document).ajaxStop(function () {
         $('body').removeClass('ajax-run').addClass('bihus-news-ready');
     });
@@ -428,7 +382,6 @@ $(function() {
         $('[data-toggle="tooltip"]').tooltip();
         setExFormStateFromUrl();
         setDropdownsValue();
-        getCompareList();
 
         if($('.declaration-page-nacp').length > 0) {
             generateTocNacp();

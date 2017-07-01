@@ -754,9 +754,6 @@ ol.social-list > li {
 }
 
 .add2compare-list {
-    position: absolute;
-    top: 0;
-    right: 0;
     color: #0b0b0b;
     padding: 5px;
 
@@ -783,6 +780,13 @@ ol.social-list > li {
     }
 }
 
+.search-results .add2compare-list,
+.decl-compare-modal .add2compare-list {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .search-results {
     .decl-item.selected {
         .add2compare-list {
@@ -791,7 +795,8 @@ ol.social-list > li {
     }
 }
 
-.compare-list {
+.compare-list,
+.decl-compare-modal {
     .add2compare-list {
         padding: 5px 10px;
 
@@ -800,5 +805,45 @@ ol.social-list > li {
             font-size: 16px;
         }
     }
+}
 
+.decl-compare-modal {
+    .modal-content .modal-body {
+        overflow: hidden;
+    }
+
+    .clear-compare-list {
+        margin-bottom: 10px !important;
+    }
+
+    .modal-dialog.container {
+        top: 5%;
+
+        @media (min-width: 768px) {
+            width: 750px;
+        }
+        @media (min-width: 992px) {
+            width: 970px;
+        }
+        @media (min-width: 1200px) {
+            width: 1170px;
+        }
+
+        @media (min-width: 1400px) {
+            width: 1370px;
+        }
+
+        @media (min-width: 1600px) {
+            width: 1570px;
+        }
+    }
+}
+
+#floating_alert {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 5000;
+    background-color: rgba(0,0,0,0.7);
 }

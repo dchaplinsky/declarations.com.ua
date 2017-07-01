@@ -261,6 +261,7 @@ PIPELINE = {
                 "js/material.js",
                 'js/jquery.magnific-popup.js',
                 "js/main.js",
+                "js/decl-compare.js",
                 "js/user.js",
                 "js/analytics.js",
                 "js/jquery.dataTables.min.js",
