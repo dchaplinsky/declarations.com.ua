@@ -73,7 +73,7 @@ def botcmd_list_subscribe(data):
                 "text": "Щоб відписатись він наступних повідомлень по цьому запиту натисніть:",
                 "buttons": [
                     {
-                        "type": "imBack",
+                        "type": "postBack",
                         "title": "Відписатись він оновлень",
                         "value": "відписатись {}".format(task.query)
                     }
@@ -212,7 +212,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch):
                     "text": "Отирмуйте оновлення по цьому запиту миттєво в чат",
                     "buttons": [
                         {
-                            "type": "imBack",
+                            "type": "postBack",
                             "title": "Підписатись на запит",
                             "value": "підписатись {}".format(data['text'])
                         }
@@ -227,7 +227,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch):
                     "text": "Щоб відписатись він наступних повідомлень по цьому запиту натисніть:",
                     "buttons": [
                         {
-                            "type": "imBack",
+                            "type": "postBack",
                             "title": "Відписатись він оновлень",
                             "value": "відписатись {}".format(data['text'])
                         }
@@ -280,7 +280,7 @@ def messages(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'], 'Method Not Allowed')
 
-    if len(request.body) < 100 or len(request.body) > 1000:
+    if len(request.body) < 100 or len(request.body) > 2000:
         return HttpResponseBadRequest('Bad Request')
 
     data = json.loads(request.body.decode('utf-8'))
