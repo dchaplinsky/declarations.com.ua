@@ -11,12 +11,14 @@ from django.utils import timezone
 from django.utils.http import urlencode
 from django.db.models import Sum
 from django.template.loader import render_to_string
+from social_django.models import DjangoStorage as BaseStorage
 from elasticsearch_dsl import Search
 from catalog.constants import CATALOG_INDICES
 from catalog.elastic_models import Declaration, NACPDeclaration
 from catalog.utils import base_search_query
-from spotter.models import TaskReport, NotifySend
+from spotter.models import SearchTask, TaskReport, NotifySend
 from spotter.sender import send_mail
+from chatbot.sender import send_to_chat
 
 NO_ASCII_REGEX = re.compile(r'[^\x00-\x7F]+')
 NO_SPECIAL_REGEX = re.compile(r'[^\w.@+_-]+', re.UNICODE)
@@ -25,6 +27,10 @@ ONE_SEARCH_LIMIT = 1000
 LOAD_DECLS_LIMIT = 100
 
 logger = logging.getLogger(__name__)
+
+
+class DjangoStorage(BaseStorage):
+    pass
 
 
 def clean_username(value):
@@ -234,8 +240,12 @@ def send_found_notify(notify):
         'query': notify.task.query,
         'decl_list': load_declarations(notify.new_ids),
         'found_new': notify.found_new,
-        'site_url': settings.EMAIL_SITE_URL,
+        'site_url': settings.SITE_URL,
     }
+    if notify.email and notify.email.endswith('.chatbot'):
+        return send_to_chat(notify, context)
+
+    # send notify to regular email
     from_email = settings.FROM_EMAIL
     subject = render_to_string("email_found_subject.txt", context).strip()
     message = render_to_string("email_found_message.txt", context)
@@ -255,3 +265,42 @@ def create_notify(task, report):
     send_found_notify(notify)
     notify.save()
     return notify
+
+
+def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''):
+    if len(query) < 2:
+        raise ValueError('Не вдалось створити завдання з пустим запитом.')
+
+    if len(query) > 100 or len(query.split(' ')) > 10:
+        raise ValueError('Не вдалось створити завдання з таким довгим запитом.')
+
+    if not user.email:
+        raise ValueError('Не вдалось створити завдання без адреси електронної пошти.')
+
+    # don't add twice
+    if SearchTask.objects.filter(user=user, query=query,
+            deepsearch=deepsearch, query_params=query_params, is_deleted=False).exists():
+        raise ValueError('Таке завдання вже існує.')
+
+    task = SearchTask(user=user, query=query, deepsearch=deepsearch)
+    task.query_params = query_params
+    task.chat_data = chat_data
+    task.save()
+
+    if not first_run(task):
+        task.is_deleted = True
+        task.save()
+        raise ValueError('Не вдалось створити завдання, спробуйте спростити запит "%s"' % task.query)
+
+    return task
+
+
+def find_search_task(user, query, deepsearch=True, query_params=''):
+    tasks = SearchTask.objects.filter(user=user, query=query, deepsearch=deepsearch,
+                                query_params=query_params, is_deleted=False)[:1]
+    for t in tasks:
+        return t
+
+
+def list_search_tasks(user):
+    return SearchTask.objects.filter(user=user, is_deleted=False)

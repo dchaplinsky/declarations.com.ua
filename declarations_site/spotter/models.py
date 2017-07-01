@@ -15,6 +15,7 @@ class SearchTask(models.Model):
     found_ids = fields.ArrayField(models.CharField(max_length=60), blank=True, default=[],
         verbose_name="Знайдені документи")
     last_run = models.DateTimeField("Останній запуск", null=True, blank=True, default=None)
+    chat_data = models.TextField("Дані чату", blank=True, default="", max_length=2000)
     created = models.DateTimeField("Створений", auto_now_add=True, blank=True)
 
     def __str__(self):
