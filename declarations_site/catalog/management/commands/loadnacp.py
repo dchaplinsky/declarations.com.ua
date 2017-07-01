@@ -2,8 +2,10 @@ import re
 import json
 from csv import DictReader
 from parsel import Selector
+
 import os.path
-import glob2
+import fnmatch
+import os
 from dateutil.parser import parse as dt_parse
 from multiprocessing import Pool
 
@@ -266,10 +268,10 @@ class DeclarationStaticObj(object):
             if "declarationYear1" in data["step_0"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear1"])
 
-            if "declarationYear3" in data["step_0"]:
+            if "declarationYear3" in data["step_0"] and data["step_0"]["declarationYear3"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear3"])
 
-            if "declarationYear4" in data["step_0"]:
+            if "declarationYear4" in data["step_0"] and data["step_0"]["declarationYear4"]:
                 resp["intro"]["declaration_year"] = int(data["step_0"]["declarationYear4"])
 
         resp["general"] = {
@@ -431,7 +433,12 @@ class Command(BaseCommand):
                 'First argument must be a path to source files and second is file name of CSV with corrected declarations')
 
         self.stdout.write("Gathering JSON documents from {}".format(base_dir))
-        self.jsons = list(glob2.glob(os.path.join(base_dir, "**/*.json")))
+
+        self.jsons = []
+        for root, _, filenames in os.walk(base_dir):
+            for filename in fnmatch.filter(filenames, '*.json'):
+                self.jsons.append(os.path.join(root, filename))
+
         self.stdout.write("Gathered {} JSON documents".format(len(self.jsons)))
 
         corrected = set()
@@ -450,7 +457,7 @@ class Command(BaseCommand):
         if not options["update_all_docs"]:
             self.stdout.write("Obtaining uuids of already indexed documents")
 
-            s = NACPDeclaration.search().source([])
+            s = NACPDeclaration.search().source(False)
             existing_guids = set(
                 h.meta.id.replace("nacp_", "") for h in s.scan())
             self.stdout.write("{} uuids are currently in index".format(

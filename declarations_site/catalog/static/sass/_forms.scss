@@ -5,11 +5,13 @@
 }
 
 .btn-info:not(.btn-link):not(.btn-flat) {
-  background-color: $decl-blue;
-  color: rgba(255, 255, 255, 0.84);
+  @include gradient-animation(left, #2e68f6, #01adef, 0.25s );
+  font-size: 14px;
+  font-weight: 300;
+  color: white;
 
-  &:hover {
-    background-color: $decl-green;
+  &.btn-green {
+    @include gradient-animation(left, #02aab0, #00ccac, 0.25s );
   }
 }
 
@@ -27,7 +29,7 @@
 
 fieldset {
   border: 1px solid $line;
-  padding: 0 1.4em 1.4em 1.4em;
+  padding: 0 1.4em 0.4em 1.4em;
   margin: 0 0 1.5em 0;
   box-shadow: 0px 0px 0px 0px #000;
 
@@ -39,8 +41,8 @@ fieldset {
     width: auto;
     padding: 0 10px;
     border-bottom: none;
-    font-family: 'Roboto Slab', serif;
-    margin-bottom: 15px;
+    //font-family: 'Roboto Slab', serif;
+    margin-bottom: 5px;
   }
 }
 

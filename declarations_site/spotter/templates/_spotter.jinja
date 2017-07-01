@@ -1,9 +1,9 @@
 {% macro login_button(href) -%}
     {% set path = href|urlencode %}
     <div id="login-button">
-        <div class="dropdown profile-dropdown pull-right">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="profile"
-                data-toggle="dropdown">Увійти <span class="caret"></span></button>
+        <div class="dropdown profile-dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" id="profile" title="Увійти для перегляду підписок та збереженних пошуків"
+                data-toggle="dropdown"><i class="fa fa-sign-in" aria-hidden="true"></i> Увійти <span class="caret"></span></button>
             <ul class="dropdown-menu signin-menu">
                 <li><a class="facebook" href="{{ url("social:begin", "facebook") }}?next={{ path }}"
                      title="Facebook"><span class="glyphicon glyphicon-new-window"></span> Через Facebook</a></li>
@@ -52,9 +52,10 @@
     </div>
 {%- endmacro %}
 {% macro spotter_button(label, query_string, from) -%}
+{% set e_label = "e-mail" %}
     <a id="save-search" class="btn btn-raised btn-sm save-search" data-target="#login-modal"
         href="{{ url('save_search') }}?{{ query_string }}" data-from="{{ from }}">
-    <span class="glyphicon glyphicon-plus"></span> {{ label }}</a>
+        <i class="fa fa-envelope-o" aria-hidden="true"></i> {{ e_label }}</a>
     <div class="modal" id="wait-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">

@@ -1,5 +1,5 @@
 <div class="dropdown profile-dropdown pull-right">
-    <button class="btn btn-primary dropdown-toggle logged-in" type="button" id="profile" data-toggle="dropdown">
+    <button class="btn btn-info dropdown-toggle logged-in" type="button" id="profile" data-toggle="dropdown">
         {% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}
         {% else %}{{ request.user.username }}{% endif %} <span class="caret"></span></button>
     <ul class="dropdown-menu">

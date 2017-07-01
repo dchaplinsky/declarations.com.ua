@@ -18,26 +18,30 @@
 {% block bodyclass %}not-front search-page{% endblock %}
 
 {% block content %}
+
+{{ ex_search_form(query, deepsearch) }}
+
 <section id="page">
-    <div class="container">
-        <div id="breadcrumbs">
-            <ol class="breadcrumb pull-left">
-                <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
-                <li class="active">Результати пошуку</li>
-            </ol>
-            {{ social("Результати пошуку по: %s. " % query,
-                              "http://declarations.com.ua%s" % request.get_full_path() ,
-                              add_disqus=False,
-                              add_rss=request.META['QUERY_STRING']) }}
+    <div class="container rc">
+        <div class="breadcrumbs-container">
+            <div id="breadcrumbs">
+                <ol class="breadcrumb pull-left">
+                    <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
+                    <li class="active">Результати пошуку</li>
+                </ol>
+            </div>
+
+            <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span></h1>
         </div>
 
-        {{ ex_search_form(query, deepsearch) }}
-
-        <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span>
         {% if request.META['QUERY_STRING'] %}
-        {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
+        <div class="watching-block">
+            <p>Моніторити цей запит по:</p>
+            <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href=" http://declarations.com.ua{{ request.get_full_path() }}&format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
+            {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
+        </div>
         {% endif %}
-        </h1>
+
         <div class="page-content">
             <div class="btn-group toggle-view">
                 <a href="#" id="list" class="btn btn-default btn-sm">

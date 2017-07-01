@@ -21,10 +21,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'PLEASEREPLACEMEREPLACEMEREPLACEMDONTLEAVEMELIKETHAT'
+SECRET_KEY = os.getenv('APP_SECRET_KEY', 'verysecretsecretthatmustbereset')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('APP_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -88,13 +88,18 @@ DATABASES = {
     'default': {
         # Strictly PostgreSQL
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT')
     }
 }
 
 # Setup Elasticsearch default connection
 ELASTICSEARCH_CONNECTIONS = {
     'default': {
-        'hosts': 'localhost',
+        'hosts': os.getenv('ES_HOST', 'localhost'),
         'timeout': 20
     }
 }
@@ -143,14 +148,16 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email'}
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/?login_error'
 LOGOUT_REDIRECT = '/'
 
+SITE_URL = 'https://declarations.com.ua'
+
 # EMAIL_SITE_URL used for full hrefs in email templates
-EMAIL_SITE_URL = 'https://declarations.com.ua'
+EMAIL_SITE_URL = SITE_URL
 
 FROM_EMAIL = 'robot@declarations.com.ua'
 EMAIL_HOST = 'localhost'
 
 RSS_AUTHOR_NAME = 'Сайт «Декларації» - проект Канцелярської сотні'
-RSS_AUTHOR_LINK = 'https://declarations.com.ua'
+RSS_AUTHOR_LINK = SITE_URL
 RSS_AUTHOR_EMAIL = 'dbihus@declarations.com.ua'
 RSS_TTL = 10800
 
@@ -180,6 +187,7 @@ TEMPLATES = [
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
                 "catalog.context_processors.stats_processor",
+                "catalog.context_processors.settings_processor",
                 "cms_pages.context_processors.menu_processor"
             ),
             "extensions": DEFAULT_EXTENSIONS + [
@@ -205,6 +213,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "catalog.context_processors.stats_processor",
+                "catalog.context_processors.settings_processor",
                 "cms_pages.context_processors.menu_processor"
             ),
         },
@@ -219,6 +228,7 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
+#Can you include here https://github.com/dizballanze/django-compressor-autoprefixer , please?
 PIPELINE = {
     'COMPILERS': ('pipeline.compilers.sass.SASSCompiler',),
     'SASS_ARGUMENTS': '-q',
@@ -278,7 +288,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = '/media/'
 
-NACP_DECLARATIONS_PATH = ""
+NACP_DECLARATIONS_PATH = os.getenv('APP_NACP_PATH', '')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 

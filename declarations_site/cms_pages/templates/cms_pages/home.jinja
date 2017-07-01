@@ -1,90 +1,102 @@
 {% extends "base.jinja" %}
 
 {% block newslist %}
-    {% if latest_news %}
     <section id="newslist" class="on-white">
         <div class="container">            
             <div class="row">
-                <h3 class="text-center">Новини декларацій</h3>
 
-                {% for row in latest_news|batch(2) %}
-                <div class="newsBox">
-                    {% for news in row %}
-                    <div class="newsRow col-sm-6">
-                        <span class="newsDate">{{ news.date_added|time("H:i") }}, {{ news.date_added|date }}</span>
-                        <a class="newsTitle blue{% if news.important %} important-news{% endif %}" href="{{ news.url }}">{{ news.title }}</a>
+                <div class="text-center">
+                    <div class="news-preloader">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
                     </div>
-                    {% endfor %}
                 </div>
-                {% endfor %}
-                <a class="classic gree text-right pull-right" href="{{ slugurl("news") }}">Усі новини</a>
+
+                <div class="bihus-news col-sm-12 col-md-6" id="decl-news-block"></div>
+                <div class="bihus-news col-sm-12 col-md-6" id="decl-bihus-block"></div>
             </div>
         </div>
     </section>
-    {% endif %}
+
 {% endblock %}
 
 {% block bodyclass %}front{% endblock %}
-    {% block infobox %}
-    <section id="infobox">
-        <div class="container">
-            <div class="row">
-                <div class="col{% if hp_news %} col-md-4{% else %} big-about{% endif %}">
-                    <p class="mb10">
-                        <a class="mediaimage" href="{{ slugurl("about") }}">
-                            <img alt="" src="{{ static("images/anonim.png") }}" class="img-circle" />
-                        </a> <i>{{ page.body|richtext }}</i>
-                    </p>
-                    <a href="{{ slugurl("about") }}" class="classic green">Дізнатися детально про проект</a>
-                </div>
-                {% if hp_news %}
-                <div id="top-news">
-                    {% if hp_news.image %}
-                    <div class="col col-md-4">
-                        <a href="{{ hp_news.url }}" class="block">
-                            {{ image(hp_news.image, "fill-390x220", class="img-responsive") }}
-                        </a>
-                    </div>
-                    {% endif %}
-                    <div class="col{% if hp_news.image %} col-md-4{% else %} col-md-8{% endif %}">
-                        <span class="topMarker">ТОП-новина:</span>
-                        <a href="{{ hp_news.url }}" class="block nd">
-                            <h3 class="text-left">{{ hp_news.title }}</h3>
-                        </a>
-                        <p class="text-left">{{ hp_news.lead|richtext }} <a href="{{ hp_news.url }}" class="block">Детальніше…</a></p>
-                    </div>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-{% endblock %}
 
-{% block graph %}
-    <section id="graph">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div id="widget_help">ТОП-15 областей за медіанним рівнем доходів чиновників. Клікніть на заголовок колонки, щоб відсортувати таблицю. Для того, щоб перейти на <a href="{{ url("business_intelligence") }}">сторінку аналітики</a> для конкретної області, клікніть на строку в таблиці</div>
-                    <div class="table-responsive">
-                        <table class="first table">
-                          <thead>
-                            <tr class="header">
-                              <th>Регіон</th>
-                              <td id="colname_one">Дохід</td>
-                              <td id="colname_two">Дохід сім'ї</td>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          </tbody>
-                        </table>
+    {% block header %}
+        <div class="nav-block">
+            <div class="container">
+                <div class="row">
+                    <nav id="navbar" class="navbar navbar-inverse navbar-default col-sm-12" role="navigation">
+                        <div class="navbar-header">
+                            <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left visible-xs">
+                                <span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span>
+                            </a>
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
+                        </div>
+                        <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
+                            <ul class="nav navbar-nav text-center">
+                                {% for menuitem in top_menu %}
+                                <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}"><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
+                                {% if loop.index == 2 %}
+                                <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span></a></li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </nav>
+                    <div class="login-text">
+                        <p class="about-text text-center">Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб викрити їхню брехню про статки та майно.</p>
+                        {{ login_button(request.get_full_path()) }}
                     </div>
-                    <div id="example"></div>
+                    <section id="block-sociallinksblock">
+                        <ul>
+                            <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                            <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                            <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
+                            <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </section>
                 </div>
             </div>
         </div>
-    </section>
-{% endblock %}
+        
+        <div class="nav-search">
+            <div class="container">
+                <div class="row">
+                    <div class="search-block">
+                        <div id="front-searchbox" class="searchbox col-sm-12">
+                            <form action="{{ url("search") }}" method="GET">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="ПОШУК ДЕКЛАРАЦІЙ. Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                                    <span id="search_scope" class="input-group-btn">
+                                        <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
+                                    </span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+                                    </span>
+                            </div>
+                            </form>
+                            <a class="ex-search-link" href="/search#exsearch" class="text-right">Розширений пошук</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+
+
 
 {% block social %}
 {% endblock %}

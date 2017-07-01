@@ -1,0 +1,119 @@
+#infobox {
+  @include greenGradient;
+  position: relative;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  #login-button {
+    display: inline-block;
+
+    .dropdown {
+      float: none;
+
+      #profile {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .infobanner {
+    position: relative;
+    background: white;
+    $w: 50px;
+
+    &:after,
+    &:before {
+      display: block;
+      width: $w;
+      height: 100%;
+      background: white;
+      top: 0;
+      position: absolute;
+      z-index: 1;
+
+      @media (min-width: $screen-md-min) {
+        content: '';
+      }
+    }
+
+    &:before {
+      left: -1 * $w;
+      right: auto;
+    }
+
+    &:after {
+      left: auto;
+      right: -1 * $w;
+    }
+
+    .infobanner-content {
+      background: white;
+      border-bottom: #ccc 1px solid;
+      position: relative;
+      z-index: 2;
+      min-height: 120px;
+      display: flex;
+      justify-content: space-between;
+
+      @media (min-width: $screen-md-min) {
+        border-radius: 3px;
+      }
+
+      .infobanner-text {
+        align-self: center;
+
+        @media (max-width: 991px) {
+          width: 100%;
+          padding-left: $pad20 / 2;
+          padding-right: $pad20 / 2;
+        }
+
+        .infobanner-top-text {
+          font-weight: 500;
+        }
+
+        #joinus,
+        #login-button {
+          margin-top: 10px;
+          margin-bottom: 10px;
+          vertical-align: middle;
+        }
+      }
+
+      @media (min-width: $screen-md-min) {
+        &:after,
+        &:before {
+          content: '';
+          display: inline-block;
+          width: 266px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center center;
+        }
+
+        &:before {
+          background-image: url('../images/banner-help2decode.jpg');
+        }
+
+        &:after {
+          background-image: url('../images/banner-help2find.jpg');
+        }
+      }
+    }
+  }
+}
+
+.not-front {
+  #infobox {
+    background: white;
+
+    .infobanner {
+      .infobanner-content {
+        border: #ccc 1px solid;
+        border-top: none;
+      }
+    }
+  }
+}

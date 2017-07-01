@@ -6,9 +6,11 @@ body {
 }
 
 body {
-    background: $bg;
-    font-family: 'arsenalregular';
+    background: #EEE;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
     font-size: 16px;
+    overflow-x: hidden;
 }
 
 #wrapper {
@@ -19,23 +21,20 @@ body {
 #page {
     padding-bottom: 80px;
     /* Height of the footer*/
-}
 
-#footer {
-    width: 100%;
-    height: 80px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
-
-#footer .container {
-    border-top: #A4A4A4 1px solid;
+    .rc {
+        position: relative;
+    }
 }
 
 i {
     font-style: normal;
-    font-family: 'arsenalitalic';
+    //font-family: 'arsenalitalic';
+}
+
+a, a:hover,
+a:focus {
+    color: $decl-green;
 }
 
 h1,
@@ -44,13 +43,12 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Roboto Slab', serif;
-    font-weight: normal;
+    font-weight: 600;
 }
 
 h1#page-header,
 h1.page-header {
-    color: #21b79a;
+    color: $decl-green;
     text-transform: uppercase;
     font-size: 30px;
     line-height: 60px;
@@ -61,7 +59,7 @@ h1.page-header {
 
 h1#page-header > span,
 h1.page-header > span {
-    border-bottom: 3px #21b79a solid;
+    border-bottom: 3px $decl-green solid;
 }
 
 .sub-header {
@@ -131,7 +129,7 @@ a.classic {
 }
 
 .green {
-    color: #21b79a;
+    color: $decl-green;
 }
 
 a.blue,
@@ -155,32 +153,38 @@ a.white:hover,
     text-align: center;
 }
 
+.svg-image {
+    line-height: 0;
+    font-size: 0;
+
+    svg {
+        max-height: 100%;
+        max-width: 100%;
+        line-height: 0;
+        font-size: 0;
+    }
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
 .logo {
     display: block;
     height: auto;
-    margin-top: 12px;
+    margin-top: 10px;
+
+    svg {
+        width: 70px;
+        height: 80px;
+    }
 }
 
 .on-white {
     background: #FFFFFF;
 }
 
-.breadcrumb {
-    background: none;
-    padding: 8px 0;
-    margin-top: 15px;
-
-    @media(min-width:768px) {
-        float: left;
-    }
-}
-
 #nav-search {
-    background: #fff;
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.5);
-
     .searchbox {
         .ex-search-link {
             text-align: right;
@@ -188,7 +192,7 @@ a.white:hover,
             text-transform: uppercase;
             font-size: 12px;
             color: black;
-            font-family: 'arsenalbold';
+            //font-family: 'arsenalbold';
             margin-top: 5px;
 
             &:hover {
@@ -196,13 +200,6 @@ a.white:hover,
             }
         }
     }
-}
-
-.front #nav-search {
-    background: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
 }
 
 #graph {
@@ -238,28 +235,6 @@ a.white:hover,
     font-size: 14px;
 }
 
-#infobox {
-    background: #21b79a;
-    color: white;
-    padding: 20px 0;
-    font-size: 14px;
-    line-height: 20px;
-}
-
-#infobox a {
-    color: white;
-    text-decoration: underline;
-}
-
-#infobox a:hover {
-    color: black;
-}
-
-#infobox .mediaimage {
-    float: left;
-    margin: 0 20px 20px 0;
-}
-
 #top-news > div:first-child {
     border-left: 1px solid white;
 }
@@ -281,7 +256,7 @@ a.white:hover,
 
 #newslist h3 {
     text-transform: uppercase;
-    color: #21b79a;
+    color: $decl-green;
     margin-bottom: 30px;
     margin-top: 30px;
 }
@@ -324,7 +299,7 @@ a.white:hover,
 }
 
 #stats .digits {
-    font-family: 'Roboto Slab', serif;
+    //font-family: 'Roboto Slab', serif;
     font-weight: bold;
     color: #e95000;
 }
@@ -363,7 +338,9 @@ a.white:hover,
 .box {
     background: #fff;
     padding: 24px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
+    -webkit-box-shadow: 0px 0px 15px 0px rgba(50, 50, 50, 0.34);
+    -moz-box-shadow:    0px 0px 15px 0px rgba(50, 50, 50, 0.34);
+    box-shadow:         0px 0px 15px 0px rgba(50, 50, 50, 0.34);
     border-radius: 2px;
     border: 0;
     position: relative;
@@ -406,50 +383,14 @@ a.white:hover,
 
 #glossarium-index .active a,
 #glossarium-index .g_i a:hover {
-    color: #21b79a;
+    color: $decl-green;
     background: #FFFFFF;
     text-decoration: none;
 }
 
-/* search in front */
-
 .cp {
     display: block;
     padding-bottom: 80px;
-}
-
-/* clear padding */
-
-#front-searchbox {
-    margin-bottom: 10px;
-}
-
-#front-searchbox form {
-    background: white;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    border: #21b79a 2px solid;
-}
-
-#front-searchbox .form-control-wrapper input {
-    margin-top: 5px;
-}
-
-#front-searchbox .form-control-wrapper .form-control::-webkit-input-placeholder {
-    color: #CFCFCF;
-}
-
-#front-searchbox .form-control-wrapper .form-control:-moz-placeholder {
-    color: #CFCFCF;
-}
-
-#front-searchbox .form-control-wrapper .form-control::-moz-placeholder {
-    color: #CFCFCF;
-}
-
-#front-searchbox .form-control-wrapper .form-control:-ms-input-placeholder {
-    color: #CFCFCF;
 }
 
 fieldset[disabled] .form-control,
@@ -461,11 +402,11 @@ fieldset[disabled] .form-control:focus,
 fieldset[disabled] .form-control.focus,
 .form-control-wrapper .form-control.focus,
 .form-control.focus {
-    border-bottom: 1px solid #21b79a;
+    border-bottom: 1px solid $decl-green;
 }
 
 #searchbox {
-    background: #21b79a;
+    background: $decl-green;
     padding-top: 125px;
     padding-bottom: 80px;
     margin-bottom: 40px;
@@ -675,60 +616,6 @@ display: none;
     color: white;
     cursor: pointer;
     font-size: 24px;
-}
-
-.copirights-logos {
-    margin-top: 16px;
-}
-
-.cl-block {
-    float: left;
-    margin-right: 60px;
-}
-
-.ctext {
-    display: block;
-    float: left;
-    color: #555;
-    font-size: 14px;
-    width: 100px;
-    line-height: 17px;
-}
-
-.clogos {
-    display: block;
-    text-indent: -9999px;
-    height: 49px;
-    float: left;
-    margin-right: 20px;
-}
-
-.clogos_cs {
-    width: 42px;
-    background: url(../images/sc-logo.png) no-repeat 0 0;
-
-    &:hover {
-        background-position: -42px 0;
-    }
-}
-
-.clogos_slab {
-    width: 60px;
-    background: url(../images/slab-logo.png) no-repeat;
-
-    &:hover {
-        background: url(../images/slab-logo-ani.gif) no-repeat;
-    }
-}
-
-.clogos_ok {
-    width: 55px;
-    background: url(../images/ok-factory-black.png) no-repeat 0 0;
-    opacity: 0.4;
-
-    &:hover {
-        opacity: 1;
-    }
 }
 
 .sub-header .glyphicon {
