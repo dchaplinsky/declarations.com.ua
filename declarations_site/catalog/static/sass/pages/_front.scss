@@ -46,13 +46,13 @@
 }
 
 #infobox {
-  margin-bottom: $pad * 2;
+  margin-bottom: $pad / 3;
 }
 
 .nav-search {
-  margin-top: $pad * 2;
+  margin-top: $pad20;
   padding-top: $pad20 * 2;
-  padding-bottom: $pad20 * 2;
+  padding-bottom: $pad20;
 }
 
 .nav-block {
@@ -70,6 +70,43 @@
 
   ul {
     text-align: center;
+  }
+}
+
+.login-text {
+  @media (min-width: 767px) {
+    text-align: center;
+
+    > .about-text,
+    > #login-button {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    > .about-text {
+      margin-right: $pad20;
+    }
+  }
+
+  #login-button {
+    text-align: center;
+
+    #profile {
+      box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.2);
+      background: transparent;
+      border: #ccc 1px solid;
+      color: #0b0b0b;
+      margin-top: 0;
+
+      &:before {
+        display: none;
+      }
+
+      &:hover {
+        background: transparent !important;
+        box-shadow: none;
+      }
+    }
   }
 }
 
