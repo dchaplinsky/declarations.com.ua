@@ -1,8 +1,11 @@
 import jwt
+import json
 import requests
 import logging
 from hashlib import sha1
-from datetime import datetime
+from random import randint
+from datetime import timedelta
+from django.utils import timezone
 from django.conf import settings
 from django.core.cache import cache
 from elasticsearch_dsl import Search
@@ -11,6 +14,8 @@ from cryptography.hazmat.backends import default_backend
 from catalog.constants import CATALOG_INDICES
 from catalog.utils import base_search_query
 from chatbot.models import ChatHistory
+from spotter.utils import (DjangoStorage, clean_username, save_search_task,
+    find_search_task, list_search_tasks)
 
 
 logger = logging.getLogger(__name__)
@@ -132,16 +137,81 @@ def client_credentials():
     return creds
 
 
-def chat_response(data, message='', messageType='message', attachments=None):
-    if data.get('text'):
+def chat_last_message(data, return_text=False, not_older_than=5):
+    from_id = data.get('from', {}).get('id', '')[:250]
+    from_name = data.get('from', {}).get('name', '')[:250]
+    channel = data.get('channelId', '')[:250]
+    conversation = data.get('conversation', {}).get('id', '')[:250]
+
+    if from_id and channel and conversation:
+        not_older = timezone.now() - timedelta(minutes=not_older_than)
+        try:
+            msg = ChatHistory.objects.filter(from_id=from_id, from_name=from_name, channel=channel,
+                conversation=conversation, created__gt=not_older).order_by('-created')[0]
+        except IndexError:
+            return None
+        if return_text:
+            return msg.query
+        return msg
+
+
+def chat_user_email(data):
+    from_id = data.get('from', {}).get('id', '')[:250]
+    channel = data.get('channelId', '')[:250]
+
+    if from_id and channel:
+        return '{}@{}.chatbot'.format(from_id, channel)
+
+
+def get_chat_user_by_email(chat_email):
+    for user in DjangoStorage.user.get_users_by_email(chat_email):
+        return user
+
+
+def get_or_create_chat_user(data):
+    chat_email = chat_user_email(data)
+    user = get_chat_user_by_email(chat_email)
+
+    if not user:
+        from_id = data.get('from', {}).get('id', '')[:250]
+        channel = data.get('channelId', '')[:250]
+        name = data.get('from', {}).get('name', '')[:250]
+
+        if not from_id or not channel:
+            raise ValueError('Недостатньо даних')
+
+        login = '{}{}'.format(channel, randint(1e5, 1e6))
+        login = username = clean_username(login)
+        nonce = 1
+        while DjangoStorage.user.get_user(username=username):
+            username = '{}x{}'.format(login, nonce)
+            nonce += 1
+
+        if name and ' ' in name:
+            first_name, last_name = name.split(' ', 1)
+        else:
+            first_name, last_name = name, ''
+
+        user = DjangoStorage.user.create_user(username=username, email=chat_email,
+            first_name=first_name, last_name=last_name)
+        DjangoStorage.user.create_social_auth(user=user, uid=from_id, provider=channel)
+
+    return user
+
+
+def chat_response(data, message='', messageType='message', attachments=None, auto_reply=False, save_answer=True):
+    if data.get('text', ''):
+        short_answer = message[:80] if save_answer else '-'
         ChatHistory(
+            user=get_chat_user_by_email(chat_user_email(data)),
             from_id=data.get('from', {}).get('id', '')[:250],
             from_name=data.get('from', {}).get('name', '')[:250],
             channel=data.get('channelId', '')[:250],
             conversation=data.get('conversation', {}).get('id', '')[:250],
             query=data['text'][:250],
-            answer=message[:250],
-            timestamp=data.get('timestamp', '')[:40]
+            answer=short_answer,
+            timestamp=data.get('timestamp', '')[:40],
+            auto_reply=auto_reply
         ).save()
 
     creds = client_credentials()
@@ -152,7 +222,7 @@ def chat_response(data, message='', messageType='message', attachments=None):
         data['id'])
     resp = {
         'type': messageType,
-        'timestamp': datetime.now().isoformat(),
+        'timestamp': timezone.now().isoformat(),
         'from': data['recipient'],
         'conversation': data['conversation'],
         'recipient': data['from'],
@@ -165,3 +235,35 @@ def chat_response(data, message='', messageType='message', attachments=None):
         'Authorization': '{} {}'.format(creds['token_type'], creds['access_token'])
     }
     requests.post(responseURL, json=resp, headers=headers, timeout=10)
+
+
+def create_subscription(data, query):
+    user = get_or_create_chat_user(data)
+
+    if not user.is_active:
+        raise ValueError('Користувач заблокований')
+
+    data.pop('text', '')
+
+    return save_search_task(user, query, chat_data=json.dumps(data))
+
+
+def find_subscription(data, query, deepsearch=False):
+    user = get_chat_user_by_email(chat_user_email(data))
+    if not user:
+        return None
+    return find_search_task(user, query, deepsearch)
+
+
+def find_subscription2(data, query):
+    task = find_subscription(data, query, deepsearch=False)
+    if not task:
+        task = find_subscription(data, query, deepsearch=True)
+    return task
+
+
+def list_subscriptions(data):
+    user = get_chat_user_by_email(chat_user_email(data))
+    if not user:
+        return []
+    return list_search_tasks(user)
