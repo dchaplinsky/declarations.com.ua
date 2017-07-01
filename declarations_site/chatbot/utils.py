@@ -180,12 +180,12 @@ def get_or_create_chat_user(data):
         if not from_id or not channel:
             raise ValueError('Недостатньо даних')
 
-        login = '{}{}'.format(channel, randint(1e5, 1e6))
-        login = username = clean_username(login)
-        nonce = 1
+        username = '{}{}'.format(channel, randint(1e6, 1e8))
+        username = clean_username(username)
+        # always remember about birthday paradox
         while DjangoStorage.user.get_user(username=username):
-            username = '{}x{}'.format(login, nonce)
-            nonce += 1
+            username = '{}{}'.format(channel, randint(1e6, 1e8))
+            username = clean_username(username)
 
         if name and ' ' in name:
             first_name, last_name = name.split(' ', 1)
