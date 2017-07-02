@@ -3,6 +3,7 @@ import json
 from csv import writer
 from parsel import Selector
 import os.path
+import fnmatch
 import glob2
 from multiprocessing import Pool
 
@@ -64,8 +65,16 @@ class Command(BaseCommand):
         missing_files = options['csv_out']
 
         self.stdout.write("Gathering JSON documents from {}".format(base_dir))
-        jsons = list(glob2.glob(os.path.join(base_dir, "**/*.json")))
-        htmls = list(glob2.glob(os.path.join(base_dir, "**/*.html")))
+
+        jsons = []
+        for root, _, filenames in os.walk(base_dir):
+            for filename in fnmatch.filter(filenames, '*.json'):
+                jsons.append(os.path.join(root, filename))
+
+        htmls = []
+        for root, _, filenames in os.walk(base_dir):
+            for filename in fnmatch.filter(filenames, '*.html'):
+                htmls.append(os.path.join(root, filename))
 
         self.stdout.write("Gathered {} JSON documents, {} HTML documents".format(
             len(jsons), len(htmls)))
