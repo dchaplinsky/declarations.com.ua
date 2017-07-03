@@ -31,7 +31,7 @@ def botcmd_subscribe(data):
 
     try:
         create_subscription(data, text.strip())
-        message = 'Створено підписку за запитом: "{}",\n\n'.format(text)
+        message = 'Створено підписку за запитом: {},\n\n'.format(text)
         message += 'Введіть "підписки" щоб подивитись весь список.'
         chat_response(data, message)
     except Exception as e:
@@ -73,7 +73,7 @@ def botcmd_list_subscribe(data):
                 "text": "Щоб відписатись він наступних повідомлень по цьому запиту натисніть:",
                 "buttons": [
                     {
-                        "type": "postBack",
+                        "type": "imBack",
                         "title": "Відписатись він оновлень",
                         "value": "відписатись {}".format(task.query)
                     }
@@ -119,6 +119,31 @@ CHATBOT_COMMANDS = (
     (re.compile('(допом|довідка|помощ|справка|help|info)'), botcmd_help),
 )
 
+NOT_FOUND_RESPONSES = (
+    'Щоб дізнатись більше, напишіть "довідка"',
+    'Спробуйте спростити запит.',
+    'Ви точно шукаєте декларації, а не щось інше?',
+    'Що сьогодні не знайшлось, знайдеться завтра.',
+    'З часом навіть ваш сусід подасть декларацію.',
+    'Пошук істини важливіше, ніж володіння нею.',
+    'Простіше знайти знайому рибу в океані, ніж потрібну людину.',
+    'Коли сам не знаєш, що шукаєш, пошук стає непростою справою.',
+    'У пошуку хорошого життя завжди є небезпека опинитись в розшуку.',
+    'Риба шукає, де глибше, але ти навряд чи риба.',
+    'Той, хто шукає, обов\'язково знайде... але виключення теж бувають.',
+    'What you seek is seeking you.',
+    '...але пошук ведете у правильному напрямку.',
+    'Якщо весь час шукати не залишиться часу щоб знаходити.',
+    'Іноді ми самі не знаємо, що шукаємо, поки не знайдемо.',
+    'Знайти розумних істот у космосі не легше ніж на землі.',
+    'Я просто ще один маленький сервер, що щось шукає у темряві.',
+    'Те, що легко знайти, не варто й шукати.',
+    'Щоб знайти голку в копиці сіна, достатньо спалити його.',
+    'Я наче геолог, який шукає-шукає, хоча нічого не загубив.',
+    'В цих ваших інтернетах можна знайти все, чого не шукав.',
+    'Цього разу я краще промовчу.',
+)
+
 
 def is_bot_command(text):
     for r, m in QUICK_ANSWERS + CHATBOT_COMMANDS:
@@ -137,8 +162,7 @@ def send_greetings(data):
         if 'bot' in member.get('name', '').lower():
             continue
         data['from'] = {'id': data['conversation']['id']}
-        message = ('Вітаю, яку декларацію ти шукаєш сьогодні?\n\n'+
-                   'Якщо тут вперше, спробуй набрати "допомога".')
+        message = ('Вітаю, яку декларацію ти шукаєш сьогодні?')
         chat_response(data, message)
         # send greetings only once
         break
@@ -149,8 +173,10 @@ def join_res(d, keys, sep=' '):
     return sep.join([str(d[k]) for k in keys if k in d and d[k]])
 
 
-def decl_list_to_chat_cards(decl_list, data, settings, deepsearch):
+def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0):
     attachments = []
+    count = settings.CHATBOT_SERP_COUNT
+
     if decl_list:
         for found in decl_list:
             if 'date' in found.intro:
@@ -184,35 +210,43 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch):
 
             attachments.append(att)
 
-            if len(attachments) >= 10:
-                url = settings.SITE_URL + reverse_qs('search',
-                    qs={'q': data['text'], 'deepsearch': deepsearch})
-                att = {
-                    "contentType": "application/vnd.microsoft.card.hero",
-                    "content": {
-                        "title": "Більше декларацій",
-                        "text": "Щоб побачити більше перейдіть на сайт",
-                        "buttons": [
-                            {
-                                "type": "openUrl",
-                                "title": "Продовжити пошук на сайті",
-                                "value": url
-                            }
-                        ]
-                    }
-                }
-                attachments.append(att)
+            if len(attachments) >= count:
                 break
+
+        if len(attachments) >= count:
+            deepsearch = 'on' if deepsearch else ''
+            url = settings.SITE_URL + reverse_qs('search',
+                qs={'q': data['text'], 'deepsearch': deepsearch})
+            att = {
+                "contentType": "application/vnd.microsoft.card.hero",
+                "content": {
+                    "title": "Більше декларацій",
+                    "buttons": [
+                        {
+                            "type": "imBack",
+                            "title": "Показати наступні {} декларацій".format(count),
+                            "value": "{} /{}".format(data['text'], skip + count)
+                        },
+                        {
+                            "type": "openUrl",
+                            "title": "Продовжити пошук на сайті",
+                            "value": url
+                        }
+                    ]
+                }
+            }
+
+            attachments.append(att)
 
         if not find_subscription2(data, data['text']):
             att = {
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
-                    "title": "Підписатись на запит {}".format(data['text']),
+                    "title": "Підписатись на запит \"{}\"".format(data['text']),
                     "text": "Отирмуйте оновлення по цьому запиту миттєво в чат",
                     "buttons": [
                         {
-                            "type": "postBack",
+                            "type": "imBack",
                             "title": "Підписатись на запит",
                             "value": "підписатись {}".format(data['text'])
                         }
@@ -227,7 +261,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch):
                     "text": "Щоб відписатись він наступних повідомлень по цьому запиту натисніть:",
                     "buttons": [
                         {
-                            "type": "postBack",
+                            "type": "imBack",
                             "title": "Відписатись він оновлень",
                             "value": "відписатись {}".format(data['text'])
                         }
@@ -256,21 +290,39 @@ def search_reply(data):
         if r.match(text):
             return handler(data)
 
-    search = simple_search(data['text'])
-    deepsearch = ''
+    skip = 0
+    count = settings.CHATBOT_SERP_COUNT
+    if re.search(r' /\d+$', text):
+        text, skip = data['text'].rsplit(' ', 1)
+        data['text'] = text
+        skip = int(skip[1:])
+
+    deepsearch = False
+    search = simple_search(data['text'], deepsearch=deepsearch)
 
     if search.found_total == 0:
-        search = simple_search(data['text'], deepsearch=True)
-        deepsearch = 'on'
+        deepsearch = True
+        search = simple_search(data['text'], deepsearch=deepsearch)
 
     plural = ukr_plural(search.found_total, 'декларацію', 'декларації', 'декларацій')
-    message = 'Знайдено {} {}'.format(search.found_total, plural)
-    if search.found_total > 10:
-        message += '\n\nПоказані перші 10'
+    message = 'За запитом: {}'.format(data['text'])
+    message += '\n\nЗнайдено {} {}'.format(search.found_total, plural)
+
+    if search.found_total == 0:
+        message += '\n\n{}'.format(choice(NOT_FOUND_RESPONSES))
+
+    elif search.found_total > skip + count:
+        if skip:
+            message += '\n\nПоказано {} починаючи з {}'.format(count, skip + 1)
+        else:
+            message += '\n\nПоказано перші {}'.format(count)
+
     attachments = None
 
     if search.found_total:
-        attachments = decl_list_to_chat_cards(search, data, settings, deepsearch)
+        if skip:
+            search = search[skip:]
+        attachments = decl_list_to_chat_cards(search, data, settings, deepsearch, skip)
 
     return chat_response(data, message, attachments=attachments)
 
