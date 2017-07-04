@@ -34,12 +34,11 @@ def botcmd_subscribe(data):
     except Exception as e:
         chat_response(data, 'Не вдалось створити підписку: {}'.format(e))
     else:
-        message = ''
+        message = "Створено підписку за запитом: {}".format(text)
         attachments = [
             {
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
-                    "title": "Створено підписку за запитом: {}".format(text),
                     "text": "Щоб подивитись всі ваші підписки натисніть",
                     "buttons": [
                         {
@@ -74,7 +73,7 @@ def botcmd_unsubscribe(data):
     task.is_deleted = True
     task.save()
 
-    chat_response(data, 'Завдання відмінено, ви більше не будете отримувати повідомлень за цим запитом.')
+    chat_response(data, 'Підписка відмінена, ви більше не будете отримувати повідомлень за цим запитом.')
 
 
 def botcmd_list_subscribe(data):
@@ -210,7 +209,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0)
                     "buttons": [
                         {
                             "type": "openUrl",
-                            "title": "Відкрити",
+                            "title": "Відкрити декларацію",
                             "value": url
                         }
                     ]
