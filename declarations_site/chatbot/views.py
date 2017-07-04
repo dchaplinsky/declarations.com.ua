@@ -116,10 +116,14 @@ def botcmd_list_newfound(data):
 
     if notify and notify.found_new:
         count = settings.CHATBOT_SERP_COUNT
-        message = 'Нові декларації за запитом: {}'.format(notify.task.query)
+        query = notify.task.query
+        found_new = notify.found_new
+        plural = ukr_plural(found_new, 'нову декларацію', 'нові декларації', 'нових декларацій')
+        message = 'За підпискою: {}'.format(query)
+        message += '\n\nЗнайдено {} {}'.format(found_new, plural)
         message += '\n\nПоказані {} починаючи з {}'.format(count, skip + 1)
-        found_new = notify.found_new[skip:]
-        attachments = decl_list_to_chat_cards(found_new, data, settings, notify.task.deepsearch,
+        new_ids = notify.new_ids[skip:]
+        attachments = decl_list_to_chat_cards(new_ids, data, settings, notify.task.deepsearch,
             skip=skip, notify_id=notify.id)
         chat_response(data, message, attachments=attachments)
     else:
