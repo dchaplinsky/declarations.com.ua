@@ -235,16 +235,16 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0)
             att = {
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
-                    "title": "Більше декларацій",
+                    "title": "Наступна сторінка",
                     "buttons": [
                         {
                             "type": "imBack",
-                            "title": "Показати наступні {} декларацій".format(count),
+                            "title": "Наступні {} декларацій".format(count),
                             "value": "{} /{}".format(data['text'], skip + count)
                         },
                         {
                             "type": "openUrl",
-                            "title": "Продовжити пошук на сайті",
+                            "title": "Перейти на сайт",
                             "value": url
                         }
                     ]
