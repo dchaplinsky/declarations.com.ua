@@ -115,7 +115,7 @@ def botcmd_list_newfound(data):
 
     notify = load_notify(data, args)
 
-    if notify and notify.found_new:
+    if notify and skip < notify.found_new:
         count = settings.CHATBOT_SERP_COUNT
         query = notify.task.query
         found_new = notify.found_new
