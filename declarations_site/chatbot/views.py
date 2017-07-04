@@ -118,6 +118,7 @@ def botcmd_list_newfound(data):
     if notify and skip < notify.found_new:
         count = settings.CHATBOT_SERP_COUNT
         query = notify.task.query
+        data['text'] = query
         found_new = notify.found_new
         plural = ukr_plural(found_new, 'нову декларацію', 'нові декларації', 'нових декларацій')
         message = 'За підпискою: {}'.format(query)
