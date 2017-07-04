@@ -35,12 +35,13 @@ def botcmd_subscribe(data):
     except Exception as e:
         chat_response(data, 'Не вдалось створити підписку: {}'.format(e))
     else:
-        message = "Створено підписку за запитом: {}".format(text)
+        message = ""
         attachments = [
             {
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
-                    "text": "Щоб подивитись всі ваші підписки оберіть:",
+                    "title": "Створено підписку: {}".format(text),
+                    "subtitle": "Щоб переглянути всі підписки оберіть:",
                     "buttons": [
                         {
                             "type": "imBack",
@@ -55,7 +56,7 @@ def botcmd_subscribe(data):
 
 
 def botcmd_unsubscribe(data):
-    text = data['text']
+    text = data['text'].strip()
 
     if ' ' in text:
         _, text = text.split(' ', 1)
@@ -65,7 +66,7 @@ def botcmd_unsubscribe(data):
     if not text or is_bot_command(text):
         return chat_response(data, 'Спочатку зробіть запит')
 
-    task = find_subscription2(data, text.strip())
+    task = find_subscription2(data, text)
 
     if not task:
         return chat_response(data, 'Завдання з запитом "{}" не знайдено'.format(text))
