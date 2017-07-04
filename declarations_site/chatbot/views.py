@@ -9,6 +9,7 @@ from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbi
     HttpResponseNotAllowed)
 from chatbot.utils import (ukr_plural, chat_response, simple_search, verify_jwt, chat_last_message,
     create_subscription, find_subscription2, list_subscriptions, load_notify)
+from spotter.utils import load_declarations
 
 
 def reverse_qs(viewname, qs=None, **kwargs):
@@ -122,8 +123,8 @@ def botcmd_list_newfound(data):
         message = 'За підпискою: {}'.format(query)
         message += '\n\nЗнайдено {} {}'.format(found_new, plural)
         message += '\n\nПоказані {} починаючи з {}'.format(count, skip + 1)
-        new_ids = notify.new_ids[skip:]
-        attachments = decl_list_to_chat_cards(new_ids, data, settings, notify.task.deepsearch,
+        new_decl = load_declarations(notify.new_ids[skip:])
+        attachments = decl_list_to_chat_cards(new_decl, data, settings, notify.task.deepsearch,
             skip=skip, notify_id=notify.id)
         chat_response(data, message, attachments=attachments)
     else:
