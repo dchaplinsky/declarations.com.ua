@@ -243,6 +243,8 @@ def send_found_notify(notify):
     }
     if notify.email and notify.email.endswith('.chatbot'):
         from chatbot.utils import send_to_chat
+        # need to save before use to obtain notify.id
+        notify.save()
         return send_to_chat(notify, context)
 
     # send notify to regular email
@@ -306,9 +308,8 @@ def list_search_tasks(user):
     return SearchTask.objects.filter(user=user, is_deleted=False)
 
 
-def get_user_notify(user, notify_id):
+def get_user_notify(notify_id, **kwargs):
     try:
-        return NotifySend.objects.filter(id=notify_id, user=user.id)[0]
+        return NotifySend.objects.filter(id=notify_id, **kwargs)[0]
     except IndexError:
         return None
-
