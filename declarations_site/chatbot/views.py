@@ -338,6 +338,15 @@ def search_reply(data):
         if r.match(text):
             return handler(data)
 
+    # deepsearch switch
+    deepsearch = False
+    if ' /' in text:
+        for deep in (' /deep', ' /всюди'):
+            if deep in data['text']:
+                deepsearch = True
+                data['text'] = data['text'].replace(deep, '')
+
+    # pagination in format query /skip
     skip = 0
     count = settings.CHATBOT_SERP_COUNT
     if re.search(r' /\d+$', text):
@@ -345,10 +354,10 @@ def search_reply(data):
         data['text'] = text
         skip = int(skip[1:])
 
-    deepsearch = False
     search = simple_search(data['text'], deepsearch=deepsearch)
 
-    if search.found_total == 0:
+    # it found nothing try again with deepsearch
+    if search.found_total == 0 and not deepsearch:
         deepsearch = True
         search = simple_search(data['text'], deepsearch=deepsearch)
 
