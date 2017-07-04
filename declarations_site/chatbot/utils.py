@@ -55,7 +55,7 @@ def simple_search(query, deepsearch=False):
 def requests_retry(func, *args, **kwargs):
     max_retries = kwargs.pop('max_retries', 5)
     retry_sleep = kwargs.pop('retry_sleep', 0)
-    # send response with retry
+    # perform request with retry
     for retry in range(max_retries):
         try:
             return func(*args, **kwargs)
