@@ -272,6 +272,7 @@ def send_to_chat(notify, context):
     attachments = decl_list_to_chat_cards(context['decl_list'], data, settings, deepsearch,
         notify_id=notify.id)
     chat_response(data, message, attachments=attachments, auto_reply=True)
+    return 1
 
 
 def create_subscription(data, query):
@@ -307,7 +308,7 @@ def list_subscriptions(data):
 
 
 def load_notify(data, notify_id):
-    user = get_chat_user_by_email(chat_user_email(data))
-    if not user:
+    email = chat_user_email(data)
+    if not email:
         return
-    return get_user_notify(user, notify_id)
+    return get_user_notify(notify_id, email=email)
