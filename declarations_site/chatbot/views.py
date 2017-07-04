@@ -31,11 +31,27 @@ def botcmd_subscribe(data):
 
     try:
         create_subscription(data, text.strip())
-        message = 'Створено підписку за запитом: {},\n\n'.format(text)
-        message += 'Введіть "підписки" щоб подивитись весь список.'
-        chat_response(data, message)
     except Exception as e:
         chat_response(data, 'Не вдалось створити підписку: {}'.format(e))
+    else:
+        message = ''
+        attachments = [
+            {
+                "contentType": "application/vnd.microsoft.card.hero",
+                "content": {
+                    "title": "Створено підписку за запитом: {}".format(text),
+                    "text": "Щоб подивитись всі ваші підписки натисніть",
+                    "buttons": [
+                        {
+                            "type": "imBack",
+                            "title": "Мої підписки",
+                            "value": "підписки"
+                        }
+                    ]
+                }
+            }
+        ]
+        chat_response(data, message, attachments=attachments)
 
 
 def botcmd_unsubscribe(data):
@@ -74,7 +90,7 @@ def botcmd_list_subscribe(data):
                 "buttons": [
                     {
                         "type": "imBack",
-                        "title": "Відписатись він оновлень",
+                        "title": "Відписатись",
                         "value": "відписатись {}".format(task.query)
                     }
                 ]
@@ -247,7 +263,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0)
                     "buttons": [
                         {
                             "type": "imBack",
-                            "title": "Підписатись на запит",
+                            "title": "Підписатись",
                             "value": "підписатись {}".format(data['text'])
                         }
                     ]
@@ -262,7 +278,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0)
                     "buttons": [
                         {
                             "type": "imBack",
-                            "title": "Відписатись він оновлень",
+                            "title": "Відписатись",
                             "value": "відписатись {}".format(data['text'])
                         }
                     ]
