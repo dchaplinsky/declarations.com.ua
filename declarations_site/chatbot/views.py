@@ -161,7 +161,7 @@ CHATBOT_COMMANDS = (
     (re.compile('(відпис|отпис|unsub)'), botcmd_unsubscribe),
     (re.compile('(мої|підписки|подписки|list)'), botcmd_list_subscribe),
     (re.compile('(нові|новые|new) \d+'), botcmd_list_newfound),
-    (re.compile('(допом|довідка|помощ|справка|help|info)'), botcmd_help),
+    (re.compile('(допомо|довідка|помощь|справка|help|info)'), botcmd_help),
 )
 
 NOT_FOUND_RESPONSES = (

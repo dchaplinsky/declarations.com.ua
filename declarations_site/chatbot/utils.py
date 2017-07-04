@@ -311,4 +311,4 @@ def load_notify(data, notify_id):
     email = chat_user_email(data)
     if not email:
         return
-    return get_user_notify(notify_id, email=email)
+    return get_user_notify(notify_id, email=email, task__is_enabled=True)
