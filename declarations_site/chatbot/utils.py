@@ -258,7 +258,9 @@ def send_to_chat(notify, context):
     from chatbot.views import decl_list_to_chat_cards
 
     plural = ukr_plural(context['found_new'], 'нову декларацію', 'нові декларації', 'нових декларацій')
-    message = 'За запитом "{}" знайдено {} {}'.format(context['query'], context['found_new'], plural)
+    message = 'Нові декларації\n\n---------------\n\n'
+    message += 'За запитом: {}'.format(context['query'])
+    message += '\n\nЗнайдено {} {}'.format(context['found_new'], plural)
     if context['found_new'] > settings.CHATBOT_SERP_COUNT:
         message += '\n\nПоказані перші {}'.format(settings.CHATBOT_SERP_COUNT)
 
