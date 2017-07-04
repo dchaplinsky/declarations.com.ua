@@ -80,7 +80,6 @@
     a {
         color: #2196f3;
         text-decoration: none;
-        line-height: 48px;
 
         &:hover {
             text-decoration: none;
@@ -100,7 +99,7 @@
         a {
             display: block;
             height: 60px;
-            width: 120px;
+            width: 140px;
 
             span {
                 display: none;
@@ -136,6 +135,16 @@
     i {
         width: 213px;
         background: url(../images/nacp_logo_big.png) no-repeat center center;
+    }
+
+    &:hover {
+        margin-right: 73px;
+        padding-left: 73px;
+        box-sizing: border-box;
+
+        i {
+            width: 48px;
+        }
     }
 }
 
