@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
     HttpResponseNotAllowed)
 from chatbot.utils import (ukr_plural, chat_response, simple_search, verify_jwt, chat_last_message,
-    create_subscription, find_subscription2, list_subscriptions)
+    create_subscription, find_subscription2, list_subscriptions, load_notify)
 
 
 def reverse_qs(viewname, qs=None, **kwargs):
@@ -39,7 +39,7 @@ def botcmd_subscribe(data):
             {
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
-                    "text": "Щоб подивитись всі ваші підписки натисніть",
+                    "text": "Щоб подивитись всі ваші підписки оберіть:",
                     "buttons": [
                         {
                             "type": "imBack",
@@ -104,15 +104,37 @@ def botcmd_list_subscribe(data):
     return chat_response(data, message, attachments=attachments)
 
 
+def botcmd_list_newfound(data):
+    cmd, args = data['text'].split(' ', 1)
+    skip = 0
+
+    if '/' in args:
+        args, skip = args.split('/', 1)
+        skip = int(skip)
+
+    notify = load_notify(data, args)
+
+    if notify and notify.found_new:
+        count = settings.CHATBOT_SERP_COUNT
+        message = 'Нові декларації за запитом: {}'.format(notify.task.query)
+        message += '\n\nПоказані {} починаючи з {}'.format(count, skip + 1)
+        found_new = notify.found_new[skip:]
+        attachments = decl_list_to_chat_cards(found_new, data, settings, notify.task.deepsearch,
+            skip=skip, notify_id=notify.id)
+        chat_response(data, message, attachments=attachments)
+    else:
+        message = 'Більше немає результатів.'
+        chat_response(data, message)
+
+
 def botcmd_help(data):
-    CRLFx2 = " \n\n"
-    message = ("Вітаю, я бот для пошуку декларацій чиновників, я розумію наступні команди:" + CRLFx2 +
-        CRLFx2 +
-        "* будь-який-запит — знайти декларацію за запитом, показати результати в чаті," + CRLFx2 +
-        "* “підписатись” — моніторити останній запит, отримувати оновлення в чат," + CRLFx2 +
-        "* “підписки” — показати список підписок моніторингу, там же можна відписатись." + CRLFx2 +
-        CRLFx2 +
-        "Щоб дізнатись більше, завітайте на сайт https://declarations.com.ua" + CRLFx2 +
+    message = ("Вітаю, я бот для пошуку декларацій чиновників, я розумію наступні команди:\n\n" +
+        " \n\n" +
+        "* будь-який-запит — знайти декларацію за запитом, показати результати в чаті,\n\n" +
+        "* “підписатись” — моніторити останній запит, отримувати оновлення в чат,\n\n" +
+        "* “підписки” — показати список підписок моніторингу, там же можна відписатись.\n\n" +
+        " \n\n"
+        "Щоб дізнатись більше, завітайте на сайт https://declarations.com.ua\n\n" +
         "Дякую, що користуєтесь.")
     return chat_response(data, message)
 
@@ -131,6 +153,7 @@ CHATBOT_COMMANDS = (
     (re.compile('(підписат|монітор|подписат|монитор|sub)'), botcmd_subscribe),
     (re.compile('(відпис|отпис|unsub)'), botcmd_unsubscribe),
     (re.compile('(мої|підписки|подписки|list)'), botcmd_list_subscribe),
+    (re.compile('(нові|новые|new) \d+'), botcmd_list_newfound),
     (re.compile('(допом|довідка|помощ|справка|help|info)'), botcmd_help),
 )
 
@@ -188,7 +211,7 @@ def join_res(d, keys, sep=' '):
     return sep.join([str(d[k]) for k in keys if k in d and d[k]])
 
 
-def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0):
+def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0, notify_id=None):
     attachments = []
     count = settings.CHATBOT_SERP_COUNT
 
@@ -232,15 +255,19 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0)
             deepsearch = 'on' if deepsearch else ''
             url = settings.SITE_URL + reverse_qs('search',
                 qs={'q': data['text'], 'deepsearch': deepsearch})
+            if notify_id:
+                next_page = "нові {}/{}".format(notify_id, skip + count)
+            else:
+                next_page = "{} /{}".format(data['text'], skip + count)
             att = {
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
-                    "title": "Наступна сторінка",
+                    "title": "Більше декларацій",
                     "buttons": [
                         {
                             "type": "imBack",
                             "title": "Наступні {} декларацій".format(count),
-                            "value": "{} /{}".format(data['text'], skip + count)
+                            "value": next_page,
                         },
                         {
                             "type": "openUrl",
@@ -273,7 +300,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0)
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
                     "title": "Ви підписані на оновлення",
-                    "text": "Щоб відписатись він наступних повідомлень по цьому запиту натисніть:",
+                    "text": "Щоб відписатись він наступних повідомлень по цьому запиту оберіть:",
                     "buttons": [
                         {
                             "type": "imBack",

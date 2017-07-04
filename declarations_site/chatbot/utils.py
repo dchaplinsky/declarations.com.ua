@@ -17,7 +17,7 @@ from catalog.constants import CATALOG_INDICES
 from catalog.utils import base_search_query
 from chatbot.models import ChatHistory
 from spotter.utils import (DjangoStorage, clean_username, save_search_task,
-    find_search_task, list_search_tasks)
+    find_search_task, list_search_tasks, get_user_notify)
 
 
 logger = logging.getLogger(__name__)
@@ -254,6 +254,22 @@ def chat_response(data, message='', messageType='message', attachments=None, aut
         retry_sleep=retry_sleep)
 
 
+def send_to_chat(notify, context):
+    from chatbot.views import decl_list_to_chat_cards
+
+    plural = ukr_plural(context['found_new'], 'нову декларацію', 'нові декларації', 'нових декларацій')
+    message = 'За запитом "{}" знайдено {} {}'.format(context['query'], context['found_new'], plural)
+    if context['found_new'] > settings.CHATBOT_SERP_COUNT:
+        message += '\n\nПоказані перші {}'.format(settings.CHATBOT_SERP_COUNT)
+
+    data = json.loads(notify.task.chat_data)
+    data['text'] = context['query']
+
+    deepsearch = 'on' if notify.task.deepsearch else ''
+    attachments = decl_list_to_chat_cards(context['decl_list'], data, settings, deepsearch)
+    chat_response(data, message, attachments=attachments, auto_reply=True)
+
+
 def create_subscription(data, query):
     user = get_or_create_chat_user(data)
 
@@ -268,7 +284,7 @@ def create_subscription(data, query):
 def find_subscription(data, query, deepsearch=False):
     user = get_chat_user_by_email(chat_user_email(data))
     if not user:
-        return None
+        return
     return find_search_task(user, query, deepsearch)
 
 
@@ -284,3 +300,10 @@ def list_subscriptions(data):
     if not user:
         return []
     return list_search_tasks(user)
+
+
+def load_notify(data, notify_id):
+    user = get_chat_user_by_email(chat_user_email(data))
+    if not user:
+        return
+    return get_user_notify(user, notify_id)

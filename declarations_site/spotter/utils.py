@@ -18,7 +18,6 @@ from catalog.elastic_models import Declaration, NACPDeclaration
 from catalog.utils import base_search_query
 from spotter.models import SearchTask, TaskReport, NotifySend
 from spotter.sender import send_mail
-from chatbot.sender import send_to_chat
 
 NO_ASCII_REGEX = re.compile(r'[^\x00-\x7F]+')
 NO_SPECIAL_REGEX = re.compile(r'[^\w.@+_-]+', re.UNICODE)
@@ -243,6 +242,7 @@ def send_found_notify(notify):
         'site_url': settings.SITE_URL,
     }
     if notify.email and notify.email.endswith('.chatbot'):
+        from chatbot.utils import send_to_chat
         return send_to_chat(notify, context)
 
     # send notify to regular email
@@ -304,3 +304,11 @@ def find_search_task(user, query, deepsearch=True, query_params=''):
 
 def list_search_tasks(user):
     return SearchTask.objects.filter(user=user, is_deleted=False)
+
+
+def get_user_notify(user, notify_id):
+    try:
+        return NotifySend.objects.filter(id=notify_id, user=user.id)[0]
+    except IndexError:
+        return None
+
