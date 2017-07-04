@@ -150,6 +150,8 @@ LOGOUT_REDIRECT = '/'
 
 SITE_URL = 'https://declarations.com.ua'
 
+CHATBOT_SERP_COUNT = 5
+
 # EMAIL_SITE_URL used for full hrefs in email templates
 EMAIL_SITE_URL = SITE_URL
 
