@@ -55,7 +55,7 @@ def simple_search(query, deepsearch=False):
 def requests_retry(func, *args, **kwargs):
     max_retries = kwargs.pop('max_retries', 5)
     retry_sleep = kwargs.pop('retry_sleep', 0)
-    # send response with retry
+    # perform request with retry
     for retry in range(max_retries):
         try:
             return func(*args, **kwargs)
@@ -311,4 +311,4 @@ def load_notify(data, notify_id):
     email = chat_user_email(data)
     if not email:
         return
-    return get_user_notify(notify_id, email=email)
+    return get_user_notify(notify_id, email=email, task__is_enabled=True)

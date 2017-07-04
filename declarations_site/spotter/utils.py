@@ -243,7 +243,7 @@ def send_found_notify(notify):
     }
     if notify.email and notify.email.endswith('.chatbot'):
         from chatbot.utils import send_to_chat
-        # need to save before use to obtain notify.id
+        # need save before use to obtain notify.id
         notify.save()
         return send_to_chat(notify, context)
 

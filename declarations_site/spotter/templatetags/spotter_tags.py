@@ -9,6 +9,8 @@ def uk_plural(value, arg):
     args = arg.split(',')
     value = int(value)
     rem = value % 10
+    if value > 100:
+        value = value % 100
     if value > 4 and value < 20:
         return args[2]
     elif rem == 1:
