@@ -310,19 +310,16 @@ def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''
 
 
 def find_search_task(user, query, **kwargs):
-    tasks = SearchTask.objects.filter(user=user, query=query, is_deleted=False, **kwargs)[:1]
-    for t in tasks:
-        return t
+    for task in SearchTask.objects.filter(user=user, query=query, is_deleted=False, **kwargs)[:1]:
+        return task
 
     # also try find by id
     try:
-        query = int(query)
-        tasks = SearchTask.objects.filter(user=user, id=query, is_deleted=False)[:1]
-    except (TypeError, ValueError):
+        task = SearchTask.objects.get(user=user, id=int(query), is_deleted=False)
+    except (TypeError, ValueError, SearchTask.DoesNotExist):
         return
 
-    for t in tasks:
-        return t
+    return task
 
 
 def list_search_tasks(user):
@@ -331,7 +328,7 @@ def list_search_tasks(user):
 
 def get_user_notify(notify_id, **kwargs):
     try:
-        notify = NotifySend.objects.filter(id=notify_id, **kwargs).get()
+        notify = NotifySend.objects.get(id=notify_id, **kwargs)
     except NotifySend.DoesNotExist:
         return None
     return notify

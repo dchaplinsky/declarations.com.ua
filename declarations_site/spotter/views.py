@@ -51,7 +51,7 @@ def do_save_search(request, query, deepsearch, query_params):
         return redirect(reverse_qs('edit_email', qs={'next': request.get_full_path()}))
 
     if SearchTask.objects.filter(user=request.user,
-                                is_deleted=False).count() >= settings.SPOTTER_TASK_LIMIT:
+                                 is_deleted=False).count() >= settings.SPOTTER_TASK_LIMIT:
         messages.warning(request, 'Перевищено максимальну кількість завдань.')
         return redirect('search_list')
 
