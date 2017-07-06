@@ -1,26 +1,17 @@
 from django_jinja import library
 from django import template
+from spotter.utils import ukr_plural
 
 register = template.Library()
 
 
 @library.filter
-def uk_plural(value, arg):
-    args = arg.split(',')
-    value = int(value)
-    rem = value % 10
-    if value > 100:
-        value = value % 100
-    if value > 4 and value < 20:
-        return args[2]
-    elif rem == 1:
-        return args[0]
-    elif rem > 1 and rem < 5:
-        return args[1]
-    else:
-        return args[2]
+def uk_plural(value, args):
+    args = args.split(',')
+    return ukr_plural(value, *args)
 
 
 @register.filter(name='uk_plural')
-def uk_plural_django(value, arg):
-    return uk_plural(value, arg)
+def uk_plural_django(value, args):
+    args = args.split(',')
+    return uk_plural(value, *args)
