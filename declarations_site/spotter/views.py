@@ -50,6 +50,11 @@ def do_save_search(request, query, deepsearch, query_params):
             'Спочатку введіть адресу.')
         return redirect(reverse_qs('edit_email', qs={'next': request.get_full_path()}))
 
+    if SearchTask.objects.filter(user=request.user,
+                                is_deleted=False).count() >= settings.SPOTTER_TASK_LIMIT:
+        messages.warning(request, 'Перевищено максимальну кількість завдань.')
+        return redirect('search_list')
+
     # don't add twice
     if SearchTask.objects.filter(user=request.user, query=query,
             deepsearch=deepsearch, query_params=query_params, is_deleted=False).exists():

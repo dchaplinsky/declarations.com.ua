@@ -11,7 +11,6 @@ from django.utils import timezone
 from django.utils.http import urlencode
 from django.db.models import Sum
 from django.template.loader import render_to_string
-from social_django.models import DjangoStorage as BaseStorage
 from elasticsearch_dsl import Search
 from catalog.constants import CATALOG_INDICES
 from catalog.elastic_models import Declaration, NACPDeclaration
@@ -28,8 +27,17 @@ LOAD_DECLS_LIMIT = 100
 logger = logging.getLogger(__name__)
 
 
-class DjangoStorage(BaseStorage):
-    pass
+def ukr_plural(value, *args):
+    value = int(value) % 100
+    rem = value % 10
+    if value > 4 and value < 20:
+        return args[2]
+    elif rem == 1:
+        return args[0]
+    elif rem > 1 and rem < 5:
+        return args[1]
+    else:
+        return args[2]
 
 
 def clean_username(value):
@@ -279,6 +287,10 @@ def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''
     if not user.email:
         raise ValueError('Не вдалось створити завдання без адреси електронної пошти.')
 
+    # limit up to 100 tasks for user
+    if SearchTask.objects.filter(user=user, is_deleted=False).count() >= settings.SPOTTER_TASK_LIMIT:
+        raise ValueError('Перевищено максимальну кількість завдань.')
+
     # don't add twice
     if SearchTask.objects.filter(user=user, query=query,
             deepsearch=deepsearch, query_params=query_params, is_deleted=False).exists():
@@ -297,19 +309,29 @@ def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''
     return task
 
 
-def find_search_task(user, query, deepsearch=True, query_params=''):
-    tasks = SearchTask.objects.filter(user=user, query=query, deepsearch=deepsearch,
-                                query_params=query_params, is_deleted=False)[:1]
+def find_search_task(user, query, **kwargs):
+    tasks = SearchTask.objects.filter(user=user, query=query, is_deleted=False, **kwargs)[:1]
+    for t in tasks:
+        return t
+
+    # also try find by id
+    try:
+        query = int(query)
+        tasks = SearchTask.objects.filter(user=user, id=query, is_deleted=False)[:1]
+    except (TypeError, ValueError):
+        return
+
     for t in tasks:
         return t
 
 
 def list_search_tasks(user):
-    return SearchTask.objects.filter(user=user, is_deleted=False)
+    return SearchTask.objects.filter(user=user, is_deleted=False).order_by('created')
 
 
 def get_user_notify(notify_id, **kwargs):
     try:
-        return NotifySend.objects.filter(id=notify_id, **kwargs)[0]
-    except IndexError:
+        notify = NotifySend.objects.filter(id=notify_id, **kwargs).get()
+    except NotifySend.DoesNotExist:
         return None
+    return notify
