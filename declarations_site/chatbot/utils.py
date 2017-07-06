@@ -13,29 +13,15 @@ from elasticsearch_dsl import Search
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.backends import default_backend
 from requests.exceptions import RequestException, BaseHTTPError
+from social_django.models import DjangoStorage
 from catalog.constants import CATALOG_INDICES
 from catalog.utils import base_search_query
 from chatbot.models import ChatHistory
-from spotter.utils import (DjangoStorage, clean_username, save_search_task,
+from spotter.utils import (ukr_plural, clean_username, save_search_task,
     find_search_task, list_search_tasks, get_user_notify)
 
 
 logger = logging.getLogger(__name__)
-
-
-def ukr_plural(value, *args):
-    value = int(value)
-    rem = value % 10
-    if value > 100:
-        value = value % 100
-    if value > 4 and value < 20:
-        return args[2]
-    elif rem == 1:
-        return args[0]
-    elif rem > 1 and rem < 5:
-        return args[1]
-    else:
-        return args[2]
 
 
 def simple_search(query, deepsearch=False):
@@ -154,7 +140,7 @@ def client_credentials():
     return creds
 
 
-def chat_last_message(data, return_text=False, not_older_than=5):
+def chat_last_message(data, as_text=False, not_older_than=5):
     from_id = data.get('from', {}).get('id', '')[:250]
     from_name = data.get('from', {}).get('name', '')[:250]
     channel = data.get('channelId', '')[:250]
@@ -167,7 +153,7 @@ def chat_last_message(data, return_text=False, not_older_than=5):
                 conversation=conversation, created__gt=not_older).order_by('-created')[0]
         except IndexError:
             return None
-        if return_text:
+        if as_text:
             return msg.query
         return msg
 
@@ -286,18 +272,11 @@ def create_subscription(data, query):
     return save_search_task(user, query, chat_data=json.dumps(data))
 
 
-def find_subscription(data, query, deepsearch=False):
+def find_subscription(data, query, **kwargs):
     user = get_chat_user_by_email(chat_user_email(data))
     if not user:
         return
-    return find_search_task(user, query, deepsearch)
-
-
-def find_subscription2(data, query):
-    task = find_subscription(data, query, deepsearch=False)
-    if not task:
-        task = find_subscription(data, query, deepsearch=True)
-    return task
+    return find_search_task(user, query, **kwargs)
 
 
 def list_subscriptions(data):
