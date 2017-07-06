@@ -3,73 +3,70 @@ import json
 from random import choice
 from django.conf import settings
 from django.urls import reverse
-from django.utils.http import urlencode
 from django.views.decorators.csrf import csrf_exempt
 from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
     HttpResponseNotAllowed)
-from chatbot.utils import (ukr_plural, chat_response, simple_search, verify_jwt, chat_last_message,
-    create_subscription, find_subscription2, list_subscriptions, load_notify)
-from spotter.utils import load_declarations
+from chatbot.utils import (chat_response, simple_search, verify_jwt, chat_last_message,
+    create_subscription, find_subscription, list_subscriptions, load_notify)
+from spotter.utils import load_declarations, reverse_qs, ukr_plural
 
 
-def reverse_qs(viewname, qs=None, **kwargs):
-    url = reverse(viewname, **kwargs)
-    if qs:
-        url += '?' + urlencode(qs)
-    return url
-
-
-def botcmd_subscribe(data):
-    text = data['text']
+def clean_botcmd_arg(data):
+    text = data['text'][:150]
 
     if ' ' in text:
         _, text = text.split(' ', 1)
     else:
-        text = chat_last_message(data, True)
+        text = chat_last_message(data, as_text=True)
+
+    return text.strip()
+
+
+def botcmd_subscribe(data):
+    text = clean_botcmd_arg(data)
 
     if not text or is_bot_command(text):
         return chat_response(data, 'Спочатку зробіть запит')
 
     try:
-        create_subscription(data, text.strip())
-    except Exception as e:
+        create_subscription(data, text)
+    except ValueError as e:
         chat_response(data, 'Не вдалось створити підписку: {}'.format(e))
-    else:
-        message = ""
-        attachments = [
-            {
-                "contentType": "application/vnd.microsoft.card.hero",
-                "content": {
-                    "title": "Створено підписку: {}".format(text),
-                    "subtitle": "Щоб переглянути всі підписки оберіть:",
-                    "buttons": [
-                        {
-                            "type": "imBack",
-                            "title": "Мої підписки",
-                            "value": "підписки"
-                        }
-                    ]
-                }
+        return
+    except Exception as e:
+        chat_response(data, 'От халепа! Трапилась помилка при створені підписки: {}'.format(e))
+        raise
+
+    message = ""
+    attachments = [
+        {
+            "contentType": "application/vnd.microsoft.card.hero",
+            "content": {
+                "title": "Створено підписку: {}".format(text),
+                "subtitle": "Щоб переглянути всі підписки, оберіть:",
+                "buttons": [
+                    {
+                        "type": "imBack",
+                        "title": "Мої підписки",
+                        "value": "підписки"
+                    }
+                ]
             }
-        ]
-        chat_response(data, message, attachments=attachments)
+        }
+    ]
+    chat_response(data, message, attachments=attachments)
 
 
 def botcmd_unsubscribe(data):
-    text = data['text'].strip()
-
-    if ' ' in text:
-        _, text = text.split(' ', 1)
-    else:
-        text = chat_last_message(data, True)
+    text = clean_botcmd_arg(data)
 
     if not text or is_bot_command(text):
         return chat_response(data, 'Спочатку зробіть запит')
 
-    task = find_subscription2(data, text)
+    task = find_subscription(data, text)
 
     if not task:
-        return chat_response(data, 'Завдання з запитом "{}" не знайдено'.format(text))
+        return chat_response(data, 'Завдання з таким запитом не знайдено')
 
     task.is_enabled = False
     task.is_deleted = True
@@ -79,20 +76,26 @@ def botcmd_unsubscribe(data):
 
 
 def botcmd_list_subscribe(data):
+    channel = data.get('channelId', '')
     attachments = []
     for task in list_subscriptions(data):
         plural = ukr_plural(task.found_total, 'декларацію', 'декларації', 'декларацій')
+        # telegram fix
+        if channel == 'telegram':
+            query = task.id
+        else:
+            query = task.query or task.id
         att = {
             "contentType": "application/vnd.microsoft.card.hero",
             "content": {
                 "title": "Запит: {}".format(task.query),
                 "subtitle": "Всього знайдено {} {}".format(task.found_total, plural),
-                "text": "Щоб відписатись він наступних повідомлень по цьому запиту натисніть:",
+                "text": "Щоб відписатись він наступних повідомлень по цьому запиту, оберіть:",
                 "buttons": [
                     {
                         "type": "imBack",
                         "title": "Відписатись",
-                        "value": "відписатись {}".format(task.query)
+                        "value": "відписатись {}".format(query)
                     }
                 ]
             }
@@ -100,8 +103,9 @@ def botcmd_list_subscribe(data):
 
         attachments.append(att)
 
-    s_count = len(attachments)
-    message = "У вас всього {} {}".format(s_count, ukr_plural(s_count, "підписка", "підписки", "підписок"))
+    sbcount = len(attachments)
+    splural = ukr_plural(sbcount, "підписка", "підписки", "підписок")
+    message = "У вас {} {}".format(sbcount, splural)
 
     return chat_response(data, message, attachments=attachments)
 
@@ -198,7 +202,7 @@ def is_bot_command(text):
 
 def send_greetings(data):
     # dont send greetings if chat already started
-    message = chat_last_message(data, False, not_older_than=1)
+    message = chat_last_message(data, not_older_than=1)
     if message:
         return
 
@@ -220,6 +224,7 @@ def join_res(d, keys, sep=' '):
 
 def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0, notify_id=None):
     attachments = []
+    channel = data.get('channelId', '')
     count = settings.CHATBOT_SERP_COUNT
 
     if decl_list:
@@ -230,6 +235,13 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0,
                 if found.intro.corrected:
                     found.intro.corrected = 'Уточнена'
             url = settings.SITE_URL + reverse('details', args=[found.meta.id])
+            if channel == 'telegram':
+                # telegram bug: didn't accept button with command longer than ~ 30 chars
+                name = join_res(found.general, ('last_name', 'name'), ' ')
+                command_text = "підписатись {}".format(name)
+            else:
+                name = join_res(found.general, ('last_name', 'name', 'patronymic'), ' ')
+                command_text = "підписатись {}".format(name)
             att = {
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
@@ -238,6 +250,11 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0,
                     "text": join_res(found.general.post, ('region', 'office', 'post'), ', '),
                     "buttons": [
                         {
+                            "type": "imBack",
+                            "title": "Підписатись за іменем",
+                            "value": command_text,
+                        },
+                        {
                             "type": "openUrl",
                             "title": "Відкрити декларацію",
                             "value": url
@@ -245,13 +262,6 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0,
                     ]
                 }
             }
-            if 'url' in found.declaration:
-                button = {
-                    "type": "openUrl",
-                    "title": "Показати оригінал",
-                    "value": found.declaration.url
-                }
-                att['content']['buttons'].append(button)
 
             attachments.append(att)
 
@@ -287,38 +297,53 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0,
 
             attachments.append(att)
 
-        if not find_subscription2(data, data['text']):
-            att = {
-                "contentType": "application/vnd.microsoft.card.hero",
-                "content": {
-                    "title": "Підписатись на запит \"{}\"".format(data['text']),
-                    "text": "Отирмуйте оновлення по цьому запиту миттєво в чат",
-                    "buttons": [
-                        {
-                            "type": "imBack",
-                            "title": "Підписатись",
-                            "value": "підписатись {}".format(data['text'])
-                        }
-                    ]
-                }
-            }
-        else:
-            att = {
-                "contentType": "application/vnd.microsoft.card.hero",
-                "content": {
-                    "title": "Ви підписані на оновлення",
-                    "text": "Щоб відписатись він наступних повідомлень по цьому запиту оберіть:",
-                    "buttons": [
-                        {
-                            "type": "imBack",
-                            "title": "Відписатись",
-                            "value": "відписатись {}".format(data['text'])
-                        }
-                    ]
-                }
-            }
+        # end for
+    # end if
 
-        attachments.append(att)
+    task = find_subscription(data, data['text'])
+
+    if not task:
+        # telegram fix
+        if channel == 'telegram':
+            command_text = "підписатись"
+        else:
+            command_text = "підписатись {}".format(data['text'])
+        att = {
+            "contentType": "application/vnd.microsoft.card.hero",
+            "content": {
+                "title": "Підписатись на оновлення",
+                "text": "Отримуйте нові декларації по запиту: {}".format(data['text']),
+                "buttons": [
+                    {
+                        "type": "imBack",
+                        "title": "Підписатись",
+                        "value": command_text,
+                    }
+                ]
+            }
+        }
+    else:
+        # telegram fix
+        if channel == 'telegram':
+            command_text = "відписатись {}".format(task.id)
+        else:
+            command_text = "відписатись {}".format(data['text'])
+        att = {
+            "contentType": "application/vnd.microsoft.card.hero",
+            "content": {
+                "title": "Ви підписані на оновлення",
+                "text": "Щоб відписатись він оновлень по цьому запиту, оберіть:",
+                "buttons": [
+                    {
+                        "type": "imBack",
+                        "title": "Відписатись",
+                        "value": command_text,
+                    }
+                ]
+            }
+        }
+
+    attachments.append(att)
 
     return attachments
 
@@ -363,10 +388,10 @@ def search_reply(data):
         search = simple_search(data['text'], deepsearch=deepsearch)
 
     plural = ukr_plural(search.found_total, 'декларацію', 'декларації', 'декларацій')
-    message = 'За запитом: {}'.format(data['text'])
-    message += '\n\nЗнайдено {} {}'.format(search.found_total, plural)
+    message = 'Знайдено {} {}'.format(search.found_total, plural)
 
     if search.found_total == 0:
+        message = 'Декларацій не знайдено.'
         message += '\n\n{}'.format(choice(NOT_FOUND_RESPONSES))
 
     elif search.found_total > skip + count:
@@ -375,12 +400,10 @@ def search_reply(data):
         else:
             message += '\n\nПоказано перші {}'.format(count)
 
-    attachments = None
+    if search.found_total and skip:
+        search = search[skip:]
 
-    if search.found_total:
-        if skip:
-            search = search[skip:]
-        attachments = decl_list_to_chat_cards(search, data, settings, deepsearch, skip)
+    attachments = decl_list_to_chat_cards(search, data, settings, deepsearch, skip)
 
     return chat_response(data, message, attachments=attachments)
 
