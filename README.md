@@ -27,22 +27,36 @@ then run ```R``` and install following packages:
 It's possible to utilise docker and docker-compose to run declarations.com.ua locally. Everything except R analytics
 should work with it at the time of writing this.
 
-**WARNING: This is currently not suitable for production.**
+**WARNING: This is currently not suitable for production as is. Web service should not run with `runserver` and various settings should be altered.**
 
 First make sure you have recent Docker CE (tested on 17.03.1) and docker-compose (tested on 1.13.0), then follow these
 steps from the repository root:
-1. docker-compose up -d
-2. docker-compose run web python3 manage.py migrate
-3. (optional) docker-compose run web python3 manage.py createsuperuser
-4. docker-compose run web python3 manage.py createindices declarations_v2 nacp_declarations
+1. Make sure git submodules are pulled in
+2. docker-compose up -d
+3. docker-compose run --rm web python3 manage.py migrate
+4. (optional) docker-compose run --rm web python3 manage.py createsuperuser
+5. docker-compose run --rm web python3 manage.py createindices declarations_v2 nacp_declarations
 
 In order to import NACP data:
 1. Create a `declarations_bank` directory in the repo root (don't worry, it's gitignored)
-2. Copy the NACP dump archive into it along with possibly empty `corrected.csv` file
-3. docker-compose run web python3 manage.py loadnacp /mnt/declarations_bank/your_nacp_archive_dir /mnt/declarations_bank/corrected.csv
+2. Visit `http://localhost:5984/_utils/` and go to "Setup" tab in order to create CouchDB stuff
+3. docker-compose run dragnet_utils python3 import.py /mnt/declarations_bank/your_nacp_archive_dir -u admin -p admin -e http://couchdb:5984 -c 19 -C 200
+
+Choose params according to [dragnet](https://github.com/excieve/dragnet) documentation.
+
+In order to run sync between CouchDB and ElasticSearch (this requires that the both DB and index exist):
+docker-compose up -d sync
+
+This will continuously synchronise both. Autorestart might need to be added to the compose definition in order to restart on failure. Sync will track last pushed change and restart from this point. Please be aware that it will also sync deletions.
+
+In order to run dragnet execution profiles:
+docker-compose run --rm dragnet_utils python3 profile.py aggregated all -d /mnt/dragnet_data -u admin -p admin -e http://couchdb:5984 -s http://elasticsearch:9200
+
+See dragnet repo for more details about it. `--noreexport` param might be needed in case of recurring execution (such as a cron job).
+
 
 You may use `/mnt/declarations_bank` volume for other import dumps as well and remap to a different host path if needed.
 
-If everything's good then the site should be available at `http://localhost:8000/`.
+If everything's good then the site should be available at `http://localhost:8000/` and CouchDB admin .
 
 This setup also includes a container to work with elasticdump, which can be invoked with `docker-compose run elasticdump`.
