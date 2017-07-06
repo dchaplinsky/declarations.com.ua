@@ -20,7 +20,7 @@ class Command(BaseCommand):
             help='Delete task reports older than N days (default 30)')
         parser.add_argument(
             '--force', action='store_true', default=False,
-            help='Allow delete fresh then 7 days',
+            help='Allow delete fresher than 7 days',
         )
 
     def handle(self, *args, **options):
@@ -31,7 +31,7 @@ class Command(BaseCommand):
             logging.basicConfig(format='%(message)s', level=levels[verbosity])
 
         if options['days'] < 7 and not options['force']:
-            logger.error('Delete less than one week not allowed, try use --force')
+            logger.error('Delete less than one week not allowed, try using --force')
             return
 
         if options['days'] < 1:
@@ -49,4 +49,4 @@ class Command(BaseCommand):
             collector.collect(qs)
             collector.delete()
 
-        logger.info("Done purge old records.")
+        logger.info("Done purging old records.")
