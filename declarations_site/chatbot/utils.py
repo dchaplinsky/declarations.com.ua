@@ -1,32 +1,27 @@
 import jwt
-import requests
+import json
 import logging
+import requests
+from time import sleep
 from hashlib import sha1
-from datetime import datetime
+from random import randint
+from datetime import timedelta
+from django.utils import timezone
 from django.conf import settings
 from django.core.cache import cache
 from elasticsearch_dsl import Search
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.backends import default_backend
+from requests.exceptions import RequestException, BaseHTTPError
+from social_django.models import DjangoStorage
 from catalog.constants import CATALOG_INDICES
 from catalog.utils import base_search_query
 from chatbot.models import ChatHistory
+from spotter.utils import (ukr_plural, clean_username, save_search_task,
+    find_search_task, list_search_tasks, get_user_notify)
 
 
 logger = logging.getLogger(__name__)
-
-
-def ukr_plural(value, *args):
-    value = int(value)
-    rem = value % 10
-    if value > 4 and value < 20:
-        return args[2]
-    elif rem == 1:
-        return args[0]
-    elif rem > 1 and rem < 5:
-        return args[1]
-    else:
-        return args[2]
 
 
 def simple_search(query, deepsearch=False):
@@ -43,6 +38,19 @@ def simple_search(query, deepsearch=False):
     return search
 
 
+def requests_retry(func, *args, **kwargs):
+    max_retries = kwargs.pop('max_retries', 5)
+    retry_sleep = kwargs.pop('retry_sleep', 0)
+    # perform request with retry
+    for retry in range(max_retries):
+        try:
+            return func(*args, **kwargs)
+        except (IOError, RequestException, BaseHTTPError) as e:
+            logger.error('Retry({}) {} {}'.format(retry, args, e))
+            if retry_sleep:
+                sleep(retry_sleep)
+
+
 def botframework_jwt_keys():
     # This is a static URL that you can hardcode into your application.
     openidURL = 'https://login.botframework.com/v1/.well-known/openidconfiguration'
@@ -50,13 +58,13 @@ def botframework_jwt_keys():
     if cached_keys:
         return cached_keys
 
-    response = requests.get(openidURL, timeout=10)
+    response = requests_retry(requests.get, openidURL, timeout=30)
     config = response.json()
 
     if config['issuer'] != 'https://api.botframework.com':
         return False
 
-    response = requests.get(config['jwks_uri'], timeout=10)
+    response = requests_retry(requests.get, config['jwks_uri'], timeout=30)
     keys = response.json()
     if keys.get('keys'):
         cache.set(openidURL, keys, 86400)
@@ -125,23 +133,88 @@ def client_credentials():
         'client_secret': settings.BOTAPI_APP_SECRET,
         'scope': 'https://api.botframework.com/.default'
     }
-    response = requests.post(tokenURL, data, timeout=10)
+    response = requests_retry(requests.post, tokenURL, data, timeout=30)
     creds = response.json()
     if creds and creds.get('expires_in'):
         cache.set(settings.BOTAPI_APP_ID, creds, creds['expires_in'] - 10)
     return creds
 
 
-def chat_response(data, message='', messageType='message', attachments=None):
-    if data.get('text'):
+def chat_last_message(data, as_text=False, not_older_than=5):
+    from_id = data.get('from', {}).get('id', '')[:250]
+    from_name = data.get('from', {}).get('name', '')[:250]
+    channel = data.get('channelId', '')[:250]
+    conversation = data.get('conversation', {}).get('id', '')[:250]
+
+    if from_id and channel and conversation:
+        not_older = timezone.now() - timedelta(minutes=not_older_than)
+        try:
+            msg = ChatHistory.objects.filter(from_id=from_id, from_name=from_name, channel=channel,
+                conversation=conversation, created__gt=not_older).order_by('-created')[0]
+        except IndexError:
+            return None
+        if as_text:
+            return msg.query
+        return msg
+
+
+def chat_user_email(data):
+    from_id = data.get('from', {}).get('id', '')[:250]
+    channel = data.get('channelId', '')[:250]
+
+    if from_id and channel:
+        return '{}@{}.chatbot'.format(from_id, channel)
+
+
+def get_chat_user_by_email(chat_email):
+    for user in DjangoStorage.user.get_users_by_email(chat_email):
+        return user
+
+
+def get_or_create_chat_user(data):
+    chat_email = chat_user_email(data)
+    user = get_chat_user_by_email(chat_email)
+
+    if not user:
+        from_id = data.get('from', {}).get('id', '')[:250]
+        channel = data.get('channelId', '')[:250]
+        name = data.get('from', {}).get('name', '')[:250]
+
+        if not from_id or not channel:
+            raise ValueError('Недостатньо даних')
+
+        username = '{}{}'.format(channel, randint(1e6, 1e8))
+        username = clean_username(username)
+        # always remember about birthday paradox
+        while DjangoStorage.user.get_user(username=username):
+            username = '{}{}'.format(channel, randint(1e6, 1e8))
+            username = clean_username(username)
+
+        if name and ' ' in name:
+            first_name, last_name = name.split(' ', 1)
+        else:
+            first_name, last_name = name, ''
+
+        user = DjangoStorage.user.create_user(username=username, email=chat_email,
+            first_name=first_name, last_name=last_name)
+        DjangoStorage.user.create_social_auth(user=user, uid=from_id, provider=channel)
+
+    return user
+
+
+def chat_response(data, message='', messageType='message', attachments=None, auto_reply=False, save_answer=True):
+    if data.get('text', ''):
+        short_answer = message[:80] if save_answer else '-'
         ChatHistory(
+            user=get_chat_user_by_email(chat_user_email(data)),
             from_id=data.get('from', {}).get('id', '')[:250],
             from_name=data.get('from', {}).get('name', '')[:250],
             channel=data.get('channelId', '')[:250],
             conversation=data.get('conversation', {}).get('id', '')[:250],
             query=data['text'][:250],
-            answer=message[:250],
-            timestamp=data.get('timestamp', '')[:40]
+            answer=short_answer,
+            timestamp=data.get('timestamp', '')[:40],
+            auto_reply=auto_reply
         ).save()
 
     creds = client_credentials()
@@ -152,7 +225,7 @@ def chat_response(data, message='', messageType='message', attachments=None):
         data['id'])
     resp = {
         'type': messageType,
-        'timestamp': datetime.now().isoformat(),
+        'timestamp': timezone.now().isoformat(),
         'from': data['recipient'],
         'conversation': data['conversation'],
         'recipient': data['from'],
@@ -164,4 +237,57 @@ def chat_response(data, message='', messageType='message', attachments=None):
     headers = {
         'Authorization': '{} {}'.format(creds['token_type'], creds['access_token'])
     }
-    requests.post(responseURL, json=resp, headers=headers, timeout=10)
+    retry_sleep = 5 if auto_reply else 0
+    requests_retry(requests.post, responseURL, json=resp, headers=headers, timeout=30,
+        retry_sleep=retry_sleep)
+
+
+def send_to_chat(notify, context):
+    from chatbot.views import decl_list_to_chat_cards
+
+    plural = ukr_plural(context['found_new'], 'нову декларацію', 'нові декларації', 'нових декларацій')
+    message = 'За підпискою: {}'.format(context['query'])
+    message += '\n\nЗнайдено {} {}'.format(context['found_new'], plural)
+    if context['found_new'] > settings.CHATBOT_SERP_COUNT:
+        message += '\n\nПоказані перші {}'.format(settings.CHATBOT_SERP_COUNT)
+
+    data = json.loads(notify.task.chat_data)
+    data['text'] = context['query']
+
+    deepsearch = 'on' if notify.task.deepsearch else ''
+    attachments = decl_list_to_chat_cards(context['decl_list'], data, settings, deepsearch,
+        notify_id=notify.id)
+    chat_response(data, message, attachments=attachments, auto_reply=True)
+    return 1
+
+
+def create_subscription(data, query):
+    user = get_or_create_chat_user(data)
+
+    if not user.is_active:
+        raise ValueError('Користувач заблокований')
+
+    data.pop('text', '')
+
+    return save_search_task(user, query, chat_data=json.dumps(data))
+
+
+def find_subscription(data, query, **kwargs):
+    user = get_chat_user_by_email(chat_user_email(data))
+    if not user:
+        return
+    return find_search_task(user, query, **kwargs)
+
+
+def list_subscriptions(data):
+    user = get_chat_user_by_email(chat_user_email(data))
+    if not user:
+        return []
+    return list_search_tasks(user)
+
+
+def load_notify(data, notify_id):
+    email = chat_user_email(data)
+    if not email:
+        return
+    return get_user_notify(notify_id, email=email, task__is_enabled=True)
