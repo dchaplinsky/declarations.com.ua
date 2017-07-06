@@ -251,7 +251,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0,
                     "buttons": [
                         {
                             "type": "imBack",
-                            "title": "Підписатись за іменем",
+                            "title": "Підписатись на ім'я",
                             "value": command_text,
                         },
                         {
