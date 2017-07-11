@@ -12,12 +12,15 @@ from spotter.utils import load_declarations, reverse_qs, ukr_plural
 
 
 def clean_botcmd_arg(data):
-    text = data['text'][:150]
+    text = data.get('text', '')[:150]
 
     if ' ' in text:
         _, text = text.split(' ', 1)
     else:
         text = chat_last_message(data, as_text=True)
+
+    if text is None:
+        return ''
 
     return text.strip()
 
@@ -165,7 +168,7 @@ CHATBOT_COMMANDS = (
     (re.compile('(відпис|отпис|unsub)'), botcmd_unsubscribe),
     (re.compile('(мої|підписки|подписки|list)'), botcmd_list_subscribe),
     (re.compile('(нові|новые|new) \d+'), botcmd_list_newfound),
-    (re.compile('(допомо|довідка|помощь|справка|help|info)'), botcmd_help),
+    (re.compile('(допомо|довідка|помощь|справка|help|info|/start)'), botcmd_help),
 )
 
 NOT_FOUND_RESPONSES = (
