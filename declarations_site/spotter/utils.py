@@ -15,7 +15,7 @@ from elasticsearch_dsl import Search
 from catalog.constants import CATALOG_INDICES
 from catalog.elastic_models import Declaration, NACPDeclaration
 from catalog.utils import base_search_query
-from spotter.models import TaskReport, NotifySend
+from spotter.models import SearchTask, TaskReport, NotifySend
 from spotter.sender import send_mail
 
 NO_ASCII_REGEX = re.compile(r'[^\x00-\x7F]+')
@@ -25,6 +25,19 @@ ONE_SEARCH_LIMIT = 1000
 LOAD_DECLS_LIMIT = 100
 
 logger = logging.getLogger(__name__)
+
+
+def ukr_plural(value, *args):
+    value = int(value) % 100
+    rem = value % 10
+    if value > 4 and value < 20:
+        return args[2]
+    elif rem == 1:
+        return args[0]
+    elif rem > 1 and rem < 5:
+        return args[1]
+    else:
+        return args[2]
 
 
 def clean_username(value):
@@ -234,8 +247,15 @@ def send_found_notify(notify):
         'query': notify.task.query,
         'decl_list': load_declarations(notify.new_ids),
         'found_new': notify.found_new,
-        'site_url': settings.EMAIL_SITE_URL,
+        'site_url': settings.SITE_URL,
     }
+    if notify.email and notify.email.endswith('.chatbot'):
+        from chatbot.utils import send_to_chat
+        # need save before use to obtain notify.id
+        notify.save()
+        return send_to_chat(notify, context)
+
+    # send notify to regular email
     from_email = settings.FROM_EMAIL
     subject = render_to_string("email_found_subject.txt", context).strip()
     message = render_to_string("email_found_message.txt", context)
@@ -254,4 +274,61 @@ def create_notify(task, report):
         new_ids=list(report.new_ids))
     send_found_notify(notify)
     notify.save()
+    return notify
+
+
+def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''):
+    if len(query) < 2:
+        raise ValueError('Не вдалось створити завдання з пустим запитом.')
+
+    if len(query) > 100 or len(query.split(' ')) > 10:
+        raise ValueError('Не вдалось створити завдання з таким довгим запитом.')
+
+    if not user.email:
+        raise ValueError('Не вдалось створити завдання без адреси електронної пошти.')
+
+    # limit up to 100 tasks for user
+    if SearchTask.objects.filter(user=user, is_deleted=False).count() >= settings.SPOTTER_TASK_LIMIT:
+        raise ValueError('Перевищено максимальну кількість завдань.')
+
+    # don't add twice
+    if SearchTask.objects.filter(user=user, query=query,
+            deepsearch=deepsearch, query_params=query_params, is_deleted=False).exists():
+        raise ValueError('Таке завдання вже існує.')
+
+    task = SearchTask(user=user, query=query, deepsearch=deepsearch)
+    task.query_params = query_params
+    task.chat_data = chat_data
+    task.save()
+
+    if not first_run(task):
+        task.is_deleted = True
+        task.save()
+        raise ValueError('Не вдалось створити завдання, спробуйте спростити запит "%s"' % task.query)
+
+    return task
+
+
+def find_search_task(user, query, **kwargs):
+    for task in SearchTask.objects.filter(user=user, query=query, is_deleted=False, **kwargs)[:1]:
+        return task
+
+    # also try find by id
+    try:
+        task = SearchTask.objects.get(user=user, id=int(query), is_deleted=False)
+    except (TypeError, ValueError, SearchTask.DoesNotExist):
+        return
+
+    return task
+
+
+def list_search_tasks(user):
+    return SearchTask.objects.filter(user=user, is_deleted=False).order_by('created')
+
+
+def get_user_notify(notify_id, **kwargs):
+    try:
+        notify = NotifySend.objects.get(id=notify_id, **kwargs)
+    except NotifySend.DoesNotExist:
+        return None
     return notify
