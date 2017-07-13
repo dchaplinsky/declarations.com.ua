@@ -1,4 +1,6 @@
 import math
+import json
+from collections import defaultdict
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
@@ -351,8 +353,50 @@ def compare_declarations(request):
                     "values": declarations
                 }
             }
-        )
+        ).sort("intro.date")
+
+    results = search.execute()
+
+    add_names_to_labels = len(set(r.general.full_name.lower() for r in results)) > 1
+    add_types_to_labels = len(set(r.intro.doc_type.lower() for r in results)) > 1
+    labels = []
+    for r in results:
+        label = str(r.intro.declaration_year)
+        if add_types_to_labels:
+            label += ", " + r.intro.doc_type
+        if r.intro.corrected:
+            label += ", уточнена"
+
+        if add_names_to_labels:
+            label += ", " + r.general.full_name
+
+        labels.append(label)
+
+    colors = [
+        "rgba(255, 99, 132, 1)",
+        "rgba(54, 162, 235, 1)",
+        "rgba(255, 206, 86, 1)"
+    ]
+
+    incomes = {
+        "labels": labels,
+        "datasets": []
+    }
+
+    incomes_breakdown = defaultdict(list)
+    for r in results:
+        incomes_breakdown["Родина"].append(float(r.aggregated["incomes.family"]))
+        incomes_breakdown["Декларант"].append(float(r.aggregated["incomes.declarant"]))
+
+    for i, (label, data) in enumerate(incomes_breakdown.items()):
+        incomes["datasets"].append({
+            "label": label,
+            "backgroundColor": colors[i],
+            "data": data
+        })
 
     return {
-        "results": search.execute()
+        "results": results,
+        "labels": labels,
+        "chart1": json.dumps(incomes)
     }

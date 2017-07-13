@@ -1,38 +1,28 @@
 function makechart1() {
-    var ctx = document.getElementById("declRelatives").getContext("2d"),
-        jUrl = $('#declRelatives').data('jurl');
+    var ctx = document.getElementById("declRelatives").getContext("2d");
 
-    $.getJSON(jUrl, function(data) {
-        var barChartData = data;
-
-        window.myBar = new Chart(ctx, {
-            type: 'bar',
-            data: barChartData,
-            options: {
-                title:{
-                    //display:true,
-                    //text: 'Родственники'
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false
-                },
-                responsive: true,
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true,
-
-                        ticks: {
-                            min: 0,
-                            stepSize: 1
-                        }
-                    }]
-                }
+    window.incomeBars = new Chart(ctx, {
+        type: 'bar',
+        data: window.chart1,
+        options: {
+            title:{
+                //display:true,
+                //text: 'Родственники'
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false
+            },
+            responsive: true,
+            scales: {
+                xAxes: [{
+                    stacked: true
+                }],
+                yAxes: [{
+                    stacked: true
+                }]
             }
-        });
+        }
     });
 }
 
@@ -116,9 +106,7 @@ function makechart3() {
 }
 
 $( document ).ready(function() {
-    console.log( "ready!" );
     makechart1();
-    makechart2();
-    makechart3();
+    // makechart2();
+    // makechart3();
 });
-

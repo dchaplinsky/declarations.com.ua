@@ -18,12 +18,9 @@
 
         <div class="page-content">
             {% if results %}
-                {% for r in results %}
-                {% endfor %}
-
                 <div class="comparedata-section">
-                    <h2>Родственники</h2>
-                    <canvas id="declRelatives" data-jurl="https://api.myjson.com/bins/xqek3"></canvas>
+                    <h2>Дохід декларанта й родини</h2>
+                    <canvas id="declRelatives"></canvas>
                 </div>
 
                 <div class="comparedata-section">
@@ -59,6 +56,10 @@
 
 {% block extra_js %}
     {% if results %}
+        <script type="text/javascript">
+            window.chart1 = {{ chart1|safe }};
+        </script>
+
         {% javascript 'js_charts' %}
     {% else %}
         <script type="text/javascript">

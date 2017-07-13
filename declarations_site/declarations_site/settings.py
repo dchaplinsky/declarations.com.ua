@@ -286,8 +286,8 @@ PIPELINE = {
 
         'js_charts': {
             'source_filenames': (
-                 "js/Chart.bundle.js",
-                 "js/compare-charts.js",
+                "js/Chart.bundle.js",
+                "js/compare-charts.js",
             ),
             'output_filename': 'js/merged_charts.js',
         }
