@@ -6,6 +6,14 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  couchdb:
+    build: ./dragnet/couchdb
+    volumes:
+      - couchdata:/opt/couchdb/data
+    ports:
+      - 5984:5984
+    env_file: ./dragnet/couchdb/.local_env
+
   elasticsearch:
     build: ./elasticsearch
     volumes:
@@ -37,6 +45,25 @@ services:
     depends_on:
       - postgres
       - elasticsearch
+      - couchdb
+
+  sync:
+    build: ./dragnet/couch2elastic4sync
+    env_file: ./dragnet/couch2elastic4sync/.local_env
+    depends_on:
+      - couchdb
+      - elasticsearch
+
+  dragnet_utils:
+    build: ./dragnet/utils
+    volumes:
+      - ./dragnet/utils:/usr/local/dragnet
+      - ./dragnet/data:/mnt/dragnet_data
+      - ./dragnet/views:/usr/local/dragnet/views
+      - ./declarations_bank:/mnt/declarations_bank
+    depends_on:
+      - couchdb
+      - elasticsearch
 
   elasticdump:
     image: taskrabbit/elasticsearch-dump:v3.3.0
@@ -46,3 +73,4 @@ services:
 volumes:
   pgdata:
   esdata:
+  couchdata:

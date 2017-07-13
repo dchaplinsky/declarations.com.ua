@@ -105,6 +105,7 @@ $wbw: 250px;
     top: 0;
     right: $pad;
     width: $wbw;
+    z-index: index($elements, dropdown);
 
     p {
       text-align: right;
