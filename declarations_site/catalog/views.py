@@ -331,9 +331,7 @@ def business_intelligence(request):
 @hybrid_response('compare.jinja')
 def compare_declarations(request):
     if request.method != 'POST':
-        return {
-            "results": None
-        }
+        return {}
 
     declarations = [
         decl_id

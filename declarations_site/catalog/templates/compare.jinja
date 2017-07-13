@@ -1,4 +1,5 @@
 {% extends "base.jinja" %}
+{% from "_search_results.jinja" import search_results %}
 
 {% block bodyclass %}not-front compare-page{% endblock %}
 
@@ -16,26 +17,37 @@
         <h1 class="page-header"><span>Список порівнянь декларацій</span></h1>
 
         <div class="page-content">
+            {% if results %}
+                {% for r in results %}
+                {% endfor %}
 
-            <div class="comparedata-section">
-                <h2>Родственники</h2>
-                <canvas id="declRelatives" data-jurl="https://api.myjson.com/bins/xqek3"></canvas>
-            </div>
+                <div class="comparedata-section">
+                    <h2>Родственники</h2>
+                    <canvas id="declRelatives" data-jurl="https://api.myjson.com/bins/xqek3"></canvas>
+                </div>
 
-            <div class="comparedata-section">
-                <h2>Объекты недвижимости декларанта и родственников.</h2>
-                <canvas id="declLand" data-jurl="https://api.myjson.com/bins/xdz0z"></canvas>
-            </div>
+                <div class="comparedata-section">
+                    <h2>Объекты недвижимости декларанта и родственников.</h2>
+                    <canvas id="declLand" data-jurl="https://api.myjson.com/bins/xdz0z"></canvas>
+                </div>
 
-            <div class="comparedata-section">
-                <h2>ЦІННЕ РУХОМЕ МАЙНО - ТРАНСПОРТНІ ЗАСОБИ</h2>
-                <canvas id="declAutoMotive" data-jurl="https://api.myjson.com/bins/ryhzn"></canvas>
-            </div>
+                <div class="comparedata-section">
+                    <h2>ЦІННЕ РУХОМЕ МАЙНО - ТРАНСПОРТНІ ЗАСОБИ</h2>
+                    <canvas id="declAutoMotive" data-jurl="https://api.myjson.com/bins/ryhzn"></canvas>
+                </div>
 
-            <div class="comparedata-section">
-                <h2>ЦІННІ ПАПЕРИ, КОРПОРАТИВНІ ПРАВА, ЮРИДИЧНІ ОСОБИ, КІНЦЕВИМ БЕНЕФІЦІАРНИМ ВЛАСНИКОМ (КОНТРОЛЕРОМ) ЯКИХ Є СУБ’ЄКТ ДЕКЛАРУВАННЯ АБО ЧЛЕНИ ЙОГО СІМ’Ї</h2>
-                <!-- todo Dima-->
-            </div>
+                <div class="comparedata-section">
+                    <h2>ЦІННІ ПАПЕРИ, КОРПОРАТИВНІ ПРАВА, ЮРИДИЧНІ ОСОБИ, КІНЦЕВИМ БЕНЕФІЦІАРНИМ ВЛАСНИКОМ (КОНТРОЛЕРОМ) ЯКИХ Є СУБ’ЄКТ ДЕКЛАРУВАННЯ АБО ЧЛЕНИ ЙОГО СІМ’Ї</h2>
+                    <!-- todo Dima-->
+                </div>
+        
+                <h3>Декларації що були використані для порівняння</h3>
+                <div class="search-page">
+                    <div class="row list-group search-results">
+                        {{ search_results(results) }}
+                    </div>
+                </div>
+            {% endif %}
 
         {% block static_content %}
         {% endblock %}
@@ -46,8 +58,9 @@
 {% endblock %}
 
 {% block extra_js %}
-    {% javascript 'js_charts' %}
-    {% if not results %}
+    {% if results %}
+        {% javascript 'js_charts' %}
+    {% else %}
         <script type="text/javascript">
             $(function() {
                 $('.decl-compare-modal').modal('show');
