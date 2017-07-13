@@ -64,6 +64,8 @@ $(document).on('click', '.search-results .add2compare-list', function(e){
         $cloneItem = $parentBox.clone(),
         declarationID = $parentBox.data('declid');
 
+    $cloneItem.append('<input type="hidden" name="declaration_id" value="' + declarationID + '" />');
+
     //add only if not in list already
     if (localStorage.getItem("declarationID-" + declarationID) === null) {
         localStorage.setItem("declarationID-" + declarationID, $cloneItem.addClass('selected').prop('outerHTML'));
@@ -161,6 +163,7 @@ $(document).on('click', '.declaration-page #page .add2compare-list', function(e)
     itemHtml = itemHtml + '<i class="fa fa-plus" aria-hidden="true"></i><i class="fa fa-balance-scale" aria-hidden="true"></i></a><h3><a href="/declaration/'+ declarationID + '" itemprop="name">';
     itemHtml = itemHtml +  name + '</a></h3>';
     itemHtml = itemHtml + desc + '</div></div>';
+    itemHtml = itemHtml + '<input type="hidden" name="declaration_id" value="' + declarationID + '" />';
 
     if (localStorage.getItem("declarationID-" + declarationID) === null) {
         localStorage.setItem("declarationID-" + declarationID, itemHtml);

@@ -602,8 +602,12 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             self.meta.id[5:7],
             os.path.basename(self.declaration.basename) + ".html")
 
-        with open(fname, "r") as fp:
-            d = fp.read()
+        try:
+            with open(fname, "r") as fp:
+                d = fp.read()
+        except FileNotFoundError:
+            return "<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над вирішенням проблеми</h2>"
+
         m = re.search("<\/style>(.*)</body>", d)
         declaration_html = m.group(1)
 

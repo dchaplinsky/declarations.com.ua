@@ -3,6 +3,7 @@
 {% block bodyclass %}not-front compare-page{% endblock %}
 
 {% block content %}
+
 <section id="page">
     <div class="container">
         <div id="breadcrumbs">
@@ -46,4 +47,11 @@
 
 {% block extra_js %}
     {% javascript 'js_charts' %}
+    {% if not results %}
+        <script type="text/javascript">
+            $(function() {
+                $('.decl-compare-modal').modal('show');
+            });
+        </script>
+    {% endif %}
 {% endblock %}

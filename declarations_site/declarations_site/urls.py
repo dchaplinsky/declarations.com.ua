@@ -42,8 +42,8 @@ urlpatterns = [
     url(r'^sitemap.xml$', catalog_views.sitemap_index,
         name='sitemap_index'),
 
-    url(r'^compare',
-        TemplateView.as_view(template_name='compare.jinja'),
+    url(r'^compare$',
+        catalog_views.compare_declarations,
         name='compare'),
 
     url(r'^admin/', include(admin.site.urls)),

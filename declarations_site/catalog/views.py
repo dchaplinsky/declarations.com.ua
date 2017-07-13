@@ -14,7 +14,7 @@ from .paginator import paginated_search
 from .api import hybrid_response
 from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes, base_search_query, apply_search_sorting
 from .models import Office
-from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
+from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX, NACP_DECLARATION_INDEX
 
 
 def suggest(request):
@@ -326,3 +326,35 @@ def offices_home(request):
 
 def business_intelligence(request):
     return render(request, "bi.jinja")
+
+
+@hybrid_response('compare.jinja')
+def compare_declarations(request):
+    if request.method != 'POST':
+        return {
+            "results": None
+        }
+
+    declarations = [
+        decl_id
+        for decl_id in request.POST.getlist("declaration_id", [])
+        if decl_id and decl_id.startswith("nacp_")
+    ][:10]
+
+    if not declarations:
+        return {}
+
+    search = Search(
+        index=NACP_DECLARATION_INDEX).doc_type(
+            NACPDeclaration
+        ).query(
+            {
+                "ids": {
+                    "values": declarations
+                }
+            }
+        )
+
+    return {
+        "results": search.execute()
+    }
