@@ -1,3 +1,7 @@
+function format_uah(value) {
+    return accounting.formatMoney(value, "₴", 2)
+}
+
 function makechart1() {
     var ctx = document.getElementById("declRelatives").getContext("2d");
 
@@ -11,7 +15,12 @@ function makechart1() {
             },
             tooltips: {
                 mode: 'index',
-                intersect: false
+                intersect: false,
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        return format_uah(tooltipItem.yLabel);
+                    }
+                }
             },
             responsive: true,
             scales: {
@@ -19,7 +28,12 @@ function makechart1() {
                     stacked: true
                 }],
                 yAxes: [{
-                    stacked: true
+                    stacked: true,
+                    ticks: {
+                        callback: function(value, index, values) {
+                            return format_uah(value);
+                        }
+                    }
                 }]
             }
         }
