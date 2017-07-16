@@ -40,17 +40,14 @@ steps from the repository root:
 In order to import NACP data:
 1. Create a `declarations_bank` directory in the repo root (don't worry, it's gitignored)
 2. Visit `http://localhost:5984/_utils/` and go to "Setup" tab in order to create CouchDB stuff
-3. docker-compose run dragnet_utils python3 import.py /mnt/declarations_bank/your_nacp_archive_dir -u admin -p admin -e http://couchdb:5984 -c 19 -C 200
+3. docker-compose run dragnet_utils python3 load.py /mnt/declarations_bank/your_nacp_archive_dir -u admin -p admin -e http://couchdb:5984 -c 15 -C 200 -S /mnt/declarations_bank/laststate
 
 Choose params according to [dragnet](https://github.com/excieve/dragnet) documentation.
 
-In order to run sync between CouchDB and ElasticSearch (this requires that the both DB and index exist):
-docker-compose up -d sync
-
-This will continuously synchronise both. Autorestart might need to be added to the compose definition in order to restart on failure. Sync will track last pushed change and restart from this point. Please be aware that it will also sync deletions.
-
 In order to run dragnet execution profiles:
-docker-compose run --rm dragnet_utils python3 profile.py aggregated all -d /mnt/dragnet_data -u admin -p admin -e http://couchdb:5984 -s http://elasticsearch:9200
+docker-compose run --rm dragnet_utils python3 profile.py aggregated all -d /mnt/dragnet_data -u admin -p admin -e http://couchdb:5984 -E http://elasticsearch:9200
+
+This should also pump the latest data to ElasticSearch, provided the state file is where the profile expects it to be.
 
 See dragnet repo for more details about it. `--noreexport` param might be needed in case of recurring execution (such as a cron job).
 

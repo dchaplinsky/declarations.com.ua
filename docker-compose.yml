@@ -47,13 +47,6 @@ services:
       - elasticsearch
       - couchdb
 
-  sync:
-    build: ./dragnet/couch2elastic4sync
-    env_file: ./dragnet/couch2elastic4sync/.local_env
-    depends_on:
-      - couchdb
-      - elasticsearch
-
   dragnet_utils:
     build: ./dragnet/utils
     volumes:
