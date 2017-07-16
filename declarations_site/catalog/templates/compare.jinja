@@ -19,26 +19,30 @@
         <div class="page-content">
             {% if results %}
                 <div class="comparedata-section">
-                    <h2>Дохід декларанта й родини</h2>
-                    <canvas id="declRelatives"></canvas>
+                    <canvas id="decl_global"></canvas>
                 </div>
 
                 <div class="comparedata-section">
-                    <h2>Объекты недвижимости декларанта и родственников.</h2>
-                    <canvas id="declLand" data-jurl="https://api.myjson.com/bins/xdz0z"></canvas>
+                    <canvas id="decl_incomes"></canvas>
                 </div>
 
                 <div class="comparedata-section">
-                    <h2>ЦІННЕ РУХОМЕ МАЙНО - ТРАНСПОРТНІ ЗАСОБИ</h2>
-                    <canvas id="declAutoMotive" data-jurl="https://api.myjson.com/bins/ryhzn"></canvas>
+                    <canvas id="decl_assets"></canvas>
                 </div>
 
                 <div class="comparedata-section">
-                    <h2>ЦІННІ ПАПЕРИ, КОРПОРАТИВНІ ПРАВА, ЮРИДИЧНІ ОСОБИ, КІНЦЕВИМ БЕНЕФІЦІАРНИМ ВЛАСНИКОМ (КОНТРОЛЕРОМ) ЯКИХ Є СУБ’ЄКТ ДЕКЛАРУВАННЯ АБО ЧЛЕНИ ЙОГО СІМ’Ї</h2>
-                    <!-- todo Dima-->
+                    <canvas id="decl_realty"></canvas>
                 </div>
-        
-                <h3>Декларації що були використані для порівняння</h3>
+
+                <div class="comparedata-section">
+                    <canvas id="decl_land"></canvas>
+                </div>
+
+                <div class="comparedata-section">
+                    <canvas id="decl_cars"></canvas>
+                </div>
+       
+                <h3>Декларації, що були використані для порівняння</h3>
                 <div class="search-page">
                     <div class="row list-group search-results">
                         {{ search_results(results) }}
@@ -57,7 +61,13 @@
 {% block extra_js %}
     {% if results %}
         <script type="text/javascript">
-            window.chart1 = {{ chart1|safe }};
+            window.incomes_data = {{ incomes_data|safe }};
+            window.assets_data = {{ assets_data|safe }};
+            window.incomes_vs_expenses_data = {{ incomes_vs_expenses_data|safe }};
+            window.land_data = {{ land_data|safe }};
+            window.realty_data = {{ realty_data|safe }};
+            window.cars_data = {{ cars_data|safe }};
+            window.urls = {{ urls|safe }};
         </script>
 
         {% javascript 'js_charts' %}
