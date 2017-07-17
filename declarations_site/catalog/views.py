@@ -380,33 +380,34 @@ def compare_declarations(request):
     declarations = [
         decl_id
         for decl_id in request.GET.getlist("declaration_id", [])
-        if decl_id and decl_id.startswith("nacp_")
+        if decl_id
     ][:10]
 
     if not declarations:
         return {}
 
     search = Search(
-        index=NACP_DECLARATION_INDEX).doc_type(NACPDeclaration) \
+        index=CATALOG_INDICES).doc_type(NACPDeclaration, Declaration) \
         .query(
             {
                 "ids": {
                     "values": declarations
                 }
-            }) \
-        .sort("intro.date")
-
+            })
     results = search.execute()
 
+    results = sorted(results, key=lambda x: str(x.intro.date or x.declaration.date or ""))
+
     add_names_to_labels = len(set(r.general.full_name.lower() for r in results)) > 1
-    add_types_to_labels = len(set(r.intro.doc_type.lower() for r in results)) > 1
+    add_types_to_labels = len(set((getattr(r.intro, "doc_type", "щорічна")).lower() for r in results)) > 1
     labels = []
     urls = []
     for r in results:
         label = str(r.intro.declaration_year)
         if add_types_to_labels:
-            label += ", " + r.intro.doc_type
-        if r.intro.corrected:
+            label += ", " + getattr(r.intro, "doc_type", "щорічна")
+
+        if getattr(r.intro, "corrected", False):
             label += ", уточнена"
 
         if add_names_to_labels:
@@ -486,7 +487,7 @@ def compare_declarations(request):
             results, labels,
             OrderedDict((
                 ("Кількість у декларації", {"type": "bar", "field": "vehicles.all_names",
-                 "transform": lambda x: len(x.split(";"))}),
+                 "transform": lambda x: len(x.split(";")) if x else 0}),
             )))
         ),
     }

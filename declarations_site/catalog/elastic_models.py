@@ -193,7 +193,8 @@ class Declaration(DocType, AbstractDeclaration):
     )
     intro = Object(
         properties={
-            'declaration_year': Keyword(index=True)
+            'declaration_year': Keyword(index=True),
+            'date': Keyword(index=True)
         }
     )
     ft_src = Text(index=True, analyzer='ukrainian')
@@ -530,6 +531,156 @@ class Declaration(DocType, AbstractDeclaration):
             return converter.convert()
         except ConverterError:
             return None
+
+    # Temporary solution to provide enough aggregated data
+    # to make it possible to compare old and new declarations
+    # TODO: REPLACE ME
+    @property
+    def aggregated(self):
+        def to_float(doc, key):
+            try:
+                return float(
+                    str(getattr(doc, key, "0") or "0").replace(",", ".")
+                )
+            except ValueError:
+                return 0.
+
+        def get_exchange_rate(year, curr):
+            rates = {
+                "2011": {  # As on 2011/12/30
+                    "USD": 7.98,
+                    "EUR": 10.29,
+                    "RUB": 0.250,
+                },
+                "2012": {  # As on 2012/12/29
+                    "USD": 7.99,
+                    "EUR": 10.53,
+                    "RUB": 0.263,
+                },
+                "2013": {  # As on 2013/12/30
+                    "USD": 7.99,
+                    "EUR": 11.04,
+                    "RUB": 0.244,
+                },
+                "2014": {  # As on 2014/12/29
+                    "USD": 15.76,
+                    "EUR": 19.23,
+                    "RUB": 0.303,
+                },
+                "2015": {  # As on 2015/12/31
+                    "USD": 24.00,
+                    "EUR": 26.22,
+                    "RUB": 0.329,
+                },
+            }
+
+            if year not in rates:
+                return
+
+            if curr not in rates[year]:
+                return
+
+            return rates[year][curr]
+
+        def to_space(space):
+            areas_koef = {
+                "га": 10000,
+                "cоток": 100,
+                "соток": 100,
+                "м²": 1,
+            }
+
+            units = getattr(space, "space_units", "")
+
+            return to_float(space, "space") * areas_koef.get(units, 1)
+
+        resp = {
+            "incomes.presents.all": 0,
+            "incomes.family": 0,
+            "incomes.declarant": 0,
+            "assets.cash.total": 0,
+            "assets.family": 0,
+            "assets.declarant": 0,
+            "incomes.total": 0,
+            "assets.total": 0,
+            "expenses.total": 0,
+            "liabilities.total": 0,
+            "estate.family_land": 0,
+            "estate.declarant_land": 0,
+            "estate.family_other": 0,
+            "estate.declarant_other": 0,
+            "vehicles.all_names": "",
+        }
+
+        if hasattr(self, "income"):
+            resp["incomes.declarant"] = to_float(self.income['5'], "value")
+            resp["incomes.family"] = to_float(self.income['5'], "family")
+            resp["incomes.presents.all"] = (
+                to_float(self.income['11'], "value") + to_float(self.income['11'], "family")
+            )
+
+            resp["incomes.total"] = resp["incomes.declarant"] + resp["incomes.family"]
+
+        if hasattr(self, "liabilities"):
+            for field in ["54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64"]:
+                if hasattr(self.liabilities, field):
+                    resp["liabilities.total"] += to_float(getattr(self.liabilities, field), "sum") + 0.1
+
+        if hasattr(self, "banks"):
+            for d_key, k in (("45", "declarant"), ("51", "family")):
+                for a in getattr(self.banks, d_key, []):
+                    try:
+                        currency = getattr(a, "sum_units", "UAH") or "UAH"
+                        amount = to_float(a, "sum")
+                        if currency == "грн":
+                            currency = "UAH"
+
+                        if currency != "UAH":
+                            rate = get_exchange_rate(str(self.intro.declaration_year), currency)
+                            if rate is None:
+                                continue
+
+                            amount *= rate
+
+                        resp["assets.{}".format(k)] += amount
+                    except ValueError:
+                        continue
+
+            resp["assets.total"] = resp["assets.family"] + resp["assets.declarant"]
+
+        vehicles = []
+        if hasattr(self, "vehicle"):
+            for field in ["34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44"]:
+                car_infos = getattr(self.vehicle, field, [])
+                for car_info in car_infos:
+                    vehicles.append(
+                        "{} {}".format(car_info["brand"], car_info["brand_info"]).replace(";", "")
+                    )
+
+            resp["vehicles.all_names"] += ";".join(vehicles)
+
+        if hasattr(self, "estate"):
+            for d_key, k in (
+                    ("24", "declarant_other"), ("30", "family_other"),
+                    ("25", "declarant_other"), ("31", "family_other"),
+                    ("26", "declarant_other"), ("32", "family_other"),
+                    ("27", "declarant_other"), ("33", "family_other"),
+                    ("28", "declarant_other"), ("34", "family_other")):
+
+                estate_infos = getattr(self.estate, d_key, [])
+
+                for space in estate_infos:
+                    resp["estate.{}".format(k)] += to_space(space)
+
+            for d_key, k in (
+                    ("23", "declarant_land"), ("29", "family_land")):
+
+                estate_infos = getattr(self.estate, d_key, [])
+
+                for space in estate_infos:
+                    resp["estate.{}".format(k)] += to_space(space)
+
+        return resp
 
     class Meta:
         index = 'declarations_v2'
