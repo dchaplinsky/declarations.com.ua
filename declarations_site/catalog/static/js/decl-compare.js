@@ -1,14 +1,16 @@
 //read decl.ID from localstorage and populate compare list
 function getCompareList() {
-    var c = 0;
+    var c = 0,
+        modalBody = $('.decl-compare-modal .modal-body');
 
     $.each(localStorage, function(key, value){
         if (key.indexOf('declarationID-') >= 0) {
+            modalBody.find(".empty-message").hide();
             c++;
             $('.decl-compare-toggle').removeClass('hidden');
 
             var declarationID = key.substring(14);
-            $(value).appendTo($('.decl-compare-modal .modal-body'));
+            $(value).appendTo(modalBody);
             $(".search-results").find(".decl-item[data-declid='" + declarationID + "']").addClass('selected');
 
             //we at decl.page and if decl already at list, we must disable button at decl.page
@@ -70,6 +72,7 @@ $(document).on('click', '.search-results .add2compare-list', function(e){
     if (localStorage.getItem("declarationID-" + declarationID) === null) {
         localStorage.setItem("declarationID-" + declarationID, $cloneItem.addClass('selected').prop('outerHTML'));
         $cloneItem.addClass('selected').appendTo($compareContainer);
+        $compareContainer.find(".empty-message").hide();
         $this.parents('.decl-item').addClass('selected');
 
         //show message to user
@@ -209,7 +212,7 @@ $(document).on('click', '.clear-compare-list', function(e){
 });
 
 
-$(document).ready(function() {
+$(function() {
     getCompareList();
 });
 

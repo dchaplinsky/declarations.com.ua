@@ -18,6 +18,13 @@
 
         <div class="page-content">
             {% if results %}
+                <h2>Декларації, що були використані для порівняння</h2>
+                <div class="search-page">
+                    <div class="row list-group search-results">
+                        {{ search_results(results) }}
+                    </div>
+                </div>
+
                 <div class="comparedata-section">
                     <canvas id="decl_global"></canvas>
                 </div>
@@ -40,13 +47,6 @@
 
                 <div class="comparedata-section">
                     <canvas id="decl_cars"></canvas>
-                </div>
-       
-                <h3>Декларації, що були використані для порівняння</h3>
-                <div class="search-page">
-                    <div class="row list-group search-results">
-                        {{ search_results(results) }}
-                    </div>
                 </div>
             {% endif %}
 

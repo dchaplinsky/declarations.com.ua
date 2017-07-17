@@ -278,7 +278,7 @@ function cars() {
     });
 }
 
-$( document ).ready(function() {
+$(function() {
     global_picture();
     incomes();
     assets();

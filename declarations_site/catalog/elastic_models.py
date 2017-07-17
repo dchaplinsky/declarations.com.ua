@@ -627,7 +627,7 @@ class Declaration(DocType, AbstractDeclaration):
         if hasattr(self, "liabilities"):
             for field in ["54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64"]:
                 if hasattr(self.liabilities, field):
-                    resp["liabilities.total"] += to_float(getattr(self.liabilities, field), "sum") + 0.1
+                    resp["liabilities.total"] += to_float(getattr(self.liabilities, field), "sum")
 
         if hasattr(self, "banks"):
             for d_key, k in (("45", "declarant"), ("51", "family")):

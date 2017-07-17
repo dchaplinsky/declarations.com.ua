@@ -396,7 +396,9 @@ def compare_declarations(request):
             })
     results = search.execute()
 
-    results = sorted(results, key=lambda x: str(x.intro.date or x.declaration.date or ""))
+    results = sorted(results, key=lambda x: str(
+        x.intro.date or x.declaration.date or x.intro.declaration_year or "")
+    )
 
     results = [r for r in results if hasattr(r, "aggregated")]
 
