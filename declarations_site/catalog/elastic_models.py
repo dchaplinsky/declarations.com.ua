@@ -537,6 +537,9 @@ class Declaration(DocType, AbstractDeclaration):
     # TODO: REPLACE ME
     @property
     def aggregated(self):
+        if hasattr(self, "_aggregated"):
+            return self._aggregated
+
         def to_float(doc, key):
             try:
                 return float(
@@ -680,6 +683,7 @@ class Declaration(DocType, AbstractDeclaration):
                 for space in estate_infos:
                     resp["estate.{}".format(k)] += to_space(space)
 
+        self._aggregated = resp
         return resp
 
     class Meta:

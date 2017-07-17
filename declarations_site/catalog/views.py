@@ -398,6 +398,8 @@ def compare_declarations(request):
 
     results = sorted(results, key=lambda x: str(x.intro.date or x.declaration.date or ""))
 
+    results = [r for r in results if r.aggregated]
+
     add_names_to_labels = len(set(r.general.full_name.lower() for r in results)) > 1
     add_types_to_labels = len(set((getattr(r.intro, "doc_type", "щорічна")).lower() for r in results)) > 1
     labels = []
