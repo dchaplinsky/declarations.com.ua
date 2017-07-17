@@ -211,7 +211,7 @@ function realty() {
             },
             title: {
                 display: true,
-                text: "Нерухомість (м²)",
+                text: "Квартири, будинки, та інша нерухомість (м²)",
                 fontSize: 30
             },
             tooltips: {
@@ -258,7 +258,7 @@ function cars() {
             },
             title: {
                 display: true,
-                text: "Машини та інші засоби пересування",
+                text: "Машини та інші транспортні засоби",
                 fontSize: 30
             },
             tooltips: {
