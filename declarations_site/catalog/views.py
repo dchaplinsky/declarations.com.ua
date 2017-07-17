@@ -1,4 +1,6 @@
 import math
+import json
+from collections import OrderedDict
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.http import JsonResponse, Http404
@@ -14,7 +16,7 @@ from .paginator import paginated_search
 from .api import hybrid_response
 from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes, base_search_query, apply_search_sorting
 from .models import Office
-from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
+from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX, NACP_DECLARATION_INDEX
 
 
 def suggest(request):
@@ -326,3 +328,166 @@ def offices_home(request):
 
 def business_intelligence(request):
     return render(request, "bi.jinja")
+
+
+def prepare_datasets_for_charts(declarations, labels, columns):
+    colors = [
+        "rgba(54, 162, 235, 1)",
+        "rgba(255, 99, 132, 1)",
+        "rgba(255, 206, 86, 1)",
+        "rgba(206, 255, 86, 1)",
+    ]
+
+    results = {
+        "labels": labels,
+        "datasets": []
+    }
+
+    results_breakdown = OrderedDict((
+        (col_key, [])) for col_key in columns.keys()
+    )
+
+    for r in declarations:
+        for col_key, col_settings in columns.items():
+            results_breakdown[col_key].append(
+                col_settings["transform"](r.aggregated[col_settings["field"]])
+            )
+
+    for i, (label, data) in enumerate(results_breakdown.items()):
+        data = {
+            "label": label,
+            "backgroundColor": colors[i],
+            "data": data,
+            "type": columns[label]["type"]
+        }
+
+        if columns[label]["type"] == "line":
+            data.update({
+                "type": "line",
+                "lineTension": 0,
+                "backgroundColor": None
+            })
+
+        results["datasets"].append(
+            data
+        )
+
+    return results
+
+
+@hybrid_response('compare.jinja')
+def compare_declarations(request):
+    declarations = [
+        decl_id
+        for decl_id in request.GET.getlist("declaration_id", [])
+        if decl_id
+    ][:10]
+
+    if not declarations:
+        return {}
+
+    search = Search(
+        index=CATALOG_INDICES).doc_type(NACPDeclaration, Declaration) \
+        .query(
+            {
+                "ids": {
+                    "values": declarations
+                }
+            })
+    results = search.execute()
+
+    results = sorted(results, key=lambda x: str(x.intro.date or x.declaration.date or ""))
+
+    add_names_to_labels = len(set(r.general.full_name.lower() for r in results)) > 1
+    add_types_to_labels = len(set((getattr(r.intro, "doc_type", "щорічна")).lower() for r in results)) > 1
+    labels = []
+    urls = []
+    for r in results:
+        label = str(r.intro.declaration_year)
+        if add_types_to_labels:
+            label += ", " + getattr(r.intro, "doc_type", "щорічна")
+
+        if getattr(r.intro, "corrected", False):
+            label += ", уточнена"
+
+        if add_names_to_labels:
+            label += ", " + r.general.full_name
+
+        labels.append(label)
+        urls.append(reverse("details", kwargs={"declaration_id": r._id}))
+
+    # TODO: move to a separate file
+    return {
+        "results": results,
+        "labels": labels,
+        "urls": json.dumps(urls),
+        "incomes_data": json.dumps(prepare_datasets_for_charts(
+            results, labels,
+            OrderedDict((
+                ("Загальна сума подарунків", {"type": "line", "field": "incomes.presents.all", "transform": float}),
+                ("Родина", {"type": "bar", "field": "incomes.family", "transform": float}),
+                ("Декларант", {"type": "bar", "field": "incomes.declarant", "transform": float}),
+            )))
+        ),
+
+        "assets_data": json.dumps(prepare_datasets_for_charts(
+            results, labels,
+            OrderedDict((
+                ("Загальна сума готівки", {"type": "line", "field": "assets.cash.total", "transform": float}),
+                ("Родина", {"type": "bar", "field": "assets.family", "transform": float}),
+                ("Декларант", {"type": "bar", "field": "assets.declarant", "transform": float}),
+            )))
+        ),
+
+        "incomes_vs_expenses_data": json.dumps(prepare_datasets_for_charts(
+            results, labels,
+            OrderedDict((
+                ("Дохід", {"type": "bar", "field": "incomes.total", "transform": float}),
+                ("Грошові активи", {"type": "bar", "field": "assets.total", "transform": float}),
+                ("Фінансові зобов'язання",
+                    {"type": "bar", "field": "liabilities.total", "transform": lambda x: -float(x)}
+                 ),
+                ("Витрати",
+                    {"type": "bar", "field": "expenses.total", "transform": lambda x: -float(x)}
+                 ),
+            )))
+        ),
+
+        "incomes_vs_expenses_data": json.dumps(prepare_datasets_for_charts(
+            results, labels,
+            OrderedDict((
+                ("Дохід", {"type": "bar", "field": "incomes.total", "transform": float}),
+                ("Грошові активи", {"type": "bar", "field": "assets.total", "transform": float}),
+                ("Фінансові зобов'язання",
+                    {"type": "bar", "field": "liabilities.total", "transform": lambda x: -float(x)}
+                 ),
+                ("Витрати",
+                    {"type": "bar", "field": "expenses.total", "transform": lambda x: -float(x)}
+                 ),
+            )))
+        ),
+
+        "land_data": json.dumps(prepare_datasets_for_charts(
+            results, labels,
+            OrderedDict((
+                ("Площа в родини", {"type": "bar", "field": "estate.family_land", "transform": float}),
+                ("Площа в декларанта", {"type": "bar", "field": "estate.declarant_land", "transform": float}),
+            )))
+        ),
+
+        "realty_data": json.dumps(prepare_datasets_for_charts(
+            results, labels,
+            OrderedDict((
+                ("Площа в родини", {"type": "bar", "field": "estate.family_other", "transform": float}),
+                ("Площа в декларанта", {"type": "bar", "field": "estate.declarant_other", "transform": float}),
+            )))
+        ),
+
+        "cars_data": json.dumps(prepare_datasets_for_charts(
+            results, labels,
+            OrderedDict((
+                ("Кількість у декларації", {"type": "bar", "field": "vehicles.all_names",
+                 "transform": lambda x: len(x.split(";")) if x else 0}),
+            )))
+        ),
+    }

@@ -264,6 +264,7 @@ PIPELINE = {
                 "js/material.js",
                 'js/jquery.magnific-popup.js',
                 "js/main.js",
+                "js/decl-compare.js",
                 "js/user.js",
                 "js/analytics.js",
                 "js/jquery.dataTables.min.js",
@@ -281,6 +282,15 @@ PIPELINE = {
                 "js/bi/main.js",
             ),
             'output_filename': 'js/merged_bi.js',
+        },
+
+        'js_charts': {
+            'source_filenames': (
+                "js/Chart.bundle.js",
+                "js/accounting.js",
+                "js/compare-charts.js",
+            ),
+            'output_filename': 'js/merged_charts.js',
         }
     }
 }

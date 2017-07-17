@@ -4,30 +4,30 @@ document.addEventListener(
     true
 );
 
-$(function() {
-    function setColumnsHeights (list, item) {
-        $list = $(list);
-        $items = $list.find(item);
-        $items.css('height', 'auto');
-        var perRow = Math.round($list.width() / $items.width());
+function setColumnsHeights (list, item) {
+    $list = $(list);
+    $items = $list.find(item);
+    $items.css('height', 'auto');
+    var perRow = Math.round($list.width() / $items.width());
 
-        //let's calc how many cards in row now
-        if (perRow == null || perRow < 2) {
-            return true;
-        }
-
-        for (var i = 0, j = $items.length; i < j; i += perRow) {
-            //set all heights in current row to max.height in current row
-            var maxHeight = 0,
-                $row = $items.slice(i, i + perRow);
-            $row.each(function () {
-                var itemHeight = parseInt($(this).outerHeight());
-                if (itemHeight > maxHeight) maxHeight = itemHeight;
-            });
-            $row.css('height', maxHeight);
-        }
+    //let's calc how many cards in row now
+    if (perRow == null || perRow < 2) {
+        return true;
     }
 
+    for (var i = 0, j = $items.length; i < j; i += perRow) {
+        //set all heights in current row to max.height in current row
+        var maxHeight = 0,
+            $row = $items.slice(i, i + perRow);
+        $row.each(function () {
+            var itemHeight = parseInt($(this).outerHeight());
+            if (itemHeight > maxHeight) maxHeight = itemHeight;
+        });
+        $row.css('height', maxHeight);
+    }
+}
+
+$(function() {
     function hideme($ib) {
         $ib.css("height", 10);
     }
@@ -193,7 +193,7 @@ $(function() {
 
     //generate table of contest for nacp decls
     function generateTocNacp() {
-        $( "<div id='nacp-toc'><a id='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".sub-header" );
+        $( "<div id='nacp-toc'><a id='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".decl-header-wrap .sub-header" );
 
         //lets find all text without tag = text nodes
         $("#nacp_decl")
@@ -358,6 +358,17 @@ $(function() {
             });
     }
 
+    bootstrap_alert = function () {};
+    bootstrap_alert.warning = function (message, alert, timeout) {
+        $('<div id="floating_alert" class="alert alert-' + alert + ' fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' + message + '&nbsp;&nbsp;</div>').appendTo('body');
+
+
+        setTimeout(function () {
+            $(".alert").alert('close');
+        }, timeout);
+
+    };
+    
     $(document).ajaxStop(function () {
         $('body').removeClass('ajax-run').addClass('bihus-news-ready');
     });

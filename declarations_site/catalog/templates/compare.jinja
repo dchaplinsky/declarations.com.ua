@@ -1,0 +1,81 @@
+{% extends "base.jinja" %}
+{% from "_search_results.jinja" import search_results %}
+
+{% block bodyclass %}not-front compare-page{% endblock %}
+
+{% block content %}
+
+<section id="page">
+    <div class="container">
+        <div id="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
+                <li class="active">Список порівнянь декларацій</li>
+            </ol>
+        </div>
+
+        <h1 class="page-header"><span>Список порівнянь декларацій</span></h1>
+
+        <div class="page-content">
+            {% if results %}
+                <div class="comparedata-section">
+                    <canvas id="decl_global"></canvas>
+                </div>
+
+                <div class="comparedata-section">
+                    <canvas id="decl_incomes"></canvas>
+                </div>
+
+                <div class="comparedata-section">
+                    <canvas id="decl_assets"></canvas>
+                </div>
+
+                <div class="comparedata-section">
+                    <canvas id="decl_realty"></canvas>
+                </div>
+
+                <div class="comparedata-section">
+                    <canvas id="decl_land"></canvas>
+                </div>
+
+                <div class="comparedata-section">
+                    <canvas id="decl_cars"></canvas>
+                </div>
+       
+                <h3>Декларації, що були використані для порівняння</h3>
+                <div class="search-page">
+                    <div class="row list-group search-results">
+                        {{ search_results(results) }}
+                    </div>
+                </div>
+            {% endif %}
+
+        {% block static_content %}
+        {% endblock %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+    {% if results %}
+        <script type="text/javascript">
+            window.incomes_data = {{ incomes_data|safe }};
+            window.assets_data = {{ assets_data|safe }};
+            window.incomes_vs_expenses_data = {{ incomes_vs_expenses_data|safe }};
+            window.land_data = {{ land_data|safe }};
+            window.realty_data = {{ realty_data|safe }};
+            window.cars_data = {{ cars_data|safe }};
+            window.urls = {{ urls|safe }};
+        </script>
+
+        {% javascript 'js_charts' %}
+    {% else %}
+        <script type="text/javascript">
+            $(function() {
+                $('.decl-compare-modal').modal('show');
+            });
+        </script>
+    {% endif %}
+{% endblock %}

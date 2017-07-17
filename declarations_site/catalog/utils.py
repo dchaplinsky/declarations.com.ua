@@ -49,12 +49,18 @@ def keyword_for_sorting(keyword, maxlen=40):
 
 def apply_search_sorting(search, sort=""):
     sort_keys = {
-        'name':         ('general.full_name_for_sorting', ),
-        'name_desc':    ('-general.full_name_for_sorting', ),
-        'year':         ('intro.declaration_year', ),
-        'year_desc':    ('-intro.declaration_year', ),
-        'date':         ('intro.date', ),
-        'date_desc':    ('-intro.date', ),
+        'name':
+            ('general.full_name_for_sorting', ),
+        'name_desc':
+            ('-general.full_name_for_sorting', ),
+        'year':
+            ('intro.declaration_year', ),
+        'year_desc':
+            ('-intro.declaration_year', ),
+        'date':
+            ('intro.date', ),
+        'date_desc':
+            ('-intro.date', ),
     }
     if sort and sort in sort_keys:
         fields = sort_keys[sort]

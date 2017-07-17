@@ -132,3 +132,102 @@ $wbw: 250px;
   }
 }
 
+//decl-preview box
+.search-results,
+.compare-list,
+.decl-compare-modal {
+  .item {
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+    &.list-group-item {
+      height: auto !important;
+      float: none;
+      width: 100%;
+      overflow: visible;
+
+      img {
+        float: left;
+      }
+
+      &:before,
+      &:after {
+        display: table;
+        content: " ";
+      }
+
+      &:after {
+        clear: both;
+      }
+    }
+
+    @media (min-width: 992px) {
+      &:nth-child(2n+1) {
+        clear: both;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      &:nth-child(2n+1) {
+        clear: none;
+      }
+
+      &:nth-child(3n+1) {
+        clear: both;
+      }
+    }
+
+    ul {
+      padding-left: 0;
+      margin-bottom: 0;
+
+      li {
+        display: inline;
+        margin-right: 10px;
+      }
+    }
+
+    h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .box {
+      transition: all linear 0.3s;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+
+    .sub-header,
+    ul {
+      font-size: 13px;
+      font-weight: normal;
+
+      .date,
+      .type {
+        display: block;
+        font-size: 13px;
+        font-weight: normal;
+      }
+
+      span.glyphicon {
+        font-size: 10px;
+        margin-right: 10px;
+        opacity: 0.7;
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+.decl-compare-modal {
+  .item .box:hover {
+    border: gray 1px dashed
+  }
+}
+
+
+

@@ -102,6 +102,7 @@
                                 </section>
                                 <div class="pull-right col">
                                     {{ login_button(request.get_full_path()) }}
+                                    <button title="Список порівнянь" type="button" class="btn btn-info btn-green decl-compare-toggle hidden" data-toggle="modal" data-target=".decl-compare-modal"><i class="fa fa-balance-scale" aria-hidden="true"></i> <span class="badge"></span></button>
                                 </div>
                             </div>
                         </div>
@@ -341,6 +342,27 @@
             </div>
         </footer>
     </div>
+
+    <div class="modal fade decl-compare-modal" tabindex="-1" role="dialog">
+        <form method="GET" action="{{ url("compare") }}">
+            <div class="modal-dialog container" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Список порівнянь:</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h2>Це сторінка порівняння декларацій. Ви не додали жодної декларації і нам нема чого порівнювати. Зробіть це. Зробіть швидше.</h2>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info compare-list-action hidden" type="submit"><i class="fa fa-balance-scale" aria-hidden="true"></i> Порівняти</button>
+                        <a class="btn btn-info clear-compare-list hidden" href="#" data-dismiss="modal"><i class="fa fa-trash-o" aria-hidden="true"></i> Очистити список</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
     {% javascript 'js_all' %}
 
     {% block extra_js %}

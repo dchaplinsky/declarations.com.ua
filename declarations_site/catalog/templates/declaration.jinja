@@ -13,7 +13,7 @@
 {% block bodyclass %}not-front declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
 
 {% block content %}
-<section id="page">
+<section id="page" data-declid="{{ declaration.meta.id }}">
     <div itemscope itemtype="http://schema.org/Person">
         <div class="decl-header-wrap">
             <div class="container rc">
@@ -73,6 +73,7 @@
         {% else %}
         <div class="container page-content">
         {% endif %}
+            <a href="#" class="add2compare-list" title="Додати у список порівнянь"><i class="fa fa-balance-scale" aria-hidden="true"></i> Додати декларацію у список порівнянь</a>
             <div class="box">
                 {% if declaration.declaration.url %}
                     <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank" rel="nofollow"><i></i><span>Оригінал декларації</span></a></div>
