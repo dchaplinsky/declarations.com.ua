@@ -67,8 +67,8 @@ function getCompareList() {
             $(".search-results").find(".decl-item[data-declid='" + declarationID + "']").addClass('selected');
 
             //we at decl.page and if decl already at list, we must disable button at decl.page
-            if($('#page').data('declid') === declarationID) {
-                $('.declaration-page #page .add2compare-list').addClass('active').html('У списку порівнянь');
+            if ($('#page').data('declid') === declarationID) {
+                $('.declaration-page #page .on-page-button.add2compare-list').addClass('active').html('У списку порівнянь');
             }
         }
     });
@@ -97,7 +97,7 @@ function ClearCompareList() {
 
     //update decl.page or search results
     $(".search-results .decl-item").removeClass('selected');
-    $('.declaration-page #page .add2compare-list').removeClass('active').html('<i class="fa fa-balance-scale" aria-hidden="true"></i> Додати декларацію у список порівнянь');
+    $('.declaration-page #page .on-page-button.add2compare-list').removeClass('active').html('<i class="fa fa-balance-scale" aria-hidden="true"></i> Додати декларацію у список порівнянь');
 }
 
 //add declaration 2 compare list by click
@@ -143,7 +143,7 @@ $(document).on('click', '.decl-compare-modal .modal-body .add2compare-list', fun
 
     //restore add2compare button at decl.page
     if($('#page').data('declid') === declarationID) {
-        $('.declaration-page #page .add2compare-list').removeClass('active').html('<i class="fa fa-balance-scale" aria-hidden="true"></i> Додати декларацію у список порівнянь');
+        $('.declaration-page #page .on-page-button.add2compare-list').removeClass('active').html('<i class="fa fa-balance-scale" aria-hidden="true"></i> Додати декларацію у список порівнянь');
     }
 
     setColumnsHeights ('.decl-compare-modal .modal-body .compare-container', '.item');
@@ -157,7 +157,7 @@ $(document).on('click', '.declaration-page #page .add2compare-list', function(e)
     if (localStorage.getItem(keyPrefix + declarationID) === null) {
         localStorage.setItem(keyPrefix + declarationID, itemHtml);
 
-        $('.declaration-page #page .add2compare-list').addClass('active').html('У списку порівнянь');
+        $('.declaration-page #page .on-page-button.add2compare-list').addClass('active').html('У списку порівнянь');
         $('.decl-compare-modal .modal-body .compare-container').html($('.decl-compare-modal .modal-body .compare-container').html() + itemHtml);
 
         //show message to user
