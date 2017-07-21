@@ -2,6 +2,7 @@
 {% from "_search_results.jinja" import search_results %}
 {% from "_procurements.jinja" import procurements_details %}
 {% from "_spotter.jinja" import spotter_button %}
+{% from "_decl_teaser.jinja" import decl_teaser %}
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
@@ -13,6 +14,9 @@
 {% block bodyclass %}not-front declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
 
 {% block content %}
+
+<div class="decl-teaser">{{ decl_teaser(declaration) }}</div>
+
 <section id="page" data-declid="{{ declaration.meta.id }}">
     <div itemscope itemtype="http://schema.org/Person">
         <div class="decl-header-wrap">
