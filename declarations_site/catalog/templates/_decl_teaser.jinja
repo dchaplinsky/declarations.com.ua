@@ -1,12 +1,13 @@
-{% macro decl_teaser(declaration) %}
-    <div data-declid="{{ declaration.meta.id }}" class="selected decl-item item col-sm-12 col-md-6 col-lg-4 grid-group-item{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
+{% macro decl_teaser(declaration, on_decl_page=False) %}
+    <div data-declid="{{ declaration.meta.id }}" class="{% if on_decl_page %}selected {% endif %} decl-item item col-sm-12 col-md-6 col-lg-4 grid-group-item{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
         <div class="box">
+            {% if declaration.aggregated or on_decl_page %}
             <a href="#" class="add2compare-list" title="Додати у список порівнянь">
-            <i class="fa fa-times" aria-hidden="true"></i>
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            <i class="fa fa-balance-scale" aria-hidden="true"></i>
-        </a>
-            {% if declaration.aggregated %}<a href="#" class="add2compare-list" title="Додати у список порівнянь"><i class="fa fa-times" aria-hidden="true"></i><i class="fa fa-plus" aria-hidden="true"></i><i class="fa fa-balance-scale" aria-hidden="true"></i></a>{% endif %}
+                <i class="fa fa-times" aria-hidden="true"></i>
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                <i class="fa fa-balance-scale" aria-hidden="true"></i>
+            </a>
+            {% endif %}
             <h3>
             {% if declaration.meta.id %}
             <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</a>
