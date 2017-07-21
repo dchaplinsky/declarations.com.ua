@@ -2,6 +2,7 @@
 {% from "_search_results.jinja" import search_results %}
 {% from "_procurements.jinja" import procurements_details %}
 {% from "_spotter.jinja" import spotter_button %}
+{% from "_decl_teaser.jinja" import decl_teaser %}
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
@@ -13,48 +14,8 @@
 {% block bodyclass %}not-front declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
 
 {% block content %}
-<div class="decl-teaser">
-    <div data-declid="{{ declaration.meta.id }}" class="selected decl-item item col-sm-12 col-md-6 col-lg-4 grid-group-item{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
-        <div class="box">
-            <a href="#" class="add2compare-list" title="Додати у список порівнянь">
-                <i class="fa fa-times" aria-hidden="true"></i>
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                <i class="fa fa-balance-scale" aria-hidden="true"></i>
-            </a>
-            {% if declaration.aggregated %}<a href="#" class="add2compare-list" title="Додати у список порівнянь"><i class="fa fa-times" aria-hidden="true"></i><i class="fa fa-plus" aria-hidden="true"></i><i class="fa fa-balance-scale" aria-hidden="true"></i></a>{% endif %}
-            <h3>
-                {% if declaration.meta.id %}
-                <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</a>
-                {% else %}
-                {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}
-                {% endif %}
-            </h3>
-            <ul class="tags_list">
-                <li class="type">
-                    <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
-                    {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
-                    {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
-                    {% if declaration.intro.corrected %}Уточнена <span>,</span>{% endif %}
-                </li>
-                {% if declaration.general.post.actual_region %}
-                <li><a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="homeLocation">{{ declaration.general.post.actual_region }}</a><span>,</span></li>
-                {% elif declaration.general.post.region %}
-                <li><a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="homeLocation">{{ declaration.general.post.region }}</a><span>,</span></li>
-                {% endif %}
-                {% if declaration.general.post.office %}
-                <li><a href="{{ url('office', office_name=declaration.general.post.office) }}">{{ declaration.general.post.office }}</a><span>,</span></li>
-                {% endif %}
-                {% if declaration.general.post.post %}
-                <li itemprop="jobTitle">{{ declaration.general.post.post }}</li>
-                {% endif %}
-                {% if declaration.intro.date %}
-                <li class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|datetime }}</li>
-                {% endif %}
-            </ul>
-        </div>
-        <input type="hidden" name="declaration_id" value="{{declaration.meta.id}}" />
-    </div>
-</div>
+
+<div class="decl-teaser">{{ decl_teaser(declaration) }}</div>
 
 <section id="page" data-declid="{{ declaration.meta.id }}">
     <div itemscope itemtype="http://schema.org/Person">
