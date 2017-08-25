@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
     HttpResponseNotAllowed)
 from chatbot.utils import (chat_response, simple_search, verify_jwt, chat_last_message,
-    create_subscription, find_subscription, list_subscriptions, load_notify)
+    create_subscription, find_subscription, list_subscriptions, load_notify, TABLE_LINE)
 from spotter.utils import load_declarations, reverse_qs, ukr_plural
 
 
@@ -132,13 +132,31 @@ def botcmd_list_newfound(data):
         message = 'За підпискою: {}'.format(query)
         message += '\n\nЗнайдено {} {}'.format(found_new, plural)
         message += '\n\nПоказані {} починаючи з {}'.format(count, skip + 1)
+        message = TABLE_LINE + "\n\n{}\n\n".format(message) + TABLE_LINE
         new_decl = load_declarations(notify.new_ids[skip:])
         attachments = decl_list_to_chat_cards(new_decl, data, settings, notify.task.deepsearch,
-            skip=skip, notify_id=notify.id)
+            skip=skip, total=found_new, notify_id=notify.id)
         chat_response(data, message, attachments=attachments)
     else:
         message = 'Більше немає результатів.'
         chat_response(data, message)
+
+
+def botcmd_next_searchpage(data):
+    """load last query text and replace offset"""
+    if re.search(r' /\d+$', data['text']):
+        _, skip = data['text'].rsplit(' ', 1)
+    else:
+        skip = ''
+
+    text = chat_last_message(data, as_text=True)
+
+    if re.search(r' /\d+$', text):
+        text, _ = text.rsplit(' ', 1)
+
+    data['text'] = '{} {}'.format(text, skip)
+
+    return search_reply(data)
 
 
 def botcmd_help(data):
@@ -168,6 +186,7 @@ CHATBOT_COMMANDS = (
     (re.compile('(відпис|отпис|unsub)'), botcmd_unsubscribe),
     (re.compile('(мої|підписки|подписки|list)'), botcmd_list_subscribe),
     (re.compile('(нові|новые|new) \d+'), botcmd_list_newfound),
+    (re.compile('(наступні|следующие|next) \/\d+'), botcmd_next_searchpage),
     (re.compile('(допомо|довідка|помощь|справка|help|info|/start)'), botcmd_help),
 )
 
@@ -225,10 +244,13 @@ def join_res(d, keys, sep=' '):
     return sep.join([str(d[k]) for k in keys if k in d and d[k]])
 
 
-def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0, notify_id=None):
+def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0, total=0, notify_id=None):
     attachments = []
     channel = data.get('channelId', '')
     count = settings.CHATBOT_SERP_COUNT
+
+    if not total and hasattr(decl_list, 'found_total'):
+        total = decl_list.found_total
 
     if decl_list:
         for found in decl_list:
@@ -271,14 +293,19 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0,
             if len(attachments) >= count:
                 break
 
-        if len(attachments) >= count:
+        if len(attachments) >= count and total - skip > count:
             deepsearch = 'on' if deepsearch else ''
-            url = settings.SITE_URL + reverse_qs('search',
+            search_url = settings.SITE_URL + reverse_qs('search',
                 qs={'q': data['text'], 'deepsearch': deepsearch})
+            if len(search_url) > 250:
+                search_url = settings.SITE_URL + reverse_qs('search')
             if notify_id:
                 next_page = "нові {}/{}".format(notify_id, skip + count)
             else:
                 next_page = "{} /{}".format(data['text'], skip + count)
+            # telegram button length fix
+            if channel == 'telegram' and len(data['text']) > 25:
+                next_page = "наступні /{}".format(skip + count)
             att = {
                 "contentType": "application/vnd.microsoft.card.hero",
                 "content": {
@@ -292,7 +319,7 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0,
                         {
                             "type": "openUrl",
                             "title": "Перейти на сайт",
-                            "value": url
+                            "value": search_url
                         }
                     ]
                 }
@@ -390,23 +417,28 @@ def search_reply(data):
         deepsearch = True
         search = simple_search(data['text'], deepsearch=deepsearch)
 
-    plural = ukr_plural(search.found_total, 'декларацію', 'декларації', 'декларацій')
-    message = 'Знайдено {} {}'.format(search.found_total, plural)
+    found_total = search.found_total
+    plural = ukr_plural(found_total, 'декларацію', 'декларації', 'декларацій')
+    message = 'Знайдено {} {}'.format(found_total, plural)
 
-    if search.found_total == 0:
+    if found_total == 0:
         message = 'Декларацій не знайдено.'
         message += '\n\n{}'.format(choice(NOT_FOUND_RESPONSES))
 
-    elif search.found_total > skip + count:
+    elif found_total > skip + count:
         if skip:
             message += '\n\nПоказано {} починаючи з {}'.format(count, skip + 1)
         else:
             message += '\n\nПоказано перші {}'.format(count)
 
-    if search.found_total and skip:
+    if found_total > 0:
+        message = TABLE_LINE + "\n\n{}\n\n".format(message) + TABLE_LINE
+
+    if found_total > 0 and skip > 0:
         search = search[skip:]
 
-    attachments = decl_list_to_chat_cards(search, data, settings, deepsearch, skip)
+    attachments = decl_list_to_chat_cards(search, data, settings, deepsearch,
+        skip=skip, total=found_total)
 
     return chat_response(data, message, attachments=attachments)
 
@@ -420,6 +452,9 @@ def messages(request):
         return HttpResponseBadRequest('Bad Request')
 
     data = json.loads(request.body.decode('utf-8'))
+
+    if settings.DEBUG:
+        print(data)
 
     if not verify_jwt(request.META.get('HTTP_AUTHORIZATION', ' '), data):
         return HttpResponseForbidden('Forbidden')
