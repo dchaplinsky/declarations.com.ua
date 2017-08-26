@@ -11,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.db.models.functions import ExtractYear
 from django.db.models import Sum, Count
 
-from elasticsearch_dsl import DocType, Object, Keyword, Text, Completion, Nested, Date, Boolean, Search
+from elasticsearch_dsl import DocType, Object, Keyword, MetaField, Text, Completion, Nested, Date, Boolean, Search
 from elasticsearch_dsl.query import Q
 import jmespath
 
@@ -687,6 +687,7 @@ class Declaration(DocType, AbstractDeclaration):
         return resp
 
     class Meta:
+        all = MetaField(analyzer='ukrainian')
         index = 'declarations_v2'
 
 
@@ -985,4 +986,5 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         return self.nacp_orig.to_dict()
 
     class Meta:
+        all = MetaField(analyzer='ukrainian')
         index = 'nacp_declarations'
