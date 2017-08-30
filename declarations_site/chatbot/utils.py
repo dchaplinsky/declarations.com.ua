@@ -23,7 +23,7 @@ from spotter.utils import (ukr_plural, clean_username, save_search_task,
 
 logger = logging.getLogger(__name__)
 
-TABLE_LINE = ("=" * 23)
+TABLE_LINE = ("=" * 20)
 
 
 def simple_search(query, deepsearch=False):
@@ -250,7 +250,7 @@ def send_to_chat(notify, context):
     from chatbot.views import decl_list_to_chat_cards
 
     plural = ukr_plural(context['found_new'], 'нову декларацію', 'нові декларації', 'нових декларацій')
-    message = 'За підпискою: {}'.format(context['query'])
+    message = 'За підпискою: {}'.format(context['query_title'])
     message += '\n\nЗнайдено {} {}'.format(context['found_new'], plural)
     if context['found_new'] > settings.CHATBOT_SERP_COUNT:
         message += '\n\nПоказані перші {}'.format(settings.CHATBOT_SERP_COUNT)
