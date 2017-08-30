@@ -152,7 +152,7 @@ SITE_URL = 'https://declarations.com.ua'
 
 DEFAULT_DEEPSEARCH = True
 
-SPOTTER_TASK_LIMIT = 100
+SPOTTER_TASK_LIMIT = 500
 CHATBOT_SERP_COUNT = 5
 
 # EMAIL_SITE_URL used for full hrefs in email templates
