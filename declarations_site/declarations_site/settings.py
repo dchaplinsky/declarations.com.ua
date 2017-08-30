@@ -150,6 +150,8 @@ LOGOUT_REDIRECT = '/'
 
 SITE_URL = 'https://declarations.com.ua'
 
+DEFAULT_DEEPSEARCH = True
+
 SPOTTER_TASK_LIMIT = 100
 CHATBOT_SERP_COUNT = 5
 
@@ -200,6 +202,7 @@ TEMPLATES = [
             ],
             "globals": {
                 "replace_arg": "catalog.utils.replace_arg",
+                "sort_flag": "catalog.utils.sort_flag",
             }
         }
     },

@@ -6,7 +6,7 @@
                     <div class="input-group search-string">
                         <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
                         <span id="search_scope" class="input-group-btn">
-                            <div class="checkbox"><label><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
+                            <div class="checkbox"><label title="Шукати по всьому тексту декларації, а не тільки по імені та посаді"><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>Шукати скрізь</span></label></div>
                         </span>
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>

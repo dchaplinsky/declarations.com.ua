@@ -28,10 +28,22 @@ def replace_apostrophes(s):
     return s.replace("`", "'").replace("’", "'")
 
 
-def replace_arg(request, key, value):
+def replace_arg(request, key, value, secval=None):
     args = request.GET.copy()
-    args[key] = value
+    if secval and key in args and args[key] == value:
+        args[key] = secval
+    else:
+        args[key] = value
     return args.urlencode()
+
+
+def sort_flag(request, key, asc_value, desc_value):
+    if key in request.GET:
+        if request.GET[key] == asc_value:
+            return "\u25B2"  # BLACK UP-POINTING TRIANGLE (U+25BC)
+        if request.GET[key] == desc_value:
+            return "\u25BC"  # BLACK DOWN-POINTING TRIANGLE (U+25BC)
+    return ""
 
 
 def concat_fields(resp, fields):
