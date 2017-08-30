@@ -194,7 +194,7 @@ class Declaration(DocType, AbstractDeclaration):
     intro = Object(
         properties={
             'declaration_year': Keyword(index=True),
-            'date': Keyword(index=True)
+            'date': NoneAwareDate(index=True),
         }
     )
     ft_src = Text(index=True, analyzer='ukrainian')
@@ -729,6 +729,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             'declaration_year_to': NoneAwareDate(),
             'declaration_year_from': NoneAwareDate(),
             'doc_type': Keyword(index=True),
+            'date': NoneAwareDate(index=True),
         }
     )
     ft_src = Text(index=True, analyzer='ukrainian')
