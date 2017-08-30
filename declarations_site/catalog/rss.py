@@ -41,6 +41,9 @@ def populate_feed(request, data, feed_type):
     title = 'Декларації за запитом "{}"'.format(query[:60])
     subtitle = 'Всього знайдено {} декларацій'.format(count)
 
+    if data.get('deepsearch', False):
+        title += " (шукати скрізь)"
+
     feed = feed_type(
         title=title,
         subtitle=subtitle,
