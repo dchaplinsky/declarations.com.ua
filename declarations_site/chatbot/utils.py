@@ -242,8 +242,6 @@ def chat_response(data, message='', messageType='message', attachments=None, aut
     retry_sleep = 5 if auto_reply else 0
     requests_retry(requests.post, responseURL, json=resp, headers=headers, timeout=30,
         retry_sleep=retry_sleep)
-    if settings.DEBUG:
-        print(resp)
 
 
 def send_to_chat(notify, context):

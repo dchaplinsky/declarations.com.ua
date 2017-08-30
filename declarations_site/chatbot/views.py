@@ -452,9 +452,6 @@ def messages(request):
 
     data = json.loads(request.body.decode('utf-8'))
 
-    if settings.DEBUG:
-        print(data)
-
     if not verify_jwt(request.META.get('HTTP_AUTHORIZATION', ' '), data):
         return HttpResponseForbidden('Forbidden')
 
