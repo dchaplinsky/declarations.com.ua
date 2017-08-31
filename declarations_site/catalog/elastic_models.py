@@ -194,7 +194,8 @@ class Declaration(DocType, AbstractDeclaration):
     intro = Object(
         properties={
             'declaration_year': Keyword(index=True),
-            'date': Keyword(index=True)
+            'doc_type': Keyword(index=True),
+            'date': NoneAwareDate(index=True),
         }
     )
     ft_src = Text(index=True, analyzer='ukrainian')
@@ -497,7 +498,7 @@ class Declaration(DocType, AbstractDeclaration):
             "url": settings.SITE_URL + reverse(
                 "details", kwargs={"declaration_id": self.meta.id}
             ),
-            "document_type": "Щорічна",
+            "document_type": self.intro.doc_type,
             "is_corrected": False,
             "created_date": getattr(
                 self.intro, "date",
@@ -729,6 +730,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             'declaration_year_to': NoneAwareDate(),
             'declaration_year_from': NoneAwareDate(),
             'doc_type': Keyword(index=True),
+            'date': NoneAwareDate(index=True),
         }
     )
     ft_src = Text(index=True, analyzer='ukrainian')

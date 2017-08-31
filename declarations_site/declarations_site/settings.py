@@ -150,7 +150,9 @@ LOGOUT_REDIRECT = '/'
 
 SITE_URL = 'https://declarations.com.ua'
 
-SPOTTER_TASK_LIMIT = 100
+DEFAULT_DEEPSEARCH = True
+
+SPOTTER_TASK_LIMIT = 500
 CHATBOT_SERP_COUNT = 5
 
 # EMAIL_SITE_URL used for full hrefs in email templates
@@ -200,6 +202,7 @@ TEMPLATES = [
             ],
             "globals": {
                 "replace_arg": "catalog.utils.replace_arg",
+                "sort_flag": "catalog.utils.sort_flag",
             }
         }
     },

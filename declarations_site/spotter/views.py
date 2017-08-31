@@ -37,7 +37,7 @@ def search_list(request, template_name='search_list.jinja'):
 
 
 def do_save_search(request, query, deepsearch, query_params):
-    if len(query) < 2 and len(query_params.split('&')) < 2:
+    if len(query) < 2 and len(query_params or '') < 15:
         messages.warning(request, 'Не вдалось створити завдання з пустим запитом.')
         return redirect('search_list')
 
@@ -87,7 +87,7 @@ def save_search(request):
     deepsearch = bool(request.GET.get("deepsearch", ""))
 
     params = request.GET.copy()
-    for key in ("q", "deepsearch", "format", "page"):
+    for key in ("q", "deepsearch", "format", "page", "sort"):
         if key in params:
             params.pop(key)
 

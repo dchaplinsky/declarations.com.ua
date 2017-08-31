@@ -41,6 +41,11 @@ def populate_feed(request, data, feed_type):
     title = 'Декларації за запитом "{}"'.format(query[:60])
     subtitle = 'Всього знайдено {} декларацій'.format(count)
 
+    if not query:
+        title += " (з фільтрами)"
+    elif data.get('deepsearch', False):
+        title += " (шукати скрізь)"
+
     feed = feed_type(
         title=title,
         subtitle=subtitle,
@@ -80,7 +85,7 @@ def populate_feed(request, data, feed_type):
             declaration = item['declaration']
             doc_url = declaration.get('url', '')
             pubdate = declaration.get('date', '') or intro.get('date', '')
-            if pubdate:
+            if pubdate and not isinstance(pubdate, datetime):
                 pubdate = parse_date(pubdate)
             else:
                 pubdate = datetime.now()

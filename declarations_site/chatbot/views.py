@@ -91,8 +91,8 @@ def botcmd_list_subscribe(data):
         att = {
             "contentType": "application/vnd.microsoft.card.hero",
             "content": {
-                "title": "Запит: {}".format(task.query),
-                "subtitle": "Всього знайдено {} {}".format(task.found_total, plural),
+                "title": "За запитом: {}".format(task.query),
+                "subtitle": "Знайдено {} {}".format(task.found_total, plural),
                 "text": "Щоб відписатись він наступних повідомлень по цьому запиту, оберіть:",
                 "buttons": [
                     {
@@ -125,11 +125,10 @@ def botcmd_list_newfound(data):
 
     if notify and skip < notify.found_new:
         count = settings.CHATBOT_SERP_COUNT
-        query = notify.task.query
-        data['text'] = query
+        data['text'] = notify.task.query
         found_new = notify.found_new
         plural = ukr_plural(found_new, 'нову декларацію', 'нові декларації', 'нових декларацій')
-        message = 'За підпискою: {}'.format(query)
+        message = 'За підпискою: {}'.format(notify.task.query_title)
         message += '\n\nЗнайдено {} {}'.format(found_new, plural)
         message += '\n\nПоказані {} починаючи з {}'.format(count, skip + 1)
         message = TABLE_LINE + "\n\n{}\n\n".format(message) + TABLE_LINE
@@ -452,9 +451,6 @@ def messages(request):
         return HttpResponseBadRequest('Bad Request')
 
     data = json.loads(request.body.decode('utf-8'))
-
-    if settings.DEBUG:
-        print(data)
 
     if not verify_jwt(request.META.get('HTTP_AUTHORIZATION', ' '), data):
         return HttpResponseForbidden('Forbidden')

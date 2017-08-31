@@ -1,7 +1,7 @@
 {% load spotter_tags %}{% autoescape off %}
 Вітаємо,
 
-За запитом "{{ query }}" знайдено {{ found_new }} {{ found_new|uk_plural:"нову декларацію,нові декларації,нових декларацій" }},
+За підпискою "{{ query_title }}" знайдено {{ found_new }} {{ found_new|uk_plural:"нову декларацію,нові декларації,нових декларацій" }},
 переглянути їх можна за посиланнями:
 {% for declaration in decl_list %}
 {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}
