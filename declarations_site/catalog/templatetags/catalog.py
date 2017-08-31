@@ -22,6 +22,8 @@ def updated_querystring(request, params):
 @library.global_function
 @jinja2.contextfunction
 def context_or_settings(context, name):
+    """If template context variable with `name` not set - get default
+    value from django.settings"""
     if name in context:
         return context[name]
     return getattr(settings, 'DEFAULT_' + name.upper())

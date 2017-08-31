@@ -29,6 +29,9 @@ def replace_apostrophes(s):
 
 
 def replace_arg(request, key, value, secval=None):
+    """Replaces arg value in current QUERY_STRING
+    if it already set can be used second value
+    (useful for switching sort asc/desc params)"""
     args = request.GET.copy()
     if secval and key in args and args[key] == value:
         args[key] = secval
