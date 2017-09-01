@@ -42,7 +42,7 @@
         {% if request.META['QUERY_STRING'] %}
         <div class="watching-block">
             <p>Моніторити цей запит по:</p>
-            <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href=" http://declarations.com.ua{{ request.get_full_path() }}&format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
+            <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href="{{ SITE_URL }}{{ request.get_full_path() }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
             {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
         </div>
         {% endif %}
