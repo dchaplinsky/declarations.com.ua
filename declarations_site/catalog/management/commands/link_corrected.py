@@ -1,7 +1,11 @@
 import xlsxwriter
-from django.core.management.base import BaseCommand
-from catalog.elastic_models import NACPDeclaration
+
+from elasticsearch import helpers
 from elasticsearch_dsl.query import Q, FunctionScore, ConstantScore
+from elasticsearch_dsl.connections import connections
+from django.core.management.base import BaseCommand
+
+from catalog.elastic_models import NACPDeclaration
 
 
 def resolve_hilite(res, field, default):
@@ -25,6 +29,7 @@ class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
         self.global_matches = []
+        self.es = connections.get_connection()
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -42,24 +47,32 @@ class Command(BaseCommand):
             help='Store each match to HUGE XLSX file for further analysis',
         )
 
-    def store_example(self, orig, matches, debug=False, store_matches=False):
-        orig_family = ", ".join(sorted(
-            fam.family_name for fam in getattr(orig.general, "family", [])
+        parser.add_argument(
+            '--process_all',
+            dest='process_all',
+            default=False,
+            action='store_true',
+            help='Run on all corrected declarations (vs run on corrected declarations which aren\'t yet mapped)',
+        )
+
+    def store_example(self, corrected, matches, debug=False, store_matches=False):
+        corrected_family = ", ".join(sorted(
+            fam.family_name for fam in getattr(corrected.general, "family", [])
         ))
 
         if debug:
             self.stdout.write(
                 "ORIG: %s %s %s %s %s" % (
-                    orig.general.full_name, orig.general.post.post,
-                    orig.general.post.office, orig.general.post.region,
-                    orig_family
+                    corrected.general.full_name, corrected.general.post.post,
+                    corrected.general.post.office, corrected.general.post.region,
+                    corrected_family
                 )
             )
 
-        result = False
+        result = []
         if len(matches) == 0:
             self.stderr.write("Cannot reconcile %s, http://declarations.com.ua/declaration/%s" % (
-                orig.general.full_name, orig.meta.id))
+                corrected.general.full_name, corrected.meta.id))
 
         for pos, a in enumerate(matches):
             if debug:
@@ -99,14 +112,14 @@ class Command(BaseCommand):
                 self.global_matches.append({
                     "pos": pos,
                     "score": a._score,
-                    "orig_year": orig.intro.declaration_year,
-                    "orig_date": orig.intro.date,
-                    "orig_doc_type": orig.intro.doc_type,
-                    "orig_full_name": orig.general.full_name,
-                    "orig_post": orig.general.post.post,
-                    "orig_office": orig.general.post.office,
-                    "orig_region": orig.general.post.region,
-                    "orig_family": orig_family,
+                    "corrected_year": corrected.intro.declaration_year,
+                    "corrected_date": corrected.intro.date,
+                    "corrected_doc_type": corrected.intro.doc_type,
+                    "corrected_full_name": corrected.general.full_name,
+                    "corrected_post": corrected.general.post.post,
+                    "corrected_office": corrected.general.post.office,
+                    "corrected_region": corrected.general.post.region,
+                    "corrected_family": corrected_family,
 
                     "cand_year": a.intro.declaration_year,
                     "cand_date": a.intro.date,
@@ -119,25 +132,56 @@ class Command(BaseCommand):
                 })
 
             if a._score > MARGIN_SCORE and pos == 0:
-                a.original_declarations = []
-                orig.corrected_declarations = []
+                result.append({
+                    '_op_type': 'update',
+                    '_index': a.meta.index,
+                    '_type': a.meta.doc_type,
+                    '_id': a.meta.id,
+                    'doc': {
+                        'original_declarations': [],
+                        'corrected_declarations': [corrected.meta.id]
+                    }
+                })
 
-                a.corrected_declarations = [orig.meta.id]
-                orig.original_declarations = [a.meta.id]
+                result.append({
+                    '_op_type': 'update',
+                    '_index': corrected.meta.index,
+                    '_type': corrected.meta.doc_type,
+                    '_id': corrected.meta.id,
+                    'doc': {
+                        'corrected_declarations': [],
+                        'original_declarations': [a.meta.id]
+                    }
+                })
+                self.stdout.write("{}, {}, {}, {}".format(
+                    corrected.general.full_name, a.general.full_name, corrected.meta.id, a.meta.id)
+                )
 
-                a.save()
-                orig.save()
-
-                result = True
+                if not debug:
+                    break
 
         return result
 
+    def pump_it(self, chunk):
+        _, errors = helpers.bulk(
+            self.es, chunk,
+            raise_on_exception=False, raise_on_error=False,
+            chunk_size=1000
+        )
+        for error in errors:
+            self.stderr.write(
+                'Document "{}" does not exist in ES yet, maybe rerun later.'.format(error['update']['_id']))
+
     def handle(self, *args, **options):
         corrected = NACPDeclaration.search().filter(
-            "term", intro__corrected=True)
+            "term", intro__corrected=True).source(include=["general.*", "intro.*"])
+
+        if not options["process_all"]:
+            corrected = corrected.query("bool", must_not=[Q("exists", field="original_declarations")])
 
         cntr = 0
         success_rate = 0
+        current_chunk = []
         for i, d in enumerate(corrected.scan()):
             must = [
                 ConstantScore(
@@ -234,22 +278,26 @@ class Command(BaseCommand):
                         "general.post.office", "general.post.post",
                         "general.family.family_name")
 
-            candidates = candidates.execute()
+            candidates = candidates.source(include=["general.*", "intro.*"]).execute()
 
-            success = self.store_example(
+            result = self.store_example(
                 d, candidates, debug=options["debug"],
                 store_matches=options["store_matches"])
 
-            if success:
+            if result:
+                current_chunk += result
                 success_rate += 1
 
             cntr += 1
 
-            if cntr and cntr % 5000 == 0:
+            if cntr and cntr % 10000 == 0:
+                self.pump_it(current_chunk)
+                current_chunk = []
                 self.stdout.write(
                     "%s declarations processed, SR: %s%%" % (cntr, success_rate / cntr * 100)
                 )
 
+        self.pump_it(current_chunk)
         self.stdout.write(
             "%s declarations processed, SR: %s%%" % (cntr, success_rate / cntr * 100)
         )
@@ -286,21 +334,21 @@ class Command(BaseCommand):
         fields = [
             "pos",
             "score",
-            "orig_year",
+            "corrected_year",
             "cand_year",
-            "orig_date",
+            "corrected_date",
             "cand_date",
-            "orig_doc_type",
+            "corrected_doc_type",
             "cand_doc_type",
-            "orig_full_name",
+            "corrected_full_name",
             "cand_full_name",
-            "orig_post",
+            "corrected_post",
             "cand_post",
-            "orig_office",
+            "corrected_office",
             "cand_office",
-            "orig_region",
+            "corrected_region",
             "cand_region",
-            "orig_family",
+            "corrected_family",
             "cand_family",
         ]
 

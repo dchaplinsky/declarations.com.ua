@@ -4,7 +4,7 @@ CATALOG_INDICES = (OLD_DECLARATION_INDEX, NACP_DECLARATION_INDEX)
 
 CATALOG_INDEX_SETTINGS = {
     'index.mapping.total_fields.limit': 5000,
-    'index.max_result_window': 1000000
+    'index.max_result_window': 2500000
 }
 
 
