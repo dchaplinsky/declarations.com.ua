@@ -17,18 +17,28 @@ class SearchTask(models.Model):
     last_run = models.DateTimeField("Останній запуск", null=True, blank=True, default=None)
     chat_data = models.TextField("Дані чату", blank=True, default="", max_length=2000)
     created = models.DateTimeField("Створений", auto_now_add=True, blank=True)
+    title = property(lambda self: self.query_title)
 
     def __str__(self):
-        return self.query
+        deepsearch = "*" if self.deepsearch else ""
+        return "<{}: {}{}>".format(self.id, self.query, deepsearch)
 
     @property
-    def title(self):
-        title = self.query
-        if not title:
-            title = "(пустий) #{}".format(self.id)
-        elif self.deepsearch:
-            title += " (скрізь)"
-        return title
+    def query_opt(self):
+        opt = []
+        if not self.query:
+            opt.append("пустий")
+        if self.query_params and len(self.query_params) > 10:
+            opt.append("з фільтрами")
+        if self.deepsearch:
+            opt.append("шукати скрізь")
+        if not opt:
+            return ""
+        return " ({})".format(", ".join(opt))
+
+    @property
+    def query_title(self):
+        return "{}{}".format(self.query, self.query_opt)
 
 
 class TaskReport(models.Model):
@@ -40,13 +50,10 @@ class TaskReport(models.Model):
     new_ids = fields.ArrayField(models.CharField(max_length=60), blank=True, default=[],
         verbose_name="Нові документи")
     created = models.DateTimeField("Створений", auto_now_add=True, blank=True)
-
-    @property
-    def user(self):
-        return self.task.user
+    user = property(lambda self: self.task.user)
 
     def __str__(self):
-        return "%s %s" % (self.created, self.task)
+        return "<{}: {} {}>".format(self.id, self.created, self.task)
 
 
 class NotifySend(models.Model):
@@ -57,10 +64,7 @@ class NotifySend(models.Model):
     new_ids = fields.ArrayField(models.CharField(max_length=60), blank=True, default=[],
         verbose_name="Нові документи")
     created = models.DateTimeField("Створений", auto_now_add=True, blank=True)
-
-    @property
-    def user(self):
-        return self.task.user
+    user = property(lambda self: self.task.user)
 
     def __str__(self):
-        return "%s %s" % (self.created, self.email)
+        return "<{}: {} {}>".format(self.id, self.created, self.email)

@@ -227,6 +227,8 @@ def send_confirm_email(request, email):
 def send_newtask_notify(task):
     context = {
         'query': task.query,
+        'query_opt': task.query_opt,
+        'query_title': task.query_title,
         'site_url': settings.EMAIL_SITE_URL,
     }
     from_email = settings.FROM_EMAIL
@@ -245,6 +247,8 @@ def send_newtask_notify(task):
 def send_found_notify(notify):
     context = {
         'query': notify.task.query,
+        'query_opt': notify.task.query_opt,
+        'query_title': notify.task.query_title,
         'decl_list': load_declarations(notify.new_ids),
         'found_new': notify.found_new,
         'site_url': settings.SITE_URL,

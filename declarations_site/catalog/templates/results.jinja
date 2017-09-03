@@ -42,7 +42,7 @@
         {% if request.META['QUERY_STRING'] %}
         <div class="watching-block">
             <p>Моніторити цей запит по:</p>
-            <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href=" http://declarations.com.ua{{ request.get_full_path() }}&format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
+            <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href="{{ SITE_URL }}{{ request.get_full_path() }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
             {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
         </div>
         {% endif %}
@@ -60,8 +60,9 @@
             <div class="toggle-search">
                 <span>Сортувати:</span>
                     <div class="btn-group">
-                        <a href="?{{ replace_arg(request, 'sort', 'year') }}" id="sort-year" class="btn btn-default btn-sm">Рік</a>
-                        <a href="?{{ replace_arg(request, 'sort', 'name') }}" id="sort-name" class="btn btn-default btn-sm">П.І.Б.</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'name', 'name_desc') }}" id="sort-name" class="btn btn-default btn-sm">П.І.Б. {{ sort_flag(request, 'sort', 'name', 'name_desc') }}</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'year_desc', 'year') }}" id="sort-year" class="btn btn-default btn-sm">Рік {{ sort_flag(request, 'sort', 'year', 'year_desc') }}</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'date_desc', 'date') }}" id="sort-year" class="btn btn-default btn-sm">Дата подачі {{ sort_flag(request, 'sort', 'date', 'date_desc') }}</a>
                   </div>
             </div>
 

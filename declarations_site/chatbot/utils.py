@@ -23,6 +23,8 @@ from spotter.utils import (ukr_plural, clean_username, save_search_task,
 
 logger = logging.getLogger(__name__)
 
+TABLE_LINE = ("=" * 20)
+
 
 def simple_search(query, deepsearch=False):
     base_search = Search(index=CATALOG_INDICES)
@@ -204,7 +206,7 @@ def get_or_create_chat_user(data):
 
 def chat_response(data, message='', messageType='message', attachments=None, auto_reply=False, save_answer=True):
     if data.get('text', ''):
-        short_answer = message[:80] if save_answer else '-'
+        short_answer = message.strip(' \r\n\t=-')[:80] if save_answer else '-'
         ChatHistory(
             user=get_chat_user_by_email(chat_user_email(data)),
             from_id=data.get('from', {}).get('id', '')[:250],
@@ -246,17 +248,18 @@ def send_to_chat(notify, context):
     from chatbot.views import decl_list_to_chat_cards
 
     plural = ukr_plural(context['found_new'], 'нову декларацію', 'нові декларації', 'нових декларацій')
-    message = 'За підпискою: {}'.format(context['query'])
+    message = 'За підпискою: {}'.format(context['query_title'])
     message += '\n\nЗнайдено {} {}'.format(context['found_new'], plural)
     if context['found_new'] > settings.CHATBOT_SERP_COUNT:
         message += '\n\nПоказані перші {}'.format(settings.CHATBOT_SERP_COUNT)
+    message = TABLE_LINE + "\n\n{}\n\n".format(message) + TABLE_LINE
 
     data = json.loads(notify.task.chat_data)
     data['text'] = context['query']
 
     deepsearch = 'on' if notify.task.deepsearch else ''
     attachments = decl_list_to_chat_cards(context['decl_list'], data, settings, deepsearch,
-        notify_id=notify.id)
+        total=notify.found_new, notify_id=notify.id)
     chat_response(data, message, attachments=attachments, auto_reply=True)
     return 1
 

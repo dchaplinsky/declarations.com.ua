@@ -1,4 +1,6 @@
+import jinja2
 from django_jinja import library
+from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.utils import formats
 from dateutil.parser import parse as dt_parse
@@ -15,6 +17,16 @@ def updated_querystring(request, params):
             original_params.pop(key)
     original_params.update(params)
     return original_params.urlencode()
+
+
+@library.global_function
+@jinja2.contextfunction
+def context_or_settings(context, name):
+    """If template context variable with `name` not set - get default
+    value from django.settings"""
+    if name in context:
+        return context[name]
+    return getattr(settings, 'DEFAULT_' + name.upper())
 
 
 @library.filter
