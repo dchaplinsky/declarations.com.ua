@@ -58,6 +58,12 @@ $(function() {
         $(this).toggleClass('open');
     });
 
+    $('.bi-toggle-search a').on('click', function(e){
+        e.preventDefault();
+        console.log(e.target);
+        $('.nav-search').toggleClass('open');
+    });
+
     //two-way-binding 'dropdown as select' and intput field
     //eg.: <ul class="dropdown-as-select" data-linked-input="someID">
     //     <li><a href="#" data-value="value">value</a></li>
@@ -358,6 +364,22 @@ $(function() {
             });
     }
 
+    function resizeBi() {
+        if($('.bi-analytics-page').length !== 0) {
+            var wH = $(window).height(),
+                navH = $('.nav-block').height(),
+                biNavH = $('.bi-nav').height(),
+                $biContainer = $('.bi-frame'),
+                newH = wH - navH - biNavH;
+
+            if(newH < 600) {
+                newH = 600;
+            }
+
+            $biContainer.css('height', newH + 'px');
+        }
+    }
+
     bootstrapAlert = function () {};
     bootstrapAlert.show = function (message, alert, timeout) {
         $('<div id="floating_alert" class="alert alert-' + alert + ' fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' + message + '&nbsp;&nbsp;</div>').appendTo('body');
@@ -387,6 +409,8 @@ $(function() {
             generateTocNacp();
             replaceDeclText4Icons();
         }
+
+        resizeBi();
 
         $(".search-name").typeahead({
             minLength: 2,
@@ -419,8 +443,13 @@ $(function() {
         _setColumnsHeights();
     });
 
-    $( window ).on( 'resize', function () {
-        _setColumnsHeights();
+    $(window).resize(function() {
+        clearTimeout(window.resizedFinished);
+
+        window.resizedFinished = setTimeout(function(){
+            _setColumnsHeights();
+            resizeBi();
+        }, 250);
     });
 
 });

@@ -9,47 +9,60 @@
 {% endblock %}
 {% block content %}
 <section id="page" style="min-height: 600px">
-    <div>
+    <div id="bi">
         <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Загальни дани</a></li>
-            <li role="presentation"><a href="#incomes_and_assets" aria-controls="incomes_and_assets" role="tab" data-toggle="tab">Доходы и активы</a></li>
-            <li role="presentation"><a href="#liabilities" aria-controls="liabilities" role="tab" data-toggle="tab">Обязательства и выдатки</a></li>
-            <li role="presentation"><a href="#realty" aria-controls="realty" role="tab" data-toggle="tab">Недвижимость</a></li>
+        <ul class="nav bi-nav wizard" role="tablist">
+            <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab">Загальні дані</a></li>
+            <li role="presentation"><a href="#incomes_and_assets" aria-controls="incomes_and_assets" role="tab" data-toggle="tab">Доходи та активи</a></li>
+            <li role="presentation"><a href="#liabilities" aria-controls="liabilities" role="tab" data-toggle="tab">Зобов’язання та видатки</a></li>
+            <li role="presentation"><a href="#realty" aria-controls="realty" role="tab" data-toggle="tab">Нерухомість</a></li>
             <li role="presentation"><a href="#vehicles" aria-controls="vehicles" role="tab" data-toggle="tab">Транспорт</a></li>
-            <li role="presentation"><a href="#risks" aria-controls="risks" role="tab" data-toggle="tab">Риск-анализ</a></li>
-            <li role="presentation"><a href="#regions" aria-controls="regions" role="tab" data-toggle="tab">Региональный разрез</a></li>
-            <li role="presentation"><a href="#list_of_declarants" aria-controls="list_of_declarants" role="tab" data-toggle="tab">Список декларантов</a></li>
+            <li role="presentation"><a href="#risks" aria-controls="risks" role="tab" data-toggle="tab">Ризик-аналіз</a></li>
+            <li role="presentation"><a href="#regions" aria-controls="regions" role="tab" data-toggle="tab">Регіональний зріз</a></li>
+            <li role="presentation"><a href="#list_of_declarants" aria-controls="list_of_declarants" role="tab" data-toggle="tab">Список декларантів</a></li>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="general">
-                <iframe src='http://seim/declar/single/?appid=7ac49f6f-c580-4139-97d0-2025e52f04bb&sheet=509df4e3-c87f-4a4f-b2bd-dabcb506d2ca&opt=currsel&select=clearall' style='border:none; width: 100%; height: 600px;'></iframe>
+            <div role="tabpanel" class="tab-pane active bi-frame" id="general">
+                <iframe src='http://seim/declar/single/?appid=4086c6c3-1f0e-48ff-b100-5e5154bd89ae&sheet=509df4e3-c87f-4a4f-b2bd-dabcb506d2ca&opt=nointeraction&select=clearall'></iframe>
             </div>
-            <div role="tabpanel" class="tab-pane" id="incomes_and_assets">
-                <iframe src='http://seim/declar/single/?appid=7ac49f6f-c580-4139-97d0-2025e52f04bb&sheet=1c1e23d1-d729-472f-85d3-cd477113f925&opt=currsel&select=clearall' style='border:none; width: 100%; height: 600px;'></iframe>
+            <div role="tabpanel" class="tab-pane bi-frame" id="incomes_and_assets">
+                <iframe src='http://seim/declar/single/?appid=4086c6c3-1f0e-48ff-b100-5e5154bd89ae&sheet=1c1e23d1-d729-472f-85d3-cd477113f925&opt=nointeraction&select=clearall'></iframe>
             </div>
-            <div role="tabpanel" class="tab-pane" id="liabilities">
-                <iframe src='http://seim/declar/single/?appid=7ac49f6f-c580-4139-97d0-2025e52f04bb&sheet=bcb0b49a-4b9f-4a4f-8042-0c478d7f8e35&opt=currsel&select=clearall' style='border:none; width: 100%; height: 600px;'></iframe>
+            <div role="tabpanel" class="tab-pane bi-frame" id="liabilities">
+                <iframe src='http://seim/declar/single/?appid=4086c6c3-1f0e-48ff-b100-5e5154bd89ae&sheet=bcb0b49a-4b9f-4a4f-8042-0c478d7f8e35&opt=nointeraction&select=clearall'></iframe>
             </div>
-            <div role="tabpanel" class="tab-pane" id="realty">
-                <iframe src='http://seim/declar/single/?appid=7ac49f6f-c580-4139-97d0-2025e52f04bb&sheet=17ebd8ec-ec98-4851-b1d2-a5aaebce08ad&opt=currsel&select=clearall' style='border:none; width: 100%; height: 600px;'></iframe>
+            <div role="tabpanel" class="tab-pane bi-frame" id="realty">
+                <iframe src='http://seim/declar/single/?appid=4086c6c3-1f0e-48ff-b100-5e5154bd89ae&sheet=17ebd8ec-ec98-4851-b1d2-a5aaebce08ad&opt=nointeraction&select=clearall'></iframe>
             </div>
-            <div role="tabpanel" class="tab-pane" id="vehicles">
-                <iframe src='http://seim/declar/single/?appid=7ac49f6f-c580-4139-97d0-2025e52f04bb&sheet=1a34f05f-8594-48eb-98df-9378a7ee5ca8&opt=currsel&select=clearall' style='border:none; width: 100%; height: 600px;'></iframe>
+            <div role="tabpanel" class="tab-pane bi-frame" id="vehicles">
+                <iframe src='http://seim/declar/single/?appid=4086c6c3-1f0e-48ff-b100-5e5154bd89ae&sheet=1a34f05f-8594-48eb-98df-9378a7ee5ca8&opt=nointeraction&select=clearall'></iframe>
             </div>
-            <div role="tabpanel" class="tab-pane" id="risks">
-                <iframe src='http://seim/declar/single/?appid=7ac49f6f-c580-4139-97d0-2025e52f04bb&sheet=b3d23282-6d01-4331-a6df-46cb43be7bc1&opt=currsel&select=clearall' style='border:none; width: 100%; height: 600px;'></iframe>
+            <div role="tabpanel" class="tab-pane bi-frame" id="risks">
+                <iframe src='http://seim/declar/single/?appid=4086c6c3-1f0e-48ff-b100-5e5154bd89ae&sheet=b3d23282-6d01-4331-a6df-46cb43be7bc1&opt=nointeraction&select=clearall'></iframe>
             </div>
-            <div role="tabpanel" class="tab-pane" id="regions">
-                <iframe src='http://seim/declar/single/?appid=7ac49f6f-c580-4139-97d0-2025e52f04bb&sheet=e6c6953b-24df-41ca-a0c2-fb2076ceba12&opt=currsel&select=clearall'' style='border:none; width: 100%; height: 600px;'></iframe>
+            <div role="tabpanel" class="tab-pane bi-frame" id="regions">
+                <iframe src='http://seim/declar/single/?appid=4086c6c3-1f0e-48ff-b100-5e5154bd89ae&sheet=e6c6953b-24df-41ca-a0c2-fb2076ceba12&opt=nointeraction&select=clearall'></iframe>
             </div>
-            <div role="tabpanel" class="tab-pane" id="list_of_declarants">
-                <iframe src='http://seim/declar/single/?appid=7ac49f6f-c580-4139-97d0-2025e52f04bb&sheet=0666db7e-eff0-4bc3-a05b-e073c207861c&opt=currsel&select=clearall'' style='border:none; width: 100%; height: 600px;'></iframe>
+            <div role="tabpanel" class="tab-pane bi-frame" id="list_of_declarants">
+                <iframe src='http://seim/declar/single/?appid=4086c6c3-1f0e-48ff-b100-5e5154bd89ae&sheet=0666db7e-eff0-4bc3-a05b-e073c207861c&opt=nointeraction&select=clearall'></iframe>
             </div>
         </div>
     </div>
+    <ul class="thank-to">
+        <li>
+            <a href="http://www.rbcgrp.com" target="_blank" class="rbc"></a>
+        </li>
+        <li>
+            <a href="http://en.brdo.com.ua/" target="_blank" class="brdo"></a>
+        </li>
+        <li>
+            <a href="https://bihus.info/projects/go-kancelarska-sotna" target="_blank" title="Канцелярська сотня" class="wh100">
+                <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#wh100") }}"></use></svg></span>
+            </a>
+        </li>
+    </ul>
 </section>
 {% endblock %}
 
