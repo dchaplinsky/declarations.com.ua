@@ -64,6 +64,22 @@ $(function() {
         $('.nav-search').toggleClass('open');
     });
 
+    $('.bi-analytics-page #cta').on('click', function(e){
+        e.preventDefault();
+        var $activeNav = $('.bi-nav li.active'),
+            $next = $activeNav.next('li'),
+            $last =  $('.bi-nav li:last-child'),
+            $link = $next.find('a');
+
+        console.log($next.index());
+        console.log($last.index());
+
+        $link.trigger('click');
+        if ($next.index() === $last.index()) {
+            $('.bi-analytics-page #cta').hide();
+        }
+    });
+
     //two-way-binding 'dropdown as select' and intput field
     //eg.: <ul class="dropdown-as-select" data-linked-input="someID">
     //     <li><a href="#" data-value="value">value</a></li>
@@ -370,7 +386,7 @@ $(function() {
                 navH = $('.nav-block').height(),
                 biNavH = $('.bi-nav').height(),
                 $biContainer = $('.bi-frame'),
-                newH = wH - navH - biNavH;
+                newH = wH - navH - biNavH - 40; //40 = cta button outer-height
 
             if(newH < 600) {
                 newH = 600;
