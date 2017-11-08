@@ -76,6 +76,15 @@ $(function() {
         }
     });
 
+    $('#bi a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var anchor = $(this).closest("a"),
+            tabPanel = $(anchor.attr("href"));
+
+        if (tabPanel.find("iframe").length == 0) {
+            tabPanel.append($("<iframe>").attr("src", anchor.data("iframe-src")));
+        }
+    });
+
     //two-way-binding 'dropdown as select' and intput field
     //eg.: <ul class="dropdown-as-select" data-linked-input="someID">
     //     <li><a href="#" data-value="value">value</a></li>
