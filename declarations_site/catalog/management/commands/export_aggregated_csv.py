@@ -1,4 +1,6 @@
 from csv import DictWriter
+from datetime import datetime
+
 from elasticsearch_dsl.query import Q
 from django.core.management.base import BaseCommand
 
@@ -24,6 +26,14 @@ class Command(BaseCommand):
         )
 
         parser.add_argument(
+            '--filter_future_declarations',
+            dest='filter_future_declarations',
+            default=False,
+            action='store_true',
+            help='Export only declarations submitted for previous years',
+        )
+
+        parser.add_argument(
             'destination',
             help='Path to csv file',
         )
@@ -37,6 +47,14 @@ class Command(BaseCommand):
                 "bool",
                 must=[Q("term", intro__doc_type="Щорічна")],
                 must_not=[Q("exists", field="original_declarations")]
+            )
+
+        if options["filter_future_declarations"]:
+            to_export = to_export.query(
+                "range",
+                intro__declaration_year={
+                    "lt": datetime.now().year
+                }
             )
 
         w = None
