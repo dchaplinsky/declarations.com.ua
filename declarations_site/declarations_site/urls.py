@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^region$', catalog_views.regions_home, name='regions_home',),
     url(r'^office$', catalog_views.offices_home, name='offices_home',),
 
-    url(r'^toBIfree/$', catalog_views.business_intelligence,
+    url(r'^BI/$', catalog_views.business_intelligence,
         name='business_intelligence',),
 
     # Please maintain that order
