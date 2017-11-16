@@ -136,7 +136,7 @@ def fuzzy_search(request):
     return {
         "query": query,
         "fuzziness": fuzziness - 1,
-        "results": paginated_search(request, search)
+        "results": paginated_search(request, search, 100)
     }
 
 
