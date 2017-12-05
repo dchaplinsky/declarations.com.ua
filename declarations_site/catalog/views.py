@@ -330,6 +330,10 @@ def business_intelligence(request):
     return render(request, "bi.jinja")
 
 
+def business_intelligence_alt(request):
+    return render(request, "bi_alt.jinja")
+
+
 def prepare_datasets_for_charts(declarations, labels, columns):
     colors = [
         "rgba(54, 162, 235, 1)",
