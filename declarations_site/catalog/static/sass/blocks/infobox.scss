@@ -1,6 +1,11 @@
 #infobox {
   @include greenGradient;
   position: relative;
+  display: none;
+
+  @media (min-width: 768px) {
+    display: block;
+  }
 
   p {
     margin-bottom: 0;
@@ -74,7 +79,7 @@
           font-weight: 500;
         }
 
-        #joinus,
+        .button-cta,
         #login-button {
           margin-top: 10px;
           margin-bottom: 10px;
@@ -100,6 +105,62 @@
         &:after {
           background-image: url('../images/banner-help2find.jpg');
         }
+      }
+    }
+
+    &--bi {
+      .infobanner-content {
+        border: none;
+        -webkit-box-shadow: 0px 0px 21px 0px rgba(50, 50, 50, 0.34);
+        -moz-box-shadow:    0px 0px 21px 0px rgba(50, 50, 50, 0.34);
+        box-shadow:         0px 0px 21px 0px rgba(50, 50, 50, 0.34);
+
+        &:before {
+          content: '';
+          display: inline-block;
+          background-image: url('../images/banner-bi.jpg');
+          background-position: center right;
+          width: 0;
+          
+          @media (min-width:500px) {
+            width: 35%
+          }
+
+          @media (min-width:768px) {
+            width: 55%
+          }
+
+          @media (min-width:992px) {
+            width: 65%
+          }
+
+          @media (min-width:1200px) {
+            width: 75%
+          }
+        }
+
+        &:after {
+          display: none;
+        }
+
+        .infobanner-text {
+          font-size: 14px;
+          padding: 0 15px 0 5px;
+
+          .infobanner-top-text {
+            font-weight: 700;
+          }
+        }
+      }
+
+      .button-cta {
+        @include gradient-animation(left, #9c21ff, #5d46ff, 0.3s );
+        background: #9c21ff;
+        background: -moz-linear-gradient(left, #9c21ff 0%, #5d46ff 100%);
+        background: -webkit-linear-gradient(left, #9c21ff 0%,#5d46ff 100%);
+        background: linear-gradient(to right, #9c21ff 0%,#5d46ff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9c21ff', endColorstr='#9c21ff',GradientType=1 );
+        color: white;
       }
     }
   }

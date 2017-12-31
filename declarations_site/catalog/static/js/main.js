@@ -421,6 +421,10 @@ $(function() {
             fetchBihusNews();
         }
 
+        $(".trigger").click(function() {
+            $(".chatbot-menu").toggleClass("active");
+        });
+
         $.material.init();
         $('[data-toggle="tooltip"]').tooltip();
         setExFormStateFromUrl();
