@@ -1,0 +1,26 @@
+body {
+    text-align: center;
+    font-family: SansSerif
+}
+
+text {
+    font: 10px sans-serif;
+    text-anchor: middle;
+}
+
+.node circle {
+    fill: #ddd;
+}
+
+.node:hover circle {        
+    stroke-width: 1.2px;
+    fill: coral;
+}
+
+.viz {
+    display: inline-block;
+    margin: 0px;
+
+    text-align: center;
+    width: 45%;
+}

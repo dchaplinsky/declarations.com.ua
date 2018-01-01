@@ -2,7 +2,11 @@ from django.core.management.base import BaseCommand
 
 from elasticsearch_dsl.connections import connections
 
-from catalog.constants import CATALOG_INDICES, CATALOG_INDEX_SETTINGS
+from catalog.constants import (
+    CATALOG_INDICES, CATALOG_INDEX_SETTINGS, OLD_DECLARATION_INDEX,
+    NACP_DECLARATION_INDEX
+)
+
 from catalog.elastic_models import Declaration, NACPDeclaration
 
 
@@ -14,9 +18,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for index in options['indices']:
-            if index == 'declarations_v2':
+            if index == OLD_DECLARATION_INDEX:
                 doc_type = Declaration
-            elif index == 'nacp_declarations':
+            elif index == NACP_DECLARATION_INDEX:
                 doc_type = NACPDeclaration
 
             es = connections.get_connection('default')

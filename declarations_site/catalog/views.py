@@ -10,6 +10,7 @@ from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
 
 from cms_pages.models import MetaData, NewsPage, PersonMeta
+from datetime import datetime
 
 from .elastic_models import Declaration, NACPDeclaration
 from .paginator import paginated_search
@@ -332,6 +333,30 @@ def business_intelligence(request):
 
 def business_intelligence_alt(request):
     return render(request, "bi_alt.jinja")
+
+
+def infographics(request, year=None):
+    if year is None:
+        year = datetime.now().year - 1
+        return redirect(
+            reverse("infographics", kwargs={"year": year})
+        )
+    else:
+        year = int(year)
+
+    years_range = range(2015, datetime.now().year)
+
+    if year not in years_range:
+        raise Http404("Нема інформації про цей рік")
+
+    return render(
+        request,
+        "infographics.jinja",
+        {
+            "year": year,
+            "years_range": years_range,
+        }
+    )
 
 
 def prepare_datasets_for_charts(declarations, labels, columns):

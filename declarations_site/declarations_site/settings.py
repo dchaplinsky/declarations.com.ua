@@ -248,14 +248,13 @@ PIPELINE = {
             'output_filename': 'css/merged.css',
             'extra_context': {},
         },
-
-        'css_bi': {
+        'css_infographics': {
             'source_filenames': (
-                "sass/bi/style.scss",
+                'sass/infographics.scss',
             ),
-            'output_filename': 'css/merged_bi.css',
+            'output_filename': 'css/merged_infographics.css',
             'extra_context': {},
-        },
+        }
     },
     'JAVASCRIPT': {
         'js_all': {
@@ -271,20 +270,8 @@ PIPELINE = {
                 "js/user.js",
                 "js/analytics.js",
                 "js/jquery.dataTables.min.js",
-                "js/bi/d3.min.js",
-                "js/bi/widget_home.js",
             ),
             'output_filename': 'js/merged.js',
-        },
-
-        'js_bi': {
-            'source_filenames': (
-                "js/bi/crossfilter.min.js",
-                "js/bi/offices.js",
-                "js/bi/csv.js",
-                "js/bi/main.js",
-            ),
-            'output_filename': 'js/merged_bi.js',
         },
 
         'js_charts': {
@@ -294,6 +281,15 @@ PIPELINE = {
                 "js/compare-charts.js",
             ),
             'output_filename': 'js/merged_charts.js',
+        },
+
+        'js_infographics': {
+            'source_filenames': (
+                "js/d3.js",
+                "js/d3-tip.js",
+                "js/infographics.js",
+            ),
+            'output_filename': 'js/merged_infographics.js',
         }
     }
 }

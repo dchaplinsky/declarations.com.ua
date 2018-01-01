@@ -46,7 +46,7 @@ class Command(BaseCommand):
             to_export = to_export.query(
                 "bool",
                 must=[Q("term", intro__doc_type="Щорічна")],
-                must_not=[Q("exists", field="original_declarations")]
+                must_not=[Q("exists", field="corrected_declarations")]
             )
 
         if options["filter_future_declarations"]:

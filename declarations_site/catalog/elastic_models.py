@@ -1,7 +1,5 @@
 import re
-import json
 import os.path
-import itertools
 from operator import or_
 from functools import reduce
 from datetime import date
@@ -11,12 +9,19 @@ from django.core.urlresolvers import reverse
 from django.db.models.functions import ExtractYear
 from django.db.models import Sum, Count
 
-from elasticsearch_dsl import DocType, Object, Keyword, MetaField, Text, Completion, Nested, Date, Boolean, Search
+from elasticsearch_dsl import (
+    DocType, Object, Keyword, MetaField, Text, Completion,
+    Nested, Date, Boolean, Search, Double)
+
 from elasticsearch_dsl.query import Q
 import jmespath
 
 from procurements.models import Transactions
-from .constants import CATALOG_INDICES, BANK_EDRPOUS, INCOME_TYPES, MONETARY_ASSETS_TYPES
+from .constants import (
+    CATALOG_INDICES, BANK_EDRPOUS, INCOME_TYPES,
+    MONETARY_ASSETS_TYPES, OLD_DECLARATION_INDEX, NACP_DECLARATION_INDEX)
+
+
 from .utils import parse_fullname, blacklist
 from .templatetags.catalog import parse_raw_family_string
 from .converters import PaperToNACPConverter, ConverterError
@@ -689,7 +694,7 @@ class Declaration(DocType, AbstractDeclaration):
 
     class Meta:
         all = MetaField(analyzer='ukrainian')
-        index = 'declarations_v2'
+        index = OLD_DECLARATION_INDEX
 
 
 class NACPDeclaration(DocType, AbstractDeclaration):
@@ -733,6 +738,70 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             'date': NoneAwareDate(index=True),
         }
     )
+    # aggregated = Object(
+    #     properties={
+    #         "assets.family": Double(index=True),
+    #         "vehicles.declarant_cost": Double(index=True),
+    #         "estate.family_land": Double(index=True),
+    #         "vehicles.any": Boolean(index=True),
+    #         "outlier": Boolean(index=True),
+    #         "garage_wo_car_flag": Boolean(index=True),
+    #         "link": Text(index=False),
+    #         "expenses_to_inc_and_assets_flag": Boolean(index=True),
+    #         "lux_cars_flag": Boolean(index=True),
+    #         "estate.declarant_other": Double(index=True),
+    #         "estate.family_other_ratio": Double(index=True),
+    #         "assets_to_income_flag": Boolean(index=True),
+    #         "estate.total_other": Double(index=True),
+    #         "assets.has_foreign": Boolean(index=True),
+    #         "estate.family_land_ratio": Double(index=True),
+    #         "incomes.has_foreign": Boolean(index=True),
+    #         "expenses_assets_and_incomes_ratio": Keyword(index=True),
+    #         "incomes.declarant": Double(index=True),
+    #         "id": Text(index=True),
+    #         "liabilities.total": Double(index=True),
+    #         "house_no_land_flag": Boolean(index=True),
+    #         "vehicles.has_hidden": Boolean(index=True),
+    #         "family": Boolean(index=True),
+    #         "name": Text(index=False),
+    #         "organization_group": Keyword(index=True),
+    #         "estate.total_land": Double(index=True),
+    #         "lux_cars_flag_v2": Boolean(index=True),
+    #         "estate.has_hidden": Boolean(index=True),
+    #         "expenses.total": Double(index=True),
+    #         "name_post": Text(index=False),
+    #         "incomes.total": Double(index=True),
+    #         "liabilities_assets_and_incomes_ratio": Keyword(index=True),
+    #         "assets_incomes_ratio": Keyword(index=True),
+    #         "assets.family_ratio": Double(index=True),
+    #         "income_presents_to_total_flag": Boolean(index=True),
+    #         "assets.total": Double(index=True),
+    #         "vehicles.total_cost": Double(index=True),
+    #         "assets.has_hidden": Boolean(index=True),
+    #         "vehicles.max_year": Keyword(index=True),
+    #         "estate_purch_no_cost_flag": Boolean(index=True),
+    #         "assets.cash.total": Double(index=True),
+    #         "incomes.has_hidden": Boolean(index=True),
+    #         "estate.family_other": Double(index=True),
+    #         "vehicles.family_cost": Double(index=True),
+    #         "incomes.family": Double(index=True),
+    #         "vehicles.all_names": Text(index=True),
+    #         "assets.declarant": Double(index=True),
+    #         "cash_flag": Boolean(index=True),
+    #         "incomes.family_ratio_cat": Keyword(index=True),
+    #         "incomes.presents.all": Double(index=True),
+    #         "estate.declarant_land": Double(index=True),
+    #         "incomes.family_ratio": Double(index=True),
+    #         "year": Keyword(index=True),
+    #         "assets.family_ratio_cat": Keyword(index=True),
+    #         "estate.family_land_ratio_cat": Keyword(index=True),
+    #         "estate.has_foreign": Boolean(index=True),
+    #         "region": Keyword(index=True),
+    #         "estate.family_other_ratio_cat": Keyword(index=True),
+    #         "vehicle_purch_no_cost_flag": Boolean(index=True),
+    #         "liabilities_to_inc_and_assets_flag": Boolean(index=True),
+    #     }
+    # )
     ft_src = Text(index=True, analyzer='ukrainian')
     nacp_orig = Object(include_in_all=False, enabled=False)
 
@@ -973,8 +1042,8 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             },
 
             "documents": {
-                "corrected": getattr(src, "corrected_declarations", None),
-                "originals": getattr(src, "original_declarations", None),
+                "corrected": list(getattr(self, "corrected_declarations", []) or []),
+                "originals": list(getattr(self, "original_declarations", []) or []),
             },
 
             "companies": {
@@ -989,4 +1058,4 @@ class NACPDeclaration(DocType, AbstractDeclaration):
 
     class Meta:
         all = MetaField(analyzer='ukrainian')
-        index = 'nacp_declarations'
+        index = NACP_DECLARATION_INDEX
