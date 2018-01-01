@@ -102,6 +102,8 @@ class LinkFields(models.Model):
         on_delete=models.CASCADE
     )
 
+    extra_class = models.CharField(max_length=255, blank=True)
+
     @property
     def link(self):
         if self.link_page:
@@ -112,6 +114,7 @@ class LinkFields(models.Model):
     panels = [
         FieldPanel('caption'),
         FieldPanel('link_external'),
+        FieldPanel('extra_class'),
         PageChooserPanel('link_page')
     ]
 
