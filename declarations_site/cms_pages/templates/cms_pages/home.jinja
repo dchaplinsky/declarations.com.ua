@@ -45,7 +45,7 @@
                         <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
                             <ul class="nav navbar-nav text-center">
                                 {% for menuitem in top_menu %}
-                                <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}"><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
+                                <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}"><a href="{{ menuitem.link }}" {% if menuitem.extra_class %} class="{{ menuitem.extra_class }}"{% endif %}>{{ menuitem.caption }}</a></li>
                                 {% if loop.index == 2 %}
                                 <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span></a></li>
                                 {% endif %}

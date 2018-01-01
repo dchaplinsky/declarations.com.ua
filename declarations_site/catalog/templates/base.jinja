@@ -62,7 +62,7 @@
                         <div class="infobanner-content">
                             <div class="infobanner-text text-center">
                                 <p class="infobanner-top-text">BigData проти корупції:<br> по е-деклараціях чиновників запущено<br> потужний аналітичний модуль</p>
-                                <a href="/analytics/" class="btn button-cta">Подивитись на магію</a>
+                                <a href="/BI/" class="btn button-cta">Подивитись на магію</a>
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                                     <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
                                         <ul class="nav navbar-nav">
                                             {% for menuitem in top_menu %}
-                                            <li><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
+                                            <li><a href="{{ menuitem.link }}"{% if menuitem.extra_class %} class="{{ menuitem.extra_class }}"{% endif %}>{{ menuitem.caption }}</a></li>
                                             {% endfor %}
                                             <li class="bi-toggle-search"><a href="#" title="розкрити пошук"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                                         </ul>
