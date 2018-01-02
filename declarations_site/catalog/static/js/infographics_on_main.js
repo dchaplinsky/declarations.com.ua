@@ -1,18 +1,5 @@
 $(function() {
-    var height1 = $('#vizpannel').position().top;
-    var filterPanel = $('#filterpanel');
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); //For first time
-    function handleScroll() {
-        var scrolled = document.body.scrollTop || document.documentElement.scrollTop;
-        if (scrolled > height1 && scrolled < 6000) {
-            filterPanel.toggleClass("fixed", true).toggleClass("relative", false);
-        } else {
-            filterPanel.toggleClass("fixed", false).toggleClass("relative", true);
-        }
-    };
-    var rootUrl = 'https://declarations.com.ua/declaration/';
+    var rootUrl = '/declaration/';
     var regionsArr = [
         'Харківська область',
         'Львівська область',
@@ -43,58 +30,64 @@ $(function() {
         'Кримська Автономна Республіка'
     ];
     var allData = {};
-    var format = (d) => d3.format(",d")(d).replace(/\,/gi, ' ');
-    var radiobuttons = document.forms.filters.showParameter;
-    var vizContainers = d3.selectAll('.viz');
+    var format = function(d) {
+        return d3.format(",d")(d).replace(/\,/gi, ' ')
+    };
+    var vizContainers = $('.viz');
+    var year_filter = $("#filter-year");
 
-    for (var i = 0; i < radiobuttons.length; i++) {
-        radiobuttons[i].onclick = function(e) {
-            getDataAndDraw(e.target.value);
-        }
-    }
-
-    // Add options to regional selector
-    var regionSelector = d3.select("#regionSelector");
-    regionsArr.forEach(function(i, n) {
-        regionSelector
-            .append("option")
-            .attr("value", n + 1)
-            .text(i)
+    year_filter.on("change", function(e) {
+        getDataAndDraw();
     });
-    getDataAndDraw('assets.total');
 
-    function getDataAndDraw(parameter) {
-        vizContainers.classed('isLoading', true);
-        if (!allData[parameter]) {
-            d3.csv('/static/data/viz_' + parameter + '.2016.csv', formatRow, function(error, data) {
-                if (error) throw error;
-                allData[parameter] = data;
-                splitDataOnGroups(data, parameter);
-                rerenderCharts(parameter);
-            });
-        } else {
-            rerenderCharts(parameter);
-        }
+    $("#filter-region").on("change", function(e) {
+        switchSelectionByRegions($(this).val());
+    });
+
+    $("#filter-category").on("change", function(e) {
+        switchSelectionByPosition($(this).val());
+    });
+
+    getDataAndDraw();
+
+    function getDataAndDraw() {
+        var year = year_filter.val();
+
+        vizContainers.each(function(i, viz) {
+            viz = $(viz);
+            viz.toggleClass("isLoading", true);
+            var parameter = viz.data("source");
+
+            if (!allData[parameter]) {
+                d3.csv('/static/data/viz_' + parameter + '.' + year + '.csv', formatRow, function(error, data) {
+                    if (error) throw error;
+                    allData[parameter + "/" + year] = data;
+                    rerenderCharts(viz, parameter, year);
+                });
+            } else {
+                rerenderCharts(viz, parameter, year);
+            }
+
+        })
     }
 
     function draw(id, data, limit, highlightParameter) {
-        d3.selectAll("#" + id + " > g > *").remove();
+        d3.selectAll(id + " > g > *").remove();
         var tip = d3.tip()
             .attr('class', 'd3-tip')
-            .html((d) => generateTooltipContent(d, highlightParameter))
+            .html(
+                function(d) {
+                    return generateTooltipContent(d, highlightParameter)
+                }
+            )
             .direction('se')
             .offset([0, 3]);
 
-        var loadingIndicatorElement = document.getElementById(id + '-loading-indicator');
+        $(id).siblings('.loading').remove();
 
-        if (loadingIndicatorElement) {
-            loadingIndicatorElement.parentNode.removeChild(loadingIndicatorElement)
-        };
-
-        var isLargeChart = id === "vse";
-        var normalWidth = isLargeChart ? 700 : 700;
-        var windowWidth = window.innerWidth < normalWidth ? window.innerWidth - (isLargeChart ? 20 : 20) : normalWidth;
-        var svg = d3.select("#" + id);
+        var normalWidth = ($(id).closest(".container").width() - 10) / 2;
+        var windowWidth = normalWidth < 300 ? window.innerWidth - 20 : normalWidth;
+        var svg = d3.select(id);
         svg
             .attr("width", windowWidth)
             .attr("height", windowWidth)
@@ -137,7 +130,7 @@ $(function() {
             .attr("r", function(d) {
                 return d.r;
             })
-            .on('mouseover', (d) => d.depth ? tip.show(d) : null)
+            .on('mouseover', function(d){ return d.depth ? tip.show(d) : null})
             .on('mouseout', tip.hide)
             .on('click', function(d) {
                 window.open(rootUrl + d.data.id);
@@ -153,7 +146,7 @@ $(function() {
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
-        d3.select('#' + id + '-wrapper').classed('isLoading', false);
+        d3.select(id + '-wrapper').classed('isLoading', false);
         switchSelectionByPosition("j");
         var selectedRegion = regionSelector.node().value;
 
@@ -162,52 +155,16 @@ $(function() {
         };
     }
 
-    function splitDataOnGroups(data, key) {
-        data.forEach(function(d) {
-            switch (d.organization_group) {
-                case "p":
-                    allData[key + 'Suddi'] = allData[key + 'Suddi'] || [];
-                    allData[key + 'Suddi'].push(d);
-                    break;
-                case "h":
-                    allData[key + 'Prokurory'] = allData[key + 'Prokurory'] || [];
-                    allData[key + 'Prokurory'].push(d);
-                    break;
-                case "b":
-                    allData[key + 'miscevaVlada'] = allData[key + 'miscevaVlada'] || [];
-                    allData[key + 'miscevaVlada'].push(d);
-                    break;
-                case "j":
-                    allData[key + 'centralnaVlada'] = allData[key + 'centralnaVlada'] || [];
-                    allData[key + 'centralnaVlada'].push(d);
-                    break;
-                case "n":
-                    allData[key + 'likari'] = allData[key + 'likari'] || [];
-                    allData[key + 'likari'].push(d);
-                    break;
-                case "e":
-                    allData[key + 'inspectory'] = allData[key + 'inspectory'] || [];
-                    allData[key + 'inspectory'].push(d);
-                    break;
-            }
-        });
-    }
-
-    function rerenderCharts(key) {
+    function rerenderCharts(viz, parameter, year) {
+        var d3_target = viz.data("d3-target")
         setTimeout(function() {
-            draw("vse", allData[key], 300, key)
+            draw(d3_target, allData[parameter + "/" + year], 100, parameter)
         }, 0);
-        draw("suddi", allData[key + 'Suddi'], 100, key);
-        draw("prokurory", allData[key + 'Prokurory'], 100, key);
-        draw("likari", allData[key + 'likari'], 100, key);
-        draw("misceva_vlada", allData[key + 'miscevaVlada'], 100, key);
-        draw("centr_vlada", allData[key + 'centralnaVlada'], 100, key);
-        draw("inspector", allData[key + 'inspectory'], 100, key);
     }
 
     function generateTooltipContent(d, activeKey) {
         var html = '';
-        var auto = d.data.vehicles_names ? d.data.vehicles_names.split('/').filter(i => i !== 'null') : [];
+        var auto = d.data.vehicles_names ? d.data.vehicles_names.split('/').filter(function(i) {return i !== 'null'}) : [];
         if (d.data.name) {
             html = "<div class='tip-inner " + activeKey + "'><div class='name'>" + d.data.name + "</div><div>" +
                 regionsArr[Number(d.data.region) - 1] + "</div><hr/><div>" +
@@ -219,7 +176,7 @@ $(function() {
                 format(d.data["estate.total_land"] / 10000) + " га.</nobr></div><div><b>Нерухомість у власності:</b><nobr> " +
                 format(d.data["estate.total_other"]) + " м2.</nobr></div></div>" +
                 (!auto.length ? "" : "<hr/><div><b>Наявні автомобілі (" + auto.length + "):</b></div>" +
-                    auto.map(i => "<div class='auto-row'>" + i.toUpperCase() + "</div>").join(''))
+                    auto.map(function(i) { return "<div class='auto-row'>" + i.toUpperCase() + "</div>" }).join(''))
         } else {}
         return html
     }
@@ -239,7 +196,6 @@ $(function() {
     }
 
     function switchSelectionByPosition(value) {
-        console.log(value);
         d3.selectAll(".circle").classed("position-active", false);
         d3.selectAll("." + value + '-job').classed("position-active", true);
     }

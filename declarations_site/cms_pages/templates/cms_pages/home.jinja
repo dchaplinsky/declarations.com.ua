@@ -1,5 +1,9 @@
 {% extends "base.jinja" %}
 
+{% block extrahead %}
+    {% stylesheet 'css_infographics' %}
+{% endblock %}
+
 {% block newslist %}
     <section id="newslist" class="on-white">
         <div class="container">
@@ -45,7 +49,7 @@
                         <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
                             <ul class="nav navbar-nav text-center">
                                 {% for menuitem in top_menu %}
-                                <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}"><a href="{{ menuitem.link }}" {% if menuitem.extra_class %} class="{{ menuitem.extra_class }}"{% endif %}>{{ menuitem.caption }}</a></li>
+                                <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}{% if menuitem.extra_class %} {{ menuitem.extra_class }}{% endif %}"><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
                                 {% if loop.index == 2 %}
                                 <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span></a></li>
                                 {% endif %}
@@ -93,6 +97,85 @@
                 </div>
             </div>
         </div>
+        <div class="infographics-on-main container">
+            <div class="viz" id="assets-wrapper" data-source="assets.total" data-d3-target="#assets">
+               <h3>Топ-100 за статками</h3>
+               <p class="loading" id="assets-loading-indicator">Завантаження...</p>
+               <svg id="assets">
+                  <g transform="translate(1,1)"></g>
+               </svg>
+            </div>
+            <div class="viz" id="incomes-wrapper" data-source="incomes.total" data-d3-target="#incomes">
+               <h3>Топ-100 за доходом</h3>
+               <p class="loading" id="incomes-loading-indicator">Завантаження...</p>
+               <svg id="incomes">
+                  <g transform="translate(1,1)"></g>
+               </svg>
+            </div>
+            <div class="row filter-panel">
+                <div class="pull-left dropdown with-separator">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Рік:<span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownCategory" data-linked-input="filter-year">
+                        <li><a href="#" data-value="2015">2015</a></li>
+                        <li><a href="#" data-value="2016">2016</a></li>
+                        <li><a href="#" data-value="2017">2017</a></li>
+                    </ul>
+                    <input id="filter-year" name="filter-year" class="linked-input" type="hidden" value="2016" />
+                </div>
+                <div class="pull-left dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Сфера діяльності:<span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownCategory" data-linked-input="filter-category">
+                        <li><a href="#" data-value="">Сфера діяльності:</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" data-value="j">Центральна влада</a></li>
+                        <li><a href="#" data-value="b">Mісцева влада</a></li>
+                        <li><a href="#" data-value="p">Cудді</a></li>
+                        <li><a href="#" data-value="h">Прокурори</a></li>
+                        <li><a href="#" data-value="n">Лікарі</a></li>
+                        <li><a href="#" data-value="e">Iнспектори</a></li>
+                    </ul>
+                    <input id="filter-category" name="filter-category" class="linked-input" type="hidden" value="j" />
+                </div>
+                <div class="pull-left dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownRegion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Вся Україна:<span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownRegion" data-linked-input="filter-region">
+                        <li><a href="#" data-value="">Вся Україна:</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#" data-value="1">Харківська область</a></li>
+                        <li><a href="#" data-value="2">Львівська область</a></li>
+                        <li><a href="#" data-value="3">Чернівецька область</a></li>
+                        <li><a href="#" data-value="4">Донецька область</a></li>
+                        <li><a href="#" data-value="5">!не визначено</a></li>
+                        <li><a href="#" data-value="6">м. Київ</a></li>
+                        <li><a href="#" data-value="7">Миколаївська область</a></li>
+                        <li><a href="#" data-value="8">Дніпропетровська область</a></li>
+                        <li><a href="#" data-value="9">Житомирська область</a></li>
+                        <li><a href="#" data-value="10">Рівненська область</a></li>
+                        <li><a href="#" data-value="11">Одеська область</a></li>
+                        <li><a href="#" data-value="12">Київська область</a></li>
+                        <li><a href="#" data-value="13">Закарпатська область</a></li>
+                        <li><a href="#" data-value="14">Запорізька область</a></li>
+                        <li><a href="#" data-value="15">Черкаська область</a></li>
+                        <li><a href="#" data-value="16">Чернігівська область</a></li>
+                        <li><a href="#" data-value="17">Сумська область</a></li>
+                        <li><a href="#" data-value="18">Волинська область</a></li>
+                        <li><a href="#" data-value="19">Івано-Франківська область</a></li>
+                        <li><a href="#" data-value="20">Херсонська область</a></li>
+                        <li><a href="#" data-value="21">Хмельницька область</a></li>
+                        <li><a href="#" data-value="22">Тернопільська область</a></li>
+                        <li><a href="#" data-value="23">Полтавська область</a></li>
+                        <li><a href="#" data-value="24">Кіровоградська область</a></li>
+                        <li><a href="#" data-value="25">Луганська область</a></li>
+                        <li><a href="#" data-value="26">Вінницька область</a></li>
+                        <li><a href="#" data-value="27">Кримська Автономна Республіка</a></li>
+                    </ul>
+                    <input id="filter-region" name="filter-region" class="linked-input" type="hidden" />
+                </div>
+                <div class="pull-right more-graphs">
+                    <a href="/BI/">Ще більше крутої аналітики</a>
+                </div>
+            </div>
+        </div>
     {% endblock %}
 
 
@@ -104,4 +187,8 @@
 {% block content %}
     <div class="cp"></div>
     <!-- clear padding -->
+{% endblock %}
+
+{% block extra_js %}
+    {% javascript 'js_infographics' %}
 {% endblock %}

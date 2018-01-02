@@ -84,7 +84,7 @@
                                     <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
                                         <ul class="nav navbar-nav">
                                             {% for menuitem in top_menu %}
-                                            <li><a href="{{ menuitem.link }}"{% if menuitem.extra_class %} class="{{ menuitem.extra_class }}"{% endif %}>{{ menuitem.caption }}</a></li>
+                                            <li{% if menuitem.extra_class %} class="{{ menuitem.extra_class }}"{% endif %}><a href="{{ menuitem.link }}">{{ menuitem.caption }}</a></li>
                                             {% endfor %}
                                             <li class="bi-toggle-search"><a href="#" title="розкрити пошук"><i class="fa fa-search" aria-hidden="true"></i></a></li>
                                         </ul>
@@ -333,7 +333,7 @@
                     </div>
 
                     <div class="col-md-6 copyrights-text">
-                        <p>У розробці проекту брали участь: Денис Бігус, Дмитро Чаплинський, Ольга Макарова, Артем Глувчинський, Володимир Фльонц,
+                        <p>У розробці проекту брали участь: Денис Бігус, Дмитро Чаплинський, Ольга Макарова, Артем Глувчинський, Володимир Фльонц, Андрій Ульяненко,
                             Дмитро Нечипоренко, Андрій Турик, Дмитро Гамбаль, Гліб Козак, Володимир Гоцик, Олександр Ботезату, Ігор Рубан, Кирило Захаров</p>
                         <p>Автори висловлюють вдячність Громадському люстраційному комітету й Громадському руху Чесно за допомогу у зборі декларацій</p>
                     </div>

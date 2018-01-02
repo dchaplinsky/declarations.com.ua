@@ -90,7 +90,9 @@ $(function() {
     //     <li><a href="#" data-value="value">value</a></li>
     //..
     //<input id="someID" class="linked-input" value="value" />
-    $(".dropdown-as-select li a").click(function(){
+    $(".dropdown-as-select li a").click(function(e){
+        e.preventDefault();
+
         var $dropdown = $(this).parents(".dropdown"),
             $dropdownButton = $dropdown.find('.btn'),
             $linkedInput = $('#' + $(this).parents(".dropdown-as-select").data('linked-input'));
@@ -98,6 +100,7 @@ $(function() {
         $dropdownButton.html($(this).text() + ' <span class="caret"></span>');
         $dropdownButton.val($(this).data('value'));
         $linkedInput.val($(this).data('value'));
+        $linkedInput.change();
 
         $dropdown.find('li').removeClass('selected');
         $(this).parent('li').addClass('selected');
@@ -190,7 +193,8 @@ $(function() {
             $(this).hide(400);
         });
 
-        $(document).on('click', '#clear-filters', function(){
+        $(document).on('click', '#clear-filters', function(e) {
+            e.preventDefault();
             $('input[name="declaration_year"]').val('');
             $('input[name="doc_type"]').val('');
             $('input[name="region_value"]').val('');

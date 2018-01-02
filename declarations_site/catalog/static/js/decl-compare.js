@@ -1,4 +1,4 @@
-const keyPrefix = 'declarationID-';
+var keyPrefix = 'declarationID-';
 
 //helper function to update some strings and values for decl.compare feature
 function updateCompareStrings(declsInLocalStorage) {

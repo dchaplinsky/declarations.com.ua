@@ -1,5 +1,5 @@
-import json
 import re
+import os.path
 from csv import DictWriter
 from collections import defaultdict
 from datetime import datetime
@@ -13,7 +13,7 @@ from catalog.utils import title
 
 AGGREGATED_FIELD_NAME = 'aggregated'
 
-ORDER_BY = ['estate.total_land', 'assets.total', 'incomes.total', 'estate.total_other']
+ORDER_BY = ['assets.total', 'incomes.total']
 
 
 CATEGORY_MAP = {
@@ -124,8 +124,8 @@ class Command(BaseCommand):
 
         parser.add_argument(
             '--year', nargs='*', type=int,
-            choices=range(2015, datetime.now().year + 1),
-            default=range(2015, datetime.now().year + 1),
+            choices=range(2015, datetime.now().year),
+            default=range(2015, datetime.now().year),
         )
 
     def get_raw_data(self, year, order_by, limit=10000):
@@ -140,13 +140,13 @@ class Command(BaseCommand):
             ],
             must_not=[
                 Q("exists", field="corrected_declarations"),
+                Q("term", _id="nacp_e46bba0c-32d5-4b0d-a290-9fdc4afcc278"),  # Fucking Melnytchuk
                 Q("term", **{"{}__outlier".format(AGGREGATED_FIELD_NAME): True})
             ]
         ).sort(
             {'aggregated.{}'.format(order_by): {"order": "desc"}}
         )[:limit]
 
-        # print(json.dumps(to_export.to_dict(), indent=4, ensure_ascii=False))
         res = []
 
         for d in to_export.execute():
@@ -179,14 +179,15 @@ class Command(BaseCommand):
                 'Місцеві адміністрації та ради']:
 
             organization_group = self.define_profession_group(name_post) or organization_group
-            organization_group = CATEGORY_MAP[organization_group]
+
+        organization_group = CATEGORY_MAP[organization_group]
 
         return {
-            "incomes": round(float(data['incomes.total'])),
-            "land": round(float(data['estate.total_land'])),
-            "apartments": round(float(data['estate.total_other'])),
-            "assets": round(float(data['assets.total'])),
-            "cash": round(float(data['assets.cash.total'])),
+            "incomes.total": round(float(data['incomes.total'])),
+            "estate.total_land": round(float(data['estate.total_land'])),
+            "estate.total_other": round(float(data['estate.total_other'])),
+            "assets.total": round(float(data['assets.total'])),
+            "assets.cash.total": round(float(data['assets.cash.total'])),
             "vehicles_names": "/".join(data['vehicles.all_names'].split(';')),
             "organization_group": organization_group,
             "name": title(data["name"]),
@@ -200,25 +201,35 @@ class Command(BaseCommand):
         counts = defaultdict(int)
 
         for d in data:
-            res.append(d)
-
             if d["organization_group"] in GROUPS_TO_EXPORT:
-                counts[d["organization_group"]] += 1
+                if (counts[d["organization_group"]] < data_in_each_group or
+                        len(res) < data_in_all_groups):
+                    res.append(d)
+                    counts[d["organization_group"]] += 1
+
+            elif len(res) < data_in_all_groups:
+                res.append(d)
 
             if (counts and min(counts.values()) >= data_in_each_group and
                     len(res) >= data_in_all_groups):
                 break
 
-        print(counts)
+        self.stdout.write("Exported {}".format(counts))
+
         return res
 
     def handle(self, *args, **options):
         for year in options["year"]:
             for order in ORDER_BY:
-                data = self.get_raw_data(year, order, 30000)
+                self.stdout.write("Exporting {} for {}".format(order, year))
+
+                data = self.get_raw_data(year, order, 100000)
                 categorized = [self.categorize(d) for d in data]
                 trimmed = self.trim(categorized)
-                print(len(trimmed))
 
-                import json
-                print(json.dumps(categorized[0], ensure_ascii=False, indent=4))
+                with open(
+                        os.path.join(options["destination"], "viz_{}.{}.csv".format(order, year)),
+                        "w") as fp:
+                    w = DictWriter(fp, fieldnames=trimmed[0].keys())
+                    w.writeheader()
+                    w.writerows(trimmed)

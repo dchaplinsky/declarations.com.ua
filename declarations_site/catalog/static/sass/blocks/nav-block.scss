@@ -137,4 +137,12 @@
 #navbar .fucking_awesome {
   color: darkred;
   border-bottom: 2px solid darkred;
+
+  a {
+    color: darkred;
+
+    &:hover {
+      color: $decl-blue;
+    }
+  }
 }

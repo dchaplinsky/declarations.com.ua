@@ -100,7 +100,7 @@ DATABASES = {
 ELASTICSEARCH_CONNECTIONS = {
     'default': {
         'hosts': os.getenv('ES_HOST', 'localhost'),
-        'timeout': 20
+        'timeout': 30
     }
 }
 
@@ -269,7 +269,6 @@ PIPELINE = {
                 "js/decl-compare.js",
                 "js/user.js",
                 "js/analytics.js",
-                "js/jquery.dataTables.min.js",
             ),
             'output_filename': 'js/merged.js',
         },
@@ -287,7 +286,7 @@ PIPELINE = {
             'source_filenames': (
                 "js/d3.js",
                 "js/d3-tip.js",
-                "js/infographics.js",
+                "js/infographics_on_main.js",
             ),
             'output_filename': 'js/merged_infographics.js',
         }

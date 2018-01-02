@@ -1,26 +1,218 @@
-body {
+#vizpannel {
+    position: relative;
     text-align: center;
-    font-family: SansSerif
+    font-family: 'Trebuchet MS', Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    color: #000000;
+    font-size: 20px;
+    line-height: 1.55;
+    padding-right: 210px;
+    padding-bottom: 100px;
+}
+
+#filterpanel{
+    font-size: 0.8em;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.85);
+    z-index: 9000;
+    text-align: left;
+    border: 1px solid #bae0ff;
+    border-radius: 3px;
+}
+
+#filterpanel.relative {
+    position: relative;
+    right: 7px;
+    top: 10px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 20px;
+}
+
+#filterpanel.relative form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin: 0 auto 20px;
+}
+
+#filterpanel.relative div {
+    width: 30%;
+}
+
+#filterpanel.fixed {
+    position: fixed;
+    right: 7px;
+    top: 10px;
+    width: 180px;
+    margin: 0 auto 20px;
+}
+
+#filterpanel input, #filterpanel label {
+    cursor: pointer 
+}
+
+#filterpanel label:first-child {
+    font-weight:600;
+}
+
+#filterpanel input:checked+ label {
+    color: #d7365d;
+    font-weight: 600;
+}
+
+#filterpanel div {
+    padding: 5px;
+}
+
+#filterpanel select {
+    height: 30px;
+    cursor: pointer;
+    font-size: 0.9em;
+    width: 85%;
+}
+
+.d3-tip {
+    background: rgba(51, 51, 51, 0.85);
+    border: 1px solid black;
+    color: #fff;
+    text-align: left;
+    padding: 0.5em;
+    max-width: 250px;
+    font-size: 0.8em;
+    font-family: 'Trebuchet MS', Helvetica, Arial, sans-serif;
+}
+
+.d3-tip b {
+    color: #51c1ff 
+}
+
+.tip-inner.assets div:nth-child(6), .tip-inner.incomes div:nth-child(8), .tip-inner.land div:nth-child(9), .tip-inner.apartments div:nth-child(10) {
+    color: #ff3f6a 
 }
 
 text {
-    font: 10px sans-serif;
+    font-size: 0.5em;
     text-anchor: middle;
+    cursor: pointer;
 }
 
 .node circle {
-    fill: #ddd;
+    fill: #fff;
+    cursor: pointer;
 }
 
-.node:hover circle {        
+.node circle.position-active {
+    fill: #01bbae;
+    cursor: pointer;
+
+    &~text {
+        fill: #ffffff;
+    }
+}
+
+circle.depth-0 {
+    fill: #ccecff;
+    cursor: default;
+}
+
+.node circle.region-active {
+    stroke: #000;
+    stroke-width: 3px;
+}
+
+.node:hover circle:not(.depth-0) {
     stroke-width: 1.2px;
-    fill: coral;
+    fill: #ffc978;
+
+    &~text {
+        fill: #333;
+    }
 }
 
 .viz {
     display: inline-block;
     margin: 0px;
-
     text-align: center;
-    width: 45%;
+    vertical-align: top;
+}
+
+.viz.isLoading {
+    opacity: 0.5;
+}
+
+.loading {
+    animation: blinker 1.5s linear infinite;
+    font-size: 1.5em;
+    margin: 50px;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+    
+}
+
+@media screen and (max-width: 1200px) {    
+    text {
+        font-size: 0.6em;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #vizpannel {
+       /*font-size: 16px;
+       */
+        padding-right: 0;
+        padding-top: 70px;
+    }
+    
+    #filterpanel.fixed {
+        position: relative;
+        right: 7px;
+        top: 10px;
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    #filterpanel.fixed form {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+    
+    #filterpanel.fixed div {
+        width: 30%;
+    }
+    
+    .viz {
+        padding-right: 0;
+    }
+    
+    #filterpanel label, #filterpanel select {
+        width: 100%;
+    }
+    
+}
+
+.filter-panel {
+    padding: 0 35px;
+}
+
+.more-graphs {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 14px;
+    padding-top: 18px;
+    display: block;
+}
+
+.with-separator {
+    border-right: 1px solid #999;
 }
