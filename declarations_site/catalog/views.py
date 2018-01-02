@@ -331,34 +331,6 @@ def business_intelligence(request):
     return render(request, "bi.jinja")
 
 
-def business_intelligence_alt(request):
-    return render(request, "bi_alt.jinja")
-
-
-def infographics(request, year=None):
-    if year is None:
-        year = datetime.now().year - 1
-        return redirect(
-            reverse("infographics", kwargs={"year": year})
-        )
-    else:
-        year = int(year)
-
-    years_range = range(2015, datetime.now().year)
-
-    if year not in years_range:
-        raise Http404("Нема інформації про цей рік")
-
-    return render(
-        request,
-        "infographics.jinja",
-        {
-            "year": year,
-            "years_range": years_range,
-        }
-    )
-
-
 def prepare_datasets_for_charts(declarations, labels, columns):
     colors = [
         "rgba(54, 162, 235, 1)",

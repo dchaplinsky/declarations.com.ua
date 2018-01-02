@@ -24,16 +24,6 @@ urlpatterns = [
     url(r'^BI/$', catalog_views.business_intelligence,
         name='business_intelligence',),
 
-    url(r'^BI_draft/$', catalog_views.business_intelligence_alt,
-        name='business_intelligence_alt',),
-
-    url(r'^infographics/$',
-        catalog_views.infographics,
-        name='infographics',),
-    url(r'^infographics/(?P<year>\d+)$',
-        catalog_views.infographics,
-        name='infographics',),
-
     # Please maintain that order
     url(r'^region/(?P<region_name>[^\/]+)/(?P<office_name>.+)$',
         catalog_views.region_office, name='region_office'),
