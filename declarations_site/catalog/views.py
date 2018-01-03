@@ -10,14 +10,14 @@ from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
 
 from cms_pages.models import MetaData, NewsPage, PersonMeta
-from datetime import datetime
+from dateutil.parser import parse as dt_parse
 
 from .elastic_models import Declaration, NACPDeclaration
 from .paginator import paginated_search
 from .api import hybrid_response
 from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes, base_search_query, apply_search_sorting
 from .models import Office
-from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX, NACP_DECLARATION_INDEX
+from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
 
 def suggest(request):
@@ -104,10 +104,21 @@ def search(request):
 @hybrid_response('results.jinja')
 def fuzzy_search(request):
     query = request.GET.get("q", "")
+    submitted_since = request.GET.get("submitted_since", "")
+
     base_search = Search(
         index=CATALOG_INDICES).doc_type(
         NACPDeclaration, Declaration
     )
+
+    if submitted_since:
+        base_search = base_search.query(
+            "range",
+            intro__date={
+                "gte": dt_parse(submitted_since, dayfirst=True)
+            }
+        )
+
     fuzziness = 1
 
     if query:
