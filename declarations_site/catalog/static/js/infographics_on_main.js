@@ -48,7 +48,8 @@ $(function() {
         switchSelectionByPosition($(this).val());
     });
 
-    getDataAndDraw();
+    // No need as it'll be invoked on onchange event for year filter
+    // getDataAndDraw();
 
     function getDataAndDraw() {
         var year = year_filter.val();
@@ -148,11 +149,6 @@ $(function() {
 
         d3.select(id + '-wrapper').classed('isLoading', false);
         switchSelectionByPosition("j");
-        var selectedRegion = regionSelector.node().value;
-
-        if (selectedRegion) {
-            switchSelectionByRegions(selectedRegion)
-        };
     }
 
     function rerenderCharts(viz, parameter, year) {
