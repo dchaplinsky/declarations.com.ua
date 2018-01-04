@@ -32,6 +32,7 @@
     margin-left: 0;
     padding-left: 0;
     text-align: right;
+    margin-top: 10px;
 
     li {
       list-style: none;
@@ -39,7 +40,10 @@
       margin-left: 10px;
     }
   }
+}
 
+#block-sociallinksblock,
+.social-mobile {
   .fa {
     color: $bg;
     height: 32px;

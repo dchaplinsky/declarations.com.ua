@@ -172,7 +172,11 @@ svg:not(:root) {
 .logo {
     display: block;
     height: auto;
-    margin-top: 10px;
+    margin-top: 0;
+
+    @media (min-width: $screen-sm-min) {
+        margin-top: 10px;
+    }
 
     svg {
         width: 70px;

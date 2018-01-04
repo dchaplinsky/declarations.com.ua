@@ -31,6 +31,10 @@
     transition: opacity 1s, z-index 0.3s, transform 1s;
     transform: translateX(0);
 
+    &.question {
+      background: $decl-red;
+    }
+
     .fa {
       @extend .absolute-center;
       font-size: 3em;
