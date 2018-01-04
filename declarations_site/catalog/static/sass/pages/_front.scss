@@ -1,14 +1,29 @@
 .logo {
   svg {
-    width: 120px;
-    height: 111px;
+    width: 60px;
+    height: 70px;
+
+    @media (min-width: $screen-sm-min) {
+      width: 80px;
+      height: 90px;
+    }
+
+    @media (min-width: $screen-lg-min) {
+      width: 120px;
+      height: 111px;
+    }
   }
 }
 
 #navbar {
   float: none;
-  margin-top: $pad20;
-  margin-bottom: $pad;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  @media (min-width: $screen-sm-min) {
+    margin-top: $pad20;
+    margin-bottom: $pad;
+  }
 
   .navbar-collapse ul {
     float: none;
@@ -22,14 +37,27 @@
       margin-right: 20px;
       vertical-align: middle;
 
+      @media (min-width: $screen-sm-min) and (max-width: $screen-lg-min) {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
       &.left-item {
         margin-right: 0;
         margin-left: 20px;
+
+        @media (min-width: $screen-sm-min) and (max-width: $screen-lg-min) {
+          margin-left: 0;
+        }
       }
 
       &.right-item {
         margin-right: 20px;
         margin-left: 0;
+
+        @media (min-width: $screen-sm-min) and (max-width: $screen-lg-min) {
+          margin-right: 0;
+        }
       }
 
       a, img {
@@ -59,8 +87,13 @@
   .about-text {
     color: #585858; //todo
     font-weight: 300;
-    font-size: 14px;
-    margin-top: 10px;
+    font-size: 12px;
+    margin-top: 0;
+
+    @media (min-width: $screen-sm-min) {
+      margin-top: 10px;
+      font-size: 14px;
+    }
   }
 }
 

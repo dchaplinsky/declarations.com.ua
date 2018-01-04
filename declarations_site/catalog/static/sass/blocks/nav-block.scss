@@ -34,7 +34,11 @@
 
   .navbar-toggle {
     margin-right: 0;
-    margin-top: $pad20 * 2;
+    margin-top: 30px;
+
+    @media (min-width: $screen-sm-min) {
+      margin-top: $pad20 * 2;
+    }
 
     span.icon-bar {
       background: $decl-blue;
@@ -107,6 +111,29 @@
 
     &.joinus {
       @media (min-width: $joinus-bp+1) {
+        display: none;
+      }
+    }
+  }
+
+  .navbar-nav li {
+    @media (max-width: $screen-xs-max) {
+      display: block !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+
+      &.hidden-xs {
+        display: none !important;
+      }
+
+      &.social-mobile {
+        display: inline-block !important;
+        width: auto;
+      }
+    }
+
+    @media (min-width: $screen-sm-min) {
+      &.social-mobile {
         display: none;
       }
     }
