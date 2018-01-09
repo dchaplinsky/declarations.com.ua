@@ -22,10 +22,17 @@
         </ul>
         <div class="tab-content">
             <div class="text-center">
-                <a href="/static/data/manual_final.pdf" target="_blank" class="btn btn-info subnav btn-green">Інструкція <i class="fa fa-info" aria-hidden="true"></i></a>
+                <span class="dropdown">
+                    <a id="bi_manual" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-info subnav btn-green">Інструкція та дані
+                        <span class="caret"></a>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="bi_manual" id="bi_manual_menu">
+                        <li><a href="/static/data/manual_final.pdf" target="_blank"><i class="fa fa-info" aria-hidden="true"></i> Інструкція</a></li>
+                        <li><a href="/static/data/declarations_for_bi.csv.bz2" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> Дані у CSV (більше мільйона рядків!)</a></li>
+                        <li><a href="https://docs.google.com/spreadsheets/d/1gkimFwc9g-Yi3HvdrA5lh8iQZ6tqIJnG3dLBIgnUmqY/edit?usp=sharing" target="_blank"><i class="fa fa-book" aria-hidden="true"></i>Опис формату даних</a></li>
+                    </ul>
+                </span>
                 <a href="#" id="cta" class="btn btn-info subnav">Далі <i class="fa fa-step-forward" aria-hidden="true"></i></a>
-
-                <a href="/static/data/declarations_for_bi.csv.bz2" target="_blank" class="btn btn-link subnav btn-sm" data-toggle="tooltip" data-placement="bottom" title="Завантажити сирі дані у форматі CSV (більше мільйона рядків)">Дані <i class="fa fa-download" aria-hidden="true"></i></a>
             </div>
             <div role="tabpanel" class="tab-pane active bi-frame" id="general">
                 <p class="text-danger">Якщо дані не відображуються у браузері Safari, будь ласка, <a href="https://bi.brdo.com.ua" target="_blank">перейдіть за посиланням</a>, а потім перезавантажте цю сторінку</p>

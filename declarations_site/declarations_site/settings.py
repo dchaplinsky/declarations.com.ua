@@ -234,7 +234,7 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
-#Can you include here https://github.com/dizballanze/django-compressor-autoprefixer , please?
+# Can you include here https://github.com/dizballanze/django-compressor-autoprefixer , please?
 PIPELINE = {
     'COMPILERS': ('pipeline.compilers.sass.SASSCompiler',),
     'SASS_ARGUMENTS': '-q',
