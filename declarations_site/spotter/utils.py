@@ -146,7 +146,7 @@ def first_run(task):
 
 def load_declarations(new_ids, limit=LOAD_DECLS_LIMIT):
     decl_list = list()
-    fields = ['meta.id', 'general.*', 'intro.declaration_year']
+    fields = ['meta.id', 'general.*', 'intro.declaration_year', 'intro.doc_type', 'intro.corrected']
 
     if len(new_ids) > limit:
         logger.error("load new_ids %d limit %d exceed", len(new_ids), limit)
@@ -258,6 +258,11 @@ def send_found_notify(notify):
         # need save before use to obtain notify.id
         notify.save()
         return send_to_chat(notify, context)
+
+    if notify.email and notify.email.endswith('.broadcast'):
+        from chatbot.utils import send_to_channels
+        notify.save()
+        return send_to_channels(notify, context)
 
     # send notify to regular email
     from_email = settings.FROM_EMAIL

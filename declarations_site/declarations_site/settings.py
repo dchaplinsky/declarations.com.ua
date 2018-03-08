@@ -315,6 +315,11 @@ ANALYTICS_SLUG = 'analytics'
 # Only used during page creation (changeable)
 ANALYTICS_TITLE = 'Аналіз декларацій чиновників'
 
+EMAIL_TIMEOUT = 5
+BROADCAST_TELEGRAM_CHANNEL = "@EndlessFrustration"
+BROADCAST_TELEGRAM_BOT_TOKEN = ""
+BROADCASTER_USER = "whistleblower@telegram.broadcast"
+
 SITEMAP_DECLARATIONS_PER_PAGE = 50000
 
 try:
