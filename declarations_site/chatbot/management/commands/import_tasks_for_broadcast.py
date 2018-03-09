@@ -43,7 +43,7 @@ class Command(BaseCommand):
             total += 1
             try:
                 if not find_search_task(user, q):
-                    save_search_task(user, q, deepsearch=False)
+                    save_search_task(user, q, deepsearch=False, limit=100500)
                     added += 1
                 else:
                     skipped += 1

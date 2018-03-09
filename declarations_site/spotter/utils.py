@@ -286,7 +286,7 @@ def create_notify(task, report):
     return notify
 
 
-def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''):
+def save_search_task(user, query, deepsearch=True, query_params='', chat_data='', limit=settings.SPOTTER_TASK_LIMIT):
     if len(query) < 2:
         raise ValueError('Не вдалось створити завдання з пустим запитом.')
 
@@ -297,7 +297,7 @@ def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''
         raise ValueError('Не вдалось створити завдання без адреси електронної пошти.')
 
     # limit up to 100 tasks for user
-    if SearchTask.objects.filter(user=user, is_deleted=False).count() >= settings.SPOTTER_TASK_LIMIT:
+    if SearchTask.objects.filter(user=user, is_deleted=False).count() >= limit:
         raise ValueError('Перевищено максимальну кількість завдань.')
 
     # don't add twice
