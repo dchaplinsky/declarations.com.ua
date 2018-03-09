@@ -49,6 +49,6 @@ class Command(BaseCommand):
                     skipped += 1
             except ValueError as e:
                 logger.error(str(e))
-                error += 1
+                errors += 1
 
         logger.info("Total: {}, added: {}, already in db: {}, skipped due to error: {}".format(total, added, skipped, errors))
