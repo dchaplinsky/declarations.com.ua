@@ -127,6 +127,10 @@ def create_report(task, search):
         report.found_ids = found_ids
         merge_found(task, report)
 
+    # after merge_found report.found_ids are useful only for debug
+    if report.found_ids and not settings.SPOTTER_SAVE_FOUND_IDS:
+        report.found_ids = []
+
     report.save()
 
     task.found_week = get_found_week(task)
@@ -271,7 +275,7 @@ def send_found_notify(notify):
     msghtml = render_to_string("email_found_message.html", context)
     try:
         notify.error = send_mail(subject, message, from_email, [notify.email],
-            html_message=msghtml)
+            html_message=msghtml) or 'unknown result'
     except Exception as e:
         logger.error("send_mail %s failed with error: %s", notify.email, e)
         notify.error = str(e)
