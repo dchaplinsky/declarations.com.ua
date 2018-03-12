@@ -152,6 +152,7 @@ SITE_URL = 'https://declarations.com.ua'
 
 DEFAULT_DEEPSEARCH = True
 
+SPOTTER_SAVE_FOUND_IDS = False
 SPOTTER_TASK_LIMIT = 500
 CHATBOT_SERP_COUNT = 5
 
@@ -160,6 +161,7 @@ EMAIL_SITE_URL = SITE_URL
 
 FROM_EMAIL = 'robot@declarations.com.ua'
 EMAIL_HOST = 'localhost'
+EMAIL_TIMEOUT = 5
 
 RSS_AUTHOR_NAME = 'Сайт «Декларації» - проект Канцелярської сотні'
 RSS_AUTHOR_LINK = SITE_URL

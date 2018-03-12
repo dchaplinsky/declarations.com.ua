@@ -45,6 +45,10 @@ def do_save_search(request, query, deepsearch, query_params):
         messages.warning(request, 'Не вдалось створити завдання з таким довгим запитом.')
         return redirect('search_list')
 
+    if not request.user.is_active:
+        messages.warning(request, 'Не вдалось створити завдання. Користувача заблоковано.')
+        return redirect('logout')
+
     if not request.user.email:
         messages.warning(request, 'Не вдалось створити завдання без адреси електронної пошти. ' +
             'Спочатку введіть адресу.')
