@@ -21,4 +21,5 @@ def menu_processor(request):
         'global_title': root_page.title,
         'top_menu': top_menu,
         'bottom_menu': bottom_menu,
+        'youtube_embed': root_page.homepage.youtube_embed_link,
     }

@@ -241,9 +241,11 @@
                             <h3>Підпишись на новини</h3>
                             <iframe frameborder="0" src="https://secure.esputnik.com.ua/23oNbk6320s" width="80%" height="109" scrolling="no"></iframe>
                         </div>
-                        <div class="youtube-frame">
-                            <iframe src="https://www.youtube.com/embed/fSv4wFkvOUw?rel=0&amp;autoplay=1&mute=1" width="100%" height="260" frameborder="0" allowfullscreen></iframe>
-                        </div>
+                        {% if youtube_embed %}
+                            <div class="youtube-frame">
+                                <iframe src="{{ youtube_embed }}?rel=0&amp;autoplay=1&mute=1" width="100%" height="260" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        {% endif %}
                     </div>
                     <div class="col-md-5 col vol14-col">
                         <div class="media tom14">
