@@ -230,6 +230,7 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     }
 }
 
+.side-youtube-frame,
 #nacp-toc {
     $w: 300px;
     $pad: 20px;
@@ -239,7 +240,7 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     right: 0;
     width: $w;
     background: white;
-    z-index: index($elements, hover);
+    z-index: 200;
     font-size: 12px;
     transform: translateY(-50%);
     transition: all 0.3s ease-in-out;
@@ -282,7 +283,7 @@ Styles by National agency of Corruption Prevention with some minor adjustements
         }
     }
 
-    #toc-collapse {
+    .toc-collapse {
         position: absolute;
         top: 0;
         cursor: pointer;
@@ -320,13 +321,12 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     &.closed {
         right: -320px;
 
-        #toc-collapse {
+        .toc-collapse {
             transform: rotate(-90deg);
             text-indent: 0;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23), 0 3px 10px rgba(0, 0, 0, 0.16);
             background: $decl-green;
             padding: 5px 20px;
-            //font-family: 'Roboto Slab', serif;
             font-weight: bold;
             font-size: 16px;
             left: -120px;
@@ -343,5 +343,20 @@ Styles by National agency of Corruption Prevention with some minor adjustements
                 display: none;
             }
         }
+    }
+}
+
+.side-youtube-frame {
+    top: 200px;
+    padding-top: 10px;
+    z-index: 199;
+
+    h2 {
+        font-size: 20px;
+        margin-left: 0;
+    }
+
+    &.closed .toc-collapse {
+        left: -90px;
     }
 }

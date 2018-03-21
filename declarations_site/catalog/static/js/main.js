@@ -224,7 +224,7 @@ $(function() {
 
     //generate table of contest for nacp decls
     function generateTocNacp() {
-        $( "<div id='nacp-toc'><a id='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".decl-header-wrap .sub-header" );
+        $( "<div id='nacp-toc'><a class='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".decl-header-wrap .sub-header" );
 
         //lets find all text without tag = text nodes
         $("#nacp_decl")
@@ -287,16 +287,23 @@ $(function() {
             $('<li><a href="#similar_by_relations">Декларації осіб, що можуть бути родичами декларанта</a></li>').appendTo('#nacp-toc ul');
         }
 
-        if($(window).width() < 1600) {
-            $( "#toc-collapse" ).css('display', 'inline-block');
+        //close toc by default
+        $( "#nacp-toc" ).animate({
+            right: -320
+        }, 1000, function() {
+            $( "#nacp-toc" ).addClass('closed');
+            $( ".toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
+        });
 
-            $( "#nacp-toc" ).animate({
-                right: -320
-            }, 1000, function() {
-                $( "#nacp-toc" ).addClass('closed');
-                $( "#toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
-            });
+        if($(window).width() < 1600) {
+            $( ".toc-collapse" ).css('display', 'inline-block');
         }
+
+        $(document).on('click', '#nacp-toc .toc-collapse', function(){
+            if($('#nacp-toc.closed').length + $('.side-youtube-frame.closed').length < 2) {
+                $('.side-youtube-frame .toc-collapse').trigger('click');
+            }
+        });
 
         $(document).on('click', '#nacp-toc ul a', function(){
             event.preventDefault();
@@ -310,13 +317,15 @@ $(function() {
             }, 500);
         });
 
-        $(document).on('click', '#toc-collapse', function(){
-            $('#nacp-toc').toggleClass('closed').css('right', '');
+        $(document).on('click', '.toc-collapse', function(e){
+            var $container = $(this).closest('div');
 
-            if ($('#nacp-toc').hasClass('closed')) {
-                $('#toc-collapse').attr('data-original-title', 'Відкрити');
+            $container.toggleClass('closed').css('right', '');
+
+            if ($container.hasClass('closed')) {
+                $('.toc-collapse').attr('data-original-title', 'Відкрити');
             } else {
-                $('#toc-collapse').attr('data-original-title', 'Згорнути');
+                $('.toc-collapse').attr('data-original-title', 'Згорнути');
             }
         });
     }
