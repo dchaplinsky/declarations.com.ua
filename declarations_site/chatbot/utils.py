@@ -6,14 +6,20 @@ from time import sleep
 from hashlib import sha1
 from random import randint
 from datetime import timedelta
+
 from django.utils import timezone
 from django.conf import settings
 from django.core.cache import cache
+from django.urls import reverse
+from django.template.loader import render_to_string
+
 from elasticsearch_dsl import Search
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.backends import default_backend
 from requests.exceptions import RequestException, BaseHTTPError
 from social_django.models import DjangoStorage
+import telegram
+
 from catalog.constants import CATALOG_INDICES
 from catalog.utils import base_search_query
 from chatbot.models import ChatHistory
@@ -22,6 +28,8 @@ from spotter.utils import (ukr_plural, clean_username, save_search_task,
 
 
 logger = logging.getLogger(__name__)
+
+BROADCAST_TELEGRAM_BOT = telegram.Bot(token=settings.BROADCAST_TELEGRAM_BOT_TOKEN)
 
 TABLE_LINE = ("=" * 20)
 
@@ -48,6 +56,19 @@ def requests_retry(func, *args, **kwargs):
         try:
             return func(*args, **kwargs)
         except (IOError, RequestException, BaseHTTPError) as e:
+            logger.error('Retry({}) {} {}'.format(retry, args, e))
+            if retry_sleep:
+                sleep(retry_sleep)
+
+
+def telegram_retry(func, *args, **kwargs):
+    max_retries = kwargs.pop('max_retries', 5)
+    retry_sleep = kwargs.pop('retry_sleep', 0)
+    # perform request with retry
+    for retry in range(max_retries):
+        try:
+            return func(*args, **kwargs)
+        except (telegram.error.TimedOut,) as e:
             logger.error('Retry({}) {} {}'.format(retry, args, e))
             if retry_sleep:
                 sleep(retry_sleep)
@@ -243,7 +264,6 @@ def chat_response(data, message='', messageType='message', attachments=None, aut
     requests_retry(requests.post, responseURL, json=resp, headers=headers, timeout=30,
         retry_sleep=retry_sleep)
 
-
 def send_to_chat(notify, context):
     from chatbot.views import decl_list_to_chat_cards
 
@@ -263,6 +283,41 @@ def send_to_chat(notify, context):
     chat_response(data, message, attachments=attachments, auto_reply=True)
     return 1
 
+
+# LITTLE COPY-PASTAH wouldn't hurt for now
+def decl_list_to_messages(decl_list):
+    from chatbot.views import join_res
+    attachments = []
+    for found in decl_list:
+        if 'date' in found.intro:
+            found.intro.date = 'подана ' + str(found.intro.date)[:10]
+        if 'corrected' in found.intro:
+            if found.intro.corrected:
+                found.intro.corrected = 'Уточнена'
+        url = settings.SITE_URL + reverse('details', args=[found.meta.id])
+
+        att = {
+            "title": join_res(found.general, ('last_name', 'name', 'patronymic'), ' '),
+            "subtitle": join_res(found.intro, ('declaration_year', 'doc_type', 'corrected', 'date'), ', '),
+            "text": join_res(found.general.post, ('region', 'office', 'post'), ', '),
+            "url":  url
+        }
+
+        attachments.append(att)
+    return attachments
+
+
+def send_to_channels(notify, context):
+    for att in decl_list_to_messages(context['decl_list']):
+        telegram_retry(BROADCAST_TELEGRAM_BOT.send_message,
+            chat_id=settings.BROADCAST_TELEGRAM_CHANNEL,
+            text=render_to_string("telegram_card.jinja", att),
+            parse_mode=telegram.ParseMode.HTML,
+            disable_web_page_preview=True
+        )
+        sleep(2)
+
+    return 1
 
 def create_subscription(data, query):
     user = get_or_create_chat_user(data)

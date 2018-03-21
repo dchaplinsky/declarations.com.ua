@@ -127,6 +127,10 @@ def create_report(task, search):
         report.found_ids = found_ids
         merge_found(task, report)
 
+    # after merge_found report.found_ids are useful only for debug
+    if report.found_ids and not settings.SPOTTER_SAVE_FOUND_IDS:
+        report.found_ids = []
+
     report.save()
 
     task.found_week = get_found_week(task)
@@ -146,7 +150,7 @@ def first_run(task):
 
 def load_declarations(new_ids, limit=LOAD_DECLS_LIMIT):
     decl_list = list()
-    fields = ['meta.id', 'general.*', 'intro.declaration_year']
+    fields = ['meta.id', 'general.*', 'intro.declaration_year', 'intro.doc_type', 'intro.corrected']
 
     if len(new_ids) > limit:
         logger.error("load new_ids %d limit %d exceed", len(new_ids), limit)
@@ -259,6 +263,11 @@ def send_found_notify(notify):
         notify.save()
         return send_to_chat(notify, context)
 
+    if notify.email and notify.email.endswith('.broadcast'):
+        from chatbot.utils import send_to_channels
+        notify.save()
+        return send_to_channels(notify, context)
+
     # send notify to regular email
     from_email = settings.FROM_EMAIL
     subject = render_to_string("email_found_subject.txt", context).strip()
@@ -266,7 +275,7 @@ def send_found_notify(notify):
     msghtml = render_to_string("email_found_message.html", context)
     try:
         notify.error = send_mail(subject, message, from_email, [notify.email],
-            html_message=msghtml)
+            html_message=msghtml) or 'unknown result'
     except Exception as e:
         logger.error("send_mail %s failed with error: %s", notify.email, e)
         notify.error = str(e)
@@ -281,7 +290,7 @@ def create_notify(task, report):
     return notify
 
 
-def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''):
+def save_search_task(user, query, deepsearch=True, query_params='', chat_data='', limit=settings.SPOTTER_TASK_LIMIT):
     if len(query) < 2:
         raise ValueError('Не вдалось створити завдання з пустим запитом.')
 
@@ -292,7 +301,7 @@ def save_search_task(user, query, deepsearch=True, query_params='', chat_data=''
         raise ValueError('Не вдалось створити завдання без адреси електронної пошти.')
 
     # limit up to 100 tasks for user
-    if SearchTask.objects.filter(user=user, is_deleted=False).count() >= settings.SPOTTER_TASK_LIMIT:
+    if SearchTask.objects.filter(user=user, is_deleted=False).count() >= limit:
         raise ValueError('Перевищено максимальну кількість завдань.')
 
     # don't add twice

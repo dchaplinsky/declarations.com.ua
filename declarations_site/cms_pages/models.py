@@ -136,6 +136,9 @@ class HomePage(Page):
         default=6,
         verbose_name="Кількість новин на сторінку")
 
+    youtube_embed_link = models.CharField("Embed для youtube", max_length=255, blank=True)
+    youtube_embed_title = models.CharField("Заголовок youtube видео", max_length=255, blank=True)
+
     template = "cms_pages/home.jinja"
 
     class Meta:
@@ -144,6 +147,8 @@ class HomePage(Page):
 
 HomePage.content_panels = [
     FieldPanel('title', classname="full title"),
+    FieldPanel('youtube_embed_link', classname="title"),
+    FieldPanel('youtube_embed_title', classname="title"),
     FieldPanel('body', classname="full"),
     FieldPanel('news_count'),
     InlinePanel('top_menu_links', label="Меню зверху"),

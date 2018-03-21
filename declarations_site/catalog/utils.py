@@ -5,7 +5,9 @@ import dpath.util
 from string import capwords
 
 from elasticsearch.exceptions import TransportError
-from translitua import translit, ALL_RUSSIAN, ALL_UKRAINIAN
+from translitua import (
+    translit, ALL_RUSSIAN, ALL_UKRAINIAN, UkrainianKMU, RussianInternationalPassport)
+
 from catalog.constants import VALID_RELATIONS
 from django.conf import settings
 
@@ -222,6 +224,29 @@ def parse_family_member(s):
 
 
 class Transliterator(object):
+    special_cases = {
+        "Юлія": ["Julia", "Yulia"],
+        "Юлия": ["Julia", "Yulia"],
+        "Дмитро": ["Dmitry", "Dimitry"],
+        "Дмитрий": ["Dmitry", "Dimitry"],
+        "Євген": ["Eugene"],
+        "Петро": ["Peter"],
+        "Ірина": ["Irene"],
+    }
+
+    special_replacements = {
+        "ий$": ["y", "i"],
+        "ий\s": ["y ", "i "],
+        "кс": ["x"],
+    }
+
+    def get_name(self, name_tuple):
+        return " ".join(name_tuple).strip().replace("  ", " ")
+
+    def replace_item(self, name_tuple, chunk, repl):
+        r = [repl if x.lower() == chunk.lower() else x for x in name_tuple]
+        return r
+
     def __init__(self, *args, **kwargs):
         self.ru_translations = {}
 
@@ -240,9 +265,9 @@ class Transliterator(object):
         last_names = []
         patronymics = []
 
-        original = ["{} {} {}".format(
-            person_last_name, person_first_name, person_patronymic
-        ).strip().replace("  ", " ")]
+        original = [
+            (person_last_name, person_first_name, person_patronymic)
+        ]
 
         result = set()
 
@@ -265,24 +290,52 @@ class Transliterator(object):
             patronymics = [person_patronymic]
 
         translated = [
-            "{} {} {}".format(l, f, p).strip().replace("  ", " ")
+            (l, f, p)
+
             for f in first_names
             for p in patronymics
             for l in last_names
         ]
 
         for n in original:
-            if is_cyr(n):
-                # TODO: also replace double ж, х, ц, ч, ш with single chars
+            name = self.get_name(n)
+
+            if is_cyr(name):
                 for ua_table in ALL_UKRAINIAN:
-                    result.add(translit(n, ua_table))
+                    result.add(translit(name, ua_table))
+
+                for sc_rex, replacements in self.special_replacements.items():
+                    if re.search(sc_rex, name, flags=re.I | re.U):
+                        for repl in replacements:
+                            optional_n = re.sub(sc_rex, repl, name, flags=re.I | re.U)
+                            result.add(translit(title(optional_n), UkrainianKMU))
+
+                for sc, replacements in self.special_cases.items():
+                    if sc in n:
+                        for repl in replacements:
+                            optional_n = self.replace_item(n, sc, repl)
+                            result.add(translit(self.get_name(optional_n), UkrainianKMU))
 
         for n in translated:
-            if not is_ukr(n):
-                for ru_table in ALL_RUSSIAN:
-                    result.add(translit(n, ru_table))
+            name = self.get_name(n)
 
-        return result | set(translated)
+            if not is_ukr(name):
+                for ru_table in ALL_RUSSIAN:
+                    result.add(translit(name, ru_table))
+
+                for sc_rex, replacements in self.special_replacements.items():
+                    if re.search(sc_rex, name, flags=re.I | re.U):
+                        for repl in replacements:
+                            optional_n = re.sub(sc_rex, repl, name, flags=re.I | re.U)
+                            result.add(translit(title(optional_n), RussianInternationalPassport))
+
+                for sc, replacements in self.special_cases.items():
+                    if sc in n:
+                        for repl in replacements:
+                            optional_n = self.replace_item(n, sc, repl)
+                            result.add(translit(self.get_name(optional_n), RussianInternationalPassport))
+
+        return result | set(map(self.get_name, translated))
 
 
 TRANSLITERATOR_SINGLETON = Transliterator()

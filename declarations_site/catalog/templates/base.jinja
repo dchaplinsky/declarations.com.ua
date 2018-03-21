@@ -149,6 +149,16 @@
         {% block content %}
         {% endblock %}
 
+        {% if youtube_embed %}
+        <div class="side-youtube-frame" data-video-id="{{ youtube_embed }}">
+            <a class="toc-collapse" data-toggle="tooltip" data-placement="left" title="" data-original-title="Згорнути">
+                <span>Топ відео</span>
+            </a>
+            <h2>{{ youtube_embed_title }}</h2>
+            <div id="youtube_player">
+            </div>
+        </div>
+        {% endif %}
         <footer id="footer">
             <div class="container wide-container">
                 <div class="row">

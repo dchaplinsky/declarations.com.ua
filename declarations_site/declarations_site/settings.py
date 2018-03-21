@@ -152,6 +152,7 @@ SITE_URL = 'https://declarations.com.ua'
 
 DEFAULT_DEEPSEARCH = True
 
+SPOTTER_SAVE_FOUND_IDS = False
 SPOTTER_TASK_LIMIT = 500
 CHATBOT_SERP_COUNT = 5
 
@@ -160,6 +161,7 @@ EMAIL_SITE_URL = SITE_URL
 
 FROM_EMAIL = 'robot@declarations.com.ua'
 EMAIL_HOST = 'localhost'
+EMAIL_TIMEOUT = 5
 
 RSS_AUTHOR_NAME = 'Сайт «Декларації» - проект Канцелярської сотні'
 RSS_AUTHOR_LINK = SITE_URL
@@ -191,7 +193,6 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
-                "catalog.context_processors.stats_processor",
                 "catalog.context_processors.settings_processor",
                 "cms_pages.context_processors.menu_processor"
             ),
@@ -218,7 +219,6 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
-                "catalog.context_processors.stats_processor",
                 "catalog.context_processors.settings_processor",
                 "cms_pages.context_processors.menu_processor"
             ),
@@ -234,7 +234,7 @@ STATICFILES_FINDERS = (
     'pipeline.finders.PipelineFinder',
 )
 
-#Can you include here https://github.com/dizballanze/django-compressor-autoprefixer , please?
+# Can you include here https://github.com/dizballanze/django-compressor-autoprefixer , please?
 PIPELINE = {
     'COMPILERS': ('pipeline.compilers.sass.SASSCompiler',),
     'SASS_ARGUMENTS': '-q',
@@ -314,6 +314,11 @@ WAGTAIL_SITE_NAME = 'Declarations'
 ANALYTICS_SLUG = 'analytics'
 # Only used during page creation (changeable)
 ANALYTICS_TITLE = 'Аналіз декларацій чиновників'
+
+EMAIL_TIMEOUT = 5
+BROADCAST_TELEGRAM_CHANNEL = "@EndlessFrustration"
+BROADCAST_TELEGRAM_BOT_TOKEN = ""
+BROADCASTER_USER = "whistleblower@telegram.broadcast"
 
 SITEMAP_DECLARATIONS_PER_PAGE = 50000
 
