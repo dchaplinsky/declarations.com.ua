@@ -287,13 +287,22 @@ $(function() {
             $('<li><a href="#similar_by_relations">Декларації осіб, що можуть бути родичами декларанта</a></li>').appendTo('#nacp-toc ul');
         }
 
-        //close toc by default
+        //close decl-toc by default
         $( "#nacp-toc" ).animate({
             right: -320
         }, 1000, function() {
             $( "#nacp-toc" ).addClass('closed');
             $( ".toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
         });
+
+        if($(window).width() < 1024) {
+            $( ".side-youtube-frame" ).animate({
+                right: -320
+            }, 1000, function() {
+                $( ".side-youtube-frame" ).addClass('closed');
+                $( ".toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
+            });
+        }
 
         $(document).on('click', '#nacp-toc .toc-collapse', function(){
             if($('#nacp-toc.closed').length + $('.side-youtube-frame.closed').length < 2) {
