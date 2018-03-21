@@ -295,14 +295,18 @@ $(function() {
             $( ".toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
         });
 
-        if($(window).width() < 1600) {
-            $( ".toc-collapse" ).css('display', 'inline-block');
-        }
-
         $(document).on('click', '#nacp-toc .toc-collapse', function(){
             if($('#nacp-toc.closed').length + $('.side-youtube-frame.closed').length < 2) {
                 $('.side-youtube-frame .toc-collapse').trigger('click');
             }
+        });
+
+        //stop yt video
+        $(document).on('click', '.toc-collapse', function(){
+            $('.side-youtube-frame iframe').each(function(){
+                var el_src = $(this).attr("src");
+                $(this).attr("src",el_src);
+            });
         });
 
         $(document).on('click', '#nacp-toc ul a', function(){

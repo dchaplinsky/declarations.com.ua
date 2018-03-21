@@ -331,7 +331,7 @@ Styles by National agency of Corruption Prevention with some minor adjustements
             font-size: 16px;
             left: -120px;
             color: white;
-            top: 50%;
+            top: 350px;
             height: auto;
             width: auto;
 
@@ -350,6 +350,14 @@ Styles by National agency of Corruption Prevention with some minor adjustements
     top: 200px;
     padding-top: 10px;
     z-index: 199;
+    background: #292929;
+    color: #c8c8c8;
+
+    .toc-collapse {
+        background: #292929;
+        color: #c8c8c8;
+        top: 0;
+    }
 
     h2 {
         font-size: 20px;
@@ -358,5 +366,6 @@ Styles by National agency of Corruption Prevention with some minor adjustements
 
     &.closed .toc-collapse {
         left: -90px;
+        top: 50%;
     }
 }
