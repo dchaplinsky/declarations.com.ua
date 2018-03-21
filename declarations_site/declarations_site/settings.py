@@ -193,7 +193,6 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
-                "catalog.context_processors.stats_processor",
                 "catalog.context_processors.settings_processor",
                 "cms_pages.context_processors.menu_processor"
             ),
@@ -220,7 +219,6 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
-                "catalog.context_processors.stats_processor",
                 "catalog.context_processors.settings_processor",
                 "cms_pages.context_processors.menu_processor"
             ),

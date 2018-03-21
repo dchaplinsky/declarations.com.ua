@@ -147,7 +147,7 @@ $(function() {
                 sValue = sParameter[1],
                 sName = sParameter[0];
 
-            if(sValue.length > 0) {
+            if (typeof(sValue) != "undefined" && sValue.length > 0) {
                 if(sName === 'post_type') {
                     $('input[value="' + sValue + '"]').prop('checked', true);
                     usedParams++;
@@ -224,7 +224,7 @@ $(function() {
 
     //generate table of contest for nacp decls
     function generateTocNacp() {
-        $( "<div id='nacp-toc'><a id='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".decl-header-wrap .sub-header" );
+        $( "<div id='nacp-toc'><a class='toc-collapse' data-toggle='tooltip' data-placement='left' title='Згорнути'><span>Зміст декларації</span></a><h2>Зміст:</h2><ul></ul></div>" ).insertAfter( ".decl-header-wrap .sub-header" );
 
         //lets find all text without tag = text nodes
         $("#nacp_decl")
@@ -287,37 +287,12 @@ $(function() {
             $('<li><a href="#similar_by_relations">Декларації осіб, що можуть бути родичами декларанта</a></li>').appendTo('#nacp-toc ul');
         }
 
-        if($(window).width() < 1600) {
-            $( "#toc-collapse" ).css('display', 'inline-block');
-
-            $( "#nacp-toc" ).animate({
-                right: -320
-            }, 1000, function() {
-                $( "#nacp-toc" ).addClass('closed');
-                $( "#toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
-            });
-        }
-
-        $(document).on('click', '#nacp-toc ul a', function(){
-            event.preventDefault();
-
-            if($(window).width() < 1600) {
-                $('#nacp-toc').toggleClass('closed');
-            }
-
-            $('html, body').animate({
-                scrollTop: $( $.attr(this, 'href') ).offset().top
-            }, 500);
-        });
-
-        $(document).on('click', '#toc-collapse', function(){
-            $('#nacp-toc').toggleClass('closed').css('right', '');
-
-            if ($('#nacp-toc').hasClass('closed')) {
-                $('#toc-collapse').attr('data-original-title', 'Відкрити');
-            } else {
-                $('#toc-collapse').attr('data-original-title', 'Згорнути');
-            }
+        //close decl-toc by default
+        $( "#nacp-toc" ).animate({
+            right: -320
+        }, 1000, function() {
+            $( "#nacp-toc" ).addClass('closed');
+            $( ".toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
         });
     }
 
@@ -405,6 +380,55 @@ $(function() {
         }
     }
 
+    function enableTocs() {
+        if($(window).width() < 1024) {
+            $( ".side-youtube-frame" ).animate({
+                right: -320
+            }, 1000, function() {
+                $( ".side-youtube-frame" ).addClass('closed');
+                $( ".toc-collapse" ).css('display', 'inline-block').attr('data-original-title', 'Відкрити');
+            });
+        }
+
+        $(document).on('click', '#nacp-toc .toc-collapse', function(){
+            if ($('#nacp-toc.closed').length + $('.side-youtube-frame.closed').length < 2) {
+                $('.side-youtube-frame .toc-collapse').trigger('click');
+            }
+        });
+
+        //stop yt video
+        $(document).on('click', '.toc-collapse', function(){
+            $('.side-youtube-frame iframe').each(function(){
+                var el_src = $(this).attr("src");
+                $(this).attr("src",el_src);
+            });
+        });
+
+        $(document).on('click', '#nacp-toc ul a', function(){
+            event.preventDefault();
+
+            if($(window).width() < 1600) {
+                $('#nacp-toc').toggleClass('closed');
+            }
+
+            $('html, body').animate({
+                scrollTop: $( $.attr(this, 'href') ).offset().top
+            }, 500);
+        });
+
+        $(document).on('click', '.toc-collapse', function(e){
+            var $container = $(this).closest('div');
+
+            $container.toggleClass('closed').css('right', '');
+
+            if ($container.hasClass('closed')) {
+                $('.toc-collapse').attr('data-original-title', 'Відкрити');
+            } else {
+                $('.toc-collapse').attr('data-original-title', 'Згорнути');
+            }
+        });
+    }
+
     bootstrapAlert = function () {};
     bootstrapAlert.show = function (message, alert, timeout) {
         $('<div id="floating_alert" class="alert alert-' + alert + ' fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' + message + '&nbsp;&nbsp;</div>').appendTo('body');
@@ -434,11 +458,56 @@ $(function() {
         setExFormStateFromUrl();
         setDropdownsValue();
 
-        if($('.declaration-page-nacp').length > 0) {
+        if ($('.declaration-page-nacp').length > 0) {
             generateTocNacp();
             replaceDeclText4Icons();
         }
 
+        var youtube_embed = $(".side-youtube-frame");
+        if (youtube_embed.length > 0) {
+            var rnd = Math.random(),
+                title = youtube_embed.find("h2").text();
+
+            if (rnd > 0.9 || document.location.href.indexOf("rickroll") > 0) {
+                ga('send', 'event', title, "Displayed");
+                youtube_embed.show();
+
+                youtube_embed.find(".toc-collapse").on("click", function() {
+                    if (!youtube_embed.hasClass("closed")) {
+                        ga('send', 'event', title, "Hidden");
+                    }
+                });
+
+                var tag = document.createElement('script');
+                tag.src = "https://www.youtube.com/iframe_api";
+                var firstScriptTag = document.getElementsByTagName('script')[0];
+                firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+                var player;
+                window.onYouTubeIframeAPIReady = function () {
+                    player = new YT.Player('youtube_player', {
+                        height: '200',
+                        width: '250',
+                        videoId: youtube_embed.data("video-id"),
+                        events: {
+                            'onStateChange': onPlayerStateChange
+                        }
+                    });
+                }
+
+                function onPlayerStateChange(event) {
+                    if (event.data == YT.PlayerState.PLAYING) {
+                        ga('send', 'event', title, "Started");
+                    }
+
+                    if (event.data == YT.PlayerState.ENDED) {
+                        ga('send', 'event', title, "Watched till the end");
+                    }
+                }
+            }
+        }
+
+        enableTocs();
         resizeBi();
 
         $(".search-name").typeahead({
