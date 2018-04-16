@@ -11,7 +11,19 @@
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Д​екларації{% if declaration.declaration.source == "NACP" %} НАЗК{% endif %} про майно, доходи, витрати та зобов'язання фінансового характеру {{ declaration.general.last_name }} {{ declaration.general.name }} за {{ declaration.intro.declaration_year }} рік онлайн у відкритій базі даних проекту{% endif %}{% endblock %}
 
-{% block bodyclass %}not-front declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
+{% block bodyclass %}not-front branding-page declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
+
+{% block infobox %}{% endblock %}
+
+{% block branding %}
+    <a class="branding" href="#"></a>
+{% endblock %}
+
+{% block brandingtop %}
+    <a class="branding-top" href="#">
+        <img src="{{ static("images/branding/header.png") }}" />
+    </a>
+{% endblock %}
 
 {% block content %}
 
@@ -107,7 +119,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="relevant-container container">
         {% set similar_declarations = declaration.similar_declarations() %}
         {% if similar_declarations %}
         <h3 id="similar_by_surname">Інші декларації, знайдені за ПІБ «{{ declaration.general.full_name }}»</h3>

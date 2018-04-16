@@ -1,3 +1,71 @@
+&.branding-page {
+    background: url(../images/branding/bg.png) no-repeat center fixed;
+    background-size: cover;
+
+    #wrapper {
+        margin-left: auto;
+        margin-right: auto;
+
+        @media (min-width: 768px) {
+            width: 750px;
+        }
+
+        @media (min-width: 992px) {
+            width: 970px;
+        }
+
+        @media (min-width: 1200px) {
+            width: 1170px;
+        }
+    }
+
+    #infobox {
+        background: none;
+    }
+
+    .nav-block {
+        background: none;
+
+       > .container {
+           background: white;
+       }
+    }
+
+    .nav-search {
+        background: none;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        > .container {
+            @include greenGradient();
+            padding-top: 40px;
+            padding-bottom: 20px;
+        }
+    }
+
+    .decl-header-wrap {
+        background: none;
+        padding-bottom: 0;
+
+        > .container {
+            background: white;
+            padding-bottom: 30px;
+        }
+    }
+
+    .page-content {
+        margin-top: 0;
+        margin-bottom: 0;
+        padding-top: 20px;
+        padding-bottom: 60px;
+        background: white;
+    }
+
+    .relevant-container {
+        background: white;
+    }
+}
+
 .decl-header-wrap {
     background: white;
     padding-bottom: $pad * 2;
