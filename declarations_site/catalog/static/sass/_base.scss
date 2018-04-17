@@ -969,33 +969,28 @@ ol.social-list > li {
             display: block;
             position: fixed;
             height: 50vh;
-
-            @media (min-width: 768px) {
-                width: calc((100% - 750px) / 2);
-            }
-
-            @media (min-width: 992px) {
-                width: calc((100% - 970px) / 2);
-            }
-
-            @media (min-width: 1200px) {
-                width: calc((100% - 1170px) / 2);
-            }
         }
 
         &:before {
             left: 0;
-            top: 180px;
+            top: 50px;
             background: url(../images/branding/bihus.png) no-repeat top left;
             background-size: contain;
             width: 33.333%;
+
+            @media (min-width: 1600px) {
+                top: 180px;
+            }
         }
 
         &:after {
-            right: 0;
-            bottom: 0vh;
-            background: url(../images/branding/bihus-dreams.png) no-repeat bottom right;
-            background-size: contain;
+            @media (min-width: 1400px) {
+                right: 0;
+                bottom: 0vh;
+                background: url(../images/branding/bihus-dreams.png) no-repeat bottom right;
+                background-size: contain;
+                width: calc((100% - 1170px) / 2);
+            }
         }
     }
 
