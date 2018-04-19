@@ -137,7 +137,18 @@ class HomePage(Page):
         verbose_name="Кількість новин на сторінку")
 
     youtube_embed_link = models.CharField("Embed для youtube", max_length=255, blank=True)
-    youtube_embed_title = models.CharField("Заголовок youtube видео", max_length=255, blank=True)
+    youtube_embed_title = models.CharField("Заголовок youtube відео", max_length=255, blank=True)
+
+    branding_link = models.CharField("Посилання для переходу по кліку на брендінг", max_length=255, blank=True)
+    branding_slug = models.CharField("Ідентифікатор рекламної кампанії", max_length=255, blank=True)
+    branding_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        verbose_name="Зображення брендінгу"
+    )
 
     template = "cms_pages/home.jinja"
 
@@ -147,8 +158,15 @@ class HomePage(Page):
 
 HomePage.content_panels = [
     FieldPanel('title', classname="full title"),
-    FieldPanel('youtube_embed_link', classname="title"),
-    FieldPanel('youtube_embed_title', classname="title"),
+
+    # TODO: remove once we'll finally give up with idea of embeded videos
+    # FieldPanel('youtube_embed_link', classname="title"),
+    # FieldPanel('youtube_embed_title', classname="title"),
+
+    FieldPanel('branding_link', classname="title"),
+    FieldPanel('branding_slug', classname="title"),
+    ImageChooserPanel('branding_image'),
+
     FieldPanel('body', classname="full"),
     FieldPanel('news_count'),
     InlinePanel('top_menu_links', label="Меню зверху"),

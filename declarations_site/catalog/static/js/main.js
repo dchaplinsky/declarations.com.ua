@@ -382,6 +382,7 @@ $(function() {
 
     function enableTocs() {
         if($(window).width() < 1024) {
+            // TODO: remove
             $( ".side-youtube-frame" ).animate({
                 right: -320
             }, 1000, function() {
@@ -505,6 +506,16 @@ $(function() {
                     }
                 }
             }
+        }
+
+        var branding_links = $(".branding_ga");
+
+        if (branding_links.length > 0) {
+            ga('send', 'event', branding_links.data("branding_slug"), "Shown");
+
+            branding_links.on("click", function() {
+                ga('send', 'event', $(this).data("branding_slug"), "Clicked");
+            });
         }
 
         enableTocs();

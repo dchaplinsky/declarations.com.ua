@@ -21,6 +21,7 @@ def menu_processor(request):
         'global_title': root_page.title,
         'top_menu': top_menu,
         'bottom_menu': bottom_menu,
-        'youtube_embed': root_page.homepage.youtube_embed_link,
-        'youtube_embed_title':  root_page.homepage.youtube_embed_title,
+        'branding_link': root_page.homepage.branding_link,
+        'branding_slug': root_page.homepage.branding_slug,
+        'branding_image': root_page.homepage.branding_image,
     }

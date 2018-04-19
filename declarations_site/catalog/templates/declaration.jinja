@@ -11,19 +11,23 @@
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Д​екларації{% if declaration.declaration.source == "NACP" %} НАЗК{% endif %} про майно, доходи, витрати та зобов'язання фінансового характеру {{ declaration.general.last_name }} {{ declaration.general.name }} за {{ declaration.intro.declaration_year }} рік онлайн у відкритій базі даних проекту{% endif %}{% endblock %}
 
-{% block bodyclass %}not-front branding-page declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
+{% block bodyclass %}not-front {% if branding_link %}branding-page {% endif %}declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
 
 {% block infobox %}{% endblock %}
 
-{% block branding %}
-    <a class="branding" href="#"></a>
-{% endblock %}
+{% if branding_link %}
+    {% block branding %}
+        <a class="branding branding_ga" href="{{ branding_link }}" data-branding_slug="{{ branding_slug }}" target="_blank"></a>
+    {% endblock %}
 
-{% block brandingtop %}
-    <a class="branding-top" href="#">
-        <img src="{{ static("images/branding/header.png") }}" />
-    </a>
-{% endblock %}
+    {% block brandingtop %}
+        <a class="branding-top branding_ga" href="{{ branding_link }}" data-branding_slug="{{ branding_slug }}" target="_blank"></a>
+            {% if branding_image %}
+                {{ image(branding_image, "original") }}
+            {% endif %}
+        </a>
+    {% endblock %}
+{% endif %}
 
 {% block content %}
 
