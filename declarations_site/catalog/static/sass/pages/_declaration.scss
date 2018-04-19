@@ -3,19 +3,43 @@
     background-size: cover;
 
     #wrapper {
-        margin-left: auto;
-        margin-right: auto;
+        > header,
+        > .decl-teaser,
+        > #page {
+            margin-left: auto;
+            margin-right: auto;
 
-        @media (min-width: 768px) {
-            width: 750px;
+            @media (min-width: 768px) {
+                width: 750px;
+            }
+
+            @media (min-width: 992px) {
+                width: 970px;
+            }
+
+            @media (min-width: 1200px) {
+                width: 1170px;
+            }
+
+            .container {
+                width: 100%;
+                //padding-left: 0;
+                //padding-right: 0;
+
+                .row {
+                    margin-left: 0;
+                    margin-right: 0;
+                }
+            }
         }
 
-        @media (min-width: 992px) {
-            width: 970px;
-        }
+        #page {
+            padding-bottom: 0;
 
-        @media (min-width: 1200px) {
-            width: 1170px;
+            .rc {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
         }
     }
 
