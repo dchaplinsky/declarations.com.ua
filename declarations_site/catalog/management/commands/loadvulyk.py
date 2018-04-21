@@ -100,7 +100,7 @@ class Command(BaseCommand):
 
         groups = defaultdict(list)
         with open(file_path, 'r', newline='', encoding='utf-8') as source:
-            reader = csv.DictReader(source, delimiter=',')
+            reader = csv.DictReader(source, delimiter='\t')
             counter = 0
             for row in reader:
                 status_col = 'Status' if 'Status' in row else 'Статус'
