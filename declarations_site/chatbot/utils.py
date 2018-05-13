@@ -29,9 +29,16 @@ from spotter.utils import (ukr_plural, clean_username, save_search_task,
 
 logger = logging.getLogger(__name__)
 
-BROADCAST_TELEGRAM_BOT = telegram.Bot(token=settings.BROADCAST_TELEGRAM_BOT_TOKEN)
+_BROADCAST_BOT_INSTANCE = None
 
 TABLE_LINE = ("=" * 20)
+
+
+def get_broadcast_bot_instance():
+    global _BROADCAST_BOT_INSTANCE
+    if not _BROADCAST_BOT_INSTANCE:
+        _BROADCAST_BOT_INSTANCE = telegram.Bot(token=settings.BROADCAST_TELEGRAM_BOT_TOKEN)
+    return _BROADCAST_BOT_INSTANCE
 
 
 def simple_search(query, deepsearch=False):
@@ -264,6 +271,7 @@ def chat_response(data, message='', messageType='message', attachments=None, aut
     requests_retry(requests.post, responseURL, json=resp, headers=headers, timeout=30,
         retry_sleep=retry_sleep)
 
+
 def send_to_chat(notify, context):
     from chatbot.views import decl_list_to_chat_cards
 
@@ -300,7 +308,7 @@ def decl_list_to_messages(decl_list):
             "title": join_res(found.general, ('last_name', 'name', 'patronymic'), ' '),
             "subtitle": join_res(found.intro, ('declaration_year', 'doc_type', 'corrected', 'date'), ', '),
             "text": join_res(found.general.post, ('region', 'office', 'post'), ', '),
-            "url":  url
+            "url": url
         }
 
         attachments.append(att)
@@ -308,8 +316,9 @@ def decl_list_to_messages(decl_list):
 
 
 def send_to_channels(notify, context):
+    bot_instance = get_broadcast_bot_instance()
     for att in decl_list_to_messages(context['decl_list']):
-        telegram_retry(BROADCAST_TELEGRAM_BOT.send_message,
+        telegram_retry(bot_instance.send_message,
             chat_id=settings.BROADCAST_TELEGRAM_CHANNEL,
             text=render_to_string("telegram_card.jinja", att),
             parse_mode=telegram.ParseMode.HTML,
@@ -318,6 +327,7 @@ def send_to_channels(notify, context):
         sleep(2)
 
     return 1
+
 
 def create_subscription(data, query):
     user = get_or_create_chat_user(data)
