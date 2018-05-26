@@ -7,7 +7,9 @@ from catalog.constants import (
     NACP_DECLARATION_INDEX
 )
 
-from catalog.elastic_models import Declaration, NACPDeclaration
+from catalog.elastic_models import (
+    declarations_idx, nacp_declarations_idx
+)
 
 
 class Command(BaseCommand):
@@ -19,15 +21,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for index in options['indices']:
             if index == OLD_DECLARATION_INDEX:
-                doc_type = Declaration
+                idx = declarations_idx
             elif index == NACP_DECLARATION_INDEX:
-                doc_type = NACPDeclaration
+                idx = nacp_declarations_idx
 
             es = connections.get_connection('default')
             if es.indices.exists(index=index):
                 self.stdout.write('Index "{}" already exists, not creating.'.format(index))
                 return
 
-            doc_type.init()
+            idx.create()
             es.indices.put_settings(index=index, body=CATALOG_INDEX_SETTINGS)
             self.stdout.write('Created index "{}".'.format(index))

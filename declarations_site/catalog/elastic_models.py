@@ -11,7 +11,7 @@ from django.db.models import Sum, Count
 
 from elasticsearch_dsl import (
     DocType, Object, Keyword, MetaField, Text, Completion,
-    Nested, Date, Boolean, Search, Double)
+    Nested, Date, Boolean, Search, Double, Index)
 
 from elasticsearch_dsl.query import Q
 import jmespath
@@ -19,7 +19,8 @@ import jmespath
 from procurements.models import Transactions
 from .constants import (
     CATALOG_INDICES, BANK_EDRPOUS, INCOME_TYPES,
-    MONETARY_ASSETS_TYPES, OLD_DECLARATION_INDEX, NACP_DECLARATION_INDEX)
+    MONETARY_ASSETS_TYPES, OLD_DECLARATION_INDEX, NACP_DECLARATION_INDEX,
+    NUMBER_OF_SHARDS, NUMBER_OF_REPLICAS)
 
 
 from .utils import parse_fullname, blacklist
@@ -31,6 +32,7 @@ class NoneAwareDate(Date):
     """Elasticsearch DSL Date field chokes on None values and parses empty
     strings as current date, hence the workaround.
     TODO: move this upstream in some form."""
+
     def _to_python(self, data):
         if data is None:
             return data
@@ -141,7 +143,14 @@ class AbstractDeclaration(object):
                 if "family_name" in member:
                     yield member["family_name"]
 
+declarations_idx = Index(OLD_DECLARATION_INDEX)
+declarations_idx.settings(
+    number_of_shards=NUMBER_OF_SHARDS,
+    number_of_replicas=NUMBER_OF_REPLICAS
+)
 
+
+@declarations_idx.doc_type
 class Declaration(DocType, AbstractDeclaration):
     """Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
@@ -694,9 +703,16 @@ class Declaration(DocType, AbstractDeclaration):
 
     class Meta:
         all = MetaField(analyzer='ukrainian')
-        index = OLD_DECLARATION_INDEX
 
 
+nacp_declarations_idx = Index(NACP_DECLARATION_INDEX)
+nacp_declarations_idx.settings(
+    number_of_shards=NUMBER_OF_SHARDS,
+    number_of_replicas=NUMBER_OF_REPLICAS
+)
+
+
+@nacp_declarations_idx.doc_type
 class NACPDeclaration(DocType, AbstractDeclaration):
     """NACP Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
@@ -1058,4 +1074,3 @@ class NACPDeclaration(DocType, AbstractDeclaration):
 
     class Meta:
         all = MetaField(analyzer='ukrainian')
-        index = NACP_DECLARATION_INDEX

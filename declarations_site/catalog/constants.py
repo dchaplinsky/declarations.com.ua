@@ -1,10 +1,13 @@
 OLD_DECLARATION_INDEX = 'declarations_v2'
-NACP_DECLARATION_INDEX = 'nacp_declarations'
+NACP_DECLARATION_INDEX = 'nacp_declarations_new'
 CATALOG_INDICES = (OLD_DECLARATION_INDEX, NACP_DECLARATION_INDEX)
+
+NUMBER_OF_SHARDS = 12
+NUMBER_OF_REPLICAS = 1
 
 CATALOG_INDEX_SETTINGS = {
     'index.mapping.total_fields.limit': 5000,
-    'index.max_result_window': 2500000
+    'index.max_result_window': 3000000,
 }
 
 
