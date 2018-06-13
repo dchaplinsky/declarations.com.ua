@@ -2,9 +2,10 @@ import math
 import json
 from collections import OrderedDict
 from django.shortcuts import render, redirect
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import JsonResponse, Http404
 from django.conf import settings
+from django.core.paginator import PageNotAnInteger, EmptyPage
 
 from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
@@ -93,11 +94,19 @@ def search(request):
     except PersonMeta.DoesNotExist:
         meta = None
 
+    try:
+        results = paginated_search(request, search)
+    except EmptyPage:
+        raise Http404("Page is empty")
+    except PageNotAnInteger:
+        raise Http404("No page")
+
+
     return {
         "query": query,
         "meta": meta,
         "deepsearch": deepsearch,
-        "results": paginated_search(request, search)
+        "results": results
     }
 
 
