@@ -77,5 +77,5 @@ class ElasticPage(Page):
 def paginated_search(request, search, per_page=settings.CATALOG_PER_PAGE):
     """Helper function that handles common pagination pattern."""
     paginator = ElasticPaginator(search, per_page)
-    page = min(request.GET.get('page', 1), settings.MAX_PAGES)
+    page = min(int(request.GET.get('page', 1)), settings.MAX_PAGES)
     return paginator.page(page)
