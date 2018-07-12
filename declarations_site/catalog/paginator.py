@@ -30,7 +30,7 @@ class ElasticPage(Page):
         Taken and adapted from:
         https://gist.github.com/tomchristie/321140cebb1c4a558b15"""
         current = self.number
-        final = self.paginator.num_pages
+        final = min(self.paginator.num_pages, settings.MAX_PAGES)
 
         # If it's small enough - just show them all
         if final <= 5:
