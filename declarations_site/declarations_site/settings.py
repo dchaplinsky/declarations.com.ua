@@ -305,6 +305,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application settings
 CATALOG_PER_PAGE = 30
+MAX_PAGES = 33334
 
 
 LOGIN_URL = "/admin/login/"
