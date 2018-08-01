@@ -1,0 +1,28 @@
+google.com, pub-2655328104599275, DIRECT, f08c47fec0942fa0
+google.com, pub-7139543902768075, DIRECT, f08c47fec0942fa0
+google.com, pub-8309773808661346, DIRECT, f08c47fec0942fa0
+google.com, pub-6357157020881797, DIRECT, f08c47fec0942fa0
+google.com, pub-2070890256337765, DIRECT, f08c47fec0942fa0
+google.com, pub-8117474556479363, DIRECT, f08c47fec0942fa0
+google.com, pub-1965383259143495, RESELLER, f08c47fec0942fa0
+google.com, pub-6357157020881797, RESELLER, f08c47fec0942fa0
+google.com, pub-7302036088769417, RESELLER, f08c47fec0942fa0
+mediawayss.com, 247, RESELLER
+appnext.com, 298425, RESELLER
+appnext.com, 298426, RESELLER
+firstimpression.io, 6755, DIRECT, a960877e77e58dd6 #FI
+google.com, pub-3622156405313063, RESELLER, f08c47fec0942fa0 #FI - AdX
+openx.com, 537104992, RESELLER, 6a698e2ec38604c6 #FI - OpenX
+openx.com, 539819368, RESELLER, 6a698e2ec38604c6 #FI - OpenX
+sovrn.com, 243408, RESELLER, fafdf38b16bf6b2b #FI - Sovrn
+lijit.com, 243408, RESELLER, fafdf38b16bf6b2b #FI - Sovrn
+sovrn.com, 256420, RESELLER, fafdf38b16bf6b2b #FI - Sovrn
+lijit.com, 256420, RESELLER, fafdf38b16bf6b2b #FI - Sovrn
+adtech.com, 10297, RESELLER #FI - Oath
+aolcloud.net, 10297, RESELLER #FI - Oath
+contextweb.com, 558377, RESELLER, 89ff185a4c4e857c #FI - PulsePoint
+outbrain.com, 0043e7a761d92337b9269c2b10d9835c8d, RESELLER #FI - Outbrain
+aps.amazon.com, 4cd01fd0-0780-4b33-a4da-c39467660185, RESELLER #FI - Amazon
+contextweb.com, 561562, RESELLER, 89ff185a4c4e857 #FI - Amazon (PulsePoint)
+c1exchange.com, c1x_a9_uampubs, RESELLER #FI - Amazon (C1X)
+
