@@ -38,6 +38,45 @@
 
                   ga('create', 'UA-61411581-1', 'auto');
                   ga('send', 'pageview');</script>
+        <script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+
+        <script>
+          var googletag = googletag || {};
+          googletag.cmd = googletag.cmd || [];
+        </script>
+
+        <script>
+          googletag.cmd.push(function () {
+            if (window.innerWidth > 1504) {
+              var stickyBannerRight = googletag.defineSlot('/56301415/declarations_160x600_right', [[160, 600], [120, 600]], 'div-gpt-ad-1531830029689-4').addService(googletag.pubads());
+              var stickyBannerLeft = googletag.defineSlot('/56301415/declarations_160x600_left', [[160, 600], [120, 600]], 'div-gpt-ad-1531830029689-5').addService(googletag.pubads());
+            }
+            if (window.innerWidth > 988) {
+              googletag.defineSlot('/56301415/declarations_970x90_3', [[970, 90], [768, 90]], 'div-gpt-ad-1531830029689-0').addService(googletag.pubads());
+              googletag.defineSlot('/56301415/declarations_970x90_2', [[970, 90], [768, 90]], 'div-gpt-ad-1531830029689-1').addService(googletag.pubads());
+              googletag.defineSlot('/56301415/declarations_970x90', [[970, 90], [768, 90]], 'div-gpt-ad-1531830029689-2').addService(googletag.pubads());
+            }
+
+            if (window.innerWidth < 639) {
+              var mobileBanner = googletag.defineSlot('/56301415/declarations_320x50', [320, 50], 'div-gpt-ad-1531830029689-3').addService(googletag.pubads());
+            }
+
+            googletag.pubads().enableSingleRequest();
+            googletag.pubads().collapseEmptyDivs();
+            googletag.enableServices();
+
+            googletag.pubads().addEventListener("slotRenderEnded", function (event) {
+              if (mobileBanner === event.slot) {
+                document.getElementById("mobileBannerWrapper").style.display = 'block';
+              }
+              if (stickyBannerRight === event.slot || stickyBannerLeft === event.slot) {
+                document.getElementById("stickyBannerWrapper").style.display = 'block';
+                document.getElementById("footer").setAttribute("style", "position:relative!important; z-index:3");
+                document.getElementsByClassName("chatbot-menu")[0].setAttribute("style", "z-index:3");
+              }
+            });
+          });
+        </script>
 
     </head>
 
@@ -57,18 +96,42 @@
     <div id="wrapper">
         <header>
             {% block infobox %}
-            <section id="infobox">
-                <div class="container">
-                    <div class="infobanner infobanner--bi">
-                        <div class="infobanner-content">
-                            <div class="infobanner-text text-center">
-                                <p class="infobanner-top-text">BigData проти корупції:<br> по е-деклараціях чиновників запущено<br> потужний аналітичний модуль</p>
-                                <a href="/BI/" class="btn button-cta">Подивитись на магію</a>
+                <section id="infobox">
+                    <div class="container">
+                        <div id="stickyBannerWrapper" style="display:none; position: relative; z-index: 2; ">
+                            <div style="position: absolute; left: -170px; width: 160px">
+                                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
+                                    <div id='div-gpt-ad-1531830029689-5'>
+                                        <script>
+                                          googletag.cmd.push(function () {
+                                            googletag.display('div-gpt-ad-1531830029689-5');
+                                          });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="position: absolute; right: -170px; width: 160px">
+                                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
+                                    <div id='div-gpt-ad-1531830029689-4'>
+                                        <script>
+                                          googletag.cmd.push(function () {
+                                            googletag.display('div-gpt-ad-1531830029689-4');
+                                          });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="infobanner infobanner--bi">
+                            <div class="infobanner-content">
+                                <div class="infobanner-text text-center">
+                                    <p class="infobanner-top-text">BigData проти корупції:<br> по е-деклараціях чиновників запущено<br> потужний аналітичний модуль</p>
+                                    <a href="https://declarations.com.ua/BI/" class="btn button-cta">Подивитись на магію</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
             {% endblock %}
 
             {% block header %}
@@ -137,10 +200,15 @@
                         </div>
                     </div>
                 </div>
+            {% endblock %}
 
+            {% block banner970_1 %}
             {% endblock %}
 
             {% block newslist %}
+            {% endblock %}
+
+            {% block banner970_2 %}
             {% endblock %}
 
             {% block social %}
@@ -442,6 +510,29 @@
                 window.console.log('YT event: ', payload);
             }
         }
+    </script>
+
+    <div id="mobileBannerWrapper"
+         style="display:none; width: 320px; height: 50px; left: 50%; margin-left: -160px; z-index: 9999999; position: fixed; bottom: 10px;">
+        <div onclick="closeMobileBanner()"
+             id="mobileBannerCloseButton"
+             style="position: absolute; top: -22px; font-size: 14px; background-color: rgb(51, 51, 51); height: 22px; width: 55px; text-align: center; color: white;">
+            close
+        </div>
+        <div id='div-gpt-ad-1531830029689-3'>
+            <script>
+              googletag.cmd.push(function () {
+                googletag.display('div-gpt-ad-1531830029689-3');
+              });
+            </script>
+        </div>
+    </div>
+
+    <script>
+      function closeMobileBanner() {
+        document.getElementById("mobileBannerWrapper").style.display = 'none';
+        document.getElementById("mobileBannerCloseButton").style.display = 'none';
+      }
     </script>
 
 </body>
