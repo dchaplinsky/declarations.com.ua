@@ -11,7 +11,8 @@ from django.db.models import Sum, Count
 
 from elasticsearch_dsl import (
     DocType, Object, Keyword, MetaField, Text, Completion,
-    Nested, Date, Boolean, Search, Double, Index)
+    Nested, Date, Boolean, Search, Double, Index, analyzer,
+    tokenizer)
 
 from elasticsearch_dsl.query import Q
 import jmespath
@@ -39,7 +40,33 @@ class NoneAwareDate(Date):
         return super(NoneAwareDate, self)._to_python(data)
 
 
+namesAutocompleteAnalyzer = analyzer(
+    "namesAutocompleteAnalyzer",
+    tokenizer=tokenizer(
+        "autocompleteTokenizer",
+        type="edge_ngram",
+        min_gram=1,
+        max_gram=25,
+        token_chars=["letter", "digit"],
+    ),
+    filter=["lowercase"],
+)
+
+namesAutocompleteSearchAnalyzer = analyzer(
+    "namesAutocompleteSearchAnalyzer", tokenizer=tokenizer("lowercase")
+)
+
+
 class AbstractDeclaration(object):
+    persons = Text(analyzer="ukrainian", copy_to="all")
+    countries = Text(analyzer="ukrainian", copy_to="all")
+    companies = Text(analyzer="ukrainian", copy_to="all")
+    names_autocomplete = Text(
+        analyzer="namesAutocompleteAnalyzer",
+        search_analyzer="namesAutocompleteSearchAnalyzer",
+        fields={"raw": Text(index=True)},
+    )
+
     def infocard(self):
         raise NotImplemented()
 
@@ -143,11 +170,14 @@ class AbstractDeclaration(object):
                 if "family_name" in member:
                     yield member["family_name"]
 
+
 declarations_idx = Index(OLD_DECLARATION_INDEX)
 declarations_idx.settings(
     number_of_shards=NUMBER_OF_SHARDS,
     number_of_replicas=NUMBER_OF_REPLICAS
 )
+declarations_idx.analyzer(namesAutocompleteAnalyzer)
+declarations_idx.analyzer(namesAutocompleteSearchAnalyzer)
 
 
 @declarations_idx.doc_type
@@ -703,6 +733,7 @@ class Declaration(DocType, AbstractDeclaration):
 
     class Meta:
         all = MetaField(analyzer='ukrainian')
+        doc_type = "paper_declaration_doctype"
 
 
 nacp_declarations_idx = Index(NACP_DECLARATION_INDEX)
@@ -710,6 +741,9 @@ nacp_declarations_idx.settings(
     number_of_shards=NUMBER_OF_SHARDS,
     number_of_replicas=NUMBER_OF_REPLICAS
 )
+
+nacp_declarations_idx.analyzer(namesAutocompleteAnalyzer)
+nacp_declarations_idx.analyzer(namesAutocompleteSearchAnalyzer)
 
 
 @nacp_declarations_idx.doc_type
@@ -1074,3 +1108,4 @@ class NACPDeclaration(DocType, AbstractDeclaration):
 
     class Meta:
         all = MetaField(analyzer='ukrainian')
+        doc_type = "nacp_declaration_doctype"
