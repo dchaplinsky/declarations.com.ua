@@ -58,15 +58,6 @@ namesAutocompleteSearchAnalyzer = analyzer(
 
 
 class AbstractDeclaration(object):
-    persons = Text(analyzer="ukrainian", copy_to="all")
-    countries = Text(analyzer="ukrainian", copy_to="all")
-    companies = Text(analyzer="ukrainian", copy_to="all")
-    names_autocomplete = Text(
-        analyzer="namesAutocompleteAnalyzer",
-        search_analyzer="namesAutocompleteSearchAnalyzer",
-        fields={"raw": Text(index=True)},
-    )
-
     def infocard(self):
         raise NotImplemented()
 
@@ -242,7 +233,7 @@ class Declaration(DocType, AbstractDeclaration):
             'date': NoneAwareDate(index=True),
         }
     )
-    ft_src = Text(index=True, analyzer='ukrainian')
+    ft_src = Text(index=True, analyzer='ukrainian', copy_to="all")
 
     # concatinated from set of fields for regular search (not deepsearch mode)
     index_card = Text(index=True, analyzer='ukrainian')
@@ -732,8 +723,9 @@ class Declaration(DocType, AbstractDeclaration):
         return resp
 
     class Meta:
-        all = MetaField(analyzer='ukrainian')
-        doc_type = "paper_declaration_doctype"
+        pass
+        # commenting it out for now to not to ruin existing index
+        # doc_type = "paper_declaration_doctype"
 
 
 nacp_declarations_idx = Index(NACP_DECLARATION_INDEX)
@@ -750,6 +742,18 @@ nacp_declarations_idx.analyzer(namesAutocompleteSearchAnalyzer)
 class NACPDeclaration(DocType, AbstractDeclaration):
     """NACP Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
+
+    persons = Text(analyzer="ukrainian", copy_to="all")
+    countries = Text(analyzer="ukrainian", copy_to="all")
+    companies = Text(analyzer="ukrainian", copy_to="all")
+    names_autocomplete = Text(
+        analyzer="namesAutocompleteAnalyzer",
+        search_analyzer="namesAutocompleteSearchAnalyzer",
+        fields={"raw": Text(index=True)},
+    )
+
+    all = Text(analyzer="ukrainian")
+
     general = Object(
         properties={
             'full_name_suggest': Completion(preserve_separators=False),
@@ -788,71 +792,8 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             'date': NoneAwareDate(index=True),
         }
     )
-    # aggregated = Object(
-    #     properties={
-    #         "assets.family": Double(index=True),
-    #         "vehicles.declarant_cost": Double(index=True),
-    #         "estate.family_land": Double(index=True),
-    #         "vehicles.any": Boolean(index=True),
-    #         "outlier": Boolean(index=True),
-    #         "garage_wo_car_flag": Boolean(index=True),
-    #         "link": Text(index=False),
-    #         "expenses_to_inc_and_assets_flag": Boolean(index=True),
-    #         "lux_cars_flag": Boolean(index=True),
-    #         "estate.declarant_other": Double(index=True),
-    #         "estate.family_other_ratio": Double(index=True),
-    #         "assets_to_income_flag": Boolean(index=True),
-    #         "estate.total_other": Double(index=True),
-    #         "assets.has_foreign": Boolean(index=True),
-    #         "estate.family_land_ratio": Double(index=True),
-    #         "incomes.has_foreign": Boolean(index=True),
-    #         "expenses_assets_and_incomes_ratio": Keyword(index=True),
-    #         "incomes.declarant": Double(index=True),
-    #         "id": Text(index=True),
-    #         "liabilities.total": Double(index=True),
-    #         "house_no_land_flag": Boolean(index=True),
-    #         "vehicles.has_hidden": Boolean(index=True),
-    #         "family": Boolean(index=True),
-    #         "name": Text(index=False),
-    #         "organization_group": Keyword(index=True),
-    #         "estate.total_land": Double(index=True),
-    #         "lux_cars_flag_v2": Boolean(index=True),
-    #         "estate.has_hidden": Boolean(index=True),
-    #         "expenses.total": Double(index=True),
-    #         "name_post": Text(index=False),
-    #         "incomes.total": Double(index=True),
-    #         "liabilities_assets_and_incomes_ratio": Keyword(index=True),
-    #         "assets_incomes_ratio": Keyword(index=True),
-    #         "assets.family_ratio": Double(index=True),
-    #         "income_presents_to_total_flag": Boolean(index=True),
-    #         "assets.total": Double(index=True),
-    #         "vehicles.total_cost": Double(index=True),
-    #         "assets.has_hidden": Boolean(index=True),
-    #         "vehicles.max_year": Keyword(index=True),
-    #         "estate_purch_no_cost_flag": Boolean(index=True),
-    #         "assets.cash.total": Double(index=True),
-    #         "incomes.has_hidden": Boolean(index=True),
-    #         "estate.family_other": Double(index=True),
-    #         "vehicles.family_cost": Double(index=True),
-    #         "incomes.family": Double(index=True),
-    #         "vehicles.all_names": Text(index=True),
-    #         "assets.declarant": Double(index=True),
-    #         "cash_flag": Boolean(index=True),
-    #         "incomes.family_ratio_cat": Keyword(index=True),
-    #         "incomes.presents.all": Double(index=True),
-    #         "estate.declarant_land": Double(index=True),
-    #         "incomes.family_ratio": Double(index=True),
-    #         "year": Keyword(index=True),
-    #         "assets.family_ratio_cat": Keyword(index=True),
-    #         "estate.family_land_ratio_cat": Keyword(index=True),
-    #         "estate.has_foreign": Boolean(index=True),
-    #         "region": Keyword(index=True),
-    #         "estate.family_other_ratio_cat": Keyword(index=True),
-    #         "vehicle_purch_no_cost_flag": Boolean(index=True),
-    #         "liabilities_to_inc_and_assets_flag": Boolean(index=True),
-    #     }
-    # )
-    ft_src = Text(index=True, analyzer='ukrainian')
+
+    ft_src = Text(index=True, analyzer='ukrainian', copy_to="all")
     nacp_orig = Object(include_in_all=False, enabled=False)
 
     # concatinated from set of fields for regular search (not deepsearch mode)
@@ -1107,5 +1048,4 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         return self.nacp_orig.to_dict()
 
     class Meta:
-        all = MetaField(analyzer='ukrainian')
         doc_type = "nacp_declaration_doctype"
