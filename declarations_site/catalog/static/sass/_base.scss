@@ -788,6 +788,13 @@ ol.social-list > li {
     }
 }
 
+.decl-item .translated-link {
+    position: absolute;
+    bottom: 5px;
+    float: none;
+    font-size: 13px;
+}
+
 .search-results .add2compare-list,
 .decl-compare-modal .add2compare-list {
     position: absolute;
