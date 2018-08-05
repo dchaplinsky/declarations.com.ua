@@ -342,7 +342,7 @@ $(function() {
         $('body').addClass('ajax-run');
 
         $.ajax({
-                url: 'https://bihus.info/restapi/decl-news',
+                url: 'https://bihus.info/restapi/decl-news?_format=json',
                 type: 'GET'
             })
             .done(function(data) {
@@ -353,7 +353,7 @@ $(function() {
             });
 
         $.ajax({
-                url: 'https://bihus.info/restapi/bihus-news',
+                url: 'https://bihus.info/restapi/bihus-news?_format=json',
                 type: 'GET'
             })
             .done(function(data) {
