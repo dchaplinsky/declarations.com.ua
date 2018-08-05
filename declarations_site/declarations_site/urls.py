@@ -18,6 +18,9 @@ urlpatterns = [
     url(r'^declaration/(?P<declaration_id>[\d\w_\-]+)$', catalog_views.details,
         name='details'),
 
+    url(r'^en/declaration/(?P<declaration_id>[\d\w_\-]+)$', catalog_views.details,
+        name='en_details', kwargs={"language": "en"}),
+
     url(r'^region$', catalog_views.regions_home, name='regions_home',),
     url(r'^office$', catalog_views.offices_home, name='offices_home',),
 

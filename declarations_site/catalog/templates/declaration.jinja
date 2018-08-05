@@ -6,7 +6,7 @@
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
-Декларації: {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}{% if declaration.declaration.source == "NACP" %} від НАЗК{% endif %}{% endif %}
+Декларації: {{ declaration._full_name(language) }}{% if declaration.declaration.source == "NACP" %} від НАЗК{% endif %}{% endif %}
 {%- endblock %}
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Д​екларації{% if declaration.declaration.source == "NACP" %} НАЗК{% endif %} про майно, доходи, витрати та зобов'язання фінансового характеру {{ declaration.general.last_name }} {{ declaration.general.name }} за {{ declaration.intro.declaration_year }} рік онлайн у відкритій базі даних проекту{% endif %}{% endblock %}
@@ -42,11 +42,11 @@
                         <ol class="breadcrumb pull-left">
                             <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
                             <li class="active">Результати пошуку</li>
-                            <li class="active">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</li>
+                            <li class="active">{{ declaration._full_name(language) }}</li>
                         </ol>
                     </div>
 
-                    <h1 id="page-header"><span itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</span></h1>
+                    <h1 id="page-header"><span itemprop="name">{{ declaration._full_name(language) }}</span></h1>
 
                     {% if declaration.general.post.actual_region %}
                     <meta itemprop="homeLocation" content="{{ declaration.general.post.actual_region }}"/>
@@ -59,21 +59,21 @@
                         {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
                 <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
                 {% if declaration.general.post.actual_region %}
-                    <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration.general.post.actual_region }}</a><span>,</span>
+                    <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration._actual_region(language) }}</a><span>,</span>
                 {% elif declaration.general.post.region %}
-                    <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration.general.post.region }}</a><span>,</span>
+                    <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration._region(language) }}</a><span>,</span>
                 {% endif %}
                 {% if declaration.general.post.office %}
-                    <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration.general.post.office }}</span></a><span>,</span>
+                    <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration._office(language) }}</span></a><span>,</span>
                         {% endif %}
                         {% if declaration.general.post.post %}
-                        <span itemprop="jobTitle">{{ declaration.general.post.post }}</span><span>,</span>
+                        <span itemprop="jobTitle">{{ declaration._position(language) }}</span><span>,</span>
                         {% endif %}
 
-                        {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
-                        {% if declaration.intro.corrected %} Уточнена <span>,</span>{% endif %}
+                        {% if declaration.intro.doc_type %}{{ declaration._declaration_type(language) }}<span>,</span>{% endif %}
+                        {% if declaration.intro.corrected %}{% if language == "en" %}Corrected {% else %}Уточнена{% endif %}<span>,</span>{% endif %}
                         {% if declaration.intro.date %}
-                        <span class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|datetime }}</span>
+                        <span class="date"><span class="glyphicon glyphicon-calendar"></span>{% if language == "en" %}submitted {% else %}подана{% endif %} {{ declaration.intro.date|datetime }}</span>
                         {% endif %}
                     </h2>
 
@@ -97,6 +97,13 @@
             {% if declaration.aggregated %}
             <a href="#" class="add2compare-list on-page-button" title="Додати у список порівнянь"><i class="fa fa-balance-scale" aria-hidden="true"></i> Додати декларацію у список порівнянь</a>
             {% endif %}
+            {% if declaration.declaration.source == "NACP" %}
+                {% if language == "en" %}
+                    <a href="{{ url("details", declaration_id=declaration.meta.id) }}" class="show-translated on-page-button"><i class="fa fa-language" aria-hidden="true"></i> Також доступна українською</a>
+                {% else %}
+                    <a href="{{ url("en_details", declaration_id=declaration.meta.id) }}" class="show-translated on-page-button"><i class="fa fa-language" aria-hidden="true"></i> Also available in English</a>
+                {% endif %}
+            {% endif %}
             <div class="box">
                 {% if declaration.declaration.url %}
                     <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank" rel="nofollow"><i></i><span>Оригінал декларації</span></a></div>
@@ -105,7 +112,11 @@
                 {% if declaration.declaration.source == "NACP" %}
                     <div id="nacp_decl" class="nacp-decl">
                         {{ procurements_details(declaration) }}
-                        {{ declaration.raw_html()|safe }}
+                        {% if language == "en" %}
+                            {{ declaration.raw_en_html()|safe }}
+                        {% else %}
+                            {{ declaration.raw_html()|safe }}
+                        {% endif %}
                         <hr />
                     </div>
                 {% else %}

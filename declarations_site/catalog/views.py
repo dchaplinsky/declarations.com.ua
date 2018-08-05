@@ -162,7 +162,7 @@ def fuzzy_search(request):
 
 
 @hybrid_response('declaration.jinja')
-def details(request, declaration_id):
+def details(request, declaration_id, language="uk"):
     try:
         try:
             declaration = NACPDeclaration.get(id=declaration_id)
@@ -191,6 +191,7 @@ def details(request, declaration_id):
 
     return {
         "declaration": declaration,
+        "language": language,
         "transliterations": TRANSLITERATOR_SINGLETON.transliterate(
             getattr(declaration.general, "last_name", ""),
             getattr(declaration.general, "name", ""),

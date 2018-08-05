@@ -16,6 +16,8 @@ from elasticsearch_dsl import (
 
 from elasticsearch_dsl.query import Q
 import jmespath
+from pyquery import PyQuery as pq
+
 
 from procurements.models import Transactions
 from .constants import (
@@ -27,6 +29,7 @@ from .constants import (
 from .utils import parse_fullname, blacklist
 from .templatetags.catalog import parse_raw_family_string
 from .converters import PaperToNACPConverter, ConverterError
+from .translator import TRANSLATOR_SINGLETON
 
 
 class NoneAwareDate(Date):
@@ -72,6 +75,40 @@ class AbstractDeclaration(object):
 
     def guid(self):
         return self.meta.id
+
+    def _full_name(self, language):
+        name = "{} {} {}".format(self.general.last_name, self.general.name, self.general.patronymic)
+        if language == "en":
+            phrase, _, = TRANSLATOR_SINGLETON.translate(name)
+            return phrase.translation
+        else:
+            return name
+
+    def _translate_one_field(self, field, language):
+        if field:
+            if language == "en":
+                phrase, _, = TRANSLATOR_SINGLETON.translate(field)
+                return phrase.translation
+            else:
+                return field
+        else:
+            return ""
+
+
+    def _position(self, language):
+        return self._translate_one_field(self.general.post.post, language)
+
+    def _office(self, language):
+        return self._translate_one_field(self.general.post.office, language)
+
+    def _region(self, language):
+        return self._translate_one_field(self.general.post.region, language)
+
+    def _actual_region(self, language):
+        return self._translate_one_field(self.general.post.actual_region, language)
+
+    def _declaration_type(self, language):
+        return self._translate_one_field(self.intro.doc_type, language)
 
     def api_response(self, fields=None):
         all_fields = [
@@ -842,6 +879,21 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             doc
         )
         return doc
+
+    def raw_en_html(self):
+        doc = self.raw_html()
+
+        html = pq(doc)
+        for el in html("h2 span, legend i, label strong, label, th, header, span.block b, b, p, span, td"):
+            for x in el.getiterator():
+                if x.text:
+                    text, q = TRANSLATOR_SINGLETON.translate(x.text)
+                    x.text = text.translation
+                if x.tail:
+                    text, q = TRANSLATOR_SINGLETON.translate(x.tail)
+                    x.tail = text.translation
+
+        return html.html()
 
     af_paths = [
         jmespath.compile("step_7.*.emitent_ua_company_code"),

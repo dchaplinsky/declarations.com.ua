@@ -37,7 +37,11 @@
                 <li class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|datetime }}</li>
                 {% endif %}
             </ul>
+
+            {% if declaration.declaration.source == "NACP" %}
+            <a href="{{ url("en_details", declaration_id=declaration.meta.id) }}" class="translated-link"><i class="fa fa-language" aria-hidden="true"></i> Also available in English</a>
+            {% endif %}
         </div>
-        <input type="hidden" name="declaration_id" value="{{declaration.meta.id}}" />
+        <input type="hidden" name="declaration_id" value="{{ declaration.meta.id }}" />
     </div>
 {% endmacro %}

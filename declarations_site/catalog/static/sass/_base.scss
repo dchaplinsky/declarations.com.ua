@@ -757,7 +757,7 @@ ol.social-list > li {
     text-decoration: none;
 }
 
-.add2compare-list {
+.show-translated, .add2compare-list {
     color: #0b0b0b;
     padding: 5px;
 
@@ -770,6 +770,10 @@ ol.social-list > li {
         -moz-box-shadow:    inset 0px 0px 10px 0px rgba(50, 50, 50, 0.5);
         box-shadow:         inset 0px 0px 10px 0px rgba(50, 50, 50, 0.5);
     }
+}
+
+.show-translated {
+    float: right;
 }
 
 .decl-item.selected {

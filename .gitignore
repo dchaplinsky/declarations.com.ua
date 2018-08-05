@@ -79,3 +79,5 @@ declarations.dump
 # Text Editor files
 .idea/
 images-svg/
+
+declarations_site/catalog/data/dictionaries/
