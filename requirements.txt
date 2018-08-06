@@ -6,7 +6,7 @@ elasticsearch-dsl==5.3.0
 Jinja2==2.9.5
 MarkupSafe==0.23
 python-dateutil==2.4.0
-gunicorn==19.2.1
+gunicorn==19.9.0
 django-pipeline==1.6.11
 psycopg2
 wagtail==1.8.1
