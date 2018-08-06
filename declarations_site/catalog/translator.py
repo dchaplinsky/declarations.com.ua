@@ -116,3 +116,4 @@ DICT_DIR = os.path.join(CURR_DIR, "data/dictionaries/")
 
 TRANSLATOR_SINGLETON.load_dict_from_csv(os.path.join(DICT_DIR, "decl_translations.csv"), "translator", 10)
 TRANSLATOR_SINGLETON.load_dict_from_csv(os.path.join(DICT_DIR, "pep_translations.csv"), "pep", 9)
+TRANSLATOR_SINGLETON.load_dict_from_csv(os.path.join(DICT_DIR, "decl_translations.csv"), "google", 3)
