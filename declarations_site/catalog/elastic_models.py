@@ -122,7 +122,7 @@ class AbstractDeclaration(object):
         if fields is None:
             fields = all_fields
         else:
-            fields = [f for f in fields if f in set(all_fields + ["guid"])]
+            fields = [f for f in fields if f in set(all_fields + ["guid", "aggregated_data"])]
 
         return {
             f: getattr(self, f)() for f in fields
@@ -572,6 +572,7 @@ class Declaration(DocType, AbstractDeclaration):
             ),
             "document_type": self.intro.doc_type,
             "is_corrected": False,
+            "declaration_year": getattr(self.intro, "declaration_year"),
             "created_date": getattr(
                 self.intro, "date",
                 getattr(self.declaration, "date", "")
@@ -604,6 +605,9 @@ class Declaration(DocType, AbstractDeclaration):
             return converter.convert()
         except ConverterError:
             return None
+
+    def aggregated_data(self):
+        return self.aggregated
 
     # Temporary solution to provide enough aggregated data
     # to make it possible to compare old and new declarations
@@ -647,6 +651,16 @@ class Declaration(DocType, AbstractDeclaration):
                     "USD": 24.00,
                     "EUR": 26.22,
                     "RUB": 0.329,
+                },
+                "2016": {  # As on 2016/12/31
+                    "USD": 27.1908,
+                    "EUR": 28.4226,
+                    "RUB": 0.4511,
+                },
+                "2017": {  # As on 2017/12/31
+                    "USD": 28.0672,
+                    "EUR": 33.4954,
+                    "RUB": 0.4870,
                 },
             }
 
@@ -1065,7 +1079,8 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             ),
             "document_type": self.intro.doc_type,
             "is_corrected": self.intro.corrected,
-            "created_date": self.intro.date
+            "created_date": self.intro.date,
+            "declaration_year": getattr(self.intro, "declaration_year")
         }
 
     def raw_source(self):
@@ -1099,6 +1114,12 @@ class NACPDeclaration(DocType, AbstractDeclaration):
 
     def unified_source(self):
         return self.nacp_orig.to_dict()
+
+    def aggregated_data(self):
+        if hasattr(self, "aggregated"):
+            return self.aggregated.to_dict()
+        else:
+            return {}
 
     class Meta:
         doc_type = "nacp_declaration_doctype"
