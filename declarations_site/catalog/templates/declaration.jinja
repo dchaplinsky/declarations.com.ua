@@ -13,6 +13,17 @@
 
 {% block bodyclass %}not-front {% if branding_link %}branding-page {% endif %}declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
 
+
+{% block extrahead %}
+    {% if declaration.declaration.source == "NACP" %}
+        {% if language == "en" %}
+            <link rel="alternate" href="{{ SITE_URL }}{{ url("details", declaration_id=declaration.meta.id) }}" hreflang="uk" />
+        {% else %}
+            <link rel="alternate" href="{{ SITE_URL }}{{ url("en_details", declaration_id=declaration.meta.id) }}" hreflang="en" />
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
 {% block infobox %}{% endblock %}
 
 {% if branding_link %}

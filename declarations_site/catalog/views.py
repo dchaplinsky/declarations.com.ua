@@ -322,7 +322,14 @@ def sitemap_declarations(request, page):
     search = search[(page - 1) * settings.SITEMAP_DECLARATIONS_PER_PAGE:page * settings.SITEMAP_DECLARATIONS_PER_PAGE]
 
     for r in search.execute():
-        urls.append(reverse("details", kwargs={"declaration_id": r.meta.id}))
+        if r.meta.id.startswith("nacp_"):
+            urls.append({
+                "default": reverse("details", kwargs={"declaration_id": r.meta.id}),
+                "uk": reverse("details", kwargs={"declaration_id": r.meta.id}),
+                "en": reverse("en_details", kwargs={"declaration_id": r.meta.id}),
+            })
+        else:
+            urls.append(reverse("details", kwargs={"declaration_id": r.meta.id}))
 
     return render(request, "sitemap.jinja",
                   {"urls": urls}, content_type="application/xml")
