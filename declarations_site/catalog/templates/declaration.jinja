@@ -24,7 +24,34 @@
     {% endif %}
 {% endblock %}
 
-{% block infobox %}{% endblock %}
+{% block infobox %}
+    <div class="container">
+        <div id="stickyBannerWrapper" style="display:none; position: relative; z-index: 2; ">
+            <div style="position: absolute; left: -170px; width: 160px">
+                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
+                    <div id='div-gpt-ad-1531830029689-5'>
+                        <script>
+                          googletag.cmd.push(function () {
+                            googletag.display('div-gpt-ad-1531830029689-5');
+                          });
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div style="position: absolute; right: -170px; width: 160px">
+                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
+                    <div id='div-gpt-ad-1531830029689-4'>
+                        <script>
+                          googletag.cmd.push(function () {
+                            googletag.display('div-gpt-ad-1531830029689-4');
+                          });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
 {% if branding_link %}
     {% block branding %}
