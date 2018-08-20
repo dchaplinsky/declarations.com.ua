@@ -2,33 +2,18 @@ import os.path
 import re
 from csv import reader
 from collections import namedtuple, Counter
-from catalog.utils import is_cyr
+
 from translitua import translit
+from pyquery import PyQuery as pq
+
+from catalog.utils import is_cyr
+from catalog.models import Translation
 
 
-class Phrase():
-    __slots__ = ["term", "translation", "source", "quality", "usages"]
-
-    def __init__(self, term, translation, source, quality, usages=0):
-        self.term = term
-        self.translation = translation
-        self.source = source
-        self.quality = quality
-        self.usages = usages
-    
-    def inc_usages(self):
-        self.usages += 1
-    
-    def __repr__(self):
-        return "<{}> ({})".format(self.translation, self.source)
-
-class Translator():
-    def __init__(self, debug=False):
+class Translator:
+    def __init__(self):
         self.inner_dict = {}
-        self.loose_dict = {}
-        self.unseen = Counter()
-        self.debug = debug
-    
+
     def get_id(self, term):
         return term.replace("\xa0", " ").replace("\u200b", "").lower().strip(" ,.;")
 
@@ -36,84 +21,114 @@ class Translator():
         return re.sub(
             "[.,\/#!$%\^&\*;:{}=\-_`~()\s]",
             "",
-            term.replace("\xa0", " ").replace("\u200b", "").lower()
+            term.replace("\xa0", " ").replace("\u200b", "").lower(),
         )
+
+    def fetch_partial_dict_from_db(self, phrases):
+        phrases = list(filter(None, phrases))
+        ids = set(map(self.get_id, phrases)) | set(map(self.get_loose_id, phrases))
+        translations = Translation.objects.filter(term_id__in=ids).values(
+            "term_id", "translation", "source", "quality", "strict_id"
+        )
+
+        self.inner_dict = {v["term_id"]: v for v in translations}
 
     def load_dict_from_csv(self, fname, source, quality, ignore_header=True):
         with open(fname) as fp:
             r = reader(fp)
             if ignore_header:
                 next(r)
-            
+
             for l in r:
                 if len(l) >= 2:
-                    translation = Phrase(
+                    translation = dict(
                         term=l[0],
                         translation=l[1],
                         source=source,
-                        quality=quality
+                        quality=quality,
+                        strict_id=True,
                     )
 
                     term_id = self.get_id(l[0])
-                    if term_id in self.inner_dict:
-                        if quality < self.inner_dict[term_id].quality:
-                            continue
-
-                    if term_id:
-                        self.inner_dict[term_id] = translation
-
                     loose_term_id = self.get_loose_id(l[0])
-                    if loose_term_id in self.loose_dict:
-                        if quality < self.loose_dict[loose_term_id].quality:
+
+                    if not term_id:
+                        continue
+
+                    if term_id in self.inner_dict:
+                        if quality < self.inner_dict[term_id]["quality"]:
                             continue
 
-                    if loose_term_id:
-                        self.loose_dict[loose_term_id] = translation
+                    self.inner_dict[term_id] = translation
+
+                    if not loose_term_id:
+                        continue
+
+                    if loose_term_id in self.inner_dict:
+                        if quality < self.inner_dict[loose_term_id]["quality"]:
+                            continue
+
+                        if (
+                            quality == self.inner_dict[loose_term_id]["quality"]
+                            and self.inner_dict[loose_term_id]["strict_id"]
+                        ):
+                            continue
+
+                    translation["strict_id"] = False
+                    self.inner_dict[loose_term_id] = translation
 
     def translate(self, phrase):
         if not is_cyr(phrase):
-            return Phrase(
-                term=phrase,
-                translation=phrase,
-                source="not_required",
-                quality=10
-            ), "translation_not_required"
+            return dict(
+                term=phrase, translation=phrase, source="not_required", quality=10
+            )
 
         term_id = self.get_id(phrase)
         if term_id in self.inner_dict:
-            tr = self.inner_dict[term_id]
-            tr.inc_usages()
-            return tr, "exact"
+            return self.inner_dict[term_id]
 
         loose_term_id = self.get_loose_id(phrase)
 
-        if loose_term_id in self.loose_dict:
-            tr = self.loose_dict[loose_term_id]
-            tr.inc_usages()
-            return tr, "loose"
+        if loose_term_id in self.inner_dict:
+            return self.inner_dict[loose_term_id]
 
-        if self.debug and phrase.strip():
-            self.unseen.update([phrase.strip()])
-
-        return Phrase(
-            term=phrase,
-            translation=translit(phrase),
-            source="translit",
-            quality=1
-        ), "poor"
-    
-    def find_unused_strict(self):
-        return [p for p in self.inner_dict.values() if p.usages==0]
-
-    def find_unused_loose(self):
-        return [p for p in self.loose_dict.values() if p.usages==0]
+        return dict(
+            term=phrase, translation=translit(phrase), source="translit", quality=1
+        )
 
 
-TRANSLATOR_SINGLETON = Translator()
+class HTMLTranslator(Translator):
+    def __init__(self, html, selectors):
+        super().__init__()
 
-CURR_DIR = os.path.dirname(__file__)
-DICT_DIR = os.path.join(CURR_DIR, "data/dictionaries/")
+        self._parsed_html = pq(html)
+        self._html_elements = []
 
-TRANSLATOR_SINGLETON.load_dict_from_csv(os.path.join(DICT_DIR, "decl_translations.csv"), "translator", 10)
-TRANSLATOR_SINGLETON.load_dict_from_csv(os.path.join(DICT_DIR, "pep_translations.csv"), "pep", 9)
-TRANSLATOR_SINGLETON.load_dict_from_csv(os.path.join(DICT_DIR, "google_dictionary.csv"), "google", 3)
+        for el in self._parsed_html(selectors):
+            for x in el.getiterator():
+                if x.text or x.tail:
+                    self._html_elements.append(x)
+
+        phrases = self.get_phrases()
+        self.fetch_partial_dict_from_db(phrases)
+
+    def get_phrases(self):
+        phrases = []
+        for el in self._html_elements:
+            if el.text:
+                phrases.append(el.text)
+            if el.tail:
+                phrases.append(el.tail)
+
+        return phrases
+
+    def get_translated_html(self):
+        for el in self._html_elements:
+            if el.text:
+                phrase = self.translate(el.text)
+                el.text = phrase["translation"]
+            if el.tail:
+                phrase = self.translate(el.tail)
+                el.tail = phrase["translation"]
+
+        return self._parsed_html.html()

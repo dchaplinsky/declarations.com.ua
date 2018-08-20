@@ -14,7 +14,7 @@ rpy2==2.5.6
 dpath==1.4.0
 parsel==1.0.3
 glob2==0.5
-translitua==1.2.2
+translitua==1.2.4
 raven==6.0.0
 XlsxWriter==0.9.6
 pyjwt==1.5.0
@@ -22,3 +22,4 @@ cryptography==1.8.1
 jmespath==0.9.2
 python-telegram-bot==10.0.1
 pyquery==1.4.0
+names-translator==1.1.0

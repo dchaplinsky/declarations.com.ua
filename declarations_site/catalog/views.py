@@ -16,7 +16,7 @@ from dateutil.parser import parse as dt_parse
 from .elastic_models import Declaration, NACPDeclaration
 from .paginator import paginated_search
 from .api import hybrid_response
-from .utils import TRANSLITERATOR_SINGLETON, replace_apostrophes, base_search_query, apply_search_sorting
+from .utils import replace_apostrophes, base_search_query, apply_search_sorting
 from .models import Office
 from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
@@ -166,6 +166,7 @@ def details(request, declaration_id, language="uk"):
     try:
         try:
             declaration = NACPDeclaration.get(id=declaration_id)
+            declaration.prepare_translations(language)
         except NotFoundError:
             declaration = Declaration.get(id=declaration_id)
         try:
@@ -192,11 +193,6 @@ def details(request, declaration_id, language="uk"):
     return {
         "declaration": declaration,
         "language": language,
-        "transliterations": TRANSLITERATOR_SINGLETON.transliterate(
-            getattr(declaration.general, "last_name", ""),
-            getattr(declaration.general, "name", ""),
-            getattr(declaration.general, "patronymic", ""),
-        ),
         "meta": meta
     }
 

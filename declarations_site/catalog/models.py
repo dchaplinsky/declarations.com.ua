@@ -25,3 +25,18 @@ class Office(MP_Node):
 
     def __str__(self):
         return self.name
+
+
+class Translation(models.Model):
+    SOURCE_CHOICES = {
+        "g": "Google translate",
+        "p": "Translations from PEP project",
+        "t": "Translator of declarations project"
+    }
+
+    term_id = models.CharField("Ідентифікатор терміну", primary_key=True, max_length=1000)
+    term = models.TextField("Термін")
+    translation = models.TextField("Переклад")
+    source = models.CharField("Джерело перекладу", max_length=1, choices=SOURCE_CHOICES.items())
+    quality = models.IntegerField("Суб'єктивна якість перекладу")
+    strict_id = models.BooleanField("Чи було ідентифікатор спрощено")

@@ -204,6 +204,7 @@ TEMPLATES = [
             "globals": {
                 "replace_arg": "catalog.utils.replace_arg",
                 "sort_flag": "catalog.utils.sort_flag",
+                "generate_all_names": "names_translator.name_utils.generate_all_names",
             }
         }
     },

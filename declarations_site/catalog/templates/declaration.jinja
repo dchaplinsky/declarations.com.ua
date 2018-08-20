@@ -145,7 +145,7 @@
                 <div class="transliteration-hint">
                     <h4>ПІБ іншими мовами</h4>
                     {% set pipe = joiner(", ") %}
-                    {% for t in transliterations -%}
+                    {% for t in generate_all_names(declaration.general.last_name, declaration.general.name, declaration.general.patronymic) -%}
                     {{ pipe() }}<span itemprop="alternateName">{{ t }}</span>
                     {%- endfor %}
                 </div>
