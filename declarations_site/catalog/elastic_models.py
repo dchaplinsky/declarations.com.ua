@@ -108,7 +108,7 @@ class AbstractDeclaration(object):
                 self, "translator"
             ), "You should call prepare_translations first"
 
-            phrase = self.translator.translate(name)
+            phrase = self.translator.translate(name, just_transliterate=True)
             return phrase["translation"]
         else:
             return name

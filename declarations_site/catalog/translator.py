@@ -77,10 +77,15 @@ class Translator:
                     translation["strict_id"] = False
                     self.inner_dict[loose_term_id] = translation
 
-    def translate(self, phrase):
+    def translate(self, phrase, just_transliterate=False):
         if not is_cyr(phrase):
             return dict(
                 term=phrase, translation=phrase, source="not_required", quality=10
+            )
+
+        if just_transliterate:
+            return dict(
+                term=phrase, translation=translit(phrase), source="translit", quality=10
             )
 
         term_id = self.get_id(phrase)
