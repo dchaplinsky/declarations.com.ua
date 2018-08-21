@@ -2,6 +2,7 @@ import os.path
 import re
 from csv import reader
 from itertools import islice
+from html import unescape
 
 from django.core.management.base import BaseCommand
 
@@ -36,12 +37,12 @@ class Command(BaseCommand):
         Translation.objects.all().delete()
 
         with tqdm(total=len(DICTIONARY.inner_dict)) as pbar:
-            batch_size = 1000
+            batch_size = 500
             objs = (
                 Translation(
                     term_id=k,
                     term=v["term"],
-                    translation=v["translation"],
+                    translation=unescape(v["translation"]),
                     source=v["source"],
                     quality=v["quality"],
                     strict_id=v["strict_id"],

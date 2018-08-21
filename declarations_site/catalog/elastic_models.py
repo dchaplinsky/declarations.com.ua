@@ -28,7 +28,6 @@ from elasticsearch_dsl import (
 
 from elasticsearch_dsl.query import Q
 import jmespath
-from pyquery import PyQuery as pq
 
 
 from procurements.models import Transactions

@@ -2,6 +2,7 @@ import os.path
 import re
 from csv import reader
 from collections import namedtuple, Counter
+from html import unescape
 
 from translitua import translit
 from pyquery import PyQuery as pq
@@ -15,13 +16,13 @@ class Translator:
         self.inner_dict = {}
 
     def get_id(self, term):
-        return term.replace("\xa0", " ").replace("\u200b", "").lower().strip(" ,.;")
+        return unescape(term).replace("\xa0", " ").replace("\u200b", "").lower().strip(" ,.;")
 
     def get_loose_id(self, term):
         return re.sub(
             "[.,\/#!$%\^&\*;:{}=\-_`~()\s]",
             "",
-            term.replace("\xa0", " ").replace("\u200b", "").lower(),
+            self.get_id(term),
         )
 
     def fetch_partial_dict_from_db(self, phrases):
