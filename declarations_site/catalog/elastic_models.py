@@ -829,6 +829,21 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         )
         # MY ASS IS ON FIRE
         doc = re.sub(r"</table>\s*<header>", "</table></div><header>", doc)
+
+        companies = self._all_companies()
+
+        codes = [c.lstrip("0") for c in companies if c.isdigit() and 4 < len(c) < 9]
+
+        for c in codes:
+            full_code = c.rjust(8, "0")
+            doc = re.sub(
+                r"\b0*{}\b".format(c),
+                ' <a href="https://ring.org.ua/edr/uk/company/{}" target="_blank">{}</a>'.format(
+                    full_code, full_code
+                ),
+                doc,
+            )
+
         return doc
 
     def prepare_translations(self, language):
