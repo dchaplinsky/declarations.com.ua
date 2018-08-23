@@ -525,14 +525,22 @@ $(function() {
             minLength: 2,
             autoSelect: false,
             source: function(query, process) {
-                $.get('/ajax/suggest', {"q": query})
+                $.get('/search/suggest', {"q": query})
                     .success(function(data){
                         process(data);
                     })
             },
             matcher: function() {
-                // Big guys are playing here
                 return true;
+            },
+            highlighter: function(instance) {
+                return instance;
+            },
+            updater: function(instance) {
+                return $(instance).data("sugg_text")
+            },
+            afterSelect: function(item) {
+                form.submit();
             }
         });
 
