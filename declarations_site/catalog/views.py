@@ -102,7 +102,7 @@ class SuggestView(View):
                     names_autocomplete__raw={"query": q, "boost": 2},
                 ),
             ],
-        )[:200]
+        )[:10]
 
         res = s.execute()
 
