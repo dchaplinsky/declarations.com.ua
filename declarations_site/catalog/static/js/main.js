@@ -540,20 +540,21 @@ $(function() {
                 return $(instance).data("sugg_text")
             },
             afterSelect: function(item) {
+                var form = $(".search-name").closest("form")
                 form.submit();
             }
         });
 
-        // submit search form on enter (fix typeahead)
-        $('.search-name').on('keydown', function(e) {
-            if (e.keyCode == 13) {
-                var ta = $(this).data('typeahead'),
-                    val = ta.$menu.find('.active').data('value');
-                if (val)
-                    $(this).val(val);
-                $(this.form).submit();
-            }
-        });
+        // // submit search form on enter (fix typeahead)
+        // $('.search-name').on('keydown', function(e) {
+        //     if (e.keyCode == 13) {
+        //         var ta = $(this).data('typeahead'),
+        //             val = ta.$menu.find('.active').data('value');
+        //         if (val)
+        //             $(this).val(val);
+        //         $(this.form).submit();
+        //     }
+        // });
     });
 
     $( window ).load(function() {
