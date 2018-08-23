@@ -13,6 +13,9 @@ from spotter import urls as spotter_urls
 urlpatterns = [
     url(r'^ajax/suggest$', catalog_views.suggest, name='suggest'),
 
+    url(r'^search/suggest$', catalog_views.SuggestView.as_view(), name="new_suggest"),
+
+
     url(r'^search$', catalog_views.search, name='search'),
     url(r'^fuzzy_search$', catalog_views.fuzzy_search),
     url(r'^declaration/(?P<declaration_id>[\d\w_\-]+)$', catalog_views.details,

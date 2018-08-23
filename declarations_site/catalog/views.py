@@ -7,6 +7,9 @@ from django.http import JsonResponse, Http404
 from django.conf import settings
 from django.core.paginator import PageNotAnInteger, EmptyPage
 
+from django.views import View
+from django.template.loader import render_to_string
+
 from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
 
@@ -67,6 +70,57 @@ def suggest(request):
         suggestions = assume(q, fuzziness + 1)
 
     return JsonResponse(suggestions, safe=False)
+
+
+class SuggestView(View):
+    def get(self, request):
+        q = request.GET.get("q", "").strip()
+
+        suggestions = []
+        seen = set()
+
+        s = (
+            Search(index=CATALOG_INDICES)
+            .source(["names_autocomplete"])
+            .highlight("names_autocomplete")
+            .highlight_options(
+                order="score",
+                fragment_size=100,
+                number_of_fragments=10,
+                pre_tags=["<strong>"],
+                post_tags=["</strong>"],
+            )
+        )
+
+        s = s.query(
+            "bool",
+            must=[Q("match", names_autocomplete={"query": q, "operator": "and"})],
+            should=[
+                Q("match_phrase", names_autocomplete__raw={"query": q, "boost": 2}),
+                Q(
+                    "match_phrase_prefix",
+                    names_autocomplete__raw={"query": q, "boost": 2},
+                ),
+            ],
+        )[:200]
+
+        res = s.execute()
+
+        for r in res:
+            if "names_autocomplete" in r.meta.highlight:
+                for candidate in r.meta.highlight["names_autocomplete"]:
+                    if candidate.lower() not in seen:
+                        suggestions.append(candidate)
+                        seen.add(candidate.lower())
+
+        # Add number of sources where it was found
+
+        rendered_result = [
+            render_to_string("autocomplete.jinja", {"result": {"hl": k}})
+            for k in suggestions[:20]
+        ]
+
+        return JsonResponse(rendered_result, safe=False)
 
 
 @hybrid_response('results.jinja')
