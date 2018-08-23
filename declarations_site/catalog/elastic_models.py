@@ -248,6 +248,18 @@ class Declaration(DocType, AbstractDeclaration):
     """Declaration document.
     Assumes there's a dynamic mapping with all fields not indexed by default."""
 
+    persons = Text(analyzer="ukrainian", copy_to="all")
+    countries = Text(analyzer="ukrainian", copy_to="all")
+    companies = Text(analyzer="ukrainian", copy_to="all")
+    names_autocomplete = Text(
+        analyzer="namesAutocompleteAnalyzer",
+        search_analyzer="namesAutocompleteSearchAnalyzer",
+        fields={"raw": Text(index=True)},
+        term_vector="with_positions_offsets",
+    )
+
+    all = Text(analyzer="ukrainian")
+
     general = Object(
         properties={
             "full_name_suggest": Completion(preserve_separators=False),

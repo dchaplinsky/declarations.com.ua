@@ -5,6 +5,13 @@ from django.core.management.base import BaseCommand
 from catalog.utils import replace_apostrophes, concat_fields, keyword_for_sorting
 from catalog.elastic_models import Declaration
 
+from names_translator.name_utils import (
+    generate_all_names,
+    concat_name,
+    autocomplete_suggestions,
+    parse_fullname
+)
+
 
 def dict_generator(indict, pre=None):
     pre = pre[:] if pre else []
@@ -70,6 +77,7 @@ class Command(BaseCommand):
         self.apply_migrations()
         all_decls = Declaration.search().query('match_all').scan()
         for decl in all_decls:
+            decl_dct = decl.to_dict()
             sys.stdout.write('Processing decl for {}\n'.format(decl.general.full_name))
             sys.stdout.flush()
 
@@ -88,10 +96,31 @@ class Command(BaseCommand):
                 ]
             }
 
-            decl.ft_src = "\n".join(filter_only_interesting(decl.to_dict()))
+            decl.ft_src = "\n".join(filter_only_interesting(decl_dct))
 
             decl.general.full_name_for_sorting = keyword_for_sorting(decl.general.full_name)
-            decl.index_card = concat_fields(decl.to_dict(),
+            decl.index_card = concat_fields(decl_dct,
                                             Declaration.INDEX_CARD_FIELDS)
+
+            extracted_names = [(decl.general.last_name, decl.general.name, decl.general.patronymic, None)]
+            persons = set()
+            names_autocomplete = set()
+
+            for person in decl.general.family:
+                l, f, p, _ = parse_fullname(person.family_name)
+                extracted_names.append((l, f, p, person.relations))
+
+            for name in extracted_names:
+                persons |= generate_all_names(
+                    *name
+                )
+
+                names_autocomplete |= autocomplete_suggestions(
+                    concat_name(*name[:-1])
+                )
+
+
+            decl.persons = list(filter(None, persons))
+            decl.names_autocomplete = list(filter(None, names_autocomplete))
 
             decl.save()

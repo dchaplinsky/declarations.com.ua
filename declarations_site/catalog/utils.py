@@ -1,7 +1,7 @@
 import re
 import csv
 import os.path
-import dpath.util
+import jmespath
 from string import capwords
 
 from elasticsearch.exceptions import TransportError
@@ -54,7 +54,13 @@ def sort_flag(request, key, asc_value, desc_value):
 def concat_fields(resp, fields):
     out = list()
     for f in fields:
-        out.extend(dpath.util.values(resp, f, '.'))
+        values = jmespath.search(f, resp) or []
+
+        if isinstance(values, list):
+            out += values
+        else:
+            out.append(values)
+
     return " ".join(map(str, out))
 
 

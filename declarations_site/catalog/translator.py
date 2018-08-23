@@ -132,9 +132,11 @@ class HTMLTranslator(Translator):
         for el in self._html_elements:
             if el.text:
                 phrase = self.translate(el.text)
+                # el.set("class", el.get("class", "") + " translated")
                 el.text = phrase["translation"]
             if el.tail:
                 phrase = self.translate(el.tail)
+                # el.set("class", el.get("class", "") + " translated")
                 el.tail = phrase["translation"]
 
         return self._parsed_html.html()
