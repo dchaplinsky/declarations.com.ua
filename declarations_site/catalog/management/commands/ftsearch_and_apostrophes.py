@@ -96,6 +96,7 @@ class Command(BaseCommand):
                 ]
             }
 
+            decl.ft_src = ""
             decl.ft_src = "\n".join(filter_only_interesting(decl_dct))
 
             decl.general.full_name_for_sorting = keyword_for_sorting(decl.general.full_name)
