@@ -847,14 +847,15 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         codes = [c.lstrip("0") for c in companies if c.isdigit() and 4 < len(c) < 9]
 
         for c in codes:
-            full_code = c.rjust(8, "0")
-            doc = re.sub(
-                r"\b0*{}\b".format(c),
-                ' <a href="https://ring.org.ua/edr/uk/company/{}" target="_blank">{}</a>'.format(
-                    full_code, full_code
-                ),
-                doc,
-            )
+            if c:
+                full_code = c.rjust(8, "0")
+                doc = re.sub(
+                    r"\b0*{}\b".format(c),
+                    ' <a href="https://ring.org.ua/edr/uk/company/{}" target="_blank">{}</a>'.format(
+                        full_code, full_code
+                    ),
+                    doc,
+                )
 
         return doc
 
