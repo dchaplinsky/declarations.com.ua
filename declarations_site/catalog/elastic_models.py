@@ -90,6 +90,12 @@ class AbstractDeclaration(object):
     def related_entities(self):
         raise NotImplemented()
 
+    def related_documents(self):
+        return [
+            document.api_response(fields=["related_entities", "guid", "aggregated_data"])
+            for document in self.similar_declarations(limit=100, return_full_body=True)
+        ]
+
     def guid(self):
         return self.meta.id
 
@@ -147,36 +153,41 @@ class AbstractDeclaration(object):
             "infocard",
             "raw_source",
             "unified_source",
-            "related_entities",
+            "related_entities"
         ]
 
         if fields is None:
             fields = all_fields
         else:
             fields = [
-                f for f in fields if f in set(all_fields + ["guid", "aggregated_data"])
+                f for f in fields if f in set(all_fields + ["guid", "aggregated_data", "related_documents"])
             ]
 
         return {f: getattr(self, f)() for f in fields}
 
-    def similar_declarations(self):
+    def similar_declarations(self, limit=12, return_full_body=False):
+        fields = [
+            "general.last_name",
+            "general.name",
+            "general.patronymic",
+            "general.full_name",
+        ]
+
         s = (
             Search(index=CATALOG_INDICES)
             .query(
                 "multi_match",
                 query=self.general.full_name,
                 operator="and",
-                fields=[
-                    "general.last_name",
-                    "general.name",
-                    "general.patronymic",
-                    "general.full_name",
-                ],
+                fields=fields,
             )
             .query(~Q("term", _id=self.meta.id))
         )
 
-        return s[:12].execute()
+        if return_full_body:
+            s = s.doc_type(NACPDeclaration, Declaration)
+
+        return s[:limit].execute()
 
     def family_declarations(self):
         def filter_silly_names(name):
