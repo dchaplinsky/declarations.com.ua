@@ -94,6 +94,7 @@ class AbstractDeclaration(object):
         return [
             document.api_response(fields=["related_entities", "guid", "aggregated_data"])
             for document in self.similar_declarations(limit=100, return_full_body=True)
+            if not document._is_change_form()
         ]
 
     def guid(self):
