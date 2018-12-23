@@ -90,6 +90,9 @@ class AbstractDeclaration(object):
     def related_entities(self):
         raise NotImplemented()
 
+    def _is_change_form(self):
+        raise NotImplemented
+
     def related_documents(self):
         return [
             document.api_response(fields=["related_entities", "guid", "aggregated_data"])
@@ -543,6 +546,9 @@ class Declaration(DocType, AbstractDeclaration):
             return converter.convert()
         except ConverterError:
             return None
+
+    def _is_change_form(self):
+        return False
 
     def aggregated_data(self):
         return self.aggregated
