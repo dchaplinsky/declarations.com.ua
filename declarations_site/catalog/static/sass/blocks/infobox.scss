@@ -115,10 +115,9 @@
         -moz-box-shadow:    0px 0px 21px 0px rgba(50, 50, 50, 0.34);
         box-shadow:         0px 0px 21px 0px rgba(50, 50, 50, 0.34);
 
-        &:before {
-          content: '';
+        .banner-link {
           display: inline-block;
-          background-image: url('../images/banner-bi.jpg');
+          background-image: url('../images/bihus-banner.png');
           background-position: center right;
           width: 0;
           
