@@ -114,28 +114,25 @@
         -webkit-box-shadow: 0px 0px 21px 0px rgba(50, 50, 50, 0.34);
         -moz-box-shadow:    0px 0px 21px 0px rgba(50, 50, 50, 0.34);
         box-shadow:         0px 0px 21px 0px rgba(50, 50, 50, 0.34);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-content: center;
+        align-items: stretch;
+
+        &:before {
+          display: none !important;
+        }
 
         .banner-link {
           display: inline-block;
           background-image: url('../images/bihus-banner.png');
-          background-position: center right;
-          width: 0;
-          
-          @media (min-width:500px) {
-            width: 35%
-          }
-
-          @media (min-width:768px) {
-            width: 55%
-          }
-
-          @media (min-width:992px) {
-            width: 65%
-          }
-
-          @media (min-width:1200px) {
-            width: 75%
-          }
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center left;
+          width: auto !important;
+          flex: 1 1 auto;
         }
 
         &:after {
@@ -144,7 +141,11 @@
 
         .infobanner-text {
           font-size: 14px;
-          padding: 0 15px 0 5px;
+          padding: 0 30px;
+
+          @media (max-width: 991px) {
+            display: none;
+          }
 
           .infobanner-top-text {
             font-weight: 700;
