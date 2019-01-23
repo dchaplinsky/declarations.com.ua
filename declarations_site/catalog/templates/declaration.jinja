@@ -25,41 +25,43 @@
 {% endblock %}
 
 {% block infobox %}
-    <div class="container">
-        <div id="stickyBannerWrapper" style="display:none; position: relative; z-index: 2; ">
-            <div style="position: absolute; left: -170px; width: 160px">
-                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
-                    <div id='div-gpt-ad-1531830029689-5'>
-                        <script>
-                          googletag.cmd.push(function () {
-                            googletag.display('div-gpt-ad-1531830029689-5');
-                          });
-                        </script>
+    <section id="infobox">
+        <div class="container">
+            <div id="stickyBannerWrapper" style="display:none; position: relative; z-index: 2; ">
+                <div style="position: absolute; left: -170px; width: 160px">
+                    <div style="width: 160px; height: 600px; position: fixed; top: 0;">
+                        <div id='div-gpt-ad-1531830029689-5'>
+                            <script>
+                              googletag.cmd.push(function () {
+                                googletag.display('div-gpt-ad-1531830029689-5');
+                              });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: absolute; right: -170px; width: 160px">
+                    <div style="width: 160px; height: 600px; position: fixed; top: 0;">
+                        <div id='div-gpt-ad-1531830029689-4'>
+                            <script>
+                              googletag.cmd.push(function () {
+                                googletag.display('div-gpt-ad-1531830029689-4');
+                              });
+                            </script>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div style="position: absolute; right: -170px; width: 160px">
-                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
-                    <div id='div-gpt-ad-1531830029689-4'>
-                        <script>
-                          googletag.cmd.push(function () {
-                            googletag.display('div-gpt-ad-1531830029689-4');
-                          });
-                        </script>
+            <div class="infobanner infobanner--bi">
+                <div class="infobanner-content">
+                    <a class="banner-link" href="https://donate.bihus.info/" title="Підтримай Bihus.info!  | Bihus.info — антикорупційні журналістські розслідування"></a>
+                    <div class="infobanner-text text-center">
+                        <p class="infobanner-top-text">Підтримай команду журналістів та юристів Bihus.info</p>
+                        <a href="https://donate.bihus.info/" class="btn button-cta">Я з вами</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="infobanner infobanner--bi">
-            <div class="infobanner-content">
-                <a class="banner-link" href="https://donate.bihus.info/" title="Підтримай Bihus.info!  | Bihus.info — антикорупційні журналістські розслідування"></a>
-                <div class="infobanner-text text-center">
-                    <p class="infobanner-top-text">Підтримай команду журналістів та юристів Bihus.info</p>
-                    <a href="https://donate.bihus.info/" class="btn button-cta">Я з вами</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    </section>
 {% endblock %}
 
 {% if branding_link %}
