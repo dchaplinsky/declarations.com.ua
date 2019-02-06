@@ -81,3 +81,4 @@ declarations.dump
 images-svg/
 
 declarations_site/catalog/data/dictionaries/
+Vagrantfile.local
