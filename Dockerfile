@@ -1,15 +1,11 @@
 FROM python:3.6.8-alpine3.9
 
 ARG root=/app
-ARG version
 ARG R_BASE_VERSION=3.5.2
 
 LABEL kind=app
 
-RUN [ "x${version}" = "x" ] && echo 'build-arg "version" is is missing' && exit 1 || exit 0
-
 ENV PYTHONUNBUFFERED=1 \
-    VERSION=${version} \
     PYTHONPATH=${root} PREFIX=${root} \
 		STATIC_ROOT=/static MEDIA_ROOT=/media \
 		STATIC_ROOT_SOURCE=/static-source \
@@ -41,12 +37,17 @@ RUN apk add --no-cache su-exec postgresql-libs libjpeg libxml2 libstdc++ binutil
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
+ARG version
+RUN [ "x${version}" = "x" ] && echo 'build-arg "version" is is missing' && exit 1 || exit 0
+ENV VERSION=${version}
+
 COPY declarations_site ${root}/declarations_site
 COPY dragnet ${root}/dragnet
 
 RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} ${NACP_DECLARATIONS_PATH} \
     && apk add --no-cache --virtual .static-deps ruby npm ruby-dev build-base ruby-rdoc \
     && gem install sass \
+    && npm config set unsafe-perm true \
     && npm install -g uglify-js \
     && python -m compileall ${root} \
     && PATH=${PATH}:${root}/bin \
