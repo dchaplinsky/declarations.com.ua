@@ -26,12 +26,12 @@ RUN apk add --no-cache su-exec postgresql-libs libjpeg libxml2 libstdc++ binutil
     # do not mix this with above
     && PREFIX=/usr/local pip install -r ${root}/dragnet/utils/requirements.txt \
     && runDeps="$( \
-			scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
-				| tr ',' '\n' \
-				| sort -u \
-				| awk 'system("[ -e /usr/local/lib" $1 " ]") == 0 { next } { print "so:" $1 }' \
-		)" \
-			apk add --no-cache --virtual .app-rundeps $runDeps \
+      scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
+        | tr ',' '\n' \
+        | sort -u \
+        | awk 'system("[ -e /usr/local/lib" $1 " ]") == 0 { next } { print "so:" $1 }' \
+    )" \
+      apk add --no-cache --virtual .app-rundeps $runDeps \
     && apk del .build-deps \
     && rm -rf /root/.cache
 
@@ -44,17 +44,19 @@ ENV VERSION=${version}
 COPY declarations_site ${root}/declarations_site
 COPY dragnet ${root}/dragnet
 
+ENV PYTHONPATH=${root}/declarations_site
+
 RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} ${NACP_DECLARATIONS_PATH} \
-    && apk add --no-cache --virtual .static-deps ruby npm ruby-dev build-base ruby-rdoc \
+    && apk add --no-cache ruby npm \
+    && apk add --no-cache --virtual .static-build-deps ruby-dev build-base ruby-rdoc \
     && gem install sass \
+    && apk del .static-build-deps \
     && npm config set unsafe-perm true \
     && npm install -g uglify-js \
     && python -m compileall ${root} \
     && PATH=${PATH}:${root}/bin \
        STATIC_ROOT=${STATIC_ROOT_SOURCE} \
-       python ${root}/declarations_site/manage.py collectstatic \
-    && rm -rf /usr/lib/ruby/gems ${root}/bin ${root}/lib \
-    && apk del .static-deps
+       python ${root}/declarations_site/manage.py collectstatic
 
 ENTRYPOINT [ "docker-entrypoint.sh" ]
 
