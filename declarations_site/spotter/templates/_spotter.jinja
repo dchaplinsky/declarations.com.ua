@@ -9,6 +9,8 @@
                      title="Facebook"><span class="glyphicon glyphicon-new-window"></span> Через Facebook</a></li>
                 <li><a class="google" href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
                     title="Google / Gmail"><span class="glyphicon glyphicon-new-window"></span> Через Google</a></li>
+                <li><a class="email" href="#" data-toggle="modal" data-target="#login-email-modal"
+                    title="E-mail"><span class="glyphicon glyphicon-new-window"></span> Через E-mail</a></li>
             </ul>
         </div>
         <!-- login modal -->
@@ -27,7 +29,38 @@
                                 title="Facebook">Facebook</a></li>
                             <li><a class="google" href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
                                 title="Google / Gmail">Google / Gmail</a></li>
+                            <li><a class="email" href="#" data-toggle="modal" data-target="#login-email-modal"
+                                data-dismiss="modal" title="E-mail">E-mail</a></li>
                         </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- login email modal -->
+        <div class="modal fade" id="login-email-modal" tabindex="-2" role="dialog" aria-labelledby="login-email-label">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="x"><span
+                            aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="login-email-label">Введіть e-mail</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div id="login-modal-email-form">
+                            <div class="form-group">
+                              <label for="login-email-input">Введіть адресу з якої ви реєструвались.
+                                Якщо ви ще не зареєстровані - зареєструйтесь за допомогою Google або Facebook.</label>
+                              <input type="email" class="form-control" id="login-email-input" placeholder="E-mail">
+                            </div>
+                            <button id="btn-send-login-email" class="btn btn-default">Надіслати лінк для входу</button>
+                        </div>
+                        <div id="login-modal-success-message" style="display:none">
+                            <p>
+                                Якщо ви зареєстровані на вказану адресу буде надіслано лист з посиланням для входу.
+                                Посилання діятиме протягом 15 хвилин.
+                            </p>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,6 +98,12 @@
             </div>
         </div>
     </div>
+{%- endmacro %}
+{% macro subscribe_chatbot_links() -%}
+    Також ви можете підписатись і отримувати сповіщення у ваш улюблений месенджер:
+    <a href="https://join.skype.com/bot/aa05e543-5918-49bb-88e6-ae8064345dd8">Skype</a>,
+    <a href="http://telegram.me/declbot">Telegram</a> та
+    <a href="https://www.messenger.com/t/237009933449862">Facebook Messenger</a>
 {%- endmacro %}
 {% macro flash_messages(messages) -%}
     {% if messages %}

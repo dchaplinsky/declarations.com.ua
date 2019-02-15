@@ -151,6 +151,29 @@ $(function() {
         	setLoginNext(href);
     });
 
+    $('#login-email-modal').on('hidden.bs.modal', function (e) {
+        $('#login-modal-email-form').show();
+        $("#login-modal-success-message").hide();
+        $('#login-email-input').val("").prop("disabled", false);
+    });
+
+    $('#btn-send-login-email').on('click', function (e) {
+        email = $('#login-email-input').val();
+        if (!email)
+            return
+        $('#login-email-input').prop("disabled", true);
+        $.post(
+            '/user/send-login-email/', {email: encodeURI(email)}
+        ).done(function (data) {
+            $('#login-modal-email-form').hide();
+            $("#login-modal-success-message").show();
+            $('#login-email-input').prop("disabled", false);
+        }).fail(function () {
+            $('#login-email-modal').modal('hide');
+            setTimeout(showLoginErrorModal, 500);
+        });
+    });
+
     $('#search-list .delete').click(function (e) {
         if (!confirm('Точно видалити?')) {
             e.preventDefault();
