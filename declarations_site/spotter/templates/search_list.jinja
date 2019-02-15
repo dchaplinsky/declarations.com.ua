@@ -1,6 +1,6 @@
 {% extends "base.jinja" %}
 
-{% from "_spotter.jinja" import flash_messages %}
+{% from "_spotter.jinja" import flash_messages, subscribe_chatbot_links %}
 
 {% block html_title -%}Мої запити{%- endblock %}
 
@@ -56,7 +56,9 @@
                                     <td>{{ task.found_total }}</td>
                                     <td>{{ task.found_week }}</td>
                                     <td>{% if task.is_enabled %}
-                                        <a href="{{ url('edit_email') }}">{{ task.user.email }}</a>{% else %}-{% endif %}
+                                        {% if task.is_allowed_edit_email %}
+                                        <a href="{{ url('edit_email') }}">{{ task.user.email }}</a>
+                                        {% else %}{{ task.display_email }}{% endif %}{% else %}-{% endif %}
                                     </td>
                                     <td>{% if task.is_enabled %}В роботі{% else %}На паузі{% endif %}</td>
                                     <td>
@@ -87,7 +89,9 @@
                 </div>
             </div>
             <p class="text-center help-footer">
-                Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "+ МОНІТОРИТИ ЦЕЙ ЗАПИТ".
+                Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "Моніторити цей запит".
+                <br><br>
+                {{ subscribe_chatbot_links() }}
             </p>
         </div>
     </div>
@@ -105,7 +109,7 @@
         <ol>
             <li>Введіть запит в пошуковий рядок що знаходиться зверху сторніки;</li>
             <li>Спробуйте щось знайти, при необхідності уточніть запит;</li>
-            <li>В результатах пошуку нажміть кнопку "+ МОНІТОРИТИ ЦЕЙ ЗАПИТ".</li>
+            <li>В результатах пошуку нажміть кнопку "Моніторити цей запит".</li>
         </ol>
       </div>
     </div>
