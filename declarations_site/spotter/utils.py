@@ -2,7 +2,7 @@ import re
 import hmac
 import logging
 from time import time
-from datetime import timedelta
+from datetime import datetime, timedelta
 from unidecode import unidecode
 from django.conf import settings
 from django.urls import reverse
@@ -10,6 +10,7 @@ from django.http import QueryDict
 from django.utils import timezone
 from django.utils.http import urlencode
 from django.db.models import Sum
+from django.contrib.auth.models import AnonymousUser
 from django.template.loader import render_to_string
 from elasticsearch_dsl import Search
 from catalog.constants import CATALOG_INDICES
@@ -182,8 +183,8 @@ def load_declarations(new_ids, limit=LOAD_DECLS_LIMIT):
 
 def get_verification_hmac(user, email, time):
     key = settings.SECRET_KEY
-    msg = '{user.id}{user.username}{email}{time}'.format(user=user, email=email, time=time)
-    mac = hmac.new(key.encode('utf8'), msg.encode('utf8'))
+    msg = '{user.id}:{user.username}:{email}:{time}'.format(user=user, email=email, time=time)
+    mac = hmac.new(key.encode('utf8'), msg.encode('utf8'), 'sha256')
     return mac.hexdigest()
 
 
@@ -202,6 +203,59 @@ def get_verified_email(request):
     except (TypeError, ValueError):
         return None
     return args['email']
+
+
+def get_email_login_userid(request):
+    user = AnonymousUser()
+    user.id = request.GET.get('user', 0)
+    args = {
+        'user': user,
+        'time': request.GET.get('time', 0),
+        'email': request.GET.get('email', '')
+    }
+    mac = request.GET.get('mac', '')
+    try:
+        if time() - float(args['time']) > 900:
+            raise ValueError('too late')
+        if mac != get_verification_hmac(**args):
+            raise ValueError('bad mac')
+        user_id = int(user.id)
+    except (TypeError, ValueError):
+        return None
+    return user_id
+
+
+def get_login_temporary_link(user_id, email):
+    user = AnonymousUser()
+    user.id = user_id
+    args = {
+        'user': user,
+        'email': email,
+        'time': time(),
+    }
+    args['mac'] = get_verification_hmac(**args)
+    args['user'] = str(user_id)
+    return reverse_qs('login_via_email', args)
+
+
+def send_login_temporary_link(user_id, email):
+    context = {
+        'link': get_login_temporary_link(user_id, email),
+        'site_url': settings.EMAIL_SITE_URL,
+    }
+    from_email = settings.FROM_EMAIL
+    subject = render_to_string("email_login_subject.txt", context).strip()
+    message = render_to_string("email_login_message.txt", context)
+    msghtml = render_to_string("email_login_message.html", context)
+    try:
+        endtime = datetime.now() + timedelta(minutes=15)
+        subject += " " + endtime.strftime("%H:%M")
+        res = send_mail(subject, message, from_email, [email],
+            html_message=msghtml)
+    except Exception as e:
+        logger.error("send_mail %s failed with error: %s", email, e)
+        res = False
+    return bool(res)
 
 
 def send_confirm_email(request, email):
