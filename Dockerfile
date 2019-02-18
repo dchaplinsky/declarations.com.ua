@@ -35,7 +35,7 @@ RUN apk add --no-cache su-exec postgresql-libs libjpeg libxml2 libstdc++ binutil
     && apk del .build-deps \
     && rm -rf /root/.cache
 
-RUN apk add --repositoty http://dl-3.alpinelinux.org/alpine/edge/testing/ lbzip2
+RUN apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ lbzip2
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
