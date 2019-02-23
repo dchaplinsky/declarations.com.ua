@@ -213,9 +213,11 @@ def botcmd_help(data):
 
 
 QUICK_ANSWERS = (
-    (re.compile('\?$'), "Вітаю, я бот для пошуку декларацій чиновників, почніть з команди 'довідка'.\n\nHello, I'm bot for search of declarations of Ukrainian officials."),
-    (re.compile('(hi|hello)$'), "Hello, I'm bot for search of declarations of Ukrainian officials. I don't speak English, please ask me in Ukrainian."),
-    (re.compile('(вітаю|привіт)$'), 'Вітаю, я бот для пошуку декларацій. Яку декларацію ти шукаєш сьогодні? Щоб дізнатись більше введіть "довідка".'),
+    (re.compile('\?$'), "Вітаю, я бот для пошуку декларацій депутатів та чиновників. Зробіть запит або почніть з команди 'довідка'. \n\n-\n\n"+
+                        "Hello, I'm bot for search declarations of Ukrainian officials. Try search something or type 'help'."),
+    (re.compile('(hi|hello)$'), "Hi, I'm bot for search declarations of Ukrainian officials. \n\n"+
+                        "Sorry, I don't speak English, please ask me in Ukrainian."),
+    (re.compile('(вітаю|привіт)$'), "Вітаю, я бот для пошуку декларацій. Зробіть будь-який запит або почніть з команди 'довідка'."),
     (re.compile('привет$'), 'Привет, я бот для поиска деклараций украинских чиновников. Я понимаю запросы только на украинском языке.'),
     (re.compile('дякую$'), ['Будь ласка.', 'Нема за що!', 'Користуйтесь на здоров\'я', 'Дякую, що користуєтесь.']),
     (re.compile('спасибо$'), ['Пожалуйста', 'Не за что', 'Чому не державною?']),
