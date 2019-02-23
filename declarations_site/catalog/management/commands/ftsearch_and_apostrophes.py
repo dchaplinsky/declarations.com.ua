@@ -1,6 +1,6 @@
 import sys
-from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Text, Keyword
+from elasticsearch_dsl import connections
 from django.core.management.base import BaseCommand
 from catalog.utils import replace_apostrophes, concat_fields, keyword_for_sorting
 from catalog.elastic_models import Declaration
@@ -47,7 +47,7 @@ class Command(BaseCommand):
         index = 'declarations_v2'
         doc_type = 'declaration'
 
-        es = Elasticsearch()
+        es = connections.connections.get_connection()
         mapping = es.indices.get_mapping(index=index, doc_type=doc_type)
         properties = mapping[index]['mappings'][doc_type]['properties']
 
@@ -96,7 +96,7 @@ class Command(BaseCommand):
                 ]
             }
 
-            decl.ft_src = ""
+            decl_dct["ft_src"] = ""
             decl.ft_src = "\n".join(filter_only_interesting(decl_dct))
 
             decl.general.full_name_for_sorting = keyword_for_sorting(decl.general.full_name)

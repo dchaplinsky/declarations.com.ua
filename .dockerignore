@@ -1,3 +1,96 @@
-declarations_bank/
-dragnet/
-declarations_site/static/sass/.sass-cache/
+.git/
+# Byte-compiled / optimized / DLL files
+**/__pycache__/
+**/*.py[cod]
+
+# C extensions
+**/*.so
+
+# Distribution / packaging
+**/.Python
+**/env/
+**/venv/
+**/build/
+**/develop-eggs/
+**/dist/
+**/downloads/
+**/eggs/
+**/lib/
+**/lib64/
+**/parts/
+**/sdist/
+**/var/
+**/*.egg-info/
+**/.installed.cfg
+**/*.egg
+**/local_settings.py
+
+# data files
+#*.csv
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+**/*.manifest
+**/*.spec
+
+# Installer logs
+**/pip-log.txt
+**/pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+**/htmlcov/
+**/.tox/
+**/.coverage
+**/.cache
+**/nosetests.xml
+**/coverage.xml
+
+# Translations
+**/*.mo
+**/*.pot
+
+# Django stuff:
+**/*.log
+
+# Sphinx documentation
+**/docs/_build/
+
+# PyBuilder
+**/target/
+
+**/.DS_Store
+**/*sublime-*
+**/declarations_site/catalog/data/samples
+**/.Rhistory
+**/*/figure/
+**/declarations.md
+**/.vagrant
+**/Vagrantfile
+
+**/declarations_site/media/
+**/node_modules/
+**/.sass-cache/
+**/00/
+**/declarations_bank/
+**/corrected.csv
+**/declarations.dump
+
+# Text Editor files
+**/.idea/
+**/images-svg/
+
+**/declarations_site/catalog/data/dictionaries/
+**/Vagrantfile.local
+
+Vagrantfile
+
+**/.git*
+elasticsearch
+.dockerignore
+**/Dockerfile
+.local_env
+build.sh
+docker-compose.yml
+dragnet/couchdb
+.env

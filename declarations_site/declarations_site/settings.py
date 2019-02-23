@@ -9,25 +9,36 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 import os
+import raven
 
 from django_jinja.builtins import DEFAULT_EXTENSIONS
 
+def get_env_str(k, default):
+    return os.environ.get(k, default)
+
+def get_env_str_list(k, default=""):
+    if os.environ.get(k) is not None:
+        return os.environ.get(k).strip().split(" ")
+    return default
+
+def get_env_bool(k, default):
+    return str(get_env_str(k, default)).lower() in ["1", "y", "yes", "true"]
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+MEDIA_ROOT = get_env_str('MEDIA_ROOT', os.path.join(BASE_DIR, "media"))
+STATIC_ROOT = get_env_str('STATIC_ROOT', os.path.join(BASE_DIR, "static"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('APP_SECRET_KEY', 'verysecretsecretthatmustbereset')
+SECRET_KEY = get_env_str('SECRET_KEY', os.getenv('APP_SECRET_KEY', 'verysecretsecretthatmustbereset'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('APP_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = get_env_str_list('ALLOWED_HOSTS', [])
 
 # Application definition
 
@@ -88,36 +99,40 @@ DATABASES = {
     'default': {
         # Strictly PostgreSQL
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASS'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT')
+        'NAME': get_env_str('DB_NAME', None),
+        'USER': get_env_str('DB_USER', None),
+        'PASSWORD': get_env_str('DB_PASS', None),
+        'HOST': get_env_str('DB_HOST', None),
+        'PORT': get_env_str('DB_PORT', '5432'),
     }
 }
 
 # Setup Elasticsearch default connection
 ELASTICSEARCH_CONNECTIONS = {
     'default': {
-        'hosts': os.getenv('ES_HOST', 'localhost'),
-        'timeout': 30
+        'hosts': get_env_str('ELASTICSEARCH_DSN', 'localhost:9200'),
+        'timeout': int(get_env_str('ELASTICSEARCH_TIMEOUT', '30')),
     }
 }
 
-BOTAPI_APP_ID = 'x'
-BOTAPI_APP_SECRET = ''
-BOTAPI_JWT_VERIFY = False
+BOTAPI_APP_ID = get_env_str('BOTAPI_APP_ID', 'x')
+BOTAPI_APP_SECRET = get_env_str('BOTAPI_APP_SECRET', '')
+BOTAPI_JWT_VERIFY = get_env_bool('BOTAPI_JWT_VERIFY', False)
+
+DB_CACHE_TABLE = get_env_str('DB_CACHE_TABLE', None)
 
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache' \
+            if DB_CACHE_TABLE is None \
+                else 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': DB_CACHE_TABLE
     }
 }
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
-
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -137,12 +152,12 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details'
 )
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = get_env_str('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', '')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = get_env_str('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', '')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email']
 
-SOCIAL_AUTH_FACEBOOK_KEY = ''
-SOCIAL_AUTH_FACEBOOK_SECRET = ''
+SOCIAL_AUTH_FACEBOOK_KEY = get_env_str('SOCIAL_AUTH_FACEBOOK_KEY', '')
+SOCIAL_AUTH_FACEBOOK_SECRET = get_env_str('SOCIAL_AUTH_FACEBOOK_SECRET', '')
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email'}
 
@@ -160,9 +175,14 @@ CHATBOT_SERP_COUNT = 5
 # EMAIL_SITE_URL used for full hrefs in email templates
 EMAIL_SITE_URL = SITE_URL
 
-FROM_EMAIL = 'robot@declarations.com.ua'
-EMAIL_HOST = 'localhost'
-EMAIL_TIMEOUT = 5
+FROM_EMAIL = get_env_str('FROM_EMAIL', 'robot@declarations.com.ua')
+DEFAULT_FROM_EMAIL = get_env_str('DEFAULT_FROM_EMAIL', None)
+EMAIL_HOST = get_env_str('EMAIL_HOST', 'localhost')
+EMAIL_HOST_USER = get_env_str('EMAIL_HOST_USER', None)
+EMAIL_HOST_PASSWORD = get_env_str('EMAIL_HOST_PASSWORD', None)
+EMAIL_PORT = int(get_env_str('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = get_env_bool('EMAIL_USE_TLS', False)
+EMAIL_TIMEOUT = int(get_env_str('EMAIL_TIMEOUT', '5'))
 
 RSS_AUTHOR_NAME = 'Сайт «Декларації» - проект Канцелярської сотні'
 RSS_AUTHOR_LINK = SITE_URL
@@ -297,17 +317,15 @@ PIPELINE = {
 
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = '/media/'
 
-NACP_DECLARATIONS_PATH = os.getenv('APP_NACP_PATH', '')
+NACP_DECLARATIONS_PATH = get_env_str('NACP_DECLARATIONS_PATH', '')
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application settings
 CATALOG_PER_PAGE = 30
-MAX_PAGES = 33334
+MAX_PAGES = int(get_env_str('MAX_PAGES', '33334'))
 
 
 LOGIN_URL = "/admin/login/"
@@ -320,10 +338,21 @@ ANALYTICS_TITLE = 'Аналіз декларацій чиновників'
 
 EMAIL_TIMEOUT = 5
 BROADCAST_TELEGRAM_CHANNEL = "@EndlessFrustration"
-BROADCAST_TELEGRAM_BOT_TOKEN = ""
+BROADCAST_TELEGRAM_BOT_TOKEN = get_env_str('BROADCAST_TELEGRAM_BOT_TOKEN', '')
 BROADCASTER_USER = "whistleblower@telegram.broadcast"
 
 SITEMAP_DECLARATIONS_PER_PAGE = 50000
+
+try:
+    GIT_VERSION = raven.fetch_git_sha(os.path.abspath(os.path.join(BASE_DIR, "..")))
+except raven.exceptions.InvalidGitRepository:
+    GIT_VERSION = "undef"
+    pass
+
+RAVEN_CONFIG = {
+    'dsn': get_env_str('SENTRY_DSN', None),
+    'release': get_env_str('VERSION', GIT_VERSION),
+}
 
 try:
     from .local_settings import *
