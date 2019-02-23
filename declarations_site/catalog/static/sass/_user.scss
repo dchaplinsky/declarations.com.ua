@@ -40,6 +40,7 @@
 }
 
 #login-modal .modal-header,
+#login-email-modal .modal-header,
 #login-error-modal .modal-header {
     background: url(../images/header.jpg) no-repeat center top;
 }
@@ -102,6 +103,11 @@
             background-position-x: 0px;
             background-position-y: -117px;
             background-color: #d14836;
+        }
+
+        .email {
+            background-position: 0 -156px;
+            background-color: #3b5998;
         }
     }
 }
@@ -199,6 +205,11 @@
 .form-group .help-block-error {
     position: static;
     display: block;
+}
+
+.alert.alert-social-auth {
+    background-color: #ff5722;
+    color: rgba(255, 255, 255, 0.84);
 }
 
 .help-footer {

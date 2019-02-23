@@ -24,6 +24,16 @@ class SearchTask(models.Model):
         return "<{}: {}{}>".format(self.id, self.query, deepsearch)
 
     @property
+    def is_allowed_edit_email(self):
+        return self.user.email and not self.user.email.endswith(".chatbot")
+
+    @property
+    def display_email(self):
+        if self.user.email and "@" in self.user.email and self.user.email.endswith(".chatbot"):
+            return self.user.email.split("@", 1)[1]
+        return self.user.email
+
+    @property
     def query_opt(self):
         opt = []
         if not self.query:

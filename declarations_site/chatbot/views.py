@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import (HttpResponse, HttpResponseBadRequest, HttpResponseForbidden,
     HttpResponseNotAllowed)
 from chatbot.utils import (chat_response, simple_search, verify_jwt, chat_last_message,
-    create_subscription, find_subscription, list_subscriptions, load_notify, TABLE_LINE)
+    create_subscription, find_subscription, list_subscriptions, load_notify, get_chat_login_link, TABLE_LINE)
 from spotter.utils import load_declarations, reverse_qs, ukr_plural
 
 
@@ -158,22 +158,66 @@ def botcmd_next_searchpage(data):
     return search_reply(data)
 
 
+def botcmd_login_url(data):
+    login_link = settings.SITE_URL + get_chat_login_link(data)
+    message = ""
+    attachments = [
+        {
+            "contentType": "application/vnd.microsoft.card.hero",
+            "content": {
+                "title": "Перейти до кабінету на сайті",
+                "text": "Посилання для входу на сайт діятиме протягом 15 хвилин",
+                "buttons": [
+                    {
+                        "type": "openUrl",
+                        "title": "Перейти на сайт",
+                        "value": login_link
+                    }
+                ]
+            }
+        }
+    ]
+    return chat_response(data, message, attachments=attachments)
+
+
 def botcmd_help(data):
-    message = ("Вітаю, я бот для пошуку декларацій чиновників, я розумію наступні команди:\n\n" +
-        " \n\n" +
-        "* будь-який-запит — знайти декларацію за запитом, показати результати в чаті,\n\n" +
-        "* “підписатись” — моніторити останній запит, отримувати оновлення в чат,\n\n" +
-        "* “підписки” — показати список підписок моніторингу, там же можна відписатись.\n\n" +
-        " \n\n"
-        "Щоб дізнатись більше, завітайте на сайт https://declarations.com.ua\n\n" +
-        "Дякую, що користуєтесь.")
-    return chat_response(data, message)
+    message = ("Вітаю, я бот для пошуку декларацій депутатів та чиновників.\n\n-\n\n" +
+        "Мені можна відправити будь-який запит і я негайно знайду декларації. "+
+        "Ще можна підписатись на оновлення і першим отримувати сповіщення про нові "+
+        "декларації за вашим запитом. А ще я розумію команди: \n\n-\n\n" +
+        "“підписатись” — моніторити останній запит, отримувати оновлення в чат,\n\n" +
+        "“підписки” — показати список підписок моніторингу, там же можна відписатись.\n\n" +
+        "“вхід” — перейти до власного кабінету на сайті декларацій.\n\n-\n\n" +
+        "Щоб дізнатись більше, завітайте на наш сайт. Дякую, що користуєтесь.")
+
+    attachments = [
+        {
+            "contentType": "application/vnd.microsoft.card.hero",
+            "content": {
+                "buttons": [
+                    {
+                        "type": "imBack",
+                        "title": "Мої підписки",
+                        "value": "підписки"
+                    },
+                    {
+                        "type": "openUrl",
+                        "title": "Перейти на сайт",
+                        "value": settings.SITE_URL
+                    }
+                ]
+            }
+        }
+    ]
+    return chat_response(data, message, attachments=attachments)
 
 
 QUICK_ANSWERS = (
-    (re.compile('\?$'), "Вітаю, я бот для пошуку декларацій чиновників, почніть з команди 'довідка'.\n\nHello, I'm bot for search of declarations of Ukrainian officials."),
-    (re.compile('(hi|hello)$'), "Hello, I'm bot for search of declarations of Ukrainian officials. I don't speak English, please ask me in Ukrainian."),
-    (re.compile('(вітаю|привіт)$'), 'Вітаю, я бот для пошуку декларацій. Яку декларацію ти шукаєш сьогодні?'),
+    (re.compile('\?$'), "Вітаю, я бот для пошуку декларацій депутатів та чиновників. Зробіть запит або почніть з команди 'довідка'. \n\n-\n\n"+
+                        "Hello, I'm bot for search declarations of Ukrainian officials. Try search something or type 'help'."),
+    (re.compile('(hi|hello)$'), "Hi, I'm bot for search declarations of Ukrainian officials. \n\n"+
+                        "Sorry, I don't speak English, please ask me in Ukrainian."),
+    (re.compile('(вітаю|привіт)$'), "Вітаю, я бот для пошуку декларацій. Зробіть будь-який запит або почніть з команди 'довідка'."),
     (re.compile('привет$'), 'Привет, я бот для поиска деклараций украинских чиновников. Я понимаю запросы только на украинском языке.'),
     (re.compile('дякую$'), ['Будь ласка.', 'Нема за що!', 'Користуйтесь на здоров\'я', 'Дякую, що користуєтесь.']),
     (re.compile('спасибо$'), ['Пожалуйста', 'Не за что', 'Чому не державною?']),
@@ -181,12 +225,13 @@ QUICK_ANSWERS = (
 )
 
 CHATBOT_COMMANDS = (
-    (re.compile('(підписат|монітор|подписат|монитор|sub)'), botcmd_subscribe),
-    (re.compile('(відпис|отпис|unsub)'), botcmd_unsubscribe),
-    (re.compile('(мої|підписки|подписки|list)'), botcmd_list_subscribe),
-    (re.compile('(нові|новые|new) \d+'), botcmd_list_newfound),
-    (re.compile('(наступні|следующие|next) \/\d+'), botcmd_next_searchpage),
-    (re.compile('(допомо|довідка|помощь|справка|help|info|/start)'), botcmd_help),
+    (re.compile('(підписат|монітор|подписат|монитор|/?sub)'), botcmd_subscribe),
+    (re.compile('(відпис|отпис|/?unsub)'), botcmd_unsubscribe),
+    (re.compile('(мої|підписки|подписки|/?list)'), botcmd_list_subscribe),
+    (re.compile('(нові|новые|/?new) \d+'), botcmd_list_newfound),
+    (re.compile('(наступні|следующие|/?next) \/\d+'), botcmd_next_searchpage),
+    (re.compile('(вхід|вход|/?login)'), botcmd_login_url),
+    (re.compile('(допомо|довідка|помощь|справка|/?help|/?info|/?start)'), botcmd_help),
 )
 
 NOT_FOUND_RESPONSES = (
@@ -232,7 +277,7 @@ def send_greetings(data):
         if 'bot' in member.get('name', '').lower():
             continue
         data['from'] = {'id': data['conversation']['id']}
-        message = ('Вітаю, яку декларацію ти шукаєш сьогодні?')
+        message = ('Вітаю, яку декларацію ти шукаєш сьогодні? Щоб дізнатись більше напишіть "довідка".')
         chat_response(data, message)
         # send greetings only once
         break
@@ -351,6 +396,13 @@ def decl_list_to_chat_cards(decl_list, data, settings, deepsearch=False, skip=0,
                 ]
             }
         }
+        if total == 0:
+            att["content"]["title"] = "Отримати коли з'явиться"
+            att["content"]["buttons"].append({
+                "type": "imBack",
+                "title": "Допомога",
+                "value": "допомога",
+            })
     else:
         # telegram fix
         if channel == 'telegram':
@@ -421,8 +473,9 @@ def search_reply(data):
     message = 'Знайдено {} {}'.format(found_total, plural)
 
     if found_total == 0:
-        message = 'Декларацій не знайдено.'
-        message += '\n\n{}'.format(choice(NOT_FOUND_RESPONSES))
+        message = 'За запитом "{}" декларацій не знайдено.'.format(data['text'])
+        message += '\n\n-\n\n'
+        message += choice(NOT_FOUND_RESPONSES)
 
     elif found_total > skip + count:
         if skip:
@@ -443,11 +496,19 @@ def search_reply(data):
 
 
 @csrf_exempt
+def deauthorize(request):
+    if request.method != 'POST':
+        return HttpResponseNotAllowed(['POST'], 'Method Not Allowed')
+
+    return HttpResponse('OK')
+
+
+@csrf_exempt
 def messages(request):
     if request.method != 'POST':
         return HttpResponseNotAllowed(['POST'], 'Method Not Allowed')
 
-    if len(request.body) < 100 or len(request.body) > 2000:
+    if len(request.body) < 100 or len(request.body) > 5000:
         return HttpResponseBadRequest('Bad Request')
 
     data = json.loads(request.body.decode('utf-8'))

@@ -1,17 +1,21 @@
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.contrib import messages
-from django.contrib.auth import logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from social_django.models import DjangoStorage
 from functools import partial
 
 from catalog.utils import replace_apostrophes
 from spotter.models import SearchTask
 from spotter.forms import UserProfileForm
 from spotter.utils import (first_run, send_newtask_notify, send_confirm_email,
-    get_verified_email, reverse_qs)
+    get_verified_email, reverse_qs, get_email_login_userid, send_login_temporary_link)
 
 
 login_required = partial(login_required, redirect_field_name='login_to', login_url='/')
@@ -27,6 +31,46 @@ def login_menu(request, template_name='login_menu.jinja'):
         return HttpResponse('')
     path = request.GET.get('next', '')
     return render(request, template_name, {'path': path})
+
+
+def login_via_email(request):
+    user_id = get_email_login_userid(request)
+    email = request.GET.get('email', '')
+    if not user_id:
+        return redirect(settings.SOCIAL_AUTH_LOGIN_ERROR_URL)
+    user = DjangoStorage.user.get_user(user_id, email=email)
+    if not user or not user.is_active:
+        return redirect(settings.SOCIAL_AUTH_LOGIN_ERROR_URL)
+    if request.user and request.user.is_authenticated:
+        logout(request)
+    backend = 'django.contrib.auth.backends.ModelBackend'
+    login(request, user, backend=backend)
+    return redirect('search_list')
+
+
+@csrf_exempt
+@require_POST
+def deauthorize(request):
+    return HttpResponse('OK')
+
+
+@csrf_exempt
+@require_POST
+def send_login_email(request):
+    email = request.POST.get('email', '-')
+    try:
+        validate_email(email)
+    except ValidationError:
+        raise Http404("Bad E-mail")
+
+    for user in DjangoStorage.user.get_users_by_email(email):
+        if user.is_active:
+            send_login_temporary_link(user.id, email)
+
+    if request.is_ajax():
+        return HttpResponse('OK')
+
+    return redirect('/')
 
 
 @login_required
@@ -67,6 +111,15 @@ def do_save_search(request, query, deepsearch, query_params):
 
     task = SearchTask(user=request.user, query=query, deepsearch=deepsearch)
     task.query_params = query_params
+
+    # we need chat_data for create chatbot task
+    if request.user.email and request.user.email.endswith(".chatbot"):
+        prev_task = SearchTask.objects.filter(user=request.user)
+        if not prev_task.exists():
+            messages.warning(request, 'Для початку створіть хоч одне завдання з чату.')
+            return redirect('search_list')
+        task.chat_data = prev_task[0].chat_data
+
     task.save()
 
     if not first_run(task):
@@ -105,6 +158,10 @@ def save_search(request):
 
 @login_required
 def edit_email(request, template_name='edit_email.jinja'):
+    if request.user.email and request.user.email.endswith(".chatbot"):
+        messages.warning(request, 'Неможливо змінити адресу')
+        return redirect('search_list')
+
     form = UserProfileForm(request.POST or None,
         initial={'email': request.user.email})
 
