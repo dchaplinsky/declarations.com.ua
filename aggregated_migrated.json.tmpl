@@ -1,0 +1,130 @@
+{
+    "name": "aggregated_with_flags",
+    "database": "declarations_migrated",
+    "loader": {
+        "type": "nacp",
+        "input_dir": "{datadir}/import/nacp",
+        "corrected_file": "${NACP_DECLARATIONS_PATH}/corrected.csv",
+        "state_file": "{datadir}/import/laststate_migrated"
+    },
+    "runner": {
+        "type": "chakra",
+        "sequential": true,
+        "design_documents": [
+            {
+                "name": "meta",
+                "views": ["views/meta.es6"]
+            },
+            {
+                "name": "aggregated",
+                "views": [
+                    "views/aggregated/step_3_estate.es6", "views/aggregated/step_6_vehicles.es6",
+                    "views/aggregated/step_11_incomes.es6", "views/aggregated/step_12_assets.es6"
+                ]
+            },
+            {
+                "name": "red_flags",
+                "views": ["views/red_flags.es6"]
+            }
+        ]
+    },
+    "exporter": {
+        "type": "csv",
+        "state_file": "{datadir}/import/laststate_migrated",
+        "mappings": [
+            {
+                "view": "meta.meta",
+                "output": "{datadir}/export/meta.csv",
+                "columns": ["id", "link", "name", "year", "name_post", "family", "organization_group", "region"]
+            },
+            {
+                "view": "aggregated.step_3_estate",
+                "output": "{datadir}/export/step_3_estate_agg.csv",
+                "columns": [
+                    "id", "estate.declarant_land", "estate.declarant_other", "estate.family_land",
+                    "estate.family_other", "estate.total_land", "estate.total_other", "estate.has_hidden",
+                    "estate.has_foreign", "estate.family_land_ratio", "estate.family_other_ratio"
+                ]
+            },
+            {
+                "view": "aggregated.step_6_vehicles",
+                "output": "{datadir}/export/step_6_vehicles_agg.csv",
+                "columns": [
+                    "id", "vehicles.declarant_cost", "vehicles.family_cost", "vehicles.total_cost",
+                    "vehicles.max_year", "vehicles.has_hidden", "vehicles.all_names", "vehicles.any"
+                ]
+            },
+            {
+                "view": "aggregated.step_11_incomes",
+                "output": "{datadir}/export/step_11_incomes_agg.csv",
+                "columns": [
+                    "id", "incomes.declarant", "incomes.family", "incomes.total", "incomes.prize", "incomes.has_hidden",
+                    "incomes.has_foreign", "incomes.family_ratio"
+                ]
+            },
+            {
+                "view": "aggregated.step_12_assets",
+                "output": "{datadir}/export/step_12_assets_agg.csv",
+                "columns": [
+                    "id", "assets.declarant", "assets.family", "assets.total", "assets.lent", "assets.has_hidden",
+                    "assets.has_foreign", "assets.family_ratio"
+                ]
+            },
+            {
+                "view": "red_flags.red_flags",
+                "output": "{datadir}/export/red_flags.csv",
+                "columns": [
+                    "id", "assets_to_income_flag", "income_presents_to_total_flag", "expenses_to_inc_and_assets_flag",
+                    "liabilities_to_inc_and_assets_flag", "cash_flag", "garage_wo_car_flag", "house_no_land_flag",
+                    "lux_cars_flag", "lux_cars_flag_v2", "vehicle_purch_no_cost_flag", "estate_purch_no_cost_flag",
+                    "estate_has_hidden_cost", "corprights_abroad_flag", "bank_accounts_abroad_flag", "income_prize_fact",
+                    "assets_lend_3rd_parties", "cash_flag_500k", "income_presents_to_total_flag_50", "family_member_did_not_provide_information_flag",
+                    "expenses.total", "liabilities.total", "assets.cash.total", "incomes.presents.all"
+                ]
+            }
+        ]
+    },
+    "merger": {
+        "type": "csv",
+        "field": "id",
+        "how": "left",
+        "nan_replacements": {
+            "types": {
+                "int64": 0,
+                "float64": 0.0,
+                "bool": "False",
+                "object": ""
+            },
+            "columns": {
+                "region": "!не визначено",
+                "family": "False",
+                "incomes.has_hidden": "False",
+                "incomes.has_foreign": "False",
+                "assets.has_hidden": "False",
+                "assets.has_foreign": "False",
+                "estate.has_hidden": "False",
+                "estate.has_foreign": "False",
+                "vehicles.max_year": "!немає авто",
+                "vehicles.has_hidden": "False",
+                "vehicles.any": "False"
+            }
+        },
+        "output": "{datadir}/export/aggregated_with_flags.csv",
+        "inputs": [
+            "{datadir}/export/meta.csv", "{datadir}/export/red_flags.csv", "{datadir}/export/step_3_estate_agg.csv",
+            "{datadir}/export/step_6_vehicles_agg.csv", "{datadir}/export/step_11_incomes_agg.csv",
+            "{datadir}/export/step_12_assets_agg.csv"
+        ],
+        "postprocess": ["{datadir}/filters/outlier_agg_filter.py", "{datadir}/filters/agg_postprocess.py"],
+        "only_years": []
+    },
+    "pump": {
+        "type": "csv_to_elasticsearch",
+        "index": "nacp_declarations_new",
+	"doc_type": "nacp_declaration_doctype",
+	"match_field": "id",
+        "container_field": "aggregated",
+        "input": "{datadir}/export/aggregated_with_flags.csv",
+        "state_file": "{datadir}/import/laststate_migrated"
+    }
+}
