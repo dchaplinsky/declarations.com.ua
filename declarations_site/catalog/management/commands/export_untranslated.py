@@ -27,6 +27,19 @@ class Command(BaseCommand):
     help = "Go through e-declarations and paper based declarations to extract chunks that aren't yet translated"
 
     def add_arguments(self, parser):
+        parser.add_argument(
+            '--concurrency', action='store',
+            dest='concurrency', type=int, default=8,
+            help='Run concurrently in N threads',
+        )
+
+        parser.add_argument(
+            '--chunk_size', action='store',
+            dest='chunk_size', type=int, default=500,
+            help='Run concurrently in N threads',
+        )
+
+
         parser.add_argument("outfile", type=argparse.FileType("wb"))
 
     @classmethod
@@ -66,16 +79,18 @@ class Command(BaseCommand):
         with tqdm.tqdm() as pbar:
             totally_unseen = Counter()
 
-            with Pool(8) as pool:
-                results = pool.imap(Command.extract_terms_to_translate, grouper(all_e_decls, 200))
+            with Pool(options["concurrency"]) as pool:
+                results = pool.imap(Command.extract_terms_to_translate, grouper(all_e_decls, options["chunk_size"]))
 
                 for cnt, unseen in results:
                     globally_unseen.update(unseen)
                     pbar.update(cnt)
+                    pbar.write("{} items in unseen dict".format(len(globally_unseen)))
 
         existing_translations = frozenset(
             Translation.objects.values_list("term_id", flat=True).distinct()
         )
+        pbar.write("{} items in db dict".format(len(existing_translations)))
 
         filtered_unseen = Counter()
         for k, v in globally_unseen.items():
@@ -85,4 +100,5 @@ class Command(BaseCommand):
             ):
                 filtered_unseen[k] = v
 
+        pbar.write("{} items left after filtering".format(len(filtered_unseen)))
         dump(filtered_unseen, options["outfile"])
