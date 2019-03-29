@@ -177,7 +177,11 @@
                         <hr />
                     </div>
                 {% else %}
-                    {% include 'decl_form.jinja' %}
+                    {% if language == "en" %}
+                        {{ declaration.raw_en_html()|safe }}
+                    {% else %}
+                        {{ declaration.raw_html()|safe }}
+                    {% endif %}
                 {% endif %}
 
                 <div class="transliteration-hint">

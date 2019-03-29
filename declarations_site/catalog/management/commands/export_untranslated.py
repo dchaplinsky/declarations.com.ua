@@ -1,22 +1,17 @@
-import os.path
-import json
-import fnmatch
 import argparse
 from pickle import dump
 from collections import Counter
-from itertools import chain
 from multiprocessing import Pool
+from itertools import chain
 
-import glob2
 import tqdm
-import jmespath
 from pyquery import PyQuery as pq
-from elasticsearch_dsl.connections import connections
+from elasticsearch_dsl import Search
 
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
-from catalog.constants import OLD_DECLARATION_INDEX, NACP_SELECTORS_TO_TRANSLATE
+from catalog.constants import CATALOG_INDICES
 from catalog.elastic_models import Declaration, NACPDeclaration
 from catalog.utils import grouper
 from catalog.models import Translation
@@ -28,17 +23,22 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--concurrency', action='store',
-            dest='concurrency', type=int, default=8,
-            help='Run concurrently in N threads',
+            "--concurrency",
+            action="store",
+            dest="concurrency",
+            type=int,
+            default=8,
+            help="Run concurrently in N threads",
         )
 
         parser.add_argument(
-            '--chunk_size', action='store',
-            dest='chunk_size', type=int, default=500,
-            help='Run concurrently in N threads',
+            "--chunk_size",
+            action="store",
+            dest="chunk_size",
+            type=int,
+            default=500,
+            help="Run concurrently in N threads",
         )
-
 
         parser.add_argument("outfile", type=argparse.FileType("wb"))
 
@@ -56,8 +56,10 @@ class Command(BaseCommand):
             ) | set(decl.names_autocomplete or [])
 
             trans = HTMLTranslator(
-                decl.raw_html(), NACP_SELECTORS_TO_TRANSLATE, do_not_fetch_dicts=True,
-                store_unseen=True
+                decl.raw_html(),
+                decl.CONTENT_SELECTORS,
+                do_not_fetch_dicts=True,
+                store_unseen=True,
             )
             trans.get_translated_html(do_not_translate=names_to_ignore)
 
@@ -74,13 +76,18 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         globally_unseen = Counter()
 
-        all_e_decls = NACPDeclaration.search().scan()
+        all_decls = (
+            Search(index=CATALOG_INDICES).doc_type(NACPDeclaration, Declaration).scan()
+        )
 
         with tqdm.tqdm() as pbar:
             totally_unseen = Counter()
 
             with Pool(options["concurrency"]) as pool:
-                results = pool.imap(Command.extract_terms_to_translate, grouper(all_e_decls, options["chunk_size"]))
+                results = pool.imap(
+                    Command.extract_terms_to_translate,
+                    grouper(all_decls, options["chunk_size"]),
+                )
 
                 for cnt, unseen in results:
                     globally_unseen.update(unseen)

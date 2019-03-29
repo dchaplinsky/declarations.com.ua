@@ -220,9 +220,11 @@ def details(request, declaration_id, language="uk"):
     try:
         try:
             declaration = NACPDeclaration.get(id=declaration_id)
-            declaration.prepare_translations(language)
         except NotFoundError:
             declaration = Declaration.get(id=declaration_id)
+
+        declaration.prepare_translations(language)
+
         try:
             meta = PersonMeta.objects.get(
                 fullname=declaration.general.full_name,

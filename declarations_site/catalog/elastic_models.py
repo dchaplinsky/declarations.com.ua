@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db.models.functions import ExtractYear
 from django.db.models import Sum, Count
+from django.template.loader import render_to_string
 
 from elasticsearch_dsl import (
     DocType,
@@ -41,6 +42,7 @@ from .constants import (
     NUMBER_OF_SHARDS,
     NUMBER_OF_REPLICAS,
     NACP_SELECTORS_TO_TRANSLATE,
+    PAPER_SELECTORS_TO_TRANSLATE
 )
 
 
@@ -110,8 +112,17 @@ class AbstractDeclaration(object):
         return self.meta.id
 
     def prepare_translations(self, language):
+        assert self.CONTENT_SELECTORS, "You should define CONTENT_SELECTORS first"
+
         if language == "en":
-            self.translator = Translator()
+            self.translator = HTMLTranslator(
+                self.raw_html(),
+                self.CONTENT_SELECTORS,
+            )
+
+    def raw_en_html(self):
+        assert hasattr(self, "translator"), "You should call prepare_translations first"
+        return self.translator.get_translated_html()
 
     def _full_name(self, language):
         name = "{} {} {}".format(
@@ -372,6 +383,8 @@ class Declaration(DocType, AbstractDeclaration):
         "declaration.source",
         "declaration.url",
     ]
+
+    CONTENT_SELECTORS = PAPER_SELECTORS_TO_TRANSLATE
 
     INCOME_SINGLE_PROPERTIES = {
         "value": Keyword(index=False),
@@ -731,6 +744,12 @@ class Declaration(DocType, AbstractDeclaration):
         self._aggregated = resp
         return resp
 
+
+    def raw_html(self):
+        doc = render_to_string("decl_form.jinja", {"declaration": self})
+
+        return doc
+
     class Meta:
         pass
         # commenting it out for now to not to ruin existing index
@@ -843,6 +862,8 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         "declaration.url",
     ]
 
+    CONTENT_SELECTORS = NACP_SELECTORS_TO_TRANSLATE
+
     def raw_html(self):
         fname = os.path.join(
             settings.NACP_DECLARATIONS_PATH,
@@ -882,17 +903,6 @@ class NACPDeclaration(DocType, AbstractDeclaration):
                 )
 
         return doc
-
-    def prepare_translations(self, language):
-        if language == "en":
-            self.translator = HTMLTranslator(
-                self.raw_html(),
-                NACP_SELECTORS_TO_TRANSLATE,
-            )
-
-    def raw_en_html(self):
-        assert hasattr(self, "translator"), "You should call prepare_translations first"
-        return self.translator.get_translated_html()
 
     af_paths = [
         jmespath.compile("step_7.*.emitent_ua_company_code"),

@@ -1,3 +1,4 @@
+<div>
 <section class="declaration-block weiss-form">
 	<h1 class="declaration-head">
 		<strong class="declaration-head__em">Декларація</strong>
@@ -112,8 +113,11 @@
 					<tr>
 						<td>
 							<div class="l-weiss-form__row">
-								{{ member.relations }}{{ member.relations_other|default("") }}
+								{{ member.relations }}
 							</div>
+							{% if member.relations_other|default("") %}
+								<div class="l-weiss-form__row">{{ member.relations_other|default("") }}</div>
+							{% endif %}
 						</td>
 						<td>
 							<div class="l-weiss-form__row">
@@ -133,8 +137,13 @@
 						{% else %}
 						<th class="weiss-table__cell_fwn">
 							<div class="l-weiss-form__row">
-								{{ member.relations }}{{ member.relations_other|default("") }}
+								{{ member.relations }}
 							</div>
+							{% if member.relations_other|default("") %}
+								<div class="l-weiss-form__row">
+									{{ member.relations_other|default("") }}
+								</div>
+							{% endif %}
 						</th>
 						<td class="weiss-table__cell_tal">
 							<div class="l-weiss-form__row">
@@ -1586,6 +1595,7 @@
 					</td>
 				</tr>
 				{% endfor %}
+				</tbody>
 				<tbody>
 				{% for estate in declaration.estate['30'] if estate.space or estate.costs or estate.region %}
 				<tr>
@@ -1674,6 +1684,7 @@
 					</td>
 				</tr>
 				{% endfor %}
+				</tbody>
 				<tbody>
 				{% for estate in declaration.estate['31'] if estate.space or estate.costs or estate.region %}
 				<tr>
@@ -1762,6 +1773,7 @@
 					</td>
 				</tr>
 				{% endfor %}
+				</tbody>
 				<tbody>
 				{% for estate in declaration.estate['32'] if estate.space or estate.costs or estate.region %}
 				<tr>
@@ -1850,6 +1862,7 @@
 					</td>
 				</tr>
 				{% endfor %}
+				</tbody>
 				<tbody>
 				{% for estate in declaration.estate['33'] if estate.space or estate.costs or estate.region %}
 				<tr>
@@ -1938,6 +1951,7 @@
 					</td>
 				</tr>
 				{% endfor %}
+				</tbody>
 				<tbody>
 				{% for estate in declaration.estate['34'] if estate.space or estate.costs or estate.region %}
 				<tr>
@@ -2026,6 +2040,7 @@
 					</td>
 				</tr>
 				{% endfor %}
+				</tbody>
 			</table>
 		</section>
 	</div>
@@ -4090,8 +4105,6 @@
 			</p>
 			{% endif %}
 		</section>
-
-
 	</div>
 </section>
-
+</div>
