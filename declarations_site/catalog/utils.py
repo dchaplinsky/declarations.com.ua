@@ -1,15 +1,18 @@
 import re
 import csv
 import os.path
-import jmespath
+from itertools import zip_longest
 from string import capwords
 
+import jmespath
 from elasticsearch.exceptions import TransportError
 from translitua import (
     translit, ALL_RUSSIAN, ALL_UKRAINIAN, UkrainianKMU, RussianInternationalPassport)
 
-from catalog.constants import VALID_RELATIONS
 from django.conf import settings
+
+
+from catalog.constants import VALID_RELATIONS
 
 
 def is_cyr(name):
@@ -228,3 +231,8 @@ def parse_family_member(s):
     except ValueError:
         return {"raw": s}
 
+def grouper(iterable, n, fillvalue=None):
+    """Collect data into fixed-length chunks or blocks"""
+    # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"
+    args = [iter(iterable)] * n
+    return zip_longest(*args, fillvalue=fillvalue)

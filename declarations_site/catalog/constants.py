@@ -408,3 +408,5 @@ VALID_RELATIONS = [
     "Тато",
     "Жена",
 ]
+
+NACP_SELECTORS_TO_TRANSLATE = "h2 span, legend i, label strong, label, th, header, span.block b, b, p, span, td"

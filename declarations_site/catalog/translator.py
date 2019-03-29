@@ -1,7 +1,7 @@
 import os.path
 import re
 from csv import reader
-from collections import namedtuple, Counter
+from collections import Counter
 from html import unescape
 
 from translitua import translit
@@ -12,21 +12,30 @@ from catalog.models import Translation
 
 
 class Translator:
-    def __init__(self):
+    def __init__(self, store_unseen=False):
         self.inner_dict = {}
+        self.unseen = Counter()
+        self.store_unseen = store_unseen
 
-    def get_id(self, term):
-        return unescape(term).replace("\xa0", " ").replace("\u200b", "").lower().strip(" ,.;")
-
-    def get_loose_id(self, term):
-        return re.sub(
-            "[.,\/#!$%\^&\*;:{}=\-_`~()\s]",
-            "",
-            self.get_id(term),
+    @staticmethod
+    def get_id(term):
+        return (
+            unescape(term)
+            .replace("\xa0", " ")
+            .replace("\u200b", "")
+            .lower()
+            .strip(" ,.;")
         )
+
+    @staticmethod
+    def get_loose_id(term):
+        return re.sub(r"[.,\/#!$%\^&\*;:{}=\-_`~()\s]", "", Translator.get_id(term))
 
     def fetch_partial_dict_from_db(self, phrases):
         phrases = list(filter(None, phrases))
+        if not phrases:
+            return
+
         ids = set(map(self.get_id, phrases)) | set(map(self.get_loose_id, phrases))
         translations = Translation.objects.filter(term_id__in=ids).values(
             "term_id", "translation", "source", "quality", "strict_id"
@@ -98,29 +107,41 @@ class Translator:
         if loose_term_id in self.inner_dict:
             return self.inner_dict[loose_term_id]
 
+        if phrase.strip() and self.store_unseen:
+            self.unseen.update([phrase.strip()])
+
         return dict(
             term=phrase, translation=translit(phrase), source="translit", quality=1
         )
 
 
 class HTMLTranslator(Translator):
-    def __init__(self, html, selectors):
-        super().__init__()
+    def __init__(self, html, selectors, do_not_fetch_dicts=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         self._parsed_html = pq(html)
-        self._html_elements = []
+        self._html_elements = HTMLTranslator.get_html_elements(self._parsed_html, selectors)
 
-        for el in self._parsed_html(selectors):
+        phrases = HTMLTranslator.get_phrases(self._html_elements)
+       
+        if not do_not_fetch_dicts:
+            self.fetch_partial_dict_from_db(phrases)
+
+
+    @staticmethod
+    def get_html_elements(parsed_html, selectors):
+        html_elements = []
+        for el in parsed_html(selectors):
             for x in el.getiterator():
                 if x.text or x.tail:
-                    self._html_elements.append(x)
+                    html_elements.append(x)
 
-        phrases = self.get_phrases()
-        self.fetch_partial_dict_from_db(phrases)
+        return html_elements
 
-    def get_phrases(self):
+    @staticmethod
+    def get_phrases(html_elements):
         phrases = []
-        for el in self._html_elements:
+        for el in html_elements:
             if el.text:
                 phrases.append(el.text)
             if el.tail:
@@ -128,15 +149,24 @@ class HTMLTranslator(Translator):
 
         return phrases
 
-    def get_translated_html(self):
+    def get_translated_html(self, do_not_translate=None):
+        if do_not_translate is None:
+            do_not_translate = []
+
+        do_not_translate = [self.get_id(x) for x in do_not_translate]
+
         for el in self._html_elements:
             if el.text:
+                if self.get_id(el.text) in do_not_translate:
+                    continue
+
                 phrase = self.translate(el.text)
-                # el.set("class", el.get("class", "") + " translated")
                 el.text = phrase["translation"]
             if el.tail:
+                if self.get_id(el.tail) in do_not_translate:
+                    continue
+
                 phrase = self.translate(el.tail)
-                # el.set("class", el.get("class", "") + " translated")
                 el.tail = phrase["translation"]
 
         return self._parsed_html.html()

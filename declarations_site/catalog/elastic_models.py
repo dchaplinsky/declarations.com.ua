@@ -40,6 +40,7 @@ from .constants import (
     NACP_DECLARATION_INDEX,
     NUMBER_OF_SHARDS,
     NUMBER_OF_REPLICAS,
+    NACP_SELECTORS_TO_TRANSLATE,
 )
 
 
@@ -886,7 +887,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         if language == "en":
             self.translator = HTMLTranslator(
                 self.raw_html(),
-                "h2 span, legend i, label strong, label, th, header, span.block b, b, p, span, td",
+                NACP_SELECTORS_TO_TRANSLATE,
             )
 
     def raw_en_html(self):
