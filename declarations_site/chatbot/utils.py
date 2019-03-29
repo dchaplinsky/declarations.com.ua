@@ -24,14 +24,14 @@ from catalog.constants import CATALOG_INDICES
 from catalog.utils import base_search_query
 from chatbot.models import ChatHistory
 from spotter.utils import (ukr_plural, clean_username, save_search_task,
-    find_search_task, list_search_tasks, get_user_notify)
+    find_search_task, list_search_tasks, get_user_notify, get_login_temporary_link)
 
 
 logger = logging.getLogger(__name__)
 
 _BROADCAST_BOT_INSTANCE = None
 
-TABLE_LINE = ("=" * 20)
+TABLE_LINE = ("=" * 15)
 
 
 def get_broadcast_bot_instance():
@@ -249,6 +249,9 @@ def chat_response(data, message='', messageType='message', attachments=None, aut
 
     creds = client_credentials()
 
+    if data.get('channelId', '') == 'skype' and "\n\n-\n\n" in message:
+        message = message.replace("\n\n-\n\n", "\n\n")
+
     responseURL = "{}/v3/conversations/{}/activities/{}".format(
         data['serviceUrl'],
         data['conversation']['id'],
@@ -262,6 +265,12 @@ def chat_response(data, message='', messageType='message', attachments=None, aut
         'replyToId': data['id'],
         'text': message,
     }
+    if auto_reply and data.get('channelId', '') == 'facebook':
+        resp['channelData'] = {
+            "messaging_type": "MESSAGE_TAG",
+            "notification_type": "REGULAR",
+            "tag": "NON_PROMOTIONAL_SUBSCRIPTION",
+        }
     if attachments:
         resp['attachments'] = attachments
     headers = {
@@ -276,7 +285,7 @@ def send_to_chat(notify, context):
     from chatbot.views import decl_list_to_chat_cards
 
     plural = ukr_plural(context['found_new'], 'нову декларацію', 'нові декларації', 'нових декларацій')
-    message = 'За підпискою: {}'.format(context['query_title'])
+    message = 'За підпискою: {} '.format(context['query_title'])
     message += '\n\nЗнайдено {} {}'.format(context['found_new'], plural)
     if context['found_new'] > settings.CHATBOT_SERP_COUNT:
         message += '\n\nПоказані перші {}'.format(settings.CHATBOT_SERP_COUNT)
@@ -327,6 +336,15 @@ def send_to_channels(notify, context):
         sleep(2)
 
     return 1
+
+
+def get_chat_login_link(data):
+    user = get_or_create_chat_user(data)
+
+    if not user.is_active:
+        raise ValueError('Користувач заблокований')
+
+    return get_login_temporary_link(user.id, user.email)
 
 
 def create_subscription(data, query):

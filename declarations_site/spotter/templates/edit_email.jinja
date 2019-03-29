@@ -1,6 +1,6 @@
 {% extends "base.jinja" %}
 
-{% from "_spotter.jinja" import flash_messages %}
+{% from "_spotter.jinja" import flash_messages, subscribe_chatbot_links %}
 
 {% block html_title -%}Мій профіль{%- endblock %}
 
@@ -45,6 +45,9 @@
                     </div>
                 </form>
             </div>
+            <p class="text-center help-footer">
+                {{ subscribe_chatbot_links() }}
+            </p>
         </div>
     </div>
 </section>
