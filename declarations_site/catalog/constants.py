@@ -410,4 +410,4 @@ VALID_RELATIONS = [
 ]
 
 NACP_SELECTORS_TO_TRANSLATE = "h2 span, legend i, label strong, label, th, header, span.block b, b, p, span, td"
-PAPER_SELECTORS_TO_TRANSLATE = "td .l-weiss-form__row, td .weiss-digit"
+PAPER_SELECTORS_TO_TRANSLATE = "td .l-weiss-form__row, td .weiss-digit, .l-weiss-form__item_lined"
