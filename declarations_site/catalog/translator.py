@@ -41,7 +41,7 @@ class Translator:
             "term_id", "translation", "source", "quality", "strict_id"
         )
 
-        self.inner_dict = {v["term_id"]: v for v in translations}
+        self.inner_dict = {v["term_id"]: v for v in translations if v["translation"]}
 
     def load_dict_from_csv(self, fname, source, quality, ignore_header=True):
         with open(fname) as fp:
@@ -87,6 +87,46 @@ class Translator:
                     translation["strict_id"] = False
                     self.inner_dict[loose_term_id] = translation
 
+    def auto_translate(self, phrase):
+        res = []
+
+        for s in map(str.strip, phrase.replace(".", ",").split(",")):
+            gotcha = False
+
+            if not is_cyr(s):
+                res.append(s)
+                continue
+
+            for rex in [
+                r"^[\d.,]+\s*\(га\)$",
+                r"^[\d.,]+\s*\(соток\)$",
+                r"^[\d.,]+\s*\(м²\)$",
+                r"^[\d.,]+\s*куб\.?\s*см\.?$",
+                r"^[\d.,]+\s*р\.?\s*н\.?$",
+                r"^\d+\/\d+\s+част(ина|ини|ка|ки)\s*(квартири)?$",
+                r"^[\d.,]+\s*л$",
+                r"^[\d.,]+\s*ч$",
+                r"^[\d.,]+\s*квт$",
+                r"^[\d.,]+\s*см3$",
+                r"^[\d.,]+\s*м$",
+                r"^[\d.,]+\s*мм$",
+                r"^[\d.,]+\s*см$",
+                r"^[\d.,]+\s*р$",
+                r"^[\d.,]+\s*л|к\.?\s*с\.?$",
+                r"^[\d.,]+\s*куб\.?\s*дм\.?$",
+            ]:
+                if re.search(rex, s, flags=re.I):
+                    gotcha = True
+                    res.append(s)
+                    break
+
+            if not gotcha:
+                return
+
+        return dict(
+            term=phrase, translation=", ".join(res), source="not_required", quality=10
+        )
+
     def translate(self, phrase, just_transliterate=False):
         if not is_cyr(phrase):
             return dict(
@@ -107,6 +147,10 @@ class Translator:
         if loose_term_id in self.inner_dict:
             return self.inner_dict[loose_term_id]
 
+        any_luck = self.auto_translate(phrase)
+        if any_luck:
+            return any_luck
+
         if phrase.strip() and self.store_unseen:
             self.unseen.update([phrase.strip()])
 
@@ -120,13 +164,14 @@ class HTMLTranslator(Translator):
         super().__init__(*args, **kwargs)
 
         self._parsed_html = pq(html)
-        self._html_elements = HTMLTranslator.get_html_elements(self._parsed_html, selectors)
+        self._html_elements = HTMLTranslator.get_html_elements(
+            self._parsed_html, selectors
+        )
 
         phrases = HTMLTranslator.get_phrases(self._html_elements)
-       
+
         if not do_not_fetch_dicts:
             self.fetch_partial_dict_from_db(phrases)
-
 
     @staticmethod
     def get_html_elements(parsed_html, selectors):

@@ -31,7 +31,8 @@ class Translation(models.Model):
     SOURCE_CHOICES = {
         "g": "Google translate",
         "p": "Translations from PEP project",
-        "t": "Translator of declarations project"
+        "t": "Translator of declarations project",
+        "u": "Yet to translate"
     }
 
     term_id = models.CharField("Ідентифікатор терміну", primary_key=True, max_length=1000)
@@ -40,3 +41,9 @@ class Translation(models.Model):
     source = models.CharField("Джерело перекладу", max_length=1, choices=SOURCE_CHOICES.items())
     quality = models.IntegerField("Суб'єктивна якість перекладу")
     strict_id = models.BooleanField("Чи було ідентифікатор спрощено")
+    frequency = models.IntegerField("Кількість вживань у текстах", default=0)
+
+    class Meta:
+        index_together = [
+            ["frequency", "source"],
+        ]

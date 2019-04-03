@@ -15,9 +15,6 @@ from catalog.models import Translation
 class Command(BaseCommand):
     help = "Load dictionaries in CSV and load them into DB"
 
-    def __init__(self, *args, **kwargs):
-        super(Command, self).__init__(*args, **kwargs)
-
     def handle(self, *args, **options):
         DICTIONARY = Translator()
 
