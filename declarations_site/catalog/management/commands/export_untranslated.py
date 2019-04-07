@@ -98,9 +98,11 @@ class Command(BaseCommand):
 
         pbar.write("{} items in names dict".format(len(names_to_ignore)))
 
+        names_to_ignore = set(map(Translator.get_id, names_to_ignore))
+
         existing_translations = frozenset(
             Translation.objects.values_list("term_id", flat=True).distinct()
-        ) | set(map(Translator.get_id, names_to_ignore))
+        ) | names_to_ignore
         pbar.write("{} items in db dict".format(len(existing_translations)))
 
         filtered_unseen = Counter()
@@ -119,6 +121,9 @@ class Command(BaseCommand):
         tqdm.tqdm.write("{} items left after filtering".format(len(filtered_unseen)))
 
         batch_size = 500
+        for batch in grouper(filter(lambda x: len(x) > 2, names_to_ignore), batch_size):
+            Translation.objects.filter(term_id__in=batch).delete()
+
         objs = []
         seen = set()
         for k, v in tqdm.tqdm(filtered_unseen.most_common()):
@@ -138,9 +143,6 @@ class Command(BaseCommand):
                     frequency=v,
                 )
             )
-
-            if re.search(r"^[\d,.\s]+", k):
-                print(k)
 
         with tqdm.tqdm(total=len(objs)) as pbar:
             for batch in grouper(objs, batch_size):
