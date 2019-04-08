@@ -1,16 +1,20 @@
 import sys
+import tqdm
+
 from elasticsearch_dsl import Text, Keyword
 from elasticsearch_dsl import connections
-from django.core.management.base import BaseCommand
-from catalog.utils import replace_apostrophes, concat_fields, keyword_for_sorting
-from catalog.elastic_models import Declaration
-
 from names_translator.name_utils import (
     generate_all_names,
     concat_name,
     autocomplete_suggestions,
     parse_fullname
 )
+
+from django.core.management.base import BaseCommand
+
+from catalog.utils import replace_apostrophes, concat_fields, keyword_for_sorting
+from catalog.elastic_models import Declaration
+from catalog.translator import Translator
 
 
 def dict_generator(indict, pre=None):
@@ -74,12 +78,13 @@ class Command(BaseCommand):
             es.indices.put_mapping(index=index, doc_type=doc_type, body=full_name_properties)
 
     def handle(self, *args, **options):
+        translator = Translator()
+        translator.fetch_full_dict_from_db()
+
         self.apply_migrations()
         all_decls = Declaration.search().query('match_all').scan()
-        for decl in all_decls:
+        for decl in tqdm.tqdm(all_decls):
             decl_dct = decl.to_dict()
-            sys.stdout.write('Processing decl for {}\n'.format(decl.general.full_name))
-            sys.stdout.flush()
 
             decl.general.full_name = replace_apostrophes(decl.general.full_name)
             decl.general.name = replace_apostrophes(decl.general.name)
@@ -97,7 +102,9 @@ class Command(BaseCommand):
             }
 
             decl_dct["ft_src"] = ""
-            decl.ft_src = "\n".join(filter_only_interesting(decl_dct))
+            terms = filter_only_interesting(decl_dct)
+            terms += [translator.translate(x)["translation"] for x in terms]
+            decl.ft_src = "\n".join(terms)
 
             decl.general.full_name_for_sorting = keyword_for_sorting(decl.general.full_name)
             decl.index_card = concat_fields(decl_dct,

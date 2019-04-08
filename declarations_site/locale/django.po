@@ -1,0 +1,569 @@
+# Translations template for PROJECT.
+# Copyright (C) 2019 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2019-04-04 17:38+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: catalog/templates/decl_form.jinja:4
+msgid "Декларація"
+msgstr "Declaration"
+
+#: catalog/templates/decl_form.jinja:5
+msgid "про майно, доходи, витрати і зобов’язання фінансового характеру за"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:5
+msgid "рік"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:8
+msgid ""
+"УВАГА! В оригіналі цієї декларації були частково відсутні дані. Перед "
+"використанням розшифровки — передивіться"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:8
+msgid "оригінал"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:13
+msgid "Розділ I. Загальні відомості"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:21
+msgid "Прізвище"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:25
+msgid "Ім’я"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:29
+msgid "По-батькові"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:36
+msgid "2. Місце проживання:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:41 catalog/templates/decl_form.jinja:78
+msgid "Область"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:45
+msgid "Район"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:49
+msgid "Населений пункт"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:53
+msgid "Тип населенного пункту"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:57
+msgid "Решта адреси"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:61
+msgid "Тип адреси"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:74
+msgid "3. Посада:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:82
+msgid "Відомство"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:86
+msgid "Посада"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:94
+msgid "4. Члени сім’ї декларанта:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:104
+msgid "Ступінь зв’язку"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:107
+msgid "Прізвище ініціали, дата народження"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:165
+msgid "Розділ II. Відомості про доходи"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:176
+msgid "А. Одержані (нараховані) з усіх джерел України"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:181
+msgid ""
+"(назва закладу, установи тощо, в яких одержано (нараховано) зазначені у "
+"цій позиції доходи)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:193
+msgid "Перелік доходів"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:196
+msgid "Сума одержаного (нарахованого) доходу"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:201
+msgid "декларанта"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:204
+msgid "членів сім’ї"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:213
+msgid "Загальна сума сукупного доходу, гривні, у т.ч."
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:243
+msgid ""
+"Заробітна плата, інші виплати та винагороди, нараховані (виплачені) "
+"декларанту відповідно до умов трудового або цивільно-правового договору"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:243
+msgid "(крім виплат, зазначених у позиціях 7, 8)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:273
+msgid ""
+"Дохід від викладацької, наукової і творчої діяльності, медичної практики,"
+" інструкторіської та суддівської практики із спорту"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:320
+msgid ""
+"авторська винагорода, інші доходи від реалізації майнових прав "
+"інтелектуальної власності"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:350
+msgid "дивіденди, проценти"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:380
+msgid "матеріальна допомога"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:410
+msgid "дарунки, призи, виграші"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:440
+msgid "допомога по безробіттю"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:470
+msgid "аліменти"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:500
+msgid "спадщина"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:530
+msgid ""
+"страхові виплати, страхові відшкодування, викупні суми та пенсійні "
+"виплати, що сплачені декларанту за договором страхування, недержавного "
+"пенсійного забезпечення та пенсійного вкладу"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:560
+msgid "дохід від відчуження рухомого та нерухомого майна"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:590
+msgid "дохід від провадження підприємницької та незалежної професійної діяльності"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:620
+msgid "дохід від відчуження цінних паперів та корпоративних прав"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:650
+msgid "дохід від передачі в оренду (строкове володіння та/або користування) майна"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:680
+msgid "інші види доходів (не зазначені у позиціях 6–19)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:715
+msgid "Б. Одержані (нараховані) з джерел за межами України декларантом"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:725 catalog/templates/decl_form.jinja:820
+msgid "Назва країни"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:728 catalog/templates/decl_form.jinja:823
+msgid "Розмір доходу"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:733 catalog/templates/decl_form.jinja:828
+msgid "в іноземній валюті"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:736 catalog/templates/decl_form.jinja:831
+msgid "перерахованого у гривні"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:810
+msgid ""
+"В. Одержані (нараховані) з джерел за межами України членами сім’ї "
+"декларанта"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:901
+msgid "Розділ III Відомості про нерухоме майно"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:914
+msgid ""
+"А. Майно, що перебуває у власності, в оренді чи на іншому праві "
+"користування декларанта"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:924 catalog/templates/decl_form.jinja:1489
+msgid "Перелік об’єктів"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:927 catalog/templates/decl_form.jinja:1492
+msgid "Місце знаходження об’єкта (країна, адреса)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:930 catalog/templates/decl_form.jinja:1495
+msgid "Загальна площа (кв. м)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:933 catalog/templates/decl_form.jinja:1498
+#: catalog/templates/decl_form.jinja:2082
+#: catalog/templates/decl_form.jinja:2545
+msgid "Сума витрат (грн) на"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:938 catalog/templates/decl_form.jinja:1503
+#: catalog/templates/decl_form.jinja:2087
+#: catalog/templates/decl_form.jinja:2550
+msgid "придбання у власність"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:941 catalog/templates/decl_form.jinja:1506
+#: catalog/templates/decl_form.jinja:2090
+#: catalog/templates/decl_form.jinja:2553
+msgid "оренду чи на інше право користування"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:952 catalog/templates/decl_form.jinja:999
+#: catalog/templates/decl_form.jinja:1517
+#: catalog/templates/decl_form.jinja:1566
+msgid "Земельні ділянки"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:1039
+#: catalog/templates/decl_form.jinja:1086
+#: catalog/templates/decl_form.jinja:1606
+#: catalog/templates/decl_form.jinja:1655
+msgid "Житлові будинки"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:1126
+#: catalog/templates/decl_form.jinja:1173
+#: catalog/templates/decl_form.jinja:1695
+#: catalog/templates/decl_form.jinja:1744
+msgid "Квартири"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:1213
+#: catalog/templates/decl_form.jinja:1260
+#: catalog/templates/decl_form.jinja:1784
+#: catalog/templates/decl_form.jinja:1833
+msgid "Садовий (дачний) будинок"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:1300
+#: catalog/templates/decl_form.jinja:1347
+#: catalog/templates/decl_form.jinja:1873
+#: catalog/templates/decl_form.jinja:1922
+msgid "Гаражі"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:1387
+#: catalog/templates/decl_form.jinja:1434
+#: catalog/templates/decl_form.jinja:1962
+#: catalog/templates/decl_form.jinja:2011
+msgid "Інше нерухоме майно"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:1479
+msgid ""
+"Б. Майно, що перебуває у власності, в оренді чи на іншому праві "
+"користування сім’ї декларанта"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2050
+msgid "Розділ IV. Відомості про транспортні засоби"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2063
+msgid ""
+"А. Транспортні засоби, що перебувають у властності, в оренді чи на іншому"
+" праві користування декларанта"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2073
+#: catalog/templates/decl_form.jinja:2536
+msgid "Перелік транспортних засобів"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2076
+#: catalog/templates/decl_form.jinja:2539
+msgid ""
+"Марка/модель (об’єм циліндрів двигуна, куб. см, потужність двигуна, кВт, "
+"довжина, см)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2079
+#: catalog/templates/decl_form.jinja:2542
+msgid "Рік випуску"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2101
+#: catalog/templates/decl_form.jinja:2149
+#: catalog/templates/decl_form.jinja:2564
+#: catalog/templates/decl_form.jinja:2612
+msgid "Автомобілі легкові"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2185
+#: catalog/templates/decl_form.jinja:2233
+#: catalog/templates/decl_form.jinja:2648
+#: catalog/templates/decl_form.jinja:2696
+msgid "Автомобілі вантажні (спеціальні)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2269
+#: catalog/templates/decl_form.jinja:2317
+#: catalog/templates/decl_form.jinja:2732
+#: catalog/templates/decl_form.jinja:2780
+msgid "Водні засоби"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2353
+#: catalog/templates/decl_form.jinja:2401
+#: catalog/templates/decl_form.jinja:2816
+#: catalog/templates/decl_form.jinja:2864
+msgid "Повітряні судна"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2437
+#: catalog/templates/decl_form.jinja:2485
+#: catalog/templates/decl_form.jinja:2900
+#: catalog/templates/decl_form.jinja:2948
+msgid "Інші засоби"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2526
+msgid ""
+"Б. Транспортні засоби, що перебувають у власності, в оренді чи на іншому "
+"праві користування членів сім’ї декларанта"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2983
+msgid "Розділ V. Відомості про вклади у банках, цінні папери та інші активи"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:2994
+msgid ""
+"А. Вклади у банках, цінні папери та інші активи, що перебувають у "
+"власності декларанта (грн)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3004
+#: catalog/templates/decl_form.jinja:3412
+msgid "Перелік"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3007
+#: catalog/templates/decl_form.jinja:3415
+#: catalog/templates/decl_form.jinja:3629
+#: catalog/templates/decl_form.jinja:3863
+msgid "Усього"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3010
+#: catalog/templates/decl_form.jinja:3418
+#: catalog/templates/decl_form.jinja:3632
+#: catalog/templates/decl_form.jinja:3866
+msgid "у тому числі за кордоном"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3023
+#: catalog/templates/decl_form.jinja:3058
+msgid "Сума коштів на рахунках у банках та інших фінансових установах, у т. ч.:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3086
+#: catalog/templates/decl_form.jinja:3121
+msgid "вкладених у звітному році"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3149
+#: catalog/templates/decl_form.jinja:3184
+msgid "Номінальна вартість цінних паперів, у т. ч.:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3212
+#: catalog/templates/decl_form.jinja:3247
+msgid "придбаних у звітному році"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3275
+#: catalog/templates/decl_form.jinja:3310
+msgid ""
+"Розмір внесків до статутного (складеного) капіталу товариства, "
+"підприємства, організації, у т. ч.:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3338
+#: catalog/templates/decl_form.jinja:3373
+msgid "внесених у звітному році"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3402
+msgid ""
+"Б. Вклади у банках, цінні папери та інші активи, що перебувають у "
+"власності членів сім’ї декларанта (грн)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3429
+#: catalog/templates/decl_form.jinja:3462
+msgid "Сума коштів на рахунках у банках та інших фінансових установах"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3488
+#: catalog/templates/decl_form.jinja:3521
+msgid "Номінальна вартість цінних паперів"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3547
+#: catalog/templates/decl_form.jinja:3580
+msgid ""
+"Розмір внесків до статутного (складеного) капіталу товариства, "
+"підприємства, організації"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3605
+msgid "Розділ VI. Відомості про фінансові зобов’язання"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3616
+msgid "А. Фінансові зобов’язання декларанта та інші його витрати (грн)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3626
+#: catalog/templates/decl_form.jinja:3860
+msgid "Перелік фінансових зобов’язань"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3641
+#: catalog/templates/decl_form.jinja:3875
+msgid "Добровільне страхування"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3675
+#: catalog/templates/decl_form.jinja:3909
+msgid "Недержавне пенсійне забезпечення"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3709
+#: catalog/templates/decl_form.jinja:3943
+msgid "Утримання зазначеного у розділах ІІІ–V майна"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3743
+#: catalog/templates/decl_form.jinja:3977
+msgid "Погашення основної суми позики (кредиту)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3777
+#: catalog/templates/decl_form.jinja:4011
+msgid "Погашення суми процентів за позикою (кредитом)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3811
+msgid "Інші не зазначені у розділах ІІІ–V витрати"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:3850
+msgid "Б. Фінансові зобов’язання членів сім’ї декларанта (грн)"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:4046
+msgid "Додаткове про декларацію"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:4052
+msgid "Дата заповнення декларантом:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:4062
+msgid "Декларація була не повна:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:4066
+#: catalog/templates/decl_form.jinja:4090
+msgid "Так"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:4068
+#: catalog/templates/decl_form.jinja:4092
+msgid "Ні"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:4076
+msgid "Яких сторінок (паперових) не вистачало:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:4086
+msgid "Є додаткова інформація:"
+msgstr ""
+
+#: catalog/templates/decl_form.jinja:4100
+msgid "Що саме не вмістилось:"
+msgstr ""
+
+#: declarations_site/settings.py:205
+msgid "Ukrainian"
+msgstr ""
+
+#: declarations_site/settings.py:206
+msgid "English"
+msgstr ""
+

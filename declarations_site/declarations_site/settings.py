@@ -195,8 +195,21 @@ TIME_ZONE = 'Europe/Kiev'
 DATE_FORMAT = "d.m.Y"
 DATETIME_FORMAT = 'd.m.Y H:i:s'
 USE_I18N = True
-USE_L10N = False
+USE_L10N = True
 USE_TZ = True
+
+LANGUAGE_CODE = 'uk'
+
+gettext = lambda s: s
+LANGUAGES = (
+    ('uk', gettext('Ukrainian')),
+    ('en', gettext('English')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "locale"),
+)
+
 
 TEMPLATES = [
     {
@@ -221,6 +234,7 @@ TEMPLATES = [
                 'pipeline.jinja2.PipelineExtension',
                 'wagtail.wagtailcore.jinja2tags.core',
                 'wagtail.wagtailimages.jinja2tags.images',
+                'jinja2.ext.i18n',
             ],
             "globals": {
                 "replace_arg": "catalog.utils.replace_arg",
