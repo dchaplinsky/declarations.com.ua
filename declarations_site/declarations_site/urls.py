@@ -11,8 +11,6 @@ from chatbot import urls as chatbot_urls
 from spotter import urls as spotter_urls
 
 urlpatterns = [
-    url(r'^ajax/suggest$', catalog_views.suggest, name='suggest'),
-
     url(r'^search/suggest$', catalog_views.SuggestView.as_view(), name="new_suggest"),
 
 
