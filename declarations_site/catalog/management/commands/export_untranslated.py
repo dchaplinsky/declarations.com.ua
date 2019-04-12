@@ -44,11 +44,13 @@ class Command(BaseCommand):
     @classmethod
     def extract_terms_to_translate(cls, decls):
         unseen = Counter()
+        names_to_ignore = set()
+
         for decl in decls:
             if decl is None:
                 continue
 
-            names_to_ignore = set(
+            names_to_ignore |= set(
                 chain.from_iterable(
                     map(lambda x: x.split(" "), decl.names_autocomplete or [])
                 )
