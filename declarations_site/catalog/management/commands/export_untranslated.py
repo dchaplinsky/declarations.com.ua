@@ -12,7 +12,7 @@ from elasticsearch_dsl import Search
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
-from catalog.constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
+from catalog.constants import CATALOG_INDICES
 from catalog.elastic_models import Declaration, NACPDeclaration
 from catalog.utils import grouper
 from catalog.models import Translation
@@ -44,11 +44,13 @@ class Command(BaseCommand):
     @classmethod
     def extract_terms_to_translate(cls, decls):
         unseen = Counter()
+        names_to_ignore = set()
+
         for decl in decls:
             if decl is None:
                 continue
 
-            names_to_ignore = set(
+            names_to_ignore |= set(
                 chain.from_iterable(
                     map(lambda x: x.split(" "), decl.names_autocomplete or [])
                 )
@@ -120,10 +122,6 @@ class Command(BaseCommand):
 
         tqdm.tqdm.write("{} items left after filtering".format(len(filtered_unseen)))
 
-        batch_size = 500
-        for batch in grouper(filter(lambda x: len(x) > 2, names_to_ignore), batch_size):
-            Translation.objects.filter(term_id__in=batch, source__in=["u", "g"]).delete()
-
         objs = []
         seen = set()
         for k, v in tqdm.tqdm(filtered_unseen.most_common()):
@@ -144,9 +142,14 @@ class Command(BaseCommand):
                 )
             )
 
+        batch_size = 500
+
         with tqdm.tqdm(total=len(objs)) as pbar:
             for batch in grouper(objs, batch_size):
                 batch = list(filter(None, batch))
 
                 Translation.objects.bulk_create(batch, batch_size)
                 pbar.update(len(batch))
+
+        for batch in grouper(filter(lambda x: len(x) > 2, names_to_ignore), batch_size):
+            Translation.objects.filter(term_id__in=batch, source__in=["u", "g"]).delete()

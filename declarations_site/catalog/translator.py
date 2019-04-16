@@ -8,7 +8,6 @@ from translitua import translit
 from pyquery import PyQuery as pq
 
 from catalog.utils import is_cyr
-from catalog.models import Translation
 
 
 class Translator:
@@ -31,17 +30,39 @@ class Translator:
     def get_loose_id(term):
         return re.sub(r"[.,\/#!$%\^&\*;:{}=\-_`~()\s]", "", Translator.get_id(term))
 
-    def fetch_partial_dict_from_db(self, phrases):
-        phrases = list(filter(None, phrases))
-        if not phrases:
-            return
+    def load_dict(self, dct):
+        for term in dct:
+            term_id = term["term_id"]
+            if term_id in self.inner_dict:
+                if term["quality"] < self.inner_dict[term_id]["quality"]:
+                    continue
 
-        ids = set(map(self.get_id, phrases)) | set(map(self.get_loose_id, phrases))
-        translations = Translation.objects.filter(term_id__in=ids).values(
+            self.inner_dict[term_id] = term
+
+    def _fetch_dict_from_db(self, phrases=None):
+        from catalog.models import Translation
+
+        if phrases is not None:
+            phrases = list(filter(None, phrases))
+            if not phrases:
+                return
+
+            ids = set(map(self.get_id, phrases)) | set(map(self.get_loose_id, phrases))
+            q = Translation.objects.filter(term_id__in=ids)
+        else:
+            q = Translation.objects.all()
+
+        translations = q.values(
             "term_id", "translation", "source", "quality", "strict_id"
-        )
+        ).iterator()
 
         self.inner_dict = {v["term_id"]: v for v in translations if v["translation"]}
+
+    def fetch_partial_dict_from_db(self, phrases):
+        self._fetch_dict_from_db(phrases)
+
+    def fetch_full_dict_from_db(self):
+        self._fetch_dict_from_db()
 
     def load_dict_from_csv(self, fname, source, quality, ignore_header=True):
         with open(fname) as fp:

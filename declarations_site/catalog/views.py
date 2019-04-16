@@ -24,54 +24,6 @@ from .models import Office
 from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
 
-def suggest(request):
-    def assume(q, fuzziness):
-
-        search = Search(index=CATALOG_INDICES)\
-            .params(size=0)\
-            .source(['general.full_name_suggest', 'general.full_name'])\
-            .suggest(
-                'name',
-                q,
-                completion={
-                    'field': 'general.full_name_suggest',
-                    'size': 10,
-                    'fuzzy': {
-                        'fuzziness': fuzziness,
-                        'unicode_aware': True
-                    }
-                }
-        )
-
-        try:
-            res = search.execute()
-
-            if res.success() and hasattr(res, 'suggest'):
-                return list(set(val._source.general.full_name for val in res.suggest.name[0]['options']))
-            else:
-                return []
-        except TransportError:
-            return []
-
-    q = replace_apostrophes(request.GET.get('q', '').strip())
-    # Too long request can make elastic sick when applying fuzzy search
-    q = q[:40]
-
-    # It seems, that for some reason 'AUTO' setting doesn't work properly
-    # for unicode strings
-    fuzziness = 0
-
-    if len(q) > 2:
-        fuzziness = 1
-
-    suggestions = assume(q, fuzziness)
-
-    if not suggestions:
-        suggestions = assume(q, fuzziness + 1)
-
-    return JsonResponse(suggestions, safe=False)
-
-
 class SuggestView(View):
     def get(self, request):
         q = request.GET.get("q", "").strip()

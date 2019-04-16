@@ -1,16 +1,16 @@
 <div>
 <section class="declaration-block weiss-form">
 	<h1 class="declaration-head">
-		<strong class="declaration-head__em">Декларація</strong>
-		про майно, доходи, витрати і зобов’язання фінансового характеру за {{ declaration.intro.declaration_year }} рік
+		<strong class="declaration-head__em">{{ _("Декларація") }}</strong>
+		{{ _("про майно, доходи, витрати і зобов’язання фінансового характеру за") }} {{ declaration.intro.declaration_year }} {{ _("рік") }}
 	</h1>
 	{% if declaration.declaration.notfull in ["TRUE", "1", 1] %}
-		<div class="alert alert-danger" role="alert">УВАГА! В оригіналі цієї декларації були частково відсутні дані. Перед використанням розшифровки — передивіться <a href="{{ declaration.declaration.url }}" target="_blank">оригінал</a></div>
+		<div class="alert alert-danger" role="alert">{{ _("УВАГА! В оригіналі цієї декларації були частково відсутні дані. Перед використанням розшифровки — передивіться") }} <a href="{{ declaration.declaration.url }}" target="_blank">{{ _("оригінал") }}</a></div>
 	{% endif %}
 	<div id="section-0">
 		<section class="weiss-form__set weiss-form__set_main weiss-form__set_paper">
 			<h2 class="weiss-form__set-legend weiss-form__set-legend_main">
-				<span>Розділ I. Загальні відомості</span>
+				<span>{{ _("Розділ I. Загальні відомості") }}</span>
 			</h2>
 
 			<p class="l-weiss-form__row">
@@ -18,47 +18,47 @@
 					<strong>1.</strong>
 				</span>
 				<span class="l-weiss-form__item l-weiss-form__item_lined">
-					<label  class="i-wai">Прізвище</label>
+					<label  class="i-wai">{{ _("Прізвище") }}</label>
 					{{ declaration.general.last_name }}
 				</span>
 				<span class="l-weiss-form__item l-weiss-form__item_lined">
-					<label  class="i-wai">Ім’я</label>
+					<label  class="i-wai">{{ _("Ім’я") }}</label>
 					{{ declaration.general.name }}
 				</span>
 				<span class="l-weiss-form__item l-weiss-form__item_lined">
-					<label  class="i-wai">По-батькові</label>
+					<label  class="i-wai">{{ _("По-батькові") }}</label>
 					{{ declaration.general.patronymic }}
 				</span>
 			</p>
 
 			<p class="l-weiss-form__row">
 				<span class="l-weiss-form__item weiss-form__label">
-					<strong>2. Місце проживання:</strong>
+					<strong>{{ _("2. Місце проживання:") }}</strong>
 				</span>
 				{% for address in declaration.general.addresses %}
 				<span class="l-weiss-form__item">
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Область</span>
+						<span  class="i-wai">{{ _("Область") }}</span>
 						{{ address.place|default("") }}
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Район</span>
+						<span  class="i-wai">{{ _("Район") }}</span>
 						{{ address.place_district }}
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Населений пункт</span>
+						<span  class="i-wai">{{ _("Населений пункт") }}</span>
 						{{ address.place_city }}
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Тип населенного пункту</span>
+						<span  class="i-wai">{{ _("Тип населенного пункту") }}</span>
 						{{ address.place_city_type|default('') }}
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Решта адреси</span>
+						<span  class="i-wai">{{ _("Решта адреси") }}</span>
 						{{ address.place_address }}
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Тип адреси</span>
+						<span  class="i-wai">{{ _("Тип адреси") }}</span>
 						{{ address.place_address_type|default('') }}
 					</span>
 				</span>
@@ -71,19 +71,19 @@
 			</p>
 			<p class="l-weiss-form__row">
 				<span class="l-weiss-form__item weiss-form__label">
-					<strong>3. Посада:</strong>
+					<strong>{{ _("3. Посада:") }}</strong>
 				</span>
 				<span class="l-weiss-form__item">
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Область</span>
+						<span  class="i-wai">{{ _("Область") }}</span>
 						{{ declaration.general.post.region }}
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Відомство</span>
+						<span  class="i-wai">{{ _("Відомство") }}</span>
 						{{ declaration.general.post.office }}
 					</span>
 					<span class="l-weiss-form__item l-weiss-form__item_lined">
-						<span  class="i-wai">Посада</span>
+						<span  class="i-wai">{{ _("Посада") }}</span>
 						{{ declaration.general.post.post }}
 					</span>
 				</span>
@@ -91,7 +91,7 @@
 
 			<div class="weiss-form__set">
 				<div class="weiss-form__set-legend">
-					<span>4. Члени сім’ї декларанта:</span>
+					<span>{{ _("4. Члени сім’ї декларанта:") }}</span>
 				</div>
 				<table class="weiss-table weiss-table_decl">
 					<colgroup>
@@ -101,10 +101,10 @@
 					<thead>
 					<tr>
 						<th>
-							Ступінь зв’язку
+							{{ _("Ступінь зв’язку") }}
 						</th>
 						<th>
-							Прізвище ініціали, дата народження
+							{{ _("Прізвище ініціали, дата народження") }}
 						</th>
 					</tr>
 					</thead>
@@ -162,7 +162,7 @@
 	<div id="section-1">
 		<section class="weiss-form__set weiss-form__set_main weiss-form__set_paper">
 			<h2 class="weiss-form__set-legend weiss-form__set-legend_main">
-				<span>Розділ II. Відомості про доходи</span>
+				<span>{{ _("Розділ II. Відомості про доходи") }}</span>
 			</h2>
 
 			<table class="weiss-table weiss-table_decl">
@@ -173,12 +173,12 @@
 					<col width="200" />
 				</colgroup>
 				<caption>
-					А. Одержані (нараховані) з усіх джерел України
+					{{ _("А. Одержані (нараховані) з усіх джерел України") }}
 				</caption>
 				<tfoot>
 				<tr>
 					<td colspan="4">
-						(назва закладу, установи тощо, в яких одержано (нараховано) зазначені у цій позиції доходи)
+						{{ _("(назва закладу, установи тощо, в яких одержано (нараховано) зазначені у цій позиції доходи)") }}
 					</td>
 				</tr>
 				</tfoot>
@@ -190,18 +190,18 @@
 						</span>
 					</th>
 					<th rowspan="2">
-						Перелік доходів
+						{{ _("Перелік доходів") }}
 					</th>
 					<th colspan="2">
-						Сума одержаного (нарахованого) доходу
+						{{ _("Сума одержаного (нарахованого) доходу") }}
 					</th>
 				</tr>
 				<tr>
 					<th>
-						декларанта
+						{{ _("декларанта") }}
 					</th>
 					<th>
-						членів сім’ї
+						{{ _("членів сім’ї") }}
 					</th>
 				</tr>
 				</thead>
@@ -210,7 +210,7 @@
 						5.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Загальна сума сукупного доходу, гривні, у т.ч.
+						{{ _("Загальна сума сукупного доходу, гривні, у т.ч.") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -240,7 +240,7 @@
 						6.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Заробітна плата, інші виплати та винагороди, нараховані (виплачені) декларанту відповідно до умов трудового або цивільно-правового договору <em>(крім виплат, зазначених у позиціях 7, 8)</em>
+						{{ _("Заробітна плата, інші виплати та винагороди, нараховані (виплачені) декларанту відповідно до умов трудового або цивільно-правового договору") }} <em>{{ _("(крім виплат, зазначених у позиціях 7, 8)") }}</em>
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -270,7 +270,7 @@
 						7.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Дохід від викладацької, наукової і творчої діяльності, медичної практики, інструкторіської та суддівської практики із спорту
+						{{ _("Дохід від викладацької, наукової і творчої діяльності, медичної практики, інструкторіської та суддівської практики із спорту") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -317,7 +317,7 @@
 						8.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						авторська винагорода, інші доходи від реалізації майнових прав інтелектуальної власності
+						{{ _("авторська винагорода, інші доходи від реалізації майнових прав інтелектуальної власності") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -347,7 +347,7 @@
 						9.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						дивіденди, проценти
+						{{ _("дивіденди, проценти") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -377,7 +377,7 @@
 						10.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						матеріальна допомога
+						{{ _("матеріальна допомога") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -407,7 +407,7 @@
 						11.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						дарунки, призи, виграші
+						{{ _("дарунки, призи, виграші") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -437,7 +437,7 @@
 						12.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						допомога по безробіттю
+						{{ _("допомога по безробіттю") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -467,7 +467,7 @@
 						13.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						аліменти
+						{{ _("аліменти") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -497,7 +497,7 @@
 						14.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						спадщина
+						{{ _("спадщина") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -527,7 +527,7 @@
 						15.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						страхові виплати, страхові відшкодування, викупні суми та пенсійні виплати, що сплачені декларанту за договором страхування, недержавного пенсійного забезпечення та пенсійного вкладу
+						{{ _("страхові виплати, страхові відшкодування, викупні суми та пенсійні виплати, що сплачені декларанту за договором страхування, недержавного пенсійного забезпечення та пенсійного вкладу") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -557,7 +557,7 @@
 						16.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						дохід від відчуження рухомого та нерухомого майна
+						{{ _("дохід від відчуження рухомого та нерухомого майна") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -587,7 +587,7 @@
 						17.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						дохід від провадження підприємницької та незалежної професійної діяльності
+						{{ _("дохід від провадження підприємницької та незалежної професійної діяльності") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -617,7 +617,7 @@
 						18.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						дохід від відчуження цінних паперів та корпоративних прав
+						{{ _("дохід від відчуження цінних паперів та корпоративних прав") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -647,7 +647,7 @@
 						19.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						дохід від передачі в оренду (строкове володіння та/або користування) майна
+						{{ _("дохід від передачі в оренду (строкове володіння та/або користування) майна") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -677,7 +677,7 @@
 						20.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						інші види доходів (не зазначені у позиціях 6–19)
+						{{ _("інші види доходів (не зазначені у позиціях 6–19)") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -712,7 +712,7 @@
 					<col width="200" />
 				</colgroup>
 				<caption>
-					Б. Одержані (нараховані) з джерел за межами України декларантом
+					{{ _("Б. Одержані (нараховані) з джерел за межами України декларантом") }}
 				</caption>
 				<thead>
 				<tr>
@@ -722,18 +722,18 @@
 						</span>
 					</th>
 					<th rowspan="2">
-						Назва країни
+						{{ _("Назва країни") }}
 					</th>
 					<th colspan="2">
-						Розмір доходу
+						{{ _("Розмір доходу") }}
 					</th>
 				</tr>
 				<tr>
 					<th>
-						в іноземній валюті
+						{{ _("в іноземній валюті") }}
 					</th>
 					<th>
-						перерахованого у гривні
+						{{ _("перерахованого у гривні") }}
 					</th>
 				</tr>
 				</thead>
@@ -807,7 +807,7 @@
 					<col width="200" />
 				</colgroup>
 				<caption>
-					В. Одержані (нараховані) з джерел за межами України членами сім’ї декларанта
+					{{ _("В. Одержані (нараховані) з джерел за межами України членами сім’ї декларанта") }}
 				</caption>
 				<thead>
 				<tr>
@@ -817,18 +817,18 @@
 						</span>
 					</th>
 					<th rowspan="2">
-						Назва країни
+						{{ _("Назва країни") }}
 					</th>
 					<th colspan="2">
-						Розмір доходу
+						{{ _("Розмір доходу") }}
 					</th>
 				</tr>
 				<tr>
 					<th>
-						в іноземній валюті
+						{{ _("в іноземній валюті") }}
 					</th>
 					<th>
-						перерахованого у гривні
+						{{ _("перерахованого у гривні") }}
 					</th>
 				</tr>
 				</thead>
@@ -898,7 +898,7 @@
 	<div id="section-2">
 		<section class="weiss-form__set weiss-form__set_main weiss-form__set_paper">
 			<h2 class="weiss-form__set-legend weiss-form__set-legend_main">
-				<span>Розділ III Відомості про нерухоме майно</span>
+				<span>{{ _("Розділ III Відомості про нерухоме майно") }}</span>
 			</h2>
 
 			<table class="weiss-table weiss-table_decl">
@@ -911,7 +911,7 @@
 					<col width="150" />
 				</colgroup>
 				<caption>
-					А. Майно, що перебуває у власності, в оренді чи на іншому праві користування декларанта
+					{{ _("А. Майно, що перебуває у власності, в оренді чи на іншому праві користування декларанта") }}
 				</caption>
 				<thead>
 				<tr>
@@ -921,24 +921,24 @@
 						</span>
 					</th>
 					<th rowspan="2">
-						Перелік об’єктів
+						{{ _("Перелік об’єктів") }}
 					</th>
 					<th rowspan="2">
-						Місце знаходження об’єкта (країна, адреса)
+						{{ _("Місце знаходження об’єкта (країна, адреса)") }}
 					</th>
 					<th rowspan="2">
-						Загальна площа (кв. м)
+						{{ _("Загальна площа (кв. м)") }}
 					</th>
 					<th colspan="2">
-						Сума витрат (грн) на
+						{{ _("Сума витрат (грн) на") }}
 					</th>
 				</tr>
 				<tr>
 					<th>
-						придбання у власність
+						{{ _("придбання у власність") }}
 					</th>
 					<th>
-						оренду чи на інше право користування
+						{{ _("оренду чи на інше право користування") }}
 					</th>
 				</tr>
 				</thead>
@@ -949,7 +949,7 @@
 						23.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Земельні ділянки
+						{{ _("Земельні ділянки") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -996,7 +996,7 @@
 						23.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Земельні ділянки
+						{{ _("Земельні ділянки") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1036,7 +1036,7 @@
 						24.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Житлові будинки
+						{{ _("Житлові будинки") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1083,7 +1083,7 @@
 						24.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Житлові будинки
+						{{ _("Житлові будинки") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1123,7 +1123,7 @@
 						25.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Квартири
+						{{ _("Квартири") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1170,7 +1170,7 @@
 						25.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Квартири
+						{{ _("Квартири") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1210,7 +1210,7 @@
 						26.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Садовий (дачний) будинок
+						{{ _("Садовий (дачний) будинок") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1257,7 +1257,7 @@
 						26.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Садовий (дачний) будинок
+						{{ _("Садовий (дачний) будинок") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1297,7 +1297,7 @@
 						27.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Гаражі
+						{{ _("Гаражі") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1344,7 +1344,7 @@
 						27.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Гаражі
+						{{ _("Гаражі") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1384,7 +1384,7 @@
 						28.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інше нерухоме майно
+						{{ _("Інше нерухоме майно") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1431,7 +1431,7 @@
 						28.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інше нерухоме майно
+						{{ _("Інше нерухоме майно") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1476,7 +1476,7 @@
 					<col width="150" />
 				</colgroup>
 				<caption>
-					Б. Майно, що перебуває у власності, в оренді чи на іншому праві користування сім’ї декларанта
+					{{ _("Б. Майно, що перебуває у власності, в оренді чи на іншому праві користування сім’ї декларанта") }}
 				</caption>
 				<thead>
 				<tr>
@@ -1486,24 +1486,24 @@
 						</span>
 					</th>
 					<th rowspan="2">
-						Перелік об’єктів
+						{{ _("Перелік об’єктів") }}
 					</th>
 					<th rowspan="2">
-						Місце знаходження об’єкта (країна, адреса)
+						{{ _("Місце знаходження об’єкта (країна, адреса)") }}
 					</th>
 					<th rowspan="2">
-						Загальна площа (кв. м)
+						{{ _("Загальна площа (кв. м)") }}
 					</th>
 					<th colspan="2">
-						Сума витрат (грн) на
+						{{ _("Сума витрат (грн) на") }}
 					</th>
 				</tr>
 				<tr>
 					<th>
-						придбання у власність
+						{{ _("придбання у власність") }}
 					</th>
 					<th>
-						оренду чи на інше право користування
+						{{ _("оренду чи на інше право користування") }}
 					</th>
 				</tr>
 				</thead>
@@ -1514,7 +1514,7 @@
 						29.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Земельні ділянки
+						{{ _("Земельні ділянки") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1563,7 +1563,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Земельні ділянки
+						{{ _("Земельні ділянки") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1603,7 +1603,7 @@
 						30.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Житлові будинки
+						{{ _("Житлові будинки") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1652,7 +1652,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Житлові будинки
+						{{ _("Житлові будинки") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1692,7 +1692,7 @@
 						31.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Квартири
+						{{ _("Квартири") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1741,7 +1741,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Квартири
+						{{ _("Квартири") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1781,7 +1781,7 @@
 						32.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Садовий (дачний) будинок
+						{{ _("Садовий (дачний) будинок") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1830,7 +1830,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Садовий (дачний) будинок
+						{{ _("Садовий (дачний) будинок") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1870,7 +1870,7 @@
 						33.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Гаражі
+						{{ _("Гаражі") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1919,7 +1919,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Гаражі
+						{{ _("Гаражі") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -1959,7 +1959,7 @@
 						34.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інше нерухоме майно
+						{{ _("Інше нерухоме майно") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2008,7 +2008,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інше нерухоме майно
+						{{ _("Інше нерухоме майно") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2047,7 +2047,7 @@
 	<div id="section-3">
 		<section class="weiss-form__set weiss-form__set_main weiss-form__set_paper">
 			<h2 class="weiss-form__set-legend weiss-form__set-legend_main">
-				<span>Розділ IV. Відомості про транспортні засоби</span>
+				<span>{{ _("Розділ IV. Відомості про транспортні засоби") }}</span>
 			</h2>
 
 			<table class="weiss-table weiss-table_decl">
@@ -2060,7 +2060,7 @@
 					<col width="150" />
 				</colgroup>
 				<caption>
-					А. Транспортні засоби, що перебувають у властності, в оренді чи на іншому праві користування декларанта
+					{{ _("А. Транспортні засоби, що перебувають у властності, в оренді чи на іншому праві користування декларанта") }}
 				</caption>
 				<thead>
 				<tr>
@@ -2070,24 +2070,24 @@
 						</span>
 					</th>
 					<th rowspan="2">
-						Перелік транспортних засобів
+						{{ _("Перелік транспортних засобів") }}
 					</th>
 					<th rowspan="2">
-						Марка/модель (об’єм циліндрів двигуна, куб. см, потужність двигуна, кВт, довжина, см)
+						{{ _("Марка/модель (об’єм циліндрів двигуна, куб. см, потужність двигуна, кВт, довжина, см)") }}
 					</th>
 					<th rowspan="2">
-						Рік випуску
+						{{ _("Рік випуску") }}
 					</th>
 					<th colspan="2">
-						Сума витрат (грн) на
+						{{ _("Сума витрат (грн) на") }}
 					</th>
 				</tr>
 				<tr>
 					<th>
-						придбання у власність
+						{{ _("придбання у власність") }}
 					</th>
 					<th>
-						оренду чи на інше право користування
+						{{ _("оренду чи на інше право користування") }}
 					</th>
 				</tr>
 				</thead>
@@ -2098,7 +2098,7 @@
 						35.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Автомобілі легкові
+						{{ _("Автомобілі легкові") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2146,7 +2146,7 @@
 						35.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Автомобілі легкові
+						{{ _("Автомобілі легкові") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2182,7 +2182,7 @@
 						36.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Автомобілі вантажні (спеціальні)
+						{{ _("Автомобілі вантажні (спеціальні)") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2230,7 +2230,7 @@
 						36.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Автомобілі вантажні (спеціальні)
+						{{ _("Автомобілі вантажні (спеціальні)") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2266,7 +2266,7 @@
 						37.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Водні засоби
+						{{ _("Водні засоби") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2314,7 +2314,7 @@
 						37.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Водні засоби
+						{{ _("Водні засоби") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2350,7 +2350,7 @@
 						38.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Повітряні судна
+						{{ _("Повітряні судна") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2398,7 +2398,7 @@
 						38.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Повітряні судна
+						{{ _("Повітряні судна") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2434,7 +2434,7 @@
 						39.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інші засоби
+						{{ _("Інші засоби") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2482,7 +2482,7 @@
 						39.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інші засоби
+						{{ _("Інші засоби") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2523,7 +2523,7 @@
 					<col width="150" />
 				</colgroup>
 				<caption>
-					Б. Транспортні засоби, що перебувають у власності, в оренді чи на іншому праві користування членів сім’ї декларанта
+					{{ _("Б. Транспортні засоби, що перебувають у власності, в оренді чи на іншому праві користування членів сім’ї декларанта") }}
 				</caption>
 				<thead>
 				<tr>
@@ -2533,24 +2533,24 @@
 						</span>
 					</th>
 					<th rowspan="2">
-						Перелік транспортних засобів
+						{{ _("Перелік транспортних засобів") }}
 					</th>
 					<th rowspan="2">
-						Марка/модель (об’єм циліндрів двигуна, куб. см, потужність двигуна, кВт, довжина, см)
+						{{ _("Марка/модель (об’єм циліндрів двигуна, куб. см, потужність двигуна, кВт, довжина, см)") }}
 					</th>
 					<th rowspan="2">
-						Рік випуску
+						{{ _("Рік випуску") }}
 					</th>
 					<th colspan="2">
-						Сума витрат (грн) на
+						{{ _("Сума витрат (грн) на") }}
 					</th>
 				</tr>
 				<tr>
 					<th>
-						придбання у власність
+						{{ _("придбання у власність") }}
 					</th>
 					<th>
-						оренду чи на інше право користування
+						{{ _("оренду чи на інше право користування") }}
 					</th>
 				</tr>
 				</thead>
@@ -2561,7 +2561,7 @@
 						40.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Автомобілі легкові
+						{{ _("Автомобілі легкові") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2609,7 +2609,7 @@
 						40.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Автомобілі легкові
+						{{ _("Автомобілі легкові") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2645,7 +2645,7 @@
 						41.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Автомобілі вантажні (спеціальні)
+						{{ _("Автомобілі вантажні (спеціальні)") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2693,7 +2693,7 @@
 						41.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Автомобілі вантажні (спеціальні)
+						{{ _("Автомобілі вантажні (спеціальні)") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2729,7 +2729,7 @@
 						42.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Водні засоби
+						{{ _("Водні засоби") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2777,7 +2777,7 @@
 						42.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Водні засоби
+						{{ _("Водні засоби") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2813,7 +2813,7 @@
 						43.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Повітряні судна
+						{{ _("Повітряні судна") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2861,7 +2861,7 @@
 						43.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Повітряні судна
+						{{ _("Повітряні судна") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2897,7 +2897,7 @@
 						44.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інші засоби
+						{{ _("Інші засоби") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -2945,7 +2945,7 @@
 						44.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інші засоби
+						{{ _("Інші засоби") }}
 					</th>
 					<td>
 						<i class="i-value-empty">
@@ -2980,7 +2980,7 @@
 	<div id="section-4">
 		<section class="weiss-form__set weiss-form__set_main weiss-form__set_paper">
 			<h2 class="weiss-form__set-legend weiss-form__set-legend_main">
-				<span>Розділ V. Відомості про вклади у банках, цінні папери та інші активи</span>
+				<span>{{ _("Розділ V. Відомості про вклади у банках, цінні папери та інші активи") }}</span>
 			</h2>
 
 			<table class="weiss-table weiss-table_decl">
@@ -2991,7 +2991,7 @@
 					<col width="265" />
 				</colgroup>
 				<caption>
-					А. Вклади у банках, цінні папери та інші активи, що перебувають у власності декларанта (грн)
+					{{ _("А. Вклади у банках, цінні папери та інші активи, що перебувають у власності декларанта (грн)") }}
 				</caption>
 				<thead>
 				<tr>
@@ -3001,13 +3001,13 @@
 						</span>
 					</th>
 					<th>
-						Перелік
+						{{ _("Перелік") }}
 					</th>
 					<th>
-						Усього
+						{{ _("Усього") }}
 					</th>
 					<th>
-						у тому числі за кордоном
+						{{ _("у тому числі за кордоном") }}
 					</th>
 				</tr>
 				</thead>
@@ -3020,7 +3020,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Сума коштів на рахунках у банках та інших фінансових установах, у т. ч.:
+						{{ _("Сума коштів на рахунках у банках та інших фінансових установах, у т. ч.:") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3055,7 +3055,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Сума коштів на рахунках у банках та інших фінансових установах, у т. ч.:
+						{{ _("Сума коштів на рахунках у банках та інших фінансових установах, у т. ч.:") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3083,7 +3083,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						вкладених у звітному році
+						{{ _("вкладених у звітному році") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3118,7 +3118,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						вкладених у звітному році
+						{{ _("вкладених у звітному році") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3146,7 +3146,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Номінальна вартість цінних паперів, у т. ч.:
+						{{ _("Номінальна вартість цінних паперів, у т. ч.:") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3181,7 +3181,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Номінальна вартість цінних паперів, у т. ч.:
+						{{ _("Номінальна вартість цінних паперів, у т. ч.:") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3209,7 +3209,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						придбаних у звітному році
+						{{ _("придбаних у звітному році") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3244,7 +3244,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						придбаних у звітному році
+						{{ _("придбаних у звітному році") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3272,7 +3272,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації, у т. ч.:
+						{{ _("Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації, у т. ч.:") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3307,7 +3307,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації, у т. ч.:
+						{{ _("Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації, у т. ч.:") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3335,7 +3335,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						внесених у звітному році
+						{{ _("внесених у звітному році") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3370,7 +3370,7 @@
 						</span>
 					</td>
 					<th class="weiss-table__cell_fwn">
-						внесених у звітному році
+						{{ _("внесених у звітному році") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3399,7 +3399,7 @@
 					<col width="265" />
 				</colgroup>
 				<caption>
-					Б. Вклади у банках, цінні папери та інші активи, що перебувають у власності членів сім’ї декларанта (грн)
+					{{ _("Б. Вклади у банках, цінні папери та інші активи, що перебувають у власності членів сім’ї декларанта (грн)") }}
 				</caption>
 				<thead>
 				<tr>
@@ -3409,13 +3409,13 @@
 						</span>
 					</th>
 					<th>
-						Перелік
+						{{ _("Перелік") }}
 					</th>
 					<th>
-						Усього
+						{{ _("Усього") }}
 					</th>
 					<th>
-						у тому числі за кордоном
+						{{ _("у тому числі за кордоном") }}
 					</th>
 				</tr>
 				</thead>
@@ -3426,7 +3426,7 @@
 						51.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Сума коштів на рахунках у банках та інших фінансових установах
+						{{ _("Сума коштів на рахунках у банках та інших фінансових установах") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3459,7 +3459,7 @@
 						51.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Сума коштів на рахунках у банках та інших фінансових установах
+						{{ _("Сума коштів на рахунках у банках та інших фінансових установах") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3485,7 +3485,7 @@
 						52.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Номінальна вартість цінних паперів
+						{{ _("Номінальна вартість цінних паперів") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3518,7 +3518,7 @@
 						52.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Номінальна вартість цінних паперів
+						{{ _("Номінальна вартість цінних паперів") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3544,7 +3544,7 @@
 						53.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації
+						{{ _("Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3577,7 +3577,7 @@
 						53.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації
+						{{ _("Розмір внесків до статутного (складеного) капіталу товариства, підприємства, організації") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3602,7 +3602,7 @@
 	<div id="section-5">
 		<section class="weiss-form__set weiss-form__set_main weiss-form__set_paper">
 			<h2 class="weiss-form__set-legend weiss-form__set-legend_main">
-				<span>Розділ VI. Відомості про фінансові зобов’язання</span>
+				<span>{{ _("Розділ VI. Відомості про фінансові зобов’язання") }}</span>
 			</h2>
 
 			<table class="weiss-table weiss-table_decl">
@@ -3613,7 +3613,7 @@
 					<col width="265" />
 				</colgroup>
 				<caption>
-					А. Фінансові зобов’язання декларанта та інші його витрати (грн)
+					{{ _("А. Фінансові зобов’язання декларанта та інші його витрати (грн)") }}
 				</caption>
 				<thead>
 				<tr>
@@ -3623,13 +3623,13 @@
 						</span>
 					</th>
 					<th>
-						Перелік фінансових зобов’язань
+						{{ _("Перелік фінансових зобов’язань") }}
 					</th>
 					<th>
-						Усього
+						{{ _("Усього") }}
 					</th>
 					<th>
-						у тому числі за кордоном
+						{{ _("у тому числі за кордоном") }}
 					</th>
 				</tr>
 				</thead>
@@ -3638,7 +3638,7 @@
 						54.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Добровільне страхування
+						{{ _("Добровільне страхування") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3672,7 +3672,7 @@
 						55.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Недержавне пенсійне забезпечення
+						{{ _("Недержавне пенсійне забезпечення") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3706,7 +3706,7 @@
 						56.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Утримання зазначеного у розділах ІІІ–V майна
+						{{ _("Утримання зазначеного у розділах ІІІ–V майна") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3740,7 +3740,7 @@
 						57.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Погашення основної суми позики (кредиту)
+						{{ _("Погашення основної суми позики (кредиту)") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3774,7 +3774,7 @@
 						58.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Погашення суми процентів за позикою (кредитом)
+						{{ _("Погашення суми процентів за позикою (кредитом)") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3808,7 +3808,7 @@
 						59.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Інші не зазначені у розділах ІІІ–V витрати
+						{{ _("Інші не зазначені у розділах ІІІ–V витрати") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3847,7 +3847,7 @@
 					<col width="265" />
 				</colgroup>
 				<caption>
-					Б. Фінансові зобов’язання членів сім’ї декларанта (грн)
+					{{ _("Б. Фінансові зобов’язання членів сім’ї декларанта (грн)") }}
 				</caption>
 				<thead>
 				<tr>
@@ -3857,13 +3857,13 @@
 						</span>
 					</th>
 					<th>
-						Перелік фінансових зобов’язань
+						{{ _("Перелік фінансових зобов’язань") }}
 					</th>
 					<th>
-						Усього
+						{{ _("Усього") }}
 					</th>
 					<th>
-						у тому числі за кордоном
+						{{ _("у тому числі за кордоном") }}
 					</th>
 				</tr>
 				</thead>
@@ -3872,7 +3872,7 @@
 						60.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Добровільне страхування
+						{{ _("Добровільне страхування") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3906,7 +3906,7 @@
 						61.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Недержавне пенсійне забезпечення
+						{{ _("Недержавне пенсійне забезпечення") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3940,7 +3940,7 @@
 						62.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Утримання зазначеного у розділах ІІІ–V майна
+						{{ _("Утримання зазначеного у розділах ІІІ–V майна") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -3974,7 +3974,7 @@
 						63.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Погашення основної суми позики (кредиту)
+						{{ _("Погашення основної суми позики (кредиту)") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -4008,7 +4008,7 @@
 						64.
 					</td>
 					<th class="weiss-table__cell_fwn">
-						Погашення суми процентів за позикою (кредитом)
+						{{ _("Погашення суми процентів за позикою (кредитом)") }}
 					</th>
 					<td>
 						<div class="l-weiss-form__row">
@@ -4043,13 +4043,13 @@
 	<div id="section-6">
 		<section class="weiss-form__set weiss-form__set_main weiss-form__set_notes">
 			<h2 class="i-wai">
-				<span>Додаткове про декларацію</span>
+				<span>{{ _("Додаткове про декларацію") }}</span>
 			</h2>
 
 			{% if declaration.declaration.date %}
 			<p class="l-weiss-form__row">
 				<strong class="l-weiss-form__item">
-					Дата заповнення декларантом:
+					{{ _("Дата заповнення декларантом:") }}
 				</strong>
 				<span class="l-weiss-form__item">
 					{{ declaration.declaration.date }}
@@ -4059,13 +4059,13 @@
 
 			<p class="l-weiss-form__row">
 				<strong class="l-weiss-form__item">
-					Декларація була не повна:
+					{{ _("Декларація була не повна:") }}
 				</strong>
 				<span class="l-weiss-form__item">
 					{% if declaration.declaration.notfull in ["TRUE", "1", 1] %}
-					Так
+					{{ _("Так") }}
 					{% else %}
-					Ні
+					{{ _("Ні") }}
 					{% endif %}
 				</span>
 			</p>
@@ -4073,7 +4073,7 @@
 			{% if declaration.declaration.notfull in ["TRUE", "1", 1] and declaration.declaration.notfull_lostpages %}
 			<p class="l-weiss-form__row">
 				<strong class="l-weiss-form__item">
-					Яких сторінок (паперових) не вистачало:
+					{{ _("Яких сторінок (паперових) не вистачало:") }}
 				</strong>
 				<span class="l-weiss-form__item">
 					{{ declaration.declaration.notfull_lostpages }}
@@ -4083,13 +4083,13 @@
 
 			<p class="l-weiss-form__row">
 				<strong class="l-weiss-form__item">
-					Є додаткова інформація:
+					{{ _("Є додаткова інформація:") }}
 				</strong>
 				<span class="l-weiss-form__item">
 					{% if declaration.declaration.additional_info == "true" %}
-					Так
+					{{ _("Так") }}
 					{% else %}
-					Ні
+					{{ _("Ні") }}
 					{% endif %}
 				</span>
 			</p>
@@ -4097,7 +4097,7 @@
 			{% if declaration.declaration.additional_info == "true" %}
 			<p class="l-weiss-form__row">
 				<strong class="l-weiss-form__item">
-					Що саме не вмістилось:
+					{{ _("Що саме не вмістилось:") }}
 				</strong>
 				<span class="l-weiss-form__item">
 					{{ declaration.declaration.additional_info_text }}

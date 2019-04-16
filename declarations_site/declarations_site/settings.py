@@ -198,6 +198,19 @@ USE_I18N = True
 USE_L10N = False
 USE_TZ = True
 
+LANGUAGE_CODE = 'uk'
+
+gettext = lambda s: s
+LANGUAGES = (
+    ('uk', gettext('Ukrainian')),
+    ('en', gettext('English')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, "locale"),
+)
+
+
 TEMPLATES = [
     {
         "BACKEND": "django_jinja.backend.Jinja2",
@@ -221,6 +234,7 @@ TEMPLATES = [
                 'pipeline.jinja2.PipelineExtension',
                 'wagtail.wagtailcore.jinja2tags.core',
                 'wagtail.wagtailimages.jinja2tags.images',
+                'jinja2.ext.i18n',
             ],
             "globals": {
                 "replace_arg": "catalog.utils.replace_arg",
