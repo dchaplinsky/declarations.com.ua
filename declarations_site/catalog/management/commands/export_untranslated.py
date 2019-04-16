@@ -122,7 +122,7 @@ class Command(BaseCommand):
 
         batch_size = 500
         for batch in grouper(filter(lambda x: len(x) > 2, names_to_ignore), batch_size):
-            Translation.objects.filter(term_id__in=batch).delete()
+            Translation.objects.filter(term_id__in=batch, source__in=["u", "g"]).delete()
 
         objs = []
         seen = set()

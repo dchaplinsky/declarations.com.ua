@@ -27,11 +27,8 @@ class Command(BaseCommand):
         DICTIONARY.load_dict_from_csv(
             os.path.join(DICT_DIR, "pep_translations.csv"), "p", 9
         )
-        DICTIONARY.load_dict_from_csv(
-            os.path.join(DICT_DIR, "google_dictionary.csv"), "g", 3
-        )
 
-        Translation.objects.all().delete()
+        Translation.objects.filter(source__in=["t", "p"]).delete()
 
         with tqdm(total=len(DICTIONARY.inner_dict)) as pbar:
             batch_size = 500
