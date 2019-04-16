@@ -10,6 +10,8 @@ ENV PYTHONUNBUFFERED=1 \
 		STATIC_ROOT=/static MEDIA_ROOT=/media \
 		STATIC_ROOT_SOURCE=/static-source \
     NACP_DECLARATIONS_PATH=/import \
+    DRAGNET_EXPORT_PATH=${root}/dragnet/data/export DRAGNET_IMPORT_PATH=${root}/dragnet/data/import \
+    EXPORT_TMP=/export-tmp \
     APP_NAME="declarations_site.wsgi:application" APP_WORKERS="2"
 
 WORKDIR ${root}
@@ -48,10 +50,16 @@ COPY dragnet ${root}/dragnet
 
 ENV PYTHONPATH=${root}/declarations_site
 
-RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} ${NACP_DECLARATIONS_PATH} \
-    && apk add --no-cache ruby npm \
-    && apk add --no-cache --virtual .static-build-deps ruby-dev build-base ruby-rdoc \
+COPY aggregated_migrated.json.tmpl /aggregated_migrated.json.tmpl
+
+RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} \
+             ${NACP_DECLARATIONS_PATH} \
+             ${DRAGNET_EXPORT_PATH} ${DRAGNET_IMPORT_PATH} \
+             ${EXPORT_TMP} \
+    && apk add --no-cache ruby npm curl \
+    && apk add --no-cache --virtual .static-build-deps ruby-dev build-base ruby-rdoc gettext \
     && gem install sass \
+    && envsubst < /aggregated_migrated.json.tmpl > ${root}/dragnet/data/profiles/aggregated_migrated.json \
     && apk del .static-build-deps \
     && npm config set unsafe-perm true \
     && npm install -g uglify-js \
@@ -60,9 +68,13 @@ RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} ${NACP_DECLARATI
        STATIC_ROOT=${STATIC_ROOT_SOURCE} \
        python ${root}/declarations_site/manage.py collectstatic
 
+
 ENTRYPOINT [ "docker-entrypoint.sh" ]
 
-VOLUME [ "${STATIC_ROOT}", "${MEDIA_ROOT}", "${NACP_DECLARATIONS_PATH}" ]
+VOLUME [ "${STATIC_ROOT}", "${MEDIA_ROOT}", \
+         "${NACP_DECLARATIONS_PATH}", \
+         "${DRAGNET_EXPORT_PATH}", "${DRAGNET_IMPORT_PATH}", \
+         "${EXPORT_TMP}" ]
 
 EXPOSE 8000
 
