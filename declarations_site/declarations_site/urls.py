@@ -51,9 +51,20 @@ urlpatterns = [
         name='compare'),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'^bot/', include(chatbot_urls)),
     url(r'user/', include('social_django.urls', namespace='social')),
-    url(r'user/', include(spotter_urls)),
-    url(r'', include(wagtail_urls)),
+    url(r'user/', include(spotter_urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+if "debug_toolbar" in settings.INSTALLED_APPS:
+    import debug_toolbar
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]
+
+urlpatterns += [
+    url(r'', include(wagtail_urls)),
+]

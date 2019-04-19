@@ -1,0 +1,10 @@
+{% if d and d.source %}
+	{% set infocard = d.source.infocard %}
+	<strong><a href="{{ infocard.url }}" target="_blank">{{ infocard.last_name }} {{ infocard.first_name }} {{ infocard.patronymic }}</a></strong>
+	<br />
+	{{ infocard.office }}
+	<br />
+	{{ infocard.position }}
+	<br />
+	{{ infocard.document_type }}
+{% endif %}

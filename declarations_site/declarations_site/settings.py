@@ -70,6 +70,8 @@ INSTALLED_APPS = (
     'social_django',
     'spotter',
     'chatbot',
+    'landings',
+    "nested_admin",
 
     'catalog',
     'cms_pages',
