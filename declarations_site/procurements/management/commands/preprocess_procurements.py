@@ -8,7 +8,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        for s in Sellers.objects.all():
+        for s in Sellers.objects.all().iterator():
             if s.code:
                 s.code = s.code.strip().lstrip("0")
 

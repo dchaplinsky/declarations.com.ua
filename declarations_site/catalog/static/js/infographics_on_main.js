@@ -47,10 +47,7 @@ $(function() {
     $("#filter-category").on("change", function(e) {
         switchSelectionByPosition($(this).val());
     });
-
-    // No need as it'll be invoked on onchange event for year filter
-    // getDataAndDraw();
-
+    
     function getDataAndDraw() {
         var year = year_filter.val();
 
@@ -60,11 +57,12 @@ $(function() {
             var parameter = viz.data("source");
 
             if (!allData[parameter]) {
-                d3.csv('/static/data/viz_' + parameter + '.' + year + '.csv', formatRow, function(error, data) {
-                    if (error) throw error;
-                    allData[parameter + "/" + year] = data;
-                    rerenderCharts(viz, parameter, year);
-                });
+                d3.csv('/static/data/viz_' + parameter + '.' + year + '.csv', formatRow).then(
+                    function(data) {
+                        allData[parameter + "/" + year] = data;
+                        rerenderCharts(viz, parameter, year);
+                    }
+                );
             } else {
                 rerenderCharts(viz, parameter, year);
             }

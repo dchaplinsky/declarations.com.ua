@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
 from elasticsearch.serializer import JSONSerializer
 from django.core.serializers.json import DjangoJSONEncoder
+from dateutil.parser import parse as dt_parse
 
 from elasticsearch_dsl import Q
 
@@ -27,7 +28,7 @@ class DeclarationsManager(models.Manager):
                 corrected=getattr(d.intro, "corrected", False),
                 doc_type=getattr(d.intro, "doc_type", "Щорічна"),
                 obj_ids=list(getattr(d, "obj_ids", [])),
-                source= d.api_response(
+                source=d.api_response(
                     fields=[
                         "guid",
                         "infocard",
@@ -36,7 +37,6 @@ class DeclarationsManager(models.Manager):
                         "related_entities",
                         "guid",
                         "aggregated_data",
-                        "related_documents",
                     ]
                 ),
             )
@@ -54,6 +54,14 @@ class LandingPage(models.Model):
         for p in self.persons.select_related("body").prefetch_related("declarations"):
             p.pull_declarations()
 
+    def get_summary(self):
+        return [
+            p.get_summary()
+            for p in self.persons.select_related("body").prefetch_related(
+                "declarations"
+            )
+        ]
+
     def __str__(self):
         return "%s (%s)" % (self.title, self.slug)
 
@@ -68,8 +76,10 @@ class Person(models.Model):
     )
     name = models.CharField("Ім'я особи", max_length=200)
     extra_keywords = models.CharField(
-        "Додаткові ключові слова для пошуку", max_length=200, blank=True,
-        help_text="Ключові слова для додаткового звуження пошуку"
+        "Додаткові ключові слова для пошуку",
+        max_length=200,
+        blank=True,
+        help_text="Ключові слова для додаткового звуження пошуку",
     )
 
     def __str__(self):
@@ -109,7 +119,9 @@ class Person(models.Model):
                 NACPDeclaration.search()
                 .query(
                     "bool",
-                    must=[Q("match", general__full_name={"query": q, "operator": "and"})],
+                    must=[
+                        Q("match", general__full_name={"query": q, "operator": "and"})
+                    ],
                     should=[sc],
                     minimum_should_match=1,
                 )[:100]
@@ -121,25 +133,56 @@ class Person(models.Model):
 
         Declaration.objects.create_declarations(self, first_pass)
         obj_ids_to_find = set(
-            chain(*self.declarations.exclude(exclude=True).values_list("obj_ids", flat=True))
+            chain(
+                *self.declarations.exclude(exclude=True).values_list(
+                    "obj_ids", flat=True
+                )
+            )
         )
 
-        second_pass = (
-            NACPDeclaration.search()
-            .query(
-                "bool",
-                must=[
-                    Q("match", general__full_name={"query": q, "operator": "or"}),
-                    Q("match", obj_ids=" ".join(obj_ids_to_find)),
-                ],
-                should=[],
-                minimum_should_match=0,
-            )[:100]
-        )
+        second_pass = NACPDeclaration.search().query(
+            "bool",
+            must=[
+                Q("match", general__full_name={"query": q, "operator": "or"}),
+                Q("match", obj_ids=" ".join(obj_ids_to_find)),
+            ],
+            should=[],
+            minimum_should_match=0,
+        )[:100]
 
         second_pass = second_pass.execute()
 
         Declaration.objects.create_declarations(self, second_pass)
+
+    def get_summary(self):
+        result = {"name": self.name, "id": self.pk, "documents": []}
+
+        years = {}
+
+        for d in self.declarations.all():
+            if d.doc_type == "Форма змін" or d.exclude:
+                continue
+
+            if d.year in years:
+                if dt_parse(d.source["infocard"]["created_date"]) > dt_parse(
+                    years[d.year].source["infocard"]["created_date"]
+                ):
+                    years[d.year] = d
+            else:
+                years[d.year] = d
+
+        for k in sorted(years.keys()):
+            result["documents"].append(
+                {
+                    "aggregated_data": years[k].source["aggregated_data"],
+                    "year": k,
+                    "infocard": d.source["infocard"],
+                }
+            )
+
+        result["min_year"] = min(years.keys())
+        result["max_year"] = max(years.keys())
+        return result
 
     class Meta:
         verbose_name = "Фокус-персона"

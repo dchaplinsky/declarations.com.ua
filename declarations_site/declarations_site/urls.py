@@ -8,6 +8,7 @@ from django.views.generic import TemplateView
 
 from catalog import views as catalog_views
 from chatbot import urls as chatbot_urls
+from landings import urls as landing_urls
 from spotter import urls as spotter_urls
 
 urlpatterns = [
@@ -54,6 +55,7 @@ urlpatterns = [
     url(r'^nested_admin/', include('nested_admin.urls')),
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'^bot/', include(chatbot_urls)),
+    url(r'^l/', include(landing_urls)),
     url(r'user/', include('social_django.urls', namespace='social')),
     url(r'user/', include(spotter_urls))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
