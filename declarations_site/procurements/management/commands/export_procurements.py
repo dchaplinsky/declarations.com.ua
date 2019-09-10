@@ -2,6 +2,8 @@ import sys
 import os.path
 import json
 import argparse
+from datetime import date
+from dateutil.relativedelta import relativedelta
 from tqdm import tqdm
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
@@ -20,6 +22,11 @@ class Command(BaseCommand):
             default=sys.stdout,
         )
 
+        parser.add_argument(
+            "--only_last_n_days", 
+            type=int
+        )
+
     def handle(self, *args, **options):
         qs = Transactions.objects.select_related(
             "seller",
@@ -31,6 +38,9 @@ class Command(BaseCommand):
             "currency",
             "purchase_result_type",
         )
+
+        if options["only_last_n_days"] is not None:
+            qs = qs.filter(date__gte=date.today() - relativedelta(days=options["only_last_n_days"]))
 
         for transaction in tqdm(qs.iterator(), total=qs.count()):
             seller = model_to_dict(transaction.seller)
