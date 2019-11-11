@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class ChatHistory(models.Model):
-    user = models.ForeignKey(User, null=True, default=None)
+    user = models.ForeignKey(User, null=True, default=None, on_delete=models.CASCADE)
     from_id = models.CharField("FromID", max_length=250, default='', db_index=True)
     from_name = models.CharField("FromName", max_length=250, default='')
     channel = models.CharField("ChannelID", max_length=250, default='')

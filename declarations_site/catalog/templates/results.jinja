@@ -1,5 +1,5 @@
 {% extends "base.jinja" %}
-{% from "_search_results.jinja" import search_results %}
+{% from "_search_results.jinja" import search_results with context %}
 {% from "_search_form.jinja" import ex_search_form %}
 {% from "_spotter.jinja" import spotter_button -%}
 
@@ -7,8 +7,8 @@
 {% if results.has_previous() %}<link rel="prev" href="?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}" />{% endif %}
 {% if results.has_next() %}<link rel="next" href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" />{% endif %}
 {% if request.META['QUERY_STRING'] %}
-<link href="{{ request.get_full_path() }}&amp;format=rss" rel="alternate" type="application/rss+xml" title="Результати пошуку '{{ query }}' в RSS 2.0" />
-<link href="{{ request.get_full_path() }}&amp;format=atom" rel="alternate" type="application/atom+xml" title="Результати пошуку '{{ query }}' в Atom" />
+<link href="{{ request.get_full_path() }}&amp;format=rss" rel="alternate" type="application/rss+xml" title="{{ _("Результати пошуку") }} '{{ query }}' {{ _("в RSS 2.0") }}" />
+<link href="{{ request.get_full_path() }}&amp;format=atom" rel="alternate" type="application/atom+xml" title="{{ _("Результати пошуку") }} '{{ query }}' {{ _("в Atom") }}" />
 {% endif %}
 {% endblock %}
 
@@ -23,7 +23,7 @@
 
 <section id="page">
     <div class="compare-list container hidden">
-        <h2>Список порівнянь:</h2>
+        <h2>{{ _("Список порівнянь:") }}</h2>
         <div class="row"></div>
 
     </div>
@@ -38,8 +38,8 @@
         <div class="breadcrumbs-container">
             <div id="breadcrumbs">
                 <ol class="breadcrumb pull-left">
-                    <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
-                    <li class="active">Результати пошуку</li>
+                    <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
+                    <li class="active">{{ _("Результати пошуку") }}</li>
                 </ol>
             </div>
 
@@ -48,28 +48,28 @@
 
         {% if request.META['QUERY_STRING'] %}
         <div class="watching-block">
-            <p>Моніторити цей запит по:</p>
+            <p>{{ _("Моніторити цей запит по:") }}</p>
             <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href="{{ SITE_URL }}{{ request.get_full_path() }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
-            {{ spotter_button("Моніторити цей запит", request.META['QUERY_STRING'], "from-search") }}
+            {{ spotter_button(_("Моніторити цей запит"), request.META['QUERY_STRING'], "from-search") }}
         </div>
         {% endif %}
 
         <div class="page-content">
             <div class="btn-group toggle-view">
                 <a href="#" id="list" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-th-list"></span> Списком
+                    <span class="glyphicon glyphicon-th-list"></span> {{ _("Списком") }}
                 </a>
                 <a href="#" id="grid" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-th"></span> Картками
+                    <span class="glyphicon glyphicon-th"></span> {{ _("Картками") }}
                 </a>
             </div>
 
             <div class="toggle-search">
-                <span>Сортувати:</span>
+                <span>{{ _("Сортувати:") }}</span>
                     <div class="btn-group">
-                        <a href="?{{ replace_arg(request, 'sort', 'name', 'name_desc') }}" id="sort-name" class="btn btn-default btn-sm">П.І.Б. {{ sort_flag(request, 'sort', 'name', 'name_desc') }}</a>
-                        <a href="?{{ replace_arg(request, 'sort', 'year_desc', 'year') }}" id="sort-year" class="btn btn-default btn-sm">Рік {{ sort_flag(request, 'sort', 'year', 'year_desc') }}</a>
-                        <a href="?{{ replace_arg(request, 'sort', 'date_desc', 'date') }}" id="sort-year" class="btn btn-default btn-sm">Дата подачі {{ sort_flag(request, 'sort', 'date', 'date_desc') }}</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'name', 'name_desc') }}" id="sort-name" class="btn btn-default btn-sm">{{ _("П.І.Б.") }} {{ sort_flag(request, 'sort', 'name', 'name_desc') }}</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'year_desc', 'year') }}" id="sort-year" class="btn btn-default btn-sm">{{ _("Рік") }} {{ sort_flag(request, 'sort', 'year', 'year_desc') }}</a>
+                        <a href="?{{ replace_arg(request, 'sort', 'date_desc', 'date') }}" id="sort-year" class="btn btn-default btn-sm">{{ _("Дата подачі") }} {{ sort_flag(request, 'sort', 'date', 'date_desc') }}</a>
                   </div>
             </div>
 

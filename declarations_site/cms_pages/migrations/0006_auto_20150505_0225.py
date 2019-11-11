@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, verbose_name='ID', auto_created=True, serialize=False)),
                 ('title', models.CharField(max_length=255)),
                 ('description', models.TextField()),
-                ('office', models.ForeignKey(blank=True, to='catalog.Office')),
-                ('region', models.ForeignKey(blank=True, to='catalog.Region')),
+                ('office', models.ForeignKey(blank=True, to='catalog.Office', on_delete=models.CASCADE)),
+                ('region', models.ForeignKey(blank=True, to='catalog.Region', on_delete=models.CASCADE)),
             ],
             options={
             },

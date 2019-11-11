@@ -57,7 +57,7 @@ class Buyers(models.Model):
     name_en = models.TextField(blank=True, null=True)
     address_en = models.TextField(blank=True, null=True)
     source = models.TextField(blank=True, null=True)
-    region = models.ForeignKey('Regions', blank=True, null=True)
+    region = models.ForeignKey('Regions', blank=True, null=True, on_delete=models.CASCADE)
     err = models.TextField(blank=True, null=True)  # This field type is a guess.
 
     class Meta:
@@ -83,7 +83,7 @@ class CurrencyRates(models.Model):
     id = models.AutoField(primary_key=True)
     date = models.DateField()
     rate = models.FloatField(blank=True, null=True)
-    currency = models.ForeignKey(Currencies)
+    currency = models.ForeignKey(Currencies, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
@@ -114,10 +114,10 @@ class Purchases(models.Model):
     prozorro = models.CharField(max_length=32, blank=True, null=True)
     prozorro_number = models.TextField(blank=True, null=True)
     source = models.TextField(blank=True, null=True)
-    buyer = models.ForeignKey(Buyers)
-    branch = models.ForeignKey(Branches, blank=True, null=True)
-    auction_type = models.ForeignKey(AuctionTypes, blank=True, null=True)
-    subject_type = models.ForeignKey('SubjectTypes', blank=True, null=True)
+    buyer = models.ForeignKey(Buyers, on_delete=models.CASCADE)
+    branch = models.ForeignKey(Branches, blank=True, null=True, on_delete=models.CASCADE)
+    auction_type = models.ForeignKey(AuctionTypes, blank=True, null=True, on_delete=models.CASCADE)
+    subject_type = models.ForeignKey('SubjectTypes', blank=True, null=True, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
@@ -173,11 +173,11 @@ class Transactions(models.Model):
     prozorro = models.CharField(max_length=32, blank=True, null=True)
     prozorro_number = models.TextField(blank=True, null=True)
     source = models.TextField(blank=True, null=True)
-    purchase = models.ForeignKey(Purchases)
-    seller = models.ForeignKey(Sellers)
-    currency = models.ForeignKey(Currencies)
-    purchase_result_type = models.ForeignKey(PurchaseResultTypes, blank=True, null=True)
-    bulletin = models.ForeignKey(Bulletins, blank=True, null=True)
+    purchase = models.ForeignKey(Purchases, on_delete=models.CASCADE)
+    seller = models.ForeignKey(Sellers, on_delete=models.CASCADE)
+    currency = models.ForeignKey(Currencies, on_delete=models.CASCADE)
+    purchase_result_type = models.ForeignKey(PurchaseResultTypes, blank=True, null=True, on_delete=models.CASCADE)
+    bulletin = models.ForeignKey(Bulletins, blank=True, null=True, on_delete=models.CASCADE)
     expected_volume = models.FloatField(blank=True, null=True)
     err = models.TextField(blank=True, null=True)  # This field type is a guess.
 

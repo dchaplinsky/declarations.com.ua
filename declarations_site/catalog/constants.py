@@ -7,9 +7,8 @@ NUMBER_OF_REPLICAS = 0
 
 CATALOG_INDEX_SETTINGS = {
     'index.mapping.total_fields.limit': 5000,
-    'index.max_result_window': 3000000,
+    'index.max_result_window': 4500000,
 }
-
 
 BANK_EDRPOUS = {
     "39002",

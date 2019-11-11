@@ -1,7 +1,7 @@
 {% macro procurements_details(declaration) -%}
     {% set affiliated_earnings = declaration.get_procurement_earnings_by_year(True) %}
     {% if affiliated_earnings %}
-        <h5>Виторг на тендерах компаній:</h5>
+        <h5>{{ _("Виторг на тендерах компаній:") }}</h5>
         <div class="decl-earnings">
             <div class="panel-group accordion" id="accordion" role="tablist" aria-multiselectable="true">
                 {% if affiliated_earnings %}
@@ -9,8 +9,8 @@
                     <header class="panel-heading decl-earnings-header" role="tab" id="headingOne">
                         <h2 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                <span><b>{{ affiliated_earnings|sum(attribute='sum_uah')|string|curformat }} UAH</b> — в яких декларант є бенефіціаром <br/>
-                                <i>натисніть для деталізації</i></span>
+                                <span><b>{{ affiliated_earnings|sum(attribute='sum_uah')|string|curformat }} UAH</b> {{ _("— в яких декларант є бенефіціаром") }} <br/>
+                                <i>{{ _("натисніть для деталізації") }}</i></span>
                             </a>
                         </h2>
                     </header>
@@ -20,9 +20,9 @@
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Рік</th>
-                                            <th>Кількість виграних тендерів</th>
-                                            <th>Сума</th>
+                                            <th>{{ _("Рік") }}</th>
+                                            <th>{{ _("Кількість виграних тендерів") }}</th>
+                                            <th>{{ _("Сума") }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -41,9 +41,9 @@
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Компанія</th>
-                                            <th>Кількість виграних тендерів</th>
-                                            <th>Сума</th>
+                                            <th>{{ _("Компанія") }}</th>
+                                            <th>{{ _("Кількість виграних тендерів") }}</th>
+                                            <th>{{ _("Сума") }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -62,7 +62,7 @@
                                 </table>
                             </div>
                             <p class="warning-hint">
-                                <small>До переліку включені компанії, в яких декларант має корпоративні права, участь у статутному капіталі або вказав себе кінцевим бенефіціаром.</small>
+                                <small>{{ _("До переліку включені компанії, в яких декларант має корпоративні права, участь у статутному капіталі або вказав себе кінцевим бенефіціаром.") }}</small>
                             </p>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                     <div class="panel panel-default">
                         <header class="panel-heading decl-earnings-header" role="tab" id="headingOne">
                             <h2 class="panel-title">
-                                <span><b>{{ "0.00"|curformat }} UAH</b> — в яких декларант є бенефіціаром</span>
+                                <span><b>{{ "0.00"|curformat }} UAH</b> {{ _("— в яких декларант є бенефіціаром") }}</span>
                             </h2>
                         </header>
                     </div>

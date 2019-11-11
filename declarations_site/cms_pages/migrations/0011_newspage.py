@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='NewsPage',
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, serialize=False, primary_key=True, to='wagtailcore.Page', parent_link=True)),
+                ('page_ptr', models.OneToOneField(auto_created=True, serialize=False, primary_key=True, to='wagtailcore.Page', parent_link=True, on_delete=models.CASCADE)),
                 ('headline', models.CharField(max_length=200, verbose_name='Заголовок')),
                 ('lead', models.TextField(verbose_name='Лід')),
                 ('body', models.TextField(verbose_name='Текст новини')),

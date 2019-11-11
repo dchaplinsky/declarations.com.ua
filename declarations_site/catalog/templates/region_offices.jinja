@@ -11,12 +11,12 @@
     <div class="container">
         <div id="breadcrumbs">
             <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
-                <li><a href="{{ url("regions_home") }}">Регіони</a></li>
-                <li class="active">{{ region_name|escape }}</li>
+                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
+                <li><a href="{{ url("regions_home") }}">{{ _("Регіони") }}</a></li>
+                <li class="active">{{ translator.translate(region_name).translation|escape }}</li>
             </ol> 
         </div>
-        <h1 id="page-header"><span>Регіони: {{ region_name|escape }}</span></h1>
+        <h1 id="page-header"><span>{{ _("Регіони") }}: {{ translator.translate(region_name).translation|escape }}</span></h1>
         <div class="page-content">
             <div class="box">
                 <div class="table-responsive">
@@ -24,7 +24,7 @@
                         <table class="table table-bordered table-striped">
                             {% for f in facets %}
                             <tr itemscope itemtype="http://schema.org/Organization">
-                                <td><a href="{{ url('region_office', region_name=region_name, office_name=f.key) }}"><span itemprop="name">{{ f.key }}</span> ({{ f.doc_count }})</a>
+                                <td><a href="{{ url('region_office', region_name=region_name, office_name=f.key) }}"><span itemprop="name">{{ translator.translate(f.key).translation }}</span> ({{ f.doc_count }})</a>
                                 <span itemprop="address" style="display: none">{{ region_name|escape }}</span>
                                 </td>
                             </tr>

@@ -3,13 +3,13 @@ from django.db import models
 
 from modelcluster.fields import ParentalKey
 
-from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailcore.models import Page, Orderable
-from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
-from wagtail.wagtailadmin.edit_handlers import (
-    InlinePanel, FieldPanel, PageChooserPanel)
+from wagtail.core.fields import RichTextField
+from wagtail.core.models import Page, Orderable
+from wagtail.images.edit_handlers import ImageChooserPanel
+from wagtail.admin.edit_handlers import InlinePanel, FieldPanel, PageChooserPanel
 
 from catalog.models import Region, Office
+from catalog.utils import TranslatedField
 
 
 class StaticPage(Page):
@@ -92,6 +92,12 @@ RawHTMLPage.content_panels = [
 
 class LinkFields(models.Model):
     caption = models.CharField(max_length=255, blank=True)
+    caption_en = models.CharField(max_length=255, blank=True)
+
+    translated_caption = TranslatedField(
+        'caption',
+        'caption_en',
+    )
 
     link_external = models.URLField("External link", blank=True)
     link_page = models.ForeignKey(
@@ -113,6 +119,7 @@ class LinkFields(models.Model):
 
     panels = [
         FieldPanel('caption'),
+        FieldPanel('caption_en'),
         FieldPanel('link_external'),
         FieldPanel('extra_class'),
         PageChooserPanel('link_page')

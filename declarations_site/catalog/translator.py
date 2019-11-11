@@ -10,6 +10,11 @@ from pyquery import PyQuery as pq
 from catalog.utils import is_cyr
 
 
+class NoOpTranslator:
+    def translate(self, phrase, just_transliterate=False):
+        return dict(term=phrase, translation=phrase, source="not_required", quality=10)
+
+
 class Translator:
     def __init__(self, store_unseen=False):
         self.inner_dict = {}
@@ -181,15 +186,31 @@ class Translator:
 
 
 class HTMLTranslator(Translator):
-    def __init__(self, html, selectors, do_not_fetch_dicts=False, *args, **kwargs):
+    def __init__(
+        self,
+        html,
+        selectors,
+        extra_phrases=None,
+        do_not_fetch_dicts=False,
+        *args,
+        **kwargs
+    ):
         super().__init__(*args, **kwargs)
 
-        self._parsed_html = pq(html)
-        self._html_elements = HTMLTranslator.get_html_elements(
-            self._parsed_html, selectors
-        )
+        self._html_elements = []
+        self._parsed_html = None
+        if extra_phrases is None:
+            extra_phrases = []
 
-        phrases = HTMLTranslator.get_phrases(self._html_elements)
+        phrases = extra_phrases
+
+        if html:
+            self._parsed_html = pq(html)
+            self._html_elements = HTMLTranslator.get_html_elements(
+                self._parsed_html, selectors
+            )
+
+            phrases += HTMLTranslator.get_phrases(self._html_elements)
 
         if not do_not_fetch_dicts:
             self.fetch_partial_dict_from_db(phrases)
@@ -235,4 +256,7 @@ class HTMLTranslator(Translator):
                 phrase = self.translate(el.tail)
                 el.tail = phrase["translation"]
 
-        return self._parsed_html.html()
+        if self._parsed_html is None:
+            return ""
+        else:
+            return self._parsed_html.html()

@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 {% for url in urls %}
   <url>
-    {% if url is string %}
     <loc>{{ SITE_URL }}{{ url }}</loc>
-    {% else %}<loc>{{ SITE_URL }}{{ url.default }}</loc>{% for k, v in url.items() %}{% if k != "default" %}<xhtml:link rel="alternate" hreflang="{{ k }}" href="{{ SITE_URL }}{{ v }}"/>{% endif %}
+
+    {% for language_code, language_name in LANGUAGES %}
+    	<xhtml:link rel="alternate" hreflang="{{ language_code }}" href="{{ SITE_URL }}{{ translate_url(url, language_code) }}"/>
     {% endfor %}
-    {% endif %}
-   </url>
+	</url>
 {% endfor %}
 </urlset>

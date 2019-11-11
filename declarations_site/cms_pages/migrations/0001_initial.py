@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models, migrations
 import modelcluster.fields
-import wagtail.wagtailcore.fields
+import wagtail.core.fields
 
 
 class Migration(migrations.Migration):
@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='HomePage',
             fields=[
-                ('page_ptr', models.OneToOneField(to='wagtailcore.Page', primary_key=True, parent_link=True, serialize=False, auto_created=True)),
+                ('page_ptr', models.OneToOneField(to='wagtailcore.Page', primary_key=True, parent_link=True, serialize=False, auto_created=True, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'Головна сторінка',
@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='RawHTMLPage',
             fields=[
-                ('page_ptr', models.OneToOneField(to='wagtailcore.Page', primary_key=True, parent_link=True, serialize=False, auto_created=True)),
+                ('page_ptr', models.OneToOneField(to='wagtailcore.Page', primary_key=True, parent_link=True, serialize=False, auto_created=True, on_delete=models.CASCADE)),
                 ('body', models.TextField(verbose_name='Текст сторінки')),
             ],
             options={
@@ -51,8 +51,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='StaticPage',
             fields=[
-                ('page_ptr', models.OneToOneField(to='wagtailcore.Page', primary_key=True, parent_link=True, serialize=False, auto_created=True)),
-                ('body', wagtail.wagtailcore.fields.RichTextField(verbose_name='Текст сторінки')),
+                ('page_ptr', models.OneToOneField(to='wagtailcore.Page', primary_key=True, parent_link=True, serialize=False, auto_created=True, on_delete=models.CASCADE)),
+                ('body', wagtail.core.fields.RichTextField(verbose_name='Текст сторінки')),
             ],
             options={
                 'verbose_name': 'Статична сторінка',
@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='homepagetopmenulink',
             name='link_page',
-            field=models.ForeignKey(to='wagtailcore.Page', blank=True, related_name='+', null=True),
+            field=models.ForeignKey(to='wagtailcore.Page', blank=True, related_name='+', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(

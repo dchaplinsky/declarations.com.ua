@@ -19,22 +19,34 @@ class LandingPageDetail(DetailView):
         return context
 
     def render_excel(self, summary):
-        fields_mapping = OrderedDict([
-            (jc("aggregated_data.name"), "Повне ім'я"),
-            (jc("year"), "Рік подання"),
-            (jc('aggregated_data."incomes.total"'), "Загальний дохід (грн)"),
-            (jc('aggregated_data."expenses.total"'), "Загальні витрати (грн)"),
-            (jc('aggregated_data."assets.total"'), "Загальні статки (грн)"),
-        ])
+        fields_mapping = OrderedDict(
+            [
+                (jc("aggregated_data.name"), "Повне ім'я"),
+                (jc("year"), "Рік подання"),
+                (jc('aggregated_data.name_post'), "ПІБ декларанта, посада та місце роботи"),
+                (jc('aggregated_data.organization_group'), "Установа, де працює декларант"),
+
+                (jc('aggregated_data."liabilities.total"'), "Загальна сума зобов’язань"),
+                (jc('aggregated_data."liabilities.total"'), "Загальна сума зобов’язань"),
+                
+                (jc('aggregated_data."incomes.total"'), "Загальний дохід (грн)"),
+                (jc('aggregated_data."expenses.total"'), "Загальні витрати (грн)"),
+                (jc('aggregated_data."assets.total"'), "Загальні статки (грн)"),
+                (jc('aggregated_data."vehicles.all_names"'), "Назви всіх ТЗ (за наявності)"),
+                (jc('aggregated_data."vehicles.total_cost"'), "Загальна вартість ТЗ"),
+                (jc('aggregated_data."estate.total_land"'), "Загальна площа землі, м2"),
+                (jc('aggregated_data."estate.total_other"'), "Загальна площа нерухомості, крім землі, м2"),
+            ]
+        )
         output = io.BytesIO()
 
         workbook = xlsxwriter.Workbook(output)
-        bold_blue = workbook.add_format({'bold': True, 'color': 'navy'})
-        top_border = workbook.add_format({'top': True})
-        url_format_top_border = workbook.add_format({"top": True, 'hyperlink': True})
+        bold_blue = workbook.add_format({"bold": True, "color": "navy"})
+        top_border = workbook.add_format({"top": True})
+        url_format_top_border = workbook.add_format({"top": True, "hyperlink": True})
 
         worksheet = workbook.add_worksheet()
-        worksheet.set_header('&Cdeclarations.com.ua — проект Канцелярської сотні')
+        worksheet.set_header("&Cdeclarations.com.ua — проект Канцелярської сотні")
         worksheet.freeze_panes(1, 1)
         worksheet.autofilter(0, 0, 0, 1)
 
@@ -53,10 +65,18 @@ class LandingPageDetail(DetailView):
                     value = field.search(d)
 
                     if col_num == 0:
-                        worksheet.write_url(row_num, col_num, d["aggregated_data"]["link"], (url_format_top_border if i == 0 else None), value)
-                        max_len_of_name = max(max_len_of_name, len(value))
+                        worksheet.write_url(
+                            row_num,
+                            col_num,
+                            d["aggregated_data"].get("link", ""),
+                            (url_format_top_border if i == 0 else None),
+                            value,
+                        )
+                        max_len_of_name = max(max_len_of_name, len(value or ""))
                     else:
-                        worksheet.write(row_num, col_num, value, (top_border if i == 0 else None))
+                        worksheet.write(
+                            row_num, col_num, value, (top_border if i == 0 else None)
+                        )
 
                 row_num += 1
 

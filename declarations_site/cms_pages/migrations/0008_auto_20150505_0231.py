@@ -14,13 +14,13 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='metadata',
             name='office',
-            field=models.ForeignKey(blank=True, to='catalog.Office', null=True),
+            field=models.ForeignKey(blank=True, to='catalog.Office', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterField(
             model_name='metadata',
             name='region',
-            field=models.ForeignKey(blank=True, to='catalog.Region', null=True),
+            field=models.ForeignKey(blank=True, to='catalog.Region', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

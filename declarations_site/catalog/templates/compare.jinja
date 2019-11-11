@@ -1,5 +1,5 @@
 {% extends "base.jinja" %}
-{% from "_search_results.jinja" import search_results %}
+{% from "_search_results.jinja" import search_results with context %}
 
 {% block bodyclass %}not-front compare-page{% endblock %}
 
@@ -9,16 +9,16 @@
     <div class="container">
         <div id="breadcrumbs">
             <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
-                <li class="active">Список порівнянь декларацій</li>
+                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
+                <li class="active">{{ _("Список порівнянь декларацій") }}</li>
             </ol>
         </div>
 
-        <h1 class="page-header"><span>Список порівнянь декларацій</span></h1>
+        <h1 class="page-header"><span>{{ _("Список порівнянь декларацій") }}</span></h1>
 
         <div class="page-content">
             {% if results %}
-                <h2>Декларації, що були використані для порівняння</h2>
+                <h2>{{ _("Декларації, що були використані для порівняння") }}</h2>
                 <div class="search-page">
                     <div class="row list-group search-results">
                         {{ search_results(results) }}

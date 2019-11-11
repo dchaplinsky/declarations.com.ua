@@ -5,7 +5,7 @@ from functools import reduce
 from datetime import date
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db.models.functions import ExtractYear
 from django.db.models import Sum, Count
 from django.template.loader import render_to_string
@@ -49,7 +49,7 @@ from .constants import (
 from .utils import parse_fullname, blacklist
 from .templatetags.catalog import parse_raw_family_string
 from .converters import PaperToNACPConverter, ConverterError
-from .translator import Translator, HTMLTranslator
+from .translator import HTMLTranslator
 
 
 class NoneAwareDate(Date):
@@ -111,14 +111,34 @@ class AbstractDeclaration(object):
     def guid(self):
         return self.meta.id
 
-    def prepare_translations(self, language):
+    def prepare_translations(self, language, infocard_only=False):
         assert self.CONTENT_SELECTORS, "You should define CONTENT_SELECTORS first"
 
         if language == "en":
-            self.translator = HTMLTranslator(
-                self.raw_html(),
-                self.CONTENT_SELECTORS,
-            )
+            if infocard_only:
+                self.translator = HTMLTranslator(
+                    html=None,
+                    selectors=[],
+                    extra_phrases=[
+                        self.general.post.post,
+                        self.general.post.office,
+                        self.general.post.region,
+                        getattr(self.general.post, "actual_region", ""),
+                        self.intro.doc_type
+                    ]
+                )
+            else:
+                self.translator = HTMLTranslator(
+                    self.raw_html(),
+                    selectors=self.CONTENT_SELECTORS,
+                    extra_phrases=[
+                        self.general.post.post,
+                        self.general.post.office,
+                        self.general.post.region,
+                        getattr(self.general.post, "actual_region", ""),
+                        self.intro.doc_type
+                    ],
+                )
 
     def raw_en_html(self):
         assert hasattr(self, "translator"), "You should call prepare_translations first"
@@ -186,7 +206,7 @@ class AbstractDeclaration(object):
 
         return {f: getattr(self, f)() for f in fields}
 
-    def similar_declarations(self, limit=12, return_full_body=False):
+    def similar_declarations(self, language=None, limit=12, return_full_body=False):
         fields = [
             "general.last_name",
             "general.name",
@@ -207,10 +227,17 @@ class AbstractDeclaration(object):
 
         if return_full_body:
             s = s.doc_type(NACPDeclaration, Declaration)
+            docs = s[:limit].execute()
 
-        return s[:limit].execute()
+            if language is not None:
+                for d in docs:
+                    d.prepare_translations(language, infocard_only=True)
+        else:
+            docs = s[:limit].execute()
 
-    def family_declarations(self):
+        return docs
+
+    def family_declarations(self, language=None, limit=12, return_full_body=False):
         def filter_silly_names(name):
             if not name:
                 return False
@@ -246,7 +273,18 @@ class AbstractDeclaration(object):
 
         if subqs:
             s = s.query(reduce(or_, subqs)).query(~Q("term", _id=self.meta.id))
-            return s[:12].execute()
+
+            if return_full_body:
+                s = s.doc_type(NACPDeclaration, Declaration)
+                docs = s[:limit].execute()
+
+                if language is not None:
+                    for d in docs:
+                        d.prepare_translations(language, infocard_only=True)
+            else:
+                docs = s[:limit].execute()
+
+            return docs
         else:
             return None
 

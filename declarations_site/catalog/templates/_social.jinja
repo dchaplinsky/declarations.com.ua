@@ -1,10 +1,4 @@
-{% macro social(text, link, add_disqus=False, add_rss=False) -%}
-<span class="social">
-{% if add_disqus %}
-<div class="disqus-comments-count">
-<a href="{{ link }}#disqus_thread">Коментарі</a>
-</div>
-{% endif %}
+{% macro social(text, link, add_rss=False) -%}
 <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ text }}" data-url="{{ link }}" data-hashtags="declarations">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 <div class="fb-share-button" data-href="{{ link }}" data-layout="button_count"></div>

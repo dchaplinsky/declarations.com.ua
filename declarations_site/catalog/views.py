@@ -6,9 +6,11 @@ from django.urls import reverse
 from django.http import JsonResponse, Http404
 from django.conf import settings
 from django.core.paginator import PageNotAnInteger, EmptyPage
+from django.utils.translation import gettext as _
 
 from django.views import View
 from django.template.loader import render_to_string
+from django.utils.translation import get_language
 
 from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
@@ -21,6 +23,7 @@ from .paginator import paginated_search
 from .api import hybrid_response
 from .utils import replace_apostrophes, base_search_query, apply_search_sorting
 from .models import Office
+from .translator import Translator, NoOpTranslator
 from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
 
 
@@ -77,6 +80,8 @@ class SuggestView(View):
 
 @hybrid_response('results.jinja')
 def search(request):
+    language = get_language()
+
     query = replace_apostrophes(request.GET.get("q", ""))
     deepsearch = bool(request.GET.get("deepsearch", ""))
 
@@ -107,12 +112,15 @@ def search(request):
     except PageNotAnInteger:
         raise Http404("No page")
 
+    for r in results:
+        r.prepare_translations(language, infocard_only=True)
 
     return {
         "query": query,
         "meta": meta,
         "deepsearch": deepsearch,
-        "results": results
+        "results": results,
+        "language": language,
     }
 
 
@@ -167,8 +175,9 @@ def fuzzy_search(request):
     }
 
 
-@hybrid_response('declaration.jinja')
-def details(request, declaration_id, language="uk"):
+@hybrid_response("declaration.jinja")
+def details(request, declaration_id):
+    language = get_language()
     try:
         try:
             declaration = NACPDeclaration.get(id=declaration_id)
@@ -180,90 +189,129 @@ def details(request, declaration_id, language="uk"):
         try:
             meta = PersonMeta.objects.get(
                 fullname=declaration.general.full_name,
-                year=int(declaration.intro.declaration_year))
+                year=int(declaration.intro.declaration_year),
+            )
         except (PersonMeta.DoesNotExist, ValueError, TypeError):
             try:
                 meta = PersonMeta.objects.get(
-                    fullname=declaration.general.full_name,
-                    year__isnull=True)
+                    fullname=declaration.general.full_name, year__isnull=True
+                )
             except PersonMeta.DoesNotExist:
                 meta = None
 
         if "source" in request.GET:
             return redirect(
-                declaration["declaration"]["url"] or
-                reverse("details", kwargs={"declaration_id": declaration._id})
+                declaration["declaration"]["url"]
+                or reverse("details", kwargs={"declaration_id": declaration._id})
             )
 
     except (ValueError, NotFoundError):
         raise Http404("Таких не знаємо!")
 
-    return {
-        "declaration": declaration,
-        "language": language,
-        "meta": meta
-    }
+    return {"declaration": declaration, "language": language, "meta": meta}
 
 
-@hybrid_response('regions.jinja')
+@hybrid_response("regions.jinja")
 def regions_home(request):
+    language = get_language()
     search = Search(index=CATALOG_INDICES).params(size=0)
-    search.aggs.bucket(
-        'per_region', 'terms', field='general.post.region.raw', size=30)
+    search.aggs.bucket("per_region", "terms", field="general.post.region.raw", size=30)
 
     res = search.execute()
 
+    if language == "en":
+        translator = Translator()
+        to_translate = []
+
+        for f in res.aggregations.per_region.buckets:
+            to_translate.append(f.key)
+
+        translator.fetch_partial_dict_from_db(to_translate)
+    else:
+        translator = NoOpTranslator()
+
     return {
-        'facets': res.aggregations.per_region.buckets
+        "facets": res.aggregations.per_region.buckets,
+        "language": language,
+        "translator": translator,
     }
 
 
-@hybrid_response('region_offices.jinja')
+@hybrid_response("region_offices.jinja")
 def region(request, region_name):
-    search = Search(index=CATALOG_INDICES)\
-        .query(Q('term', general__post__region__raw=region_name) & ~Q('term', general__post__office__raw=''))\
+    language = get_language()
+
+    search = (
+        Search(index=CATALOG_INDICES)
+        .query(
+            Q("term", general__post__region__raw=region_name)
+            & ~Q("term", general__post__office__raw="")
+        )
         .params(size=0)
+    )
 
-    meta_data = MetaData.objects.filter(
-        region_id=region_name,
-        office_id=None
-    ).first()
+    meta_data = MetaData.objects.filter(region_id=region_name, office_id=None).first()
 
-    search.aggs.bucket(
-        'per_office', 'terms', field='general.post.office.raw', size=100)
+    search.aggs.bucket("per_office", "terms", field="general.post.office.raw", size=100)
     res = search.execute()
 
+
+    if language == "en":
+        translator = Translator()
+        to_translate = [region_name]
+
+        for f in res.aggregations.per_office.buckets:
+            to_translate.append(f.key)
+
+        translator.fetch_partial_dict_from_db(to_translate)
+    else:
+        translator = NoOpTranslator()
+
     return {
-        'facets': res.aggregations.per_office.buckets,
-        'region_name': region_name,
-        'title': meta_data.title if meta_data else "",
-        'meta_desc': meta_data.description if meta_data else "",
+        "language": language,
+        "translator": translator,
+        "facets": res.aggregations.per_office.buckets,
+        "region_name": region_name,
+        "title": meta_data.title if meta_data else "",
+        "meta_desc": meta_data.description if meta_data else "",
     }
 
 
-@hybrid_response('results.jinja')
+@hybrid_response("results.jinja")
 def region_office(request, region_name, office_name):
-    search = Search(index=CATALOG_INDICES)\
-        .doc_type(NACPDeclaration, Declaration)\
-        .query('term', general__post__region__raw=region_name)\
-        .query('term', general__post__office__raw=office_name)
+    language = get_language()
 
-    return {
-        'query': office_name,
-        'results': paginated_search(request, search),
-    }
+    search = (
+        Search(index=CATALOG_INDICES)
+        .doc_type(NACPDeclaration, Declaration)
+        .query("term", general__post__region__raw=region_name)
+        .query("term", general__post__office__raw=office_name)
+    )
+
+    results = paginated_search(request, search)
+
+    for r in results:
+        r.prepare_translations(language, infocard_only=True)
+
+    return {"language": language, "query": office_name, "results": results}
 
 
-@hybrid_response('results.jinja')
+@hybrid_response("results.jinja")
 def office(request, office_name):
-    search = Search(index=CATALOG_INDICES)\
-        .doc_type(NACPDeclaration, Declaration)\
-        .query('term', general__post__office__raw=office_name)
+    language = get_language()
 
-    return {
-        'query': office_name,
-        'results': paginated_search(request, search)
-    }
+    search = (
+        Search(index=CATALOG_INDICES)
+        .doc_type(NACPDeclaration, Declaration)
+        .query("term", general__post__office__raw=office_name)
+    )
+
+    results = paginated_search(request, search)
+
+    for r in results:
+        r.prepare_translations(language, infocard_only=True)
+
+    return {"language": language, "query": office_name, "results": results}
 
 
 def sitemap_general(request):
@@ -326,14 +374,7 @@ def sitemap_declarations(request, page):
     search = search[(page - 1) * settings.SITEMAP_DECLARATIONS_PER_PAGE:page * settings.SITEMAP_DECLARATIONS_PER_PAGE]
 
     for r in search.execute():
-        if r.meta.id.startswith("nacp_"):
-            urls.append({
-                "default": reverse("details", kwargs={"declaration_id": r.meta.id}),
-                "uk": reverse("details", kwargs={"declaration_id": r.meta.id}),
-                "en": reverse("en_details", kwargs={"declaration_id": r.meta.id}),
-            })
-        else:
-            urls.append(reverse("details", kwargs={"declaration_id": r.meta.id}))
+        urls.append(reverse("details", kwargs={"declaration_id": r.meta.id}))
 
     return render(request, "sitemap.jinja",
                   {"urls": urls}, content_type="application/xml")
@@ -410,6 +451,8 @@ def prepare_datasets_for_charts(declarations, labels, columns):
 
 @hybrid_response('compare.jinja')
 def compare_declarations(request):
+    language = get_language()
+
     declarations = [
         decl_id
         for decl_id in request.GET.getlist("declaration_id", [])
@@ -434,6 +477,9 @@ def compare_declarations(request):
     )
 
     results = [r for r in results if hasattr(r, "aggregated")]
+    for r in results:
+        r.prepare_translations(language, infocard_only=True)
+
 
     add_names_to_labels = len(set(r.general.full_name.lower() for r in results)) > 1
     add_types_to_labels = len(set((getattr(r.intro, "doc_type", "щорічна") or "щорічна").lower() for r in results)) > 1
@@ -442,49 +488,50 @@ def compare_declarations(request):
     for r in results:
         label = str(r.intro.declaration_year)
         if add_types_to_labels:
-            label += ", " + (getattr(r.intro, "doc_type", "щорічна") or "щорічна")
+            label += ", " + _(getattr(r.intro, "doc_type", "щорічна") or "щорічна")
 
         if getattr(r.intro, "corrected", False):
-            label += ", уточнена"
+            label += ", " + _("уточнена")
 
         if add_names_to_labels:
-            label += ", " + r.general.full_name
+            label += ", " + r._full_name(language)
 
         labels.append(label)
         urls.append(reverse("details", kwargs={"declaration_id": r._id}))
 
     # TODO: move to a separate file
     return {
+        "language": language,
         "results": results,
         "labels": labels,
         "urls": json.dumps(urls),
         "incomes_data": json.dumps(prepare_datasets_for_charts(
             results, labels,
             OrderedDict((
-                ("Загальна сума подарунків", {"type": "line", "field": "incomes.presents.all", "transform": float}),
-                ("Родина", {"type": "bar", "field": "incomes.family", "transform": float}),
-                ("Декларант", {"type": "bar", "field": "incomes.declarant", "transform": float}),
+                (_("Загальна сума подарунків"), {"type": "line", "field": "incomes.presents.all", "transform": float}),
+                (_("Родина"), {"type": "bar", "field": "incomes.family", "transform": float}),
+                (_("Декларант"), {"type": "bar", "field": "incomes.declarant", "transform": float}),
             )))
         ),
 
         "assets_data": json.dumps(prepare_datasets_for_charts(
             results, labels,
             OrderedDict((
-                ("Загальна сума готівки", {"type": "line", "field": "assets.cash.total", "transform": float}),
-                ("Родина", {"type": "bar", "field": "assets.family", "transform": float}),
-                ("Декларант", {"type": "bar", "field": "assets.declarant", "transform": float}),
+                (_("Загальна сума готівки"), {"type": "line", "field": "assets.cash.total", "transform": float}),
+                (_("Родина"), {"type": "bar", "field": "assets.family", "transform": float}),
+                (_("Декларант"), {"type": "bar", "field": "assets.declarant", "transform": float}),
             )))
         ),
 
         "incomes_vs_expenses_data": json.dumps(prepare_datasets_for_charts(
             results, labels,
             OrderedDict((
-                ("Дохід", {"type": "bar", "field": "incomes.total", "transform": float}),
-                ("Грошові активи", {"type": "bar", "field": "assets.total", "transform": float}),
-                ("Фінансові зобов'язання",
+                (_("Дохід"), {"type": "bar", "field": "incomes.total", "transform": float}),
+                (_("Грошові активи"), {"type": "bar", "field": "assets.total", "transform": float}),
+                (_("Фінансові зобов'язання"),
                     {"type": "bar", "field": "liabilities.total", "transform": lambda x: -float(x)}
                  ),
-                ("Витрати",
+                (_("Витрати"),
                     {"type": "bar", "field": "expenses.total", "transform": lambda x: -float(x)}
                  ),
             )))
@@ -493,12 +540,12 @@ def compare_declarations(request):
         "incomes_vs_expenses_data": json.dumps(prepare_datasets_for_charts(
             results, labels,
             OrderedDict((
-                ("Дохід", {"type": "bar", "field": "incomes.total", "transform": float}),
-                ("Грошові активи", {"type": "bar", "field": "assets.total", "transform": float}),
-                ("Фінансові зобов'язання",
+                (_("Дохід"), {"type": "bar", "field": "incomes.total", "transform": float}),
+                (_("Грошові активи"), {"type": "bar", "field": "assets.total", "transform": float}),
+                (_("Фінансові зобов'язання"),
                     {"type": "bar", "field": "liabilities.total", "transform": lambda x: -float(x)}
                  ),
-                ("Витрати",
+                (_("Витрати"),
                     {"type": "bar", "field": "expenses.total", "transform": lambda x: -float(x)}
                  ),
             )))
@@ -507,23 +554,23 @@ def compare_declarations(request):
         "land_data": json.dumps(prepare_datasets_for_charts(
             results, labels,
             OrderedDict((
-                ("Площа в родини", {"type": "bar", "field": "estate.family_land", "transform": float}),
-                ("Площа в декларанта", {"type": "bar", "field": "estate.declarant_land", "transform": float}),
+                (_("Площа в родини"), {"type": "bar", "field": "estate.family_land", "transform": float}),
+                (_("Площа в декларанта"), {"type": "bar", "field": "estate.declarant_land", "transform": float}),
             )))
         ),
 
         "realty_data": json.dumps(prepare_datasets_for_charts(
             results, labels,
             OrderedDict((
-                ("Площа в родини", {"type": "bar", "field": "estate.family_other", "transform": float}),
-                ("Площа в декларанта", {"type": "bar", "field": "estate.declarant_other", "transform": float}),
+                (_("Площа в родини"), {"type": "bar", "field": "estate.family_other", "transform": float}),
+                (_("Площа в декларанта"), {"type": "bar", "field": "estate.declarant_other", "transform": float}),
             )))
         ),
 
         "cars_data": json.dumps(prepare_datasets_for_charts(
             results, labels,
             OrderedDict((
-                ("Кількість у декларації", {"type": "bar", "field": "vehicles.all_names",
+                (_("Кількість у декларації"), {"type": "bar", "field": "vehicles.all_names",
                  "transform": lambda x: len(x.split(";")) if x else 0}),
             )))
         ),

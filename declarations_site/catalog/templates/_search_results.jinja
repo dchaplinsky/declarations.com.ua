@@ -1,4 +1,4 @@
-{% from "_decl_teaser.jinja" import decl_teaser %}
+{% from "_decl_teaser.jinja" import decl_teaser with context %}
 
 {% macro search_results(results) -%}
     {% for r in results %}

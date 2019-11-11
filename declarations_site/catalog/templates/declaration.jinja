@@ -1,28 +1,18 @@
 {% extends "base.jinja" %}
-{% from "_search_results.jinja" import search_results %}
+{% from "_search_results.jinja" import search_results with context %}
 {% from "_procurements.jinja" import procurements_details %}
 {% from "_spotter.jinja" import spotter_button %}
-{% from "_decl_teaser.jinja" import decl_teaser %}
+{% from "_decl_teaser.jinja" import decl_teaser with context %}
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
-Декларації: {{ declaration._full_name(language) }}{% if declaration.declaration.source == "NACP" %} від НАЗК{% endif %}{% endif %}
+{{ _("Декларації:") }} {{ declaration._full_name(language) }}{% if declaration.declaration.source == "NACP" %} {{ _("від НАЗК") }}{% endif %}{% endif %}
 {%- endblock %}
 
-{% block html_desc %}{% if meta %}{{ meta.description }}{% else %}Д​екларації{% if declaration.declaration.source == "NACP" %} НАЗК{% endif %} про майно, доходи, витрати та зобов'язання фінансового характеру {{ declaration.general.last_name }} {{ declaration.general.name }} за {{ declaration.intro.declaration_year }} рік онлайн у відкритій базі даних проекту{% endif %}{% endblock %}
+{% block html_desc %}{% if meta %}{{ meta.description }}{% else %}{{ _("Д​екларації") }}{% if declaration.declaration.source == "NACP" %} {{ _("НАЗК") }}{% endif %} {{ _("про майно, доходи, витрати та зобов'язання фінансового характеру") }} {{ declaration.general.last_name }} {{ declaration.general.name }} {{ _("за") }} {{ declaration.intro.declaration_year }} {{ _("рік онлайн у відкритій базі даних проекту") }}{% endif %}{% endblock %}
 
 {% block bodyclass %}not-front {% if branding_link %}branding-page {% endif %}declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
 
-
-{% block extrahead %}
-    {% if declaration.declaration.source == "NACP" %}
-        {% if language == "en" %}
-            <link rel="alternate" href="{{ SITE_URL }}{{ url("details", declaration_id=declaration.meta.id) }}" hreflang="uk" />
-        {% else %}
-            <link rel="alternate" href="{{ SITE_URL }}{{ url("en_details", declaration_id=declaration.meta.id) }}" hreflang="en" />
-        {% endif %}
-    {% endif %}
-{% endblock %}
 
 {% block infobox %}
     <section id="infobox">
@@ -53,10 +43,10 @@
             </div>
             <div class="infobanner infobanner--bi">
                 <div class="infobanner-content">
-                    <a class="banner-link" href="https://donate.bihus.info/" title="Підтримай Bihus.info!  | Bihus.info — антикорупційні журналістські розслідування"></a>
+                    <a class="banner-link" href="https://donate.bihus.info/" title="{{ _("Підтримай Bihus.info! | Bihus.info — антикорупційні журналістські розслідування") }}"></a>
                     <div class="infobanner-text text-center">
-                        <p class="infobanner-top-text">Підтримай команду журналістів та юристів Bihus.info</p>
-                        <a href="https://donate.bihus.info/" class="btn button-cta">Я з вами</a>
+                        <p class="infobanner-top-text">{{ _("Підтримай команду журналістів та юристів Bihus.info") }}</p>
+                        <a href="https://donate.bihus.info/" class="btn button-cta">{{ _("Я з вами") }}</a>
                     </div>
                 </div>
             </div>
@@ -89,8 +79,8 @@
                 <div class="breadcrumbs-container">
                     <div id="breadcrumbs">
                         <ol class="breadcrumb pull-left">
-                            <li><a href="{{ url("wagtail_serve", "") }}">Головна</a></li>
-                            <li class="active">Результати пошуку</li>
+                            <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
+                            <li class="active">{{ _("Результати пошуку") }}</li>
                             <li class="active">{{ declaration._full_name(language) }}</li>
                         </ol>
                     </div>
@@ -120,20 +110,20 @@
                         {% endif %}
 
                         {% if declaration.intro.doc_type %}{{ declaration._declaration_type(language) }}<span>,</span>{% endif %}
-                        {% if declaration.intro.corrected %}{% if language == "en" %}Corrected {% else %}Уточнена{% endif %}<span>,</span>{% endif %}
+                        {% if declaration.intro.corrected %}{{ _("Уточнена") }}<span>,</span>{% endif %}
                         {% if declaration.intro.date %}
-                        <span class="date"><span class="glyphicon glyphicon-calendar"></span>{% if language == "en" %}submitted {% else %}подана{% endif %} {{ declaration.intro.date|datetime }}</span>
+                        <span class="date"><span class="glyphicon glyphicon-calendar"></span>{{ _("подана") }} {{ declaration.intro.date|datetime }}</span>
                         {% endif %}
                     </h2>
 
                 </div>
 
                 <div class="watching-block">
-                    <p>Моніторити декларанта по:</p>
-                    <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed"
+                    <p>{{ _("Моніторити декларанта по:") }}</p>
+                    <a title="{{ _("Моніторити цей запит по RSS") }}" class="btn btn-raised btn-sm save-search rss-feed"
                        href="{{ SITE_URL }}{{ url('search') }}?{{ "q=%s+%s+%s" % (declaration.general.last_name,
                        declaration.general.name, declaration.general.patronymic) }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
-                    {{ spotter_button("+ Моніторити декларанта", "q=%s+%s+%s" % (declaration.general.last_name,
+                    {{ spotter_button(_("+ Моніторити декларанта"), "q=%s+%s+%s" % (declaration.general.last_name,
                     declaration.general.name, declaration.general.patronymic), "from-declaration") }}
                 </div>
             </div>
@@ -151,19 +141,11 @@
             </div>
 
             {% if declaration.aggregated %}
-            <a href="#" class="add2compare-list on-page-button" title="Додати у список порівнянь"><i class="fa fa-balance-scale" aria-hidden="true"></i> Додати декларацію у список порівнянь</a>
-            {% endif %}
-            {% if declaration.declaration.source == "NACP" %}
-                {% if language == "en" %}
-                    <a href="{{ url("details", declaration_id=declaration.meta.id) }}" class="show-translated on-page-button"><i class="fa fa-language" aria-hidden="true"></i> Також доступна українською</a>
-                {% else %}
-                    <a href="{{ url("en_details", declaration_id=declaration.meta.id) }}" class="show-translated on-page-button"><i class="fa fa-language" aria-hidden="true"></i> Also available in English</a>
-                {% endif %}
-                <div class="clearfix"></div>
+            <a href="#" class="add2compare-list on-page-button" title="{{ _("Додати у список порівнянь") }}"><i class="fa fa-balance-scale" aria-hidden="true"></i> {{ _("Додати декларацію у список порівнянь") }}</a>
             {% endif %}
             <div class="box">
                 {% if declaration.declaration.url %}
-                    <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank" rel="nofollow"><i></i><span>Оригінал декларації</span></a></div>
+                    <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank" rel="nofollow"><i></i><span>{{ _("Оригінал декларації") }}</span></a></div>
                 {% endif %}
 
                 {% if declaration.declaration.source == "NACP" %}
@@ -185,7 +167,7 @@
                 {% endif %}
 
                 <div class="transliteration-hint">
-                    <h4>ПІБ іншими мовами</h4>
+                    <h4>{{ _("ПІБ іншими мовами") }}</h4>
                     {% set pipe = joiner(", ") %}
                     {% for t in generate_all_names(declaration.general.last_name, declaration.general.name, declaration.general.patronymic) -%}
                     {{ pipe() }}<span itemprop="alternateName">{{ t }}</span>
@@ -196,9 +178,9 @@
     </div>
 
     <div class="relevant-container container">
-        {% set similar_declarations = declaration.similar_declarations() %}
+        {% set similar_declarations = declaration.similar_declarations(language=language, return_full_body=True) %}
         {% if similar_declarations %}
-        <h3 id="similar_by_surname">Інші декларації, знайдені за ПІБ «{{ declaration.general.full_name }}»</h3>
+        <h3 id="similar_by_surname">{{ _("Інші декларації, знайдені за ПІБ") }} «{{ declaration._full_name(language) }}»</h3>
         <div class="search-page">
             <div class="row list-group search-results">
                 {{ search_results(similar_declarations) }}
@@ -206,9 +188,9 @@
         </div>
         {% endif %}
 
-        {% set family_declarations = declaration.family_declarations() %}
+        {% set family_declarations = declaration.family_declarations(language=language, return_full_body=True) %}
         {% if family_declarations %}
-        <h3 id="similar_by_relations">Декларації осіб, що <u>можуть</u> бути родичами декларанта</h3>
+        <h3 id="similar_by_relations">{{ _("Декларації осіб, що <u>можуть</u> бути родичами декларанта") }}</h3>
         <div class="search-page">
             <div class="row list-group search-results">
                 {{ search_results(family_declarations) }}

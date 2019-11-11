@@ -10,37 +10,33 @@
             {% endif %}
             <h3>
             {% if declaration.meta.id %}
-            <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name">{{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}</a>
+            <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name">{{ declaration._full_name(language) }}</a>
             {% else %}
-            {{ declaration.general.last_name }} {{ declaration.general.name }} {{ declaration.general.patronymic }}
+            {{ declaration._full_name(language) }}
             {% endif %}
         </h3>
             <ul class="tags_list">
                 <li class="type">
                     <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
                     {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
-                    {% if declaration.intro.doc_type %}{{ declaration.intro.doc_type }}<span>,</span>{% endif %}
-                    {% if declaration.intro.corrected %}Уточнена <span>,</span>{% endif %}
+                    {% if declaration.intro.doc_type %}{{ declaration._declaration_type(language) }}<span>,</span>{% endif %}
+                    {% if declaration.intro.corrected %}{{ _("Уточнена") }} <span>,</span>{% endif %}
                 </li>
                 {% if declaration.general.post.actual_region %}
-                <li><a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="homeLocation">{{ declaration.general.post.actual_region }}</a><span>,</span></li>
+                <li><a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="homeLocation">{{ declaration._actual_region(language) }}</a><span>,</span></li>
                 {% elif declaration.general.post.region %}
-                <li><a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="homeLocation">{{ declaration.general.post.region }}</a><span>,</span></li>
+                <li><a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="homeLocation">{{ declaration._region(language) }}</a><span>,</span></li>
                 {% endif %}
                 {% if declaration.general.post.office %}
-                <li><a href="{{ url('office', office_name=declaration.general.post.office) }}">{{ declaration.general.post.office }}</a><span>,</span></li>
+                <li><a href="{{ url('office', office_name=declaration.general.post.office) }}">{{ declaration._office(language) }}</a><span>,</span></li>
                 {% endif %}
                 {% if declaration.general.post.post %}
-                <li itemprop="jobTitle">{{ declaration.general.post.post }}</li>
+                <li itemprop="jobTitle">{{ declaration._position(language) }}</li>
                 {% endif %}
                 {% if declaration.intro.date %}
-                <li class="date"><span class="glyphicon glyphicon-calendar"></span> подана {{ declaration.intro.date|datetime }}</li>
+                <li class="date"><span class="glyphicon glyphicon-calendar"></span> {{ _("подана") }} {{ declaration.intro.date|datetime }}</li>
                 {% endif %}
             </ul>
-
-            {% if declaration.declaration.source == "NACP" %}
-            <a href="{{ url("en_details", declaration_id=declaration.meta.id) }}" class="translated-link"><i class="fa fa-language" aria-hidden="true"></i> Also available in English</a>
-            {% endif %}
         </div>
         <input type="hidden" name="declaration_id" value="{{ declaration.meta.id }}" />
     </div>

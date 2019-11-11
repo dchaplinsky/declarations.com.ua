@@ -1,0 +1,1481 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Declarations\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-11-11 02:00+0200\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: POEditor.com\n"
+
+#: catalog/templates/_decl_teaser.jinja:23
+#: catalog/templates/declaration.jinja:113
+msgid "Уточнена"
+msgstr "Corrected"
+
+#: catalog/templates/_decl_teaser.jinja:37
+#: catalog/templates/declaration.jinja:115
+msgid "подана"
+msgstr "submitted"
+
+#: catalog/templates/_search_form.jinja:7
+msgid ""
+"Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна "
+"фіскальна служба"
+msgstr ""
+"For example: Aivaras Abromavičius; Judge; Khmelnytskyi Oblast; State Fiscal "
+"Service"
+
+#: catalog/templates/_search_form.jinja:9 catalog/templates/base.jinja:220
+#: cms_pages/templates/cms_pages/home.jinja:107
+msgid "Шукати по всьому тексту декларації, а не тільки по імені та посаді"
+msgstr ""
+"Search the entire text of the declaration instead of just the name and "
+"position"
+
+#: catalog/templates/_search_form.jinja:9 catalog/templates/base.jinja:220
+#: cms_pages/templates/cms_pages/home.jinja:107
+msgid "Шукати скрізь"
+msgstr "Deep search"
+
+#: catalog/templates/_search_form.jinja:17 catalog/templates/base.jinja:227
+#: cms_pages/templates/cms_pages/home.jinja:114
+msgid "Розширений пошук"
+msgstr "Advanced search"
+
+#: catalog/templates/_search_form.jinja:25
+#: catalog/templates/_search_form.jinja:28
+#: catalog/templates/_search_form.jinja:32
+#: cms_pages/templates/cms_pages/home.jinja:137
+msgid "Рік:"
+msgstr "Year:"
+
+#: catalog/templates/_search_form.jinja:50
+#: catalog/templates/_search_form.jinja:53
+#: catalog/templates/_search_form.jinja:57
+msgid "Тип документу:"
+msgstr "Type of document:"
+
+#: catalog/templates/_search_form.jinja:59
+msgid "Щорічна"
+msgstr "Annual"
+
+#: catalog/templates/_search_form.jinja:60
+msgid "Перед звільненням"
+msgstr "Before dismissal"
+
+#: catalog/templates/_search_form.jinja:61
+msgid "Після звільнення"
+msgstr "After dismissal"
+
+#: catalog/templates/_search_form.jinja:62
+msgid "Кандидата на посаду"
+msgstr "Of the candidate for the position"
+
+#: catalog/templates/_search_form.jinja:63
+msgid "Форма змін"
+msgstr "Correction blank"
+
+#: catalog/templates/_search_form.jinja:74
+msgid "Тип посади:"
+msgstr "Type of position:"
+
+#: catalog/templates/_search_form.jinja:78
+msgid "Посада державної служби"
+msgstr "State service position"
+
+#: catalog/templates/_search_form.jinja:84
+msgid "Посада в органах місцевого самоврядування"
+msgstr "Position in local self-government"
+
+#: catalog/templates/_search_form.jinja:90
+msgid "Посадова особа юридичної особи публічного права"
+msgstr "Official of a legal person under public law"
+
+#: catalog/templates/_search_form.jinja:102
+#: catalog/templates/_search_form.jinja:106
+msgid "Регіон:"
+msgstr "Region:"
+
+#: catalog/templates/_search_form.jinja:108
+#: cms_pages/templates/cms_pages/home.jinja:170
+msgid "м. Київ"
+msgstr "Kyiv City"
+
+#: catalog/templates/_search_form.jinja:109
+#: cms_pages/templates/cms_pages/home.jinja:190
+msgid "Вінницька область"
+msgstr "Vinnytsia Oblast"
+
+#: catalog/templates/_search_form.jinja:110
+#: cms_pages/templates/cms_pages/home.jinja:182
+msgid "Волинська область"
+msgstr "Volyn Oblast"
+
+#: catalog/templates/_search_form.jinja:111
+#: cms_pages/templates/cms_pages/home.jinja:172
+msgid "Дніпропетровська область"
+msgstr "Dnipropetrovsk Oblast"
+
+#: catalog/templates/_search_form.jinja:112
+#: cms_pages/templates/cms_pages/home.jinja:168
+msgid "Донецька область"
+msgstr "Donetsk Oblast"
+
+#: catalog/templates/_search_form.jinja:113
+#: cms_pages/templates/cms_pages/home.jinja:173
+msgid "Житомирська область"
+msgstr "Zhytomyr Oblast"
+
+#: catalog/templates/_search_form.jinja:114
+#: cms_pages/templates/cms_pages/home.jinja:177
+msgid "Закарпатська область"
+msgstr "Zakarpattia Oblast"
+
+#: catalog/templates/_search_form.jinja:115
+#: cms_pages/templates/cms_pages/home.jinja:178
+msgid "Запорізька область"
+msgstr "Zaporizhzhia Oblast"
+
+#: catalog/templates/_search_form.jinja:116
+#: cms_pages/templates/cms_pages/home.jinja:183
+msgid "Івано-Франківська область"
+msgstr "Ivano-Frankivsk Oblast"
+
+#: catalog/templates/_search_form.jinja:117
+#: cms_pages/templates/cms_pages/home.jinja:176
+msgid "Київська область"
+msgstr "Kyiv Oblast"
+
+#: catalog/templates/_search_form.jinja:118
+#: cms_pages/templates/cms_pages/home.jinja:188
+msgid "Кіровоградська область"
+msgstr "Kirovohrad Oblast"
+
+#: catalog/templates/_search_form.jinja:119
+#: cms_pages/templates/cms_pages/home.jinja:166
+msgid "Львівська область"
+msgstr "Lviv Oblast"
+
+#: catalog/templates/_search_form.jinja:120
+#: cms_pages/templates/cms_pages/home.jinja:189
+msgid "Луганська область"
+msgstr "Luhansk Oblast"
+
+#: catalog/templates/_search_form.jinja:121
+#: cms_pages/templates/cms_pages/home.jinja:171
+msgid "Миколаївська область"
+msgstr "Mykolaiv Oblast"
+
+#: catalog/templates/_search_form.jinja:122
+#: cms_pages/templates/cms_pages/home.jinja:175
+msgid "Одеська область"
+msgstr "Odesa Oblast"
+
+#: catalog/templates/_search_form.jinja:123
+#: cms_pages/templates/cms_pages/home.jinja:187
+msgid "Полтавська область"
+msgstr "Poltava Oblast"
+
+#: catalog/templates/_search_form.jinja:124
+#: cms_pages/templates/cms_pages/home.jinja:174
+msgid "Рівненська область"
+msgstr "Rivne Oblast"
+
+#: catalog/templates/_search_form.jinja:125
+#: cms_pages/templates/cms_pages/home.jinja:181
+msgid "Сумська область"
+msgstr "Sumy Oblast"
+
+#: catalog/templates/_search_form.jinja:126
+#: cms_pages/templates/cms_pages/home.jinja:186
+msgid "Тернопільська область"
+msgstr "Ternopil Oblast"
+
+#: catalog/templates/_search_form.jinja:127
+#: cms_pages/templates/cms_pages/home.jinja:165
+msgid "Харківська область"
+msgstr "Kharkiv Oblast"
+
+#: catalog/templates/_search_form.jinja:128
+#: cms_pages/templates/cms_pages/home.jinja:184
+msgid "Херсонська область"
+msgstr "Kherson Oblast"
+
+#: catalog/templates/_search_form.jinja:129
+#: cms_pages/templates/cms_pages/home.jinja:185
+msgid "Хмельницька область"
+msgstr "Khmelnytskyi Oblast"
+
+#: catalog/templates/_search_form.jinja:130
+#: cms_pages/templates/cms_pages/home.jinja:179
+msgid "Черкаська область"
+msgstr "Cherkasy Oblast"
+
+#: catalog/templates/_search_form.jinja:131
+#: cms_pages/templates/cms_pages/home.jinja:167
+msgid "Чернівецька область"
+msgstr "Chernivtsi Oblast"
+
+#: catalog/templates/_search_form.jinja:132
+#: cms_pages/templates/cms_pages/home.jinja:180
+msgid "Чернігівська область"
+msgstr "Chernihiv Oblast"
+
+#: catalog/templates/_search_form.jinja:133
+#: cms_pages/templates/cms_pages/home.jinja:191
+msgid "Кримська Автономна Республіка"
+msgstr "Autonomous Republic of Crimea"
+
+#: catalog/templates/_search_form.jinja:134
+msgid "м. Севастополь"
+msgstr "Sevastopol"
+
+#: catalog/templates/_search_form.jinja:143
+msgid "Регіон реєстрації"
+msgstr "Region of registration"
+
+#: catalog/templates/_search_form.jinja:149
+msgid "Регіон фактичного проживання"
+msgstr "Region of de-facto residence"
+
+#: catalog/templates/_search_form.jinja:155
+msgid "Регіон задекларованої нерухомості"
+msgstr "Region of the immovables declared"
+
+#: catalog/templates/_search_form.jinja:163
+msgid "Скинути усі фільтри"
+msgstr "Reset all filters"
+
+#: catalog/templates/base.jinja:8
+msgid "Електронні декларації чиновників та депутатів"
+msgstr "Electronic declarations of officials and deputies"
+
+#: catalog/templates/base.jinja:153 catalog/templates/declaration.jinja:48
+msgid "Підтримай команду журналістів та юристів Bihus.info"
+msgstr "Support the journalists and lawyers of the Bihus.Info team"
+
+#: catalog/templates/base.jinja:154 catalog/templates/declaration.jinja:49
+msgid "Я з вами"
+msgstr "I'm with you"
+
+#: catalog/templates/base.jinja:183
+msgid "розкрити пошук"
+msgstr "expand search"
+
+#: catalog/templates/base.jinja:205
+msgid "Список порівнянь"
+msgstr "Comparison list"
+
+#: catalog/templates/base.jinja:218
+#: cms_pages/templates/cms_pages/home.jinja:105
+msgid ""
+"ПОШУК ДЕКЛАРАЦІЙ. Наприклад: Айварас Абромавичус; Суддя; Хмельницька "
+"область; Державна фіскальна служба"
+msgstr ""
+"SEARCH FOR DECLARATIONS. For example: Aivaras Abromavičius; Judge; "
+"Khmelnytskyi Oblast; State Fiscal Service"
+
+#: catalog/templates/base.jinja:262
+msgid ""
+"\"Канцелярська сотня\" - ініціатива зі створення інформаційних проектів із "
+"залученням тисяч волонтерів в інтернеті."
+msgstr ""
+"The White Collar Hundred is an initiative set on the creation of "
+"informational projects that involve thousands of volunteers on the Internet."
+
+#: catalog/templates/base.jinja:263 catalog/templates/base.jinja:276
+#: catalog/templates/base.jinja:288 catalog/templates/base.jinja:300
+#: catalog/templates/base.jinja:313 catalog/templates/base.jinja:325
+#: catalog/templates/base.jinja:332 catalog/templates/base.jinja:352
+#: catalog/templates/base.jinja:365 catalog/templates/base.jinja:377
+#: catalog/templates/base.jinja:389 catalog/templates/base.jinja:401
+#: catalog/templates/base.jinja:413
+msgid "Детальніше"
+msgstr "More"
+
+#: catalog/templates/base.jinja:266
+msgid "Інші проекті ГО \"Канцелярська сотня\":"
+msgstr "Other projects of the White Collar Hundred:"
+
+#: catalog/templates/base.jinja:269 catalog/templates/base.jinja:274
+#: catalog/templates/base.jinja:276
+msgid "Декларації"
+msgstr "Declarations"
+
+#: catalog/templates/base.jinja:275
+msgid ""
+"Найбільша база декларацій українських чиновників, з адаптованим "
+"повнотекстовим пошуком та аналітичною системою."
+msgstr ""
+"The largest database of declarations of Ukrainian officials with tailored "
+"full-text search and analytics."
+
+#: catalog/templates/base.jinja:287
+msgid ""
+"Відкрита база даних помічників народних депутатів Верховної Ради України, "
+"створена з інформації агенції журналістських розслідувань “Слідство.Інфо”."
+msgstr ""
+"A public database of assistants to People's Deputies of the Verkhovna Rada "
+"of Ukraine, which was created using the information from the journalistic "
+"investigations of Slidstvo.Info."
+
+#: catalog/templates/base.jinja:298
+msgid "НЕВІД (DRAGNET)"
+msgstr "NEVID (DRAGNET)"
+
+#: catalog/templates/base.jinja:299
+msgid ""
+"IT-проект «Невід» (Dragnet) - це розробка програмно-аналітичного блоку "
+"ініціативи “Декларації”, створеної активістами “Канцелярської сотні” у 2014-"
+"му році."
+msgstr ""
+"IT project Nevid (Dragnet) is a development of the software and analytics "
+"module of the Declarations initiative, created by White Collar Hundred "
+"activists in 2014."
+
+#: catalog/templates/base.jinja:311 catalog/templates/base.jinja:313
+msgid "ЕЛЕКТРОННЕ БТІ (ЕБТІ)"
+msgstr "Electronic Technical Inventory Office (EBTI)"
+
+#: catalog/templates/base.jinja:312
+msgid ""
+"Проект “Електронне БТІ” є продовженням створення серії інструментів, які "
+"розширюють доступ до даних про нерухомість."
+msgstr ""
+"The project Electronic Technical Inventory Office is the next in the series "
+"of tools that extend access to real estate data."
+
+#: catalog/templates/base.jinja:318 catalog/templates/base.jinja:323
+#: catalog/templates/base.jinja:325
+msgid "ГАРНАХАТА"
+msgstr "HARNAKHATA"
+
+#: catalog/templates/base.jinja:324
+msgid ""
+"Cтартував одночасно із відкриттям Міністерством юстиції офіційного Реєстру "
+"речових прав на нерухоме майно. Простіше кажучи – реєстру нерухомості."
+msgstr ""
+"It was launched simultaneously with the Justice Ministry's opening of the "
+"official Register of Corporeal Rights to Real Estate, or, simply put, a "
+"property register."
+
+#: catalog/templates/base.jinja:332
+msgid ""
+"Bihus.info об'єднує антикорупційні проекти, які створює ГО \"ТОМ 14\" та ГО "
+"\"Канцелярська сотня\"."
+msgstr ""
+"Bihus.Info unites anti-corruption projects created by the NGOs TOM 14 and "
+"the White Collar Hundred."
+
+#: catalog/templates/base.jinja:335
+msgid "Follow @BihusInfo"
+msgstr "Follow @BihusInfo"
+
+#: catalog/templates/base.jinja:337
+msgid "BIHUS.info"
+msgstr "BIHUS.info"
+
+#: catalog/templates/base.jinja:340
+msgid "Підпишись на новини"
+msgstr "Subscribe to the newsfeed"
+
+#: catalog/templates/base.jinja:347 catalog/templates/base.jinja:352
+msgid "ТОМ 14"
+msgstr "TOM 14"
+
+#: catalog/templates/base.jinja:352
+msgid "Громадська організація \"ТОМ 14\". Центр журналістських розслідувань."
+msgstr "Civic organization TOM 14. Center for journalistic investigations."
+
+#: catalog/templates/base.jinja:355
+msgid "Проекти ГО \"ТОМ 14\":"
+msgstr "Projects of NGO TOM 14:"
+
+#: catalog/templates/base.jinja:363 catalog/templates/base.jinja:365
+msgid "ТЕЛЕПРОГРАМА \"НАШІ ГРОШІ\""
+msgstr "TV-program Our Money"
+
+#: catalog/templates/base.jinja:364
+msgid ""
+"Проект антикорупційних розслідувань \"Наші гроші. Головна ідея програми - "
+"викриття корупційних схем українських чиновників."
+msgstr ""
+"Anti-corruption investigations project Our Money. The mission of the program "
+"is to expose the corrupt schemes of Ukrainian officials."
+
+#: catalog/templates/base.jinja:370 catalog/templates/base.jinja:375
+#: catalog/templates/base.jinja:377
+msgid "ТИСНИ!"
+msgstr "Tysny! (Push!)"
+
+#: catalog/templates/base.jinja:376
+msgid ""
+"Юридична ініціатива ГО \"ТОМ 14\", спрямована на підтримку роботи "
+"журналістів після виходу розслідувань."
+msgstr ""
+"Legal initiative of NGO TOM 14, aimed at providing support of the "
+"journalists' work after the investigations are published."
+
+#: catalog/templates/base.jinja:382 catalog/templates/base.jinja:387
+msgid "ПІДСУМКИ ДНА"
+msgstr "The Bottom Line"
+
+#: catalog/templates/base.jinja:388
+msgid ""
+"Чесна та відверта програма про наше сьогодення. Хіба що трохи занадто "
+"емоційна. В форматі 5 хвилин говоримо на актуальні теми."
+msgstr ""
+"An honest and frank program about current events. Maybe a bit too emotional. "
+"We discuss the topics of the day in a 5-minute format."
+
+#: catalog/templates/base.jinja:394 catalog/templates/base.jinja:399
+#: catalog/templates/base.jinja:401
+msgid "НАРОДНЕ НАЗК"
+msgstr "People's NACP"
+
+#: catalog/templates/base.jinja:400
+msgid ""
+"Розслідувально-аналітичний проект ГО “ТОМ 14”. Стартував одразу після "
+"оприлюднення перших електронних декларацій."
+msgstr ""
+"An investigative and analytical project of NGO TOM 14. It was lauched right "
+"after the first electonic declarations were published."
+
+#: catalog/templates/base.jinja:406 catalog/templates/base.jinja:411
+#: catalog/templates/base.jinja:413
+msgid "НАШІ ГРОШІ. ДОСУДИЛИСЯ."
+msgstr "Our Money. Judged Away."
+
+#: catalog/templates/base.jinja:412
+msgid ""
+"Телевезійний спецпроект про суди, суддів і судову реформу. За півроку "
+"«Досудилися» опублікували понад два десятки телерозслідувань."
+msgstr ""
+"Special TV project about courts, judges, and the judicial reform. In 6 "
+"months, Judged Away published more than 20 TV investigations."
+
+#: catalog/templates/base.jinja:430
+msgid "Фронтенд Лабораторії кота Шрьодінгера"
+msgstr "The Frontend of the Shroedinger's Cat Laboratory"
+
+#: catalog/templates/base.jinja:441
+msgid ""
+"У розробці проекту брали участь: Денис Бігус, Дмитро Чаплинський, Ольга "
+"Макарова, Артем Глувчинський, Володимир Фльонц, Андрій Ульяненко, Дмитро "
+"Нечипоренко, Андрій Турик, Дмитро Гамбаль, Гліб Козак, Володимир Гоцик, "
+"Олександр Ботезату, Ігор Рубан, Кирило Захаров"
+msgstr ""
+"The project was developed by Denys Bihus, Dmytro Chaplynskyi, Olha Makarova, "
+"Artem Hluvchynskyi, Volodymyr Flionts, Andriy Ulyanenko, Dmytro "
+"Nechyporenko, Andriy Turyk, Dmytro Hambal, Hlib Kozak, Volodymyr Hotsyk, "
+"Oleksandr Botetzatu, Ihor Ruban, Kyrylo Zakharov"
+
+#: catalog/templates/base.jinja:442
+msgid ""
+"Автори висловлюють вдячність Громадському люстраційному комітету й "
+"Громадському руху Чесно за допомогу у зборі декларацій"
+msgstr ""
+"The authors express their gratitude to the Public Lustration Committee and "
+"the CHESNO Civil Movement for their assistance in collecting declarations"
+
+#: catalog/templates/base.jinja:484
+msgid "Чат боти декларацій"
+msgstr "Chatbots of the Declarations"
+
+#: catalog/templates/base.jinja:493 catalog/templates/results.jinja:26
+msgid "Список порівнянь:"
+msgstr "Comparison list:"
+
+#: catalog/templates/base.jinja:496
+msgid ""
+"Це сторінка порівняння декларацій. Ви не додали жодної декларації і нам нема "
+"чого порівнювати. Зробіть це. Зробіть швидше."
+msgstr ""
+"This is the declaration comparison page. You didn't add any declarations and "
+"we have nothing to compare. Do it. Hurry."
+
+#: catalog/templates/base.jinja:500
+msgid "Порівняти"
+msgstr "Compare"
+
+#: catalog/templates/base.jinja:501
+msgid "Очистити список"
+msgstr "Clear the list"
+
+#: catalog/templates/bi.jinja:14
+#, fuzzy
+#| msgid "Земельні ділянки"
+msgid "Загальні дані"
+msgstr "Land plots"
+
+#: catalog/templates/bi.jinja:15
+#, fuzzy
+#| msgid "Грошові активи"
+msgid "Доходи та активи"
+msgstr "Cash assets"
+
+#: catalog/templates/bi.jinja:16
+msgid "Зобов’язання та видатки"
+msgstr ""
+
+#: catalog/templates/bi.jinja:17
+msgid "Нерухомість"
+msgstr ""
+
+#: catalog/templates/bi.jinja:18
+msgid "Транспорт"
+msgstr ""
+
+#: catalog/templates/bi.jinja:19
+msgid "Ризик-аналіз"
+msgstr ""
+
+#: catalog/templates/bi.jinja:20
+msgid "Регіональний зріз"
+msgstr ""
+
+#: catalog/templates/bi.jinja:21
+#, fuzzy
+#| msgid "Площа в декларанта"
+msgid "Список декларантів"
+msgstr "Declarant-owned area"
+
+#: catalog/templates/bi.jinja:26
+msgid "Інструкція та дані"
+msgstr ""
+
+#: catalog/templates/bi.jinja:30
+msgid "Інструкція"
+msgstr ""
+
+#: catalog/templates/bi.jinja:31
+msgid "Дані у CSV (більше трьох мільйонів рядків!)"
+msgstr ""
+
+#: catalog/templates/bi.jinja:32
+msgid "Опис формату даних"
+msgstr ""
+
+#: catalog/templates/bi.jinja:35
+msgid "Далі"
+msgstr ""
+
+#: catalog/templates/bi.jinja:38
+msgid "Якщо дані не відображуються у браузері Safari, будь ласка,"
+msgstr ""
+
+#: catalog/templates/bi.jinja:38
+#, fuzzy
+#| msgid "Перед звільненням"
+msgid "перейдіть за посиланням"
+msgstr "Before dismissal"
+
+#: catalog/templates/bi.jinja:38
+msgid ", а потім перезавантажте цю сторінку"
+msgstr ""
+
+#: catalog/templates/bi.jinja:65
+#, fuzzy
+#| msgid "Інші проекті ГО \"Канцелярська сотня\":"
+msgid "Канцелярська сотня"
+msgstr "Other projects of the White Collar Hundred:"
+
+#: catalog/templates/compare.jinja:12 catalog/templates/declaration.jinja:82
+#: catalog/templates/region_offices.jinja:14 catalog/templates/regions.jinja:19
+#: catalog/templates/results.jinja:41 catalog/templates/static.jinja:8
+msgid "Головна"
+msgstr "Home"
+
+#: catalog/templates/compare.jinja:13 catalog/templates/compare.jinja:17
+msgid "Список порівнянь декларацій"
+msgstr "Declaration comparison list:"
+
+#: catalog/templates/compare.jinja:21
+msgid "Декларації, що були використані для порівняння"
+msgstr "Declarations compared"
+
+#: catalog/templates/decl_form.jinja:4
+msgid "Декларація"
+msgstr "Declaration"
+
+#: catalog/templates/decl_form.jinja:5
+msgid "про майно, доходи, витрати і зобов’язання фінансового характеру за"
+msgstr "of property, income, expenses, and financial obligations for"
+
+#: catalog/templates/decl_form.jinja:5
+msgid "рік"
+msgstr "year"
+
+#: catalog/templates/decl_form.jinja:8
+msgid ""
+"УВАГА! В оригіналі цієї декларації були частково відсутні дані. Перед "
+"використанням розшифровки — передивіться"
+msgstr ""
+"ATTENTION! The original of this declaration had partially missing data. "
+"Before using the transcript be sure to check it again"
+
+#: catalog/templates/decl_form.jinja:8
+msgid "оригінал"
+msgstr "original"
+
+#: catalog/templates/decl_form.jinja:13
+msgid "Розділ I. Загальні відомості"
+msgstr "Section I. General Information"
+
+#: catalog/templates/decl_form.jinja:21
+msgid "Прізвище"
+msgstr "Last Name"
+
+#: catalog/templates/decl_form.jinja:25
+msgid "Ім’я"
+msgstr "First Name"
+
+#: catalog/templates/decl_form.jinja:29
+msgid "По-батькові"
+msgstr "Patronymic"
+
+#: catalog/templates/decl_form.jinja:36
+msgid "2. Місце проживання:"
+msgstr "2. Place of residence"
+
+#: catalog/templates/decl_form.jinja:41 catalog/templates/decl_form.jinja:78
+msgid "Область"
+msgstr "Oblast"
+
+#: catalog/templates/decl_form.jinja:45
+msgid "Район"
+msgstr "Raion"
+
+#: catalog/templates/decl_form.jinja:49
+msgid "Населений пункт"
+msgstr "Settlement"
+
+#: catalog/templates/decl_form.jinja:53
+msgid "Тип населенного пункту"
+msgstr "Type of settlement"
+
+#: catalog/templates/decl_form.jinja:57
+msgid "Решта адреси"
+msgstr "The rest of the address"
+
+#: catalog/templates/decl_form.jinja:61
+msgid "Тип адреси"
+msgstr "Type of address"
+
+#: catalog/templates/decl_form.jinja:74
+msgid "3. Посада:"
+msgstr "3. Position"
+
+#: catalog/templates/decl_form.jinja:82
+msgid "Відомство"
+msgstr "Department"
+
+#: catalog/templates/decl_form.jinja:86
+msgid "Посада"
+msgstr "Position"
+
+#: catalog/templates/decl_form.jinja:94
+msgid "4. Члени сім’ї декларанта:"
+msgstr "4. Declarant’s family members"
+
+#: catalog/templates/decl_form.jinja:104
+msgid "Ступінь зв’язку"
+msgstr "Degree of relationship"
+
+#: catalog/templates/decl_form.jinja:107
+msgid "Прізвище ініціали, дата народження"
+msgstr "Last name, initials, date of birth"
+
+#: catalog/templates/decl_form.jinja:165
+msgid "Розділ II. Відомості про доходи"
+msgstr "Section II. Income Information"
+
+#: catalog/templates/decl_form.jinja:176
+msgid "А. Одержані (нараховані) з усіх джерел України"
+msgstr "A. Received (accrued) from all sources of Ukraine"
+
+#: catalog/templates/decl_form.jinja:181
+msgid ""
+"(назва закладу, установи тощо, в яких одержано (нараховано) зазначені у цій "
+"позиції доходи)"
+msgstr ""
+"(name of the institution, etc., where the income specified in this position "
+"was received (accrued)"
+
+#: catalog/templates/decl_form.jinja:193
+msgid "Перелік доходів"
+msgstr "List of incomes"
+
+#: catalog/templates/decl_form.jinja:196
+msgid "Сума одержаного (нарахованого) доходу"
+msgstr "Amount of income received (accrued)"
+
+#: catalog/templates/decl_form.jinja:201
+msgid "декларанта"
+msgstr "of the declarant"
+
+#: catalog/templates/decl_form.jinja:204
+msgid "членів сім’ї"
+msgstr "of the family members"
+
+#: catalog/templates/decl_form.jinja:213
+msgid "Загальна сума сукупного доходу, гривні, у т.ч."
+msgstr "Total amount of overall income, UAH, incl. "
+
+#: catalog/templates/decl_form.jinja:243
+msgid ""
+"Заробітна плата, інші виплати та винагороди, нараховані (виплачені) "
+"декларанту відповідно до умов трудового або цивільно-правового договору"
+msgstr ""
+"Salary, other payments and benefits accrued (paid) to the declarant "
+"according to the conditions of a labor or civil contract"
+
+#: catalog/templates/decl_form.jinja:243
+msgid "(крім виплат, зазначених у позиціях 7, 8)"
+msgstr "(except payments specified in positions 7, 8)"
+
+#: catalog/templates/decl_form.jinja:273
+msgid ""
+"Дохід від викладацької, наукової і творчої діяльності, медичної практики, "
+"інструкторіської та суддівської практики із спорту"
+msgstr ""
+"Income from teaching, research and creative activities, medical practice, "
+"sports instruction or referee practice"
+
+#: catalog/templates/decl_form.jinja:320
+msgid ""
+"авторська винагорода, інші доходи від реалізації майнових прав "
+"інтелектуальної власності"
+msgstr ""
+"royalties, other income from the realization of property rights to "
+"intellectual property"
+
+#: catalog/templates/decl_form.jinja:350
+msgid "дивіденди, проценти"
+msgstr "dividends, interest"
+
+#: catalog/templates/decl_form.jinja:380
+msgid "матеріальна допомога"
+msgstr "financial aid"
+
+#: catalog/templates/decl_form.jinja:410
+msgid "дарунки, призи, виграші"
+msgstr "gifts, prizes, winnings"
+
+#: catalog/templates/decl_form.jinja:440
+msgid "допомога по безробіттю"
+msgstr "unemployment benefits"
+
+#: catalog/templates/decl_form.jinja:470
+msgid "аліменти"
+msgstr "alimony"
+
+#: catalog/templates/decl_form.jinja:500
+msgid "спадщина"
+msgstr "inheritance"
+
+#: catalog/templates/decl_form.jinja:530
+msgid ""
+"страхові виплати, страхові відшкодування, викупні суми та пенсійні виплати, "
+"що сплачені декларанту за договором страхування, недержавного пенсійного "
+"забезпечення та пенсійного вкладу"
+msgstr ""
+"insurance payments, insurance claims, redemption amounts, and retirement "
+"payments paid to the declarant under an insurance contract, non-governmental "
+"pension insurance, and pension contribution"
+
+#: catalog/templates/decl_form.jinja:560
+msgid "дохід від відчуження рухомого та нерухомого майна"
+msgstr "income from sale of immovable and movable property"
+
+#: catalog/templates/decl_form.jinja:590
+msgid ""
+"дохід від провадження підприємницької та незалежної професійної діяльності"
+msgstr "income from entrepreneurial and independent professional activities"
+
+#: catalog/templates/decl_form.jinja:620
+msgid "дохід від відчуження цінних паперів та корпоративних прав"
+msgstr "income from sale of securities and corporate rights"
+
+#: catalog/templates/decl_form.jinja:650
+msgid ""
+"дохід від передачі в оренду (строкове володіння та/або користування) майна"
+msgstr "rental income (temporary ownership and/or use) from property"
+
+#: catalog/templates/decl_form.jinja:680
+msgid "інші види доходів (не зазначені у позиціях 6–19)"
+msgstr "other types of income (not specified in positions 6-19)"
+
+#: catalog/templates/decl_form.jinja:715
+msgid "Б. Одержані (нараховані) з джерел за межами України декларантом"
+msgstr "B. Received (accrued) by the declarant from sources outside Ukraine"
+
+#: catalog/templates/decl_form.jinja:725 catalog/templates/decl_form.jinja:820
+msgid "Назва країни"
+msgstr "Country name"
+
+#: catalog/templates/decl_form.jinja:728 catalog/templates/decl_form.jinja:823
+msgid "Розмір доходу"
+msgstr "Income amount"
+
+#: catalog/templates/decl_form.jinja:733 catalog/templates/decl_form.jinja:828
+msgid "в іноземній валюті"
+msgstr "in foreign currency"
+
+#: catalog/templates/decl_form.jinja:736 catalog/templates/decl_form.jinja:831
+msgid "перерахованого у гривні"
+msgstr "allocated in UAH"
+
+#: catalog/templates/decl_form.jinja:810
+msgid ""
+"В. Одержані (нараховані) з джерел за межами України членами сім’ї декларанта"
+msgstr ""
+"B. Received (accrued) from sources outside Ukraine by the family members of "
+"the declarant"
+
+#: catalog/templates/decl_form.jinja:901
+msgid "Розділ III Відомості про нерухоме майно"
+msgstr "Section III. Information on immovable property"
+
+#: catalog/templates/decl_form.jinja:914
+msgid ""
+"А. Майно, що перебуває у власності, в оренді чи на іншому праві користування "
+"декларанта"
+msgstr "A. Property that is owned, rented, or otherwise used by the declarant"
+
+#: catalog/templates/decl_form.jinja:924 catalog/templates/decl_form.jinja:1489
+msgid "Перелік об’єктів"
+msgstr "List of items"
+
+#: catalog/templates/decl_form.jinja:927 catalog/templates/decl_form.jinja:1492
+msgid "Місце знаходження об’єкта (країна, адреса)"
+msgstr "Location of the item (country, address)"
+
+#: catalog/templates/decl_form.jinja:930 catalog/templates/decl_form.jinja:1495
+msgid "Загальна площа (кв. м)"
+msgstr "Total area (square meters)"
+
+#: catalog/templates/decl_form.jinja:933 catalog/templates/decl_form.jinja:1498
+#: catalog/templates/decl_form.jinja:2082
+#: catalog/templates/decl_form.jinja:2545
+msgid "Сума витрат (грн) на"
+msgstr "Amount of expenses (UAH) on"
+
+#: catalog/templates/decl_form.jinja:938 catalog/templates/decl_form.jinja:1503
+#: catalog/templates/decl_form.jinja:2087
+#: catalog/templates/decl_form.jinja:2550
+msgid "придбання у власність"
+msgstr "acquisition of property"
+
+#: catalog/templates/decl_form.jinja:941 catalog/templates/decl_form.jinja:1506
+#: catalog/templates/decl_form.jinja:2090
+#: catalog/templates/decl_form.jinja:2553
+msgid "оренду чи на інше право користування"
+msgstr "lease or other right of use"
+
+#: catalog/templates/decl_form.jinja:952 catalog/templates/decl_form.jinja:999
+#: catalog/templates/decl_form.jinja:1517
+#: catalog/templates/decl_form.jinja:1566
+msgid "Земельні ділянки"
+msgstr "Land plots"
+
+#: catalog/templates/decl_form.jinja:1039
+#: catalog/templates/decl_form.jinja:1086
+#: catalog/templates/decl_form.jinja:1606
+#: catalog/templates/decl_form.jinja:1655
+msgid "Житлові будинки"
+msgstr "Residential buildings"
+
+#: catalog/templates/decl_form.jinja:1126
+#: catalog/templates/decl_form.jinja:1173
+#: catalog/templates/decl_form.jinja:1695
+#: catalog/templates/decl_form.jinja:1744
+msgid "Квартири"
+msgstr "Apartments"
+
+#: catalog/templates/decl_form.jinja:1213
+#: catalog/templates/decl_form.jinja:1260
+#: catalog/templates/decl_form.jinja:1784
+#: catalog/templates/decl_form.jinja:1833
+msgid "Садовий (дачний) будинок"
+msgstr "Garden (suburban) house"
+
+#: catalog/templates/decl_form.jinja:1300
+#: catalog/templates/decl_form.jinja:1347
+#: catalog/templates/decl_form.jinja:1873
+#: catalog/templates/decl_form.jinja:1922
+msgid "Гаражі"
+msgstr "Garages"
+
+#: catalog/templates/decl_form.jinja:1387
+#: catalog/templates/decl_form.jinja:1434
+#: catalog/templates/decl_form.jinja:1962
+#: catalog/templates/decl_form.jinja:2011
+msgid "Інше нерухоме майно"
+msgstr "Other immovable property"
+
+#: catalog/templates/decl_form.jinja:1479
+msgid ""
+"Б. Майно, що перебуває у власності, в оренді чи на іншому праві користування "
+"сім’ї декларанта"
+msgstr "B. Property owned, rented, or otherwise used by the declarant’s family"
+
+#: catalog/templates/decl_form.jinja:2050
+msgid "Розділ IV. Відомості про транспортні засоби"
+msgstr "Section IV. Information on vehicles"
+
+#: catalog/templates/decl_form.jinja:2063
+msgid ""
+"А. Транспортні засоби, що перебувають у властності, в оренді чи на іншому "
+"праві користування декларанта"
+msgstr ""
+"A. Vehicles that are owned, rented, or otherwise  used by the declarant"
+
+#: catalog/templates/decl_form.jinja:2073
+#: catalog/templates/decl_form.jinja:2536
+msgid "Перелік транспортних засобів"
+msgstr "List of vehicles"
+
+#: catalog/templates/decl_form.jinja:2076
+#: catalog/templates/decl_form.jinja:2539
+msgid ""
+"Марка/модель (об’єм циліндрів двигуна, куб. см, потужність двигуна, кВт, "
+"довжина, см)"
+msgstr ""
+"Make/model (engine cylinder volume, cubic centimeters, engine power, "
+"kilowatts length, centimeters)"
+
+#: catalog/templates/decl_form.jinja:2079
+#: catalog/templates/decl_form.jinja:2542
+msgid "Рік випуску"
+msgstr "Year of manufacture"
+
+#: catalog/templates/decl_form.jinja:2101
+#: catalog/templates/decl_form.jinja:2149
+#: catalog/templates/decl_form.jinja:2564
+#: catalog/templates/decl_form.jinja:2612
+msgid "Автомобілі легкові"
+msgstr "Passenger cars"
+
+#: catalog/templates/decl_form.jinja:2185
+#: catalog/templates/decl_form.jinja:2233
+#: catalog/templates/decl_form.jinja:2648
+#: catalog/templates/decl_form.jinja:2696
+msgid "Автомобілі вантажні (спеціальні)"
+msgstr "Cargo vehicles (special)"
+
+#: catalog/templates/decl_form.jinja:2269
+#: catalog/templates/decl_form.jinja:2317
+#: catalog/templates/decl_form.jinja:2732
+#: catalog/templates/decl_form.jinja:2780
+msgid "Водні засоби"
+msgstr "Watercraft"
+
+#: catalog/templates/decl_form.jinja:2353
+#: catalog/templates/decl_form.jinja:2401
+#: catalog/templates/decl_form.jinja:2816
+#: catalog/templates/decl_form.jinja:2864
+msgid "Повітряні судна"
+msgstr "Aircraft"
+
+#: catalog/templates/decl_form.jinja:2437
+#: catalog/templates/decl_form.jinja:2485
+#: catalog/templates/decl_form.jinja:2900
+#: catalog/templates/decl_form.jinja:2948
+msgid "Інші засоби"
+msgstr "Other vehicles"
+
+#: catalog/templates/decl_form.jinja:2526
+msgid ""
+"Б. Транспортні засоби, що перебувають у власності, в оренді чи на іншому "
+"праві користування членів сім’ї декларанта"
+msgstr ""
+"B. Vehicles that are owned, rented, or otherwise used by the declarant’s "
+"family members"
+
+#: catalog/templates/decl_form.jinja:2983
+msgid "Розділ V. Відомості про вклади у банках, цінні папери та інші активи"
+msgstr "Section V. Information on bank deposits, securities, and other assets"
+
+#: catalog/templates/decl_form.jinja:2994
+msgid ""
+"А. Вклади у банках, цінні папери та інші активи, що перебувають у власності "
+"декларанта (грн)"
+msgstr ""
+"A. Bank deposits, securities, and other assets owned by the declarant (UAH)"
+
+#: catalog/templates/decl_form.jinja:3004
+#: catalog/templates/decl_form.jinja:3412
+msgid "Перелік"
+msgstr "List"
+
+#: catalog/templates/decl_form.jinja:3007
+#: catalog/templates/decl_form.jinja:3415
+#: catalog/templates/decl_form.jinja:3629
+#: catalog/templates/decl_form.jinja:3863
+msgid "Усього"
+msgstr "Total"
+
+#: catalog/templates/decl_form.jinja:3010
+#: catalog/templates/decl_form.jinja:3418
+#: catalog/templates/decl_form.jinja:3632
+#: catalog/templates/decl_form.jinja:3866
+msgid "у тому числі за кордоном"
+msgstr "including abroad"
+
+#: catalog/templates/decl_form.jinja:3023
+#: catalog/templates/decl_form.jinja:3058
+msgid ""
+"Сума коштів на рахунках у банках та інших фінансових установах, у т. ч.:"
+msgstr ""
+"Amount of funds on bank accounts and in other financial institutions, incl.:"
+
+#: catalog/templates/decl_form.jinja:3086
+#: catalog/templates/decl_form.jinja:3121
+msgid "вкладених у звітному році"
+msgstr "deposited during the reporting year"
+
+#: catalog/templates/decl_form.jinja:3149
+#: catalog/templates/decl_form.jinja:3184
+msgid "Номінальна вартість цінних паперів, у т. ч.:"
+msgstr "Nominal value of securities, incl.:"
+
+#: catalog/templates/decl_form.jinja:3212
+#: catalog/templates/decl_form.jinja:3247
+msgid "придбаних у звітному році"
+msgstr "bought during the reporting year"
+
+#: catalog/templates/decl_form.jinja:3275
+#: catalog/templates/decl_form.jinja:3310
+msgid ""
+"Розмір внесків до статутного (складеного) капіталу товариства, підприємства, "
+"організації, у т. ч.:"
+msgstr ""
+"Amount of contributions to the authorized (shared) capital of an "
+"association, enterprise, organization, incl.:"
+
+#: catalog/templates/decl_form.jinja:3338
+#: catalog/templates/decl_form.jinja:3373
+msgid "внесених у звітному році"
+msgstr "contributed during the reporting year"
+
+#: catalog/templates/decl_form.jinja:3402
+msgid ""
+"Б. Вклади у банках, цінні папери та інші активи, що перебувають у власності "
+"членів сім’ї декларанта (грн)"
+msgstr ""
+"B. Bank deposits, securities, and other assets owned by the declarant’s "
+"family members (UAH)"
+
+#: catalog/templates/decl_form.jinja:3429
+#: catalog/templates/decl_form.jinja:3462
+msgid "Сума коштів на рахунках у банках та інших фінансових установах"
+msgstr "Amount of funds on bank accounts and in other financial institutions"
+
+#: catalog/templates/decl_form.jinja:3488
+#: catalog/templates/decl_form.jinja:3521
+msgid "Номінальна вартість цінних паперів"
+msgstr "Nominal value of securities"
+
+#: catalog/templates/decl_form.jinja:3547
+#: catalog/templates/decl_form.jinja:3580
+msgid ""
+"Розмір внесків до статутного (складеного) капіталу товариства, підприємства, "
+"організації"
+msgstr ""
+"Amount of contributions to the authorized (shared) capital of an "
+"association, enterprise, organization"
+
+#: catalog/templates/decl_form.jinja:3605
+msgid "Розділ VI. Відомості про фінансові зобов’язання"
+msgstr "Section VI. Information on financial obligations"
+
+#: catalog/templates/decl_form.jinja:3616
+msgid "А. Фінансові зобов’язання декларанта та інші його витрати (грн)"
+msgstr ""
+"A. Financial obligations of the declarant and their other expenses (UAH)"
+
+#: catalog/templates/decl_form.jinja:3626
+#: catalog/templates/decl_form.jinja:3860
+msgid "Перелік фінансових зобов’язань"
+msgstr "List of financial obligations"
+
+#: catalog/templates/decl_form.jinja:3641
+#: catalog/templates/decl_form.jinja:3875
+msgid "Добровільне страхування"
+msgstr "Voluntary insurance"
+
+#: catalog/templates/decl_form.jinja:3675
+#: catalog/templates/decl_form.jinja:3909
+msgid "Недержавне пенсійне забезпечення"
+msgstr "Non-governmental pension insurance"
+
+#: catalog/templates/decl_form.jinja:3709
+#: catalog/templates/decl_form.jinja:3943
+msgid "Утримання зазначеного у розділах ІІІ–V майна"
+msgstr "Maintenance of property specified in sections III-V"
+
+#: catalog/templates/decl_form.jinja:3743
+#: catalog/templates/decl_form.jinja:3977
+msgid "Погашення основної суми позики (кредиту)"
+msgstr "Repayment of the principal amount of a loan"
+
+#: catalog/templates/decl_form.jinja:3777
+#: catalog/templates/decl_form.jinja:4011
+msgid "Погашення суми процентів за позикою (кредитом)"
+msgstr "Repayment of loan interest"
+
+#: catalog/templates/decl_form.jinja:3811
+msgid "Інші не зазначені у розділах ІІІ–V витрати"
+msgstr "Other expenses not specified in sections III-V"
+
+#: catalog/templates/decl_form.jinja:3850
+msgid "Б. Фінансові зобов’язання членів сім’ї декларанта (грн)"
+msgstr "B. Financial obligations of the declarant’s family members (UAH)"
+
+#: catalog/templates/decl_form.jinja:4046
+msgid "Додаткове про декларацію"
+msgstr "Additional information on the declaration"
+
+#: catalog/templates/decl_form.jinja:4052
+msgid "Дата заповнення декларантом:"
+msgstr "Date of the declaration as filled by the declarant:"
+
+#: catalog/templates/decl_form.jinja:4062
+msgid "Декларація була не повна:"
+msgstr "Declaration was not complete"
+
+#: catalog/templates/decl_form.jinja:4066
+#: catalog/templates/decl_form.jinja:4090
+msgid "Так"
+msgstr "Yes"
+
+#: catalog/templates/decl_form.jinja:4068
+#: catalog/templates/decl_form.jinja:4092
+msgid "Ні"
+msgstr "No"
+
+#: catalog/templates/decl_form.jinja:4076
+msgid "Яких сторінок (паперових) не вистачало:"
+msgstr "Which pages (paper) were missing:"
+
+#: catalog/templates/decl_form.jinja:4086
+msgid "Є додаткова інформація:"
+msgstr "There is additional information:"
+
+#: catalog/templates/decl_form.jinja:4100
+msgid "Що саме не вмістилось:"
+msgstr "What did not fit:"
+
+#: catalog/templates/declaration.jinja:9
+msgid "Декларації:"
+msgstr "Declarations:"
+
+#: catalog/templates/declaration.jinja:9
+msgid "від НАЗК"
+msgstr "from the NACP"
+
+#: catalog/templates/declaration.jinja:12
+msgid "Д​екларації"
+msgstr "Declarations"
+
+#: catalog/templates/declaration.jinja:12
+msgid "НАЗК"
+msgstr "NACP"
+
+#: catalog/templates/declaration.jinja:12
+msgid "про майно, доходи, витрати та зобов'язання фінансового характеру"
+msgstr "of property, income, expenses, and financial obligations"
+
+#: catalog/templates/declaration.jinja:12
+msgid "за"
+msgstr "for"
+
+#: catalog/templates/declaration.jinja:12
+msgid "рік онлайн у відкритій базі даних проекту"
+msgstr "year online in the public database of the project"
+
+#: catalog/templates/declaration.jinja:83 catalog/templates/results.jinja:10
+#: catalog/templates/results.jinja:11 catalog/templates/results.jinja:42
+msgid "Результати пошуку"
+msgstr "Search results"
+
+#: catalog/templates/declaration.jinja:122
+msgid "Моніторити декларанта по:"
+msgstr "Monitor the declarant on:"
+
+#: catalog/templates/declaration.jinja:123
+msgid "Моніторити цей запит по RSS"
+msgstr "Monitor this request by RSS"
+
+#: catalog/templates/declaration.jinja:144
+msgid "Додати у список порівнянь"
+msgstr "Add to the comparison list"
+
+#: catalog/templates/declaration.jinja:144
+msgid "Додати декларацію у список порівнянь"
+msgstr "Add the declaration to comparison list"
+
+#: catalog/templates/declaration.jinja:148
+msgid "Оригінал декларації"
+msgstr "Declaration original"
+
+#: catalog/templates/declaration.jinja:170
+msgid "ПІБ іншими мовами"
+msgstr "Full name in other languages"
+
+#: catalog/templates/declaration.jinja:183
+msgid "Інші декларації, знайдені за ПІБ"
+msgstr "Other declarations found by this full name"
+
+#: catalog/templates/declaration.jinja:193
+msgid "Декларації осіб, що <u>можуть</u> бути родичами декларанта"
+msgstr "Declarations of persons who <u>may</u> be the declarant's relatives"
+
+#: catalog/templates/region_offices.jinja:15
+#: catalog/templates/region_offices.jinja:19 catalog/templates/regions.jinja:20
+#: catalog/templates/regions.jinja:23
+#, fuzzy
+#| msgid "Регіон:"
+msgid "Регіони"
+msgstr "Region:"
+
+#: catalog/templates/regions.jinja:4
+#, fuzzy
+#| msgid ""
+#| "Найбільша база декларацій українських чиновників, з адаптованим "
+#| "повнотекстовим пошуком та аналітичною системою."
+msgid ""
+"Декларації українських чиновників по регіонах в онлайн-доступі: шукай правду "
+"тут"
+msgstr ""
+"The largest database of declarations of Ukrainian officials with tailored "
+"full-text search and analytics."
+
+#: catalog/templates/regions.jinja:8
+msgid ""
+"Всі оброблені податкові декларації українських чиновників надаються в нашому "
+"проекті по регіонах. База постійно поповнюється новими даними про прибутки і "
+"податки кожного чиновника."
+msgstr ""
+
+#: catalog/templates/regions.jinja:35
+#, fuzzy
+#| msgid "!не визначено"
+msgid "Не зазначено"
+msgstr "!not specified"
+
+#: catalog/templates/results.jinja:10
+msgid "в RSS 2.0"
+msgstr "RSS 2.0"
+
+#: catalog/templates/results.jinja:11
+msgid "в Atom"
+msgstr "Atom"
+
+#: catalog/templates/results.jinja:51
+msgid "Моніторити цей запит по:"
+msgstr "Monitor this request by:"
+
+#: catalog/templates/results.jinja:53
+msgid "Моніторити цей запит"
+msgstr "Monitor this request"
+
+#: catalog/templates/results.jinja:60
+msgid "Списком"
+msgstr "As a list"
+
+#: catalog/templates/results.jinja:63
+msgid "Картками"
+msgstr "As cards"
+
+#: catalog/templates/results.jinja:68
+msgid "Сортувати:"
+msgstr "Sort by:"
+
+#: catalog/templates/results.jinja:70
+msgid "П.І.Б."
+msgstr "Full name"
+
+#: catalog/templates/results.jinja:71
+#: procurements/templates/_procurements.jinja:23
+msgid "Рік"
+msgstr "Year"
+
+#: catalog/templates/results.jinja:72
+msgid "Дата подачі"
+msgstr "Date of submission"
+
+#: catalog/views.py:491
+#, fuzzy
+#| msgid "Щорічна"
+msgid "щорічна"
+msgstr "Annual"
+
+#: catalog/views.py:494
+#, fuzzy
+#| msgid "Уточнена"
+msgid "уточнена"
+msgstr "Corrected"
+
+#: catalog/views.py:511
+msgid "Загальна сума подарунків"
+msgstr "Total amount of gifts"
+
+#: catalog/views.py:512 catalog/views.py:521
+msgid "Родина"
+msgstr "Family"
+
+#: catalog/views.py:513 catalog/views.py:522
+msgid "Декларант"
+msgstr "The declarant"
+
+#: catalog/views.py:520
+msgid "Загальна сума готівки"
+msgstr "Total amount of cash"
+
+#: catalog/views.py:529 catalog/views.py:543
+msgid "Дохід"
+msgstr "Income"
+
+#: catalog/views.py:530 catalog/views.py:544
+msgid "Грошові активи"
+msgstr "Cash assets"
+
+#: catalog/views.py:531 catalog/views.py:545
+msgid "Фінансові зобов'язання"
+msgstr "Financial obligations"
+
+#: catalog/views.py:534 catalog/views.py:548
+msgid "Витрати"
+msgstr "Expenses"
+
+#: catalog/views.py:557 catalog/views.py:565
+msgid "Площа в родини"
+msgstr "Family-owned area"
+
+#: catalog/views.py:558 catalog/views.py:566
+msgid "Площа в декларанта"
+msgstr "Declarant-owned area"
+
+#: catalog/views.py:573
+msgid "Кількість у декларації"
+msgstr "Number in the declaration"
+
+#: cms_pages/templates/cms_pages/home.jinja:81
+msgid ""
+"Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб "
+"викрити їхню брехню про статки та майно."
+msgstr ""
+"We find, decypher, and publish declarations of officials <br> to expose "
+"their lies about their wealth and property."
+
+#: cms_pages/templates/cms_pages/home.jinja:122
+msgid "Топ-100 за статками"
+msgstr "Top 100 by wealth"
+
+#: cms_pages/templates/cms_pages/home.jinja:123
+#: cms_pages/templates/cms_pages/home.jinja:130
+msgid "Завантаження..."
+msgstr "Loading..."
+
+#: cms_pages/templates/cms_pages/home.jinja:129
+msgid "Топ-100 за доходом"
+msgstr "Top 100 by revenue"
+
+#: cms_pages/templates/cms_pages/home.jinja:147
+#: cms_pages/templates/cms_pages/home.jinja:149
+msgid "Сфера діяльності:"
+msgstr "Field of activity:"
+
+#: cms_pages/templates/cms_pages/home.jinja:151
+msgid "Центральна влада"
+msgstr "Central authorities"
+
+#: cms_pages/templates/cms_pages/home.jinja:152
+msgid "Mісцева влада"
+msgstr "Local authorities"
+
+#: cms_pages/templates/cms_pages/home.jinja:153
+msgid "Cудді"
+msgstr "Judges"
+
+#: cms_pages/templates/cms_pages/home.jinja:154
+msgid "Прокурори"
+msgstr "Prosecutors"
+
+#: cms_pages/templates/cms_pages/home.jinja:155
+msgid "Лікарі"
+msgstr "Medical doctors"
+
+#: cms_pages/templates/cms_pages/home.jinja:156
+msgid "Iнспектори"
+msgstr "Inspectors"
+
+#: cms_pages/templates/cms_pages/home.jinja:161
+#: cms_pages/templates/cms_pages/home.jinja:163
+msgid "Вся Україна:"
+msgstr "All Ukraine:"
+
+#: cms_pages/templates/cms_pages/home.jinja:169
+msgid "!не визначено"
+msgstr "!not specified"
+
+#: cms_pages/templates/cms_pages/home.jinja:196
+msgid "Ще більше крутої аналітики"
+msgstr "More cool analytics"
+
+#: declarations_site/settings.py:207
+msgid "Ukrainian"
+msgstr "Ukrainian"
+
+#: declarations_site/settings.py:208
+msgid "English"
+msgstr "English"
+
+#: procurements/templates/_procurements.jinja:4
+msgid "Виторг на тендерах компаній:"
+msgstr ""
+
+#: procurements/templates/_procurements.jinja:12
+#: procurements/templates/_procurements.jinja:74
+msgid "— в яких декларант є бенефіціаром"
+msgstr ""
+
+#: procurements/templates/_procurements.jinja:13
+#, fuzzy
+#| msgid "Кількість у декларації"
+msgid "натисніть для деталізації"
+msgstr "Number in the declaration"
+
+#: procurements/templates/_procurements.jinja:24
+#: procurements/templates/_procurements.jinja:45
+#, fuzzy
+#| msgid "Кількість у декларації"
+msgid "Кількість виграних тендерів"
+msgstr "Number in the declaration"
+
+#: procurements/templates/_procurements.jinja:25
+#: procurements/templates/_procurements.jinja:46
+msgid "Сума"
+msgstr ""
+
+#: procurements/templates/_procurements.jinja:44
+msgid "Компанія"
+msgstr ""
+
+#: procurements/templates/_procurements.jinja:65
+msgid ""
+"До переліку включені компанії, в яких декларант має корпоративні права, "
+"участь у статутному капіталі або вказав себе кінцевим бенефіціаром."
+msgstr ""
+
+#: spotter/templates/login_menu.jinja:6
+msgid "Мої запити"
+msgstr "My requests"
+
+#: spotter/templates/login_menu.jinja:8
+msgid "Вийти"
+msgstr "Exit"

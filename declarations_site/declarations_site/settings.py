@@ -53,19 +53,20 @@ INSTALLED_APPS = (
     'django_jinja',
     'django_jinja.contrib._humanize',
 
-    'taggit',
-    'modelcluster',
+    'wagtail.contrib.forms',
+    'wagtail.contrib.redirects',
+    'wagtail.embeds',
+    'wagtail.sites',
+    'wagtail.users',
+    'wagtail.snippets',
+    'wagtail.documents',
+    'wagtail.images',
+    'wagtail.search',
+    'wagtail.admin',
+    'wagtail.core',
 
-    'wagtail.wagtailcore',
-    'wagtail.wagtailadmin',
-    'wagtail.wagtaildocs',
-    'wagtail.wagtailsnippets',
-    'wagtail.wagtailusers',
-    'wagtail.wagtailimages',
-    'wagtail.wagtailembeds',
-    'wagtail.wagtailsearch',
-    'wagtail.wagtailredirects',
-    'wagtail.wagtailforms',
+    'modelcluster',
+    'taggit',
 
     'social_django',
     'spotter',
@@ -79,18 +80,19 @@ INSTALLED_APPS = (
     'raven.contrib.django.raven_compat',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
 
-    'wagtail.wagtailcore.middleware.SiteMiddleware',
-    'wagtail.wagtailredirects.middleware.RedirectMiddleware',
+    'wagtail.core.middleware.SiteMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 )
 
 ROOT_URLCONF = 'declarations_site.urls'
@@ -191,17 +193,15 @@ RSS_AUTHOR_LINK = SITE_URL
 RSS_AUTHOR_EMAIL = 'dbihus@declarations.com.ua'
 RSS_TTL = 10800
 
-LANGUAGE_CODE = 'uk-ua'
 TIME_ZONE = 'Europe/Kiev'
 
 DATE_FORMAT = "d.m.Y"
 DATETIME_FORMAT = 'd.m.Y H:i:s'
 USE_I18N = True
-USE_L10N = False
+USE_L10N = True
 USE_TZ = True
 
 LANGUAGE_CODE = 'uk'
-
 gettext = lambda s: s
 LANGUAGES = (
     ('uk', gettext('Ukrainian')),
@@ -212,6 +212,7 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
 )
 
+APPEND_SLASH = False
 
 TEMPLATES = [
     {
@@ -225,6 +226,7 @@ TEMPLATES = [
                 "django.template.context_processors.media",
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
+                "django.template.context_processors.i18n",
                 "django.template.context_processors.request",
                 "django.contrib.messages.context_processors.messages",
                 "social_django.context_processors.backends",
@@ -234,14 +236,15 @@ TEMPLATES = [
             ),
             "extensions": DEFAULT_EXTENSIONS + [
                 'pipeline.jinja2.PipelineExtension',
-                'wagtail.wagtailcore.jinja2tags.core',
-                'wagtail.wagtailimages.jinja2tags.images',
+                'wagtail.core.jinja2tags.core',
+                'wagtail.images.jinja2tags.images',
                 'jinja2.ext.i18n',
             ],
             "globals": {
                 "replace_arg": "catalog.utils.replace_arg",
                 "sort_flag": "catalog.utils.sort_flag",
                 "generate_all_names": "names_translator.name_utils.generate_all_names",
+                "translate_url": "catalog.utils.translate_url",
             }
         }
     },

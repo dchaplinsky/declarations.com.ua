@@ -47,7 +47,8 @@ class LandingPage(models.Model):
     title = models.CharField("Заголовок сторінки", max_length=200)
     description = models.TextField("Опис сторінки", blank=True)
     keywords = models.TextField(
-        "Ключові слова для пошуку в деклараціях (по одному запиту на рядок)"
+        "Ключові слова для пошуку в деклараціях (по одному запиту на рядок)",
+        blank=True
     )
 
     def pull_declarations(self):
@@ -72,7 +73,7 @@ class LandingPage(models.Model):
 
 class Person(models.Model):
     body = models.ForeignKey(
-        "LandingPage", verbose_name="Лендінг-сторінка", related_name="persons"
+        "LandingPage", verbose_name="Лендінг-сторінка", related_name="persons", on_delete=models.CASCADE
     )
     name = models.CharField("Ім'я особи", max_length=200)
     extra_keywords = models.CharField(
@@ -114,22 +115,34 @@ class Person(models.Model):
 
         q = "{} {}".format(self.name, self.extra_keywords)
 
-        for sc in search_clauses:
+        if search_clauses:
+            for sc in search_clauses:
+                first_pass = (
+                    NACPDeclaration.search()
+                    .query(
+                        "bool",
+                        must=[
+                            Q("match", general__full_name={"query": q, "operator": "and"})
+                        ],
+                        should=[sc],
+                        minimum_should_match=1,
+                    )[:100]
+                    .execute()
+                )
+
+                if first_pass:
+                    break
+        else:
             first_pass = (
                 NACPDeclaration.search()
                 .query(
                     "bool",
                     must=[
                         Q("match", general__full_name={"query": q, "operator": "and"})
-                    ],
-                    should=[sc],
-                    minimum_should_match=1,
+                    ]
                 )[:100]
                 .execute()
             )
-
-            if first_pass:
-                break
 
         Declaration.objects.create_declarations(self, first_pass)
         obj_ids_to_find = set(
@@ -180,8 +193,9 @@ class Person(models.Model):
                 }
             )
 
-        result["min_year"] = min(years.keys())
-        result["max_year"] = max(years.keys())
+        if years:
+            result["min_year"] = min(years.keys())
+            result["max_year"] = max(years.keys())
         return result
 
     class Meta:
@@ -191,7 +205,7 @@ class Person(models.Model):
 
 class Declaration(models.Model):
     person = models.ForeignKey(
-        "Person", verbose_name="Персона", related_name="declarations"
+        "Person", verbose_name="Персона", related_name="declarations", on_delete=models.CASCADE
     )
     declaration_id = models.CharField("Ідентифікатор декларації", max_length=60)
     year = models.IntegerField("Рік подання декларації")

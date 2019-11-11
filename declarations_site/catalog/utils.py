@@ -3,6 +3,8 @@ import csv
 import os.path
 from itertools import zip_longest
 from string import capwords
+from urllib.parse import urlsplit, urlunsplit, unquote_plus
+from django.utils.translation import override
 
 import jmespath
 from elasticsearch.exceptions import TransportError
@@ -10,7 +12,8 @@ from translitua import (
     translit, ALL_RUSSIAN, ALL_UKRAINIAN, UkrainianKMU, RussianInternationalPassport)
 
 from django.conf import settings
-
+from django.urls import reverse, resolve, Resolver404, NoReverseMatch
+from django.utils.translation import get_language
 
 from catalog.constants import VALID_RELATIONS
 
@@ -236,3 +239,51 @@ def grouper(iterable, n, fillvalue=None):
     # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx"
     args = [iter(iterable)] * n
     return zip_longest(*args, fillvalue=fillvalue)
+
+
+class TranslatedField(object):
+    def __init__(self, ua_field, en_field):
+        self.ua_field = ua_field
+        self.en_field = en_field
+
+    def __get__(self, instance, owner):
+
+        if get_language() == 'en':
+            return (getattr(instance, self.en_field, "") or
+                    getattr(instance, self.ua_field, ""))
+        else:
+            return getattr(instance, self.ua_field, "")
+
+
+def orig_translate_url(url, lang_code):
+    """
+    Given a URL (absolute or relative), try to get its translated version in
+    the `lang_code` language (either by i18n_patterns or by translated regex).
+    Return the original URL if no translated version is found.
+    """
+    parsed = urlsplit(url)
+    try:
+        match = resolve(parsed.path)
+    except Resolver404:
+        pass
+    else:
+        to_be_reversed = "%s:%s" % (match.namespace, match.url_name) if match.namespace else match.url_name
+        with override(lang_code):
+            try:
+                match.kwargs = {k: unquote_plus(v) for k, v in match.kwargs.items()}
+                match.args = [unquote_plus(v) for v in match.args]
+                url = reverse(to_be_reversed, args=match.args, kwargs=match.kwargs)
+            except NoReverseMatch:
+                pass
+            else:
+                url = urlunsplit((parsed.scheme, parsed.netloc, url, parsed.query, parsed.fragment))
+    return url
+
+
+def translate_url(request, language):
+    if isinstance(request, str):
+        url = request
+    else:
+        url = request.build_absolute_uri()
+
+    return orig_translate_url(url, language)
