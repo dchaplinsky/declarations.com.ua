@@ -57,9 +57,10 @@ RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} \
              ${DRAGNET_EXPORT_PATH} ${DRAGNET_IMPORT_PATH} \
              ${EXPORT_TMP} \
     && apk add --no-cache ruby npm curl \
-    && apk add --no-cache --virtual .static-build-deps ruby-dev build-base ruby-rdoc gettext \
+    && apk add --no-cache --virtual .static-build-deps ruby-dev build-base ruby-rdoc \
     && gem install sass \
     && envsubst < /aggregated_migrated.json.tmpl > ${root}/dragnet/data/profiles/aggregated_migrated.json \
+    && apk del .static-build-deps \
     && npm config set unsafe-perm true \
     && npm install -g uglify-js \
     && python -m compileall ${root} \
@@ -67,8 +68,7 @@ RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} \
        STATIC_ROOT=${STATIC_ROOT_SOURCE} \
        python ${root}/declarations_site/manage.py collectstatic \
     && PATH=${PATH}:${root}/bin \
-       python ${root}/declarations_site/manage.py compilemessages \
-    && apk del .static-build-deps
+       python ${root}/declarations_site/manage.py compilemessages
 
 
 ENTRYPOINT [ "docker-entrypoint.sh" ]

@@ -165,7 +165,7 @@ $(function() {
                 d.data.name_post + "</div><hr/><div><b>Рухоме майно (разом з готівкою):</b><nobr> " +
                 format(d.data["assets.total"]) + " грн.</nobr></div>" +
                 "<div><b>Готівка (окремо):</b><nobr> " + format(Number(d.data["assets.cash.total"])) + " грн.</nobr></div>" +
-                "<div><b>Надходження за 2016р.:</b><nobr> " +
+                "<div><b>Надходження за звітний рік.:</b><nobr> " +
                 format(d.data["incomes.total"]) + " грн.</nobr></div><div><b>Земля у власності:</b><nobr> " +
                 format(d.data["estate.total_land"] / 10000) + " га.</nobr></div><div><b>Нерухомість у власності:</b><nobr> " +
                 format(d.data["estate.total_other"]) + " м2.</nobr></div></div>" +

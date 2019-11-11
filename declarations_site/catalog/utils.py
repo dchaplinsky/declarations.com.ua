@@ -255,7 +255,7 @@ class TranslatedField(object):
             return getattr(instance, self.ua_field, "")
 
 
-def orig_translate_url(url, lang_code):
+def orig_translate_url(url, lang_code, orig_lang_code=None):
     """
     Given a URL (absolute or relative), try to get its translated version in
     the `lang_code` language (either by i18n_patterns or by translated regex).
@@ -263,7 +263,11 @@ def orig_translate_url(url, lang_code):
     """
     parsed = urlsplit(url)
     try:
-        match = resolve(parsed.path)
+        if orig_lang_code is None:
+            match = resolve(parsed.path)
+        else:
+            with override(orig_lang_code):
+                match = resolve(parsed.path)   
     except Resolver404:
         pass
     else:
@@ -285,5 +289,4 @@ def translate_url(request, language):
         url = request
     else:
         url = request.build_absolute_uri()
-
     return orig_translate_url(url, language)

@@ -70,7 +70,7 @@ class ElasticPage(Page):
         return {
             'paginator': self.paginator.to_api(),
             'number': self.number,
-            'object_list': self.object_list.execute()
+            'object_list': self.object_list if isinstance(self.object_list, list) else self.object_list.execute() 
         }
 
 

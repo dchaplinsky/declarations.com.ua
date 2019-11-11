@@ -1,5 +1,6 @@
 # coding: utf-8
 from django.db import models
+from django.utils.translation import get_language
 
 from modelcluster.fields import ParentalKey
 
@@ -9,7 +10,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.admin.edit_handlers import InlinePanel, FieldPanel, PageChooserPanel
 
 from catalog.models import Region, Office
-from catalog.utils import TranslatedField
+from catalog.utils import TranslatedField, orig_translate_url
 
 
 class StaticPage(Page):
@@ -99,7 +100,7 @@ class LinkFields(models.Model):
         'caption_en',
     )
 
-    link_external = models.URLField("External link", blank=True)
+    link_external = models.CharField("External link", blank=True, max_length=255)
     link_page = models.ForeignKey(
         'wagtailcore.Page',
         null=True,
@@ -115,7 +116,11 @@ class LinkFields(models.Model):
         if self.link_page:
             return self.link_page.url
         else:
-            return self.link_external
+            if "declarations.com.ua" not in self.link_external:
+                return self.link_external
+
+            language = get_language()
+            return orig_translate_url(self.link_external, language, "uk")
 
     panels = [
         FieldPanel('caption'),
@@ -231,3 +236,4 @@ class PersonMeta(models.Model):
 
     def __str__(self):
         return self.__unicode__()
+

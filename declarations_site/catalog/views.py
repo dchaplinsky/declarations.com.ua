@@ -21,7 +21,7 @@ from dateutil.parser import parse as dt_parse
 from .elastic_models import Declaration, NACPDeclaration
 from .paginator import paginated_search
 from .api import hybrid_response
-from .utils import replace_apostrophes, base_search_query, apply_search_sorting
+from .utils import replace_apostrophes, base_search_query, apply_search_sorting, orig_translate_url
 from .models import Office
 from .translator import Translator, NoOpTranslator
 from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
