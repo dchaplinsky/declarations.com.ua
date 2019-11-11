@@ -567,7 +567,7 @@ class Declaration(DocType, AbstractDeclaration):
 
     def raw_source(self):
         src = self.to_dict()
-        return blacklist(src, ["ft_src", "index_card"])
+        return blacklist(src, ["ft_src", "index_card", "translator"])
 
     def infocard(self):
         return {

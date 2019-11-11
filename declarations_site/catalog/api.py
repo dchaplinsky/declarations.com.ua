@@ -6,6 +6,7 @@ from elasticsearch_dsl.utils import AttrDict, AttrList, ObjectBase
 from django.http import JsonResponse
 from django.http.response import HttpResponseBase
 from django.shortcuts import render
+from .translator import Translator, NoOpTranslator
 
 from .rss import Atom1FeedResponse, RssFeedResponse
 
@@ -27,6 +28,9 @@ def serialize_for_api(data, new_api=False, sections=None):
             return data.api_response(fields=sections)
         else:
             res = data.to_dict()
+            if "translator" in res:
+                del(res["translator"])
+
             if hasattr(data, 'meta'):
                 res['id'] = data.meta.id
             return res
@@ -35,12 +39,13 @@ def serialize_for_api(data, new_api=False, sections=None):
     elif isinstance(data, dict):
         return {
             k: serialize_for_api(v, new_api=new_api, sections=sections)
-            for k, v in data.items()
+            for k, v in data.items() if not isinstance(v, (Translator, NoOpTranslator))
         }
     elif isinstance(data, (list, tuple, set)):
         return list(map(lambda x: serialize_for_api(
             x, new_api=new_api, sections=sections), data)
         )
+
     return data
 
 

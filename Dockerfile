@@ -23,7 +23,7 @@ COPY dragnet/utils/requirements.txt ${root}/dragnet/utils/requirements.txt
 
 RUN apk add --no-cache su-exec postgresql-libs libjpeg libxml2 libstdc++ binutils libffi libxslt \
     && apk add --no-cache --virtual .build-deps jpeg-dev zlib-dev postgresql-dev build-base \
-        libffi-dev libxml2-dev libxslt-dev gettext \
+        libffi-dev libxml2-dev libxslt-dev \
     && PREFIX=/usr/local pip install cython -r ${root}/requirements.txt \
     # do not mix this with above
     && PREFIX=/usr/local pip install -r ${root}/dragnet/utils/requirements.txt \
@@ -56,7 +56,7 @@ RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} \
              ${NACP_DECLARATIONS_PATH} \
              ${DRAGNET_EXPORT_PATH} ${DRAGNET_IMPORT_PATH} \
              ${EXPORT_TMP} \
-    && apk add --no-cache ruby npm curl \
+    && apk add --no-cache ruby npm curl gettext \
     && apk add --no-cache --virtual .static-build-deps ruby-dev build-base ruby-rdoc \
     && gem install sass \
     && envsubst < /aggregated_migrated.json.tmpl > ${root}/dragnet/data/profiles/aggregated_migrated.json \
