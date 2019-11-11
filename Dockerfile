@@ -57,7 +57,7 @@ RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} \
              ${DRAGNET_EXPORT_PATH} ${DRAGNET_IMPORT_PATH} \
              ${EXPORT_TMP} \
     && apk add --no-cache ruby npm curl \
-    && apk add --no-cache --virtual .static-build-deps ruby-dev build-base ruby-rdoc \
+    && apk add --no-cache --virtual .static-build-deps ruby-dev build-base ruby-rdoc gettext \
     && gem install sass \
     && envsubst < /aggregated_migrated.json.tmpl > ${root}/dragnet/data/profiles/aggregated_migrated.json \
     && npm config set unsafe-perm true \
