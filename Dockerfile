@@ -66,7 +66,9 @@ RUN mkdir -p ${STATIC_ROOT} ${STATIC_ROOT_SOURCE} ${MEDIA_ROOT} \
     && python -m compileall ${root} \
     && PATH=${PATH}:${root}/bin \
        STATIC_ROOT=${STATIC_ROOT_SOURCE} \
-       python ${root}/declarations_site/manage.py collectstatic
+       python ${root}/declarations_site/manage.py collectstatic \
+    && PATH=${PATH}:${root}/bin \
+       python ${root}/declarations_site/manage.py compilemessages
 
 
 ENTRYPOINT [ "docker-entrypoint.sh" ]
