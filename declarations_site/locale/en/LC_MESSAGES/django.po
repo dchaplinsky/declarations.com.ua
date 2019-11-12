@@ -1173,14 +1173,12 @@ msgid "Декларації, що були використані для пор�
 msgstr "Declarations compared"
 
 #: catalog/templates/bi.jinja:14
-#, fuzzy
 msgid "Загальні дані"
-msgstr "Land plots"
+msgstr "General information"
 
 #: catalog/templates/bi.jinja:15
-#, fuzzy
 msgid "Доходи та активи"
-msgstr "Cash assets"
+msgstr "Revenues and assets"
 
 #: catalog/templates/bi.jinja:16
 msgid "Зобов’язання та видатки"
@@ -1203,9 +1201,8 @@ msgid "Регіональний зріз"
 msgstr "Regional segment"
 
 #: catalog/templates/bi.jinja:21
-#, fuzzy
 msgid "Список декларантів"
-msgstr "Declarant-owned area"
+msgstr "List of declarants"
 
 #: catalog/templates/bi.jinja:26
 msgid "Інструкція та дані"
@@ -1232,49 +1229,42 @@ msgid "Якщо дані не відображуються у браузері S
 msgstr "If the data doesn't get displayed in Safari, please,"
 
 #: catalog/templates/bi.jinja:38
-#, fuzzy
 msgid "перейдіть за посиланням"
-msgstr "Before dismissal"
+msgstr "follow the link"
 
 #: catalog/templates/bi.jinja:38
 msgid ", а потім перезавантажте цю сторінку"
 msgstr ", and then refresh this page"
 
 #: catalog/templates/bi.jinja:65
-#, fuzzy
 msgid "Канцелярська сотня"
-msgstr "Other projects of the White Collar Hundred:"
+msgstr "White Collar Hundred:"
 
 #: catalog/templates/region_offices.jinja:15
 #: catalog/templates/region_offices.jinja:19 catalog/templates/regions.jinja:20
 #: catalog/templates/regions.jinja:23
-#, fuzzy
 msgid "Регіони"
-msgstr "Region:"
+msgstr "Regions"
 
 #: catalog/templates/regions.jinja:4
-#, fuzzy
 msgid "Декларації українських чиновників по регіонах в онлайн-доступі: шукай правду тут"
-msgstr "The largest database of declarations of Ukrainian officials with tailored full-text search and analytics."
+msgstr "Declarations of Ukrainian officials by regions with online access: find the truth here"
 
 #: catalog/templates/regions.jinja:8
 msgid "Всі оброблені податкові декларації українських чиновників надаються в нашому проекті по регіонах. База постійно поповнюється новими даними про прибутки і податки кожного чиновника."
 msgstr "Our project provides all processed tax returns of Ukrainian officials sorted by region. The database is constantly updated with new data on the income and taxes of every official."
 
 #: catalog/templates/regions.jinja:35
-#, fuzzy
 msgid "Не зазначено"
-msgstr "!not specified"
+msgstr "Not specified"
 
 #: catalog/views.py:491
-#, fuzzy
 msgid "щорічна"
-msgstr "Annual"
+msgstr "annual"
 
 #: catalog/views.py:494
-#, fuzzy
 msgid "уточнена"
-msgstr "Corrected"
+msgstr "corrected"
 
 #: procurements/templates/_procurements.jinja:4
 msgid "Виторг на тендерах компаній:"
@@ -1286,15 +1276,13 @@ msgid "— в яких декларант є бенефіціаром"
 msgstr "— where the declarant is a beneficiary"
 
 #: procurements/templates/_procurements.jinja:13
-#, fuzzy
 msgid "натисніть для деталізації"
-msgstr "Number in the declaration"
+msgstr "click for more details"
 
 #: procurements/templates/_procurements.jinja:24
 #: procurements/templates/_procurements.jinja:45
-#, fuzzy
 msgid "Кількість виграних тендерів"
-msgstr "Number in the declaration"
+msgstr "Number of procurement biddings won"
 
 #: procurements/templates/_procurements.jinja:25
 #: procurements/templates/_procurements.jinja:46
