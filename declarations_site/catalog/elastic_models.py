@@ -928,7 +928,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
 
         codes = [c.lstrip("0") for c in companies if c.isdigit() and 4 < len(c) < 9]
 
-        for c in codes:
+        for c in set(codes):
             if c:
                 full_code = c.rjust(8, "0")
                 doc = re.sub(
