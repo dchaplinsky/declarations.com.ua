@@ -78,5 +78,5 @@ def paginated_search(request, search, per_page=settings.CATALOG_PER_PAGE):
         page = int(request.GET.get("page", 1))
     except ValueError:
         page = 1
-    page = min(1, settings.MAX_PAGES)
+    page = min(page, settings.MAX_PAGES)
     return paginator.page(page)
