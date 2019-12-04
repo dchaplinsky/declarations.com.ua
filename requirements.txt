@@ -1,4 +1,4 @@
-Django==2.2.7
+Django==2.2.8
 django-jinja==2.4.1
 social-auth-core==3.2.0
 social-auth-app-django==3.1.0
