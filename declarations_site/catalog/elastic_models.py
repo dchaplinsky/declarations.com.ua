@@ -3,12 +3,14 @@ import os.path
 from operator import or_
 from functools import reduce
 from datetime import date
+import logging
 
 from django.conf import settings
 from django.urls import reverse
 from django.db.models.functions import ExtractYear
 from django.db.models import Sum, Count
 from django.template.loader import render_to_string
+from django.utils.translation import gettext as _
 
 from elasticsearch_dsl import (
     DocType,
@@ -51,6 +53,7 @@ from .templatetags.catalog import parse_raw_family_string
 from .converters import PaperToNACPConverter, ConverterError
 from .translator import HTMLTranslator
 
+logger = logging.getLogger(__name__)
 
 class NoneAwareDate(Date):
     """Elasticsearch DSL Date field chokes on None values and parses empty
@@ -912,10 +915,16 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             with open(fname, "r") as fp:
                 d = fp.read()
         except FileNotFoundError:
-            return "<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над вирішенням проблеми</h2>"
+            logger.error("Cannot find declaration {}".format(self.meta.id))
+
+            return _("<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над вирішенням проблеми</h2>")
 
         m = re.search(r"<\/style>(.*)</body>", d)
-        declaration_html = m.group(1)
+        try:
+            declaration_html = m.group(1)
+        except (AttributeError, IndexError):
+            logger.error("Cannot parse declaration {}".format(self.meta.id))
+            return _("<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над вирішенням проблеми</h2>")
 
         # OH LORD, THAT'S NOT WHAT I'VE BEEN TAUGHT IN UNIVERSITY
         doc = declaration_html.replace(
@@ -923,6 +932,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         )
         # MY ASS IS ON FIRE
         doc = re.sub(r"</table>\s*<header>", "</table></div><header>", doc)
+        doc = re.sub(r"</h2>\s*<div", "</h2></header><div", doc)
 
         companies = self._all_companies()
 

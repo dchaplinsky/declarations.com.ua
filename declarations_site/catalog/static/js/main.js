@@ -236,6 +236,7 @@ $(function() {
             .wrap( "<p></p>" );
 
         $('#nacp_decl header:not(.decl-earnings-header)').each(function(){
+            console.log($(this).nextUntil("header").andSelf());
             $(this).nextUntil("header").andSelf().wrapAll('<div class="nacp-section" />');
         });
 
@@ -265,8 +266,8 @@ $(function() {
             $this.attr('id', 'toc-id-' + index);
             li = $('<li />').append(a).appendTo('#nacp-toc ul');
 
-            // [2.2] - [15]
-            if(index > 1 && index < 16) {
+            // [2.2] - [16]
+            if(index > 1 && index < 18) {
                 var $body = $this.find('.body');
                 $body.each(function(index2) {
                     $(this).find('p').nextUntil('div').andSelf().wrapAll('<div class="help-text collapse" />');

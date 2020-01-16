@@ -9,7 +9,10 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
 import os
+import sentry_sdk
 import raven
+from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.logging import ignore_logger
 
 from django_jinja.builtins import DEFAULT_EXTENSIONS
 
@@ -77,7 +80,6 @@ INSTALLED_APPS = (
     'catalog',
     'cms_pages',
     'procurements',
-    'raven.contrib.django.raven_compat',
 )
 
 MIDDLEWARE = (
@@ -366,12 +368,24 @@ try:
     GIT_VERSION = raven.fetch_git_sha(os.path.abspath(os.path.join(BASE_DIR, "..")))
 except raven.exceptions.InvalidGitRepository:
     GIT_VERSION = "undef"
-    pass
 
-RAVEN_CONFIG = {
-    'dsn': get_env_str('SENTRY_DSN', None),
-    'release': get_env_str('VERSION', GIT_VERSION),
-}
+LOGGERS_TO_IGNORE = [
+    "django.security.DisallowedHost",
+]
+
+SENTRY_DSN = get_env_str('SENTRY_DSN', None)
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()],
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True,
+        release=get_env_str('VERSION', GIT_VERSION),
+    )
+
+    for l in LOGGERS_TO_IGNORE:
+        ignore_logger(l)
 
 try:
     from .local_settings import *

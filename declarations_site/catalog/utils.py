@@ -280,7 +280,7 @@ def orig_translate_url(url, lang_code, orig_lang_code=None):
             except NoReverseMatch:
                 pass
             else:
-                url = urlunsplit((parsed.scheme, parsed.netloc, url, parsed.query, parsed.fragment))
+                url = urlunsplit(("https", parsed.netloc, url, parsed.query, parsed.fragment))
     return url
 
 
