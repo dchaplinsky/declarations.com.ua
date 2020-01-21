@@ -371,6 +371,8 @@ except raven.exceptions.InvalidGitRepository:
 
 LOGGERS_TO_IGNORE = [
     "django.security.DisallowedHost",
+    "dragnet.nacp_parser",
+    "spotter.utils",
 ]
 
 SENTRY_DSN = get_env_str('SENTRY_DSN', None)
@@ -386,6 +388,8 @@ if SENTRY_DSN:
 
     for l in LOGGERS_TO_IGNORE:
         ignore_logger(l)
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
 
 try:
     from .local_settings import *
