@@ -189,7 +189,7 @@ class Person(models.Model):
                 {
                     "aggregated_data": years[k].source["aggregated_data"],
                     "year": k,
-                    "infocard": d.source["infocard"],
+                    "infocard": years[k].source["infocard"],
                 }
             )
 

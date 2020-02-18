@@ -22,20 +22,37 @@ class LandingPageDetail(DetailView):
         fields_mapping = OrderedDict(
             [
                 (jc("aggregated_data.name"), "Повне ім'я"),
+                (None, "Порівняти"),
                 (jc("year"), "Рік подання"),
-                (jc('aggregated_data.name_post'), "ПІБ декларанта, посада та місце роботи"),
-                (jc('aggregated_data.organization_group'), "Установа, де працює декларант"),
-
-                (jc('aggregated_data."liabilities.total"'), "Загальна сума зобов’язань"),
-                (jc('aggregated_data."liabilities.total"'), "Загальна сума зобов’язань"),
-                
+                (
+                    jc("aggregated_data.name_post"),
+                    "ПІБ декларанта, посада та місце роботи",
+                ),
+                (
+                    jc("aggregated_data.organization_group"),
+                    "Установа, де працює декларант",
+                ),
+                (
+                    jc('aggregated_data."liabilities.total"'),
+                    "Загальна сума зобов’язань",
+                ),
+                (
+                    jc('aggregated_data."liabilities.total"'),
+                    "Загальна сума зобов’язань",
+                ),
                 (jc('aggregated_data."incomes.total"'), "Загальний дохід (грн)"),
                 (jc('aggregated_data."expenses.total"'), "Загальні витрати (грн)"),
                 (jc('aggregated_data."assets.total"'), "Загальні статки (грн)"),
-                (jc('aggregated_data."vehicles.all_names"'), "Назви всіх ТЗ (за наявності)"),
+                (
+                    jc('aggregated_data."vehicles.all_names"'),
+                    "Назви всіх ТЗ (за наявності)",
+                ),
                 (jc('aggregated_data."vehicles.total_cost"'), "Загальна вартість ТЗ"),
                 (jc('aggregated_data."estate.total_land"'), "Загальна площа землі, м2"),
-                (jc('aggregated_data."estate.total_other"'), "Загальна площа нерухомості, крім землі, м2"),
+                (
+                    jc('aggregated_data."estate.total_other"'),
+                    "Загальна площа нерухомості, крім землі, м2",
+                ),
             ]
         )
         output = io.BytesIO()
@@ -62,6 +79,35 @@ class LandingPageDetail(DetailView):
                     worksheet.set_row(row_num, 20, top_border)
 
                 for col_num, field in enumerate(fields_mapping.keys()):
+                    if field is None:
+                        if i == 0:
+                            url = "https://declarations.com.ua/compare?{}".format(
+                                    "&".join(
+                                        "declaration_id={}".format(decl_id)
+                                        for decl_id in jc("[*].infocard.id").search(
+                                            person["documents"]
+                                        )
+                                    )
+                                )
+
+                            if len(url) < 255:
+                                worksheet.write_url(
+                                    row_num,
+                                    col_num,
+                                    url,
+                                    url_format_top_border,
+                                    "Порівняти",
+                                )
+                            else:
+                                worksheet.write(
+                                    row_num,
+                                    col_num,
+                                    " " + url,
+                                    url_format_top_border,
+                                )
+
+                        continue
+
                     value = field.search(d)
 
                     if col_num == 0:
