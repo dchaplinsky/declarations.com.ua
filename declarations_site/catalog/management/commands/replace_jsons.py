@@ -34,8 +34,12 @@ class Command(BaseCommand):
 
     def get_submission_date(self, existing_json):
         with open(existing_json, "r") as in_file:
-            doc = json.load(in_file)
-            return doc.get("created_date")
+            try:
+                doc = json.load(in_file)
+                return doc.get("created_date")
+            except json.decoder.JSONDecodeError as e:
+                self.stderr.write("API brainfart in file {}".format(existing_json))
+                return None
 
     def handle(self, *args, **options):
         self.stdout.write(
