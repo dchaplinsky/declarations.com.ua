@@ -35,7 +35,7 @@ class Translation(models.Model):
         "u": "Yet to translate"
     }
 
-    term_id = models.CharField("Ідентифікатор терміну", primary_key=True, max_length=1000)
+    term_id = models.CharField("Ідентифікатор терміну", primary_key=True, max_length=4096)
     term = models.TextField("Термін")
     translation = models.TextField("Переклад")
     source = models.CharField("Джерело перекладу", max_length=1, choices=SOURCE_CHOICES.items())
