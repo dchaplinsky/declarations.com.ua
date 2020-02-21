@@ -102,9 +102,10 @@ class Command(BaseCommand):
 
         names_to_ignore = set(map(Translator.get_id, names_to_ignore))
 
-        existing_translations = frozenset(
-            Translation.objects.values_list("term_id", flat=True).distinct()
-        ) | names_to_ignore
+        existing_translations = (
+            frozenset(Translation.objects.values_list("term_id", flat=True).distinct())
+            | names_to_ignore
+        )
         pbar.write("{} items in db dict".format(len(existing_translations)))
 
         filtered_unseen = Counter()
@@ -152,4 +153,6 @@ class Command(BaseCommand):
                 pbar.update(len(batch))
 
         for batch in grouper(filter(lambda x: len(x) > 2, names_to_ignore), batch_size):
-            Translation.objects.filter(term_id__in=batch, source__in=["u", "g"]).delete()
+            Translation.objects.filter(
+                term_id__in=batch, source__in=["u", "g"]
+            ).delete()

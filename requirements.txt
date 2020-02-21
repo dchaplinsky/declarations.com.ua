@@ -9,7 +9,7 @@ MarkupSafe==0.23
 python-dateutil==2.4.0
 gunicorn==19.9.0
 django-pipeline==1.6.11
-psycopg2
+psycopg2-binary
 wagtail==2.7
 dpath==1.4.2
 parsel==1.5.1
