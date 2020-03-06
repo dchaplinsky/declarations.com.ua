@@ -1,10 +1,11 @@
 import re
 import sys
+import json
 import dpath.util
 from csv import DictWriter
 import argparse
 from django.core.management.base import BaseCommand
-from catalog.elastic_models import Declaration
+from catalog.elastic_models import Declaration, NACPDeclaration
 
 
 class FilterException(Exception):
@@ -111,7 +112,7 @@ class Command(BaseCommand):
             return res
 
     def handle(self, *args, **options):
-        all_decls = Declaration.search().query('match_all')
+        all_decls = NACPDeclaration.search().query('match_all')
         if options["to"] is not None:
             all_decls = all_decls[options["from"]:options["to"]].execute()
         elif options["from"]:

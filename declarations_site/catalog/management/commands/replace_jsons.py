@@ -4,7 +4,6 @@ from csv import writer
 from parsel import Selector
 import os.path
 import fnmatch
-import glob2
 
 
 from django.conf import settings
