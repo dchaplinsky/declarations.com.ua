@@ -22,7 +22,7 @@ class Command(BaseCommand):
         all_decls = all_decls.filter(
             "range",
             intro__date={
-                "gte": date(options["year_since"], 0, 0),
+                "gte": date(options["year_since"], 1, 1),
                 "lt": datetime.now().replace(hour=0, minute=0, second=0, microsecond=0),
             },
         )
