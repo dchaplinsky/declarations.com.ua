@@ -17,7 +17,18 @@ class Command(BaseCommand):
         parser.add_argument("--year_since", type=int, default=2015)
 
     def handle(self, *args, **options):
-        all_decls = NACPDeclaration.search().query("match_all")
+        all_decls = (
+            NACPDeclaration.search()
+            .query("match_all")
+            .source(
+                [
+                    "declaration.url",
+                    "intro.date",
+                    "intro.doc_type",
+                    "nacp_orig.step_1",
+                ]
+            )
+        )
 
         all_decls = all_decls.filter(
             "range",
