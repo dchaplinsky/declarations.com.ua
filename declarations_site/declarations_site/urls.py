@@ -36,7 +36,6 @@ urlpatterns = [
     url(r"^bot/", include(chatbot_urls)),
     url(r"^l/", include(landing_urls)),
     url(r"user/", include("social_django.urls", namespace="social")),
-    url(r"user/", include(spotter_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
@@ -61,6 +60,7 @@ urlpatterns += i18n_patterns(
     url(r"^office/(?P<office_name>.+)$", catalog_views.office, name="office"),
 
     url(r"^compare$", catalog_views.compare_declarations, name="compare"),
+    url(r"user/", include(spotter_urls)),
     url(r"", include(wagtail_urls)),
     prefix_default_language=False,
 )

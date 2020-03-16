@@ -1,16 +1,16 @@
 {% macro login_button(href) -%}
     {% set path = href|urlencode %}
-    <div id="login-button">
+    <div id="login-button" data-url="{{ url("login_menu") }}">
         <div class="dropdown profile-dropdown">
-            <button class="btn btn-info dropdown-toggle" type="button" id="profile" title="Увійти для перегляду підписок та збереженних пошуків"
-                data-toggle="dropdown"><i class="fa fa-sign-in" aria-hidden="true"></i> Увійти <span class="caret"></span></button>
+            <button class="btn btn-info dropdown-toggle" type="button" id="profile" title="{{ _("Увійти для перегляду підписок та збереженних пошуків") }}"
+                data-toggle="dropdown"><i class="fa fa-sign-in" aria-hidden="true"></i> {{ _("Увійти") }} <span class="caret"></span></button>
             <ul class="dropdown-menu signin-menu">
                 <li><a class="facebook" href="{{ url("social:begin", "facebook") }}?next={{ path }}"
-                     title="Facebook"><span class="glyphicon glyphicon-new-window"></span> Через Facebook</a></li>
+                     title="Facebook"><span class="glyphicon glyphicon-new-window"></span> {{ _("Через Facebook") }}</a></li>
                 <li><a class="google" href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
-                    title="Google / Gmail"><span class="glyphicon glyphicon-new-window"></span> Через Google</a></li>
+                    title="Google / Gmail"><span class="glyphicon glyphicon-new-window"></span> {{ _("Через Google") }}</a></li>
                 <li><a class="email" href="#" data-toggle="modal" data-target="#login-email-modal"
-                    title="E-mail"><span class="glyphicon glyphicon-new-window"></span> Через E-mail</a></li>
+                    title="E-mail"><span class="glyphicon glyphicon-new-window"></span> {{ _("Через E-mail") }}</a></li>
             </ul>
         </div>
         <!-- login modal -->
@@ -20,10 +20,10 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="x"><span
                             aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="login-label">Будь ласка, увійдіть</h4>
+                        <h4 class="modal-title" id="login-label">{{ _("Будь ласка, увійдіть") }}</h4>
                     </div>
                     <div class="modal-body text-center">
-                        <p>Щоб розпочати моніторинг необхідно авторизуватись</p>
+                        <p>{{ _("Щоб розпочати моніторинг необхідно авторизуватись") }}</p>
                         <ul id="signin" class="signin-menu">
                             <li><a class="facebook" href="{{ url("social:begin", "facebook") }}?next={{ path }}"
                                 title="Facebook">Facebook</a></li>
@@ -43,23 +43,23 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="x"><span
                             aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="login-email-label">Введіть e-mail</h4>
+                        <h4 class="modal-title" id="login-email-label">{{ _("Введіть e-mail") }}</h4>
                     </div>
                     <div class="modal-body text-center">
                         <div id="login-modal-email-form">
                             <div class="form-group">
-                              <label for="login-email-input">Введіть адресу з якої ви реєструвались.
-                                Якщо ви ще не зареєстровані - зареєструйтесь за допомогою Google або Facebook.</label>
+                              <label for="login-email-input">{{ _("Введіть адресу з якої ви реєструвались.") }}
+                                {{ _("Якщо ви ще не зареєстровані - зареєструйтесь за допомогою Google або Facebook.") }}</label>
                               <input type="email" class="form-control" id="login-email-input" placeholder="E-mail">
                             </div>
-                            <button id="btn-send-login-email" class="btn btn-default">Надіслати лінк для входу</button>
+                            <button id="btn-send-login-email" class="btn btn-default">{{ _("Надіслати лінк для входу") }}</button>
                         </div>
                         <div id="login-modal-success-message" style="display:none">
                             <p>
-                                Якщо ви зареєстровані на вказану адресу буде надіслано лист з посиланням для входу.
-                                Посилання діятиме протягом 15 хвилин.
+                                {{ _("Якщо ви зареєстровані на вказану адресу буде надіслано лист з посиланням для входу.") }}
+                                {{ ("Посилання діятиме протягом 15 хвилин.") }}
                             </p>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _("Закрити") }}</button>
                         </div>
                     </div>
                 </div>
@@ -72,12 +72,12 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="x"><span
                             aria-hidden="true">×</span></button>
-                        <h4 class="modal-title" id="login-error-label">Помилка входу</h4>
+                        <h4 class="modal-title" id="login-error-label">{{ _("Помилка входу") }}</h4>
                     </div>
                     <div class="modal-body text-center">
-                        <p>Помилка входу, не надано доступ.</p>
+                        <p>{{ _("Помилка входу, не надано доступ.") }}</p>
                         <p>
-                        <a href="#" class="btn btn-default btn-raised" id="show-login-modal">Повторити</a>
+                        <a href="#" class="btn btn-default btn-raised" id="show-login-modal">{{ _("Повторити") }}</a>
                     </div>
                 </div>
             </div>
@@ -93,16 +93,16 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-body text-center">
-                    <h2>Зачекайте...</h2>
+                    <h2>{{ _("Зачекайте...") }}</h2>
                 </div>
             </div>
         </div>
     </div>
 {%- endmacro %}
 {% macro subscribe_chatbot_links() -%}
-    Також ви можете підписатись і отримувати сповіщення у ваш улюблений месенджер:
+    {{ _("Також ви можете підписатись і отримувати сповіщення у ваш улюблений месенджер:") }}
     <a href="https://join.skype.com/bot/aa05e543-5918-49bb-88e6-ae8064345dd8">Skype</a>,
-    <a href="http://telegram.me/declbot">Telegram</a> та
+    <a href="http://telegram.me/declbot">Telegram</a> {{ _("та") }}
     <a href="https://www.messenger.com/t/237009933449862">Facebook Messenger</a>
 {%- endmacro %}
 {% macro flash_messages(messages) -%}

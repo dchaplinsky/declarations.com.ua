@@ -189,7 +189,7 @@ $(function() {
 
     // get user menu via ajax
     $.ajax({
-        url: '/user/login-menu/?next=' + encodeURI(full_path),
+        url: ($("#login-button").data("url") || '/user/login-menu/') + "?next=" + encodeURI(full_path),
     }).done(function (data) {
         if (data.search('logout') > 0) {
             userIsAuthenticated(data, username_key);

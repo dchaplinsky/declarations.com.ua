@@ -14,3 +14,4 @@ urlpatterns = [
     url(r'search-list/$', spotter_views.search_list, name='search_list'),
     url(r'edit-search/(?P<task_id>\d+)/$', spotter_views.edit_search, name='edit_search'),
 ]
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-11 02:00+0200\n"
+"POT-Creation-Date: 2020-03-17 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,12 +19,18 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: catalog/templates/_decl_teaser.jinja:23
+#: catalog/elastic_models.py:920 catalog/elastic_models.py:927
+msgid ""
+"<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над "
+"вирішенням проблеми</h2>"
+msgstr ""
+
+#: catalog/templates/_decl_teaser.jinja:26
 #: catalog/templates/declaration.jinja:113
 msgid "Уточнена"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:37
+#: catalog/templates/_decl_teaser.jinja:40
 #: catalog/templates/declaration.jinja:115
 msgid "подана"
 msgstr ""
@@ -544,6 +550,7 @@ msgstr ""
 #: catalog/templates/compare.jinja:12 catalog/templates/declaration.jinja:82
 #: catalog/templates/region_offices.jinja:14 catalog/templates/regions.jinja:19
 #: catalog/templates/results.jinja:41 catalog/templates/static.jinja:8
+#: spotter/templates/search_list.jinja:13
 msgid "Головна"
 msgstr ""
 
@@ -1341,11 +1348,11 @@ msgstr ""
 msgid "Ще більше крутої аналітики"
 msgstr ""
 
-#: declarations_site/settings.py:207
+#: declarations_site/settings.py:209
 msgid "Ukrainian"
 msgstr ""
 
-#: declarations_site/settings.py:208
+#: declarations_site/settings.py:210
 msgid "English"
 msgstr ""
 
@@ -1382,10 +1389,193 @@ msgid ""
 "участь у статутному капіталі або вказав себе кінцевим бенефіціаром."
 msgstr ""
 
-#: spotter/templates/login_menu.jinja:6
+#: spotter/templates/_spotter.jinja:5
+msgid "Увійти для перегляду підписок та збереженних пошуків"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:6
+msgid "Увійти"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:9
+msgid "Через Facebook"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:11
+msgid "Через Google"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:13
+msgid "Через E-mail"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:23
+msgid "Будь ласка, увійдіть"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:26
+msgid "Щоб розпочати моніторинг необхідно авторизуватись"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:46
+msgid "Введіть e-mail"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:51
+msgid "Введіть адресу з якої ви реєструвались."
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:52
+msgid ""
+"Якщо ви ще не зареєстровані - зареєструйтесь за допомогою Google або "
+"Facebook."
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:55
+msgid "Надіслати лінк для входу"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:59
+msgid ""
+"Якщо ви зареєстровані на вказану адресу буде надіслано лист з посиланням для "
+"входу."
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:62
+msgid "Закрити"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:75
+msgid "Помилка входу"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:78
+msgid "Помилка входу, не надано доступ."
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:80
+msgid "Повторити"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:96 spotter/templates/search_list.jinja:154
+msgid "Зачекайте..."
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:103
+msgid ""
+"Також ви можете підписатись і отримувати сповіщення у ваш улюблений "
+"месенджер:"
+msgstr ""
+
+#: spotter/templates/_spotter.jinja:105
+msgid "та"
+msgstr ""
+
+#: spotter/templates/login_menu.jinja:6 spotter/templates/search_list.jinja:5
+#: spotter/templates/search_list.jinja:14
+#: spotter/templates/search_list.jinja:18
 msgid "Мої запити"
 msgstr ""
 
 #: spotter/templates/login_menu.jinja:8
 msgid "Вийти"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:22
+msgid "Додати один запит"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:26
+msgid "Додати багато запитів"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:37
+msgid "Запит"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:38
+msgid "Знайдено"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:40
+msgid "Сповіщення на"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:41
+msgid "Статус"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:42
+msgid "Операції"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:52
+msgid "Перейти до пошуку"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:63
+msgid "В роботі"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:63
+msgid "На паузі"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:69
+msgid "Призупинити"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:72
+msgid "Відновити"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:75
+msgid "Видалити"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:82
+msgid "Тут пусто, спробуйте створити перше завдання."
+msgstr ""
+
+#: spotter/templates/search_list.jinja:92
+msgid ""
+"Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "
+"\"Моніторити цей запит\"."
+msgstr ""
+
+#: spotter/templates/search_list.jinja:105
+#: spotter/templates/search_list.jinja:124
+msgid "Додати запити"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:108
+msgid "Щоб поставити запит на моніторинг:"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:110
+msgid "Введіть запит в пошуковий рядок що знаходиться зверху сторніки;"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:111
+msgid "Спробуйте щось знайти, при необхідності уточніть запит;"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:112
+msgid "В результатах пошуку нажміть кнопку \"Моніторити цей запит\"."
+msgstr ""
+
+#: spotter/templates/search_list.jinja:128
+msgid "Впишіть запити які бажаєте моніторити по одному на рядок:"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:133
+msgid "Додаю..."
+msgstr ""
+
+#: spotter/templates/search_list.jinja:143
+msgid "Додати"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:144
+msgid "Відмінити"
 msgstr ""

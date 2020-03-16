@@ -802,6 +802,14 @@ ol.social-list > li {
     right: 0;
 }
 
+.search-results .red_flags {
+    position: absolute;
+    top: 25px;
+    right: 5px;
+    color: darkred;
+}
+
+
 .search-results {
     .decl-item.selected {
         .add2compare-list {

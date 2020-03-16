@@ -2,7 +2,7 @@
 
 {% from "_spotter.jinja" import flash_messages, subscribe_chatbot_links %}
 
-{% block html_title -%}Мої запити{%- endblock %}
+{% block html_title -%}{{ _("Мої запити") }}{%- endblock %}
 
 
 {% block content %}
@@ -10,20 +10,20 @@
     <div class="container">
         <div id="breadcrumbs">
             <ol class="breadcrumb">
-                <li><a href="/">Головна</a></li>
-                <li class="active">Мої запити</li>
+                <li><a href="/">{{ _("Головна") }}</a></li>
+                <li class="active">{{ _("Мої запити") }}</li>
             </ol>
         </div>
         {{ flash_messages(messages) }}
-        <h1 id="page-header"><span>Мої запити</span></h1>
+        <h1 id="page-header"><span>{{ _("Мої запити") }}</span></h1>
 
         <div id="add-search" class="text-right">
             <a id="add-one" class="btn btn-raised btn-sm" data-toggle="modal" data-target="#add-one-modal"
-                href="#"><span class="glyphicon glyphicon-plus"></span> Додати один запит</a>
+                href="#"><span class="glyphicon glyphicon-plus"></span> {{ _("Додати один запит") }}</a>
             {% if request.user.email %}
             <a id="add-multi" class="btn btn-raised btn-sm" data-toggle="modal" data-target="#add-multi-modal"
                 href="#" data-href={{ url('save_search') }}><span class="glyphicon glyphicon-plus"></span>
-                <span class="glyphicon glyphicon-plus"></span> Додати багато запитів</a>
+                <span class="glyphicon glyphicon-plus"></span> {{ _("Додати багато запитів") }}</a>
             {% endif %}
         </div>
 
@@ -34,12 +34,12 @@
                         <table class="table table-bordered table-striped" id="search-list">
                             <thead>
                                 <tr>
-                                    <th>Запит</th>
-                                    <th>Знайдено</th>
-                                    <th>За тиждень</th>
-                                    <th>Сповіщення на</th>
-                                    <th>Статус</th>
-                                    <th>Операції</th>
+                                    <th>{{ _("Запит") }}</th>
+                                    <th>{{ _("Знайдено") }}</th>
+                                    <th>{{ ("За тиждень") }}</th>
+                                    <th>{{ _("Сповіщення на") }}</th>
+                                    <th>{{ _("Статус") }}</th>
+                                    <th>{{ _("Операції") }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,7 +49,7 @@
                                         <a href="{{ url('search') }}?q={{ task.query }}{%
                                                 if task.deepsearch %}&deepsearch=on{% endif %}{%
                                                 if task.query_params %}&{{ task.query_params }}{% endif %}"
-                                                title="Перейти до пошуку">
+                                                title="{{ _("Перейти до пошуку") }}">
                                             {{ task.query_title }}
                                         </a>
                                     </td>
@@ -60,26 +60,26 @@
                                         <a href="{{ url('edit_email') }}">{{ task.user.email }}</a>
                                         {% else %}{{ task.display_email }}{% endif %}{% else %}-{% endif %}
                                     </td>
-                                    <td>{% if task.is_enabled %}В роботі{% else %}На паузі{% endif %}</td>
+                                    <td>{% if task.is_enabled %}{{ _("В роботі") }}{% else %}{{ _("На паузі") }}{% endif %}</td>
                                     <td>
                                         <form method="POST" action="{{ url('edit_search', task.id )}}">
                                             {% csrf_token %}
                                             {% if task.is_enabled %}
                                             <button class="btn btn-link" type="submit" name="action"
-                                                value="disable">Призупинити</button>
+                                                value="disable">{{ _("Призупинити") }}</button>
                                             {% else %}
                                             <button class="btn btn-link" type="submit" name="action"
-                                                value="enable">Відновити</button>
+                                                value="enable">{{ _("Відновити") }}</button>
                                             {% endif %} |
                                             <button  class="btn btn-link delete" type="submit"
-                                                name="action" value="delete">Видалити</button>
+                                                name="action" value="delete">{{ _("Видалити") }}</button>
                                         </form>
                                     </td>
                                 </tr>
                                 {% else %}
                                 <tr>
                                     <td colspan="6" class="text-center">
-                                        Тут пусто, спробуйте створити перше завдання.
+                                        {{ _("Тут пусто, спробуйте створити перше завдання.") }}
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -89,7 +89,7 @@
                 </div>
             </div>
             <p class="text-center help-footer">
-                Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "Моніторити цей запит".
+                {{ _('Щоб створити нове завдання спробуйте щось знайти, а потім нажміть "Моніторити цей запит".') }}
                 <br><br>
                 {{ subscribe_chatbot_links() }}
             </p>
@@ -102,14 +102,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Додати запити</h4>
+        <h4 class="modal-title">{{ _("Додати запити") }}</h4>
       </div>
       <div class="modal-body">
-        <p>Щоб поставити запит на моніторинг:</p>
+        <p>{{ _("Щоб поставити запит на моніторинг:") }}</p>
         <ol>
-            <li>Введіть запит в пошуковий рядок що знаходиться зверху сторніки;</li>
-            <li>Спробуйте щось знайти, при необхідності уточніть запит;</li>
-            <li>В результатах пошуку нажміть кнопку "Моніторити цей запит".</li>
+            <li>{{ _("Введіть запит в пошуковий рядок що знаходиться зверху сторніки;") }}</li>
+            <li>{{ _("Спробуйте щось знайти, при необхідності уточніть запит;") }}</li>
+            <li>{{ _('В результатах пошуку нажміть кнопку "Моніторити цей запит".') }}</li>
         </ol>
       </div>
     </div>
@@ -121,16 +121,16 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Додати запити</h4>
+        <h4 class="modal-title">{{ _("Додати запити") }}</h4>
       </div>
       <div class="modal-body">
         <div class="add-form">
-            <p>Впишіть запити які бажаєте моніторити по одному на рядок:</p>
+            <p>{{ _("Впишіть запити які бажаєте моніторити по одному на рядок:") }}</p>
             <textarea id="queries"></textarea>
             <span class="text-danger" id="queries-error"></span>
         </div>
         <div class="add-progress">
-            <div>Додаю...</div>
+            <div>{{ _("Додаю...") }}</div>
             <div class="progress">
               <div class="progress-bar" role="progressbar" aria-valuenow="0"
                     aria-valuemin="0" aria-valuemax="100" style="">
@@ -140,8 +140,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-raised" id="add-multi-btn">Додати</button>
-        <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">Відмінити</button>
+        <button type="button" class="btn btn-primary btn-raised" id="add-multi-btn">{{ _("Додати") }}</button>
+        <button type="button" class="btn btn-default btn-raised" data-dismiss="modal">{{ _("Відмінити") }}</button>
       </div>
     </div>
   </div>
@@ -151,7 +151,7 @@
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-body text-center">
-                <h2>Зачекайте...</h2>
+                <h2>{{ _("Зачекайте...") }}</h2>
             </div>
         </div>
     </div>
