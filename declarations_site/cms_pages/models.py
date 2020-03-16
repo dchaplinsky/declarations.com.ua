@@ -14,7 +14,13 @@ from catalog.utils import TranslatedField, orig_translate_url
 
 
 class StaticPage(Page):
-    body = RichTextField(verbose_name="Текст сторінки")
+    title_en = models.CharField(
+        verbose_name="[EN] Заголовок",
+        max_length=255
+    )
+
+    body = RichTextField(verbose_name="[UA] Текст сторінки")
+    body_en = RichTextField(verbose_name="[EN] Текст сторінки")
     template = "cms_pages/static_page.jinja"
 
     class Meta:
@@ -23,16 +29,32 @@ class StaticPage(Page):
 
 StaticPage.content_panels = [
     FieldPanel('title', classname="full title"),
+    FieldPanel('title_en', classname="full title"),
     FieldPanel('body', classname="full"),
+    FieldPanel('body_en', classname="full"),
 ]
 
 
 class RawHTMLPage(Page):
-    body = models.TextField(verbose_name="Текст сторінки")
+    title_en = models.CharField(
+        verbose_name="[EN] Заголовок",
+        max_length=255
+    )
+
+    body = models.TextField(verbose_name="[UA] Текст сторінки")
+    body_en = models.TextField(verbose_name="[EN] Текст сторінки")
     template = "cms_pages/static_page.jinja"
 
     class Meta:
         verbose_name = "Raw-HTML сторінка"
+
+
+RawHTMLPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('title_en', classname="full title"),
+    FieldPanel('body', classname="full"),
+    FieldPanel('body_en', classname="full"),
+]
 
 
 class NewsPage(Page):
@@ -83,12 +105,6 @@ class NewsIndexPage(Page):
 
     class Meta:
         verbose_name = "Сторінка новин"
-
-
-RawHTMLPage.content_panels = [
-    FieldPanel('title', classname="full title"),
-    FieldPanel('body', classname="full"),
-]
 
 
 class LinkFields(models.Model):
