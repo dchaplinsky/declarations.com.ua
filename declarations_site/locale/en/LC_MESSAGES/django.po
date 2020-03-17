@@ -1302,9 +1302,7 @@ msgstr "The list includes companies in which the declarant has corporate rights,
 
 #: catalog/elastic_models.py:920 catalog/elastic_models.py:927
 msgid "<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над вирішенням проблеми</h2>"
-msgstr "\n"
-"<h2>Our apologies, the declaration is temporarily missing. We are already working to resolve the issue</h2>\n"
-""
+msgstr "<h2>Our apologies, the declaration is temporarily missing. We are already working to resolve the issue</h2>"
 
 #: spotter/templates/_spotter.jinja:5
 msgid "Увійти для перегляду підписок та збереженних пошуків"
