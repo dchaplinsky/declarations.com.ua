@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Declarations\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-17 01:43+0200\n"
+"POT-Creation-Date: 2020-03-17 01:59+0200\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1203,7 +1203,7 @@ msgstr "Search results"
 msgid "Моніторити декларанта по:"
 msgstr "Monitor the declarant on:"
 
-#: catalog/templates/declaration.jinja:123
+#: catalog/templates/declaration.jinja:123 catalog/templates/results.jinja:52
 msgid "Моніторити цей запит по RSS"
 msgstr "Monitor this request by RSS"
 
@@ -1299,6 +1299,10 @@ msgstr "Year"
 #: catalog/templates/results.jinja:72
 msgid "Дата подачі"
 msgstr "Date of submission"
+
+#: catalog/templates/results.jinja:96
+msgid "Всі"
+msgstr "All"
 
 #: catalog/views.py:491
 msgid "щорічна"

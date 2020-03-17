@@ -71,7 +71,7 @@
                                 {% endfor %}
                                 {% for language_code, language_name in LANGUAGES %}
                                     {% if LANGUAGE_CODE != language_code %}
-                                    <li class="right-item"><a href="{{ translate_url(request, language_code) }}">{{ language_code }}</a></li>
+                                    <li class="right-item"><a href="{{ translate_url(request, language_code) }}">{% if language_code == "uk" %}ua{% else %}{{ language_code }}{% endif %}</a></li>
                                     {% endif %}
                                 {% endfor %}
                             </ul>

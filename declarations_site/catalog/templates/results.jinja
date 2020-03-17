@@ -43,13 +43,13 @@
                 </ol>
             </div>
 
-            <h1 id="page-header"><span>{{ query|default("Всі", true)|escape }} ({{ results.paginator.count }})</span></h1>
+            <h1 id="page-header"><span>{{ query|default(_("Всі"), true)|escape }} ({{ results.paginator.count }})</span></h1>
         </div>
 
         {% if request.META['QUERY_STRING'] %}
         <div class="watching-block">
             <p>{{ _("Моніторити цей запит по:") }}</p>
-            <a title="Моніторити цей запит по RSS" class="btn btn-raised btn-sm save-search rss-feed" href="{{ SITE_URL }}{{ request.get_full_path() }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
+            <a title="{{ _("Моніторити цей запит по RSS") }}" class="btn btn-raised btn-sm save-search rss-feed" href="{{ SITE_URL }}{{ request.get_full_path() }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
             {{ spotter_button(_("Моніторити цей запит"), request.META['QUERY_STRING'], "from-search") }}
         </div>
         {% endif %}
@@ -92,5 +92,8 @@
             {% endif %}
     </div>
 </section>
+{#
+    {{ _("Всі") }}
+#}
 
 {% endblock %}

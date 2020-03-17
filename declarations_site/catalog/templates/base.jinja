@@ -177,7 +177,7 @@
                                             {% endfor %}
                                             {% for language_code, language_name in LANGUAGES %}
                                                 {% if LANGUAGE_CODE != language_code %}
-                                                <li><a href="{{ translate_url(request, language_code) }}">{{ language_code }}</a></li>
+                                                <li><a href="{{ translate_url(request, language_code) }}">{% if language_code == "uk" %}ua{% else %}{{ language_code }}{% endif %}</a></li>
                                                 {% endif %}
                                             {% endfor %}                                            
                                             <li class="bi-toggle-search"><a href="#" title="{{ _("розкрити пошук") }}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
