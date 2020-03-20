@@ -141,6 +141,7 @@ class Command(BaseCommand):
             must_not=[
                 Q("exists", field="corrected_declarations"),
                 Q("term", _id="nacp_e46bba0c-32d5-4b0d-a290-9fdc4afcc278"),  # Fucking Melnytchuk
+                Q("term", _id="nacp_c67549d0-abc0-48fe-b529-9185efe1a3ce"),  # Fucking idiots
                 Q("term", _id="nacp_f1b25e4d-e691-48d6-99b1-758e94764b91"), # Fucking Motsyor
                 Q("term", **{"{}__outlier".format(AGGREGATED_FIELD_NAME): True})
             ]
