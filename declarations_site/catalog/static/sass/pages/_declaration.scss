@@ -247,7 +247,7 @@
     }
 }
 
-.decl-earnings {
+.decl-earnings, .decl-redflags {
     margin-bottom: 40px;
 
     header {
@@ -346,6 +346,12 @@
 
     table td.company-name {
         text-align: left!important;
+    }
+
+    table td.red-flag-name {
+        text-align: left!important;
+        color: darkred;
+        font-weight: bold;
     }
 
     table td.amount {

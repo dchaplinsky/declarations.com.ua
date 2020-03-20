@@ -151,6 +151,37 @@
                 {% if declaration.declaration.source == "NACP" %}
                     <div id="nacp_decl" class="nacp-decl">
                         {{ procurements_details(declaration) }}
+
+                        {% set red_flags = declaration.red_flags() %}
+                        {% if red_flags %}
+                            <div>
+                                <header><h2><span>{{ _("Ризик-аналіз: знайдено ") }}{{ red_flags|count }} {{ red_flags|count|uk_plural(_("червоний прапорець") + "," + _("червоних прапорця") + "," + _("червоних прапорців"))}}</span></h2></header>
+                                <div class="decl-redflags">
+                                    <a name="redflags"></a>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ _("Прапорець") }}</th>
+                                                    <th>{{ _("Опис") }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for flag in red_flags %}
+                                                <tr>
+                                                    <td class="red-flag-name">
+                                                        {{ flag.text }}
+                                                    </td>
+                                                    <td></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
                         {% if language == "en" %}
                             {{ declaration.raw_en_html()|safe }}
                         {% else %}

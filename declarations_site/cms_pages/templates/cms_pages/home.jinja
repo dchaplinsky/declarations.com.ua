@@ -136,12 +136,11 @@
                 <div class="pull-left dropdown with-separator">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ _("Рік:") }}<span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownCategory" data-linked-input="filter-year">
-                        <li><a href="#" data-value="2015">2015</a></li>
-                        <li><a href="#" data-value="2016">2016</a></li>
-                        <li><a href="#" data-value="2017">2017</a></li>
-                        <li><a href="#" data-value="2018">2018</a></li>
+                        {% for year in range(2015, CURR_YEAR + 1) %}
+                        <li><a href="#" data-value="{{ year }}">{{ year }}</a></li>
+                        {% endfor %}
                     </ul>
-                    <input id="filter-year" name="filter-year" class="linked-input" type="hidden" value="2018" />
+                    <input id="filter-year" name="filter-year" class="linked-input" type="hidden" value="2019" />
                 </div>
                 <div class="pull-left dropdown">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ _("Сфера діяльності:") }}<span class="caret"></span></button>

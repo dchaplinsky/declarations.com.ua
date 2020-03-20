@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-17 01:59+0200\n"
+"POT-Creation-Date: 2020-03-20 02:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,18 +19,58 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: catalog/elastic_models.py:920 catalog/elastic_models.py:927
+#: catalog/elastic_models.py:908
+msgid "Активи в 10+ разів перевищують доходи"
+msgstr ""
+
+#: catalog/elastic_models.py:909
+msgid "Зобов’язання в 2+ разів перевищують активи і доходи"
+msgstr ""
+
+#: catalog/elastic_models.py:910
+msgid "Не вказано вартість нерухомості, права на яку набуті в поточному році"
+msgstr ""
+
+#: catalog/elastic_models.py:911
+msgid "Не вказано вартість ТЗ, права на який набуто в поточному році"
+msgstr ""
+
+#: catalog/elastic_models.py:912
+msgid "Готівка > 5 млн.грн."
+msgstr ""
+
+#: catalog/elastic_models.py:913
+msgid "Видатки в 3+ разів перевищують активи і доходи"
+msgstr ""
+
+#: catalog/elastic_models.py:914
+msgid "Подарунки, призи, благодійна допомога складають >75% доходу"
+msgstr ""
+
+#: catalog/elastic_models.py:915
+msgid "Є будинок/ дача, немає землі"
+msgstr ""
+
+#: catalog/elastic_models.py:916
+msgid "Є гараж, немає авто"
+msgstr ""
+
+#: catalog/elastic_models.py:917
+msgid "Є \"люксові\" авто*"
+msgstr ""
+
+#: catalog/elastic_models.py:933 catalog/elastic_models.py:940
 msgid ""
 "<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над "
 "вирішенням проблеми</h2>"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:26
+#: catalog/templates/_decl_teaser.jinja:23
 #: catalog/templates/declaration.jinja:113
 msgid "Уточнена"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:40
+#: catalog/templates/_decl_teaser.jinja:37
 #: catalog/templates/declaration.jinja:115
 msgid "подана"
 msgstr ""
@@ -63,200 +103,200 @@ msgstr ""
 msgid "Рік:"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:50
-#: catalog/templates/_search_form.jinja:53
-#: catalog/templates/_search_form.jinja:57
+#: catalog/templates/_search_form.jinja:44
+#: catalog/templates/_search_form.jinja:47
+#: catalog/templates/_search_form.jinja:51
 msgid "Тип документу:"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:59
+#: catalog/templates/_search_form.jinja:53
 msgid "Щорічна"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:60
+#: catalog/templates/_search_form.jinja:54
 msgid "Перед звільненням"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:61
+#: catalog/templates/_search_form.jinja:55
 msgid "Після звільнення"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:62
+#: catalog/templates/_search_form.jinja:56
 msgid "Кандидата на посаду"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:63
+#: catalog/templates/_search_form.jinja:57
 msgid "Форма змін"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:74
+#: catalog/templates/_search_form.jinja:68
 msgid "Тип посади:"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:78
+#: catalog/templates/_search_form.jinja:72
 msgid "Посада державної служби"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:84
+#: catalog/templates/_search_form.jinja:78
 msgid "Посада в органах місцевого самоврядування"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:90
+#: catalog/templates/_search_form.jinja:84
 msgid "Посадова особа юридичної особи публічного права"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:102
-#: catalog/templates/_search_form.jinja:106
+#: catalog/templates/_search_form.jinja:96
+#: catalog/templates/_search_form.jinja:100
 msgid "Регіон:"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:108
-#: cms_pages/templates/cms_pages/home.jinja:170
+#: catalog/templates/_search_form.jinja:102
+#: cms_pages/templates/cms_pages/home.jinja:169
 msgid "м. Київ"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:109
-#: cms_pages/templates/cms_pages/home.jinja:190
+#: catalog/templates/_search_form.jinja:103
+#: cms_pages/templates/cms_pages/home.jinja:189
 msgid "Вінницька область"
+msgstr ""
+
+#: catalog/templates/_search_form.jinja:104
+#: cms_pages/templates/cms_pages/home.jinja:181
+msgid "Волинська область"
+msgstr ""
+
+#: catalog/templates/_search_form.jinja:105
+#: cms_pages/templates/cms_pages/home.jinja:171
+msgid "Дніпропетровська область"
+msgstr ""
+
+#: catalog/templates/_search_form.jinja:106
+#: cms_pages/templates/cms_pages/home.jinja:167
+msgid "Донецька область"
+msgstr ""
+
+#: catalog/templates/_search_form.jinja:107
+#: cms_pages/templates/cms_pages/home.jinja:172
+msgid "Житомирська область"
+msgstr ""
+
+#: catalog/templates/_search_form.jinja:108
+#: cms_pages/templates/cms_pages/home.jinja:176
+msgid "Закарпатська область"
+msgstr ""
+
+#: catalog/templates/_search_form.jinja:109
+#: cms_pages/templates/cms_pages/home.jinja:177
+msgid "Запорізька область"
 msgstr ""
 
 #: catalog/templates/_search_form.jinja:110
 #: cms_pages/templates/cms_pages/home.jinja:182
-msgid "Волинська область"
-msgstr ""
-
-#: catalog/templates/_search_form.jinja:111
-#: cms_pages/templates/cms_pages/home.jinja:172
-msgid "Дніпропетровська область"
-msgstr ""
-
-#: catalog/templates/_search_form.jinja:112
-#: cms_pages/templates/cms_pages/home.jinja:168
-msgid "Донецька область"
-msgstr ""
-
-#: catalog/templates/_search_form.jinja:113
-#: cms_pages/templates/cms_pages/home.jinja:173
-msgid "Житомирська область"
-msgstr ""
-
-#: catalog/templates/_search_form.jinja:114
-#: cms_pages/templates/cms_pages/home.jinja:177
-msgid "Закарпатська область"
-msgstr ""
-
-#: catalog/templates/_search_form.jinja:115
-#: cms_pages/templates/cms_pages/home.jinja:178
-msgid "Запорізька область"
-msgstr ""
-
-#: catalog/templates/_search_form.jinja:116
-#: cms_pages/templates/cms_pages/home.jinja:183
 msgid "Івано-Франківська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:117
-#: cms_pages/templates/cms_pages/home.jinja:176
+#: catalog/templates/_search_form.jinja:111
+#: cms_pages/templates/cms_pages/home.jinja:175
 msgid "Київська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:118
-#: cms_pages/templates/cms_pages/home.jinja:188
+#: catalog/templates/_search_form.jinja:112
+#: cms_pages/templates/cms_pages/home.jinja:187
 msgid "Кіровоградська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:119
-#: cms_pages/templates/cms_pages/home.jinja:166
+#: catalog/templates/_search_form.jinja:113
+#: cms_pages/templates/cms_pages/home.jinja:165
 msgid "Львівська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:120
-#: cms_pages/templates/cms_pages/home.jinja:189
+#: catalog/templates/_search_form.jinja:114
+#: cms_pages/templates/cms_pages/home.jinja:188
 msgid "Луганська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:121
-#: cms_pages/templates/cms_pages/home.jinja:171
+#: catalog/templates/_search_form.jinja:115
+#: cms_pages/templates/cms_pages/home.jinja:170
 msgid "Миколаївська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:122
-#: cms_pages/templates/cms_pages/home.jinja:175
+#: catalog/templates/_search_form.jinja:116
+#: cms_pages/templates/cms_pages/home.jinja:174
 msgid "Одеська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:123
-#: cms_pages/templates/cms_pages/home.jinja:187
+#: catalog/templates/_search_form.jinja:117
+#: cms_pages/templates/cms_pages/home.jinja:186
 msgid "Полтавська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:124
-#: cms_pages/templates/cms_pages/home.jinja:174
+#: catalog/templates/_search_form.jinja:118
+#: cms_pages/templates/cms_pages/home.jinja:173
 msgid "Рівненська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:125
-#: cms_pages/templates/cms_pages/home.jinja:181
+#: catalog/templates/_search_form.jinja:119
+#: cms_pages/templates/cms_pages/home.jinja:180
 msgid "Сумська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:126
-#: cms_pages/templates/cms_pages/home.jinja:186
+#: catalog/templates/_search_form.jinja:120
+#: cms_pages/templates/cms_pages/home.jinja:185
 msgid "Тернопільська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:127
-#: cms_pages/templates/cms_pages/home.jinja:165
+#: catalog/templates/_search_form.jinja:121
+#: cms_pages/templates/cms_pages/home.jinja:164
 msgid "Харківська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:128
-#: cms_pages/templates/cms_pages/home.jinja:184
+#: catalog/templates/_search_form.jinja:122
+#: cms_pages/templates/cms_pages/home.jinja:183
 msgid "Херсонська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:129
-#: cms_pages/templates/cms_pages/home.jinja:185
+#: catalog/templates/_search_form.jinja:123
+#: cms_pages/templates/cms_pages/home.jinja:184
 msgid "Хмельницька область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:130
-#: cms_pages/templates/cms_pages/home.jinja:179
+#: catalog/templates/_search_form.jinja:124
+#: cms_pages/templates/cms_pages/home.jinja:178
 msgid "Черкаська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:131
-#: cms_pages/templates/cms_pages/home.jinja:167
+#: catalog/templates/_search_form.jinja:125
+#: cms_pages/templates/cms_pages/home.jinja:166
 msgid "Чернівецька область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:132
-#: cms_pages/templates/cms_pages/home.jinja:180
+#: catalog/templates/_search_form.jinja:126
+#: cms_pages/templates/cms_pages/home.jinja:179
 msgid "Чернігівська область"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:133
-#: cms_pages/templates/cms_pages/home.jinja:191
+#: catalog/templates/_search_form.jinja:127
+#: cms_pages/templates/cms_pages/home.jinja:190
 msgid "Кримська Автономна Республіка"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:134
+#: catalog/templates/_search_form.jinja:128
 msgid "м. Севастополь"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:143
+#: catalog/templates/_search_form.jinja:137
 msgid "Регіон реєстрації"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:149
+#: catalog/templates/_search_form.jinja:143
 msgid "Регіон фактичного проживання"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:155
+#: catalog/templates/_search_form.jinja:149
 msgid "Регіон задекларованої нерухомості"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:163
+#: catalog/templates/_search_form.jinja:157
 msgid "Скинути усі фільтри"
 msgstr ""
 
@@ -1159,15 +1199,27 @@ msgstr ""
 msgid "Оригінал декларації"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:170
+#: catalog/templates/declaration.jinja:158
+msgid "Ризик-аналіз: знайдено "
+msgstr ""
+
+#: catalog/templates/declaration.jinja:165
+msgid "Прапорець"
+msgstr ""
+
+#: catalog/templates/declaration.jinja:166
+msgid "Опис"
+msgstr ""
+
+#: catalog/templates/declaration.jinja:201
 msgid "ПІБ іншими мовами"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:183
+#: catalog/templates/declaration.jinja:214
 msgid "Інші декларації, знайдені за ПІБ"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:193
+#: catalog/templates/declaration.jinja:224
 msgid "Декларації осіб, що <u>можуть</u> бути родичами декларанта"
 msgstr ""
 
@@ -1310,45 +1362,45 @@ msgstr ""
 msgid "Топ-100 за доходом"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:147
-#: cms_pages/templates/cms_pages/home.jinja:149
+#: cms_pages/templates/cms_pages/home.jinja:146
+#: cms_pages/templates/cms_pages/home.jinja:148
 msgid "Сфера діяльності:"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:151
+#: cms_pages/templates/cms_pages/home.jinja:150
 msgid "Центральна влада"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:152
+#: cms_pages/templates/cms_pages/home.jinja:151
 msgid "Mісцева влада"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:153
+#: cms_pages/templates/cms_pages/home.jinja:152
 msgid "Cудді"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:154
+#: cms_pages/templates/cms_pages/home.jinja:153
 msgid "Прокурори"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:155
+#: cms_pages/templates/cms_pages/home.jinja:154
 msgid "Лікарі"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:156
+#: cms_pages/templates/cms_pages/home.jinja:155
 msgid "Iнспектори"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:161
-#: cms_pages/templates/cms_pages/home.jinja:163
+#: cms_pages/templates/cms_pages/home.jinja:160
+#: cms_pages/templates/cms_pages/home.jinja:162
 msgid "Вся Україна:"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:169
+#: cms_pages/templates/cms_pages/home.jinja:168
 msgid "!не визначено"
 msgstr ""
 
-#: cms_pages/templates/cms_pages/home.jinja:196
+#: cms_pages/templates/cms_pages/home.jinja:195
 msgid "Ще більше крутої аналітики"
 msgstr ""
 

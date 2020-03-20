@@ -904,6 +904,19 @@ class NACPDeclaration(DocType, AbstractDeclaration):
 
     CONTENT_SELECTORS = NACP_SELECTORS_TO_TRANSLATE
 
+    ENABLED_FLAGS = {
+        "assets_to_income_flag": _("Активи в 10+ разів перевищують доходи"),
+        "liabilities_to_inc_and_assets_flag": _("Зобов’язання в 2+ разів перевищують активи і доходи"),
+        "estate_purch_no_cost_flag": _("Не вказано вартість нерухомості, права на яку набуті в поточному році"),
+        "vehicle_purch_no_cost_flag": _("Не вказано вартість ТЗ, права на який набуто в поточному році"),
+        "cash_flag": _("Готівка > 5 млн.грн."),
+        "expenses_to_inc_and_assets_flag": _("Видатки в 3+ разів перевищують активи і доходи"),
+        "income_presents_to_total_flag": _("Подарунки, призи, благодійна допомога складають >75% доходу"),
+        "house_no_land_flag": _("Є будинок/ дача, немає землі"),
+        "garage_wo_car_flag": _("Є гараж, немає авто"),
+        "lux_cars_flag_v2": _("Є \"люксові\" авто*"),
+    }
+
     def raw_html(self):
         fname = os.path.join(
             settings.NACP_DECLARATIONS_PATH,
@@ -1156,6 +1169,19 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             return self.aggregated.to_dict()
         else:
             return {}
+
+    def red_flags(self):
+        res = []
+        if hasattr(self, "aggregated"):
+            for f, text in self.ENABLED_FLAGS.items():
+                if getattr(self.aggregated, f, "false").lower() == "true":
+                    res.append({
+                        "flag": f,
+                        "text": text
+                    })
+
+        return res
+
 
     class Meta:
         doc_type = "nacp_declaration_doctype"

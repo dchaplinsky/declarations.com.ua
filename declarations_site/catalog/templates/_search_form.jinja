@@ -31,15 +31,9 @@
                                             <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownYear" data-linked-input="search-field-year">
                                                 <li><a href="#" data-value="">{{ _("Рік:") }}</a></li>
                                                 <li role="separator" class="divider"></li>
-                                                <li><a href="#" data-value="2011">2011</a></li>
-                                                <li><a href="#" data-value="2012">2012</a></li>
-                                                <li><a href="#" data-value="2013">2013</a></li>
-                                                <li><a href="#" data-value="2014">2014</a></li>
-                                                <li><a href="#" data-value="2015">2015</a></li>
-                                                <li><a href="#" data-value="2016">2016</a></li>
-                                                <li><a href="#" data-value="2017">2017</a></li>
-                                                <li><a href="#" data-value="2018">2018</a></li>
-                                                <li><a href="#" data-value="2019">2019</a></li>
+                                                {% for year in range(2011, CURR_YEAR + 1) %}
+                                                    <li><a href="#" data-value="{{ year }}">{{ year }}</a></li>
+                                                {% endfor %}
                                             </ul>
                                         </div>
                                         <input id="search-field-year" name="declaration_year" class="linked-input" type="hidden" />

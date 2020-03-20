@@ -2,11 +2,11 @@
     <div data-declid="{{ declaration.meta.id }}" class="{% if on_decl_page %}selected {% endif %} decl-item item col-sm-12 col-md-6 col-lg-4 grid-group-item{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
         <div class="box">
             {% if declaration.aggregated %}
-            <a href="#" class="add2compare-list" title="Додати у список порівнянь">
-                <i class="fa fa-times" aria-hidden="true"></i>
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                <i class="fa fa-balance-scale" aria-hidden="true"></i>
-            </a>
+                <a href="#" class="add2compare-list" title="Додати у список порівнянь">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <i class="fa fa-balance-scale" aria-hidden="true"></i>
+                </a>
             {% endif %}
             <h3>
             {% if declaration.meta.id %}
@@ -37,6 +37,12 @@
                 <li class="date"><span class="glyphicon glyphicon-calendar"></span> {{ _("подана") }} {{ declaration.intro.date|datetime }}</li>
                 {% endif %}
             </ul>
+            {% set red_flags = declaration.red_flags() %}
+            {% if red_flags %}
+            <a href="{% if declaration.meta.id %}{{ url("details", declaration_id=declaration.meta.id) }}#redflags{% else %}#{% endif %}" class="red_flags" title="{% for flag in red_flags %}{{ flag.text }}<br/>{% endfor %}" data-toggle="tooltip" data-placement="right" data-html="true">
+                {{ red_flags|count }} <i class="fa fa-flag" aria-hidden="true"></i>
+            </a>
+            {% endif %}
         </div>
         <input type="hidden" name="declaration_id" value="{{ declaration.meta.id }}" />
     </div>
