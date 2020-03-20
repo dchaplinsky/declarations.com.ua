@@ -24,7 +24,7 @@
             },
             {
                 "name": "red_flags",
-                "views": ["views/red_flags.es6"]
+                "views": ["views/red_flags.es6", "views/change_form_red_flags.es6"]
             }
         ]
     },
@@ -35,7 +35,10 @@
             {
                 "view": "meta.meta",
                 "output": "{datadir}/export/meta.csv",
-                "columns": ["id", "link", "name", "year", "name_post", "family", "organization_group", "region"]
+                "columns": ["id", "link", "name", "year", "name_post", "family", "organization_group",
+                    "region", "user_declarant_id", "corruption_affected", "post_category",
+                    "post_category_extendedstatus", "post_type", "public_person", "responsible_position",
+                    "date", "doc_type"]
             },
             {
                 "view": "aggregated.step_3_estate",
@@ -79,7 +82,16 @@
                     "lux_cars_flag", "lux_cars_flag_v2", "vehicle_purch_no_cost_flag", "estate_purch_no_cost_flag",
                     "estate_has_hidden_cost", "corprights_abroad_flag", "bank_accounts_abroad_flag", "income_prize_fact",
                     "assets_lend_3rd_parties", "cash_flag_500k", "income_presents_to_total_flag_50", "family_member_did_not_provide_information_flag",
-                    "expenses.total", "liabilities.total", "assets.cash.total", "incomes.presents.all"
+                    "expenses.total", "liabilities.total", "assets.cash.total", "incomes.presents.all", "has_aircraft_flag",
+                    "has_major_real_estate", "has_foreign_real_estate", "family_member_did_not_provide_information",
+                    "has_huge_prize", "has_bo_abroad", "has_non_bank_liabilities"
+                ]
+            },
+            {
+                "view": "red_flags.change_form_red_flags",
+                "output": "{datadir}/export/change_form_red_flags.csv",
+                "columns": [
+                    "id", "untimely_submission"
                 ]
             }
         ]
@@ -111,9 +123,9 @@
         },
         "output": "{datadir}/export/aggregated_with_flags.csv",
         "inputs": [
-            "{datadir}/export/meta.csv", "{datadir}/export/red_flags.csv", "{datadir}/export/step_3_estate_agg.csv",
-            "{datadir}/export/step_6_vehicles_agg.csv", "{datadir}/export/step_11_incomes_agg.csv",
-            "{datadir}/export/step_12_assets_agg.csv"
+            "{datadir}/export/meta.csv", "{datadir}/export/red_flags.csv", "{datadir}/export/change_form_red_flags.csv",
+            "{datadir}/export/step_3_estate_agg.csv", "{datadir}/export/step_6_vehicles_agg.csv",
+            "{datadir}/export/step_11_incomes_agg.csv", "{datadir}/export/step_12_assets_agg.csv"
         ],
         "postprocess": ["{datadir}/filters/outlier_agg_filter.py", "{datadir}/filters/agg_postprocess.py"],
         "only_years": []
@@ -121,8 +133,8 @@
     "pump": {
         "type": "csv_to_elasticsearch",
         "index": "nacp_declarations_new",
-	"doc_type": "nacp_declaration_doctype",
-	"match_field": "id",
+        "doc_type": "nacp_declaration_doctype",
+        "match_field": "id",
         "container_field": "aggregated",
         "input": "{datadir}/export/aggregated_with_flags.csv",
         "state_file": "{datadir}/import/laststate_migrated"
