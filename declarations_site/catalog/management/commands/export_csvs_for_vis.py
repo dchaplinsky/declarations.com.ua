@@ -184,11 +184,11 @@ class Command(BaseCommand):
         organization_group = CATEGORY_MAP[organization_group]
 
         return {
-            "incomes.total": round(float(data['incomes.total'])),
-            "estate.total_land": round(float(data['estate.total_land'])),
-            "estate.total_other": round(float(data['estate.total_other'])),
-            "assets.total": round(float(data['assets.total'])),
-            "assets.cash.total": round(float(data['assets.cash.total'])),
+            "incomes.total": round(float(data['incomes.total'] or 0)),
+            "estate.total_land": round(float(data['estate.total_land'] or 0)),
+            "estate.total_other": round(float(data['estate.total_other'] or 0)),
+            "assets.total": round(float(data['assets.total'] or 0)),
+            "assets.cash.total": round(float(data['assets.cash.total'] or 0)),
             "vehicles_names": "/".join(data['vehicles.all_names'].split(';')),
             "organization_group": organization_group,
             "name": title(data["name"]),

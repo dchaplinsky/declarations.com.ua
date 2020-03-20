@@ -136,7 +136,7 @@
                 <div class="pull-left dropdown with-separator">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ _("Рік:") }}<span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownCategory" data-linked-input="filter-year">
-                        {% for year in range(2015, CURR_YEAR + 1) %}
+                        {% for year in range(2015, CURR_YEAR) %}
                         <li><a href="#" data-value="{{ year }}">{{ year }}</a></li>
                         {% endfor %}
                     </ul>
