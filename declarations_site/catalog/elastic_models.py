@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.db.models.functions import ExtractYear
 from django.db.models import Sum, Count
 from django.template.loader import render_to_string
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from elasticsearch_dsl import (
     DocType,

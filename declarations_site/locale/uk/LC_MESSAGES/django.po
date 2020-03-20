@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-20 02:11+0200\n"
+"POT-Creation-Date: 2020-03-20 17:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,47 +19,47 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: catalog/elastic_models.py:908
+#: catalog/elastic_models.py:911
 msgid "Активи в 10+ разів перевищують доходи"
 msgstr ""
 
-#: catalog/elastic_models.py:909
+#: catalog/elastic_models.py:912
 msgid "Зобов’язання в 2+ разів перевищують активи і доходи"
 msgstr ""
 
-#: catalog/elastic_models.py:910
+#: catalog/elastic_models.py:913
 msgid "Не вказано вартість нерухомості, права на яку набуті в поточному році"
 msgstr ""
 
-#: catalog/elastic_models.py:911
+#: catalog/elastic_models.py:914
 msgid "Не вказано вартість ТЗ, права на який набуто в поточному році"
 msgstr ""
 
-#: catalog/elastic_models.py:912
+#: catalog/elastic_models.py:915
 msgid "Готівка > 5 млн.грн."
 msgstr ""
 
-#: catalog/elastic_models.py:913
+#: catalog/elastic_models.py:916
 msgid "Видатки в 3+ разів перевищують активи і доходи"
 msgstr ""
 
-#: catalog/elastic_models.py:914
+#: catalog/elastic_models.py:917
 msgid "Подарунки, призи, благодійна допомога складають >75% доходу"
 msgstr ""
 
-#: catalog/elastic_models.py:915
+#: catalog/elastic_models.py:918
 msgid "Є будинок/ дача, немає землі"
 msgstr ""
 
-#: catalog/elastic_models.py:916
+#: catalog/elastic_models.py:919
 msgid "Є гараж, немає авто"
 msgstr ""
 
-#: catalog/elastic_models.py:917
+#: catalog/elastic_models.py:920
 msgid "Є \"люксові\" авто*"
 msgstr ""
 
-#: catalog/elastic_models.py:933 catalog/elastic_models.py:940
+#: catalog/elastic_models.py:936 catalog/elastic_models.py:943
 msgid ""
 "<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над "
 "вирішенням проблеми</h2>"
@@ -1221,6 +1221,18 @@ msgstr ""
 
 #: catalog/templates/declaration.jinja:224
 msgid "Декларації осіб, що <u>можуть</u> бути родичами декларанта"
+msgstr ""
+
+#: catalog/templates/declaration.jinja:235
+msgid "червоний прапорець"
+msgstr ""
+
+#: catalog/templates/declaration.jinja:236
+msgid "червоних прапорця"
+msgstr ""
+
+#: catalog/templates/declaration.jinja:237
+msgid "червоних прапорців"
 msgstr ""
 
 #: catalog/templates/region_offices.jinja:15
