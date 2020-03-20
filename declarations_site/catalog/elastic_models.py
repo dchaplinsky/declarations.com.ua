@@ -1174,7 +1174,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         res = []
         if hasattr(self, "aggregated"):
             for f, text in self.ENABLED_FLAGS.items():
-                if getattr(self.aggregated, f, "false").lower() == "true":
+                if str(getattr(self.aggregated, f, "false")).lower() == "true":
                     res.append({
                         "flag": f,
                         "text": text
