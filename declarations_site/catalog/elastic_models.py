@@ -613,6 +613,9 @@ class Declaration(DocType, AbstractDeclaration):
     def aggregated_data(self):
         return self.aggregated
 
+    def red_flags(self):
+        return []
+
     # Temporary solution to provide enough aggregated data
     # to make it possible to compare old and new declarations
     # TODO: REPLACE ME
