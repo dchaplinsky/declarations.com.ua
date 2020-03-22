@@ -100,6 +100,10 @@
         "type": "csv",
         "field": "id",
         "how": "left",
+        "type_overrides": {
+            "year": "Int64Dtype",
+            "user_declarant_id": "Int64Dtype"
+        },
         "nan_replacements": {
             "types": {
                 "int64": 0,
@@ -118,7 +122,9 @@
                 "estate.has_foreign": "False",
                 "vehicles.max_year": "!немає авто",
                 "vehicles.has_hidden": "False",
-                "vehicles.any": "False"
+                "vehicles.any": "False",
+                "year": -1,
+                "user_declarant_id": -1
             }
         },
         "output": "{datadir}/export/aggregated_with_flags.csv",
@@ -137,6 +143,10 @@
         "match_field": "id",
         "container_field": "aggregated",
         "input": "{datadir}/export/aggregated_with_flags.csv",
-        "state_file": "{datadir}/import/laststate_migrated"
+        "state_file": "{datadir}/import/laststate_migrated",
+        "filter_values": {
+            "year": -1,
+            "user_declarant_id": -1
+        }
     }
 }
