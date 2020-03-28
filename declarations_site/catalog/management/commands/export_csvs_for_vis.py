@@ -153,6 +153,9 @@ class Command(BaseCommand):
         res = []
 
         for d in to_export.execute():
+            if (d[AGGREGATED_FIELD_NAME]["assets.total"] > 10000000000):
+                continue
+
             row = d[AGGREGATED_FIELD_NAME].to_dict()
             row["id"] = d._id
             res.append(row)

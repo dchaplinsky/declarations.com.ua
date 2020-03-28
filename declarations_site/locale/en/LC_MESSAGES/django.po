@@ -1609,13 +1609,13 @@ msgstr "The amount of income (section 11) of the declarant and the family, the t
 #: catalog/elastic_models.py:914
 msgid "Суб’єкт декларування не подав повідомлення про суттєві зміни в майновому стані у десятиденний\n"
 "                строк з моменту отримання доходу, придбання майна або здійснення видатку"
-msgstr ""
+msgstr "The declarant did not report any significant changes to their economic situation within ten days of receipt of income, acquisition of property, or carrying out of expenses\n"
+""
 
 #: catalog/elastic_models.py:971
-#, fuzzy
 msgid "Сума доходів (розділ 11) декларанта і родини, вид доходів \"Подарунок у негрошовій формі\",\n"
 "                \"Подарунок у грошовій формі\", \"Благодійна допомога\", \"Приз\" складають > 75% загальної суми\n"
 "                доходів декларанта і родини. Суми, що зазначені у іноземній валюті, переведені в грн за\n"
 "                курсом на 31 грудня звітного року"
-msgstr "The sum of monetary assets (section 12) of the declarant and their family is 10+ times higher than the sum of all income (section 11) of the declarant and their family. Amounts stated in foreign currency, translated into UAH at the rate as of December 31 of the reporting year"
+msgstr "The amount of income (section 11) of the declarant and the family, the type of income \"Gift in a non-monetary form\", \"Gift in cash\", \"Charity\", \"Prize\" make up >75% of the total income of the declarant and their family."
 

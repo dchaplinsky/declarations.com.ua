@@ -205,7 +205,7 @@ class HTMLTranslator(Translator):
         phrases = extra_phrases
 
         if html:
-            self._parsed_html = pq(html)
+            self._parsed_html = pq(str(html))
             self._html_elements = HTMLTranslator.get_html_elements(
                 self._parsed_html, selectors
             )

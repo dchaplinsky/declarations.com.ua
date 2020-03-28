@@ -132,7 +132,7 @@ class AbstractDeclaration(object):
                 )
             else:
                 self.translator = HTMLTranslator(
-                    self.raw_html(),
+                    html=self.raw_html(),
                     selectors=self.CONTENT_SELECTORS,
                     extra_phrases=[
                         self.general.post.post,
@@ -1031,6 +1031,8 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         # MY ASS IS ON FIRE
         doc = re.sub(r"</table>\s*<header>", "</table></div><header>", doc)
         doc = re.sub(r"</h2>\s*<div", "</h2></header><div", doc)
+        doc = re.sub(r"</span></h2>У", "</span></h2></header>У", doc)
+        
 
         companies = self._all_companies()
 
