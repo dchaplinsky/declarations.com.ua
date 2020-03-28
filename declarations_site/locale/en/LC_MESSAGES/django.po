@@ -1609,7 +1609,7 @@ msgstr "The amount of income (section 11) of the declarant and the family, the t
 #: catalog/elastic_models.py:914
 msgid "Суб’єкт декларування не подав повідомлення про суттєві зміни в майновому стані у десятиденний\n"
 "                строк з моменту отримання доходу, придбання майна або здійснення видатку"
-msgstr "The declarant did not report any significant changes to their economic situation within ten days of receipt of income, acquisition of property, or carrying out of expenses\n"
+msgstr "The declarant did not report any significant changes to their economic situation within ten days of receipt of income, acquisition of property, or carrying out of expenses"
 ""
 
 #: catalog/elastic_models.py:971
