@@ -156,9 +156,9 @@
     display: block;
 
     @media (min-width: 768px) {
-        position: absolute;
-        right: 30px;
-        top: 0;
+        position: relative;
+        float: right;
+        line-height: 48px;
     }
 
     i {
