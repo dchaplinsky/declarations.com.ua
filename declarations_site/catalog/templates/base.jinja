@@ -1,4 +1,4 @@
-{% from "_social.jinja" import social -%}{% from "_spotter.jinja" import login_button -%}<!DOCTYPE html>
+{% from "_social.jinja" import social -%}{% from "_spotter.jinja" import login_button -%}{% from "_lang_switcher.jinja" import lang_switcher with context -%}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" prefix="og: http://ogp.me/ns#">
     <head>
         <meta charset="utf-8">
@@ -119,94 +119,172 @@
     {% block brandingtop %}{% endblock %}
     <div id="wrapper">
         <header>
-            {% block infobox %}
-                <section id="infobox">
-                    <div class="container">
-                        <div id="stickyBannerWrapper" style="display:none; position: relative; z-index: 2; ">
-                            <div style="position: absolute; left: -170px; width: 160px">
-                                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
-                                    <div id='div-gpt-ad-1531830029689-5'>
-                                        <script>
-                                          googletag.cmd.push(function () {
-                                            googletag.display('div-gpt-ad-1531830029689-5');
-                                          });
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="position: absolute; right: -170px; width: 160px">
-                                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
-                                    <div id='div-gpt-ad-1531830029689-4'>
-                                        <script>
-                                          googletag.cmd.push(function () {
-                                            googletag.display('div-gpt-ad-1531830029689-4');
-                                          });
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="infobanner infobanner--bi">
-                            <div class="infobanner-content">
-                                <a class="banner-link" href="https://donate.bihus.info/" title="Підтримай Bihus.info!  | Bihus.info — антикорупційні журналістські розслідування"></a>
-                                <div class="infobanner-text text-center">
-                                    <p class="infobanner-top-text">{{ _("Підтримай команду журналістів та юристів Bihus.info") }}</p>
-                                    <a href="https://donate.bihus.info/" class="btn button-cta">{{ _("Я з вами") }}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            {% endblock %}
-
             {% block header %}
-                <div class="nav-block">
-                        <div class="container">
-                            <div class="row">
-                                <nav id="navbar" class="navbar navbar-default col-lg-8 col-md-12" role="navigation">
-                                    <div class="navbar-header">
-                                        <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
-                                            <span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo") }}"></use></svg></span>
+                <div class="header">
+                    <div class="header__inner">
+                        <div class="header__column header__mobile">
+
+                            <div class="mobile-menu-link">
+                                <div class="mobile-menu-link__line"></div>
+                                <div class="mobile-menu-link__line"></div>
+                                <div class="mobile-menu-link__line"></div>
+                            </div>
+
+
+                            {{ lang_switcher(LANGUAGES) }}
+                            {# <div class="lang-switch header__lang-switch">
+                                {% for language_code, language_name in LANGUAGES %}
+                                    <div class="lang-switch {% if LANGUAGE_CODE != language_code %}lang-switch__selected{% endif %}">
+                                        <a href="{{ translate_url(request, language_code) }}">
+                                            {% if language_code == "uk" %}
+                                                UA
+                                            {% else %}
+                                                {{ language_code }}
+                                            {% endif %}
                                         </a>
-                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
                                     </div>
-                                    <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
-                                        <ul class="nav navbar-nav">
-                                            {% for menuitem in top_menu %}
-                                            <li{% if menuitem.extra_class %} class="{{ menuitem.extra_class }}"{% endif %}><a href="{{ menuitem.link }}">{{ menuitem.translated_caption }}</a></li>
-                                            {% endfor %}
-                                            {% for language_code, language_name in LANGUAGES %}
-                                                {% if LANGUAGE_CODE != language_code %}
-                                                <li><a href="{{ translate_url(request, language_code) }}">{% if language_code == "uk" %}ua{% else %}{{ language_code }}{% endif %}</a></li>
-                                                {% endif %}
-                                            {% endfor %}                                            
-                                            <li class="bi-toggle-search"><a href="#" title="{{ _("розкрити пошук") }}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                                        </ul>
+                                {% endfor %}
+                            </div> #}
+                        </div>
+
+                        <div class="header__column">
+
+                            <div class="logo-block">
+                                <a href="{{ url("wagtail_serve", "") }}" class="logo-block__link">
+                                    <img class="logo-block__img_desktop" src="{{ static("images/logo.svg") }}" alt="Bihus logo">
+                                    <img class="logo-block__img_mobile" src="{{ static("images/logo-mobile.svg") }}" alt="Bihus logo">
+                                </a>
+                            </div>
+
+                            <div class="header__menu main-menu">
+                                {% for menuitem in top_menu %}
+                                    <div class="main-menu__item">
+                                        <a href="{{ menuitem.link }}" class="main-menu__link popup-btn">{{ menuitem.translated_caption }}</a>
                                     </div>
-                                </nav>
-                                <section id="block-sociallinksblock" class="col col-lg-4 col-md-4 col-sm-5 pull-right">
-                                    <ul>
-                                        <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </section>
-                                <div class="pull-right col">
-                                    {{ login_button(request.get_full_path()) }}
-                                    <button title="{{ _("Список порівнянь") }}" type="button" class="btn btn-info btn-green decl-compare-toggle hidden" data-toggle="modal" data-target=".decl-compare-modal"><i class="fa fa-balance-scale" aria-hidden="true"></i> <span class="badge"></span></button>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="header__column">
+                            <div class="compare-block header__compare">
+                                <div class="action-icon action-icon_dark compare-block__icon">
+                                    <img src="{{ static("images/icon/compare-black.svg") }}" alt="" class="action-icon__img">
+                                    <div class="action-icon__count">70+</div>
                                 </div>
+                            </div>
+
+                            <div class="account-block header__account">
+                                {{ login_button(request.get_full_path()) }}
+                            </div>
+
+                            {{ lang_switcher(LANGUAGES) }}
+
+                            <div class="header__support support-project-block">
+                                <a class="n-btn support-project-block__btn popup-btn donation-btn"
+                                data-width="664px"
+                                href="popup/donate.html">Підтримати проект</a>
                             </div>
                         </div>
                     </div>
+
+                    <div class="mobile-menu">
+                        <div class="mobile-menu__close-btn"></div>
+                        <div class="mobile-menu__inner">
+                            <div class="mobile-menu__top">
+                                <img src="{{ static("images/logo.svg") }}" alt="Bihus logo" class="mobile-menu__logo">
+                            </div>
+
+                            <div class="mobile-menu__items">
+                                {% for menuitem in top_menu %}
+                                    <div class="mobile-menu__item">
+                                        <a class="mobile-menu__link popup-btn" href="{{ menuitem.link }}">{{ menuitem.translated_caption }}</a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="mobile-menu__description">
+                                Bihus.info об'єднує антикорупційні проекти, які створює ГО "ТОМ 14" та ГО "Канцелярська сотня".
+                            </div>
+
+                            <a class="n-btn mobile-menu__donation popup-btn donation-btn"
+                               data-width="664px"
+                               href="popup/donate.html">Підтримати проект</a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+{#                 
+                
+                <div class="nav-block">
+                    <div class="container">
+                        <div class="row">
+                            <nav id="navbar" class="navbar navbar-default col-lg-8 col-md-12" role="navigation">
+                                <div class="navbar-header">
+                                    <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
+                                        <span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo") }}"></use></svg></span>
+                                    </a>
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
+                                </div>
+                                <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
+                                    <ul class="nav navbar-nav">
+                                        {% for menuitem in top_menu %}
+                                        <li{% if menuitem.extra_class %} class="{{ menuitem.extra_class }}"{% endif %}><a href="{{ menuitem.link }}">{{ menuitem.translated_caption }}</a></li>
+                                        {% endfor %}
+                                        {% for language_code, language_name in LANGUAGES %}
+                                            {% if LANGUAGE_CODE != language_code %}
+                                            <li><a href="{{ translate_url(request, language_code) }}">{% if language_code == "uk" %}ua{% else %}{{ language_code }}{% endif %}</a></li>
+                                            {% endif %}
+                                        {% endfor %}                                            
+                                        <li class="bi-toggle-search"><a href="#" title="{{ _("розкрити пошук") }}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                                        <li class="social-mobile"><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                        <li class="social-mobile"><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                        <li class="social-mobile"><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                                        <li class="social-mobile"><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                                        <li class="social-mobile"><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
+                                        <li class="social-mobile"><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                                    </ul>
+                                </div>
+                            </nav>
+                            <section id="block-sociallinksblock" class="col col-lg-4 col-md-4 col-sm-5 pull-right">
+                                <ul>
+                                    <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
+                                    <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </section>
+                            <div class="pull-right col">
+                                {{ login_button(request.get_full_path()) }}
+                                <button title="{{ _("Список порівнянь") }}" type="button" class="btn btn-info btn-green decl-compare-toggle hidden" data-toggle="modal" data-target=".decl-compare-modal"><i class="fa fa-balance-scale" aria-hidden="true"></i> <span class="badge"></span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="nav-search">
                     <div class="container">
@@ -229,7 +307,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> #}
             {% endblock %}
 
             {% block banner970_1 %}
@@ -248,7 +326,130 @@
         {% block content %}
         {% endblock %}
 
-        <footer id="footer">
+
+
+
+
+
+
+
+
+
+
+
+        <div class="footer">
+            <div class="container footer__inner">
+                <div class="footer__top">
+                    <div class="project-menu">
+                        <div class="project-menu__title">{{ _("Проекти") }}</div>
+
+                        <div class="project-menu__items">
+                            <div class="project-menu__item">
+                                <a href="https://declarations.com.ua/" class="project-menu__link">{{ _("декларації") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/laboratoriya-vikrittiv/" class="project-menu__link">{{ _("лабораторія викриттів") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://kotyky.org.ua/" class="project-menu__link">{{ _("котики") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/push" class="project-menu__link">{{ _("тисни!") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://ring.org.ua/" class="project-menu__link">{{ _("ring") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://www.youtube.com/playlist?list=PLj1W_YfyNdvmEDcNS9pAVpfBs8DKYCkvv" class="project-menu__link">{{ _("підсумки дна") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://www.youtube.com/playlist?list=PLj1W_YfyNdvlgQKoXEIdx3D4eVR4HlAtJ" class="project-menu__link">{{ _("наші гроші") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/programa-intervyu-vono-yak/" class="project-menu__link">{{ _("он воно як") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="http://posipaky.info/" class="project-menu__link">{{ _("посіпаки") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="http://posipaky-2.info/" class="project-menu__link">{{ _("посіпаки 2") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/gra-sliv/" class="project-menu__link">{{ _("гра слів") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/blogi-0/" class="project-menu__link">{{ _("блоги") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://declarations.com.ua/business-intelligence/" class="project-menu__link">{{ _("nevid") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/elektronne-bti-ebti" class="project-menu__link">{{ _("e.БТІ") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://garnahata.in.ua/" class="project-menu__link">{{ _("гарнахата") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://svoi.bihus.info/" class="project-menu__link">{{ _("свої люди") }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer__medium">
+
+                    <div class="project-description-block">
+                        <img src="img/logo-white.svg" alt="Bihus logo" class="project-description-block__logo">
+                        <div class="project-description-block__text">Bihus.info об'єднує антикорупційні проекти, які створює ГО
+                            "ТОМ 14" та ГО "Канцелярська сотня".
+                        </div>
+                    </div>
+
+                    <div class="footer__subscription subscription-block">
+                        <div class="subscription-block__title">Підписатися на розсилку</div>
+                        <iframe frameborder="0" src="https://secure.esputnik.com.ua/23oNbk6320s" width="80%" height="109" scrolling="no"></iframe>
+                        {# <form class="subscription-block__form subscription-form">
+                            <div class="subscription-form__input-wrap">
+                                <input class="n-input subscription-form__input" placeholder="Введіть ваш e-mail">
+                            </div>
+                            <button class="n-btn subscription-form__btn">Підписатись</button>
+                        </form> #}
+                    </div>
+                </div>
+
+                <div class="footer__bottom">
+                    <div class="social-block">
+                        <div class="social-block__title">Ми у соц мережах</div>
+                        <div class="social-block__items">
+                            <div class="social-block__item">
+                                <a href="https://www.facebook.com/bihus.info/" class="social-block__link social-link">
+                                    <img src="img/social/facebook-white.svg" alt="Facebook" class="social-link__icon">
+                                    <span class="social-link__title">Facebook</span>
+                                </a>
+                            </div>
+
+                            <div class="social-block__item">
+                                <a href="https://twitter.com/BihusInfo" class="social-block__link social-link">
+                                    <img src="img/social/twitter-white.svg" alt="Twitter" class="social-link__icon">
+                                    <span class="social-link__title">Twitter</span>
+                                </a>
+                            </div>
+
+                            <div class="social-block__item">
+                                <a href="https://www.youtube.com/bihusinfo" class="social-block__link social-link">
+                                    <img src="img/social/youtube-white.svg" alt="YouTube" class="social-link__icon">
+                                    <span class="social-link__title">YouTube</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="copyright-block footer__copyright">Bihus.info &copy; 2015 - 2020</div>
+                </div>
+            </div>
+        </div>
+
+        {# <footer id="footer">
             <div class="container wide-container">
                 <div class="row">
                     <div class="col-md-4 col wh100-col">
@@ -444,10 +645,10 @@
 
                 </div>
             </div>
-        </footer>
+        </footer> #}
     </div>
 
-    <div class="chatbot-menu">
+    {# <div class="chatbot-menu">
         <div class="btn trigger">
             <i class="fa fa-comments-o" aria-hidden="true"></i>
         </div>
@@ -482,9 +683,9 @@
             </div>
         </div>
         <span>{{ _("Чат боти декларацій") }}</span>
-    </div>
+    </div> #}
 
-    <div class="modal fade decl-compare-modal" tabindex="-1" role="dialog">
+    {# <div class="modal fade decl-compare-modal" tabindex="-1" role="dialog">
         <form method="GET" action="{{ url("compare") }}">
             <div class="modal-dialog container" role="document">
                 <div class="modal-content">
@@ -503,7 +704,7 @@
                 </div>
             </div>
         </form>
-    </div>
+    </div> #}
 
     {% javascript 'js_all' %}
 
@@ -563,6 +764,5 @@
         document.getElementById("mobileBannerCloseButton").style.display = 'none';
       }
     </script>
-
 </body>
 </html>

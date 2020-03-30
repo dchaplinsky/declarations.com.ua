@@ -1,3 +1,4 @@
+{% from "_search_form.jinja" import ex_search_form  with context %}
 {% extends "base.jinja" %}
 
 {% block extrahead %}
@@ -50,8 +51,8 @@
 
 {% block bodyclass %}front{% endblock %}
 
-    {% block header %}
-        <div class="nav-block">
+    {# {% block header %} #}
+        {# <div class="nav-block">
             <div class="container">
                 <div class="row">
                     <nav id="navbar" class="navbar navbar-inverse navbar-default col-sm-12" role="navigation">
@@ -93,31 +94,161 @@
                     </section>
                 </div>
             </div>
-        </div>
+        </div> #}
+    {# {% endblock %} #}
 
-        <div class="nav-search">
-            <div class="container">
-                <div class="row">
-                    <div class="search-block">
-                        <div id="front-searchbox" class="searchbox col-sm-12">
-                            <form action="{{ url("search") }}" method="GET">
-                            <div class="input-group">
-                                <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="{{ _("ПОШУК ДЕКЛАРАЦІЙ. Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба") }}" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
-                                    <span id="search_scope" class="input-group-btn">
-                                        <div class="checkbox"><label title="{{ _("Шукати по всьому тексту декларації, а не тільки по імені та посаді") }}"><input type="checkbox" name="deepsearch" {% if context_or_settings('deepsearch') %}checked="checked"{% endif %}> <span>{{ _("Шукати скрізь") }}</span></label></div>
-                                    </span>
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                                    </span>
+
+{% block social %}
+{% endblock %}
+
+{% block content %}
+    <div class="cp"></div>
+    <!-- clear padding -->
+    <div class="content container content__main">
+        <div class="main-page">
+            <div class="main-page__top"> 
+                <div class="main-page__top-wrap">   
+                    <div class="main-page__top-column">
+                        <div class="main-page__description">
+                            Ми знаходимо, розшифровуємо та публікуємо декларації чиновників
+                        </div>
+                        <h1 class="main-page__title">Викриваємо брехню про статки та майно</h1>
+                    </div>
+
+                    <div class="main-page__top-column">
+                        <div class="main-social-block">
+                            <div class="main-social-block__items">
+                                <div class="main-social-block__item">
+                                    <a href="https://www.facebook.com/bihus.info/" class="main-social-block__link social-link">
+                                        <img src="{{ static("images/social/facebook-black.svg") }}" alt="facebook" class="social-link__icon">
+                                    </a>
+                                </div>
+
+                                <div class="main-social-block__item">
+                                    <a href="https://twitter.com/BihusInfo" class="main-social-block__link social-link">
+                                        <img src="{{ static("images/social/twitter-black.svg") }}" alt="twitter" class="social-link__icon">
+                                    </a>
+                                </div>
+
+                                <div class="main-social-block__item">
+                                    <a href="https://www.youtube.com/bihusinfo" class="main-social-block__link social-link">
+                                        <img src="{{ static("images/social/youtube-black.svg") }}" alt="youtube" class="social-link__icon">
+                                    </a>
+                                </div>
+
+                                {# <div class="main-social-block__item">
+                                    <a href="#" class="main-social-block__link social-link">
+                                        <img src="{{ static("images/social/instagram-black.svg") }}" alt="instagram" class="social-link__icon">
+                                    </a>
+                                </div> #}
                             </div>
-                            </form>
-                            <a class="ex-search-link" href="{{ url("search") }}#exsearch" class="text-right">{{ _("Розширений пошук") }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-page__search">
+                {{ ex_search_form('', false) }}
+
+                {# <div class="nav-search">
+                    <div class="container">
+                        <div class="row">
+                            <div class="search-block">
+                                <div id="front-searchbox" class="searchbox col-sm-12">
+                                    <form action="{{ url("search") }}" method="GET">
+                                    <div class="input-group">
+                                        <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="{{ _("ПОШУК ДЕКЛАРАЦІЙ. Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба") }}" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                                            <span id="search_scope" class="input-group-btn">
+                                                <div class="checkbox">
+                                                    <label title="{{ _("Шукати по всьому тексту декларації, а не тільки по імені та посаді") }}">
+                                                        <input type="checkbox" name="deepsearch" {% if context_or_settings('deepsearch') %}checked="checked"{% endif %}>
+                                                        <span>{{ _("Шукати скрізь") }}</span>
+                                                    </label>
+                                                    </div>
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+                                            </span>
+                                    </div>
+                                    </form>
+                                    <a class="ex-search-link" href="{{ url("search") }}#exsearch" class="text-right">{{ _("Розширений пошук") }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> #}
+
+            </div>
+
+            <div class="promo-block main-page__promo">реклама або промо</div>
+
+            <div class="advantages-block main-page__advantages">
+                <h2 class="advantages-block__title">Наші переваги</h2>
+                <div class="advantages-block__items advantages-block__items_numeric">
+                    <div class="advantages-block__item advantages-block__item_numeric">
+                        <div class="advantages-block__item-number">1</div>
+                        <div class="advantages-block__item-title">Порівняння</div>
+                        <div class="advantages-block__item-text advantages-block__item-text_numeric">Хочете дізнатися у
+                            кого більше грошей? Додавайте декларантів у список порівнянь та дивіться аналіз за різними
+                            показниками. Щоб почати порівнювати знайдіть декілька декларацій та натисніть "Додати у
+                            порівняння"
+                        </div>
+                    </div>
+
+                    <div class="advantages-block__item advantages-block__item_numeric">
+                        <div class="advantages-block__item-number">2</div>
+                        <div class="advantages-block__item-title">Моніторинг</div>
+                        <div class="advantages-block__item-text advantages-block__item-text_numeric">Слідкуйте за
+                            змінами чи появою нових документів за домогою нашого сервісу. Інформація буде надходити на
+                            E-mail або RSS. Щоб створити нове завдання спробуйте щось знайти, а потім нажміть
+                            "Моніторити запит".
+                        </div>
+                    </div>
+
+                    <div class="advantages-block__item advantages-block__item_numeric">
+                        <div class="advantages-block__item-number">3</div>
+                        <div class="advantages-block__item-title">Аналітика</div>
+                        <div class="advantages-block__item-text advantages-block__item-text_numeric">Для тих хто любить
+                            цифри та графіки ми зробили круту аналітику і поділили ії на 8 розділів для вашої зручності
+                            Для тих хто любить цифри та графіки ми зробили круту аналітику i поділили ії на 8 розділів
+                            для вашої зручності
+                        </div>
+                    </div>
+
+                    <div class="advantages-block__item advantages-block__item_numeric">
+                        <div class="advantages-block__item-number">4</div>
+                        <div class="advantages-block__item-title">Чат-боти</div>
+                        <div class="advantages-block__item-text advantages-block__item-text_numeric">Ми створили
+                            кишенькових помічників — чат-ботів у популярних месенджерах Telegram, Messenger та Skype.
+                            Щоб розпочати роботу з ботом, додайте його у контакти:
+                        </div>
+                        <div class="advantages-block__bots advantages-block__bots_numeric">
+                            <div class="advantages-block__bots-items">
+                                <a href="#" class="advantages-block__bot-link social-link">
+                                    <img src="{{ static("images/bots/telegram.svg") }}" alt="telegram" class="social-link__icon">
+                                </a>
+                                <a href="#" class="advantages-block__bot-link social-link">
+                                    <img src="{{ static("images/bots/messenger.svg") }}" alt="messenger" class="social-link__icon">
+                                </a>
+                                <a href="#" class="advantages-block__bot-link social-link">
+                                    <img src="{{ static("images/bots/skype.svg") }}" alt="skype" class="social-link__icon">
+                                </a>
+                            </div>
+                            <a href="#" class="advantages-block__instruction-link advantages-block__instruction-link_btn">Покрокова iнструкцiя</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="infographics-on-main container">
+    </div>
+
+
+
+
+
+
+        
+        {# <div class="infographics-on-main container">
             <div class="viz" id="assets-wrapper" data-source="assets.total" data-d3-target="#assets">
                <h3>{{ _("Топ-100 за статками") }}</h3>
                <p class="loading" id="assets-loading-indicator">{{ _("Завантаження...") }}</p>
@@ -195,16 +326,7 @@
                     <a href="{{ url("business_intelligence") }}">{{ _("Ще більше крутої аналітики") }}</a>
                 </div>
             </div>
-        </div>
-    {% endblock %}
-
-
-{% block social %}
-{% endblock %}
-
-{% block content %}
-    <div class="cp"></div>
-    <!-- clear padding -->
+        </div> #}
 {% endblock %}
 
 {% block extra_js %}

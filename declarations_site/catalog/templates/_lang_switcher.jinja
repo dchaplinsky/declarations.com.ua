@@ -1,0 +1,15 @@
+{% macro lang_switcher(LANGUAGES) -%}
+<div class="lang-switch header__lang-switch">
+    {% for language_code, language_name in LANGUAGES %}
+        <div class="lang-switch{% if LANGUAGE_CODE != language_code %} lang-switch__selected{% endif %}">
+            <a href="{{ translate_url(request, language_code) }}">
+                {% if language_code == "uk" %}
+                    UA
+                {% else %}
+                    {{ language_code }}
+                {% endif %}
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{%- endmacro %}

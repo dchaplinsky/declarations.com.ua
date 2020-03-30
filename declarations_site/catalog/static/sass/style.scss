@@ -1,49 +1,7 @@
-@import 'utilites/lists';
-@import 'utilites/mixins';
-@import 'vars';
-@import 'typography';
-
-@import 'bootstrap';
-@import 'material';
-@import 'ripples';
-@import 'animate';
-@import 'preloader';
-
-@import 'base';
-@import 'user';
-@import 'forms';
-
-@import 'blocks/small-blocks';
-@import 'blocks/nav-block';
-@import 'blocks/search-block';
-@import 'blocks/infobox';
-@import 'blocks/news';
-@import 'blocks/footer';
-@import 'blocks/chatbot-menu';
-
-.search-page {
-  @import 'search';
-}
-
-@import 'analytics';
-@import 'responsive';
-
-.declaration-page {
-  @import 'pages/declaration';
-}
-
-@import 'pages/nacp_declarations';
-@import 'bi/widget_home';
-
-.front {
-  @import 'pages/front';
-  background: white;
-}
-
-.not-front {
-  @import 'pages/regular-page';
-}
-
-@import 'pages/compare';
-
-@import 'pages/bi-analytics-page';
+@import "font";
+@import "partials/utility";
+@import "partials/layout";
+@import "partials/typography";
+@import "partials/regions";
+@import "partials/components";
+@import "partials/pages";

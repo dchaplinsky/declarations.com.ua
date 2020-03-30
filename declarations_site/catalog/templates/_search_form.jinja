@@ -1,163 +1,499 @@
 {% macro ex_search_form(query, deepsearch) -%}
-        <div id="ex-search-form">
-            <div  class="container">
-                <form class="box" action="{{ url("search") }}" method="GET" id="ex-form">
+    <form class="search-form" action="{{ url("search") }}" method="GET">
+        <div class="search-form__columns">
+            <div class="search-form__left">
+                <div class="search-form__input-wrap">
+                    <input
+                        type="text"
+                        name="q"
+                        class="n-input search-form__input"
+                        autocomplete="off"
+                        value="{% if query %}{{ query }}{% endif %}"
+                        placeholder="{{ _("Приклад пошуку: Айварас Абромавичус; Cуддя; Хмельницька область") }}">
+                </div>
 
-                    <div class="input-group search-string">
-                        <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="{{ _("Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба") }}" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
-                        <span id="search_scope" class="input-group-btn">
-                            <div class="checkbox"><label title="{{ _("Шукати по всьому тексту декларації, а не тільки по імені та посаді") }}"><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>{{ _("Шукати скрізь") }}</span></label></div>
-                        </span>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                        </span>
+                <button class="n-btn n-btn_ico n-btn_search search-form__search">{{ _("Шукати") }}</button>
+            </div>
+
+            <div class="search-form__right">
+                <button class="n-btn n-btn_white search-form__deep-search">
+                    {{ _("Детальний пошук") }}
+                    <span class="search-form__deep-search-count filter-count" style="width: 0;">10</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="deep-search search-form__deep-search-block">
+            <div class="deep-search__title">{{ _("Я шукаю декларацію") }}</div>
+            <div class="deep-search__filter">
+                <div class="deep-search__filter-title">{{ _("Рік") }}</div>
+                <div class="deep-search__filter-body">
+                    <div class="filter-year">
+                        {% for year in range(2011, CURR_YEAR + 1) %}
+                            <div class="filter-year__item n-checkbox">
+                                <input type="checkbox" id="2019" name="donation" value="{{ year }}" class="n-checkbox__input">
+                                <label for="{{ year }}" class="n-checkbox__label">
+                                    <span class="n-checkbox__label-box"></span>
+                                    <span class="n-checkbox__label-text">{{ year }}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
                     </div>
+                </div>
+            </div>
 
-                    <a class="ex-search-link" role="button" data-toggle="collapse" href="#collapseExSearch"  aria-expanded="false" aria-controls="collapseExSearch">
-                        {{ _("Розширений пошук") }}
-                    </a>
-                    <div class="collapse" id="collapseExSearch">
-                        <div class="row">
-                            <div class="col-sm-6 col-md-4 col col-1">
-                                <!-- Рік -->
-                                <div class="fieldset-container">
-                                    <fieldset>
-                                        <legend>{{ _("Рік:") }}</legend>
-                                        <div class="dropdown">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownYear" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                {{ _("Рік:") }}
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownYear" data-linked-input="search-field-year">
-                                                <li><a href="#" data-value="">{{ _("Рік:") }}</a></li>
-                                                <li role="separator" class="divider"></li>
-                                                {% for year in range(2011, CURR_YEAR + 1) %}
-                                                    <li><a href="#" data-value="{{ year }}">{{ year }}</a></li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                        <input id="search-field-year" name="declaration_year" class="linked-input" type="hidden" />
-                                    </fieldset>
+            <div class="deep-search__filter filter__document-position">
+                <div class="deep-search__filter-title">
+                    <div class="desktop">{{ _("Тип документу чи посади") }}</div>
+                    <div class="mobile">{{ _("Тип документу") }}</div>
+                </div>
 
-                                    <!-- Тип документу -->
-                                    <fieldset>
-                                        <legend>{{ _("Тип документу:") }}</legend>
-                                        <div class="dropdown">
-                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownDocType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                {{ _("Тип документу:") }}
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownDocType" data-linked-input="search-field-doctype">
-                                                <li><a href="#" data-value="">{{ _("Тип документу:") }}</a></li>
-                                                <li role="separator" class="divider"></li>
-                                                <li><a href="#" data-value="Щорічна">{{ _("Щорічна") }}</a></li>
-                                                <li><a href="#" data-value="Перед звільненням">{{ _("Перед звільненням") }}</a></li>
-                                                <li><a href="#" data-value="Після звільнення">{{ _("Після звільнення") }}</a></li>
-                                                <li><a href="#" data-value="Кандидата на посаду">{{ _("Кандидата на посаду") }}</a></li>
-                                                <li><a href="#" data-value="Форма змін">{{ _("Форма змін") }}</a></li>
-                                            </ul>
-                                        </div>
-                                        <input id="search-field-doctype" name="doc_type" class="linked-input" type="hidden" />
-                                    </fieldset>
+                <div class="deep-search__filter-body">
+                    <div class="position-filter">
+                        <div class="position-filter__param position-filter__document">
+                            <div class="position-filter__param-title">{{ _("Тип документу") }}</div>
+                            <div class="position-filter__param-items">
+                                <div class="position-filter__param-column">
+                                    <div class="position-filter__param-item n-checkbox">
+                                        <input type="checkbox"
+                                            id="document-yearly"
+                                            value="Щорічна"
+                                            class="n-checkbox__input">
+                                        <label for="document-yearly" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">{{ _("Щорічна") }}</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="position-filter__param-item n-checkbox">
+                                        <input type="checkbox"
+                                            id="document-before-firing"
+                                            value="Перед звільненням"
+                                            class="n-checkbox__input">
+                                        <label for="document-before-firing" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">{{ _("Перед звільненням") }}</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="position-filter__param-item n-checkbox">
+                                        <input type="checkbox"
+                                            id="document-candidate"
+                                            value="Кандидата на посаду"
+                                            class="n-checkbox__input">
+                                        <label for="document-candidate" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">{{ _("Кандидата на посаду") }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="position-filter__param-column">
+                                    <div class="position-filter__param-item n-checkbox">
+                                        <input type="checkbox"
+                                            id="document-after-firing"
+                                            value="Після звільнення"
+                                            class="n-checkbox__input">
+                                        <label for="document-after-firing" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">{{ _("Після звільнення") }}</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="position-filter__param-item n-checkbox">
+                                        <input type="checkbox"
+                                            id="document-change-form"
+                                            value="Форма змін"
+                                            class="n-checkbox__input">
+                                        <label for="document-change-form" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">{{ _("Форма змін") }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {# <div class="col-sm-6 col-md-4 col col-2">
+                            <fieldset>
+                                <legend>{{ _("Тип посади:") }}</legend>
+                            <span class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="post_type" value="державної">
+                                        <span>{{ _("Посада державної служби") }}</span></label>
+                                </div>
+                            </span>
+                            <span class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="post_type" value="місцевого">
+                                        <span>{{ _("Посада в органах місцевого самоврядування") }}</span></label>
+                                </div>
+                            </span>
+                            <span class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="post_type" value="юридичної">
+                                        <span>{{ _("Посадова особа юридичної особи публічного права") }}</span></label>
+                                </div>
+                            </span>
+                            </fieldset>
+                        </div> #}
+                        <div class="position-filter__param position-filter__position">
+                            <div class="position-filter__param-title">{{ _("Тип посади") }}</div>
+                            <div class="position-filter__param-items">
+
+                                <div class="position-filter__param-column">
+                                    <div class="position-filter__param-item n-checkbox">
+                                        <input type="checkbox" name="post_type" id="state-service" value="державної" class="n-checkbox__input">
+                                        <label for="state-service" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">{{ _("Державна служба") }}</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="position-filter__param-item n-checkbox">
+                                        <input type="checkbox" id="municipality" value="місцевого" class="n-checkbox__input">
+                                        <label for="municipality" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">{{ _("Орган місцевого самоврядування") }}</span>
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                                <div class="position-filter__param-column">
+                                    <div class="position-filter__param-item n-checkbox">
+                                        <input type="checkbox" id="official" value="юридичної" class="n-checkbox__input">
+                                        <label for="official" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">{{ _("Посадова особа юридичної особи публічного права") }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="deep-search__filter">
+                <div class="deep-search__filter-title">{{ _("Ризик-фактори") }}</div>
+                <div class="deep-search__filter-body">
+                    <div class="risk-filter">
+                        <div class="risk-filter__items">
+                            <div class="risk-filter__column">
+                                <div class="risk-filter__item n-checkbox">
+                                    <input type="checkbox" id="risk-1" value="Активи в 10+ разів перевищують доходи" class="n-checkbox__input">
+                                    <label for="risk-1" class="n-checkbox__label">
+                                        <span class="n-checkbox__label-box"></span>
+                                        <span class="n-checkbox__label-text">Активи в 10+ разів перевищують доходи</span>
+                                    </label>
+                                </div>
+
+                                <div class="risk-filter__item n-checkbox">
+                                    <input type="checkbox"
+                                        id="risk-3"
+                                        value="Борги у 2+ разів перевищують активи та доходи"
+                                        class="n-checkbox__input">
+                                    <label for="risk-3" class="n-checkbox__label">
+                                        <span class="n-checkbox__label-box"></span>
+                                        <span class="n-checkbox__label-text">Борги у 2+ разів перевищують активи та доходи</span>
+                                    </label>
+                                </div>
+
+                                <div class="risk-filter__item n-checkbox">
+                                    <input type="checkbox"
+                                        id="risk-5"
+                                        value="Не вказана вартість нерухомості придбаної у поточному році"
+                                        class="n-checkbox__input">
+                                    <label for="risk-5" class="n-checkbox__label">
+                                        <span class="n-checkbox__label-box"></span>
+                                        <span class="n-checkbox__label-text">Не вказана вартість нерухомості придбаної у поточному&nbsp;році</span>
+                                    </label>
                                 </div>
                             </div>
 
-                            <!-- Тип посади -->
-                            <div class="col-sm-6 col-md-4 col col-2">
-                                <fieldset>
-                                    <legend>{{ _("Тип посади:") }}</legend>
-                                <span class="form-group">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="post_type" value="державної">
-                                            <span>{{ _("Посада державної служби") }}</span></label>
-                                    </div>
-                                </span>
-                                <span class="form-group">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="post_type" value="місцевого">
-                                            <span>{{ _("Посада в органах місцевого самоврядування") }}</span></label>
-                                    </div>
-                                </span>
-                                <span class="form-group">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="post_type" value="юридичної">
-                                            <span>{{ _("Посадова особа юридичної особи публічного права") }}</span></label>
-                                    </div>
-                                </span>
-                                </fieldset>
+                            <div class="risk-filter__column">
+                                <div class="risk-filter__item n-checkbox">
+                                    <input type="checkbox"
+                                        id="risk-2"
+                                        value="Не вказана вартість транспорту придбаного у поточному році"
+                                        class="n-checkbox__input">
+                                    <label for="risk-2" class="n-checkbox__label">
+                                        <span class="n-checkbox__label-box"></span>
+                                        <span class="n-checkbox__label-text">Не вказана вартість транспорту придбаного у поточному&nbsp;році</span>
+                                    </label>
+                                </div>
+
+                                <div class="risk-filter__item n-checkbox">
+                                    <input type="checkbox"
+                                        id="risk-4"
+                                        value="Готівка понад 5 млн грн"
+                                        class="n-checkbox__input">
+                                    <label for="risk-4" class="n-checkbox__label">
+                                        <span class="n-checkbox__label-box"></span>
+                                        <span class="n-checkbox__label-text">Готівка понад 5 млн грн</span>
+                                    </label>
+                                </div>
+
+                                <div class="risk-filter__item n-checkbox">
+                                    <input type="checkbox"
+                                        id="risk-6"
+                                        value="Борги у 2+ разів перевищують активи та доходи"
+                                        class="n-checkbox__input">
+                                    <label for="risk-6" class="n-checkbox__label">
+                                        <span class="n-checkbox__label-box"></span>
+                                        <span class="n-checkbox__label-text">Борги у 2+ разів перевищують активи та доходи</span>
+                                    </label>
+                                </div>
                             </div>
-
-                            <!-- Регіон -->
-                            <div class="col-sm-6 col-md-4 col col-3">
-                                <fieldset>
-                                    <legend>{{"Регіон:"}}</legend>
-                                    <div class="dropdown form-group">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownRegion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            {{ _("Регіон:") }}
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownRegion" data-linked-input="search-field-region">
-                                            <li><a href="#" data-value="">{{ _("Регіон:") }}</a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a href="#" data-value="м. Київ">{{ _("м. Київ") }}</a></li>
-                                            <li><a href="#" data-value="Вінницька область">{{ _("Вінницька область") }}</a></li>
-                                            <li><a href="#" data-value="Волинська область">{{ _("Волинська область") }}</a></li>
-                                            <li><a href="#" data-value="Дніпропетровська область">{{ _("Дніпропетровська область") }}</a></li>
-                                            <li><a href="#" data-value="Донецька область">{{ _("Донецька область") }}</a></li>
-                                            <li><a href="#" data-value="Житомирська область">{{ _("Житомирська область") }}</a></li>
-                                            <li><a href="#" data-value="Закарпатська область">{{ _("Закарпатська область") }}</a></li>
-                                            <li><a href="#" data-value="Запорізька область">{{ _("Запорізька область") }}</a></li>
-                                            <li><a href="#" data-value="Івано-Франківська область">{{ _("Івано-Франківська область") }}</a></li>
-                                            <li><a href="#" data-value="Київська область">{{ _("Київська область") }}</a></li>
-                                            <li><a href="#" data-value="Кіровоградська область">{{ _("Кіровоградська область") }}</a></li>
-                                            <li><a href="#" data-value="Львівська область">{{ _("Львівська область") }}</a></li>
-                                            <li><a href="#" data-value="Луганська область">{{ _("Луганська область") }}</a></li>
-                                            <li><a href="#" data-value="Миколаївська область">{{ _("Миколаївська область") }}</a></li>
-                                            <li><a href="#" data-value="Одеська область">{{ _("Одеська область") }}</a></li>
-                                            <li><a href="#" data-value="Полтавська область">{{ _("Полтавська область") }}</a></li>
-                                            <li><a href="#" data-value="Рівненська область">{{ _("Рівненська область") }}</a></li>
-                                            <li><a href="#" data-value="Сумська область">{{ _("Сумська область") }}</a></li>
-                                            <li><a href="#" data-value="Тернопільська область">{{ _("Тернопільська область") }}</a></li>
-                                            <li><a href="#" data-value="Харківська область">{{ _("Харківська область") }}</a></li>
-                                            <li><a href="#" data-value="Херсонська область">{{ _("Херсонська область") }}</a></li>
-                                            <li><a href="#" data-value="Хмельницька область">{{ _("Хмельницька область") }}</a></li>
-                                            <li><a href="#" data-value="Черкаська область">{{ _("Черкаська область") }}</a></li>
-                                            <li><a href="#" data-value="Чернівецька область">{{ _("Чернівецька область") }}</a></li>
-                                            <li><a href="#" data-value="Чернігівська область">{{ _("Чернігівська область") }}</a></li>
-                                            <li><a href="#" data-value="Кримська Автономна Республіка">{{ _("Кримська Автономна Республіка") }}</a></li>
-                                            <li><a href="#" data-value="Севастополь">{{ _("м. Севастополь") }}</a></li>
-                                        </ul>
-                                    </div>
-                                    <input id="search-field-region" class="linked-input" type="hidden" name="region_value" />
-
-                                    <div class="form-group">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="region_type" value="region" id="search-field-region_type-1">
-                                                {{ _("Регіон реєстрації") }}
-                                            </label>
-                                        </div>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="region_type" value="actual_region" id="search-field-region_type-2">
-                                                {{ _("Регіон фактичного проживання") }}
-                                            </label>
-                                        </div>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="region_type" value="estate_region" id="search-field-region_type-3">
-                                                {{ _("Регіон задекларованої нерухомості") }}
-                                            </label>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-
                         </div>
-                        <a id="clear-filters" href="#">{{ _("Скинути усі фільтри") }}</a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="deep-search__filter">
+                <div class="deep-search__filter-title">
+                    <div class="desktop">{{ _("Регіон та область") }}</div>
+                    <div class="mobile">{{ _("Регіон") }}</div>
+                </div>
+
+                <div class="deep-search__filter-body">
+                    <div class="region-type-filter">
+                        <div class="region-type-filter__title">{{ _("Регіон") }}</div>
+                        <div class="region-type-filter__items">
+
+                            <div class="region-type-filter__item n-checkbox">
+                                <input type="checkbox"
+                                    id="region-type-1"
+                                    name="region_type"
+                                    value="actual_region"
+                                    class="n-checkbox__input">
+                                <label for="region-type-1" class="n-checkbox__label">
+                                    <span class="n-checkbox__label-box"></span>
+                                    <span class="n-checkbox__label-text">{{ _("Регіон фактичного проживання") }}</span>
+                                </label>
+                            </div>
+
+                            <div class="region-type-filter__item n-checkbox">
+                                <input type="checkbox" id="region-type-2" name="region_type" value="region" class="n-checkbox__input">
+                                <label for="region-type-2" class="n-checkbox__label">
+                                    <span class="n-checkbox__label-box"></span>
+                                    <span class="n-checkbox__label-text">{{ _("Регіон реєстрації") }}</span>
+                                </label>
+                            </div>
+
+                            <div class="region-type-filter__item n-checkbox">
+                                <input type="checkbox"
+                                    id="region-type-2"
+                                    name="region_type"
+                                    value="estate_region"
+                                    class="n-checkbox__input">
+                                <label for="region-type-2" class="n-checkbox__label">
+                                    <span class="n-checkbox__label-box"></span>
+                                    <span class="n-checkbox__label-text">{{ _("Регіон задекларованої нерухомості") }}</span>
+                                </label>
+                            </div>                                            
+                        </div>
                     </div>
 
-                </form>
+                    {% set regions = [
+                        'м. Київ', 'Вінницька область', 'Волинська область', 'Дніпропетровська область',
+                        'Донецька область', 'Житомирська область', 'Закарпатська область',
+                        'Запорізька область', 'Івано-Франківська область', 'Київська область',
+                        'Кіровоградська область', 'Львівська область', 'Луганська область', 'Миколаївська область',
+                        'Одеська область', 'Полтавська область', 'Рівненська область', 'Сумська область',
+                        'Тернопільська область', 'Харківська область', 'Херсонська область', 'Хмельницька область',
+                        'Черкаська область', 'Чернівецька область', 'Чернігівська область', 'Кримська Автономна Республіка',
+                        'Севастополь'
+                    ] %}
+                    <div class="region-filter">
+                        <div class="region-filter__title">Область</div>
+                        <div class="region-filter__items-wrap">
+                            <div class="region-filter__items">
+                                {% for region in regions %}
+                                    <div class="region-filter__item n-checkbox">
+                                        <input type="checkbox"
+                                            id="region-{{ loop.index }}"
+                                            value="{{ region }}"
+                                            class="n-checkbox__input">
+                                        <label for="region-{{ loop.index }}" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">
+                                                {% if region.endswith('область') %}{{ _(region[:-8]) }}{% else %}{{ _(region) }}{% endif %}
+                                            </span>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
+    {# <div id="ex-search-form">
+        <div  class="container">
+            <form class="box" action="{{ url("search") }}" method="GET" id="ex-form">
+
+                <div class="input-group search-string">
+                    <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="{{ _("Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба") }}" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
+                    <span id="search_scope" class="input-group-btn">
+                        <div class="checkbox"><label title="{{ _("Шукати по всьому тексту декларації, а не тільки по імені та посаді") }}"><input type="checkbox" name="deepsearch" {% if deepsearch %}checked="checked"{% endif %}> <span>{{ _("Шукати скрізь") }}</span></label></div>
+                    </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
+                    </span>
+                </div>
+
+                <a class="ex-search-link" role="button" data-toggle="collapse" href="#collapseExSearch"  aria-expanded="false" aria-controls="collapseExSearch">
+                    {{ _("Розширений пошук") }}
+                </a>
+                <div class="collapse" id="collapseExSearch">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-4 col col-1">
+                            <!-- Рік -->
+                            <div class="fieldset-container">
+                                <fieldset>
+                                    <legend>{{ _("Рік:") }}</legend>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownYear" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            {{ _("Рік:") }}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownYear" data-linked-input="search-field-year">
+                                            <li><a href="#" data-value="">{{ _("Рік:") }}</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            {% for year in range(2011, CURR_YEAR + 1) %}
+                                                <li><a href="#" data-value="{{ year }}">{{ year }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <input id="search-field-year" name="declaration_year" class="linked-input" type="hidden" />
+                                </fieldset>
+
+                                <!-- Тип документу -->
+                                <fieldset>
+                                    <legend>{{ _("Тип документу:") }}</legend>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownDocType" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            {{ _("Тип документу:") }}
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownDocType" data-linked-input="search-field-doctype">
+                                            <li><a href="#" data-value="">{{ _("Тип документу:") }}</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#" data-value="Щорічна">{{ _("Щорічна") }}</a></li>
+                                            <li><a href="#" data-value="Перед звільненням">{{ _("Перед звільненням") }}</a></li>
+                                            <li><a href="#" data-value="Після звільнення">{{ _("Після звільнення") }}</a></li>
+                                            <li><a href="#" data-value="Кандидата на посаду">{{ _("Кандидата на посаду") }}</a></li>
+                                            <li><a href="#" data-value="Форма змін">{{ _("Форма змін") }}</a></li>
+                                        </ul>
+                                    </div>
+                                    <input id="search-field-doctype" name="doc_type" class="linked-input" type="hidden" />
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        <!-- Тип посади -->
+                        <div class="col-sm-6 col-md-4 col col-2">
+                            <fieldset>
+                                <legend>{{ _("Тип посади:") }}</legend>
+                            <span class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="post_type" value="державної">
+                                        <span>{{ _("Посада державної служби") }}</span></label>
+                                </div>
+                            </span>
+                            <span class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="post_type" value="місцевого">
+                                        <span>{{ _("Посада в органах місцевого самоврядування") }}</span></label>
+                                </div>
+                            </span>
+                            <span class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="post_type" value="юридичної">
+                                        <span>{{ _("Посадова особа юридичної особи публічного права") }}</span></label>
+                                </div>
+                            </span>
+                            </fieldset>
+                        </div>
+
+                        <!-- Регіон -->
+                        <div class="col-sm-6 col-md-4 col col-3">
+                            <fieldset>
+                                <legend>{{"Регіон:"}}</legend>
+                                <div class="dropdown form-group">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownRegion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        {{ _("Регіон:") }}
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownRegion" data-linked-input="search-field-region">
+                                        <li><a href="#" data-value="">{{ _("Регіон:") }}</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#" data-value="м. Київ">{{ _("м. Київ") }}</a></li>
+                                        <li><a href="#" data-value="Вінницька область">{{ _("Вінницька область") }}</a></li>
+                                        <li><a href="#" data-value="Волинська область">{{ _("Волинська область") }}</a></li>
+                                        <li><a href="#" data-value="Дніпропетровська область">{{ _("Дніпропетровська область") }}</a></li>
+                                        <li><a href="#" data-value="Донецька область">{{ _("Донецька область") }}</a></li>
+                                        <li><a href="#" data-value="Житомирська область">{{ _("Житомирська область") }}</a></li>
+                                        <li><a href="#" data-value="Закарпатська область">{{ _("Закарпатська область") }}</a></li>
+                                        <li><a href="#" data-value="Запорізька область">{{ _("Запорізька область") }}</a></li>
+                                        <li><a href="#" data-value="Івано-Франківська область">{{ _("Івано-Франківська область") }}</a></li>
+                                        <li><a href="#" data-value="Київська область">{{ _("Київська область") }}</a></li>
+                                        <li><a href="#" data-value="Кіровоградська область">{{ _("Кіровоградська область") }}</a></li>
+                                        <li><a href="#" data-value="Львівська область">{{ _("Львівська область") }}</a></li>
+                                        <li><a href="#" data-value="Луганська область">{{ _("Луганська область") }}</a></li>
+                                        <li><a href="#" data-value="Миколаївська область">{{ _("Миколаївська область") }}</a></li>
+                                        <li><a href="#" data-value="Одеська область">{{ _("Одеська область") }}</a></li>
+                                        <li><a href="#" data-value="Полтавська область">{{ _("Полтавська область") }}</a></li>
+                                        <li><a href="#" data-value="Рівненська область">{{ _("Рівненська область") }}</a></li>
+                                        <li><a href="#" data-value="Сумська область">{{ _("Сумська область") }}</a></li>
+                                        <li><a href="#" data-value="Тернопільська область">{{ _("Тернопільська область") }}</a></li>
+                                        <li><a href="#" data-value="Харківська область">{{ _("Харківська область") }}</a></li>
+                                        <li><a href="#" data-value="Херсонська область">{{ _("Херсонська область") }}</a></li>
+                                        <li><a href="#" data-value="Хмельницька область">{{ _("Хмельницька область") }}</a></li>
+                                        <li><a href="#" data-value="Черкаська область">{{ _("Черкаська область") }}</a></li>
+                                        <li><a href="#" data-value="Чернівецька область">{{ _("Чернівецька область") }}</a></li>
+                                        <li><a href="#" data-value="Чернігівська область">{{ _("Чернігівська область") }}</a></li>
+                                        <li><a href="#" data-value="Кримська Автономна Республіка">{{ _("Кримська Автономна Республіка") }}</a></li>
+                                        <li><a href="#" data-value="Севастополь">{{ _("м. Севастополь") }}</a></li>
+                                    </ul>
+                                </div>
+                                <input id="search-field-region" class="linked-input" type="hidden" name="region_value" />
+
+                                <div class="form-group">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="region_type" value="region" id="search-field-region_type-1">
+                                            {{ _("Регіон реєстрації") }}
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="region_type" value="actual_region" id="search-field-region_type-2">
+                                            {{ _("Регіон фактичного проживання") }}
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="region_type" value="estate_region" id="search-field-region_type-3">
+                                            {{ _("Регіон задекларованої нерухомості") }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+
+                    </div>
+                    <a id="clear-filters" href="#">{{ _("Скинути усі фільтри") }}</a>
+                </div> #}
+
+            </form>
         </div>
+    </div>
 {%- endmacro %}
