@@ -129,7 +129,7 @@
             </div>
         </div>
         {% if declaration.declaration.url %}
-        <div class="container page-content{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}">
+        <div class="container page-content{% if declaration.declaration.source == "CHESNO" %} chesno{% endif %}">
         {% else %}
         <div class="container page-content">
         {% endif %}
@@ -143,11 +143,12 @@
             {% if declaration.aggregated %}
             <a href="#" class="add2compare-list on-page-button" title="{{ _("Додати у список порівнянь") }}"><i class="fa fa-balance-scale" aria-hidden="true"></i> {{ _("Додати декларацію у список порівнянь") }}</a>
             {% endif %}
-            <div class="box">
-                {% if declaration.declaration.url %}
-                    <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank" rel="nofollow"><i></i><span>{{ _("Оригінал декларації") }}</span></a></div>
-                {% endif %}
+            {% if declaration.declaration.url %}
+                <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank" rel="nofollow"><i></i><span>{{ _("Оригінал декларації") }}</span></a></div>
+            {% endif %}
 
+
+            <div class="box">
                 {% if declaration.declaration.source == "NACP" %}
                     <div id="nacp_decl" class="nacp-decl">
                         {{ procurements_details(declaration) }}

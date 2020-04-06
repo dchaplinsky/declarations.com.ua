@@ -147,13 +147,16 @@ class Command(BaseCommand):
                 Q("term", **{"{}__outlier".format(AGGREGATED_FIELD_NAME): True})
             ]
         ).sort(
-            {'aggregated.{}'.format(order_by): {"order": "desc"}}
+            {'{}.{}'.format(AGGREGATED_FIELD_NAME, order_by): {"order": "desc"}}
         )[:limit]
 
         res = []
 
         for d in to_export.execute():
             row = d[AGGREGATED_FIELD_NAME].to_dict()
+            if row[order_by] > 10000000000:
+                continue
+
             row["id"] = d._id
             res.append(row)
 

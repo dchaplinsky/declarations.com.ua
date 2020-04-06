@@ -156,13 +156,9 @@
     display: block;
 
     @media (min-width: 768px) {
-        position: absolute;
-        right: 30px;
-        top: 10px;
-    }
-
-    @media (min-width: 1200px) {
-        top: 42px;
+        position: relative;
+        float: right;
+        line-height: 48px;
     }
 
     i {
@@ -179,6 +175,7 @@
     a {
         color: #2196f3;
         text-decoration: none;
+        line-height: 48px;
 
         &:hover {
             text-decoration: none;
@@ -216,6 +213,7 @@
             &:hover {
                 span {
                     display: inline;
+                    line-height: 48px;
                 }
 
                 i {
