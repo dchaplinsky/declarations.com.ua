@@ -22,6 +22,7 @@ class StaticPage(Page):
     body = RichTextField(verbose_name="[UA] Текст сторінки")
     body_en = RichTextField(verbose_name="[EN] Текст сторінки")
     template = "cms_pages/static_page.jinja"
+    ajax_template = "cms_pages/headless_static_page.jinja"
 
     class Meta:
         verbose_name = "Статична сторінка"
@@ -44,6 +45,7 @@ class RawHTMLPage(Page):
     body = models.TextField(verbose_name="[UA] Текст сторінки")
     body_en = models.TextField(verbose_name="[EN] Текст сторінки")
     template = "cms_pages/static_page.jinja"
+    ajax_template = "cms_pages/headless_static_page.jinja"
 
     class Meta:
         verbose_name = "Raw-HTML сторінка"
