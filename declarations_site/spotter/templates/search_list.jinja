@@ -1,12 +1,239 @@
 {% extends "base.jinja" %}
 
 {% from "_spotter.jinja" import flash_messages, subscribe_chatbot_links %}
+{% from "_search_form.jinja" import ex_search_form  with context %}
 
 {% block html_title -%}{{ _("Мої запити") }}{%- endblock %}
 
 
 {% block content %}
-<section id="page">
+    <div class="content container">
+        <div class="profile-page">
+            <div class="profile-page__form-block">
+                {{ ex_search_form('', false) }}
+            </div>
+
+            <div class="profile-page__top">
+                <div class="tabs profile-page__tabs">
+                    <div class="tabs__item">
+                        <a href="{{ url("search_list") }}" class="tabs__link tabs__link_active">
+                            {{ _("Мої запити") }}
+                        </a>
+                    </div>
+                    <div class="tabs__item">
+                        <a href="profile-find.html" class="tabs__link">
+                            {{ _("Мої знахідки") }}
+                        </a>
+                    </div>
+                </div>
+
+                <a class="n-btn profile-page__request-btn popup-btn"
+                   data-width="464px"
+                   data-href="{{ url('save_search') }}"
+                   id="add-multi"
+                   href="add-request-template">{{ _("Додати запити") }}</a>
+            </div>
+
+            <div class="profile-page__tab-content">
+                {{ flash_messages(messages) }}
+                <div class="request-block">
+                    <div class="request-block__description">Щоб створити нове завдання нажмiть “Додати запити”, або
+                        спробуйте щось знайти та нажмiть “Монiторити запит” Також ви можете підписатись і отримувати
+                        сповіщення у ваш улюблений месенджер: Skype, Telegram та Facebook Messenger.
+                    </div>
+
+                    <div class="request-block__list">
+                        <div class="request-block__list-header">
+                            <div class="request-block__list-title">{{ _("Запит")}}</div>
+                            <div class="request-block__list-title"></div>
+                            <div class="request-block__list-title">{{ _("Знайдено") }}</div>
+                            <div class="request-block__list-title">{{ _("За тиждень") }}</div>
+                            <div class="request-block__list-title">{{ _("E-mail нагадування") }}</div>
+                            <div class="request-block__list-title"></div>
+                        </div>
+
+                        {% for task in task_list %}
+                            <div class="request-block__list-item request-row">
+                                <div class="request-row__name">
+                                    <a href="{{ url('search') }}?q={{ task.query }}{%
+                                        if task.deepsearch %}&deepsearch=on{% endif %}{%
+                                                if task.query_params %}&{{ task.query_params }}{% endif %}"
+                                                title="{{ _("Перейти до пошуку") }}">
+                                            {{ task.query_title }}
+                                    </a>
+                                </div>
+                                {# <div class="request-row__rss">
+                                    <button class="n-btn n-btn_gray request-row__rss-btn">RSS</button>
+                                </div> #}
+                                <div class="request-row__find">
+                                    <div class="request-row__item-name">{{ _("Знайдено") }}</div>
+                                    <div class="request-row__item-count">{{ task.found_total }}</div>
+                                </div>
+                                <div class="request-row__week">
+                                    <div class="request-row__item-name">{{ _("За тиждень") }}</div>
+                                    <div class="request-row__item-count">{{ task.found_week }}</div>
+                                </div>
+                                <div class="request-row__email">
+                                    <div class="request-row__item-name">{{ _("E-mail нагадування") }}</div>
+                                    <div class="email-notification">
+                                        <form method="POST" action="{{ url('edit_search', task.id )}}">
+                                            {% csrf_token %}
+                                            {% if task.is_enabled %}
+                                                <span class="email-notification__status">{{ _("В роботі") }}</span>
+                                                <button class="email-notification__icon email-notification__pause"
+                                                    type="submit" name="action" value="disable"
+                                                    title="{{ _("Призупинити") }}">
+                                                    {{ _("Призупинити") }}
+                                                </button>
+                                            {% else %}
+                                                <span class="email-notification__status">{{ _("На паузі") }}</span>
+                                                <button class="email-notification__icon email-notification__play"
+                                                    type="submit" name="action" value="enable"
+                                                    title="{{ _("Відновити") }}">
+                                                    {{ _("Відновити") }}
+                                                </button>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="request-row__close">
+                                    <button class="close-btn" type="submit" name="action" value="delete">
+                                        {{ _("Видалити") }}
+                                    </button>
+                                </div>
+                            </div>
+
+                                {# <tr>
+                                    <td>
+                                        <a href="{{ url('search') }}?q={{ task.query }}{%
+                                                if task.deepsearch %}&deepsearch=on{% endif %}{%
+                                                if task.query_params %}&{{ task.query_params }}{% endif %}"
+                                                title="{{ _("Перейти до пошуку") }}">
+                                            {{ task.query_title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ task.found_total }}</td>
+                                    <td>{{ task.found_week }}</td>
+                                    <td>{% if task.is_enabled %}
+                                        {% if task.is_allowed_edit_email %}
+                                        <a href="{{ url('edit_email') }}">{{ task.user.email }}</a>
+                                        {% else %}{{ task.display_email }}{% endif %}{% else %}-{% endif %}
+                                    </td>
+                                    <td>{% if task.is_enabled %}{{ _("В роботі") }}{% else %}{{ _("На паузі") }}{% endif %}</td>
+                                    <td>
+                                        <form method="POST" action="{{ url('edit_search', task.id )}}">
+                                            {% csrf_token %}
+                                            {% if task.is_enabled %}
+                                            <button class="btn btn-link" type="submit" name="action"
+                                                value="disable">{{ _("Призупинити") }}</button>
+                                            {% else %}
+                                            <button class="btn btn-link" type="submit" name="action"
+                                                value="enable">{{ _("Відновити") }}</button>
+                                            {% endif %} |
+                                            <button  class="btn btn-link delete" type="submit"
+                                                name="action" value="delete">{{ _("Видалити") }}</button>
+                                        </form>
+                                    </td>
+                                </tr> #}
+                        {% endfor %}
+                        {# <div class="request-block__list-item request-row">
+                            <div class="request-row__name">Магамадова Танзіла</div>
+                            <div class="request-row__rss">
+                                <button class="n-btn n-btn_gray request-row__rss-btn">RSS</button>
+                            </div>
+                            <div class="request-row__find">
+                                <div class="request-row__item-name">Знайдено</div>
+                                <div class="request-row__item-count">12</div>
+                            </div>
+                            <div class="request-row__week">
+                                <div class="request-row__item-name">За тиждень</div>
+                                <div class="request-row__item-count">12</div>
+                            </div>
+                            <div class="request-row__email">
+                                <div class="request-row__item-name">E-mail нагадування</div>
+                                <div class="email-notification">
+                                    <div class="email-notification__status">На паузі</div>
+                                    <div class="email-notification__icon email-notification__play"></div>
+                                </div>
+                            </div>
+                            <div class="request-row__close">
+                                <button class="close-btn"></button>
+                            </div>
+                        </div>
+
+                        <div class="request-block__list-item request-row">
+                            <div class="request-row__name">Магамадова Танзіла</div>
+                            <div class="request-row__rss">
+                                <button class="n-btn n-btn_gray request-row__rss-btn">RSS</button>
+                            </div>
+                            <div class="request-row__find">
+                                <div class="request-row__item-name">Знайдено</div>
+                                <div class="request-row__item-count">12</div>
+                            </div>
+                            <div class="request-row__week">
+                                <div class="request-row__item-name">За тиждень</div>
+                                <div class="request-row__item-count">12</div>
+                            </div>
+                            <div class="request-row__email">
+                                <div class="request-row__item-name">E-mail нагадування</div>
+                                <div class="email-notification">
+                                    <div class="email-notification__status">В роботі</div>
+                                    <div class="email-notification__icon email-notification__pause"></div>
+                                </div>
+                            </div>
+                            <div class="request-row__close">
+                                <button class="close-btn"></button>
+                            </div>
+                        </div> #}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="add-request-template">
+        <div class="add-request-block">
+            <div class="add-request-block__title">{{ _("Додати запити") }}</div>
+
+            <div class="add-request-block__content">
+                <div class="add-request-block__form">
+                    <div class="add-request-block__text">
+                        {{ _("Додавайте багато запитів вводячи їх з нового рядка. Тисніть кнопку Enter для того щоб завершити введення та перейти до нового запиту. Активні запити виділяються кольором, їх можно редагувати та видаляти.") }}
+                    </div>
+
+                    <div class="add-request-block__items">
+                        <div class="add-request-block__items-inner">
+                            <!--<div class="add-request-block__item">
+                                <div class="add-request-block__item-text">Магомадова Танзiла Вахiвна</div>
+                            </div>
+                            <div class="add-request-block__item">
+                                <div class="add-request-block__item-text">Кличко</div>
+                            </div> -->
+                        </div>
+
+                        <input type="text" value="" class="add-request-block__input add-request-block__add-input" autofocus>
+                    </div>
+
+                    <div class="add-request-block__bottom">
+                        <div class="add-request-block__count">
+                            <div class="add-request-block__count-text">{{ _("Кількість запитів:") }}</div>
+                            <div class="add-request-block__count-number">2</div>
+                        </div>
+
+                        <button class="n-btn add-request-block__btn">{{ _("Додати") }}</button>
+                    </div>
+                </div>
+                <div class="progress-block add-request-block__progress" style="display: none;">
+                    <div class="progress-block__title">Додаю...</div>
+
+                    <div class="progress-block__bar">
+                        <div class="progress-block__progress" style="width: 0"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+{# <section id="page">
     <div class="container">
         <div id="breadcrumbs">
             <ol class="breadcrumb">
@@ -95,7 +322,7 @@
             </p>
         </div>
     </div>
-</section>
+</section> #}
 
 <div class="modal fade add-dialog" id="add-one-modal" role="dialog">
   <div class="modal-dialog" role="document">

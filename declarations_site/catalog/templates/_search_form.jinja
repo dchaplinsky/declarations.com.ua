@@ -31,7 +31,7 @@
                     <div class="filter-year">
                         {% for year in range(2011, CURR_YEAR + 1) %}
                             <div class="filter-year__item n-checkbox">
-                                <input type="checkbox" id="2019" name="donation" value="{{ year }}" class="n-checkbox__input">
+                                <input type="checkbox" id="{{ year }}" name="declaration_year" value="{{ year }}" class="n-checkbox__input">
                                 <label for="{{ year }}" class="n-checkbox__label">
                                     <span class="n-checkbox__label-box"></span>
                                     <span class="n-checkbox__label-text">{{ year }}</span>
@@ -184,7 +184,7 @@
                                     <input type="checkbox" id="risk-1" value="Активи в 10+ разів перевищують доходи" class="n-checkbox__input">
                                     <label for="risk-1" class="n-checkbox__label">
                                         <span class="n-checkbox__label-box"></span>
-                                        <span class="n-checkbox__label-text">Активи в 10+ разів перевищують доходи</span>
+                                        <span class="n-checkbox__label-text">{{ _("Активи в 10+ разів перевищують доходи") }}</span>
                                     </label>
                                 </div>
 
@@ -195,7 +195,7 @@
                                         class="n-checkbox__input">
                                     <label for="risk-3" class="n-checkbox__label">
                                         <span class="n-checkbox__label-box"></span>
-                                        <span class="n-checkbox__label-text">Борги у 2+ разів перевищують активи та доходи</span>
+                                        <span class="n-checkbox__label-text">{{ _("Борги у 2+ разів перевищують активи та доходи") }}</span>
                                     </label>
                                 </div>
 
@@ -206,7 +206,7 @@
                                         class="n-checkbox__input">
                                     <label for="risk-5" class="n-checkbox__label">
                                         <span class="n-checkbox__label-box"></span>
-                                        <span class="n-checkbox__label-text">Не вказана вартість нерухомості придбаної у поточному&nbsp;році</span>
+                                        <span class="n-checkbox__label-text">{{ _("Не вказана вартість нерухомості придбаної у поточному році") }}</span>
                                     </label>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@
                                         class="n-checkbox__input">
                                     <label for="risk-2" class="n-checkbox__label">
                                         <span class="n-checkbox__label-box"></span>
-                                        <span class="n-checkbox__label-text">Не вказана вартість транспорту придбаного у поточному&nbsp;році</span>
+                                        <span class="n-checkbox__label-text">{{ _("Не вказана вартість транспорту придбаного у поточному&nbsp;році") }}</span>
                                     </label>
                                 </div>
 
@@ -230,7 +230,7 @@
                                         class="n-checkbox__input">
                                     <label for="risk-4" class="n-checkbox__label">
                                         <span class="n-checkbox__label-box"></span>
-                                        <span class="n-checkbox__label-text">Готівка понад 5 млн грн</span>
+                                        <span class="n-checkbox__label-text">{{ _("Готівка понад 5 млн грн") }}</span>
                                     </label>
                                 </div>
 
@@ -241,7 +241,7 @@
                                         class="n-checkbox__input">
                                     <label for="risk-6" class="n-checkbox__label">
                                         <span class="n-checkbox__label-box"></span>
-                                        <span class="n-checkbox__label-text">Борги у 2+ разів перевищують активи та доходи</span>
+                                        <span class="n-checkbox__label-text">{{ _("Борги у 2+ разів перевищують активи та доходи") }}</span>
                                     </label>
                                 </div>
                             </div>
@@ -296,7 +296,7 @@
                                     <span class="n-checkbox__label-box"></span>
                                     <span class="n-checkbox__label-text">{{ _("Регіон задекларованої нерухомості") }}</span>
                                 </label>
-                            </div>                                            
+                            </div>
                         </div>
                     </div>
 
@@ -311,7 +311,7 @@
                         'Севастополь'
                     ] %}
                     <div class="region-filter">
-                        <div class="region-filter__title">Область</div>
+                        <div class="region-filter__title">{{ _("Область") }}</div>
                         <div class="region-filter__items-wrap">
                             <div class="region-filter__items">
                                 {% for region in regions %}
@@ -497,3 +497,15 @@
         </div>
     </div>
 {%- endmacro %}
+
+{% macro sort_direction(request, defaultSortField) -%}
+    {% set field = request.GET['sort'] if 'sort' in request.GET else defaultSortField %}
+    
+    {% if field.endswith('_desc') %}
+        <a href="?{{ replace_arg(request, 'sort', field, field[:-5]) }}"
+            class="sort-block__icon sort-block__icon_asc"></a>
+    {% else %}
+        <a href="?{{ replace_arg(request, 'sort', field, field + '_desc') }}"
+            class="sort-block__icon sort-block__icon_desc"></a>
+    {% endif %}
+{% endmacro %}

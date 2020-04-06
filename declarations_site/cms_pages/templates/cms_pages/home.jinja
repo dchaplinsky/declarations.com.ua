@@ -102,17 +102,15 @@
 {% endblock %}
 
 {% block content %}
-    <div class="cp"></div>
-    <!-- clear padding -->
     <div class="content container content__main">
         <div class="main-page">
             <div class="main-page__top"> 
                 <div class="main-page__top-wrap">   
                     <div class="main-page__top-column">
                         <div class="main-page__description">
-                            Ми знаходимо, розшифровуємо та публікуємо декларації чиновників
+                            {{ _("Ми знаходимо, розшифровуємо та публікуємо декларації чиновників") }}
                         </div>
-                        <h1 class="main-page__title">Викриваємо брехню про статки та майно</h1>
+                        <h1 class="main-page__title">{{ _("Викриваємо брехню про статки та майно") }}</h1>
                     </div>
 
                     <div class="main-page__top-column">
@@ -136,11 +134,11 @@
                                     </a>
                                 </div>
 
-                                {# <div class="main-social-block__item">
-                                    <a href="#" class="main-social-block__link social-link">
+                                <div class="main-social-block__item">
+                                    <a href="https://www.instagram.com/bihus.info/" class="main-social-block__link social-link">
                                         <img src="{{ static("images/social/instagram-black.svg") }}" alt="instagram" class="social-link__icon">
                                     </a>
-                                </div> #}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -183,58 +181,51 @@
             <div class="promo-block main-page__promo">реклама або промо</div>
 
             <div class="advantages-block main-page__advantages">
-                <h2 class="advantages-block__title">Наші переваги</h2>
+                <h2 class="advantages-block__title">{{ _("Наші переваги") }}</h2>
                 <div class="advantages-block__items advantages-block__items_numeric">
                     <div class="advantages-block__item advantages-block__item_numeric">
                         <div class="advantages-block__item-number">1</div>
-                        <div class="advantages-block__item-title">Порівняння</div>
-                        <div class="advantages-block__item-text advantages-block__item-text_numeric">Хочете дізнатися у
-                            кого більше грошей? Додавайте декларантів у список порівнянь та дивіться аналіз за різними
-                            показниками. Щоб почати порівнювати знайдіть декілька декларацій та натисніть "Додати у
-                            порівняння"
+                        <div class="advantages-block__item-title">{{ _("Порівняння") }}</div>
+                        <div class="advantages-block__item-text advantages-block__item-text_numeric">
+                            {{ _("Хочете дізнатися у кого більше грошей? Додавайте декларантів у список порівнянь та дивіться аналіз за різними показниками. Щоб почати порівнювати знайдіть декілька декларацій та натисніть \"Додати у порівняння\"") }}
                         </div>
                     </div>
 
                     <div class="advantages-block__item advantages-block__item_numeric">
                         <div class="advantages-block__item-number">2</div>
-                        <div class="advantages-block__item-title">Моніторинг</div>
-                        <div class="advantages-block__item-text advantages-block__item-text_numeric">Слідкуйте за
-                            змінами чи появою нових документів за домогою нашого сервісу. Інформація буде надходити на
-                            E-mail або RSS. Щоб створити нове завдання спробуйте щось знайти, а потім нажміть
-                            "Моніторити запит".
+                        <div class="advantages-block__item-title">{{ _("Моніторинг") }}</div>
+                        <div class="advantages-block__item-text advantages-block__item-text_numeric">
+                            {{ _("Слідкуйте за змінами чи появою нових документів за домогою нашого сервісу. Інформація буде надходити на E-mail або RSS. Щоб створити нове завдання спробуйте щось знайти, а потім нажміть \"Моніторити запит\".") }}
                         </div>
                     </div>
 
                     <div class="advantages-block__item advantages-block__item_numeric">
                         <div class="advantages-block__item-number">3</div>
-                        <div class="advantages-block__item-title">Аналітика</div>
-                        <div class="advantages-block__item-text advantages-block__item-text_numeric">Для тих хто любить
-                            цифри та графіки ми зробили круту аналітику і поділили ії на 8 розділів для вашої зручності
-                            Для тих хто любить цифри та графіки ми зробили круту аналітику i поділили ії на 8 розділів
-                            для вашої зручності
+                        <div class="advantages-block__item-title">{{ _("Аналітика") }}</div>
+                        <div class="advantages-block__item-text advantages-block__item-text_numeric">
+                            {{ _("Для тих хто любить цифри та графіки ми зробили круту аналітику і поділили ії на 8 розділів для вашої зручності Для тих хто любить цифри та графіки ми зробили круту аналітику i поділили ії на 8 розділів для вашої зручності") }}
                         </div>
                     </div>
 
                     <div class="advantages-block__item advantages-block__item_numeric">
                         <div class="advantages-block__item-number">4</div>
-                        <div class="advantages-block__item-title">Чат-боти</div>
-                        <div class="advantages-block__item-text advantages-block__item-text_numeric">Ми створили
-                            кишенькових помічників — чат-ботів у популярних месенджерах Telegram, Messenger та Skype.
-                            Щоб розпочати роботу з ботом, додайте його у контакти:
+                        <div class="advantages-block__item-title">{{ _("Чат-боти") }}</div>
+                        <div class="advantages-block__item-text advantages-block__item-text_numeric">
+                            {{ _("Ми створили кишенькових помічників — чат-ботів у популярних месенджерах Telegram, Messenger та Skype. Щоб розпочати роботу з ботом, додайте його у контакти:") }}
                         </div>
                         <div class="advantages-block__bots advantages-block__bots_numeric">
                             <div class="advantages-block__bots-items">
-                                <a href="#" class="advantages-block__bot-link social-link">
+                                <a href="http://telegram.me/declbot" class="advantages-block__bot-link social-link">
                                     <img src="{{ static("images/bots/telegram.svg") }}" alt="telegram" class="social-link__icon">
                                 </a>
-                                <a href="#" class="advantages-block__bot-link social-link">
+                                <a href="https://www.messenger.com/t/237009933449862" class="advantages-block__bot-link social-link">
                                     <img src="{{ static("images/bots/messenger.svg") }}" alt="messenger" class="social-link__icon">
                                 </a>
-                                <a href="#" class="advantages-block__bot-link social-link">
+                                <a href="https://join.skype.com/bot/aa05e543-5918-49bb-88e6-ae8064345dd8" class="advantages-block__bot-link social-link">
                                     <img src="{{ static("images/bots/skype.svg") }}" alt="skype" class="social-link__icon">
                                 </a>
                             </div>
-                            <a href="#" class="advantages-block__instruction-link advantages-block__instruction-link_btn">Покрокова iнструкцiя</a>
+                            <a href="https://bihus.info/bot-dla-posuku-deklaracii-vidteper-u-facebook-telegram-i-skype" class="advantages-block__instruction-link advantages-block__instruction-link_btn">Покрокова iнструкцiя</a>
                         </div>
                     </div>
                 </div>
