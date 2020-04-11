@@ -1215,6 +1215,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             "position": self.general.post.post,
             "source": self.declaration.source,
             "id": self.meta.id,
+            "user_declarant_id": getattr(self.intro, "user_declarant_id"),
             "url": settings.SITE_URL
             + reverse("details", kwargs={"declaration_id": self.meta.id}),
             "document_type": self.intro.doc_type,
