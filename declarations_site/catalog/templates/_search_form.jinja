@@ -25,7 +25,7 @@
 
         <div class="deep-search search-form__deep-search-block">
             <div class="deep-search__title">{{ _("Я шукаю декларацію") }}</div>
-            <div class="deep-search__filter{% if 'declaration_year' in request.GET %} opened{% endif %}">
+            <div class="deep-search__filter{% if 'declaration_year[]' in request.GET %} opened{% endif %}">
                 <div class="deep-search__filter-title">{{ _("Рік") }}</div>
                 <div class="deep-search__filter-body">
                     <div class="filter-year">
@@ -33,10 +33,10 @@
                             <div class="filter-year__item n-checkbox">
                                 <input type="checkbox"
                                     id="{{ year }}"
-                                    name="declaration_year"
+                                    name="declaration_year[]"
                                     value="{{ year }}"
                                     class="n-checkbox__input"
-                                    {% if 'declaration_year' in request.GET and request.GET['declaration_year'] == year|string %} checked="checked"{% endif %}>
+                                    {% if 'declaration_year[]' in request.GET and year|string in request.GET.getlist('declaration_year[]') %} checked="checked"{% endif %}>
                                 <label for="{{ year }}" class="n-checkbox__label">
                                     <span class="n-checkbox__label-box"></span>
                                     <span class="n-checkbox__label-text">{{ year }}</span>
@@ -53,13 +53,13 @@
                         'desktop': _('Тип документу чи посади'),
                         'mobile': _('Тип документу'),
                     },
-                    'opened': 'doc_type' in request.GET or 'post_type' in request.GET,
+                    'opened': 'doc_type[]' in request.GET or 'post_type[]' in request.GET,
                     'class_name': 'filter__document-position',
                     'block_name': 'position-filter',
                     'values': [
                         {
                             'group_name': 'Тип документу',
-                            'input_name': 'doc_type',
+                            'input_name': 'doc_type[]',
                             'class_name': 'position-filter__document',
                             'options': [
                                 ['Щорічна', 'Перед звільненням', 'Кандидата на посаду'],
@@ -68,7 +68,7 @@
                         },
                         {
                             'group_name': 'Тип посади',
-                            'input_name': 'post_type',
+                            'input_name': 'post_type[]',
                             'class_name': 'position-filter__position',
                             'options': [
                                 [
@@ -84,12 +84,12 @@
                 },
                 {
                     'label': 'Ризик-фактори',
-                    'opened': 'risk' in request.GET,
+                    'opened': 'risk[]' in request.GET,
                     'class_name': 'filter__document-risk',
                     'block_name': 'risk-filter',
                     'values': [
                         {
-                            'input_name': 'risk',
+                            'input_name': 'risk[]',
                             'class_name': 'risk-filter__risk',
                             'options': [
                                 [
@@ -109,13 +109,13 @@
                         'desktop': _('Регіон та область'),
                         'mobile': _('Регіон'),
                     },
-                    'opened': 'region_type' in request.GET or 'region_value' in request.GET,
+                    'opened': 'region_type[]' in request.GET or 'region_value[]' in request.GET,
                     'class_name': 'deep-search__filter-region',
                     'block_name': 'by-region-filter',
                     'values': [
                         {
                             'group_name': 'Регіон',
-                            'input_name': 'region_type',
+                            'input_name': 'region_type[]',
                             'class_name': 'region-type-filter',
                             'options': [
                                 [
@@ -127,7 +127,7 @@
                         },
                         {
                             'group_name': 'Область',
-                            'input_name': 'region_value',
+                            'input_name': 'region_value[]',
                             'class_name': 'region-filter',
                             'options': [
                                 [
@@ -267,18 +267,19 @@
                                     {% endif %}
                                     <div class="{{ field['block_name'] }}__param-items">
                                         {% for column in group['options'] %}
+                                            {% set column_number = loop.index %}
                                             <div class="{{ field['block_name'] }}__param-column">
                                                 {% for option in column %}
                                                     {% set value = option['value'] if 'value' in option else option %}
                                                     <div class="{{ field['block_name'] }}__param-item n-checkbox">
                                                         <input type="checkbox"
-                                                            id="document-{{ field['block_name'] }}-{{ group_number }}-{{ loop.index }}"
+                                                            id="document-{{ field['block_name'] }}-{{ group_number }}-{{ column_number }}-{{ loop.index }}"
                                                             name="{{ group['input_name'] }}"
                                                             value="{{ value }}"
                                                             class="n-checkbox__input"
-                                                            {% if group['input_name'] in request.GET and request.GET[group['input_name']] == value %} checked="checked"{% endif %}
+                                                            {% if group['input_name'] in request.GET and value in request.GET.getlist(group['input_name']) %} checked="checked"{% endif %}
                                                         />
-                                                        <label for="document-{{ field['block_name'] }}-{{ group_number }}-{{ loop.index }}"
+                                                        <label for="document-{{ field['block_name'] }}-{{ group_number }}-{{ column_number }}-{{ loop.index }}"
                                                             class="n-checkbox__label">
                                                             <span class="n-checkbox__label-box"></span>
                                                             <span class="n-checkbox__label-text">
