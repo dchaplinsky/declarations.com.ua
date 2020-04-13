@@ -129,7 +129,7 @@
                                 <div class="mobile-menu-link__line"></div>
                             </div>
 
-                            {{ lang_switcher(LANGUAGES) }}
+                            {{ lang_switcher(LANGUAGES, 'header__lang-switch-mobile') }}
                             {# <div class="lang-switch header__lang-switch">
                                 {% for language_code, language_name in LANGUAGES %}
                                     <div class="lang-switch {% if LANGUAGE_CODE != language_code %}lang-switch__selected{% endif %}">
@@ -175,12 +175,12 @@
                                 {{ login_button(request.get_full_path()) }}
                             </div>
 
-                            {{ lang_switcher(LANGUAGES) }}
+                            {{ lang_switcher(LANGUAGES, 'header__lang-switch') }}
 
                             <div class="header__support support-project-block">
-                                <a class="n-btn support-project-block__btn popup-btn donation-btn"
+                                <a class="n-btn support-project-block__btn"
                                 data-width="664px"
-                                href="popup/donate.html">{{ _("Підтримати проект") }}</a>
+                                href="https://donate.bihus.info/">{{ _("Підтримати проект") }}</a>
                             </div>
                         </div>
                     </div>
@@ -204,9 +204,9 @@
                                 Bihus.info об'єднує антикорупційні проекти, які створює ГО "ТОМ 14" та ГО "Канцелярська сотня".
                             </div>
 
-                            <a class="n-btn mobile-menu__donation popup-btn donation-btn"
+                            <a class="n-btn mobile-menu__donation"
                                data-width="664px"
-                               href="popup/donate.html">{{ _("Підтримати проект") }}</a>
+                               href="https://donate.bihus.info/">{{ _("Підтримати проект") }}</a>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,51 @@
+{% macro advantages(class_names) %}
+<div class="advantages-block{% if class_names %} {{ class_names }}{% endif %}">
+    <div class="advantages-block__items">
+        <div class="advantages-block__item">
+            <div class="advantages-block__item-title">{{ _("Чат-боти") }}</div>
+            <div class="advantages-block__item-text">
+                {{ _("Ми створили кишенькових помічників — чат-ботів у популярних месенджерах") }}
+            </div>
+            <div class="advantages-block__bots">
+                <div class="advantages-block__bots-items">
+                    <a href="http://telegram.me/declbot" class="advantages-block__bot-link social-link">
+                        <img src="{{ static("images/bots/telegram.svg") }}" alt="telegram" class="social-link__icon">
+                    </a>
+
+                    <a href="https://www.messenger.com/t/237009933449862" class="advantages-block__bot-link social-link">
+                        <img src="{{ static("images/bots/messenger.svg") }}" alt="messenger" class="social-link__icon">
+                    </a>
+
+                    <a href="https://join.skype.com/bot/aa05e543-5918-49bb-88e6-ae8064345dd8" class="advantages-block__bot-link social-link">
+                        <img src="{{ static("images/bots/skype.svg") }}" alt="skype" class="social-link__icon">
+                    </a>
+
+                </div>
+
+                <a href="https://bihus.info/bot-dla-posuku-deklaracii-vidteper-u-facebook-telegram-i-skype" class="advantages-block__instruction-link">{{ _("Покрокова iнструкцiя")}}</a>
+            </div>
+        </div>
+
+        <div class="advantages-block__item">
+            <div class="advantages-block__item-title">{{ _("Порівняння") }}</div>
+            <div class="advantages-block__item-text">
+                {{ ("Додавайте декларантів у список порівнянь та дивіться аналіз за різними показниками") }}
+            </div>
+        </div>
+
+        <div class="advantages-block__item">
+            <div class="advantages-block__item-title">{{ _("Моніторинг") }}</div>
+            <div class="advantages-block__item-text">
+                {{ ("Слідкуйте за змінами чи появою нових документів по E-mail, RSS та у месенжерах") }}
+            </div>
+        </div>
+
+        <div class="advantages-block__item">
+            <div class="advantages-block__item-title">{{ _("Аналітика") }}</div>
+            <div class="advantages-block__item-text">
+                {{ ("Ми зробили круту аналітику і поділили ії на 8 розділів для вашої зручності") }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}

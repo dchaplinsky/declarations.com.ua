@@ -18,20 +18,25 @@
             <div class="search-form__right">
                 <button class="n-btn n-btn_white search-form__deep-search">
                     {{ _("Детальний пошук") }}
-                    <span class="search-form__deep-search-count filter-count" style="width: 0;">10</span>
+                    <span class="search-form__deep-search-count filter-count"></span>
                 </button>
             </div>
         </div>
 
         <div class="deep-search search-form__deep-search-block">
             <div class="deep-search__title">{{ _("Я шукаю декларацію") }}</div>
-            <div class="deep-search__filter">
+            <div class="deep-search__filter{% if 'declaration_year' in request.GET %} opened{% endif %}">
                 <div class="deep-search__filter-title">{{ _("Рік") }}</div>
                 <div class="deep-search__filter-body">
                     <div class="filter-year">
-                        {% for year in range(2011, CURR_YEAR + 1) %}
+                        {% for year in range(CURR_YEAR, 2010, -1) %}
                             <div class="filter-year__item n-checkbox">
-                                <input type="checkbox" id="{{ year }}" name="declaration_year" value="{{ year }}" class="n-checkbox__input">
+                                <input type="checkbox"
+                                    id="{{ year }}"
+                                    name="declaration_year"
+                                    value="{{ year }}"
+                                    class="n-checkbox__input"
+                                    {% if 'declaration_year' in request.GET and request.GET['declaration_year'] == year|string %} checked="checked"{% endif %}>
                                 <label for="{{ year }}" class="n-checkbox__label">
                                     <span class="n-checkbox__label-box"></span>
                                     <span class="n-checkbox__label-text">{{ year }}</span>
@@ -41,8 +46,258 @@
                     </div>
                 </div>
             </div>
+ 
+            {% set fields = [
+                {
+                    'label': {
+                        'desktop': _('Тип документу чи посади'),
+                        'mobile': _('Тип документу'),
+                    },
+                    'opened': 'doc_type' in request.GET or 'post_type' in request.GET,
+                    'class_name': 'filter__document-position',
+                    'block_name': 'position-filter',
+                    'values': [
+                        {
+                            'group_name': 'Тип документу',
+                            'input_name': 'doc_type',
+                            'class_name': 'position-filter__document',
+                            'options': [
+                                ['Щорічна', 'Перед звільненням', 'Кандидата на посаду'],
+                                ['Після звільнення', 'Форма змін'],
+                            ],
+                        },
+                        {
+                            'group_name': 'Тип посади',
+                            'input_name': 'post_type',
+                            'class_name': 'position-filter__position',
+                            'options': [
+                                [
+                                    {'value': 'державної', 'label': 'Державна служба'},
+                                    {'value': 'місцевого', 'label': 'Орган місцевого самоврядування'},
+                                ],
+                                [
+                                    {'value': 'юридичної', 'label': 'Посадова особа юридичної особи публічного права'},
+                                ]
+                            ]
+                        },
+                    ],
+                },
+                {
+                    'label': 'Ризик-фактори',
+                    'opened': 'risk' in request.GET,
+                    'class_name': 'filter__document-risk',
+                    'block_name': 'risk-filter',
+                    'values': [
+                        {
+                            'input_name': 'risk',
+                            'class_name': 'risk-filter__risk',
+                            'options': [
+                                [
+                                    {'value': 'активи', 'label': 'Активи в 10+ разів перевищують доходи'},
+                                    {'value': 'борги', 'label': 'Борги у 2+ разів перевищують активи та доходи'},
+                                ],
+                                [
+                                    {'value': 'нерухомість', 'label': 'Не вказана вартість нерухомості придбаної у поточному році'},
+                                    {'value': 'готівка', 'label': 'Готівка понад 5 млн грн'},
+                                ],
+                            ]
+                        },
+                    ],
+                },
+                {
+                    'label': {
+                        'desktop': _('Регіон та область'),
+                        'mobile': _('Регіон'),
+                    },
+                    'opened': 'region_type' in request.GET or 'region_value' in request.GET,
+                    'class_name': 'deep-search__filter-region',
+                    'block_name': 'by-region-filter',
+                    'values': [
+                        {
+                            'group_name': 'Регіон',
+                            'input_name': 'region_type',
+                            'class_name': 'region-type-filter',
+                            'options': [
+                                [
+                                    {'value': 'actual_region', 'label': 'Регіон фактичного проживання'},
+                                    {'value': 'region', 'label': 'Регіон реєстрації'},
+                                    {'value': 'estate_region', 'label': 'Регіон задекларованої нерухомості'},
+                                ]
+                            ]
+                        },
+                        {
+                            'group_name': 'Область',
+                            'input_name': 'region_value',
+                            'class_name': 'region-filter',
+                            'options': [
+                                [
+                                    {'label': 'м. Київ', 'value': 'м. Київ'},
+                                    {'label': 'Вінницька', 'value': 'Вінницька область'},
+                                    {'label': 'Волинська', 'value': 'Волинська область'},
+                                    {'label': 'Дніпропетровська', 'value': 'Дніпропетровська область'},
+                                    {'label': 'Донецька', 'value': 'Донецька область'},
+                                    {'label': 'Житомирська', 'value': 'Житомирська область'},
+                                    {'label': 'Закарпатська', 'value': 'Закарпатська область'},
+                                    {'label': 'Запорізька', 'value': 'Запорізька область'},
+                                    {'label': 'Івано-Франківська', 'value': 'Івано-Франківська область'},
+                                    {'label': 'Київська', 'value': 'Київська область'},
+                                    {'label': 'Кіровоградська', 'value': 'Кіровоградська область'},
+                                    {'label': 'Львівська', 'value': 'Львівська область'},
+                                    {'label': 'Луганська', 'value': 'Луганська область'},
+                                    {'label': 'Миколаївська', 'value': 'Миколаївська область'},
+                                    {'label': 'Одеська', 'value': 'Одеська область'},
+                                    {'label': 'Полтавська', 'value': 'Полтавська область'},
+                                    {'label': 'Рівненська', 'value': 'Рівненська область'},
+                                    {'label': 'Сумська', 'value': 'Сумська область'},
+                                    {'label': 'Тернопільська', 'value': 'Тернопільська область'},
+                                    {'label': 'Харківська', 'value': 'Харківська область'},
+                                    {'label': 'Херсонська', 'value': 'Херсонська область'},
+                                    {'label': 'Хмельницька', 'value': 'Хмельницька область'},
+                                    {'label': 'Черкаська', 'value': 'Черкаська область'},
+                                    {'label': 'Чернівецька', 'value': 'Чернівецька область'},
+                                    {'label': 'Чернігівська', 'value': 'Чернігівська область'},
+                                    {'label': 'Кримська Автономна Республіка', 'value': 'Кримська Автономна Республіка'},
+                                    {'label': 'Севастополь', 'value': 'Севастополь'},
+                                ]
+                            ]
+                        },
+                    ],
+                },
+            ] %}
 
-            <div class="deep-search__filter filter__document-position">
+            {# <div class="deep-search__filter">
+                <div class="deep-search__filter-title">
+                    <div class="desktop">{{ _("Регіон та область") }}</div>
+                    <div class="mobile">{{ _("Регіон") }}</div>
+                </div>
+
+                <div class="deep-search__filter-body">
+                    <div class="region-type-filter">
+                        <div class="region-type-filter__title">{{ _("Регіон") }}</div>
+                        <div class="region-type-filter__items">
+
+                            <div class="region-type-filter__item n-checkbox">
+                                <input type="checkbox"
+                                    id="region-type-1"
+                                    name="region_type"
+                                    value="actual_region"
+                                    class="n-checkbox__input">
+                                <label for="region-type-1" class="n-checkbox__label">
+                                    <span class="n-checkbox__label-box"></span>
+                                    <span class="n-checkbox__label-text">{{ _("Регіон фактичного проживання") }}</span>
+                                </label>
+                            </div>
+
+                            <div class="region-type-filter__item n-checkbox">
+                                <input type="checkbox" id="region-type-2" name="region_type" value="region" class="n-checkbox__input">
+                                <label for="region-type-2" class="n-checkbox__label">
+                                    <span class="n-checkbox__label-box"></span>
+                                    <span class="n-checkbox__label-text">{{ _("Регіон реєстрації") }}</span>
+                                </label>
+                            </div>
+
+                            <div class="region-type-filter__item n-checkbox">
+                                <input type="checkbox"
+                                    id="region-type-2"
+                                    name="region_type"
+                                    value="estate_region"
+                                    class="n-checkbox__input">
+                                <label for="region-type-2" class="n-checkbox__label">
+                                    <span class="n-checkbox__label-box"></span>
+                                    <span class="n-checkbox__label-text">{{ _("Регіон задекларованої нерухомості") }}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% set regions = [
+                        'м. Київ', 'Вінницька область', 'Волинська область', 'Дніпропетровська область',
+                        'Донецька область', 'Житомирська область', 'Закарпатська область',
+                        'Запорізька область', 'Івано-Франківська область', 'Київська область',
+                        'Кіровоградська область', 'Львівська область', 'Луганська область', 'Миколаївська область',
+                        'Одеська область', 'Полтавська область', 'Рівненська область', 'Сумська область',
+                        'Тернопільська область', 'Харківська область', 'Херсонська область', 'Хмельницька область',
+                        'Черкаська область', 'Чернівецька область', 'Чернігівська область', 'Кримська Автономна Республіка',
+                        'Севастополь'
+                    ] %}
+                    <div class="region-filter">
+                        <div class="region-filter__title">{{ _("Область") }}</div>
+                        <div class="region-filter__items-wrap">
+                            <div class="region-filter__items">
+                                {% for region in regions %}
+                                    <div class="region-filter__item n-checkbox">
+                                        <input type="checkbox"
+                                            name="region_value"
+                                            id="region-{{ loop.index }}"
+                                            value="{{ region }}"
+                                            class="n-checkbox__input">
+                                        <label for="region-{{ loop.index }}" class="n-checkbox__label">
+                                            <span class="n-checkbox__label-box"></span>
+                                            <span class="n-checkbox__label-text">
+                                                {% if region.endswith('область') %}{{ _(region[:-8]) }}{% else %}{{ _(region) }}{% endif %}
+                                            </span>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> #}
+
+            {% for field in fields %}
+                <div class="deep-search__filter{% if field['class_name'] %} {{ field['class_name'] }}{% endif %}{% if field['opened'] %} opened{% endif %}">
+                    <div class="deep-search__filter-title">
+                        {% if 'desktop' in field['label'] %}
+                            <div class="desktop">{{ _(field['label']['desktop']) }}</div>
+                            <div class="mobile">{{ _(field['label']['mobile']) }}</div>
+                        {% else %}
+                            {{ field['label'] }}
+                        {% endif %}
+                        <div class="filter-count"></div>
+                    </div>
+
+                    <div class="deep-search__filter-body">
+                        <div class="{{ field['block_name'] }}">
+                            {% for group in field['values'] %}
+                                <div class="{{ field['block_name'] }}__param{% if group['class_name'] %} {{ group['class_name'] }}{% endif %}">
+                                    {% set group_number = loop.index %}
+                                    {% if group['group_name'] %}
+                                        <div class="{{ field['block_name'] }}__param-title">{{ _(group['group_name']) }}</div>
+                                    {% endif %}
+                                    <div class="{{ field['block_name'] }}__param-items">
+                                        {% for column in group['options'] %}
+                                            <div class="{{ field['block_name'] }}__param-column">
+                                                {% for option in column %}
+                                                    {% set value = option['value'] if 'value' in option else option %}
+                                                    <div class="{{ field['block_name'] }}__param-item n-checkbox">
+                                                        <input type="checkbox"
+                                                            id="document-{{ field['block_name'] }}-{{ group_number }}-{{ loop.index }}"
+                                                            name="{{ group['input_name'] }}"
+                                                            value="{{ value }}"
+                                                            class="n-checkbox__input"
+                                                            {% if group['input_name'] in request.GET and request.GET[group['input_name']] == value %} checked="checked"{% endif %}
+                                                        />
+                                                        <label for="document-{{ field['block_name'] }}-{{ group_number }}-{{ loop.index }}"
+                                                            class="n-checkbox__label">
+                                                            <span class="n-checkbox__label-box"></span>
+                                                            <span class="n-checkbox__label-text">
+                                                                {% if 'label' in option %}{{ _(option['label']) }}{% else %}{{ _(option) }}{% endif %}
+                                                            </span>
+                                                        </label>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {# <div class="deep-search__filter filter__document-position">
                 <div class="deep-search__filter-title">
                     <div class="desktop">{{ _("Тип документу чи посади") }}</div>
                     <div class="mobile">{{ _("Тип документу") }}</div>
@@ -57,6 +312,7 @@
                                     <div class="position-filter__param-item n-checkbox">
                                         <input type="checkbox"
                                             id="document-yearly"
+                                            name="doc_type"
                                             value="Щорічна"
                                             class="n-checkbox__input">
                                         <label for="document-yearly" class="n-checkbox__label">
@@ -68,6 +324,7 @@
                                     <div class="position-filter__param-item n-checkbox">
                                         <input type="checkbox"
                                             id="document-before-firing"
+                                            name="doc_type"
                                             value="Перед звільненням"
                                             class="n-checkbox__input">
                                         <label for="document-before-firing" class="n-checkbox__label">
@@ -79,6 +336,7 @@
                                     <div class="position-filter__param-item n-checkbox">
                                         <input type="checkbox"
                                             id="document-candidate"
+                                            name="doc_type"
                                             value="Кандидата на посаду"
                                             class="n-checkbox__input">
                                         <label for="document-candidate" class="n-checkbox__label">
@@ -92,6 +350,7 @@
                                     <div class="position-filter__param-item n-checkbox">
                                         <input type="checkbox"
                                             id="document-after-firing"
+                                            name="doc_type"
                                             value="Після звільнення"
                                             class="n-checkbox__input">
                                         <label for="document-after-firing" class="n-checkbox__label">
@@ -103,6 +362,7 @@
                                     <div class="position-filter__param-item n-checkbox">
                                         <input type="checkbox"
                                             id="document-change-form"
+                                            name="doc_type"
                                             value="Форма змін"
                                             class="n-checkbox__input">
                                         <label for="document-change-form" class="n-checkbox__label">
@@ -135,7 +395,7 @@
                                 </div>
                             </span>
                             </fieldset>
-                        </div> #}
+                        </div>
                         <div class="position-filter__param position-filter__position">
                             <div class="position-filter__param-title">{{ _("Тип посади") }}</div>
                             <div class="position-filter__param-items">
@@ -250,11 +510,6 @@
                 </div>
             </div>
 
-
-
-
-
-
             <div class="deep-search__filter">
                 <div class="deep-search__filter-title">
                     <div class="desktop">{{ _("Регіон та область") }}</div>
@@ -317,6 +572,7 @@
                                 {% for region in regions %}
                                     <div class="region-filter__item n-checkbox">
                                         <input type="checkbox"
+                                            name="region_value"
                                             id="region-{{ loop.index }}"
                                             value="{{ region }}"
                                             class="n-checkbox__input">
@@ -332,9 +588,16 @@
                         </div>
                     </div>
                 </div>
+            </div> #}
+
+            <div class="deep-search__bottom">
+                <div class="deep-search__count-block count-block">
+                    <div class="count-block__title">{{ _("Кількість фільтрів:") }}</div>
+                    <div class="count-block__count filter-count">0</div>
+                </div>
+                <button class="deep-search__btn deep-search__reset n-btn n-btn_gray">{{ _("Скинути всі") }}</button>
+                <button class="deep-search__btn n-btn">{{ _("Застосувати") }}</button>
             </div>
-
-
     {# <div id="ex-search-form">
         <div  class="container">
             <form class="box" action="{{ url("search") }}" method="GET" id="ex-form">

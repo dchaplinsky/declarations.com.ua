@@ -1,5 +1,5 @@
-{% macro lang_switcher(LANGUAGES) -%}
-<div class="lang-switch header__lang-switch">
+{% macro lang_switcher(LANGUAGES, class_names) -%}
+<div class="lang-switch{% if class_names %} {{ class_names }}{% endif %}">
     {% for language_code, language_name in LANGUAGES %}
         {% if LANGUAGE_CODE != language_code %}
             <div class="lang-switch lang-switch__selected">
