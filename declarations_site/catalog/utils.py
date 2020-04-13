@@ -103,6 +103,12 @@ def apply_term_filter(search, filter_value, field):
         search = search.filter("term", **filter_kw)
     return search
 
+def apply_terms_filter(search, filter_value, field):
+    if filter_value:
+        filter_kw = {field: filter_value}
+        search = search.filter("terms", **filter_kw)
+    return search
+
 
 def apply_match_filter(search, filter_list, field, operator='or'):
     if filter_list:
@@ -119,12 +125,12 @@ def apply_search_filters(search, filters):
     region_value = filters.get("region_value", "")
     if region_type and region_value:
         filters[region_type] = region_value
-    search = apply_term_filter(search, filters.get("declaration_year", ""), "intro.declaration_year")
+    search = apply_terms_filter(search, robust_getlist(filters, "declaration_year"), "intro.declaration_year")
     search = apply_term_filter(search, filters.get("doc_type", ""), "intro.doc_type")
     search = apply_term_filter(search, filters.get("region", ""), "general.post.region.raw")
     search = apply_term_filter(search, filters.get("actual_region"), "general.post.actual_region.raw")
     search = apply_term_filter(search, filters.get("estate_region"), "estate.region.raw")
-    search = apply_match_filter(search, filters.getlist("post_type"), "general.post.post_type")
+    search = apply_match_filter(search, robust_getlist(filters, "post_type"), "general.post.post_type")
     return search
 
 
@@ -290,3 +296,17 @@ def translate_url(request, language):
     else:
         url = request.build_absolute_uri()
     return orig_translate_url(url, language)
+
+
+def robust_getlist(params, param_name, limit=100):
+    # To tame fucking facebook links rewritting
+    values = params.getlist(param_name, [])
+
+    # Fucking facebook
+    values += params.getlist(f"{param_name}[]", [])
+
+    for x in range(limit):
+        if f"{param_name}[{x}]" in params:
+            values.append(params.get(f"{param_name}[{x}]"))
+
+    return list(set(values))

@@ -21,7 +21,7 @@ from dateutil.parser import parse as dt_parse
 from .elastic_models import Declaration, NACPDeclaration
 from .paginator import paginated_search
 from .api import hybrid_response
-from .utils import replace_apostrophes, base_search_query, apply_search_sorting, orig_translate_url
+from .utils import replace_apostrophes, base_search_query, apply_search_sorting, orig_translate_url, robust_getlist
 from .models import Office
 from .translator import Translator, NoOpTranslator
 from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
@@ -440,7 +440,7 @@ def prepare_datasets_for_charts(declarations, labels, columns):
             data.update({
                 "type": "line",
                 "lineTension": 0,
-                "backgroundColor": None
+                "backgroundColor": "rgba(0, 0, 0, 0.2)",
             })
 
         results["datasets"].append(
@@ -450,40 +450,48 @@ def prepare_datasets_for_charts(declarations, labels, columns):
     return results
 
 
-@hybrid_response('compare.jinja')
+@hybrid_response("compare.jinja")
 def compare_declarations(request):
     language = get_language()
 
+    declarations = robust_getlist(request.GET, "declaration_id")
+
     declarations = [
-        decl_id
-        for decl_id in request.GET.getlist("declaration_id", [])
-        if decl_id
+        decl_id for decl_id in set(declarations) if decl_id
     ][:10]
 
     if not declarations:
         return {}
 
-    search = Search(
-        index=CATALOG_INDICES).doc_type(NACPDeclaration, Declaration) \
-        .query(
-            {
-                "ids": {
-                    "values": declarations
-                }
-            })
+    search = (
+        Search(index=CATALOG_INDICES)
+        .doc_type(NACPDeclaration, Declaration)
+        .query({"ids": {"values": declarations}})
+    )
     results = search.execute()
 
-    results = sorted(results, key=lambda x: str(
-        x.intro.date or x.declaration.date or x.intro.declaration_year or "")
+    results = sorted(
+        results,
+        key=lambda x: (
+            str(x.intro.declaration_year or x.intro.date or x.declaration.date or ""),
+            getattr(x.intro, "corrected", False),
+        ),
     )
 
     results = [r for r in results if hasattr(r, "aggregated")]
     for r in results:
         r.prepare_translations(language, infocard_only=True)
 
-
     add_names_to_labels = len(set(r.general.full_name.lower() for r in results)) > 1
-    add_types_to_labels = len(set((getattr(r.intro, "doc_type", "щорічна") or "щорічна").lower() for r in results)) > 1
+    add_types_to_labels = (
+        len(
+            set(
+                (getattr(r.intro, "doc_type", "щорічна") or "щорічна").lower()
+                for r in results
+            )
+        )
+        > 1
+    )
     labels = []
     urls = []
     for r in results:
@@ -506,73 +514,226 @@ def compare_declarations(request):
         "results": results,
         "labels": labels,
         "urls": json.dumps(urls),
-        "incomes_data": json.dumps(prepare_datasets_for_charts(
-            results, labels,
-            OrderedDict((
-                (_("Загальна сума подарунків"), {"type": "line", "field": "incomes.presents.all", "transform": float}),
-                (_("Родина"), {"type": "bar", "field": "incomes.family", "transform": float}),
-                (_("Декларант"), {"type": "bar", "field": "incomes.declarant", "transform": float}),
-            )))
+        "incomes_data": json.dumps(
+            prepare_datasets_for_charts(
+                results,
+                labels,
+                OrderedDict(
+                    (
+                        (
+                            _("Загальна сума подарунків"),
+                            {
+                                "type": "line",
+                                "field": "incomes.presents.all",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Родина"),
+                            {
+                                "type": "bar",
+                                "field": "incomes.family",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Декларант"),
+                            {
+                                "type": "bar",
+                                "field": "incomes.declarant",
+                                "transform": float,
+                            },
+                        ),
+                    )
+                ),
+            )
         ),
-
-        "assets_data": json.dumps(prepare_datasets_for_charts(
-            results, labels,
-            OrderedDict((
-                (_("Загальна сума готівки"), {"type": "line", "field": "assets.cash.total", "transform": float}),
-                (_("Родина"), {"type": "bar", "field": "assets.family", "transform": float}),
-                (_("Декларант"), {"type": "bar", "field": "assets.declarant", "transform": float}),
-            )))
+        "assets_data": json.dumps(
+            prepare_datasets_for_charts(
+                results,
+                labels,
+                OrderedDict(
+                    (
+                        (
+                            _("Загальна сума готівки"),
+                            {
+                                "type": "line",
+                                "field": "assets.cash.total",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Родина"),
+                            {
+                                "type": "bar",
+                                "field": "assets.family",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Декларант"),
+                            {
+                                "type": "bar",
+                                "field": "assets.declarant",
+                                "transform": float,
+                            },
+                        ),
+                    )
+                ),
+            )
         ),
-
-        "incomes_vs_expenses_data": json.dumps(prepare_datasets_for_charts(
-            results, labels,
-            OrderedDict((
-                (_("Дохід"), {"type": "bar", "field": "incomes.total", "transform": float}),
-                (_("Грошові активи"), {"type": "bar", "field": "assets.total", "transform": float}),
-                (_("Фінансові зобов'язання"),
-                    {"type": "bar", "field": "liabilities.total", "transform": lambda x: -float(x)}
-                 ),
-                (_("Витрати"),
-                    {"type": "bar", "field": "expenses.total", "transform": lambda x: -float(x)}
-                 ),
-            )))
+        "incomes_vs_expenses_data": json.dumps(
+            prepare_datasets_for_charts(
+                results,
+                labels,
+                OrderedDict(
+                    (
+                        (
+                            _("Дохід"),
+                            {
+                                "type": "bar",
+                                "field": "incomes.total",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Грошові активи"),
+                            {
+                                "type": "bar",
+                                "field": "assets.total",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Фінансові зобов'язання"),
+                            {
+                                "type": "bar",
+                                "field": "liabilities.total",
+                                "transform": lambda x: -float(x),
+                            },
+                        ),
+                        (
+                            _("Витрати"),
+                            {
+                                "type": "bar",
+                                "field": "expenses.total",
+                                "transform": lambda x: -float(x),
+                            },
+                        ),
+                    )
+                ),
+            )
         ),
-
-        "incomes_vs_expenses_data": json.dumps(prepare_datasets_for_charts(
-            results, labels,
-            OrderedDict((
-                (_("Дохід"), {"type": "bar", "field": "incomes.total", "transform": float}),
-                (_("Грошові активи"), {"type": "bar", "field": "assets.total", "transform": float}),
-                (_("Фінансові зобов'язання"),
-                    {"type": "bar", "field": "liabilities.total", "transform": lambda x: -float(x)}
-                 ),
-                (_("Витрати"),
-                    {"type": "bar", "field": "expenses.total", "transform": lambda x: -float(x)}
-                 ),
-            )))
+        "incomes_vs_expenses_data": json.dumps(
+            prepare_datasets_for_charts(
+                results,
+                labels,
+                OrderedDict(
+                    (
+                        (
+                            _("Дохід"),
+                            {
+                                "type": "bar",
+                                "field": "incomes.total",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Грошові активи"),
+                            {
+                                "type": "bar",
+                                "field": "assets.total",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Фінансові зобов'язання"),
+                            {
+                                "type": "bar",
+                                "field": "liabilities.total",
+                                "transform": lambda x: -float(x),
+                            },
+                        ),
+                        (
+                            _("Витрати"),
+                            {
+                                "type": "bar",
+                                "field": "expenses.total",
+                                "transform": lambda x: -float(x),
+                            },
+                        ),
+                    )
+                ),
+            )
         ),
-
-        "land_data": json.dumps(prepare_datasets_for_charts(
-            results, labels,
-            OrderedDict((
-                (_("Площа в родини"), {"type": "bar", "field": "estate.family_land", "transform": float}),
-                (_("Площа в декларанта"), {"type": "bar", "field": "estate.declarant_land", "transform": float}),
-            )))
+        "land_data": json.dumps(
+            prepare_datasets_for_charts(
+                results,
+                labels,
+                OrderedDict(
+                    (
+                        (
+                            _("Площа в родини"),
+                            {
+                                "type": "bar",
+                                "field": "estate.family_land",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Площа в декларанта"),
+                            {
+                                "type": "bar",
+                                "field": "estate.declarant_land",
+                                "transform": float,
+                            },
+                        ),
+                    )
+                ),
+            )
         ),
-
-        "realty_data": json.dumps(prepare_datasets_for_charts(
-            results, labels,
-            OrderedDict((
-                (_("Площа в родини"), {"type": "bar", "field": "estate.family_other", "transform": float}),
-                (_("Площа в декларанта"), {"type": "bar", "field": "estate.declarant_other", "transform": float}),
-            )))
+        "realty_data": json.dumps(
+            prepare_datasets_for_charts(
+                results,
+                labels,
+                OrderedDict(
+                    (
+                        (
+                            _("Площа в родини"),
+                            {
+                                "type": "bar",
+                                "field": "estate.family_other",
+                                "transform": float,
+                            },
+                        ),
+                        (
+                            _("Площа в декларанта"),
+                            {
+                                "type": "bar",
+                                "field": "estate.declarant_other",
+                                "transform": float,
+                            },
+                        ),
+                    )
+                ),
+            )
         ),
-
-        "cars_data": json.dumps(prepare_datasets_for_charts(
-            results, labels,
-            OrderedDict((
-                (_("Кількість у декларації"), {"type": "bar", "field": "vehicles.all_names",
-                 "transform": lambda x: len(x.split(";")) if x else 0}),
-            )))
+        "cars_data": json.dumps(
+            prepare_datasets_for_charts(
+                results,
+                labels,
+                OrderedDict(
+                    (
+                        (
+                            _("Кількість у декларації"),
+                            {
+                                "type": "bar",
+                                "field": "vehicles.all_names",
+                                "transform": lambda x: len(x.split(";")) if x else 0,
+                            },
+                        ),
+                    )
+                ),
+            )
         ),
     }
