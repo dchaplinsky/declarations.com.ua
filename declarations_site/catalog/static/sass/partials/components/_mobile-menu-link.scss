@@ -1,0 +1,9 @@
+.mobile-menu-link {
+  width: 24px;
+  padding: 1px 0;
+  &__line {
+    background: $base;
+    margin: 4px 4px;
+    height: 2px;
+  }
+}

@@ -1,0 +1,96 @@
+.donate-form {
+  &__row {
+    margin-bottom: 22px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    @media all and (min-width: 1024px) {
+      @include flex();
+    }
+  }
+  &__column {
+    @media all and (min-width: 1024px) {
+      &:first-child {
+        width: 61%;
+        padding-right: 9px;
+        box-sizing: border-box;
+      }
+      &:last-child {
+        width: 39%;
+      }
+    }
+  }
+  &__price {
+    @media all and (min-width: 1024px) {
+      @include flex($justify-content: flex-start);
+    }
+  }
+  &__price-btns {
+    @include flex();
+    margin: 0 -4px;
+  }
+  &__price-btn {
+    border: 1px solid #C4C7CC;
+    box-sizing: border-box;
+    border-radius: 2px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 38px;
+    text-align: center;
+    cursor: pointer;
+    width: 50%;
+    margin: 0 4px;
+    white-space: nowrap;
+    transition: border-color 0.3s linear;
+    &:hover, &.active {
+      border: 2px solid $green;
+      line-height: 36px;
+    }
+    @media all and (min-width: 1024px) {
+      width: 96px;
+      flex-shrink: 0;
+    }
+  }
+  &__input {
+    font-size: 16px;
+    padding: 9px 16px;
+    height: 40px;
+    box-sizing: border-box;
+    width: 100%;
+    @media all and (min-width: 1024px) {
+      width: 139px;
+    }
+  }
+  &__text {
+    position: relative;
+    top: -4px;
+  }
+  &__btn {
+    width: 100%;
+    margin-top: 16px;
+    @media all and (min-width: 1024px) {
+      margin: 0;
+    }
+  }
+  &__checkbox {
+    margin-top: 8px;
+    @media all and (min-width: 1024px) {
+      margin: 0;
+    }
+
+  }
+  &__input-wrap {
+    margin-top: 16px;
+    flex: auto;
+    @media all and (min-width: 1024px) {
+      margin: 0 0 0 8px;
+    }
+  }
+  .n-checkbox__label-box {
+    width: 18px;
+    height: 18px;
+  }
+  .n-checkbox__label {
+    line-height: 18px;
+  }
+}

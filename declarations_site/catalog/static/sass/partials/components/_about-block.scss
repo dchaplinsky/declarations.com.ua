@@ -1,0 +1,53 @@
+.about-block {
+  padding: 60px 16px 30px;
+  @media all and (min-width: 1024px) {
+    padding: 40px;
+  }
+  &__title {
+    line-height: 1;
+    font-size: 20px;
+    margin: 0 0 10px;
+    @media all and (min-width: 1024px) {
+      font-family: Formular;
+      font-size: 36px;
+    }
+  }
+  &__content {
+    p {
+      margin: 10px 0;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+    h3 {
+      margin: 22px 0 10px;
+    }
+    @media all and (min-width: 1024px) {
+      @include flex($align-items: stretch);
+      margin: 0 -20px;
+    }
+  }
+  &__column {
+    @media all and (min-width: 1024px) {
+      width: 50%;
+      box-sizing: border-box;
+      padding: 0 20px;
+    }
+  }
+  &__column_right {
+    @media all and (min-width: 1024px) {
+      @include flex($flex-direction: column);
+    }
+  }
+  &__column_inner {
+    width: 100%;
+  }
+  &__join-project {
+    width: 100%;
+    margin-top: 40px;
+    @media all and (min-width: 1024px) {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+}

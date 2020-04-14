@@ -2,6 +2,7 @@
 {% from "_search_results.jinja" import search_results with context %}
 {% from "_procurements.jinja" import procurements_details %}
 {% from "_spotter.jinja" import spotter_button %}
+{% from "_decl_teaser.jinja" import decl_year_type %}
 {% from "_decl_teaser.jinja" import decl_teaser with context %}
 
 {% block html_title -%}
@@ -69,21 +70,131 @@
 {% endif %}
 
 {% block content %}
+    <div class="declaration-page__navigation">
+        <a onClick="history.go(-1)" class="n-btn n-btn_ico n-btn_back declaration-page__back">{{ _("Назад") }}</a>
 
-<div class="decl-teaser">{{ decl_teaser(declaration, True) }}</div>
+        <div class="contents declaration-page__contents">
+            <button class="n-btn n-btn_ico n-btn_contents contents__open">{{ _("Зміст") }}</button>
+            <div class="contents__body">
+                <div class="contents__header">
+                    <div class="contents__close">
+                        <svg width="16" height="8" viewBox="0 0 16 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.01 3H0V5H12.01V8L16 4L12.01 0V3Z" fill="#56B8AD"/>
+                        </svg>
+                    </div>
+                    <div class="contents__title">{{ _("Зміст") }}</div>
+                </div>
+                <div class="contents__items"></div>
+            </div>
+        </div>
+    </div>
+    <div class="content container">
+        <div class="declaration-card" data-declid="{{ declaration.meta.id }}" itemscope itemtype="http://schema.org/Person">
+            <div class="declaration-card__personal-info">
+                <div class="personal-info">
+                    <div class="personal-info__top">
+                        <div class="personal-info__name" itemprop="name">
+                            {{ declaration._full_name(language) }}
+                        </div>
+                        <div class="personal-info__position">{{ decl_year_type(declaration) }}</div>
+                    </div>
+                    <div class="personal-info__rows">
+                        <div class="personal-info__row">
+                            <div class="personal-info__item-name">{{ _("Місце праці") }}</div>
+                            <div class="personal-info__item-value" itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
+                                {% if declaration.general.post.actual_region %}
+                                    <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration._actual_region(language) }}</a><span>,</span>
+                                {% elif declaration.general.post.region %}
+                                    <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration._region(language) }}</a><span>,</span>
+                                {% endif %}
+                                {% if declaration.general.post.office %}
+                                    <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration._office(language) }}</span></a><span>,</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if declaration.general.post.post %}
+                            <div class="personal-info__row">
+                                <div class="personal-info__item-name">{{ _("Посада") }}</div>
+                                <div class="personal-info__item-value" itemprop="jobTitle">
+                                        {{ declaration._position(language) }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if declaration.intro.date %}
+                            <div class="personal-info__row">
+                                <div class="personal-info__item-name">{{ _("Дата подачі") }}</div>
+                                <div class="personal-info__item-value">{{ declaration.intro.date|datetime }}</div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            {% if declaration.declaration.source == "NACP" %}
+                {% set red_flags = declaration.red_flags() %}
+                {% if red_flags %}
+                    <div class="declaration-card__feature">
+                        <div class="declaration-card__feature-title">{{ _("Особливості") }}</div>
+                        <div class="declaration-card__feature-items">
+                            {% for flag in red_flags %}
+                                <div class="declaration-card__feature-item">
+                                    {{ flag.text }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            <div class="declaration-card__actions">
+                <div class="declaration-card__btns">
+                    {% if declaration.aggregated %}
+                        <button class="n-btn n-btn_ico n-btn_compare declaration-card__btn card-actions__action-add-to-compare">
+                            {{ _("Додати у порівняння") }}
+                        </button>
+                    {% endif %}
+                    {# <button class="n-btn n-btn_ico n-btn_find declaration-card__btn">Додати у знахідки</button> #}
+                </div>
+
+                <div class="declaration-card__monitoring monitoring-block">
+                    <div class="monitoring-block__title">
+                        {{ _("Моніторити запит:") }}
+                    </div>
+                    <div class="monitoring-block__btns">
+                        {{ spotter_button(_("+ Моніторити декларанта"), "q=%s+%s+%s" % (declaration.general.last_name,
+                        declaration.general.name, declaration.general.patronymic), "from-declaration") }}
+                        <a href="{{ SITE_URL }}{{ url('search') }}?{{ "q=%s+%s+%s" % (declaration.general.last_name, declaration.general.name, declaration.general.patronymic) }}&amp;format=rss"
+                            class="n-btn n-btn_gray monitoring-block__btn">
+                            {{ _("RSS") }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="declaration-details" data-id="3">
+            {% if language == "en" %}
+                {{ declaration.raw_en_html()|safe }}
+            {% else %}
+                {{ declaration.raw_html()|safe }}
+            {% endif %}
+        </div>
+        {# <div class="decl-teaser">{{ decl_teaser(declaration, True) }}</div> #}
+    </div>
+
+
 
 <section id="page" data-declid="{{ declaration.meta.id }}">
     <div itemscope itemtype="http://schema.org/Person">
         <div class="decl-header-wrap">
             <div class="container rc">
                 <div class="breadcrumbs-container">
-                    <div id="breadcrumbs">
+                    {# <div id="breadcrumbs">
                         <ol class="breadcrumb pull-left">
                             <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
                             <li class="active">{{ _("Результати пошуку") }}</li>
                             <li class="active">{{ declaration._full_name(language) }}</li>
                         </ol>
-                    </div>
+                    </div> #}
 
                     <h1 id="page-header"><span itemprop="name">{{ declaration._full_name(language) }}</span></h1>
 
@@ -95,18 +206,19 @@
 
                     <h2 class="sub-header">
                         <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
+                
                         {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
-                <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
-                {% if declaration.general.post.actual_region %}
-                    <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration._actual_region(language) }}</a><span>,</span>
-                {% elif declaration.general.post.region %}
-                    <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration._region(language) }}</a><span>,</span>
-                {% endif %}
-                {% if declaration.general.post.office %}
-                    <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration._office(language) }}</span></a><span>,</span>
+                        <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
+                        {% if declaration.general.post.actual_region %}
+                            <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration._actual_region(language) }}</a><span>,</span>
+                        {% elif declaration.general.post.region %}
+                            <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration._region(language) }}</a><span>,</span>
+                        {% endif %}
+                        {% if declaration.general.post.office %}
+                            <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration._office(language) }}</span></a><span>,</span>
                         {% endif %}
                         {% if declaration.general.post.post %}
-                        <span itemprop="jobTitle">{{ declaration._position(language) }}</span><span>,</span>
+                            <span itemprop="jobTitle">{{ declaration._position(language) }}</span><span>,</span>
                         {% endif %}
 
                         {% if declaration.intro.doc_type %}{{ declaration._declaration_type(language) }}<span>,</span>{% endif %}

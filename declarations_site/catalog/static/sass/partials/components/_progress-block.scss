@@ -1,0 +1,14 @@
+.progress-block {
+  &__bar {
+    background: #EEEFF2;
+    border-radius: 2px;
+    height: 4px;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  &__progress {
+    background: $green;
+    height: 100%;
+    border-radius: 2px;
+  }
+}

@@ -1,0 +1,73 @@
+.search-card {
+  background: $white;
+  border: 1px solid #EEEFF2;
+  border-radius: 4px;
+  &__top {
+    padding: 10px 16px;
+    border-bottom: 1px solid #EEEFF2;
+    position: relative;
+    @media all and (min-width: 1024px) {
+      @include flex($align-items: center);
+      padding: 10px 23px;
+    }
+  }
+  &__name {
+    font-weight: 700;
+    @media all and (min-width: 1024px) {
+      font-size: 16px;
+    }
+  }
+  &__position {
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 3px;
+    @media all and (min-width: 1024px) {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+  &__item {
+    border-bottom: 1px solid #EEEFF2;
+    padding: 12px 0;
+    &:last-child {
+      border-bottom: none;
+    }
+    @media all and (min-width: 1024px) {
+      @include flex($align-items: center, $justify-content: flex-start);
+    }
+  }
+  &__item-name {
+    color: #898D93;
+    text-transform: uppercase;
+    font-size: 9px;
+    font-weight: 700;
+    flex: 30%;
+    max-width: 130px;
+    margin-bottom: 7px;
+    letter-spacing: 0.25px;
+    @media all and (min-width: 1024px) {
+      margin: 0;
+      font-size: 11px;
+    }
+  }
+  &__item-text {
+    font-size: 12px;
+    font-weight: 500;
+    flex: auto;
+    max-width: 640px;
+  }
+  &__items {
+    padding: 0 16px;
+    @media all and (min-width: 1024px) {
+      padding: 0 23px;
+    }
+  }
+  &__actions {
+    @media all and (max-width: 1023px) {
+      position: absolute;
+      top: 50%;
+      margin-top: -10px;
+      right: 18px;
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.subscription-block {
+  max-width: 400px;
+  &__title {
+    line-height: 1;
+    color: #C9C9C9;
+    margin-bottom: 12px;
+    @media all and (min-width: 1024px) {
+      margin-bottom: 24px;
+    }
+  }
+}
+
+.subscription-form {
+  @include flex($justify-content: flex-start, $align-items: center);
+  &__btn {
+    margin-left: 8px;
+    flex-shrink: 0;
+    @media all and (min-width: 1024px) {
+      width: 120px;
+    }
+    @media all and (max-width: 1023px) {
+      text-transform: uppercase;
+      padding: 10px 13px;
+      font-size: 10px;
+    }
+  }
+  &__input-wrap {
+    width: 100%;
+  }
+}

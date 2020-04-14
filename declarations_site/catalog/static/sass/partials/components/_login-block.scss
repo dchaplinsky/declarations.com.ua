@@ -1,0 +1,66 @@
+.login-block {
+  padding: 60px 16px;
+  box-sizing: border-box;
+  max-width: 390px;
+  margin: 0 auto;
+  @media all and (min-width: 400px) {
+    text-align: center;
+    padding: 44px 40px;
+  }
+  &__title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1;
+    font-size: 20px;
+    @media all and (min-width: 400px) {
+      font-size: 28px;
+    }
+  }
+  &__btns {
+    margin: 25px 0;
+  }
+  &__btn_facebook, &__btn_google {
+    width: 100%;
+    box-sizing: border-box;
+    &:before {
+      content: "";
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      top: -2px;
+      margin-right: 10px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+    }
+  }
+  &__btn_facebook {
+    margin-bottom: 12px;
+    &:before {
+      background-image: url('../images/facebook.svg');
+    }
+  }
+  &__btn_google {
+    &:before {
+      background-image: url('../images/google.svg');
+    }
+  }
+  &__bottom {
+    text-align: center;
+  }
+  &__other {
+    font-weight: 700;
+    display: inline-block;
+    font-size: 12px;
+    padding: 0 18px;
+    &-text {
+      margin-right: 5px;
+    }
+    &:hover {
+      color: darken($green, 10%);
+      path { fill: darken($green, 10%); }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+.api-block {
+  padding: 60px 16px 40px;
+  @media all and (min-width: 1024px) {
+    padding: 32px;
+  }
+  &__title {
+    font-size: 20px;
+    margin-top: 0;
+    line-height: 1;
+    @media all and (min-width: 1024px) {
+      font-size: 24px;
+    }
+  }
+  a {
+    color: $base;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 1.2;
+    display: inline-block;
+    text-decoration: underline;
+  }
+  &__small-table td{
+    @media all and (max-width: 1023px) {
+      font-size: 9px;
+      padding: 8px;
+      a {
+        font-weight: 400;
+        font-size: 9px;
+      }
+    }
+  }
+}
+
+.request-table {
+  margin: 7px 0;
+  border: 1px solid #EEEFF2;
+  @media all and (max-width: 1023px) {
+    font-size: 12px;
+  }
+  &__row {
+    @include flex($align-items: stretch);
+    border-bottom: 1px solid #EEEFF2;
+    &:last-child {
+      border-bottom: none;
+    }
+    @media all and (max-width: 1023px) {
+      align-items: center;
+    }
+  }
+  &__link-wrap {
+    width: 43%;
+    padding: 10px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    @media all and (min-width: 500px) {
+      width: 70%;
+    }
+    @media all and (max-width: 1023px) {
+      padding: 5px 10px;
+    }
+    a {
+      @media all and (max-width: 1023px) {
+        white-space: nowrap;
+        max-width: 100%;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+  &__link-name {
+    padding: 10px;
+    width: 57%;
+    flex-shrink: 0;
+    box-sizing: border-box;
+    border-right: 1px solid #EEEFF2;
+    @media all and (min-width: 500px) {
+      width: 30%;
+    }
+    @media all and (max-width: 1023px) {
+      padding: 5px 10px;
+    }
+  }
+  &__title {
+    font-weight: 700;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,13 @@
+.promo-block {
+  background: #EEEFF2;
+  height: 80px;
+  font-size: 13px;
+  color: $black;
+  letter-spacing: 1px;
+  border-radius: 2px;
+  @include flex($justify-content: center, $align-items: center);
+  @media all and (min-width: 1024px) {
+    height: 200px;
+    background: #C4C4C4;
+  }
+}

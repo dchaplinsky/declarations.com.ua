@@ -1,0 +1,85 @@
+.contents {
+  position: relative;
+  &.opened {
+    .contents__body {
+      right: 0;
+    }
+  }
+  &__open {
+    padding-right: 20px;
+    border-radius: 2px 0 0 2px;
+  }
+  &__body {
+    background: $white;
+    border: 1px solid #EEEFF2;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    right: -100%;
+    transition: right 0.3s linear;
+    overflow: auto;
+    @media all and (min-width: 1024px) {
+      width: 320px;
+      right: -320px;
+      top: 0;
+      position: absolute;
+      bottom: auto;
+    }
+  }
+  &__items {
+    border-top: 1px solid #EEEFF2;
+    padding: 16px 0;
+  }
+  &__item {
+    font-size: 12px;
+    font-weight: 700;
+    color: $green;
+    padding: 4px 16px 4px 46px;
+    position: relative;
+    display: block;
+    transition: background-color 0.3s linear;
+    &.empty {
+      color: #898D93;
+    }
+    &:last-child {
+      margin-bottom: 0;
+    }
+    & span:first-child:not(:last-child) {
+      position: absolute;
+      top: 4px;
+      left: 16px;
+    }
+    &:hover {
+      background: darken($white, 4%);
+    }
+  }
+  &__header {
+    padding: 10px 16px;
+    @include flex($justify-content: flex-start, $align-items: center);
+  }
+  &__title {
+    font-size: 12px;
+    font-weight: 700;
+  }
+  &__close {
+    cursor: pointer;
+    margin-right: 12px;
+    &:hover path{
+      fill: darken($green, 10%);
+    }
+  }
+}
+
+.contents-lock {
+  @media all and (max-width: 1023px) {
+    height: auto;
+    overflow: hidden !important;
+    width: auto;
+    body {
+      overflow: hidden !important;
+      height: 100%;
+    }
+  }
+}

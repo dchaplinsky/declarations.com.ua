@@ -1,0 +1,176 @@
+.tenders{
+  &.opened {
+    .tenders__body {
+      display: block;
+    }
+    .tenders__top:before, .tenders__description:before {
+      border-color: transparent transparent $green transparent;
+      margin-top: -4px;
+    }
+  }
+  &__top {
+    @media all and (min-width: 1024px) {
+      position: relative;
+      padding: 20px 24px;
+      cursor: pointer;
+      margin: 0 -24px;
+      transition: background-color 0.3s linear;
+      &:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 24px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 5px;
+        border-color: $base transparent transparent transparent;
+      }
+      &:hover {
+        background: darken($white, 2%);
+      }
+    }
+  }
+  &__top-inner {
+    @media all and (min-width: 1024px) {
+      max-width: 780px;
+      @include flex($align-items: center);
+    }
+  }
+  &__body {
+    display: none;
+  }
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    @media all and (max-width: 1023px) {
+      padding: 16px 0;
+    }
+  }
+  &__description {
+    font-weight: 700;
+    @media all and (max-width: 1023px) {
+      font-size: 10px;
+      font-weight: 500;
+      border: 1px solid #EEEFF2;
+      padding: 12px 44px 12px 16px;
+      position: relative;
+      &:before {
+        content: "";
+        position: absolute;
+        top: 19px;
+        right: 19px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 5px;
+        margin-top: -1px;
+        border-color: $base transparent transparent transparent;
+      }
+    }
+  }
+  &__years-wrap {
+    @media all and (max-width: 1023px) {
+      border: 1px solid #EEEFF2;
+      padding: 10px 16px;
+      font-size: 11px;
+    }
+  }
+  &__years {
+    width: 100%;
+    border: none;
+    td, th {
+      padding: 6px 0;
+      border: none;
+      text-align: right;
+      vertical-align: top;
+    }
+    td:first-child {
+      text-align: left;
+    }
+    th:first-child {
+      text-align: left;
+    }
+    @media all and (max-width: 1023px) {
+      th {
+        font-size: 9px;
+      }
+      td:nth-child(2), th:nth-child(2) {
+        max-width: 60px;
+        text-align: left;
+        padding-left: 20px;
+      }
+    }
+    @media all and (min-width: 1024px) {
+      td:first-child {
+        color: #898D93;
+      }
+    }
+  }
+  &__companies {
+    margin-top: 24px;
+    @media all and (max-width: 1023px) {
+      border: 1px solid #EEEFF2;
+      padding: 16px;
+      margin: 0;
+    }
+  }
+  &__companies-title {
+    font-weight: 700;
+    padding-bottom: 4px;
+  }
+  &__companies-row {
+    @media all and (min-width: 1024px) {
+      @include flex();
+    }
+    @media all and (max-width: 1023px) {
+      border-top: 1px solid #EEEFF2;
+      padding: 12px 0;
+      &:first-child {
+        border-top: none;
+        padding-top: 0;
+      }
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+  }
+  &__companies-header {
+    display: none;
+    @media all and (min-width: 1024px) {
+      @include flex();
+    }
+  }
+  &__companies-column {
+    @media all and (max-width: 1023px) {
+      font-size: 11px;
+      margin-bottom: 12px;
+      &:last-child {
+        margin: 0;
+      }
+    }
+    @media all and (min-width: 1024px) {
+      text-align: right;
+      padding: 6px 0;
+      box-sizing: border-box;
+      &:first-child {
+        text-align: left;
+        width: 40%;
+      }
+      &:nth-child(2) {
+        width: 30%;
+      }
+      &:nth-child(3) {
+        width: 30%;
+      }
+    }
+  }
+  &__companies-mobile-title {
+    font-size: 9px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    @media all and (min-width: 1024px) {
+      display: none;
+    }
+  }
+}

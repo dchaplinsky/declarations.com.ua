@@ -1,0 +1,23 @@
+.donate-block {
+  padding: 60px 16px 16px;
+  box-sizing: border-box;
+  max-width: 664px;
+  margin: 0 auto;
+  @media all and (min-width: 1024px) {
+    padding: 40px;
+  }
+  &__title {
+    line-height: 1;
+    font-weight: 700;
+    font-size: 20px;
+    @media all and (min-width: 1024px) {
+      font-size: 28px;
+    }
+  }
+  &__text {
+    max-width: 400px;
+  }
+  ul {
+    font-weight: 600;
+  }
+}
