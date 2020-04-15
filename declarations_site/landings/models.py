@@ -181,7 +181,7 @@ class Person(models.Model):
                 "bool",
                 must=[
                     Q("match", general__full_name={"query": q, "operator": "or"}),
-                    Q("match", obj_ids=" ".join(obj_ids_to_find[:512])),
+                    Q("match", obj_ids=" ".join(list(obj_ids_to_find)[:512])),
                 ],
                 should=[],
                 minimum_should_match=0,
