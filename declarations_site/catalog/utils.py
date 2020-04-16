@@ -133,7 +133,7 @@ def apply_search_filters(search, filters):
         search, robust_getlist(filters, "declaration_year"), "intro.declaration_year"
     )
 
-    search = apply_term_filter(search, filters.get("doc_type", ""), "intro.doc_type")
+    search = apply_terms_filter(search, robust_getlist(filters, "doc_type"), "intro.doc_type")
 
     search = apply_terms_filter(
         search,

@@ -107,7 +107,7 @@ class AbstractDeclaration(object):
     def related_documents(self):
         return [
             document.api_response(fields=["related_entities", "guid", "aggregated_data"])
-            for document in self.similar_declarations(limit=100, return_full_body=True)
+            for document in self.similar_declarations(limit=100)
             if not document._is_change_form()
         ]
 
@@ -150,7 +150,7 @@ class AbstractDeclaration(object):
     def _full_name(self, language):
         name = "{} {} {}".format(
             self.general.last_name, self.general.name, self.general.patronymic
-        )
+        ).strip()
 
         if language == "en":
             assert hasattr(
@@ -209,7 +209,22 @@ class AbstractDeclaration(object):
 
         return {f: getattr(self, f)() for f in fields}
 
-    def similar_declarations(self, language=None, limit=12, return_full_body=False):
+    def similar_declarations(self, language=None, limit=12):
+        res = {
+            "exact": [],
+            "maybe": []
+        }
+
+        if getattr(self.intro, "user_declarant_id", None):
+            index = OLD_DECLARATION_INDEX
+
+            res["exact"] = NACPDeclaration.search().filter(
+                "term", **{"intro.user_declarant_id": self.intro.user_declarant_id}
+            ).query(~Q("term", _id=self.meta.id)).sort("-intro.doc_type")
+        else:
+            index = CATALOG_INDICES
+
+
         fields = [
             "general.last_name",
             "general.name",
@@ -217,8 +232,8 @@ class AbstractDeclaration(object):
             "general.full_name",
         ]
 
-        s = (
-            Search(index=CATALOG_INDICES)
+        res["maybe"] = (
+            Search(index=index)
             .query(
                 "multi_match",
                 query=self.general.full_name,
@@ -228,17 +243,23 @@ class AbstractDeclaration(object):
             .query(~Q("term", _id=self.meta.id))
         )
 
-        if return_full_body:
+        for k, s in res.items():
+            if not s:
+                continue            
             s = s.doc_type(NACPDeclaration, Declaration)
-            docs = s[:limit].execute()
+
+            if k == "maybe":
+                s = s[:limit]
+            else:
+                s = s[:30]
+
+            res[k] = s.execute()
 
             if language is not None:
-                for d in docs:
+                for d in res[k]:
                     d.prepare_translations(language, infocard_only=True)
-        else:
-            docs = s[:limit].execute()
 
-        return docs
+        return res
 
     def family_declarations(self, language=None, limit=12, return_full_body=False):
         def filter_silly_names(name):
@@ -277,15 +298,12 @@ class AbstractDeclaration(object):
         if subqs:
             s = s.query(reduce(or_, subqs)).query(~Q("term", _id=self.meta.id))
 
-            if return_full_body:
-                s = s.doc_type(NACPDeclaration, Declaration)
-                docs = s[:limit].execute()
+            s = s.doc_type(NACPDeclaration, Declaration)
+            docs = s[:limit].execute()
 
-                if language is not None:
-                    for d in docs:
-                        d.prepare_translations(language, infocard_only=True)
-            else:
-                docs = s[:limit].execute()
+            if language is not None:
+                for d in docs:
+                    d.prepare_translations(language, infocard_only=True)
 
             return docs
         else:
