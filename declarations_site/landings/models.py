@@ -2,10 +2,10 @@ from itertools import chain
 
 from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
-from elasticsearch.serializer import JSONSerializer
 from django.core.serializers.json import DjangoJSONEncoder
-from dateutil.parser import parse as dt_parse
 
+from dateutil.parser import parse as dt_parse
+from elasticsearch.serializer import JSONSerializer
 from elasticsearch_dsl import Q
 
 from catalog.elastic_models import NACPDeclaration

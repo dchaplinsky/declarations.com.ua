@@ -26,9 +26,6 @@ class DeclarationInline(nested_admin.NestedTabularInline):
     ordering = ("user_declarant_id", "year")
 
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
     def declaration_snippet(self, obj):
         return render_to_string("admin/decls_snippet.jinja", {"d": obj})
 
@@ -40,6 +37,7 @@ class PersonInline(nested_admin.NestedTabularInline):
     extra = 1
     fields = ("name", "extra_keywords")
     inlines = [DeclarationInline]
+
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -61,7 +59,7 @@ class LandingPageAdmin(nested_admin.NestedModelAdmin):
             return AddLandingPageForm
 
     def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
+        res = super().save_model(request, obj, form, change)
 
         if not change:
             persons = list(
@@ -71,6 +69,7 @@ class LandingPageAdmin(nested_admin.NestedModelAdmin):
                 p = Person.objects.create(body=obj, name=name)
 
         obj.pull_declarations()
+        return res
 
 
 admin.site.register(LandingPage, LandingPageAdmin)
