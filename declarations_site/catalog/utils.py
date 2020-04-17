@@ -15,7 +15,7 @@ from django.conf import settings
 from django.urls import reverse, resolve, Resolver404, NoReverseMatch
 from django.utils.translation import get_language
 
-from catalog.constants import VALID_RELATIONS
+from .constants import VALID_RELATIONS
 
 
 def is_cyr(name):
@@ -119,19 +119,48 @@ def apply_match_filter(search, filter_list, field, operator='or'):
 
 
 def apply_search_filters(search, filters):
+    from .elastic_models import NACPDeclaration
+
     if not filters:
         return search
-    region_type = filters.get("region_type", "region")
-    region_value = filters.get("region_value", "")
-    if region_type and region_value:
-        filters[region_type] = region_value
-    search = apply_terms_filter(search, robust_getlist(filters, "declaration_year"), "intro.declaration_year")
-    search = apply_term_filter(search, filters.get("doc_type", ""), "intro.doc_type")
-    search = apply_term_filter(search, filters.get("region", ""), "general.post.region.raw")
-    search = apply_term_filter(search, filters.get("actual_region"), "general.post.actual_region.raw")
-    search = apply_term_filter(search, filters.get("estate_region"), "estate.region.raw")
-    search = apply_match_filter(search, robust_getlist(filters, "post_type"), "general.post.post_type")
+    region_types = robust_getlist(filters, "region_type") or ["region"]
+    region_values = robust_getlist(filters, "region_value") or []
+    if region_types and region_values:
+        for region_type in region_types:
+            filters[region_type] = region_values
+
+    search = apply_terms_filter(
+        search, robust_getlist(filters, "declaration_year"), "intro.declaration_year"
+    )
+
+    search = apply_terms_filter(search, robust_getlist(filters, "doc_type"), "intro.doc_type")
+
+    search = apply_terms_filter(
+        search,
+        filters.get("region"),
+        "general.post.region.raw"
+    )
+    search = apply_terms_filter(
+        search,
+        filters.get("actual_region"),
+        "general.post.actual_region.raw",
+    )
+    search = apply_terms_filter(
+        search,
+        filters.get("estate_region"),
+        "estate.region.raw"
+    )
+
+    for flag in robust_getlist(filters, "flag"):
+        if flag in NACPDeclaration.ENABLED_FLAGS:
+            search = apply_term_filter(search, True, f"aggregated.{flag}")
+
+    search = apply_match_filter(
+        search, robust_getlist(filters, "post_type"), "general.post.post_type"
+    )
+
     return search
+
 
 
 QS_OPS = re.compile(r'(["*?:~(]| AND | OR | NOT | -\w)')

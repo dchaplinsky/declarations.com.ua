@@ -2,10 +2,10 @@ from itertools import chain
 
 from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
-from elasticsearch.serializer import JSONSerializer
 from django.core.serializers.json import DjangoJSONEncoder
-from dateutil.parser import parse as dt_parse
 
+from dateutil.parser import parse as dt_parse
+from elasticsearch.serializer import JSONSerializer
 from elasticsearch_dsl import Q
 
 from catalog.elastic_models import NACPDeclaration
@@ -28,6 +28,7 @@ class DeclarationsManager(models.Manager):
                 corrected=getattr(d.intro, "corrected", False),
                 doc_type=getattr(d.intro, "doc_type", "Щорічна"),
                 obj_ids=list(getattr(d, "obj_ids", [])),
+                user_declarant_id=getattr(d.intro, "user_declarant_id", None),
                 source=d.api_response(
                     fields=[
                         "guid",
@@ -47,8 +48,7 @@ class LandingPage(models.Model):
     title = models.CharField("Заголовок сторінки", max_length=200)
     description = models.TextField("Опис сторінки", blank=True)
     keywords = models.TextField(
-        "Ключові слова для пошуку в деклараціях (по одному запиту на рядок)",
-        blank=True
+        "Ключові слова для пошуку в деклараціях (по одному запиту на рядок)", blank=True
     )
 
     def pull_declarations(self):
@@ -73,7 +73,10 @@ class LandingPage(models.Model):
 
 class Person(models.Model):
     body = models.ForeignKey(
-        "LandingPage", verbose_name="Лендінг-сторінка", related_name="persons", on_delete=models.CASCADE
+        "LandingPage",
+        verbose_name="Лендінг-сторінка",
+        related_name="persons",
+        on_delete=models.CASCADE,
     )
     name = models.CharField("Ім'я особи", max_length=200)
     extra_keywords = models.CharField(
@@ -122,7 +125,10 @@ class Person(models.Model):
                     .query(
                         "bool",
                         must=[
-                            Q("match", general__full_name={"query": q, "operator": "and"})
+                            Q(
+                                "match",
+                                general__full_name={"query": q, "operator": "and"},
+                            )
                         ],
                         should=[sc],
                         minimum_should_match=1,
@@ -139,31 +145,49 @@ class Person(models.Model):
                     "bool",
                     must=[
                         Q("match", general__full_name={"query": q, "operator": "and"})
-                    ]
+                    ],
                 )[:100]
                 .execute()
             )
 
         Declaration.objects.create_declarations(self, first_pass)
-        obj_ids_to_find = set(
-            chain(
-                *self.declarations.exclude(exclude=True).values_list(
-                    "obj_ids", flat=True
-                )
+
+        user_declarant_ids = set(
+            filter(
+                None,
+                self.declarations.exclude(exclude=True).values_list(
+                    "user_declarant_id", flat=True
+                ),
             )
         )
 
-        second_pass = NACPDeclaration.search().query(
-            "bool",
-            must=[
-                Q("match", general__full_name={"query": q, "operator": "or"}),
-                Q("match", obj_ids=" ".join(obj_ids_to_find)),
-            ],
-            should=[],
-            minimum_should_match=0,
-        )[:100]
+        if user_declarant_ids:
+            second_pass = NACPDeclaration.search().filter(
+                "terms", **{"intro.user_declarant_id": list(user_declarant_ids)}
+            )
 
-        second_pass = second_pass.execute()
+            second_pass = second_pass.execute()
+
+        if not user_declarant_ids or not second_pass:
+            obj_ids_to_find = set(
+                chain(
+                    *self.declarations.exclude(exclude=True).values_list(
+                        "obj_ids", flat=True
+                    )
+                )
+            )
+
+            second_pass = NACPDeclaration.search().query(
+                "bool",
+                must=[
+                    Q("match", general__full_name={"query": q, "operator": "or"}),
+                    Q("match", obj_ids=" ".join(list(obj_ids_to_find)[:512])),
+                ],
+                should=[],
+                minimum_should_match=0,
+            )[:100]
+
+            second_pass = second_pass.execute()
 
         Declaration.objects.create_declarations(self, second_pass)
 
@@ -205,9 +229,15 @@ class Person(models.Model):
 
 class Declaration(models.Model):
     person = models.ForeignKey(
-        "Person", verbose_name="Персона", related_name="declarations", on_delete=models.CASCADE
+        "Person",
+        verbose_name="Персона",
+        related_name="declarations",
+        on_delete=models.CASCADE,
     )
     declaration_id = models.CharField("Ідентифікатор декларації", max_length=60)
+    user_declarant_id = models.IntegerField(
+        "Ідентифікатор декларанта", null=True, default=None
+    )
     year = models.IntegerField("Рік подання декларації")
     corrected = models.BooleanField("Уточнена декларація")
     exclude = models.BooleanField("Ігнорувати цей документ", default=False)

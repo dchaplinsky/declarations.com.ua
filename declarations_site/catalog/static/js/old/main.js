@@ -279,9 +279,14 @@ $(function() {
         });
 
         //add two blocks to TOC
+        if( $('#exact_by_surname').length > 0 ) {
+            $('<li class="divider"></li>').appendTo('#nacp-toc ul');
+            $('<li><a href="#exact_by_surname">' + $('#exact_by_surname span').text() + '</a></li>').appendTo('#nacp-toc ul');
+        }
+
         if( $('#similar_by_surname').length > 0 ) {
             $('<li class="divider"></li>').appendTo('#nacp-toc ul');
-            $('<li><a href="#similar_by_surname">Інші декларації за тим же прізвищем</a></li>').appendTo('#nacp-toc ul');
+            $('<li><a href="#similar_by_surname">' + $('#similar_by_surname span').text() + '</a></li>').appendTo('#nacp-toc ul');
         }
 
         if( $('#similar_by_relations').length > 0 ) {

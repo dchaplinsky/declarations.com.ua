@@ -21,16 +21,13 @@ class DeclarationInline(nested_admin.NestedTabularInline):
     model = Declaration
     extra = 0
     max_num = 0
-    fields = ("declaration_snippet", "year", "corrected", "exclude")
-    readonly_fields = ("declaration_snippet", "year", "corrected",)
+    fields = ("declaration_snippet", "year", "corrected", "user_declarant_id", "exclude")
+    readonly_fields = ("declaration_snippet", "year", "corrected", "user_declarant_id")
+    ordering = ("user_declarant_id", "year")
 
-    def has_delete_permission(self, request, obj=None):
-        return False
 
     def declaration_snippet(self, obj):
-        return render_to_string(
-            "admin/decls_snippet.jinja", {"d": obj}
-        )
+        return render_to_string("admin/decls_snippet.jinja", {"d": obj})
 
     declaration_snippet.short_description = "Картка декларації"
 
@@ -38,12 +35,13 @@ class DeclarationInline(nested_admin.NestedTabularInline):
 class PersonInline(nested_admin.NestedTabularInline):
     model = Person
     extra = 1
-    fields = ("name", "extra_keywords", )
+    fields = ("name", "extra_keywords")
     inlines = [DeclarationInline]
+
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.prefetch_related("declarations")
-
 
 
 class LandingPageAdmin(nested_admin.NestedModelAdmin):
@@ -61,7 +59,7 @@ class LandingPageAdmin(nested_admin.NestedModelAdmin):
             return AddLandingPageForm
 
     def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
+        res = super().save_model(request, obj, form, change)
 
         if not change:
             persons = list(
@@ -71,6 +69,7 @@ class LandingPageAdmin(nested_admin.NestedModelAdmin):
                 p = Person.objects.create(body=obj, name=name)
 
         obj.pull_declarations()
+        return res
 
 
 admin.site.register(LandingPage, LandingPageAdmin)
