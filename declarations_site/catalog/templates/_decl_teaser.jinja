@@ -84,7 +84,61 @@
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M5 3C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3H5ZM9.94892 9.83333C9.94892 10.4667 10.5226 10.8733 12.3065 11.2667C14.0904 11.66 16 12.3067 16 14.2C16 15.5667 14.7819 16.32 13.2495 16.5667V18H10.8919V16.5533C9.3831 16.28 8.0943 15.46 8 14H9.72888C9.81532 14.7867 10.4519 15.4 12.0707 15.4C13.8075 15.4 14.1925 14.6667 14.1925 14.2067C14.1925 13.5867 13.7996 13 11.835 12.6C9.64244 12.1533 8.14145 11.3867 8.14145 9.84667C8.14145 8.56 9.36739 7.72 10.8919 7.44V6H13.2495V7.46C14.8919 7.8 15.7171 8.85333 15.7721 10H14.0354C13.9882 9.16667 13.4695 8.6 12.0707 8.6C10.7426 8.6 9.94892 9.10667 9.94892 9.83333Z" fill="#56B8AD"/>
                                 </svg>
 
-                                <div class="action-icon__count">5</div>
+                                {% if declaration.aggregated %}
+                                    <div class="action-icon__count">5</div>
+                                    <div class="action-icon__details">
+                                        <div class="action-icon__details-items">
+                                            {% set assets_fields = [
+                                                {
+                                                    'field': 'assets.declarant',
+                                                    'label': _("Сума доходів декларанта"),
+                                                    'unit': _("грн."),
+                                                },
+                                                {
+                                                    'field': 'assets.family',
+                                                    'label': _("Сума доходів членів родини"),
+                                                    'unit': _("грн."),
+                                                },
+                                                {
+                                                    'field': 'assets.cash.total',
+                                                    'label': _("Сума грошових активів"),
+                                                    'unit': _("грн."),
+                                                },
+                                                {
+                                                    'field': 'assets.family_ratio',
+                                                    'label': _("Сума грошових активів родини"),
+                                                    'unit': _("грн."),
+                                                },
+                                                {
+                                                    'field': 'estate.declarant_land',
+                                                    'label': _("Площа земельних ділянок декларанта"),
+                                                    'unit': _("м2"),
+                                                },
+                                                {
+                                                    'field': 'estate.family_land',
+                                                    'label': _("Площа земельних ділянок родини"),
+                                                    'unit': _("м2"),
+                                                },
+                                            ] %}
+                                            {% for field in assets_fields %}
+                                                {# {% if declaration.aggregated[field['field']] > 0 %} #}
+                                                <div class="action-icon__details-item">
+                                                    <div class="action-icon__details-item-name">
+                                                        {{ field['label'] }}
+                                                    </div>
+                                                    <div class="action-icon__details-item-value">
+                                                        {% if 'value' in field %}
+                                                            {{ field['value'] }}
+                                                        {% else %}
+                                                            {{ declaration.aggregated[field['field']] }} {{ field['unit'] }}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                {# {% endif %} #}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
                                 <div class="action-icon__tooltip">
                                     <div class="action-icon__tooltip-text">{{ _("Дані декларанта за рік") }}</div>
                                 </div>
@@ -103,7 +157,7 @@
                                 </button>
                             {% endif %}
 
-                            <button class="action-icon card-actions__action">
+                            {# <button class="action-icon card-actions__action">
                                 <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 17.27L18.18 20.998L16.544 13.968L22 9.24402L14.81 8.62602L12 1.99902L9.19 8.62502L2 9.24302L7.454 13.969L5.819 20.998L12 17.27Z" fill="#56B8AD"/>
                                 </svg>
@@ -111,7 +165,7 @@
                                 <div class="action-icon__tooltip">
                                     <div class="action-icon__tooltip-text">{{ _("Додати в Мої знахідки") }}</div>
                                 </div>
-                            </button>
+                            </button> #}
 
                             <button class="card-actions__action card-actions__action--expand drop-down-btn"></button>
                             <button class="card-actions__action card-actions__action--close close-btn"></button>

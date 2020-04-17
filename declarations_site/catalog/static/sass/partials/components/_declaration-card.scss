@@ -46,13 +46,20 @@
   }
   &__feature-item {
     box-sizing: border-box;
+    display: flex;
     margin-top: 12px;
     font-weight: 500;
     font-size: 12px;
+  }
+  &__feature-item-title,
+  &__feature-item-description {
     @media all and (min-width: 1024px) {
       width: 50%;
       padding: 0 10px;
     }
+  }
+  &__feature-item-description {
+    color: #555;
   }
   &__charts-title {
     padding-left: 34px;

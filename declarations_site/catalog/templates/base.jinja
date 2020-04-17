@@ -157,7 +157,7 @@
                             <div class="header__menu main-menu">
                                 {% for menuitem in top_menu %}
                                     <div class="main-menu__item">
-                                        <a href="{{ menuitem.link }}" class="main-menu__link popup-btn">{{ menuitem.translated_caption }}</a>
+                                        <a href="{{ menuitem.link }}" class="main-menu__link{% if menuitem.extra_class %} {{ menuitem.extra_class }}{% endif %}">{{ menuitem.translated_caption }}</a>
                                     </div>
                                 {% endfor %}
                             </div>

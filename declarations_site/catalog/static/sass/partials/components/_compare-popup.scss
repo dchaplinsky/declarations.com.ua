@@ -88,4 +88,11 @@
       margin: 0 -18px;
     }
   }
+  .action-icon {
+    display: none;
+  }
+  .card-actions__action--expand,
+  .card-actions__action--close {
+    display: block;
+  }
 }

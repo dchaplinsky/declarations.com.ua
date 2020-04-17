@@ -1,9 +1,9 @@
 (function($) {
   $(function() {
-    let cardActionBlock = $('.card-actions');
+    var cardActionBlock = $('.card-actions');
 
     $('.card-actions__action-link', cardActionBlock).on('click', function() {
-      let parent = $(this).parents('.card-actions');
+      var parent = $(this).parents('.card-actions');
       $('.card-actions').not(parent).find('.card-actions__items').hide();
       $('.card-actions__items', parent).toggle();
     });
@@ -19,14 +19,14 @@
       var overflowRight = document.body.offsetWidth - (this.getBoundingClientRect().left + details.innerWidth() + 10);
 
       if (overflowRight < 0) {
-        details[0].style.left = `${overflowRight}px`;
+        details[0].style.left = overflowRight + 'px';
       }
 
       details.addClass('action-icon__details--visible');
     });
 
     /*Клик вне элемента*/
-    let clickEvent = (('ontouchstart' in document.documentElement) ? 'touchstart' : 'click');
+    var clickEvent = (('ontouchstart' in document.documentElement) ? 'touchstart' : 'click');
     $(document).on(clickEvent, function(e) {
       var actionIcon = $(e.target).closest('.action-icon');
 

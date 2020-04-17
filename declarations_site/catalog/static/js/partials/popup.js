@@ -2,17 +2,17 @@
 
   $(function () {
 
-    let body = $('body');
-    let html = $('html');
+    var body = $('body');
+    var html = $('html');
 
     $('.popup-btn').on('click', function (e) {
 
       e.preventDefault();
 
-      let $this = $(this);
-      let contentUrl = $this.attr('href');
-      let popupWidth = $this.data('width');
-      let popupBtn = this;
+      var $this = $(this);
+      var contentUrl = $this.attr('href');
+      var popupWidth = $this.data('width');
+      var popupBtn = this;
 
       downloadContent(contentUrl, function (response) {
         renderPopup(response, popupBtn, popupWidth);
@@ -48,8 +48,8 @@
         $('.popup__wrap', popup).css('width', popupWidth);
       }
       openPopup(popup);
-      let eventName = 'popupLoad';
-      let event;
+      var eventName = 'popupLoad';
+      var event;
       if (typeof(Event) === 'function') {
         event = new Event(eventName);
         popupBtn.dispatchEvent(event);

@@ -116,6 +116,7 @@
     }
   }
   &__close {
+    font-size: 0;
     @media all and (min-width: 1024px) {
       width: 14px;
     }

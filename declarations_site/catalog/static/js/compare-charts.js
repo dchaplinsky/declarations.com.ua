@@ -30,8 +30,7 @@ function incomes() {
     window.incomeBars = new Chart(ctx, {
         type: 'bar',
         data: window.incomes_data,
-        options: {
-            ...options,
+        options: Object.assign({}, options, {
             onClick: function() {
                 if (this.tooltip._lastActive.length > 0) {
                     window.open(
@@ -40,10 +39,9 @@ function incomes() {
                     );
                 };
             },
-            title: {
-                ...options.title,
+            title: Object.assign({}, options.title, {
                 text: 'Дохід декларанта, родини та загальна сума подарунків',
-            },
+            }),
             tooltips: {
                 mode: 'index',
                 intersect: false,
@@ -67,7 +65,7 @@ function incomes() {
                     }
                 }]
             }
-        }
+        })
     });
 }
 
@@ -77,8 +75,7 @@ function assets() {
     window.incomeBars = new Chart(ctx, {
         type: 'bar',
         data: window.assets_data,
-        options: {
-            ...options,
+        options: Object.assign({}, options, {
             onClick: function() {
                 if (this.tooltip._lastActive.length > 0) {
                     window.open(
@@ -87,10 +84,9 @@ function assets() {
                     );
                 };
             },
-            title: {
-                ...options.title,
+            title: Object.assign({}, options.title, {
                 text: 'Грошові активи декларанта, родини та загальна сума готівки',
-            },
+            }),
             tooltips: {
                 mode: 'index',
                 intersect: false,
@@ -113,7 +109,7 @@ function assets() {
                     }
                 }]
             }
-        }
+        })
     });
 }
 
@@ -123,8 +119,7 @@ function global_picture() {
     window.incomeBars = new Chart(ctx, {
         type: 'bar',
         data: window.incomes_vs_expenses_data,
-        options: {
-            ...options,
+        options: Object.assign({}, options, {
             onClick: function() {
                 if (this.tooltip._lastActive.length > 0) {
                     window.open(
@@ -133,10 +128,9 @@ function global_picture() {
                     );
                 };
             },
-            title: {
-                ...options.title,
+            title: Object.assign({}, options.title, {
                 text: "Доходи та грошові активи VS витрати та зобов'язання",
-            },
+            }),
             tooltips: {
                 mode: 'index',
                 intersect: false,
@@ -159,7 +153,7 @@ function global_picture() {
                     }
                 }]
             }
-        }
+        })
     });
 }
 
@@ -169,8 +163,7 @@ function land() {
     window.incomeBars = new Chart(ctx, {
         type: 'bar',
         data: window.land_data,
-        options: {
-            ...options,
+        options: Object.assign({}, options, {
             onClick: function() {
                 if (this.tooltip._lastActive.length > 0) {
                     window.open(
@@ -179,10 +172,9 @@ function land() {
                     );
                 };
             },
-            title: {
-                ...options.title,
+            title: Object.assign({}, options.title, {
                 text: "Земельні ділянки (м²)",
-            },
+            }),
             tooltips: {
                 mode: 'index',
                 intersect: false,
@@ -205,7 +197,7 @@ function land() {
                     }
                 }]
             }
-        }
+        })
     });
 }
 
@@ -215,8 +207,7 @@ function realty() {
     window.incomeBars = new Chart(ctx, {
         type: 'bar',
         data: window.realty_data,
-        options: {
-            ...options,
+        options: Object.assign({}, options, {
             onClick: function() {
                 if (this.tooltip._lastActive.length > 0) {
                     window.open(
@@ -225,10 +216,9 @@ function realty() {
                     );
                 };
             },
-            title: {
-                ...options.title,
+            title: Object.assign({}, options.title, {
                 text: "Квартири, будинки, та інша нерухомість (м²)",
-            },
+            }),
             tooltips: {
                 mode: 'index',
                 intersect: false,
@@ -251,7 +241,7 @@ function realty() {
                     }
                 }]
             }
-        }
+        })
     });
 }
 
@@ -261,8 +251,7 @@ function cars() {
     window.incomeBars = new Chart(ctx, {
         type: 'bar',
         data: window.cars_data,
-        options: {
-            ...options,
+        options: Object.assign({}, options, {
             onClick: function() {
                 if (this.tooltip._lastActive.length > 0) {
                     window.open(
@@ -271,10 +260,9 @@ function cars() {
                     );
                 };
             },
-            title: {
-                ...options.title,
+            title: Object.assign({}, options.title, {
                 text: "Машини та інші транспортні засоби",
-            },
+            }),
             tooltips: {
                 mode: 'index',
                 intersect: false
@@ -287,7 +275,7 @@ function cars() {
                     stacked: true,
                 }]
             }
-        }
+        })
     });
 }
 

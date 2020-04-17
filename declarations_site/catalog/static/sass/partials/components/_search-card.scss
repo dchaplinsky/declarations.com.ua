@@ -2,6 +2,11 @@
   background: $white;
   border: 1px solid #EEEFF2;
   border-radius: 4px;
+  &--collapsed {
+    .search-card__items {
+      display: none;
+    }
+  }
   &__top {
     padding: 10px 16px;
     border-bottom: 1px solid #EEEFF2;

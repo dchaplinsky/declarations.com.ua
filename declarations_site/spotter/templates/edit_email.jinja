@@ -1,55 +1,56 @@
 {% extends "base.jinja" %}
 
 {% from "_spotter.jinja" import flash_messages, subscribe_chatbot_links %}
+{% from "_search_form.jinja" import ex_search_form with context %}
 
 {% block html_title -%}Мій профіль{%- endblock %}
 
 
 {% block content %}
-<section id="page">
-    <div class="container">
-        <div id="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="/">Головна</a></li>
-                <li class="active">Мій профіль</li>
-            </ol>
-        </div>
-        {{ flash_messages(messages) }}
-        <h1 id="page-header"><span>Мій профіль</span></h1>
-        <div class="page-content">
-            <div class="box row">
-                <form class="form col-md-4" method="post">
-                    <p>Для продовження необхідно вказати свій e-mail</p>
-                    {% csrf_token %}
-                    {% for field in form %}
-                        <div class="row form-group{% if field.errors %} has-error{% endif %}">
-                            <label for="id_{{ field.name }}">{{ field.label }}</label>
-                            <div>
-                                {{ field|replace('/>', ' class="form-control"/>')|safe }}
-                                {% if field.errors %}
-                                <span class="help-block help-block-error">
-                                    {% for error in  field.errors %}{{ error }}{% endfor %}
-                                </span>
-                                {% endif %}
-                                {% if field.help_text %}
-                                    <p class="help-block help-block-text"><small>{{ field.help_text }}</small></p>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <div class="form-group">
-                        <div>
-                            <button type="submit" class="btn btn-primary btn-raised">Зберегти</button>
-                            <a href="{{ url('search_list') }}" class="btn btn-link">Назад</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <p class="text-center help-footer">
-                {{ subscribe_chatbot_links() }}
-            </p>
+<div class="content container">
+    <div class="profile-page">
+        <div class="profile-page__form-block">
+            {{ ex_search_form('', false) }}
         </div>
     </div>
-</section>
+    <div class="profile-page__top">
+        <div class="tabs profile-page__tabs">
+            <div class="tabs__item">
+                <a href="{{ url("search_list") }}" class="tabs__link tabs__link_active">
+                    {{ _("Мій профіль") }}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {{ flash_messages(messages) }}
+    <div class="profile-page__panel">
+        <form class="profile-page__form" method="post">
+            <p>{{ _("Для продовження необхідно вказати свій e-mail") }}</p>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="n-input__wrapper">
+                    <input id="{{ field.id_for_label }}"
+                        name="{{ field.name }}"
+                        class="profile-page__email-input n-input{% if field.errors %} n-input--has-error{% endif %}"
+                        value="{{ field.value() }}"
+                        placeholder="{{ field.label }}" />
+                    {% if field.errors %}
+                    <span class="n-input__error">
+                        {% for error in field.errors %}{{ error }}{% endfor %}
+                    </span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <div class="profile-page__actions">
+                <button type="submit" class="n-btn profile-page__action">{{ _("Зберегти") }}</button>
+                <a href="{{ url('search_list') }}" class="btn btn-link">{{ _("Назад") }}</a>
+            </div>
+        </form>
+    </div>
+    <p class="profile-page__footer">
+        {{ subscribe_chatbot_links() }}
+    </p>
+</div>
 
 {% endblock %}

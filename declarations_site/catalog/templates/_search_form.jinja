@@ -84,12 +84,12 @@
                 },
                 {
                     'label': 'Ризик-фактори',
-                    'opened': 'risk[]' in request.GET,
+                    'opened': 'flag[]' in request.GET,
                     'class_name': 'filter__document-risk',
                     'block_name': 'risk-filter',
                     'values': [
                         {
-                            'input_name': 'risk[]',
+                            'input_name': 'flag[]',
                             'class_name': 'risk-filter__risk',
                             'options': [
                                 [
@@ -164,86 +164,6 @@
                     ],
                 },
             ] %}
-
-            {# <div class="deep-search__filter">
-                <div class="deep-search__filter-title">
-                    <div class="desktop">{{ _("Регіон та область") }}</div>
-                    <div class="mobile">{{ _("Регіон") }}</div>
-                </div>
-
-                <div class="deep-search__filter-body">
-                    <div class="region-type-filter">
-                        <div class="region-type-filter__title">{{ _("Регіон") }}</div>
-                        <div class="region-type-filter__items">
-
-                            <div class="region-type-filter__item n-checkbox">
-                                <input type="checkbox"
-                                    id="region-type-1"
-                                    name="region_type"
-                                    value="actual_region"
-                                    class="n-checkbox__input">
-                                <label for="region-type-1" class="n-checkbox__label">
-                                    <span class="n-checkbox__label-box"></span>
-                                    <span class="n-checkbox__label-text">{{ _("Регіон фактичного проживання") }}</span>
-                                </label>
-                            </div>
-
-                            <div class="region-type-filter__item n-checkbox">
-                                <input type="checkbox" id="region-type-2" name="region_type" value="region" class="n-checkbox__input">
-                                <label for="region-type-2" class="n-checkbox__label">
-                                    <span class="n-checkbox__label-box"></span>
-                                    <span class="n-checkbox__label-text">{{ _("Регіон реєстрації") }}</span>
-                                </label>
-                            </div>
-
-                            <div class="region-type-filter__item n-checkbox">
-                                <input type="checkbox"
-                                    id="region-type-2"
-                                    name="region_type"
-                                    value="estate_region"
-                                    class="n-checkbox__input">
-                                <label for="region-type-2" class="n-checkbox__label">
-                                    <span class="n-checkbox__label-box"></span>
-                                    <span class="n-checkbox__label-text">{{ _("Регіон задекларованої нерухомості") }}</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% set regions = [
-                        'м. Київ', 'Вінницька область', 'Волинська область', 'Дніпропетровська область',
-                        'Донецька область', 'Житомирська область', 'Закарпатська область',
-                        'Запорізька область', 'Івано-Франківська область', 'Київська область',
-                        'Кіровоградська область', 'Львівська область', 'Луганська область', 'Миколаївська область',
-                        'Одеська область', 'Полтавська область', 'Рівненська область', 'Сумська область',
-                        'Тернопільська область', 'Харківська область', 'Херсонська область', 'Хмельницька область',
-                        'Черкаська область', 'Чернівецька область', 'Чернігівська область', 'Кримська Автономна Республіка',
-                        'Севастополь'
-                    ] %}
-                    <div class="region-filter">
-                        <div class="region-filter__title">{{ _("Область") }}</div>
-                        <div class="region-filter__items-wrap">
-                            <div class="region-filter__items">
-                                {% for region in regions %}
-                                    <div class="region-filter__item n-checkbox">
-                                        <input type="checkbox"
-                                            name="region_value"
-                                            id="region-{{ loop.index }}"
-                                            value="{{ region }}"
-                                            class="n-checkbox__input">
-                                        <label for="region-{{ loop.index }}" class="n-checkbox__label">
-                                            <span class="n-checkbox__label-box"></span>
-                                            <span class="n-checkbox__label-text">
-                                                {% if region.endswith('область') %}{{ _(region[:-8]) }}{% else %}{{ _(region) }}{% endif %}
-                                            </span>
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> #}
 
             {% for field in fields %}
                 <div class="deep-search__filter{% if field['class_name'] %} {{ field['class_name'] }}{% endif %}{% if field['opened'] %} opened{% endif %}">
@@ -755,11 +675,11 @@
 
                     </div>
                     <a id="clear-filters" href="#">{{ _("Скинути усі фільтри") }}</a>
-                </div> #}
+                </div>
 
-            </form>
+            </div> #}
         </div>
-    </div>
+    </form>
 {%- endmacro %}
 
 {% macro sort_direction(request, defaultSortField) -%}

@@ -4,8 +4,12 @@
     margin-right: 16px;
   }
   &__icon {
-    width: 12px;
+    cursor: pointer;
+    font-size: 0;
     height: 14px;
+    vertical-align: middle;
+    width: 12px;
+    @include transparent-button;
   }
   &__play {
     overflow: hidden;

@@ -318,7 +318,7 @@ PIPELINE = {
                 'js/partials/sort-block.js',
                 'js/partials/analytics-tabs.js',
                 'js/partials/donate-form.js',
-                'js/partials/request-block.js',
+                'js/partials/declaration.js',
                 # "js/jquery-1.11.2.js",
                 # "js/bootstrap.js",
                 # "js/bootstrap3-typeahead.js",

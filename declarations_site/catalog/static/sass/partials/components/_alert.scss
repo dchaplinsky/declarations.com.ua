@@ -1,0 +1,22 @@
+.alert {
+  margin-bottom: 12px;
+  &::before {
+    content: '';
+    display: inline-block;
+    height: 16px;
+    line-height: 21px;
+    margin-right: 10px;
+    vertical-align: text-top;
+    width: 16px;
+  }
+  &--success {
+    &::before {
+      background: url('../images/icon/checked.svg') no-repeat;
+    }
+  }
+  &--error {
+    &::before {
+      background: url('../images/icon/error.svg') no-repeat;
+    }
+  }
+}

@@ -2,10 +2,10 @@
 
   $(function() {
 
-    let select = $('.n-select');
+    var select = $('.n-select');
 
     $('.n-select__selected', select).on('click', function() {
-      let list = $(this).parents('.n-select');
+      var list = $(this).parents('.n-select');
       $('.n-select__items', list).toggle();
       $('.n-select__selected', list).toggleClass('n-select__selected_active');
     });
@@ -15,7 +15,7 @@
     });
 
     /*Клик вне списка*/
-    let clickEvent = (('ontouchstart' in document.documentElement)?'touchstart':'click');
+    var clickEvent = (('ontouchstart' in document.documentElement)?'touchstart':'click');
     $(document).on(clickEvent, function(e){
       if ( !$(e.target).parents('.n-select').length ) {
         closeList(select);
@@ -28,7 +28,7 @@
     }
 
     function selectItem(selectedItem) {
-      let list = selectedItem.parents('.n-select');
+      var list = selectedItem.parents('.n-select');
       $('.n-select__selected', list).text(selectedItem.text());
       $('.n-select__item', list).removeClass('n-select__item_active');
       selectedItem.addClass('n-select__item_active');

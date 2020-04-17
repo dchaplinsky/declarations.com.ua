@@ -2,7 +2,7 @@
 
   $(function() {
 
-    let searchForm = $('.search-form');
+    var searchForm = $('.search-form');
 
 
     $('.search-form__autocomplete-item', searchForm).on('click', function() {
@@ -38,15 +38,15 @@
     });
 
     function setAppliedFiltersCount() {
-      let filterCount = $('.n-checkbox__input:checked', searchForm).length;
+      var filterCount = $('.n-checkbox__input:checked', searchForm).length;
       $('.deep-search__count-block .filter-count', searchForm).text(filterCount);
       setCountFilterInBtn(filterCount);
 
       $('.deep-search__filter', searchForm).each(function() {
-        let countSelectedFilter = $('.n-checkbox__input:checked', this).length;
+        var countSelectedFilter = $('.n-checkbox__input:checked', this).length;
         $('.filter-count', this).remove();
         if(countSelectedFilter) {
-          let countBlock = '<div class="filter-count">' + countSelectedFilter + '</div>';
+          var countBlock = '<div class="filter-count">' + countSelectedFilter + '</div>';
           $('.deep-search__filter-title', this).append(countBlock);
         }
       });
@@ -94,13 +94,13 @@
 
     /*Rebuild filter Desktop - Mobile Start*/
 
-    let view = getView();
+    var view = getView();
     if(view === 'mobile') {
       rebuildDesktopToMobile();
     }
 
     window.addEventListener("resize", function () {
-      let newView = getView();
+      var newView = getView();
       if (newView === 'mobile' && view === 'desktop') {
         rebuildDesktopToMobile();
       }
@@ -120,12 +120,12 @@
     }
 
     function rebuildDesktopToMobile() {
-      let documentFilter = $('.filter__document-position', searchForm);
+      var documentFilter = $('.filter__document-position', searchForm);
 
-      let positionFilter = documentFilter.clone();
+      var positionFilter = documentFilter.clone();
       positionFilter.find('.position-filter__document').remove();
       positionFilter.addClass('secondary-position-filter');
-      let positionFilterTitle = $('.position-filter__param-title', positionFilter).text();
+      var positionFilterTitle = $('.position-filter__param-title', positionFilter).text();
       $('.mobile', positionFilter).text(positionFilterTitle);
       positionFilter.insertAfter(documentFilter);
 
@@ -134,8 +134,8 @@
     }
 
     function rebuildMobileToDesktop() {
-      let documentFilter = $('.main-position-filter', searchForm);
-      let positionFilter = $('.secondary-position-filter', searchForm);
+      var documentFilter = $('.main-position-filter', searchForm);
+      var positionFilter = $('.secondary-position-filter', searchForm);
       $('.position-filter__position', positionFilter).insertAfter($('.position-filter__document', documentFilter));
       positionFilter.remove();
       documentFilter.removeClass('main-position-filter');
@@ -144,7 +144,7 @@
     /*Rebuild filter Desktop - Mobile End*/
 
     function setCountFilterInBtn(filterCount) {
-      let filterCountBlock = $('.search-form__deep-search-count', searchForm);
+      var filterCountBlock = $('.search-form__deep-search-count', searchForm);
       filterCountBlock.text(filterCount);
       if(filterCount) {
         filterCountBlock.removeAttr('style');
@@ -153,6 +153,30 @@
         filterCountBlock.css('width', 0);
       }
     }
+
+    // $('.search-form__input').typeahead({
+    //   minLength: 2,
+    //   autoSelect: false,
+    //   source: function(query, process) {
+    //     $.get('/search/suggest', {q: query})
+    //       .success(function(data) {
+    //         process(data);
+    //       })
+    //   },
+    //   matcher: function() {
+    //     return true;
+    //   },
+    //   highlighter: function(instance) {
+    //     return instance;
+    //   },
+    //   updater: function(instance) {
+    //     return $(instance).data('sugg_text')
+    //   },
+    //   afterSelect: function(item) {
+    //     var form = $('.search-form__input').closest('form')
+    //     form.submit();
+    //   }
+    // });
 
   });
 

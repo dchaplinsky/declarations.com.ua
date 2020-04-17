@@ -70,6 +70,11 @@
 {% endif %}
 
 {% block content %}
+    <div id='div-gpt-ad-1531830029689-0' style="display: none; width: 970px; margin: 15px auto;">
+        <script>
+            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1531830029689-0'); });
+        </script>
+    </div>
     <div class="declaration-page__navigation">
         <a onClick="history.go(-1)" class="n-btn n-btn_ico n-btn_back declaration-page__back">{{ _("Назад") }}</a>
 
@@ -130,6 +135,132 @@
                 </div>
             </div>
             
+            {# <div class="declaration-card__charts">
+                <div class="declaration-card__charts-title">Дaні за <b>2018</b> та динаміка змін за різні
+                    роки
+                </div>
+
+                <div class="declaration-card__charts-items">
+                    <div class="declaration-card__charts-item">
+                        <div class="dynamics-info">
+                            <div class="dynamics-info__top">
+                                <div class="dynamics-info__left">
+                                    <div class="dynamics-info__title">Сума доходів декларанта</div>
+                                    <div class="dynamics-info__sum">2.356,234 грн</div>
+                                </div>
+
+                                <div class="dynamics-info__right">
+                                    <img src="images/dynamics-chart.svg" class="dynamics-info__chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="declaration-card__charts-item">
+                        <div class="dynamics-info">
+                            <div class="dynamics-info__top">
+                                <div class="dynamics-info__left">
+                                    <div class="dynamics-info__title">Сума доходів членів родини</div>
+                                    <div class="dynamics-info__sum">343.345 грн</div>
+                                </div>
+
+                                <div class="dynamics-info__right">
+                                    <img src="images/dynamics-chart.svg" class="dynamics-info__chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="declaration-card__charts-item">
+                        <div class="dynamics-info">
+                            <div class="dynamics-info__top">
+                                <div class="dynamics-info__left">
+                                    <div class="dynamics-info__title">Сума грошових активів</div>
+                                    <div class="dynamics-info__sum">7.000.000 грн</div>
+                                </div>
+
+                                <div class="dynamics-info__right">
+                                    <img src="images/dynamics-chart.svg" class="dynamics-info__chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="declaration-card__charts-item">
+                        <div class="dynamics-info">
+                            <div class="dynamics-info__top">
+                                <div class="dynamics-info__left">
+                                    <div class="dynamics-info__title">Сума грошових активів родини</div>
+                                    <div class="dynamics-info__sum">999.999 грн</div>
+                                </div>
+
+                                <div class="dynamics-info__right">
+                                    <img src="images/dynamics-chart.svg" class="dynamics-info__chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="declaration-card__charts-item">
+                        <div class="dynamics-info">
+                            <div class="dynamics-info__top">
+                                <div class="dynamics-info__left">
+                                    <div class="dynamics-info__title">земельні ділянки декларанта і родини</div>
+                                    <div class="dynamics-info__sum">3 га</div>
+                                </div>
+
+                                <div class="dynamics-info__right">
+                                    <img src="images/dynamics-chart.svg" class="dynamics-info__chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="declaration-card__charts-item">
+                        <div class="dynamics-info">
+                            <div class="dynamics-info__top">
+                                <div class="dynamics-info__left">
+                                    <div class="dynamics-info__title">обєкти нерухомості декларанта і родини</div>
+                                    <div class="dynamics-info__sum">5</div>
+                                </div>
+
+                                <div class="dynamics-info__right">
+                                    <img src="images/dynamics-chart.svg" class="dynamics-info__chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="declaration-card__charts-item">
+                        <div class="dynamics-info">
+                            <div class="dynamics-info__top">
+                                <div class="dynamics-info__left">
+                                    <div class="dynamics-info__title">авто декларанта і родини</div>
+                                    <div class="dynamics-info__sum">20</div>
+                                    <div class="dynamics-info__description dynamics-info__mobile"> Skoda Fabia, Skoda Octavia, Range Rover, Land
+                                        Cruiser, Skoda Fabia, Skoda Octavia, Range Rover, Land Cruiser, Skoda Fabia, Skoda
+                                        Octavia, Range Rover, Land Cruiser, Skoda Fabia, Skoda Octavia, Range Rover, Land
+                                        Cruiser, Skoda Fabia, Skoda Octavia, Range Rover
+                                    </div>
+                                </div>
+
+                                <div class="dynamics-info__right">
+                                    <img src="img/dynamics-chart.svg" class="dynamics-info__chart">
+                                </div>
+                            </div>
+
+                            <div class="dynamics-info__bottom">
+                                <div class="dynamics-info__description"> Skoda Fabia, Skoda Octavia, Range Rover, Land
+                                    Cruiser, Skoda Fabia, Skoda Octavia, Range Rover, Land Cruiser, Skoda Fabia, Skoda
+                                    Octavia, Range Rover, Land Cruiser, Skoda Fabia, Skoda Octavia, Range Rover, Land
+                                    Cruiser, Skoda Fabia, Skoda Octavia, Range Rover
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> #}
+
             {% if declaration.declaration.source == "NACP" %}
                 {% set red_flags = declaration.red_flags() %}
                 {% if red_flags %}
@@ -138,7 +269,12 @@
                         <div class="declaration-card__feature-items">
                             {% for flag in red_flags %}
                                 <div class="declaration-card__feature-item">
-                                    {{ flag.text }}
+                                    <div class="declaration-card__feature-item-title">
+                                        {{ flag.text }}
+                                    </div>
+                                    <div class="declaration-card__feature-item-description">
+                                        {{ flag.description }}
+                                    </div>
                                 </div>
                             {% endfor %}
                         </div>
@@ -151,6 +287,11 @@
                         <button class="n-btn n-btn_ico n-btn_compare declaration-card__btn card-actions__action-add-to-compare">
                             {{ _("Додати у порівняння") }}
                         </button>
+                    {% endif %}
+                    {% if declaration.declaration.url %}
+                        <a href="{{ declaration.declaration.url }}" class="n-btn" target="_blank" rel="nofollow">
+                            <span>{{ _("Оригінал декларації") }}</span>
+                        </a>
                     {% endif %}
                     {# <button class="n-btn n-btn_ico n-btn_find declaration-card__btn">Додати у знахідки</button> #}
                 </div>
@@ -169,155 +310,23 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="declaration-details" data-id="3">
-            {% if language == "en" %}
-                {{ declaration.raw_en_html()|safe }}
-            {% else %}
-                {{ declaration.raw_html()|safe }}
-            {% endif %}
-        </div>
-        {# <div class="decl-teaser">{{ decl_teaser(declaration, True) }}</div> #}
-    </div>
-
-
-
-<section id="page" data-declid="{{ declaration.meta.id }}">
-    <div itemscope itemtype="http://schema.org/Person">
-        <div class="decl-header-wrap">
-            <div class="container rc">
-                <div class="breadcrumbs-container">
-                    {# <div id="breadcrumbs">
-                        <ol class="breadcrumb pull-left">
-                            <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                            <li class="active">{{ _("Результати пошуку") }}</li>
-                            <li class="active">{{ declaration._full_name(language) }}</li>
-                        </ol>
-                    </div> #}
-
-                    <h1 id="page-header"><span itemprop="name">{{ declaration._full_name(language) }}</span></h1>
-
-                    {% if declaration.general.post.actual_region %}
-                    <meta itemprop="homeLocation" content="{{ declaration.general.post.actual_region }}"/>
-                    {% elif declaration.general.post.region %}
-                    <meta itemprop="homeLocation" content="{{ declaration.general.post.region }}"/>
-                    {% endif %}
-
-                    <h2 class="sub-header">
-                        <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
-                
-                        {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
-                        <span itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
-                        {% if declaration.general.post.actual_region %}
-                            <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration._actual_region(language) }}</a><span>,</span>
-                        {% elif declaration.general.post.region %}
-                            <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration._region(language) }}</a><span>,</span>
-                        {% endif %}
-                        {% if declaration.general.post.office %}
-                            <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration._office(language) }}</span></a><span>,</span>
-                        {% endif %}
-                        {% if declaration.general.post.post %}
-                            <span itemprop="jobTitle">{{ declaration._position(language) }}</span><span>,</span>
-                        {% endif %}
-
-                        {% if declaration.intro.doc_type %}{{ declaration._declaration_type(language) }}<span>,</span>{% endif %}
-                        {% if declaration.intro.corrected %}{{ _("Уточнена") }}<span>,</span>{% endif %}
-                        {% if declaration.intro.date %}
-                        <span class="date"><span class="glyphicon glyphicon-calendar"></span>{{ _("подана") }} {{ declaration.intro.date|datetime }}</span>
-                        {% endif %}
-                    </h2>
-
-                </div>
-
-                <div class="watching-block">
-                    <p>{{ _("Моніторити декларанта по:") }}</p>
-                    <a title="{{ _("Моніторити цей запит по RSS") }}" class="btn btn-raised btn-sm save-search rss-feed"
-                       href="{{ SITE_URL }}{{ url('search') }}?{{ "q=%s+%s+%s" % (declaration.general.last_name,
-                       declaration.general.name, declaration.general.patronymic) }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
-                    {{ spotter_button(_("+ Моніторити декларанта"), "q=%s+%s+%s" % (declaration.general.last_name,
-                    declaration.general.name, declaration.general.patronymic), "from-declaration") }}
-                </div>
-            </div>
-        </div>
-        {% if declaration.declaration.url %}
-        <div class="container page-content{% if declaration.declaration.source == "CHESNO" %} chesno{% endif %}">
-        {% else %}
-        <div class="container page-content">
-        {% endif %}
-            
             <div id='div-gpt-ad-1531830029689-0' style="display: none; width: 970px; margin: 15px auto;">
                 <script>
                   googletag.cmd.push(function() { googletag.display('div-gpt-ad-1531830029689-0'); });
                 </script>
             </div>
-
-            {% if declaration.aggregated %}
-            <a href="#" class="add2compare-list on-page-button" title="{{ _("Додати у список порівнянь") }}"><i class="fa fa-balance-scale" aria-hidden="true"></i> {{ _("Додати декларацію у список порівнянь") }}</a>
+            {% if declaration.declaration.source == "NACP" %}
+                {{ procurements_details(declaration) }}
             {% endif %}
-            {% if declaration.declaration.url %}
-                <div class="d-pdf"><a href="{{ declaration.declaration.url }}" target="_blank" rel="nofollow"><i></i><span>{{ _("Оригінал декларації") }}</span></a></div>
+        </div>
+
+        <div class="declaration-details" data-type="{% if declaration.declaration.source == "NACP" %}1{% else %}2{% endif %}">
+            {% if language == "en" %}
+                {{ declaration.raw_en_html()|safe }}
+            {% else %}
+                {{ declaration.raw_html()|safe }}
             {% endif %}
-
-
-            <div class="box">
-                {% if declaration.declaration.source == "NACP" %}
-                    <div id="nacp_decl" class="nacp-decl">
-                        {{ procurements_details(declaration) }}
-
-                        {% set red_flags = declaration.red_flags() %}
-                        {% if red_flags %}
-                            <div>
-                                <header><h2><span>{{ _("Ризик-аналіз: знайдено ") }}{{ red_flags|count }} {{ red_flags|count|uk_plural(_("червоний прапорець") + "," + _("червоних прапорця") + "," + _("червоних прапорців"))}}</span></h2></header>
-                                <div class="decl-redflags">
-                                    <a name="redflags"></a>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>{{ _("Прапорець") }}</th>
-                                                    <th>{{ _("Опис") }}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for flag in red_flags %}
-                                                <tr>
-                                                    <td class="red-flag-name">
-                                                        {{ flag.text }}
-                                                    </td>
-                                                    <td class="company-name">{{ flag.description|safe }}</td>
-                                                </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-
-                        {% if language == "en" %}
-                            {{ declaration.raw_en_html()|safe }}
-                        {% else %}
-                            {{ declaration.raw_html()|safe }}
-                        {% endif %}
-                        <hr />
-                    </div>
-                {% else %}
-                    {% if language == "en" %}
-                        {{ declaration.raw_en_html()|safe }}
-                    {% else %}
-                        {{ declaration.raw_html()|safe }}
-                    {% endif %}
-                {% endif %}
-
-                <div class="transliteration-hint">
-                    <h4>{{ _("ПІБ іншими мовами") }}</h4>
-                    {% set pipe = joiner(", ") %}
-                    {% for t in generate_all_names(declaration.general.last_name, declaration.general.name, declaration.general.patronymic) -%}
-                    {{ pipe() }}<span itemprop="alternateName">{{ t }}</span>
-                    {%- endfor %}
-                </div>
-            </div>
         </div>
     </div>
 
@@ -342,7 +351,6 @@
         </div>
         {% endif %}
     </div>
-</section>
 {% endblock %}
 {#
 {{ _("червоний прапорець")}}

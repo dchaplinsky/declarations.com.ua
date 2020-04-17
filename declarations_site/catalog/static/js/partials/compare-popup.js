@@ -18,7 +18,14 @@
     }
 
     //update counter at badge
-    $('.action-icon__count-compared').html(c);
+    $('.header .action-icon__count-compared').html(c);
+    $('.compare-popup .count-block__count').html(c);
+
+    $.each(localStorage, function(key, value) {
+      if (key.indexOf(keyPrefix ) >= 0) {
+        $('[data-declid="' + key.slice(keyPrefix.length) + '"] .action-icon__count-compared').html(c);
+      }
+    });
 
     //can clear list
     // if (c > 0) {
@@ -105,8 +112,8 @@
       
       if (document.body.classList.contains('compare-page')) {
         
-        document.location.href = '/compare?' + container.find('[data-declid]').map((_, decl) => {
-          return `declaration_id=${$(decl).data('declid')}`;
+        document.location.href = '/compare?' + container.find('[data-declid]').map(function(_, decl) {
+          return 'declaration_id=' + $(decl).data('declid');
         }).get().join('&');
       }
       
@@ -114,13 +121,13 @@
 
     })
     .on('click', '.card-actions__action--expand', function() {
-      let $this = $(this);
+      var $this = $(this);
       $this.toggleClass('drop-down-btn_opened');
       $this.closest('.search-card').toggleClass('search-card--collapsed');
     });
 
   $('.compare-popup__open-link').on('click', function() {
-    let parent = $(this).closest('.compare-popup');
+    var parent = $(this).closest('.compare-popup');
     parent.find('.search-card').removeClass('search-card--collapsed');
     parent.find('.drop-down-btn').addClass('drop-down-btn_opened');
   });
@@ -129,7 +136,7 @@
     $(this).closest('.compare-popup').find('.search-card').remove().end()
       .siblings('.close-btn').click();
 
-    $.each(localStorage, key => {
+    $.each(localStorage, function(key) {
       if (key.indexOf(keyPrefix) !== -1) {
         localStorage.removeItem(key);
       }

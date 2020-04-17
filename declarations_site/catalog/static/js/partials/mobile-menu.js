@@ -2,12 +2,12 @@
 
   $(function() {
 
-    let vh = window.innerHeight * 0.01;
+    var vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', vh + 'px');
 
-    let menuBtn = $('.mobile-menu-link');
-    let mobileMenu = $('.mobile-menu');
-    let body = $('body');
+    var menuBtn = $('.mobile-menu-link');
+    var mobileMenu = $('.mobile-menu');
+    var body = $('body');
 
     menuBtn.on('click', function (e) {
       e.preventDefault();

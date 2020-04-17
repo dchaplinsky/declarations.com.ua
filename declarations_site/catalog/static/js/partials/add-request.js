@@ -2,7 +2,7 @@
   $(function() {
     addEventOnRequestBlock();
 
-    let requestBtn = document.getElementsByClassName('profile-page__request-btn')[0];
+    var requestBtn = document.getElementsByClassName('profile-page__request-btn')[0];
 
     if(requestBtn) {
       requestBtn.addEventListener('popupLoad', function() {
@@ -12,10 +12,10 @@
 
 
     function addEventOnRequestBlock() {
-      let requestBlock = $('.add-request-block');
+      var requestBlock = $('.add-request-block');
 
       $('.add-request-block__add-input', requestBlock).on('keyup', function(e){
-        let requestVal = $(this).val();
+        var requestVal = $(this).val();
         if(e.keyCode === 13 && requestVal)
         {
           addRequest(requestVal);
@@ -23,9 +23,9 @@
       });
 
       $(requestBlock).on('click', '.add-request-block__item-text', function() {
-        let $this = $(this);
-        let parent = $this.parents('.add-request-block__item');
-        let input = renderEditInput($this.text());
+        var $this = $(this);
+        var parent = $this.parents('.add-request-block__item');
+        var input = renderEditInput($this.text());
 
         resetRequest(requestBlock);
 
@@ -44,13 +44,13 @@
       });
 
       $('.add-request-block__btn', requestBlock).on('click', function() {
-        let editInput = $('.add-request-block__edit-input', requestBlock);
+        var editInput = $('.add-request-block__edit-input', requestBlock);
         if(editInput.length) {
           editRequest(editInput);
           setCountRequest(requestBlock);
         }
         else {
-          let requestVal = $('.add-request-block__add-input', requestBlock).val();
+          var requestVal = $('.add-request-block__add-input', requestBlock).val();
           if(requestVal)
           {
             addRequest(requestVal);
@@ -60,7 +60,7 @@
     }
 
     function renderEditInput(value){
-      let classes = 'add-request-block__input add-request-block__edit-input';
+      var classes = 'add-request-block__input add-request-block__edit-input';
       return '<input type="text" value="' + value + '" class="' + classes + '">';
     }
 
@@ -73,14 +73,14 @@
     }
 
     function setCountRequest(requestBlock) {
-      let requestCount = $('.add-request-block__item', requestBlock).length;
+      var requestCount = $('.add-request-block__item', requestBlock).length;
       $('.add-request-block__count-number', requestBlock).text(requestCount);
     }
     
     function editRequest(editInput) {
-      let requestVal = editInput.val();
-      let requestRow = editInput.parents('.add-request-block__item');
-      let requestItemText = $('.add-request-block__item-text', requestRow);
+      var requestVal = editInput.val();
+      var requestRow = editInput.parents('.add-request-block__item');
+      var requestItemText = $('.add-request-block__item-text', requestRow);
 
       if(requestVal) {
         requestItemText.text(requestVal);

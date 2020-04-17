@@ -1,13 +1,15 @@
-<h1>
-{% if LANGUAGE_CODE == "en" and page.title_en %}
-	{{ page.title_en }}
-{% else %}
-	{{ page.title }}
-{% endif %}
-</h1>
+<div class="page-{{ page.slug }}">
+	<h1>
+	{% if LANGUAGE_CODE == "en" and page.title_en %}
+		{{ page.title_en }}
+	{% else %}
+		{{ page.title }}
+	{% endif %}
+	</h1>
 
-{% if LANGUAGE_CODE == "en" and page.body_en %}
-	{{ page.body_en|richtext }}
-{% else %}
-	{{ page.body|richtext }}
-{% endif %}
+	{% if LANGUAGE_CODE == "en" and page.body_en %}
+		{{ page.body_en|richtext }}
+	{% else %}
+		{{ page.body|richtext }}
+	{% endif %}
+</div>
