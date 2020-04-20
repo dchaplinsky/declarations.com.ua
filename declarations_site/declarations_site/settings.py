@@ -311,6 +311,8 @@ PIPELINE = {
                 'js/partials/search-form.js',
                 'js/partials/modal.js',
                 'js/partials/account-block.js',
+                'js/partials/request-block.js',
+                'js/partials/login-block.js',
                 'js/partials/card-actions.js',
                 'js/partials/compare-card.js',
                 "js/partials/compare-button.js",

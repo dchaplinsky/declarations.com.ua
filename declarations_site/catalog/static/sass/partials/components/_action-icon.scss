@@ -157,6 +157,7 @@
     box-sizing: border-box;
     border-radius: 4px;
     display: none;
+    max-width: 100vw;
     padding: 0 16px;
     position: absolute;
     top: 30px;
@@ -165,6 +166,10 @@
     z-index: 1;
     &--visible {
       display: block;
+    }
+    @media all and (max-width: 1023px) {
+      right: 0;
+      left: auto;
     }
   }
   &__details-item {

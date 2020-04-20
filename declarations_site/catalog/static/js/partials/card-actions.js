@@ -13,7 +13,7 @@
         details = self.find('.action-icon__details'),
         parent = self.closest('.card-actions');
 
-      parent.find('.card-actions__items').hide();
+      // parent.find('.card-actions__items').hide();
       $('.action-icon__details').removeClass('action-icon__details--visible');
 
       var overflowRight = document.body.offsetWidth - (this.getBoundingClientRect().left + details.innerWidth() + 10);

@@ -41,27 +41,95 @@
             </svg>
         </a>
         <script type="text/html" id="login-template">
-            <div class="login-block">
-                <div class="login-block__title">Будь ласка, увійдіть</div>
-                <div class="login-block__text">Щоб розпочати Моніторинг, або додати декларацію у Мої знахідки необхідно авторизуватись</div>
-                <div class="login-block__btns">
-                    <a href="{{ url("social:begin", "facebook") }}?next={{ path }}"
-                        class="n-btn n-btn_white login-block__btn_facebook">
-                        Facebook
-                    </a>
-                    <a href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
-                        class="n-btn n-btn_white login-block__btn_google">
-                        Google
-                    </a>
-                </div>
+            <div class="login-block" data-url="{{ url("login_menu") }}">
+                <div class="login-block__social">
+                    <div class="login-block__title">{{ _("Будь ласка, увійдіть") }}</div>
+                    <div class="login-block__text">
+                        {{ _("Щоб розпочати Моніторинг, або додати декларацію у Мої знахідки необхідно авторизуватись") }}
+                    </div>
+                    <div class="login-block__btns">
+                        <a href="{{ url("social:begin", "facebook") }}?next={{ path }}"
+                            class="n-btn n-btn_white login-block__btn_facebook">
+                            Facebook
+                        </a>
+                        <a href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
+                            class="n-btn n-btn_white login-block__btn_google">
+                            Google
+                        </a>
+                    </div>
 
-                <div class="login-block__bottom">
-                    <a href="#" class="login-block__other">
-                        <span class="login-block__other-text">Увійдіть іншим способом</span>
-                        <svg class="login-block__other-ico" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9.66659 5.66659H5.66659V9.66659H4.33325V5.66659H0.333252V4.33325H4.33325V0.333252H5.66659V4.33325H9.66659V5.66659Z" fill="#56B8AD"/>
-                        </svg>
-                    </a>
+                    <div class="login-block__bottom">
+                        <a href="#" class="login-block__other" data-show="email">
+                            <span class="login-block__other-text">{{ _("Увійдіть іншим способом") }}</span>
+                            <svg class="login-block__other-ico" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.66659 5.66659H5.66659V9.66659H4.33325V5.66659H0.333252V4.33325H4.33325V0.333252H5.66659V4.33325H9.66659V5.66659Z" fill="#56B8AD"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="login-block__email">
+                    <div class="login-block__title">{{ _("Введіть e-mail") }}</div>
+                    <div class="login-block__text">
+                        {{ _("Введіть адресу, з якої ви реєструвались. Якщо ви ще не зареєстровані — зареєструйтесь за допомогою Google або Facebook.") }}
+                    </div>
+
+                    <div class="login-block__btns">                
+                        <input
+                            type="email"
+                            name="email"
+                            id="login-email-input"
+                            class="n-input search-form__input"
+                            autocomplete="current-email"
+                            placeholder="{{ _("E-mail") }}">
+                    </div>
+
+                    <div class="login-block__bottom">
+                        <button class="login-block__other login-block__other--email-submit">
+                            <span class="login-block__other-text">
+                                {{ _("Надіслати лінк для входу") }}
+                            </span>
+                            <svg class="login-block__other-ico" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.66659 5.66659H5.66659V9.66659H4.33325V5.66659H0.333252V4.33325H4.33325V0.333252H5.66659V4.33325H9.66659V5.66659Z" fill="#56B8AD"/>
+                            </svg>
+                        </button>
+                        <div class="login-block__loading">
+                            {{ _("Зачекайте...") }}
+                        </div>
+                    </div>
+                </div>
+                <div class="login-block__success">
+                    <div class="login-block__text">
+                        {{ _("Якщо ви зареєстровані на вказану адресу буде надіслано лист з посиланням для входу.") }}
+                        {{ ("Посилання діятиме протягом 15 хвилин.") }}
+                    </div>
+
+                    <div class="login-block__bottom">
+                        <button class="login-block__other popup__close popup__close--inline">
+                            <span class="login-block__other-text">
+                                {{ _("Закрити") }}
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="login-block__error">
+                    <div class="login-block__title">
+                        {{ _("Помилка входу") }}
+                    </div>
+                    <div class="login-block__text">
+                        {{ _("Помилка входу, не надано доступ.") }}
+                    </div>
+
+                    <div class="login-block__btns">                
+                        <button type="button" class="n-btn n-btn_white popup__close popup__close--inline" data-dismiss="modal">
+                            {{ _("Закрити") }}
+                        </button>
+                        <button class="n-btn n-btn_white login-block__other" data-show="email">
+                            {{ _("Повторити") }}
+                        </button>
+                    </div>
+
+                    <div class="login-block__bottom">
+                    </div>
                 </div>
             </div>
         </script>

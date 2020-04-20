@@ -39,7 +39,7 @@
   &__items {
     margin-bottom: 40px;
     @media all and (max-width: 1023px) {
-      margin: 0 -18px 30px;
+      margin-bottom: 30px;
     }
     .card-actions__action--expand,
     .card-actions__action--close {

@@ -289,7 +289,7 @@
                         </button>
                     {% endif %}
                     {% if declaration.declaration.url %}
-                        <a href="{{ declaration.declaration.url }}" class="n-btn" target="_blank" rel="nofollow">
+                        <a href="{{ declaration.declaration.url }}" class="n-btn declaration-card__btn" target="_blank" rel="nofollow">
                             <span>{{ _("Оригінал декларації") }}</span>
                         </a>
                     {% endif %}
@@ -328,38 +328,38 @@
                 {{ declaration.raw_html()|safe }}
             {% endif %}
         </div>
-    </div>
 
-    <div class="relevant-container container">
-        {% set similar_declarations = declaration.similar_declarations(language=language) %}
+        <div class="declaration-page__relevant-container">
+            {% set similar_declarations = declaration.similar_declarations(language=language) %}
 
-        {% if similar_declarations["exact"] %}
-        <h3 id="exact_by_surname"><span>{{ _("Інші декларації цього декларанта") }}</span></h3>
-        <div class="search-page">
-            <div class="row list-group search-results">
-                {{ search_results(similar_declarations["exact"]) }}
+            {% if similar_declarations["exact"] %}
+            <h3 id="exact_by_surname"><span>{{ _("Інші декларації цього декларанта") }}</span></h3>
+            <div class="search-page">
+                <div class="search-results">
+                    {{ search_results(similar_declarations["exact"]) }}
+                </div>
             </div>
-        </div>
-        {% endif %}
+            {% endif %}
 
-        {% if similar_declarations["maybe"] %}
-        <h3 id="similar_by_surname"><span>{{ _("Інші декларації, знайдені за ПІБ") }}</span> «{{ declaration._full_name(language) }}»</h3>
-        <div class="search-page">
-            <div class="row list-group search-results">
-                {{ search_results(similar_declarations["maybe"]) }}
+            {% if similar_declarations["maybe"] %}
+            <h3 id="similar_by_surname"><span>{{ _("Інші декларації, знайдені за ПІБ") }}</span> «{{ declaration._full_name(language) }}»</h3>
+            <div class="search-page">
+                <div class="search-results">
+                    {{ search_results(similar_declarations["maybe"]) }}
+                </div>
             </div>
-        </div>
-        {% endif %}
+            {% endif %}
 
-        {% set family_declarations = declaration.family_declarations(language=language) %}
-        {% if family_declarations %}
-        <h3 id="similar_by_relations">{{ _("Декларації осіб, що <u>можуть</u> бути родичами декларанта") }}</h3>
-        <div class="search-page">
-            <div class="row list-group search-results">
-                {{ search_results(family_declarations) }}
+            {% set family_declarations = declaration.family_declarations(language=language) %}
+            {% if family_declarations %}
+            <h3 id="similar_by_relations">{{ _("Декларації осіб, що <u>можуть</u> бути родичами декларанта") }}</h3>
+            <div class="search-page">
+                <div class="search-results">
+                    {{ search_results(family_declarations) }}
+                </div>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 {% endblock %}
 {#

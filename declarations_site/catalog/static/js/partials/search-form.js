@@ -156,7 +156,7 @@
 
     $('.search-form__input').typeahead({
       minLength: 2,
-      autoSelect: false,
+      autoselect: false,
       classNames: {
         menu: 'search-form__autocomplete',
         cursor: 'search-form__autocomplete-item--current',
@@ -165,7 +165,6 @@
       name: 'server',
       source: function(query, _, process) {
         $.get('/search/suggest', {q: query}, function(data) {
-          debugger;
           process(data);
         })
       },

@@ -5,34 +5,6 @@
     {% stylesheet 'css_infographics' %}
 {% endblock %}
 
-{% block newslist %}
-    <section id="newslist" class="on-white">
-        <div class="container">
-            <div class="row">
-
-                <div class="text-center">
-                    <div class="news-preloader">
-                        <div class="preloader-wrapper big active">
-                            <div class="spinner-layer spinner-blue-only">
-                                <div class="circle-clipper left">
-                                    <div class="circle"></div>
-                                </div><div class="gap-patch">
-                                <div class="circle"></div>
-                            </div><div class="circle-clipper right">
-                                <div class="circle"></div>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bihus-news col-sm-12 col-md-6" id="decl-news-block"></div>
-                <div class="bihus-news col-sm-12 col-md-6" id="decl-bihus-block"></div>
-            </div>
-        </div>
-    </section>
-{% endblock %}
-
 {% block banner970_1 %}
     <div id='div-gpt-ad-1531830029689-2' style="display: none; width: 970px; margin: 15px auto;">
         <script>
@@ -147,38 +119,9 @@
 
             <div class="main-page__search">
                 {{ ex_search_form('', false) }}
-
-                {# <div class="nav-search">
-                    <div class="container">
-                        <div class="row">
-                            <div class="search-block">
-                                <div id="front-searchbox" class="searchbox col-sm-12">
-                                    <form action="{{ url("search") }}" method="GET">
-                                    <div class="input-group">
-                                        <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="{{ _("ПОШУК ДЕКЛАРАЦІЙ. Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба") }}" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
-                                            <span id="search_scope" class="input-group-btn">
-                                                <div class="checkbox">
-                                                    <label title="{{ _("Шукати по всьому тексту декларації, а не тільки по імені та посаді") }}">
-                                                        <input type="checkbox" name="deepsearch" {% if context_or_settings('deepsearch') %}checked="checked"{% endif %}>
-                                                        <span>{{ _("Шукати скрізь") }}</span>
-                                                    </label>
-                                                    </div>
-                                            </span>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                                            </span>
-                                    </div>
-                                    </form>
-                                    <a class="ex-search-link" href="{{ url("search") }}#exsearch" class="text-right">{{ _("Розширений пошук") }}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> #}
-
             </div>
 
-            <div class="promo-block main-page__promo">реклама або промо</div>
+            {# <div class="promo-block main-page__promo">реклама або промо</div> #}
 
             <div class="advantages-block main-page__advantages">
                 <h2 class="advantages-block__title">{{ _("Наші переваги") }}</h2>
@@ -232,94 +175,4 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-        
-        {# <div class="infographics-on-main container">
-            <div class="viz" id="assets-wrapper" data-source="assets.total" data-d3-target="#assets">
-               <h3>{{ _("Топ-100 за статками") }}</h3>
-               <p class="loading" id="assets-loading-indicator">{{ _("Завантаження...") }}</p>
-               <svg id="assets">
-                  <g transform="translate(1,1)"></g>
-               </svg>
-            </div>
-            <div class="viz" id="incomes-wrapper" data-source="incomes.total" data-d3-target="#incomes">
-               <h3>{{ _("Топ-100 за доходом") }}</h3>
-               <p class="loading" id="incomes-loading-indicator">{{ _("Завантаження...") }}</p>
-               <svg id="incomes">
-                  <g transform="translate(1,1)"></g>
-               </svg>
-            </div>
-            <div class="row filter-panel">
-                <div class="pull-left dropdown with-separator">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ _("Рік:") }}<span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownCategory" data-linked-input="filter-year">
-                        {% for year in range(2015, CURR_YEAR) %}
-                        <li><a href="#" data-value="{{ year }}">{{ year }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    <input id="filter-year" name="filter-year" class="linked-input" type="hidden" value="2019" />
-                </div>
-                <div class="pull-left dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownCategory" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ _("Сфера діяльності:") }}<span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownCategory" data-linked-input="filter-category">
-                        <li><a href="#" data-value="">{{ _("Сфера діяльності:") }}</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#" data-value="j">{{ _("Центральна влада") }}</a></li>
-                        <li><a href="#" data-value="b">>{{ _("Mісцева влада") }}</a></li>
-                        <li><a href="#" data-value="p">>{{ _("Cудді") }}</a></li>
-                        <li><a href="#" data-value="h">>{{ _("Прокурори") }}</a></li>
-                        <li><a href="#" data-value="n">>{{ _("Лікарі") }}</a></li>
-                        <li><a href="#" data-value="e">>{{ _("Iнспектори") }}</a></li>
-                    </ul>
-                    <input id="filter-category" name="filter-category" class="linked-input" type="hidden" value="j" />
-                </div>
-                <div class="pull-left dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownRegion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{{ _("Вся Україна:") }}<span class="caret"></span></button>
-                    <ul class="dropdown-menu dropdown-as-select" aria-labelledby="dropdownRegion" data-linked-input="filter-region">
-                        <li><a href="#" data-value="">{{ _("Вся Україна:") }}</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#" data-value="1">{{ _("Харківська область") }}</a></li>
-                        <li><a href="#" data-value="2">{{ _("Львівська область") }}</a></li>
-                        <li><a href="#" data-value="3">{{ _("Чернівецька область") }}</a></li>
-                        <li><a href="#" data-value="4">{{ _("Донецька область") }}</a></li>
-                        <li><a href="#" data-value="5">{{ _("!не визначено") }}</a></li>
-                        <li><a href="#" data-value="6">{{ _("м. Київ") }}</a></li>
-                        <li><a href="#" data-value="7">{{ _("Миколаївська область") }}</a></li>
-                        <li><a href="#" data-value="8">{{ _("Дніпропетровська область") }}</a></li>
-                        <li><a href="#" data-value="9">{{ _("Житомирська область") }}</a></li>
-                        <li><a href="#" data-value="10">{{ _("Рівненська область") }}</a></li>
-                        <li><a href="#" data-value="11">{{ _("Одеська область") }}</a></li>
-                        <li><a href="#" data-value="12">{{ _("Київська область") }}</a></li>
-                        <li><a href="#" data-value="13">{{ _("Закарпатська область") }}</a></li>
-                        <li><a href="#" data-value="14">{{ _("Запорізька область") }}</a></li>
-                        <li><a href="#" data-value="15">{{ _("Черкаська область") }}</a></li>
-                        <li><a href="#" data-value="16">{{ _("Чернігівська область") }}</a></li>
-                        <li><a href="#" data-value="17">{{ _("Сумська область") }}</a></li>
-                        <li><a href="#" data-value="18">{{ _("Волинська область") }}</a></li>
-                        <li><a href="#" data-value="19">{{ _("Івано-Франківська область") }}</a></li>
-                        <li><a href="#" data-value="20">{{ _("Херсонська область") }}</a></li>
-                        <li><a href="#" data-value="21">{{ _("Хмельницька область") }}</a></li>
-                        <li><a href="#" data-value="22">{{ _("Тернопільська область") }}</a></li>
-                        <li><a href="#" data-value="23">{{ _("Полтавська область") }}</a></li>
-                        <li><a href="#" data-value="24">{{ _("Кіровоградська область") }}</a></li>
-                        <li><a href="#" data-value="25">{{ _("Луганська область") }}</a></li>
-                        <li><a href="#" data-value="26">{{ _("Вінницька область") }}</a></li>
-                        <li><a href="#" data-value="27">{{ _("Кримська Автономна Республіка") }}</a></li>
-                    </ul>
-                    <input id="filter-region" name="filter-region" class="linked-input" type="hidden" />
-                </div>
-                <div class="pull-right more-graphs">
-                    <a href="{{ url("business_intelligence") }}">{{ _("Ще більше крутої аналітики") }}</a>
-                </div>
-            </div>
-        </div> #}
-{% endblock %}
-
-{% block extra_js %}
-    {% javascript 'js_infographics' %}
 {% endblock %}

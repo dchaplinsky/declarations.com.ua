@@ -36,6 +36,9 @@
     position: absolute;
     top: 23px;
     right: 24px;
+    &--inline {
+      position: static;
+    }
   }
 }
 
