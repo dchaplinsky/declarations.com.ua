@@ -2,28 +2,28 @@
   $(function() {
     var cardActionBlock = $('.card-actions');
 
-    $('.card-actions__action-link', cardActionBlock).on('click', function() {
-      var parent = $(this).parents('.card-actions');
-      $('.card-actions').not(parent).find('.card-actions__items').hide();
-      $('.card-actions__items', parent).toggle();
-    });
+    $(document.body)
+      .on('click', '.card-actions__action-link', function() {
+        var parent = $(this).parents('.card-actions');
+        $('.card-actions').not(parent).find('.card-actions__items').hide();
+        $('.card-actions__items', parent).toggle();
+      })
+      .on('click', '.card-actions__action', function() {
+        var self = $(this),
+          details = self.find('.action-icon__details'),
+          parent = self.closest('.card-actions');
 
-    $('.card-actions__action').on('click', function() {
-      var self = $(this),
-        details = self.find('.action-icon__details'),
-        parent = self.closest('.card-actions');
+        // parent.find('.card-actions__items').hide();
+        $('.action-icon__details').removeClass('action-icon__details--visible');
 
-      // parent.find('.card-actions__items').hide();
-      $('.action-icon__details').removeClass('action-icon__details--visible');
+        var overflowRight = document.body.offsetWidth - (this.getBoundingClientRect().left + details.innerWidth() + 10);
 
-      var overflowRight = document.body.offsetWidth - (this.getBoundingClientRect().left + details.innerWidth() + 10);
+        if (overflowRight < 0) {
+          details[0].style.left = overflowRight + 'px';
+        }
 
-      if (overflowRight < 0) {
-        details[0].style.left = overflowRight + 'px';
-      }
-
-      details.addClass('action-icon__details--visible');
-    });
+        details.addClass('action-icon__details--visible');
+      });
 
     /*Клик вне элемента*/
     var clickEvent = (('ontouchstart' in document.documentElement) ? 'touchstart' : 'click');
