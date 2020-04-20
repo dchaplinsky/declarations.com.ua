@@ -1,3 +1,22 @@
+{% macro _checkbox(field, id, name, value, label) %}
+<div class="{{ field['block_name'] }}__param-item n-checkbox">
+    <input type="checkbox"
+        id="{{ id }}"
+        name="{{ name }}"
+        value="{{ value }}"
+        class="n-checkbox__input"
+        {% if name in request.GET and value in request.GET.getlist(name) %} checked="checked"{% endif %}
+    />
+    <label for="{{ id }}"
+        class="n-checkbox__label">
+        <span class="n-checkbox__label-box"></span>
+        <span class="n-checkbox__label-text">
+            {{ label }}
+        </span>
+    </label>
+</div>
+{% endmacro %}
+
 {% macro ex_search_form(query, deepsearch) -%}
     <form class="search-form" action="{{ url("search") }}" method="GET">
         <div class="search-form__columns">
@@ -91,16 +110,7 @@
                         {
                             'input_name': 'flag[]',
                             'class_name': 'risk-filter__risk',
-                            'options': [
-                                [
-                                    {'value': 'активи', 'label': 'Активи в 10+ разів перевищують доходи'},
-                                    {'value': 'борги', 'label': 'Борги у 2+ разів перевищують активи та доходи'},
-                                ],
-                                [
-                                    {'value': 'нерухомість', 'label': 'Не вказана вартість нерухомості придбаної у поточному році'},
-                                    {'value': 'готівка', 'label': 'Готівка понад 5 млн грн'},
-                                ],
-                            ]
+                            'options': [ ENABLED_FLAGS ]
                         },
                     ],
                 },
@@ -189,25 +199,19 @@
                                         {% for column in group['options'] %}
                                             {% set column_number = loop.index %}
                                             <div class="{{ field['block_name'] }}__param-column">
-                                                {% for option in column %}
-                                                    {% set value = option['value'] if 'value' in option else option %}
-                                                    <div class="{{ field['block_name'] }}__param-item n-checkbox">
-                                                        <input type="checkbox"
-                                                            id="document-{{ field['block_name'] }}-{{ group_number }}-{{ column_number }}-{{ loop.index }}"
-                                                            name="{{ group['input_name'] }}"
-                                                            value="{{ value }}"
-                                                            class="n-checkbox__input"
-                                                            {% if group['input_name'] in request.GET and value in request.GET.getlist(group['input_name']) %} checked="checked"{% endif %}
-                                                        />
-                                                        <label for="document-{{ field['block_name'] }}-{{ group_number }}-{{ column_number }}-{{ loop.index }}"
-                                                            class="n-checkbox__label">
-                                                            <span class="n-checkbox__label-box"></span>
-                                                            <span class="n-checkbox__label-text">
-                                                                {% if 'label' in option %}{{ _(option['label']) }}{% else %}{{ _(option) }}{% endif %}
-                                                            </span>
-                                                        </label>
-                                                    </div>
-                                                {% endfor %}
+                                                {% if field['block_name'] == 'risk-filter' %}
+                                                    {% for key, option in column.items() %}
+                                                        {# {% set id = 'document-' + field['block_name'] + '-' + group_number + '-' + column_number + '-' + loop.index %} #}
+                                                        {% set id = "document-%s-%s-%s-%s"|format(field['block_name'], group_number, column_number, loop.index) %}
+                                                        {{ _checkbox(field, id, group['input_name'], key, option['name']) }}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {% for option in column %}
+                                                        {% set id = "document-%s-%s-%s-%s"|format(field['block_name'], group_number, column_number, loop.index) %}
+                                                        {% set value = option['value'] if 'value' in option else option %}
+                                                        {{ _checkbox(field, id, group['input_name'], value, _(option['label']) if 'label' in option else _(option)) }}
+                                                    {% endfor %}
+                                                {% endif %}
                                             </div>
                                         {% endfor %}
                                     </div>
@@ -543,9 +547,9 @@
                             <div class="fieldset-container">
                             <!-- Регіон -->
                             <div class="col-sm-6 col-md-4 col col-3">
-                                {# {% for flag_id, flag in ENABLED_FLAGS.items() %}
+                                {% for flag_id, flag in ENABLED_FLAGS.items() %}
                                     {{ flag_id }} {{ flag.name }}
-                                {% endfor %} #}
+                                {% endfor %}
                                 <fieldset>
                                     <legend>{{ _("Рік:") }}</legend>
                                     <div class="dropdown">

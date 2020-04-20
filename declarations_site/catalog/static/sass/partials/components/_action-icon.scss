@@ -1,5 +1,6 @@
 .action-icon {
   position: relative;
+  font-size: inherit;
   cursor: pointer;
   path {
     transition: fill 0.3s linear;
@@ -171,6 +172,7 @@
     justify-content: space-between;
     border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
     padding: 11px 0;
+    text-align: left;
 
     &:last-child {
       border-bottom: none;

@@ -44,7 +44,9 @@
     &:last-child {
       border-bottom: none;
     }
-    &:hover {
+    &:hover,
+    &--current {
+      background: #F7F9FA;
       color: $green;
     }
     @media all and (min-width: 1024px) {
@@ -130,4 +132,7 @@
       z-index: 50;
     }
   }
+}
+.twitter-typeahead {
+  width: 100%;
 }

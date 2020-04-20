@@ -303,6 +303,7 @@ PIPELINE = {
         'js_all': {
             'source_filenames': (
                 'js/jquery.min.js',
+                'js/typeahead.bundle.js',
                 'js/partials/popup.js',
                 'js/partials/mobile-menu.js',
                 'js/partials/n-select.js',

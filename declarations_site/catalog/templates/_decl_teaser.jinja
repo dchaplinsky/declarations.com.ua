@@ -51,7 +51,7 @@
                     <div class="card-actions__items">
                         <div class="card-actions__items-inner">
                             {% set red_flags = declaration.red_flags() %}
-                            <div class="action-icon action-icon_red card-actions__action">
+                            <button class="action-icon action-icon_red card-actions__action">
                                 <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20 3H4C2.9 3 2.01 3.9 2.01 5L2 23L6 19H20C21.1 19 22 18.1 22 17V5C22 3.9 21.1 3 20 3ZM13 12H11V6H13V12ZM13 16H11V14H13V16Z" fill="#ED3024"/>
                                 </svg>
@@ -73,7 +73,7 @@
                                         {{ _("Особливості") }}
                                     </div>
                                 </div>
-                            </div>
+                            </button>
                             
                                 {# <a href="{% if declaration.meta.id %}{{ url("details", declaration_id=declaration.meta.id) }}#redflags{% else %}#{% endif %}" class="red_flags" title="{% for flag in red_flags %}{{ flag.text }}<br/>{% endfor %}" data-toggle="tooltip" data-placement="right" data-html="true">
                                     {{ red_flags|count }} <i class="fa fa-flag" aria-hidden="true"></i>

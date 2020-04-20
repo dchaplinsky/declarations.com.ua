@@ -232,15 +232,10 @@
 }
 
 .risk-filter {
-  &__column {
-    @media all and (min-width: 1024px) {
-      width: 50%;
-    }
-  }
-  &__item {
+  &__param-item {
     padding: 6px 0;
   }
-  &__items {
+  &__param-items {
     margin: -6px 0;
     @media all and (min-width: 1024px) {
       @include flex();

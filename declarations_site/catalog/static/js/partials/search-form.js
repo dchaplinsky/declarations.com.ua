@@ -154,30 +154,33 @@
       }
     }
 
-    // $('.search-form__input').typeahead({
-    //   minLength: 2,
-    //   autoSelect: false,
-    //   source: function(query, process) {
-    //     $.get('/search/suggest', {q: query})
-    //       .success(function(data) {
-    //         process(data);
-    //       })
-    //   },
-    //   matcher: function() {
-    //     return true;
-    //   },
-    //   highlighter: function(instance) {
-    //     return instance;
-    //   },
-    //   updater: function(instance) {
-    //     return $(instance).data('sugg_text')
-    //   },
-    //   afterSelect: function(item) {
-    //     var form = $('.search-form__input').closest('form')
-    //     form.submit();
-    //   }
-    // });
-
+    $('.search-form__input').typeahead({
+      minLength: 2,
+      autoSelect: false,
+      classNames: {
+        menu: 'search-form__autocomplete',
+        cursor: 'search-form__autocomplete-item--current',
+      }
+    }, {
+      name: 'server',
+      source: function(query, _, process) {
+        $.get('/search/suggest', {q: query}, function(data) {
+          debugger;
+          process(data);
+        })
+      },
+      display: function(suggest) {
+        return $(suggest).data('sugg_text');
+      },
+      templates: {
+        suggestion: function(item) {
+          return $(item);
+        }
+      }
+    }).bind('typeahead:select', function(e, suggestion) {
+      var form = $('.search-form__input').closest('form')
+      form.submit();
+    });
   });
 
 })(jQuery);

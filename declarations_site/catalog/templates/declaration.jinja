@@ -273,7 +273,7 @@
                                         {{ flag.text }}
                                     </div>
                                     <div class="declaration-card__feature-item-description">
-                                        {{ flag.description }}
+                                        {{ flag.description|safe }}
                                     </div>
                                 </div>
                             {% endfor %}
