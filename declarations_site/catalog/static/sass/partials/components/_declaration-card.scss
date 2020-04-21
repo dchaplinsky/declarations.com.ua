@@ -50,6 +50,9 @@
     margin-top: 12px;
     font-weight: 500;
     font-size: 12px;
+    @media all and (max-width: 1023px) {
+      flex-direction: column;
+    }
   }
   &__feature-item-title,
   &__feature-item-description {

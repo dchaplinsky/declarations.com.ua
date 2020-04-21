@@ -108,12 +108,12 @@
                             <div class="personal-info__item-name">{{ _("Місце праці") }}</div>
                             <div class="personal-info__item-value" itemprop="worksFor" itemscope itemtype="http://schema.org/Organization">
                                 {% if declaration.general.post.actual_region %}
-                                    <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration._actual_region(language) }}</a><span>,</span>
+                                    <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="address">{{ declaration._actual_region(language) }}</a>{% if declaration.general.post.office %}<span>,</span>{% endif %}
                                 {% elif declaration.general.post.region %}
-                                    <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration._region(language) }}</a><span>,</span>
+                                    <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration._region(language) }}</a>{% if declaration.general.post.office %}<span>,</span>{% endif %}
                                 {% endif %}
                                 {% if declaration.general.post.office %}
-                                    <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration._office(language) }}</span></a><span>,</span>
+                                    <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration._office(language) }}</span></a>
                                 {% endif %}
                             </div>
                         </div>
