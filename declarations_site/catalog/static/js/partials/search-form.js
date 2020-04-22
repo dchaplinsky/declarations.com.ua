@@ -38,12 +38,13 @@
     });
 
     function setAppliedFiltersCount() {
-      var filterCount = $('.n-checkbox__input:checked', searchForm).length;
+      var appliedFiltersSelector = '.n-checkbox__input:checked:not(#deepsearch)';
+      var filterCount = $(appliedFiltersSelector, searchForm).length;
       $('.deep-search__count-block .filter-count', searchForm).text(filterCount);
       setCountFilterInBtn(filterCount);
 
       $('.deep-search__filter', searchForm).each(function() {
-        var countSelectedFilter = $('.n-checkbox__input:checked', this).length;
+        var countSelectedFilter = $(appliedFiltersSelector, this).length;
         $('.filter-count', this).remove();
         if(countSelectedFilter) {
           var countBlock = '<div class="filter-count">' + countSelectedFilter + '</div>';
@@ -54,10 +55,10 @@
 
     setAppliedFiltersCount();
 
-    /*Сounting selected filters Start*/
+    /*Counting selected filters Start*/
     searchForm.on('change', '.n-checkbox__input', setAppliedFiltersCount);
 
-    /*Сounting selected filters End*/
+    /*Counting selected filters End*/
 
 
 

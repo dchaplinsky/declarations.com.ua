@@ -28,9 +28,19 @@
                         class="n-input search-form__input"
                         autocomplete="off"
                         value="{% if query %}{{ query }}{% endif %}"
-                        placeholder="{{ _("Приклад пошуку: Айварас Абромавичус; Cуддя; Хмельницька область") }}">
+                        placeholder="{{ _("Наприклад: Айварас Абромавичус; Cуддя; Хмельницька область") }}">
+                    <div class="search-form__everywhere n-checkbox">
+                        <input type="checkbox"
+                            id="deepsearch"
+                            name="deepsearch"
+                            class="n-checkbox__input"
+                            {% if 'deepsearch' in request.GET %}checked="checked"{% endif %}>
+                        <label for="deepsearch" class="n-checkbox__label search-form__everywhere-label">
+                            <span class="n-checkbox__label-box"></span>
+                            <span class="n-checkbox__label-text">{{ _("Шукати скрізь") }}</span>
+                        </label>
+                    </div>
                 </div>
-
                 <button class="n-btn n-btn_ico n-btn_search search-form__search">{{ _("Шукати") }}</button>
             </div>
 

@@ -444,7 +444,7 @@ msgid "подана"
 msgstr "submitted"
 
 #: catalog/templates/_search_form.jinja:31
-msgid "Приклад пошуку: Айварас Абромавичус; Cуддя; Хмельницька область"
+msgid "Наприклад: Айварас Абромавичус; Cуддя; Хмельницька область"
 msgstr "For example, Aivaras Abromavicius; Judge; Khmelnytskyi Oblast"
 
 #: catalog/templates/_search_form.jinja:34
@@ -2254,8 +2254,8 @@ msgid ""
 "знайти та нажмiть “Монiторити запит” Також ви можете підписатись і "
 "отримувати сповіщення у ваш улюблений месенджер: Skype, Telegram та Facebook "
 "Messenger."
-msgstr "To create a new task, click "Add requests" or try searching for something and "
-"click "Monitor this request". In addition, you can subscribe and receive notifications "
+msgstr "To create a new task, click “Add requests” or try searching for something and "
+"click “Monitor this request”. In addition, you can subscribe and receive notifications "
 "in your favourite messenger: Skype, Telegram or Facebook Messenger."
 
 

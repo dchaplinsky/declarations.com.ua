@@ -23,6 +23,19 @@
       margin-right: 20px;
     }
   }
+  &__everywhere {
+    position: absolute;
+    top: 17px;
+    right: 10px;
+    @media all and (max-width: 1023px) {
+      top: 50px;
+    }
+  }
+  &__everywhere-label {
+    @media all and (max-width: 1023px) {
+      font-size: 12px;
+    }
+  }
   &__autocomplete {
     position: absolute;
     top: 100%;
@@ -61,6 +74,7 @@
     @media all and (min-width: 1024px) {
       font-weight: 500;
       padding: 13px 16px;
+      padding-right: 145px;
       height: 48px;
     }
   }
