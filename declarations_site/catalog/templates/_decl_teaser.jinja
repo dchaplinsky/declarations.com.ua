@@ -92,21 +92,25 @@
                                                 {
                                                     'field': 'assets.declarant',
                                                     'label': _("Сума доходів декларанта"),
+                                                    'type': 'money',
                                                     'unit': _("грн."),
                                                 },
                                                 {
                                                     'field': 'assets.family',
                                                     'label': _("Сума доходів членів родини"),
+                                                    'type': 'money',
                                                     'unit': _("грн."),
                                                 },
                                                 {
                                                     'field': 'assets.cash.total',
                                                     'label': _("Сума грошових активів"),
+                                                    'type': 'money',
                                                     'unit': _("грн."),
                                                 },
                                                 {
                                                     'field': 'assets.family_ratio',
                                                     'label': _("Сума грошових активів родини"),
+                                                    'type': 'money',
                                                     'unit': _("грн."),
                                                 },
                                                 {
@@ -121,20 +125,21 @@
                                                 },
                                             ] %}
                                             {% for field in assets_fields %}
-                                                {# {% if declaration.aggregated[field['field']] > 0 %} #}
+                                                {% if field['field'] in declaration.aggregated %}
                                                 <div class="action-icon__details-item">
                                                     <div class="action-icon__details-item-name">
                                                         {{ field['label'] }}
                                                     </div>
                                                     <div class="action-icon__details-item-value">
-                                                        {% if 'value' in field %}
-                                                            {{ field['value'] }}
+                                                        {% if 'type' in field and field['type'] == 'money' %}
+                                                            {{ declaration.aggregated[field['field']]|string|curformat() }}
                                                         {% else %}
-                                                            {{ declaration.aggregated[field['field']] }} {{ field['unit'] }}
+                                                            {{ declaration.aggregated[field['field']] }}
                                                         {% endif %}
+                                                        &nbsp;{{ field['unit'] }}
                                                     </div>
                                                 </div>
-                                                {# {% endif %} #}
+                                                {% endif %}
                                             {% endfor %}
                                         </div>
                                     </div>

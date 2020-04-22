@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-21 00:06+0300\n"
+"POT-Creation-Date: 2020-04-22 03:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -296,6 +296,7 @@ msgid "Ми створили кишенькових помічників — ч�
 msgstr ""
 
 #: catalog/templates/_advantages.jinja:25 catalog/templates/compare.jinja:107
+#: cms_pages/templates/cms_pages/home.jinja:172
 msgid "Покрокова iнструкцiя"
 msgstr ""
 
@@ -317,8 +318,8 @@ msgstr ""
 
 #: catalog/templates/_decl_teaser.jinja:15
 #: catalog/templates/_decl_teaser.jinja:46
-#: catalog/templates/_decl_teaser.jinja:201
-#: catalog/templates/_decl_teaser.jinja:259
+#: catalog/templates/_decl_teaser.jinja:206
+#: catalog/templates/_decl_teaser.jinja:264
 msgid "Уточнена"
 msgstr ""
 
@@ -327,38 +328,38 @@ msgstr ""
 msgid "Особливості"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:143
+#: catalog/templates/_decl_teaser.jinja:148
 msgid "Дані декларанта за рік"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:155 catalog/templates/base.jinja:259
+#: catalog/templates/_decl_teaser.jinja:160 catalog/templates/base.jinja:259
 #: catalog/templates/base.jinja:670 catalog/templates/base.jinja:722
 msgid "Список порівнянь"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:166
+#: catalog/templates/_decl_teaser.jinja:171
 msgid "Додати в Мої знахідки"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:186
+#: catalog/templates/_decl_teaser.jinja:191
 msgid "Тип/Рік"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:207
+#: catalog/templates/_decl_teaser.jinja:212
 #: catalog/templates/declaration.jinja:108
 msgid "Місце праці"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:222
+#: catalog/templates/_decl_teaser.jinja:227
 #: catalog/templates/decl_form.jinja:86 catalog/templates/declaration.jinja:122
 msgid "Посада"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:228
+#: catalog/templates/_decl_teaser.jinja:233
 msgid "Подана"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:273
+#: catalog/templates/_decl_teaser.jinja:278
 msgid "подана"
 msgstr ""
 
@@ -1072,6 +1073,10 @@ msgstr ""
 msgid ", а потім перезавантажте цю сторінку"
 msgstr ""
 
+#: catalog/templates/compare.jinja:17
+msgid "Як порівнювати декларації?"
+msgstr ""
+
 #: catalog/templates/compare.jinja:20
 msgid "Декларації, що були використані для порівняння"
 msgstr ""
@@ -1690,7 +1695,7 @@ msgstr ""
 msgid "Оригінал декларації"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:301
+#: catalog/templates/declaration.jinja:301 catalog/templates/results.jinja:35
 msgid "Моніторити запит:"
 msgstr ""
 
@@ -1770,6 +1775,10 @@ msgstr ""
 #: catalog/templates/results.jinja:53 catalog/templates/results.jinja:59
 #: catalog/templates/results.jinja:294
 msgid "П.І.Б."
+msgstr ""
+
+#: catalog/templates/results.jinja:186
+msgid "Нажаль, по вашому запиту нічого не знайдено. Спробуйте&nbsp;ще."
 msgstr ""
 
 #: catalog/templates/results.jinja:250
@@ -1875,8 +1884,7 @@ msgstr ""
 #: cms_pages/templates/cms_pages/home.jinja:149
 msgid ""
 "Для тих хто любить цифри та графіки ми зробили круту аналітику і поділили ії "
-"на 8 розділів для вашої зручності Для тих хто любить цифри та графіки ми "
-"зробили круту аналітику i поділили ії на 8 розділів для вашої зручності"
+"на 8 розділів для вашої зручності."
 msgstr ""
 
 #: cms_pages/templates/cms_pages/home.jinja:157
@@ -1987,6 +1995,10 @@ msgid ""
 "входу."
 msgstr ""
 
+#: spotter/templates/_spotter.jinja:103
+msgid "Посилання діятиме протягом 15 хвилин."
+msgstr ""
+
 #: spotter/templates/_spotter.jinja:109 spotter/templates/_spotter.jinja:124
 #: spotter/templates/_spotter.jinja:196
 msgid "Закрити"
@@ -2057,66 +2069,78 @@ msgid "Зберегти"
 msgstr ""
 
 #: spotter/templates/search_list.jinja:34
-#: spotter/templates/search_list.jinja:114
+#: spotter/templates/search_list.jinja:113
 msgid "Додати запити"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:47
+#: spotter/templates/search_list.jinja:41
+msgid ""
+"Щоб створити нове завдання нажмiть “Додати запити”, або спробуйте щось "
+"знайти та нажмiть “Монiторити запит” Також ви можете підписатись і "
+"отримувати сповіщення у ваш улюблений месенджер: Skype, Telegram та Facebook "
+"Messenger."
+msgstr ""
+
+#: spotter/templates/search_list.jinja:46
 msgid "Запит"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:49
-#: spotter/templates/search_list.jinja:71
+#: spotter/templates/search_list.jinja:48
+#: spotter/templates/search_list.jinja:70
 msgid "Знайдено"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:50
-#: spotter/templates/search_list.jinja:75
+#: spotter/templates/search_list.jinja:49
+#: spotter/templates/search_list.jinja:74
 msgid "За тиждень"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:51
-#: spotter/templates/search_list.jinja:79
+#: spotter/templates/search_list.jinja:50
+#: spotter/templates/search_list.jinja:78
 msgid "E-mail нагадування"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:63
+#: spotter/templates/search_list.jinja:62
 msgid "Перейти до пошуку"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:82
+#: spotter/templates/search_list.jinja:81
 msgid "В роботі"
 msgstr ""
 
+#: spotter/templates/search_list.jinja:84
 #: spotter/templates/search_list.jinja:85
-#: spotter/templates/search_list.jinja:86
 msgid "Призупинити"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:89
+#: spotter/templates/search_list.jinja:88
 msgid "На паузі"
 msgstr ""
 
+#: spotter/templates/search_list.jinja:91
 #: spotter/templates/search_list.jinja:92
-#: spotter/templates/search_list.jinja:93
 msgid "Відновити"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:100
+#: spotter/templates/search_list.jinja:99
 msgid "Видалити"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:119
+#: spotter/templates/search_list.jinja:118
 msgid ""
 "Додавайте багато запитів вводячи їх з нового рядка. Тисніть кнопку Enter для "
 "того щоб завершити введення та перейти до нового запиту. Активні запити "
 "виділяються кольором, їх можно редагувати та видаляти."
 msgstr ""
 
-#: spotter/templates/search_list.jinja:131
+#: spotter/templates/search_list.jinja:130
 msgid "Кількість запитів:"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:135
+#: spotter/templates/search_list.jinja:134
 msgid "Додати"
+msgstr ""
+
+#: spotter/templates/search_list.jinja:138
+msgid "Додаю..."
 msgstr ""

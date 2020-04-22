@@ -37,9 +37,8 @@
             <div class="profile-page__tab-content">
                 {{ flash_messages(messages) }}
                 <div class="request-block">
-                    <div class="request-block__description">Щоб створити нове завдання нажмiть “Додати запити”, або
-                        спробуйте щось знайти та нажмiть “Монiторити запит” Також ви можете підписатись і отримувати
-                        сповіщення у ваш улюблений месенджер: Skype, Telegram та Facebook Messenger.
+                    <div class="request-block__description">
+                        {{ _("Щоб створити нове завдання нажмiть “Додати запити”, або спробуйте щось знайти та нажмiть “Монiторити запит” Також ви можете підписатись і отримувати сповіщення у ваш улюблений месенджер: Skype, Telegram та Facebook Messenger.") }}
                     </div>
 
                     <div class="request-block__list">
@@ -136,7 +135,7 @@
                     </div>
                 </div>
                 <div class="progress-block add-request-block__progress" style="display: none;">
-                    <div class="progress-block__title">Додаю...</div>
+                    <div class="progress-block__title">{{ _("Додаю...") }}</div>
 
                     <div class="progress-block__bar">
                         <div class="progress-block__progress" style="width: 0"></div>
