@@ -613,7 +613,7 @@ msgstr ""
 "position"
 
 #: catalog/templates/_search_form.jinja:533 catalog/templates/base.jinja:274
-msgid "Шукати скрізь"
+msgid "всюди"
 msgstr "Deep search"
 
 #: catalog/templates/_search_form.jinja:541 catalog/templates/base.jinja:281
