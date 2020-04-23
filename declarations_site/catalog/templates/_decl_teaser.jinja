@@ -17,274 +17,203 @@
 {% endmacro %}
 
 {% macro decl_teaser(declaration, on_decl_page=False, default_collapsed=False) %}
-    {# {% if on_decl_page %}
-    {% else %} #}
-        <div data-declid="{{ declaration.meta.id }}" class="search-card search-page__result-card{% if default_collapsed %} search-card--collapsed{% endif %}" itemscope itemtype="http://schema.org/Person">
-            <div class="search-card__top">
-                <div class="search-card__name">
-                {% if declaration.meta.id %}
-                    <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name">{{ declaration._full_name(language) }}</a>
-                {% else %}
-                    {{ declaration._full_name(language) }}
-                {% endif %}
+    <div data-declid="{{ declaration.meta.id }}" class="search-card search-page__result-card{% if default_collapsed %} search-card--collapsed{% endif %}" itemscope itemtype="http://schema.org/Person">
+        <div class="search-card__top">
+            <div class="search-card__name">
+            {% if declaration.meta.id %}
+                <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name">{{ declaration._full_name(language) }}</a>
+            {% else %}
+                {{ declaration._full_name(language) }}
+            {% endif %}
+            </div>
+            <div class="search-card__position">
+                {{ decl_year_type(declaration) }}
+            </div>
+
+            <div class="search-card__actions card-actions">
+                <div class="card-actions__items">
+                    <div class="card-actions__items-inner">
+                        {% set red_flags = declaration.red_flags() %}
+                        <button class="action-icon action-icon_red card-actions__action">
+                            <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 3H4C2.9 3 2.01 3.9 2.01 5L2 23L6 19H20C21.1 19 22 18.1 22 17V5C22 3.9 21.1 3 20 3ZM13 12H11V6H13V12ZM13 16H11V14H13V16Z" fill="#ED3024"/>
+                            </svg>
+
+                            {% if red_flags %}
+                                <div class="action-icon__count">{{ red_flags|count }}</div>
+                                <div class="action-icon__details">
+                                    <div class="action-icon__details-items">
+                                        {% for flag in red_flags %}
+                                            <div class="action-icon__details-item">
+                                                {{ flag.text }}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="action-icon__tooltip">
+                                <div class="action-icon__tooltip-text">
+                                    {{ _("Особливості") }}
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="action-icon card-actions__action">
+                            <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5 3C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3H5ZM9.94892 9.83333C9.94892 10.4667 10.5226 10.8733 12.3065 11.2667C14.0904 11.66 16 12.3067 16 14.2C16 15.5667 14.7819 16.32 13.2495 16.5667V18H10.8919V16.5533C9.3831 16.28 8.0943 15.46 8 14H9.72888C9.81532 14.7867 10.4519 15.4 12.0707 15.4C13.8075 15.4 14.1925 14.6667 14.1925 14.2067C14.1925 13.5867 13.7996 13 11.835 12.6C9.64244 12.1533 8.14145 11.3867 8.14145 9.84667C8.14145 8.56 9.36739 7.72 10.8919 7.44V6H13.2495V7.46C14.8919 7.8 15.7171 8.85333 15.7721 10H14.0354C13.9882 9.16667 13.4695 8.6 12.0707 8.6C10.7426 8.6 9.94892 9.10667 9.94892 9.83333Z" fill="#56B8AD"/>
+                            </svg>
+
+                            {% if declaration.aggregated %}
+                                <div class="action-icon__count">5</div>
+                                <div class="action-icon__details">
+                                    <div class="action-icon__details-items">
+                                        {% set assets_fields = [
+                                            {
+                                                'field': 'assets.declarant',
+                                                'label': _("Сума доходів декларанта"),
+                                                'type': 'money',
+                                                'unit': _("грн."),
+                                            },
+                                            {
+                                                'field': 'assets.family',
+                                                'label': _("Сума доходів членів родини"),
+                                                'type': 'money',
+                                                'unit': _("грн."),
+                                            },
+                                            {
+                                                'field': 'assets.cash.total',
+                                                'label': _("Сума грошових активів"),
+                                                'type': 'money',
+                                                'unit': _("грн."),
+                                            },
+                                            {
+                                                'field': 'assets.family_ratio',
+                                                'label': _("Сума грошових активів родини"),
+                                                'type': 'money',
+                                                'unit': _("грн."),
+                                            },
+                                            {
+                                                'field': 'estate.declarant_land',
+                                                'label': _("Площа земельних ділянок декларанта"),
+                                                'unit': _("м2"),
+                                            },
+                                            {
+                                                'field': 'estate.family_land',
+                                                'label': _("Площа земельних ділянок родини"),
+                                                'unit': _("м2"),
+                                            },
+                                        ] %}
+                                        {% for field in assets_fields %}
+                                            {% if field['field'] in declaration.aggregated %}
+                                            <div class="action-icon__details-item">
+                                                <div class="action-icon__details-item-name">
+                                                    {{ field['label'] }}
+                                                </div>
+                                                <div class="action-icon__details-item-value">
+                                                    {% if 'type' in field and field['type'] == 'money' %}
+                                                        {{ declaration.aggregated[field['field']]|string|curformat() }}
+                                                    {% else %}
+                                                        {{ declaration.aggregated[field['field']] }}
+                                                    {% endif %}
+                                                    &nbsp;{{ field['unit'] }}
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="action-icon__tooltip">
+                                <div class="action-icon__tooltip-text">{{ _("Дані декларанта за рік") }}</div>
+                            </div>
+                        </button>
+
+                        {% if declaration.aggregated %}
+                            <button class="action-icon card-actions__action card-actions__action-add-to-compare">
+                                <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z" fill="#56B8AD"/>
+                                </svg>
+
+                                <div class="action-icon__count action-icon__count-compared"></div>
+                                <div class="action-icon__tooltip">
+                                    <div class="action-icon__tooltip-text">{{ _("Список порівнянь") }}</div>
+                                </div>
+                            </button>
+                        {% endif %}
+
+                        {# <button class="action-icon card-actions__action">
+                            <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 17.27L18.18 20.998L16.544 13.968L22 9.24402L14.81 8.62602L12 1.99902L9.19 8.62502L2 9.24302L7.454 13.969L5.819 20.998L12 17.27Z" fill="#56B8AD"/>
+                            </svg>
+
+                            <div class="action-icon__tooltip">
+                                <div class="action-icon__tooltip-text">{{ _("Додати в Мої знахідки") }}</div>
+                            </div>
+                        </button> #}
+
+                        <button class="card-actions__action card-actions__action--expand drop-down-btn"></button>
+                        <button class="card-actions__action card-actions__action--close close-btn"></button>
+                    </div>
                 </div>
-                <div class="search-card__position">
-                    {{ decl_year_type(declaration) }}
-                    {# {% if declaration.intro.declaration_year %}
-                        {{ declaration.intro.declaration_year -}}
-                        {% if declaration.intro.doc_type or declaration.intro.corrected -%}
+
+                <div class="card-actions__action-link action-link">
+                    <div class="action-link__dot"></div>
+                    <div class="action-link__dot"></div>
+                    <div class="action-link__dot"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="search-card__items">
+            <div class="search-card__item search-card__item--type">
+                <div class="search-card__item-name">{{ _("Тип/Рік") }}</div>
+                <div class="search-card__item-text">
+                    {% if declaration.intro.doc_type %}
+                        {{ declaration._declaration_type(language) -}}
+                        {% if declaration.intro.declaration_year or declaration.intro.corrected -%}
                             <span>,</span>
                         {% endif %}
                     {% endif %}
-                    {% if declaration.intro.doc_type %}
-                        {{ declaration._declaration_type(language) -}}
+                    {% if declaration.intro.declaration_year %}
+                        {{ declaration.intro.declaration_year -}}
                         {% if declaration.intro.corrected -%}
                             <span>,</span>
                         {% endif %}
                     {% endif %}
                     {% if declaration.intro.corrected %}
                         {{ _("Уточнена") }}
-                    {% endif %} #}
-                </div>
-
-                <div class="search-card__actions card-actions">
-                    <div class="card-actions__items">
-                        <div class="card-actions__items-inner">
-                            {% set red_flags = declaration.red_flags() %}
-                            <button class="action-icon action-icon_red card-actions__action">
-                                <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 3H4C2.9 3 2.01 3.9 2.01 5L2 23L6 19H20C21.1 19 22 18.1 22 17V5C22 3.9 21.1 3 20 3ZM13 12H11V6H13V12ZM13 16H11V14H13V16Z" fill="#ED3024"/>
-                                </svg>
-
-                                {% if red_flags %}
-                                    <div class="action-icon__count">{{ red_flags|count }}</div>
-                                    <div class="action-icon__details">
-                                        <div class="action-icon__details-items">
-                                            {% for flag in red_flags %}
-                                                <div class="action-icon__details-item">
-                                                    {{ flag.text }}
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="action-icon__tooltip">
-                                    <div class="action-icon__tooltip-text">
-                                        {{ _("Особливості") }}
-                                    </div>
-                                </div>
-                            </button>
-                            
-                                {# <a href="{% if declaration.meta.id %}{{ url("details", declaration_id=declaration.meta.id) }}#redflags{% else %}#{% endif %}" class="red_flags" title="{% for flag in red_flags %}{{ flag.text }}<br/>{% endfor %}" data-toggle="tooltip" data-placement="right" data-html="true">
-                                    {{ red_flags|count }} <i class="fa fa-flag" aria-hidden="true"></i>
-                                </a> #}
-                            
-                            <button class="action-icon card-actions__action">
-                                <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 3C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3H5ZM9.94892 9.83333C9.94892 10.4667 10.5226 10.8733 12.3065 11.2667C14.0904 11.66 16 12.3067 16 14.2C16 15.5667 14.7819 16.32 13.2495 16.5667V18H10.8919V16.5533C9.3831 16.28 8.0943 15.46 8 14H9.72888C9.81532 14.7867 10.4519 15.4 12.0707 15.4C13.8075 15.4 14.1925 14.6667 14.1925 14.2067C14.1925 13.5867 13.7996 13 11.835 12.6C9.64244 12.1533 8.14145 11.3867 8.14145 9.84667C8.14145 8.56 9.36739 7.72 10.8919 7.44V6H13.2495V7.46C14.8919 7.8 15.7171 8.85333 15.7721 10H14.0354C13.9882 9.16667 13.4695 8.6 12.0707 8.6C10.7426 8.6 9.94892 9.10667 9.94892 9.83333Z" fill="#56B8AD"/>
-                                </svg>
-
-                                {% if declaration.aggregated %}
-                                    <div class="action-icon__count">5</div>
-                                    <div class="action-icon__details">
-                                        <div class="action-icon__details-items">
-                                            {% set assets_fields = [
-                                                {
-                                                    'field': 'assets.declarant',
-                                                    'label': _("Сума доходів декларанта"),
-                                                    'type': 'money',
-                                                    'unit': _("грн."),
-                                                },
-                                                {
-                                                    'field': 'assets.family',
-                                                    'label': _("Сума доходів членів родини"),
-                                                    'type': 'money',
-                                                    'unit': _("грн."),
-                                                },
-                                                {
-                                                    'field': 'assets.cash.total',
-                                                    'label': _("Сума грошових активів"),
-                                                    'type': 'money',
-                                                    'unit': _("грн."),
-                                                },
-                                                {
-                                                    'field': 'assets.family_ratio',
-                                                    'label': _("Сума грошових активів родини"),
-                                                    'type': 'money',
-                                                    'unit': _("грн."),
-                                                },
-                                                {
-                                                    'field': 'estate.declarant_land',
-                                                    'label': _("Площа земельних ділянок декларанта"),
-                                                    'unit': _("м2"),
-                                                },
-                                                {
-                                                    'field': 'estate.family_land',
-                                                    'label': _("Площа земельних ділянок родини"),
-                                                    'unit': _("м2"),
-                                                },
-                                            ] %}
-                                            {% for field in assets_fields %}
-                                                {% if field['field'] in declaration.aggregated %}
-                                                <div class="action-icon__details-item">
-                                                    <div class="action-icon__details-item-name">
-                                                        {{ field['label'] }}
-                                                    </div>
-                                                    <div class="action-icon__details-item-value">
-                                                        {% if 'type' in field and field['type'] == 'money' %}
-                                                            {{ declaration.aggregated[field['field']]|string|curformat() }}
-                                                        {% else %}
-                                                            {{ declaration.aggregated[field['field']] }}
-                                                        {% endif %}
-                                                        &nbsp;{{ field['unit'] }}
-                                                    </div>
-                                                </div>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                {% endif %}
-                                <div class="action-icon__tooltip">
-                                    <div class="action-icon__tooltip-text">{{ _("Дані декларанта за рік") }}</div>
-                                </div>
-                            </button>
-
-                            {% if declaration.aggregated %}
-                                <button class="action-icon card-actions__action card-actions__action-add-to-compare">
-                                    <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z" fill="#56B8AD"/>
-                                    </svg>
-
-                                    <div class="action-icon__count action-icon__count-compared"></div>
-                                    <div class="action-icon__tooltip">
-                                        <div class="action-icon__tooltip-text">{{ _("Список порівнянь") }}</div>
-                                    </div>
-                                </button>
-                            {% endif %}
-
-                            {# <button class="action-icon card-actions__action">
-                                <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 17.27L18.18 20.998L16.544 13.968L22 9.24402L14.81 8.62602L12 1.99902L9.19 8.62502L2 9.24302L7.454 13.969L5.819 20.998L12 17.27Z" fill="#56B8AD"/>
-                                </svg>
-
-                                <div class="action-icon__tooltip">
-                                    <div class="action-icon__tooltip-text">{{ _("Додати в Мої знахідки") }}</div>
-                                </div>
-                            </button> #}
-
-                            <button class="card-actions__action card-actions__action--expand drop-down-btn"></button>
-                            <button class="card-actions__action card-actions__action--close close-btn"></button>
-                        </div>
-                    </div>
-
-                    <div class="card-actions__action-link action-link">
-                        <div class="action-link__dot"></div>
-                        <div class="action-link__dot"></div>
-                        <div class="action-link__dot"></div>
-                    </div>
-
+                    {% endif %}
                 </div>
             </div>
-
-            <div class="search-card__items">
-                <div class="search-card__item search-card__item--type">
-                    <div class="search-card__item-name">{{ _("Тип/Рік") }}</div>
+            {% if declaration.general.post.office %}
+                <div class="search-card__item">
+                    <div class="search-card__item-name">{{ _("Місце праці") }}</div>
                     <div class="search-card__item-text">
-                        {% if declaration.intro.doc_type %}
-                            {{ declaration._declaration_type(language) -}}
-                            {% if declaration.intro.declaration_year or declaration.intro.corrected -%}
-                                <span>,</span>
-                            {% endif %}
+                        {% if declaration.general.post.actual_region %}
+                            <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="homeLocation">{{ declaration._actual_region(language) }}</a><span>,</span>
+                            {% elif declaration.general.post.region %}
+                            <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="homeLocation">{{ declaration._region(language) }}</a><span>,</span>
                         {% endif %}
-                        {% if declaration.intro.declaration_year %}
-                            {{ declaration.intro.declaration_year -}}
-                            {% if declaration.intro.corrected -%}
-                                <span>,</span>
-                            {% endif %}
-                        {% endif %}
-                        {% if declaration.intro.corrected %}
-                            {{ _("Уточнена") }}
-                        {% endif %}
+                        <a href="{{ url('office', office_name=declaration.general.post.office) }}">
+                            {{ declaration._office(language) }}
+                        </a>
                     </div>
                 </div>
-                {% if declaration.general.post.office %}
-                    <div class="search-card__item">
-                        <div class="search-card__item-name">{{ _("Місце праці") }}</div>
-                        <div class="search-card__item-text">
-                            {% if declaration.general.post.actual_region %}
-                                <a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="homeLocation">{{ declaration._actual_region(language) }}</a><span>,</span>
-                                {% elif declaration.general.post.region %}
-                                <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="homeLocation">{{ declaration._region(language) }}</a><span>,</span>
-                            {% endif %}
-                            <a href="{{ url('office', office_name=declaration.general.post.office) }}">
-                                {{ declaration._office(language) }}
-                            </a>
-                        </div>
-                    </div>
-                {% endif %}
-                {% if declaration.general.post.post %}
-                    <div class="search-card__item">
-                        <div class="search-card__item-name">{{ _("Посада") }}</div>
-                        <div class="search-card__item-text" itemprop="jobTitle">{{ declaration._position(language) }}</div>
-                    </div>
-                {% endif %}
-                {% if declaration.intro.date %}
-                    <div class="search-card__item">
-                        <div class="search-card__item-name">{{ _("Подана") }}</div>
-                        <div class="search-card__item-text" itemprop="jobTitle">{{ declaration.intro.date|datetime }}</div>
-                    </div>
-                {% endif %}
-            </div>
-            <input type="hidden" name="declaration_id[]" value="{{ declaration.meta.id }}" />
-        </div>
-    {# {% endif %} #}
-
-
-    {# <div data-declid="{{ declaration.meta.id }}" class="{% if on_decl_page %}selected {% endif %} decl-item item col-sm-12 col-md-6 col-lg-4 grid-group-item{% if declaration.declaration.source == "CHESNO" %} chesno{% elif declaration.declaration.source == "NACP" %} nacp{% endif %}" itemscope itemtype="http://schema.org/Person">
-        <div class="box">
-            {% if declaration.aggregated %}
-                <a href="#" class="add2compare-list" title="Додати у список порівнянь">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                    <i class="fa fa-balance-scale" aria-hidden="true"></i>
-                </a>
             {% endif %}
-            <h3>
-            {% if declaration.meta.id %}
-            <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name">{{ declaration._full_name(language) }}</a>
-            {% else %}
-            {{ declaration._full_name(language) }}
+            {% if declaration.general.post.post %}
+                <div class="search-card__item">
+                    <div class="search-card__item-name">{{ _("Посада") }}</div>
+                    <div class="search-card__item-text" itemprop="jobTitle">{{ declaration._position(language) }}</div>
+                </div>
             {% endif %}
-        </h3>
-            <ul class="tags_list">
-                <li class="type">
-                    <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>
-                    {% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year }}<span>,</span>{% endif %}
-                    {% if declaration.intro.doc_type %}{{ declaration._declaration_type(language) }}<span>,</span>{% endif %}
-                    {% if declaration.intro.corrected %}{{ _("Уточнена") }} <span>,</span>{% endif %}
-                </li>
-                {% if declaration.general.post.actual_region %}
-                <li><a href="{{ url('region', region_name=declaration.general.post.actual_region) }}" itemprop="homeLocation">{{ declaration._actual_region(language) }}</a><span>,</span></li>
-                {% elif declaration.general.post.region %}
-                <li><a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="homeLocation">{{ declaration._region(language) }}</a><span>,</span></li>
-                {% endif %}
-                {% if declaration.general.post.office %}
-                <li><a href="{{ url('office', office_name=declaration.general.post.office) }}">{{ declaration._office(language) }}</a><span>,</span></li>
-                {% endif %}
-                {% if declaration.general.post.post %}
-                <li itemprop="jobTitle">{{ declaration._position(language) }}</li>
-                {% endif %}
-                {% if declaration.intro.date %}
-                <li class="date"><span class="glyphicon glyphicon-calendar"></span> {{ _("подана") }} {{ declaration.intro.date|datetime }}</li>
-                {% endif %}
-            </ul>
-            {% set red_flags = declaration.red_flags() %}
-            {% if red_flags %}
-            <a href="{% if declaration.meta.id %}{{ url("details", declaration_id=declaration.meta.id) }}#redflags{% else %}#{% endif %}" class="red_flags" title="{% for flag in red_flags %}{{ flag.text }}<br/>{% endfor %}" data-toggle="tooltip" data-placement="right" data-html="true">
-                {{ red_flags|count }} <i class="fa fa-flag" aria-hidden="true"></i>
-            </a>
+            {% if declaration.intro.date %}
+                <div class="search-card__item">
+                    <div class="search-card__item-name">{{ _("Подана") }}</div>
+                    <div class="search-card__item-text" itemprop="jobTitle">{{ declaration.intro.date|datetime }}</div>
+                </div>
             {% endif %}
         </div>
         <input type="hidden" name="declaration_id[]" value="{{ declaration.meta.id }}" />
-    </div> #}
+    </div>
 {% endmacro %}

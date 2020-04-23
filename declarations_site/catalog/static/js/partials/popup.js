@@ -17,7 +17,6 @@
       downloadContent(contentUrl, function (response) {
         renderPopup(response, popupBtn, popupWidth);
       });
-
     });
 
 
@@ -36,7 +35,6 @@
       } else {
         callback($(content).html());
       }
-
     }
 
 

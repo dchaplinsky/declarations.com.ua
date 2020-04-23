@@ -72,17 +72,6 @@
                 </div>
 
                 {% if results.paginator.num_pages > 1 %}
-                <!-- <ul class="pagination">
-                    <li{% if not results.has_previous() %} class="disabled"{% endif %}><a href="{% if results.has_previous() %}?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}{% endif %}">«</a></li>
-                    {% for page_num in results.contextual_page_range %}
-                    {% if page_num == None %}
-                        <li class="disabled"><a href="#">&hellip;</a></li>
-                    {% else %}
-                        <li{% if results.number == page_num %} class="active"{% endif %}><a href="?{{ updated_querystring(request, {'page': page_num}) }}">{{ page_num }}</a></li>
-                    {% endif %}
-                    {% endfor %}
-                    <li{% if not results.has_next() %} class="disabled"{% endif %}><a href="{% if results.has_next() %}?{{ updated_querystring(request, {'page': results.next_page_number()}) }}{% endif %}">»</a></li>
-                </ul> -->
                     <div class="pager search-page__pager">
                         <div class="pager__item">
                             {% if results.has_previous() %}
@@ -130,31 +119,6 @@
                                 </div>
                             {% endif %}
                             {% endfor %}
-                        <!-- <div class="pager__item">
-                            <span class="pager__link pager__link_active">1</span>
-                        </div>
-                        <div class="pager__item">
-                            <a href="#" class="pager__link">2</a>
-                        </div>
-                        <div class="pager__item">
-                            <a href="#" class="pager__link">3</a>
-                        </div>
-                        <div class="pager__item">
-                            <span class="pager__dots">
-                            <span class="pager__dot"></span>
-                            <span class="pager__dot"></span>
-                            <span class="pager__dot"></span>
-                            </span>
-                        </div> -->
-                        <!-- <div class="pager__item pager__item_desktop">
-                            <a href="#" class="pager__link">11</a>
-                        </div>
-                        <div class="pager__item">
-                            <a href="#" class="pager__link">12</a>
-                        </div>
-                        <div class="pager__item">
-                            <a href="#" class="pager__link">13</a>
-                        </div> -->
                         <div class="pager__item">
                             {% if results.has_next() %}
                                 <a href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" class="pager__next">
@@ -187,137 +151,4 @@
             {% endif %}
         </div>
     </div>
-{# 
-            <div class="advantages-block search-page__advantages">
-                <div class="advantages-block__items">
-                    <div class="advantages-block__item">
-                        <div class="advantages-block__item-title">Чат-боти</div>
-                        <div class="advantages-block__item-text">Ми створили кишенькових помічників — чат-ботів у
-                            популярних месенджерах
-                        </div>
-                        <div class="advantages-block__bots">
-                            <div class="advantages-block__bots-items">
-
-                                <a href="#" class="advantages-block__bot-link social-link">
-                                    <img src="img/bots/telegram.svg" alt="" class="social-link__icon">
-                                </a>
-
-                                <a href="#" class="advantages-block__bot-link social-link">
-                                    <img src="img/bots/messenger.svg" alt="" class="social-link__icon">
-                                </a>
-
-                                <a href="#" class="advantages-block__bot-link social-link">
-                                    <img src="img/bots/skype.svg" alt="" class="social-link__icon">
-                                </a>
-
-                            </div>
-
-                            <a href="#" class="advantages-block__instruction-link">Покрокова iнструкцiя</a>
-
-
-                        </div>
-                    </div>
-
-                    <div class="advantages-block__item">
-                        <div class="advantages-block__item-title">Порівняння</div>
-                        <div class="advantages-block__item-text">Додавайте декларантів
-                            у список порівнянь та дивіться аналіз за різними показниками
-                        </div>
-                    </div>
-
-                    <div class="advantages-block__item">
-                        <div class="advantages-block__item-title">Моніторинг</div>
-                        <div class="advantages-block__item-text">Слідкуйте за змінами чи появою нових документів по
-                            E-mail, RSS та у месенжерах
-                        </div>
-                    </div>
-
-                    <div class="advantages-block__item">
-                        <div class="advantages-block__item-title">Аналітика</div>
-                        <div class="advantages-block__item-text">Ми зробили круту аналітику
-                            і поділили ії на 8 розділів для вашої зручності
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-<section id="page">
-    <div class="compare-list container hidden">
-        <h2>{{ _("Список порівнянь:") }}</h2>
-        <div class="row"></div>
-
-    </div>
-    <div class="container">
-        <div id='div-gpt-ad-1531830029689-0' style="display: none; width: 970px; margin: 15px auto;">
-            <script>
-              googletag.cmd.push(function() { googletag.display('div-gpt-ad-1531830029689-0'); });
-            </script>
-        </div>
-    </div>
-    <div class="container rc">
-        <div class="breadcrumbs-container">
-            <div id="breadcrumbs">
-                <ol class="breadcrumb pull-left">
-                    <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                    <li class="active">{{ _("Результати пошуку") }}</li>
-                </ol>
-            </div>
-
-            <h1 id="page-header"><span>{{ query|default(_("Всі"), true)|escape }} ({{ results.paginator.count }})</span></h1>
-        </div>
-
-        {% if request.META['QUERY_STRING'] %}
-        <div class="watching-block">
-            <p>{{ _("Моніторити цей запит по:") }}</p>
-            <a title="{{ _("Моніторити цей запит по RSS") }}" class="btn btn-raised btn-sm save-search rss-feed" href="{{ SITE_URL }}{{ request.get_full_path() }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
-            {{ spotter_button(_("Моніторити цей запит"), request.META['QUERY_STRING'], "from-search") }}
-        </div>
-        {% endif %}
-
-        <div class="page-content">
-            <div class="btn-group toggle-view">
-                <a href="#" id="list" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-th-list"></span> {{ _("Списком") }}
-                </a>
-                <a href="#" id="grid" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-th"></span> {{ _("Картками") }}
-                </a>
-            </div>
-
-            <div class="toggle-search">
-                <span>{{ _("Сортувати:") }}</span>
-                    <div class="btn-group">
-                        <a href="?{{ replace_arg(request, 'sort', 'name', 'name_desc') }}" id="sort-name" class="btn btn-default btn-sm">{{ _("П.І.Б.") }} {{ sort_flag(request, 'sort', 'name', 'name_desc') }}</a>
-                        <a href="?{{ replace_arg(request, 'sort', 'year_desc', 'year') }}" id="sort-year" class="btn btn-default btn-sm">{{ _("Рік") }} {{ sort_flag(request, 'sort', 'year', 'year_desc') }}</a>
-                        <a href="?{{ replace_arg(request, 'sort', 'date_desc', 'date') }}" id="sort-year" class="btn btn-default btn-sm">{{ _("Дата подачі") }} {{ sort_flag(request, 'sort', 'date', 'date_desc') }}</a>
-                  </div>
-            </div>
-
-            <div class="row list-group search-results">
-                {{ search_results(results) }}
-            </div>
-
-            {% if results.paginator.num_pages > 1 %}
-            <ul class="pagination">
-                <li{% if not results.has_previous() %} class="disabled"{% endif %}><a href="{% if results.has_previous() %}?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}{% endif %}">«</a></li>
-                {% for page_num in results.contextual_page_range %}
-                {% if page_num == None %}
-                    <li class="disabled"><a href="#">&hellip;</a></li>
-                {% else %}
-                    <li{% if results.number == page_num %} class="active"{% endif %}><a href="?{{ updated_querystring(request, {'page': page_num}) }}">{{ page_num }}</a></li>
-                {% endif %}
-                {% endfor %}
-                <li{% if not results.has_next() %} class="disabled"{% endif %}><a href="{% if results.has_next() %}?{{ updated_querystring(request, {'page': results.next_page_number()}) }}{% endif %}">»</a></li>
-            </ul>
-            {% endif %}
-    </div>
-</section>
-{#
-    {{ _("Всі") }}
-#}
-
 {% endblock %}

@@ -23,53 +23,6 @@
 
 {% block bodyclass %}front{% endblock %}
 
-    {# {% block header %} #}
-        {# <div class="nav-block">
-            <div class="container">
-                <div class="row">
-                    <nav id="navbar" class="navbar navbar-inverse navbar-default col-sm-12" role="navigation">
-                        <div class="navbar-header">
-                            <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left visible-xs">
-                                <span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span>
-                            </a>
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
-                        </div>
-                        <div class="collapse navbar-collapse navbar-ex1-collapse text-center">
-                            <ul class="nav navbar-nav text-center">
-                                {% for menuitem in top_menu %}
-                                <li class="{% if loop.index < 2 %}left-item{% else %}right-item{% endif %}{% if menuitem.extra_class %} {{ menuitem.extra_class }}{% endif %}"><a href="{{ menuitem.link }}">{{ menuitem.translated_caption }}</a></li>
-                                {% if loop.index == 2 %}
-                                <li class="hidden-xs"><a href="{{ url("wagtail_serve", "") }}" class="logo pull-left"><span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo-front") }}"></use></svg></span></a></li>
-                                {% endif %}
-                                {% endfor %}
-                                {% for language_code, language_name in LANGUAGES %}
-                                    {% if LANGUAGE_CODE != language_code %}
-                                    <li class="right-item"><a href="{{ translate_url(request, language_code) }}">{% if language_code == "uk" %}ua{% else %}{{ language_code }}{% endif %}</a></li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </nav>
-                    <div class="login-text">
-                        <p class="about-text text-center">{{ _("Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб викрити їхню брехню про статки та майно.") }}</p>
-                        {{ login_button(request.get_full_path()) }}
-                    </div>
-                    <section id="block-sociallinksblock">
-                        <ul>
-                            <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                            <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                            <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                            <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                            <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
-                            <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </section>
-                </div>
-            </div>
-        </div> #}
-    {# {% endblock %} #}
-
-
 {% block social %}
 {% endblock %}
 
