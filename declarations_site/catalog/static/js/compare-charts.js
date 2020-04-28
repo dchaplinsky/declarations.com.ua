@@ -23,7 +23,7 @@ function incomes() {
             },
             title: {
                 display: true,
-                text: 'Дохід декларанта, родини та загальна сума подарунків',
+                text: $("#decl_inc").data("caption"),
                 fontSize: 30
             },
             tooltips: {
@@ -70,7 +70,7 @@ function assets() {
             },
             title: {
                 display: true,
-                text: 'Грошові активи декларанта, родини та загальна сума готівки',
+                text: $("#decl_assets").data("caption"),
                 fontSize: 30
             },
             tooltips: {
@@ -117,7 +117,7 @@ function global_picture() {
             },
             title: {
                 display: true,
-                text: "Доходи та грошові активи VS витрати та зобов'язання",
+                text: $("#decl_global").data("caption"),
                 fontSize: 30
             },
             tooltips: {
@@ -164,7 +164,7 @@ function land() {
             },
             title: {
                 display: true,
-                text: "Земельні ділянки (м²)",
+                text: $("#decl_land").data("caption"),
                 fontSize: 30
             },
             tooltips: {
@@ -211,7 +211,7 @@ function realty() {
             },
             title: {
                 display: true,
-                text: "Квартири, будинки, та інша нерухомість (м²)",
+                text: $("#decl_realty").data("caption"),
                 fontSize: 30
             },
             tooltips: {
@@ -258,7 +258,7 @@ function cars() {
             },
             title: {
                 display: true,
-                text: "Машини та інші транспортні засоби",
+                text: $("#decl_cars").data("caption"),
                 fontSize: 30
             },
             tooltips: {
