@@ -40,7 +40,7 @@ function incomes() {
                 };
             },
             title: Object.assign({}, options.title, {
-                text: 'Дохід декларанта, родини та загальна сума подарунків',
+                text: $('#decl_inc').data('caption'),
             }),
             tooltips: {
                 mode: 'index',
@@ -85,7 +85,7 @@ function assets() {
                 };
             },
             title: Object.assign({}, options.title, {
-                text: 'Грошові активи декларанта, родини та загальна сума готівки',
+                text: $('#decl_assets').data('caption'),
             }),
             tooltips: {
                 mode: 'index',
@@ -129,7 +129,7 @@ function global_picture() {
                 };
             },
             title: Object.assign({}, options.title, {
-                text: "Доходи та грошові активи VS витрати та зобов'язання",
+                text: $('#decl_global').data('caption'),
             }),
             tooltips: {
                 mode: 'index',
@@ -173,7 +173,7 @@ function land() {
                 };
             },
             title: Object.assign({}, options.title, {
-                text: "Земельні ділянки (м²)",
+                text: $('#decl_land').data('caption'),
             }),
             tooltips: {
                 mode: 'index',
@@ -217,7 +217,7 @@ function realty() {
                 };
             },
             title: Object.assign({}, options.title, {
-                text: "Квартири, будинки, та інша нерухомість (м²)",
+                text: $('#decl_realty').data('caption'),
             }),
             tooltips: {
                 mode: 'index',
@@ -261,7 +261,7 @@ function cars() {
                 };
             },
             title: Object.assign({}, options.title, {
-                text: "Машини та інші транспортні засоби",
+                text: $('#decl_cars').data('caption'),
             }),
             tooltips: {
                 mode: 'index',

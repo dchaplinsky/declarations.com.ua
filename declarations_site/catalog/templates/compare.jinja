@@ -29,27 +29,27 @@
 
         {% if results %}
             <div class="compare-page__chart">
-                <canvas id="decl_global"></canvas>
+                <canvas id="decl_global" data-caption="{{ _("Доходи та грошові активи VS витрати та зобов'язання") }}"></canvas>
             </div>
 
             <div class="compare-page__chart">
-                <canvas id="decl_incomes"></canvas>
+                <canvas id="decl_incomes" data-caption="{{ _("Дохід декларанта, родини та загальна сума подарунків") }}"></canvas>
             </div>
 
             <div class="compare-page__chart">
-                <canvas id="decl_assets"></canvas>
+                <canvas id="decl_assets" data-caption="{{ _("Грошові активи декларанта, родини та загальна сума готівки") }}"></canvas>
             </div>
 
             <div class="compare-page__chart">
-                <canvas id="decl_realty"></canvas>
+                <canvas id="decl_realty" data-caption="{{ _("Квартири, будинки, та інша нерухомість (м²)") }}"></canvas>
             </div>
 
             <div class="compare-page__chart">
-                <canvas id="decl_land"></canvas>
+                <canvas id="decl_land" data-caption="{{ _("Земельні ділянки (м²)") }}"></canvas>
             </div>
 
             <div class="compare-page__chart">
-                <canvas id="decl_cars"></canvas>
+                <canvas id="decl_cars" data-caption="{{ _("Машини та інші транспортні засоби") }}"></canvas>
             </div>
         {% endif %}
         {{ advantages('compare-page__advantages') }}
