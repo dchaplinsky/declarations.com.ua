@@ -40,7 +40,7 @@ function incomes() {
                 };
             },
             title: Object.assign({}, options.title, {
-                text: $('#decl_inc').data('caption'),
+                text: $('#decl_incomes').data('caption'),
             }),
             tooltips: {
                 mode: 'index',
