@@ -1,19 +1,6 @@
 (function($) {
-
   $(function() {
-
     var searchForm = $('.search-form');
-
-
-    $('.search-form__autocomplete-item', searchForm).on('click', function() {
-      $('.search-form__input', searchForm).val($(this).text().trim());
-      $('.search-form__autocomplete', searchForm).hide();
-    });
-
-    $('.search-form__input', searchForm)
-    .on('input', function() {
-      $('.search-form__autocomplete', searchForm).show();
-    });
 
     $(document).on('click', function(e){
       if ( !$(e.target).parents('.search-form__input-wrap').length ) {
@@ -145,19 +132,13 @@
     /*Rebuild filter Desktop - Mobile End*/
 
     function setCountFilterInBtn(filterCount) {
-      var filterCountBlock = $('.search-form__deep-search-count', searchForm);
-      filterCountBlock.text(filterCount);
-      if(filterCount) {
-        filterCountBlock.removeAttr('style');
-      }
-      else {
-        filterCountBlock.css('width', 0);
-      }
+      $('.search-form__deep-search-count', searchForm).text(filterCount || '');
     }
 
     $('.search-form__input').typeahead({
       minLength: 2,
       autoselect: false,
+      hint: false,
       classNames: {
         menu: 'search-form__autocomplete',
         cursor: 'search-form__autocomplete-item--current',

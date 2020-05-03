@@ -42,6 +42,7 @@
     //can compare
     if (c > 1) {
         $('.compare-list-action').removeClass('hidden');
+        $('.header__compare').removeClass('hidden');
     }
 
     //update modal and button

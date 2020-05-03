@@ -2,15 +2,9 @@
 
 {% block content %}
 <section id="page">
-    <div class="container">
-        <div id="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                <li class="active">{% block page_name %}{% endblock %}</li>
-            </ol>
-        </div>
+    <div class="content container">
 
-        <h1 class="page-header"><span>{% block page_header %}{% endblock %}</span></h1>
+        <h1 class="main-page__title"><span>{% block page_header %}{% endblock %}</span></h1>
 
         <div class="page-content">
         {% block static_content %}
