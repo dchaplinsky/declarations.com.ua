@@ -64,30 +64,30 @@
                             </svg>
 
                             {% if declaration.aggregated %}
-                                <div class="action-icon__count">5</div>
+                                <div class="action-icon__count">7</div>
                                 <div class="action-icon__details">
                                     <div class="action-icon__details-items">
                                         {% set assets_fields = [
                                             {
-                                                'field': 'assets.declarant',
+                                                'field': 'incomes.declarant',
                                                 'label': _("Сума доходів декларанта"),
                                                 'type': 'money',
                                                 'unit': _("грн."),
                                             },
                                             {
-                                                'field': 'assets.family',
+                                                'field': 'incomes.family',
                                                 'label': _("Сума доходів членів родини"),
                                                 'type': 'money',
                                                 'unit': _("грн."),
                                             },
                                             {
-                                                'field': 'assets.cash.total',
+                                                'field': 'assets.declarant',
                                                 'label': _("Сума грошових активів"),
                                                 'type': 'money',
                                                 'unit': _("грн."),
                                             },
                                             {
-                                                'field': 'assets.family_ratio',
+                                                'field': 'assets.family',
                                                 'label': _("Сума грошових активів родини"),
                                                 'type': 'money',
                                                 'unit': _("грн."),
@@ -102,6 +102,11 @@
                                                 'label': _("Площа земельних ділянок родини"),
                                                 'unit': _("м2"),
                                             },
+                                            {
+                                                'field': 'vehicles.all_names',
+                                                'label': _("Авто в декларанта та родини"),
+                                                'unit': _(""),
+                                            },
                                         ] %}
                                         {% for field in assets_fields %}
                                             {% if field['field'] in declaration.aggregated %}
@@ -113,7 +118,10 @@
                                                     {% if 'type' in field and field['type'] == 'money' %}
                                                         {{ declaration.aggregated[field['field']]|string|curformat() }}
                                                     {% else %}
-                                                        {{ declaration.aggregated[field['field']] }}
+                                                        {% if declaration.aggregated[field['field']] %}
+                                                            {{ declaration.aggregated[field['field']] }}
+                                                        {% else %} —
+                                                        {% endif %}
                                                     {% endif %}
                                                     &nbsp;{{ field['unit'] }}
                                                 </div>
@@ -217,3 +225,13 @@
         <input type="hidden" name="declaration_id[]" value="{{ declaration.meta.id }}" />
     </div>
 {% endmacro %}
+
+{#
+{{ _("Сума доходів декларанта") }}
+{{ _("Сума доходів членів родини") }}
+{{ _("Сума грошових активів") }}
+{{ _("Сума грошових активів родини") }}
+{{ _("Площа земельних ділянок декларанта") }}
+{{ _("Площа земельних ділянок родини") }}
+{{ _("Авто в декларанта та родини") }}
+#}

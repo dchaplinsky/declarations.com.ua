@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-30 01:54+0300\n"
+"POT-Creation-Date: 2020-05-04 15:29+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -278,7 +278,7 @@ msgstr ""
 
 #: catalog/templates/404.jinja:22
 msgid ""
-"Нажаль, такої сторінки не існує. Але не засмучуйтесь, скористайтесь пошуком "
+"На жаль, такої сторінки не існує. Але не засмучуйтесь, скористайтесь пошуком "
 "або верхнім меню."
 msgstr ""
 
@@ -333,7 +333,7 @@ msgid ""
 msgstr ""
 
 #: catalog/templates/_decl_teaser.jinja:15
-#: catalog/templates/_decl_teaser.jinja:185
+#: catalog/templates/_decl_teaser.jinja:193
 msgid "Уточнена"
 msgstr ""
 
@@ -342,35 +342,63 @@ msgstr ""
 msgid "Особливості"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:127
+#: catalog/templates/_decl_teaser.jinja:135
 msgid "Дані декларанта за рік"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:139 catalog/templates/base.jinja:582
-#: catalog/templates/base.jinja:634
+#: catalog/templates/_decl_teaser.jinja:147 catalog/templates/base.jinja:571
+#: catalog/templates/base.jinja:623
 msgid "Список порівнянь"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:150
+#: catalog/templates/_decl_teaser.jinja:158
 msgid "Додати в Мої знахідки"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:170
+#: catalog/templates/_decl_teaser.jinja:178
 msgid "Тип/Рік"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:191
+#: catalog/templates/_decl_teaser.jinja:199
 #: catalog/templates/declaration.jinja:108
 msgid "Місце праці"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:206
+#: catalog/templates/_decl_teaser.jinja:214
 #: catalog/templates/decl_form.jinja:86 catalog/templates/declaration.jinja:122
 msgid "Посада"
 msgstr ""
 
-#: catalog/templates/_decl_teaser.jinja:212
+#: catalog/templates/_decl_teaser.jinja:220
 msgid "Подана"
+msgstr ""
+
+#: catalog/templates/_decl_teaser.jinja:230
+msgid "Сума доходів декларанта"
+msgstr ""
+
+#: catalog/templates/_decl_teaser.jinja:231
+msgid "Сума доходів членів родини"
+msgstr ""
+
+#: catalog/templates/_decl_teaser.jinja:232
+msgid "Сума грошових активів"
+msgstr ""
+
+#: catalog/templates/_decl_teaser.jinja:233
+msgid "Сума грошових активів родини"
+msgstr ""
+
+#: catalog/templates/_decl_teaser.jinja:234
+msgid "Площа земельних ділянок декларанта"
+msgstr ""
+
+#: catalog/templates/_decl_teaser.jinja:235
+msgid "Площа земельних ділянок родини"
+msgstr ""
+
+#: catalog/templates/_decl_teaser.jinja:236
+msgid "Авто в декларанта та родини"
 msgstr ""
 
 #: catalog/templates/_search_form.jinja:31
@@ -397,7 +425,7 @@ msgstr ""
 msgid "Я шукаю декларацію"
 msgstr ""
 
-#: catalog/templates/_search_form.jinja:60 catalog/templates/base.jinja:594
+#: catalog/templates/_search_form.jinja:60 catalog/templates/base.jinja:583
 #: catalog/templates/results.jinja:51 catalog/templates/results.jinja:60
 #: procurements/templates/_procurements.jinja:20
 msgid "Рік"
@@ -423,244 +451,244 @@ msgstr ""
 msgid "Підтримати проект"
 msgstr ""
 
-#: catalog/templates/base.jinja:190 catalog/templates/base.jinja:292
-#: catalog/templates/base.jinja:421
+#: catalog/templates/base.jinja:190 catalog/templates/base.jinja:281
+#: catalog/templates/base.jinja:410
 msgid ""
 "Bihus.info об'єднує антикорупційні проекти, які створює ГО \"ТОМ 14\" та ГО "
 "\"Канцелярська сотня\"."
 msgstr ""
 
-#: catalog/templates/base.jinja:232
+#: catalog/templates/base.jinja:221
 msgid "Проекти"
 msgstr ""
 
-#: catalog/templates/base.jinja:236
+#: catalog/templates/base.jinja:225
 msgid "декларації"
 msgstr ""
 
-#: catalog/templates/base.jinja:239
+#: catalog/templates/base.jinja:228
 msgid "лабораторія викриттів"
 msgstr ""
 
-#: catalog/templates/base.jinja:242
+#: catalog/templates/base.jinja:231
 msgid "котики"
 msgstr ""
 
-#: catalog/templates/base.jinja:245
+#: catalog/templates/base.jinja:234
 msgid "тисни!"
 msgstr ""
 
-#: catalog/templates/base.jinja:248
+#: catalog/templates/base.jinja:237
 msgid "ring"
 msgstr ""
 
-#: catalog/templates/base.jinja:251
+#: catalog/templates/base.jinja:240
 msgid "підсумки дна"
 msgstr ""
 
-#: catalog/templates/base.jinja:254
+#: catalog/templates/base.jinja:243
 msgid "наші гроші"
 msgstr ""
 
-#: catalog/templates/base.jinja:257
+#: catalog/templates/base.jinja:246
 msgid "он воно як"
 msgstr ""
 
-#: catalog/templates/base.jinja:260
+#: catalog/templates/base.jinja:249
 msgid "посіпаки"
 msgstr ""
 
-#: catalog/templates/base.jinja:263
+#: catalog/templates/base.jinja:252
 msgid "посіпаки 2"
 msgstr ""
 
-#: catalog/templates/base.jinja:266
+#: catalog/templates/base.jinja:255
 msgid "гра слів"
 msgstr ""
 
-#: catalog/templates/base.jinja:269
+#: catalog/templates/base.jinja:258
 msgid "блоги"
 msgstr ""
 
-#: catalog/templates/base.jinja:272
+#: catalog/templates/base.jinja:261
 msgid "nevid"
 msgstr ""
 
-#: catalog/templates/base.jinja:275
+#: catalog/templates/base.jinja:264
 msgid "e.БТІ"
 msgstr ""
 
-#: catalog/templates/base.jinja:278
+#: catalog/templates/base.jinja:267
 msgid "гарнахата"
 msgstr ""
 
-#: catalog/templates/base.jinja:281
+#: catalog/templates/base.jinja:270
 msgid "свої люди"
 msgstr ""
 
-#: catalog/templates/base.jinja:297
+#: catalog/templates/base.jinja:286
 msgid "Підписатися на розсилку"
 msgstr ""
 
-#: catalog/templates/base.jinja:310
+#: catalog/templates/base.jinja:299
 msgid "Ми у соцмережах"
 msgstr ""
 
-#: catalog/templates/base.jinja:335
+#: catalog/templates/base.jinja:324
 msgid "Bihus.info &copy; 2015 - 2020"
 msgstr ""
 
-#: catalog/templates/base.jinja:351
+#: catalog/templates/base.jinja:340
 msgid ""
 "\"Канцелярська сотня\" - ініціатива зі створення інформаційних проектів із "
 "залученням тисяч волонтерів в інтернеті."
 msgstr ""
 
-#: catalog/templates/base.jinja:352 catalog/templates/base.jinja:365
-#: catalog/templates/base.jinja:377 catalog/templates/base.jinja:389
-#: catalog/templates/base.jinja:402 catalog/templates/base.jinja:414
-#: catalog/templates/base.jinja:421 catalog/templates/base.jinja:441
-#: catalog/templates/base.jinja:454 catalog/templates/base.jinja:466
-#: catalog/templates/base.jinja:478 catalog/templates/base.jinja:490
-#: catalog/templates/base.jinja:502
+#: catalog/templates/base.jinja:341 catalog/templates/base.jinja:354
+#: catalog/templates/base.jinja:366 catalog/templates/base.jinja:378
+#: catalog/templates/base.jinja:391 catalog/templates/base.jinja:403
+#: catalog/templates/base.jinja:410 catalog/templates/base.jinja:430
+#: catalog/templates/base.jinja:443 catalog/templates/base.jinja:455
+#: catalog/templates/base.jinja:467 catalog/templates/base.jinja:479
+#: catalog/templates/base.jinja:491
 msgid "Детальніше"
 msgstr ""
 
-#: catalog/templates/base.jinja:355
+#: catalog/templates/base.jinja:344
 msgid "Інші проекті ГО \"Канцелярська сотня\":"
 msgstr ""
 
-#: catalog/templates/base.jinja:358 catalog/templates/base.jinja:363
-#: catalog/templates/base.jinja:365
+#: catalog/templates/base.jinja:347 catalog/templates/base.jinja:352
+#: catalog/templates/base.jinja:354
 msgid "Декларації"
 msgstr ""
 
-#: catalog/templates/base.jinja:364
+#: catalog/templates/base.jinja:353
 msgid ""
 "Найбільша база декларацій українських чиновників, з адаптованим "
 "повнотекстовим пошуком та аналітичною системою."
 msgstr ""
 
-#: catalog/templates/base.jinja:376
+#: catalog/templates/base.jinja:365
 msgid ""
 "Відкрита база даних помічників народних депутатів Верховної Ради України, "
 "створена з інформації агенції журналістських розслідувань “Слідство.Інфо”."
 msgstr ""
 
-#: catalog/templates/base.jinja:387
+#: catalog/templates/base.jinja:376
 msgid "НЕВІД (DRAGNET)"
 msgstr ""
 
-#: catalog/templates/base.jinja:388
+#: catalog/templates/base.jinja:377
 msgid ""
 "IT-проект «Невід» (Dragnet) - це розробка програмно-аналітичного блоку "
 "ініціативи “Декларації”, створеної активістами “Канцелярської сотні” у 2014-"
 "му році."
 msgstr ""
 
-#: catalog/templates/base.jinja:400 catalog/templates/base.jinja:402
+#: catalog/templates/base.jinja:389 catalog/templates/base.jinja:391
 msgid "ЕЛЕКТРОННЕ БТІ (ЕБТІ)"
 msgstr ""
 
-#: catalog/templates/base.jinja:401
+#: catalog/templates/base.jinja:390
 msgid ""
 "Проект “Електронне БТІ” є продовженням створення серії інструментів, які "
 "розширюють доступ до даних про нерухомість."
 msgstr ""
 
-#: catalog/templates/base.jinja:407 catalog/templates/base.jinja:412
-#: catalog/templates/base.jinja:414
+#: catalog/templates/base.jinja:396 catalog/templates/base.jinja:401
+#: catalog/templates/base.jinja:403
 msgid "ГАРНАХАТА"
 msgstr ""
 
-#: catalog/templates/base.jinja:413
+#: catalog/templates/base.jinja:402
 msgid ""
 "Cтартував одночасно із відкриттям Міністерством юстиції офіційного Реєстру "
 "речових прав на нерухоме майно. Простіше кажучи – реєстру нерухомості."
 msgstr ""
 
-#: catalog/templates/base.jinja:424
+#: catalog/templates/base.jinja:413
 msgid "Follow @BihusInfo"
 msgstr ""
 
-#: catalog/templates/base.jinja:426
+#: catalog/templates/base.jinja:415
 msgid "BIHUS.info"
 msgstr ""
 
-#: catalog/templates/base.jinja:429
+#: catalog/templates/base.jinja:418
 msgid "Підпишись на новини"
 msgstr ""
 
-#: catalog/templates/base.jinja:436 catalog/templates/base.jinja:441
+#: catalog/templates/base.jinja:425 catalog/templates/base.jinja:430
 msgid "ТОМ 14"
 msgstr ""
 
-#: catalog/templates/base.jinja:441
+#: catalog/templates/base.jinja:430
 msgid "Громадська організація \"ТОМ 14\". Центр журналістських розслідувань."
 msgstr ""
 
-#: catalog/templates/base.jinja:444
+#: catalog/templates/base.jinja:433
 msgid "Проекти ГО \"ТОМ 14\":"
 msgstr ""
 
-#: catalog/templates/base.jinja:452 catalog/templates/base.jinja:454
+#: catalog/templates/base.jinja:441 catalog/templates/base.jinja:443
 msgid "ТЕЛЕПРОГРАМА \"НАШІ ГРОШІ\""
 msgstr ""
 
-#: catalog/templates/base.jinja:453
+#: catalog/templates/base.jinja:442
 msgid ""
 "Проект антикорупційних розслідувань \"Наші гроші. Головна ідея програми - "
 "викриття корупційних схем українських чиновників."
 msgstr ""
 
-#: catalog/templates/base.jinja:459 catalog/templates/base.jinja:464
-#: catalog/templates/base.jinja:466
+#: catalog/templates/base.jinja:448 catalog/templates/base.jinja:453
+#: catalog/templates/base.jinja:455
 msgid "ТИСНИ!"
 msgstr ""
 
-#: catalog/templates/base.jinja:465
+#: catalog/templates/base.jinja:454
 msgid ""
 "Юридична ініціатива ГО \"ТОМ 14\", спрямована на підтримку роботи "
 "журналістів після виходу розслідувань."
 msgstr ""
 
-#: catalog/templates/base.jinja:471 catalog/templates/base.jinja:476
+#: catalog/templates/base.jinja:460 catalog/templates/base.jinja:465
 msgid "ПІДСУМКИ ДНА"
 msgstr ""
 
-#: catalog/templates/base.jinja:477
+#: catalog/templates/base.jinja:466
 msgid ""
 "Чесна та відверта програма про наше сьогодення. Хіба що трохи занадто "
 "емоційна. В форматі 5 хвилин говоримо на актуальні теми."
 msgstr ""
 
-#: catalog/templates/base.jinja:483 catalog/templates/base.jinja:488
-#: catalog/templates/base.jinja:490
+#: catalog/templates/base.jinja:472 catalog/templates/base.jinja:477
+#: catalog/templates/base.jinja:479
 msgid "НАРОДНЕ НАЗК"
 msgstr ""
 
-#: catalog/templates/base.jinja:489
+#: catalog/templates/base.jinja:478
 msgid ""
 "Розслідувально-аналітичний проект ГО “ТОМ 14”. Стартував одразу після "
 "оприлюднення перших електронних декларацій."
 msgstr ""
 
-#: catalog/templates/base.jinja:495 catalog/templates/base.jinja:500
-#: catalog/templates/base.jinja:502
+#: catalog/templates/base.jinja:484 catalog/templates/base.jinja:489
+#: catalog/templates/base.jinja:491
 msgid "НАШІ ГРОШІ. ДОСУДИЛИСЯ."
 msgstr ""
 
-#: catalog/templates/base.jinja:501
+#: catalog/templates/base.jinja:490
 msgid ""
 "Телевезійний спецпроект про суди, суддів і судову реформу. За півроку "
 "«Досудилися» опублікували понад два десятки телерозслідувань."
 msgstr ""
 
-#: catalog/templates/base.jinja:519
+#: catalog/templates/base.jinja:508
 msgid "Фронтенд Лабораторії кота Шрьодінгера"
 msgstr ""
 
-#: catalog/templates/base.jinja:530
+#: catalog/templates/base.jinja:519
 msgid ""
 "У розробці проекту брали участь: Денис Бігус, Дмитро Чаплинський, Ольга "
 "Макарова, Артем Глувчинський, Володимир Фльонц, Андрій Ульяненко, Дмитро "
@@ -668,55 +696,55 @@ msgid ""
 "Олександр Ботезату, Ігор Рубан, Кирило Захаров"
 msgstr ""
 
-#: catalog/templates/base.jinja:531
+#: catalog/templates/base.jinja:520
 msgid ""
 "Автори висловлюють вдячність Громадському люстраційному комітету й "
 "Громадському руху Чесно за допомогу у зборі декларацій"
 msgstr ""
 
-#: catalog/templates/base.jinja:573
+#: catalog/templates/base.jinja:562
 msgid "Чат боти декларацій"
 msgstr ""
 
-#: catalog/templates/base.jinja:587 catalog/templates/results.jinja:46
+#: catalog/templates/base.jinja:576 catalog/templates/results.jinja:46
 msgid "Сортувати по:"
 msgstr ""
 
-#: catalog/templates/base.jinja:590 catalog/templates/base.jinja:593
+#: catalog/templates/base.jinja:579 catalog/templates/base.jinja:582
 msgid "Дата додавання"
 msgstr ""
 
-#: catalog/templates/base.jinja:592
+#: catalog/templates/base.jinja:581
 msgid "П.І.Б"
 msgstr ""
 
-#: catalog/templates/base.jinja:595
+#: catalog/templates/base.jinja:584
 msgid "Кiлькiсть флагiв"
 msgstr ""
 
-#: catalog/templates/base.jinja:604
+#: catalog/templates/base.jinja:593
 msgid "Відкрити всі картки"
 msgstr ""
 
-#: catalog/templates/base.jinja:612
+#: catalog/templates/base.jinja:601
 msgid "У порівняннях:"
 msgstr ""
 
-#: catalog/templates/base.jinja:617
+#: catalog/templates/base.jinja:606
 msgid "Очистити"
 msgstr ""
 
-#: catalog/templates/base.jinja:618 catalog/templates/base.jinja:641
+#: catalog/templates/base.jinja:607 catalog/templates/base.jinja:630
 msgid "Порівняти"
 msgstr ""
 
-#: catalog/templates/base.jinja:637
+#: catalog/templates/base.jinja:626
 msgid ""
 "Це сторінка порівняння декларацій. Ви не додали жодної декларації і нам нема "
 "чого порівнювати. Зробіть це. Зробіть швидше."
 msgstr ""
 
-#: catalog/templates/base.jinja:642
+#: catalog/templates/base.jinja:631
 msgid "Очистити список"
 msgstr ""
 
@@ -1476,11 +1504,7 @@ msgid "П.І.Б."
 msgstr ""
 
 #: catalog/templates/results.jinja:150
-msgid "Нажаль, по вашому запиту нічого не знайдено. Спробуйте&nbsp;ще."
-msgstr ""
-
-#: catalog/templates/static.jinja:8
-msgid "Головна"
+msgid "На жаль, по вашому запиту нічого не знайдено. Спробуйте&nbsp;ще."
 msgstr ""
 
 #: catalog/views.py:500
