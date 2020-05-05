@@ -1,3 +1,173 @@
 {% extends "base.jinja" %}
 
-Like Whatever
+
+{% block extra_js %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/cytoscape/3.14.2/cytoscape.min.js"></script>
+
+
+<script type="text/javascript">
+// photos from flickr with creative commons license
+$(function() {
+    $.getJSON("?format=json", function(data){
+        var nodes = [],
+            max_x = 0,
+            max_y = 0,
+            param_x = "incomes.total",
+            param_y = "assets.total",
+            container = $('#cy'),
+            container_width = container.width(),
+            container_height = container.height();
+
+        for (var i=0; i < data.length; i++) {
+            var docs = data[i]["documents"];
+            if (docs.length) {
+                var doc = docs[docs.length - 1],
+                    x = doc["aggregated_data"][param_x],
+                    y = doc["aggregated_data"][param_y];
+
+                if (x > max_x) {
+                    max_x = x;
+                }
+
+                if (y > max_y) {
+                    max_y = y;
+                }
+
+                nodes.push({
+                    "data": {
+                        "id": data[i]["id"],
+                        "name": data[i]["name"],
+                        "x": x,
+                        "y": y
+                    }
+                });
+            }
+        }
+
+        var elements = {"nodes": nodes};
+
+        var cy = cytoscape({
+          container: container.get(0),
+
+          boxSelectionEnabled: false,
+          autounselectify: true,
+
+          style: cytoscape.stylesheet()
+            .selector('node')
+              .css({
+                'height': 20,
+                'width': 20,
+                'background': 'white',
+                'border-color': '#000',
+                'border-width': 3,
+                'border-opacity': 0.5
+              }),
+
+          // elements: {
+          //   nodes: [
+          //     { data: { id: 'cat' } },
+          //     { data: { id: 'bird' } },
+          //     { data: { id: 'ladybug' } },
+          //     { data: { id: 'aphid' } },
+          //     { data: { id: 'rose' } },
+          //     { data: { id: 'grasshopper' } },
+          //     { data: { id: 'plant' } },
+          //     { data: { id: 'wheat' } }
+          //   ],
+          //   edges: [
+          //     { data: { source: 'cat', target: 'bird' } },
+          //     { data: { source: 'bird', target: 'ladybug' } },
+          //     { data: { source: 'bird', target: 'grasshopper' } },
+          //     { data: { source: 'grasshopper', target: 'plant' } },
+          //     { data: { source: 'grasshopper', target: 'wheat' } },
+          //     { data: { source: 'ladybug', target: 'aphid' } },
+          //     { data: { source: 'aphid', target: 'rose' } }
+          //   ]
+          // },
+          elements: elements,
+
+          layout: {
+            name: 'preset',
+            padding: 10,
+            positions: function(node) {
+
+                var pos = {
+                    "x": node.data("x") / max_x * container_width,
+                    "y": -node.data("y") / max_y * container_height
+                }
+                console.log(pos, container_width);
+                return pos;
+            }
+          }
+        }); // cy init
+
+        cy.on('tap', 'node', function(){
+          var nodes = this;
+          var tapped = nodes;
+          var food = [];
+
+          nodes.addClass('eater');
+
+          for(;;){
+            var connectedEdges = nodes.connectedEdges(function(el){
+              return !el.target().anySame( nodes );
+            });
+
+            var connectedNodes = connectedEdges.targets();
+
+            Array.prototype.push.apply( food, connectedNodes );
+
+            nodes = connectedNodes;
+
+            if( nodes.empty() ){ break; }
+          }
+
+          var delay = 0;
+          var duration = 500;
+          for( var i = food.length - 1; i >= 0; i-- ){ (function(){
+            var thisFood = food[i];
+            var eater = thisFood.connectedEdges(function(el){
+              return el.target().same(thisFood);
+            }).source();
+
+            thisFood.delay( delay, function(){
+              eater.addClass('eating');
+            } ).animate({
+              position: eater.position(),
+              css: {
+                'width': 10,
+                'height': 10,
+                'border-width': 0,
+                'opacity': 0
+              }
+            }, {
+              duration: duration,
+              complete: function(){
+                thisFood.remove();
+              }
+            });
+
+            delay += duration;
+          })(); } // for
+
+        }); // on tap        
+    });
+
+});
+
+</script>
+{% endblock %}
+
+{% block content %}
+    <div id="cy"></div>
+
+    <style type="text/css">
+        #cy {
+          height: 500px;
+          width: 800px;
+          margin: 0 auto;
+          border: 1px solid gray;
+        }
+    </style>
+    <p>Like Whatever</p>
+{% endblock %}
