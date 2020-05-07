@@ -7,6 +7,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from dateutil.parser import parse as dt_parse
 from elasticsearch.serializer import JSONSerializer
 from elasticsearch_dsl import Q
+from ckeditor.fields import RichTextField
+from easy_thumbnails.fields import ThumbnailerImageField
 
 from catalog.elastic_models import NACPDeclaration
 
@@ -46,7 +48,8 @@ class DeclarationsManager(models.Manager):
 class LandingPage(models.Model):
     slug = models.SlugField("Ідентифікатор сторінки", primary_key=True, max_length=100)
     title = models.CharField("Заголовок сторінки", max_length=200)
-    description = models.TextField("Опис сторінки", blank=True)
+    description = RichTextField("Опис сторінки", blank=True)
+    image = ThumbnailerImageField(blank=True, upload_to='landings')
     keywords = models.TextField(
         "Ключові слова для пошуку в деклараціях (по одному запиту на рядок)", blank=True
     )
@@ -56,12 +59,20 @@ class LandingPage(models.Model):
             p.pull_declarations()
 
     def get_summary(self):
-        return [
-            p.get_summary()
-            for p in self.persons.select_related("body").prefetch_related(
-                "declarations"
-            )
-        ]
+        persons = []
+        min_years = []
+        max_years = []
+        for p in self.persons.select_related("body").prefetch_related("declarations"):
+            summary = p.get_summary()
+            min_years.append(summary["min_year"])
+            max_years.append(summary["max_year"])
+            persons.append(summary)
+
+        return {
+            "max_year": max(max_years),
+            "min_year": min(min_years),
+            "persons": persons
+        }
 
     def __str__(self):
         return "%s (%s)" % (self.title, self.slug)
@@ -191,6 +202,20 @@ class Person(models.Model):
 
         Declaration.objects.create_declarations(self, second_pass)
 
+    @staticmethod
+    def get_flags(aggregated_data):
+        res = []
+        for f, flag in NACPDeclaration.ENABLED_FLAGS.items():
+            if str(aggregated_data.get(f, "false")).lower() == "true":
+                res.append({
+                    "flag": f,
+                    "text": flag["name"],
+                    "description": flag["description"],
+                })
+
+        return res
+
+
     def get_summary(self):
         result = {"name": self.name, "id": self.pk, "documents": []}
 
@@ -212,6 +237,7 @@ class Person(models.Model):
             result["documents"].append(
                 {
                     "aggregated_data": years[k].source["aggregated_data"],
+                    "flags": self.get_flags(years[k].source["aggregated_data"]),
                     "year": k,
                     "infocard": years[k].source["infocard"],
                 }

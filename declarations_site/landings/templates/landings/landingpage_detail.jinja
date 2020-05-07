@@ -2,172 +2,248 @@
 
 
 {% block extra_js %}
-<script src="//cdnjs.cloudflare.com/ajax/libs/cytoscape/3.14.2/cytoscape.min.js"></script>
+    {% javascript 'js_charts' %}
 
 
-<script type="text/javascript">
-// photos from flickr with creative commons license
-$(function() {
-    $.getJSON("?format=json", function(data){
-        var nodes = [],
-            max_x = 0,
-            max_y = 0,
-            param_x = "incomes.total",
-            param_y = "assets.total",
-            container = $('#cy'),
-            container_width = container.width(),
-            container_height = container.height();
-
-        for (var i=0; i < data.length; i++) {
-            var docs = data[i]["documents"];
-            if (docs.length) {
-                var doc = docs[docs.length - 1],
-                    x = doc["aggregated_data"][param_x],
-                    y = doc["aggregated_data"][param_y];
-
-                if (x > max_x) {
-                    max_x = x;
-                }
-
-                if (y > max_y) {
-                    max_y = y;
-                }
-
-                nodes.push({
-                    "data": {
-                        "id": data[i]["id"],
-                        "name": data[i]["name"],
-                        "x": x,
-                        "y": y
-                    }
-                });
-            }
+    <script type="text/javascript">
+        function format_uah(value) {
+            return accounting.formatMoney(value, "₴", 2);
         }
 
-        var elements = {"nodes": nodes};
+        $(function() {
+            var all_data, chart;
 
-        var cy = cytoscape({
-          container: container.get(0),
+            function build_main_chart() {
+                var year = parseInt($("#year").val());
+                var data = [],
+                    param_x = {
+                        "name": "incomes.declarant",
+                        "title": "Дохід декларанта"
+                    },
+                    param_y = {
+                        "name": "incomes.family",
+                        "title": "Дохід родини"
+                    },
+                    param_r = {
+                        "name": "assets.total",
+                        "title": "Статки"
+                    },
 
-          boxSelectionEnabled: false,
-          autounselectify: true,
+                    max_r = 0,
+                    max_estate = 0,
+                    options = {
+                        legend: false,
+                        scales: {
+                            xAxes: [{
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: param_x.title,
+                                    fontColor: "#5ECBA1",
+                                    fontSize: 14,
+                                    fontStyle: "bold",
 
-          style: cytoscape.stylesheet()
-            .selector('node')
-              .css({
-                'height': 20,
-                'width': 20,
-                'background': 'white',
-                'border-color': '#000',
-                'border-width': 3,
-                'border-opacity': 0.5
-              }),
+                                },
+                                ticks: {
+                                    fontColor: "#5ECBA1",
+                                    fontSize: 14,
+                                    fontStyle: "bold",
+                                    // Include a dollar sign in the ticks
+                                    callback: function(value, index, values) {
+                                        return format_uah(value);
+                                    }
+                                }
+                            }],
+                            yAxes: [{
+                                scaleLabel: {
+                                    fontColor: "#7175D8",
+                                    fontStyle: "bold",
+                                    fontSize: 14,
+                                    display: true,
+                                    labelString: param_y.title,
+                                },
+                                ticks: {
+                                    fontColor: "#7175D8",
+                                    fontSize: 14,
+                                    fontStyle: "bold",
+                                    // Include a dollar sign in the ticks
+                                    callback: function(value, index, values) {
+                                        return format_uah(value);
+                                    }
+                                }
+                            }]
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            intersect: true,
 
-          // elements: {
-          //   nodes: [
-          //     { data: { id: 'cat' } },
-          //     { data: { id: 'bird' } },
-          //     { data: { id: 'ladybug' } },
-          //     { data: { id: 'aphid' } },
-          //     { data: { id: 'rose' } },
-          //     { data: { id: 'grasshopper' } },
-          //     { data: { id: 'plant' } },
-          //     { data: { id: 'wheat' } }
-          //   ],
-          //   edges: [
-          //     { data: { source: 'cat', target: 'bird' } },
-          //     { data: { source: 'bird', target: 'ladybug' } },
-          //     { data: { source: 'bird', target: 'grasshopper' } },
-          //     { data: { source: 'grasshopper', target: 'plant' } },
-          //     { data: { source: 'grasshopper', target: 'wheat' } },
-          //     { data: { source: 'ladybug', target: 'aphid' } },
-          //     { data: { source: 'aphid', target: 'rose' } }
-          //   ]
-          // },
-          elements: elements,
+                            callbacks: {
+                                label: function(tooltipItem, data) {
+                                    var point = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                    return (point.label || '');
+                                },
 
-          layout: {
-            name: 'preset',
-            padding: 10,
-            positions: function(node) {
+                                afterLabel: function(tooltipItem, data) {
+                                    var point = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                                    return [
+                                        param_x.title + ": " + format_uah(point.x),
+                                        param_y.title + ": " + format_uah(point.y),
+                                        param_r.title + ": " + format_uah(point.v),
+                                        "Прапорці: " + point.flags,
+                                        "Загальна площа нерухомості: " + point.estate
+                                    ];
+                                }
+                            }
+                        },
 
-                var pos = {
-                    "x": node.data("x") / max_x * container_width,
-                    "y": -node.data("y") / max_y * container_height
+                        elements: {
+                            point: {
+                                backgroundColor: function(context) {
+                                    var value = context.dataset.data[context.dataIndex],
+                                        level = value.scaled_estate,
+                                        r = Math.round(255 * (1 - level) + 113 * level),
+                                        g = Math.round(255 * (1 - level) + 118 * level),
+                                        b = Math.round(255 * (1 - level) + 216 * level);
+                                    return 'rgba(' + r + ',' + g + ',' + b + ',0.7)';
+                                },
+
+                                borderWidth: function(context) {
+                                    var value = context.dataset.data[context.dataIndex];
+                                    if (value.flags) {
+                                        return Math.min(value.flags / 3 + 0.5, 3);
+                                    }
+                                    return 1
+                                },
+
+                                hoverBackgroundColor: 'transparent',
+
+                                borderColor: function(context) {
+                                    var value = context.dataset.data[context.dataIndex];
+                                    if (value.flags) {
+                                        return "#FF6B69";
+                                    }
+                                },
+
+                                radius: function(context) {
+                                    var value = context.dataset.data[context.dataIndex],
+                                        size = context.chart.width;
+                                    return 5 + (size / 20) * value.scaled_r;
+                                }
+                            }
+                        }
+                    };
+
+                for (var i = 0; i < all_data["persons"].length; i++) {
+                    var docs = all_data["persons"][i]["documents"];
+                    for (var j = docs.length - 1; j >= 0; j--) {
+                        var doc = docs[j],
+                            x = doc["aggregated_data"][param_x.name],
+                            y = doc["aggregated_data"][param_y.name],
+                            r = doc["aggregated_data"][param_r.name],
+                            estate = doc["aggregated_data"]["estate.total_other"];
+
+                        if (doc["year"] == year) {
+                            if (r > max_r) {
+                                max_r = r;
+                            }
+                            if (estate > max_estate) {
+                                max_estate = estate;
+                            }
+
+                            data.push({
+                                "id": all_data["persons"][i]["id"],
+                                "label": all_data["persons"][i]["name"],
+                                "x": x,
+                                "y": y,
+                                "v": r,
+                                "flags": doc["flags"].length,
+                                "estate": estate,
+                            });
+                            break;
+                        }
+                    }
                 }
-                console.log(pos, container_width);
-                return pos;
-            }
-          }
-        }); // cy init
 
-        cy.on('tap', 'node', function(){
-          var nodes = this;
-          var tapped = nodes;
-          var food = [];
+                for (var i = 0; i < data.length; i++) {
+                    data[i]["scaled_r"] = (data[i]["v"] + 0.1) / (max_r + 0.1);
+                    data[i]["scaled_estate"] = (Math.min(data[i]["estate"], 500) + 0.1) / (500 + 0.1);
+                }
 
-          nodes.addClass('eater');
+                if (typeof(chart) === "undefined") {
+                    chart = new Chart('tablo', {
+                        type: 'bubble',
+                        data: {
+                            datasets: [{
+                                "data": data
+                            }]
+                        },
+                        options: options
+                    });
+                } else {
+                    chart.data.datasets = [{"data": data}];
+                    chart.update();
+                }
+            };
 
-          for(;;){
-            var connectedEdges = nodes.connectedEdges(function(el){
-              return !el.target().anySame( nodes );
+            $.getJSON("?format=json", function(data){
+                all_data = data;
+
+                build_main_chart();
             });
 
-            var connectedNodes = connectedEdges.targets();
+            $("#year").on("change", function() {
+                build_main_chart();
+            })
 
-            Array.prototype.push.apply( food, connectedNodes );
-
-            nodes = connectedNodes;
-
-            if( nodes.empty() ){ break; }
-          }
-
-          var delay = 0;
-          var duration = 500;
-          for( var i = food.length - 1; i >= 0; i-- ){ (function(){
-            var thisFood = food[i];
-            var eater = thisFood.connectedEdges(function(el){
-              return el.target().same(thisFood);
-            }).source();
-
-            thisFood.delay( delay, function(){
-              eater.addClass('eating');
-            } ).animate({
-              position: eater.position(),
-              css: {
-                'width': 10,
-                'height': 10,
-                'border-width': 0,
-                'opacity': 0
-              }
-            }, {
-              duration: duration,
-              complete: function(){
-                thisFood.remove();
-              }
-            });
-
-            delay += duration;
-          })(); } // for
-
-        }); // on tap        
-    });
-
-});
-
-</script>
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
-    <div id="cy"></div>
 
+    <div class="content container">
+        <div class="search-card search-page__result-card">
+            <div class="search-card__top">
+                <div class="search-card__name">
+                    {{ object.title }}
+                </div>
+            </div>
+
+            <div class="search-card__items">
+                <div class="search-card__item">
+                    <div class="search-card__item-text gray_text">
+                        {% if object.image %}
+                        <img src="{{ object.image['avatar'].url }}" alt="{{ object.title }}"/>
+                        {% endif %}
+                        {{ object.description|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <select id="year">
+            {% for year in range(summary.min_year, summary.max_year + 1) %}
+                <option value="{{ year }}" {% if year == CURR_YEAR - 1 %}selected="selected"{% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+        <canvas id="tablo"></canvas>
+    </div>
     <style type="text/css">
-        #cy {
-          height: 500px;
-          width: 800px;
-          margin: 0 auto;
-          border: 1px solid gray;
+        #tablo {
+            width: 100%;
+            height: 400px;
+        }
+        .gray_text {
+            font-family: Inter;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 24px;
+            max-width: 100%;
+            color: #898D93;
+        }
+        .search-card__item-text img {
+            float: left;
+            padding-right: 10px;
         }
     </style>
-    <p>Like Whatever</p>
 {% endblock %}

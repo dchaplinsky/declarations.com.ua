@@ -146,4 +146,5 @@ class LandingPageDetail(DetailView):
 
             return response
         else:
+            context["summary"] = context["object"].get_summary()
             return super().render_to_response(context)

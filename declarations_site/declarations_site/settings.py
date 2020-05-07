@@ -55,6 +55,11 @@ INSTALLED_APPS = (
     'pipeline',
     'django_jinja',
     'django_jinja.contrib._humanize',
+    "django_jinja.contrib._easy_thumbnails",
+    "easy_thumbnails",
+    "ckeditor",
+    "ckeditor_uploader",
+
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -290,13 +295,6 @@ PIPELINE = {
             ),
             'output_filename': 'css/merged.css',
             'extra_context': {},
-        },
-        'css_infographics': {
-            'source_filenames': (
-                'sass/infographics.scss',
-            ),
-            'output_filename': 'css/merged_infographics.css',
-            'extra_context': {},
         }
     },
     'JAVASCRIPT': {
@@ -319,15 +317,6 @@ PIPELINE = {
                 'js/partials/sort-block.js',
                 'js/partials/analytics-tabs.js',
                 'js/partials/declaration.js',
-                # "js/jquery-1.11.2.js",
-                # "js/bootstrap.js",
-                # "js/bootstrap3-typeahead.js",
-                # "js/ripples.js",
-                # "js/material.js",
-                # 'js/jquery.magnific-popup.js',
-                # "js/main.js",
-                # "js/user.js",
-                # "js/analytics.js",
             ),
             'output_filename': 'js/merged.js',
         },
@@ -339,15 +328,6 @@ PIPELINE = {
                 "js/compare-charts.js",
             ),
             'output_filename': 'js/merged_charts.js',
-        },
-
-        'js_infographics': {
-            'source_filenames': (
-                "js/d3.js",
-                "js/d3-tip.js",
-                "js/infographics_on_main.js",
-            ),
-            'output_filename': 'js/merged_infographics.js',
         }
     }
 }
@@ -406,6 +386,15 @@ if SENTRY_DSN:
         ignore_logger(l)
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (250, 250), 'crop': True},
+    },
+}
 
 try:
     from .local_settings import *

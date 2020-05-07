@@ -433,6 +433,7 @@ def prepare_datasets_for_charts(declarations, labels, columns):
             "backgroundColor": colors[i],
             "borderWidth": 0,
             "data": data,
+            "order": i,
             "type": columns[label]["type"]
         }
 

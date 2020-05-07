@@ -36,6 +36,7 @@ urlpatterns = [
     url(r"^bot/", include(chatbot_urls)),
     url(r"^l/", include(landing_urls)),
     url(r"user/", include("social_django.urls", namespace="social")),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
