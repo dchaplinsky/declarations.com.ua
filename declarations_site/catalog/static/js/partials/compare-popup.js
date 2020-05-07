@@ -133,7 +133,9 @@
     parent.find('.drop-down-btn').addClass('drop-down-btn_opened');
   });
 
-  $('.compare-popup__btn-clear').on('click', function() {
+  $('.compare-popup__btn-clear').on('click', function(e) {
+    e.preventDefault();
+
     $(this).closest('.compare-popup').find('.search-card').remove().end()
       .siblings('.close-btn').click();
 
