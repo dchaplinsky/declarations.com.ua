@@ -136,8 +136,8 @@
             </div>
             
             {# <div class="declaration-card__charts">
-                <div class="declaration-card__charts-title">Дaні за <b>2018</b> та динаміка змін за різні
-                    роки
+                <div class="declaration-card__charts-title">
+                    <span>Дaні за <b>2018</b> та динаміка змін за різні роки</span>
                 </div>
 
                 <div class="declaration-card__charts-items">
@@ -265,7 +265,9 @@
                 {% set red_flags = declaration.red_flags() %}
                 {% if red_flags %}
                     <div class="declaration-card__feature">
-                        <div class="declaration-card__feature-title">{{ _("Особливості") }}</div>
+                        <div class="declaration-card__feature-title">
+                            <span>{{ _("Особливості") }}</span>
+                        </div>
                         <div class="declaration-card__feature-items">
                             {% for flag in red_flags %}
                                 <div class="declaration-card__feature-item">
@@ -352,7 +354,9 @@
 
             {% set family_declarations = declaration.family_declarations(language=language) %}
             {% if family_declarations %}
-            <h3 id="similar_by_relations">{{ _("Декларації осіб, що <u>можуть</u> бути родичами декларанта") }}</h3>
+            <h3 id="similar_by_relations">
+                <span>{{ _("Декларації осіб, що <u>можуть</u> бути родичами декларанта") }}</span>
+            </h3>
             <div class="search-page">
                 <div class="search-results">
                     {{ search_results(family_declarations) }}

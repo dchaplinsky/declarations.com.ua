@@ -19,6 +19,7 @@
     bottom: 0;
     right: -100%;
     transition: right 0.3s linear;
+    max-height: calc(100vh - 127px);
     overflow: auto;
     @media all and (min-width: 1024px) {
       width: 320px;

@@ -5,7 +5,7 @@
             <div class="tenders">
                 <div class="tenders__top">
                     <div class="tenders__top-inner">
-                        <div class="tenders__title">{{ _("Виторг в тендерах компаній") }}</div>
+                        <div class="tenders__title" id="tenders"><span>{{ _("Виторг в тендерах компаній") }}</span></div>
                         <div class="tenders__description">
                             {{ affiliated_earnings|sum(attribute='sum_uah')|string|curformat }} {{ _("грн.")}} {{ _("— в яких декларант є бенефіціаром") }}
                         </div>
