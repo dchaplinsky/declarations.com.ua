@@ -9,9 +9,52 @@
         function format_uah(value) {
             return accounting.formatMoney(value, "₴", 2);
         }
+        function format_sqm(value) {
+            return accounting.formatMoney(value, {symbol: "м²",  format: "%v %s"}, 2 )
+        }
 
         $(function() {
             var all_data, chart;
+
+            var customTooltips = function(tooltip) {
+                var this_chart = this;
+                $(this._chart.canvas).css('cursor', 'pointer');
+
+                var positionY = this._chart.canvas.offsetTop;
+                var positionX = this._chart.canvas.offsetLeft;
+
+                $('.chartjs-tooltip').css({
+                    opacity: 0,
+                });
+
+                if (!tooltip || !tooltip.opacity) {
+                    return;
+                }
+
+                if (tooltip.dataPoints.length > 0) {
+                    tooltip.dataPoints.forEach(function(dataPoint) {
+                        var point = this_chart._data.datasets[dataPoint.datasetIndex].data[dataPoint.index];
+                        var content = [dataPoint.xLabel, dataPoint.yLabel].join(': ');
+                        var $tooltip = $('#main-tooltip');
+
+                        $tooltip.find(".tooltip_name .value").html(point.name);
+                        $tooltip.find(".tooltip_income .value").html(format_uah(point.income));
+                        $tooltip.find(".tooltip_cash .value").html(format_uah(point.cash));
+                        $tooltip.find(".tooltip_liabilities .value").html(format_uah(point.liabilities));
+                        $tooltip.find(".tooltip_expenses .value").html(format_uah(point.expenses));
+                        $tooltip.find(".tooltip_land .value").html(format_sqm(point.land));
+                        $tooltip.find(".tooltip_real_estate .value").html(format_sqm(point.real_estate));
+                        $tooltip.find(".tooltip_assets .value").html(format_uah(point.assets));
+
+
+                        $tooltip.css({
+                            opacity: 1,
+                            top: positionY + dataPoint.y + 'px',
+                            left: positionX + dataPoint.x + 'px',
+                        });
+                    });
+                }
+            };
 
             function build_main_chart() {
                 var year = parseInt($("#year").val());
@@ -75,6 +118,8 @@
                         tooltips: {
                             mode: 'index',
                             intersect: true,
+                            custom: customTooltips,
+                            enabled: false,
 
                             callbacks: {
                                 label: function(tooltipItem, data) {
@@ -151,7 +196,14 @@
 
                             data.push({
                                 "id": all_data["persons"][i]["id"],
-                                "label": all_data["persons"][i]["name"],
+                                "name": all_data["persons"][i]["name"],
+                                "income": doc["aggregated_data"]["incomes.total"],
+                                "cash": doc["aggregated_data"]["assets.cash.total"],
+                                "liabilities": doc["aggregated_data"]["liabilities.total"],
+                                "expenses": doc["aggregated_data"]["expenses.total"],
+                                "land": doc["aggregated_data"]["estate.total_land"],
+                                "real_estate": doc["aggregated_data"]["estate.total_other"],
+                                "assets": doc["aggregated_data"]["assets.total"],
                                 "x": x,
                                 "y": y,
                                 "v": r,
@@ -226,12 +278,47 @@
             {% endfor %}
         </select>
         <canvas id="tablo"></canvas>
+        <div class="chartjs-tooltip" id="main-tooltip">
+            <div class="tooltip_name"><span class="value"></span></div>
+            <div class="tooltip_income"><span>{{ _("Дохід") }}</span><span class="value"></span></div>
+            <div class="tooltip_cash"><span>{{ _("Кеш") }}</span><span class="value"></span></div>
+            <div class="tooltip_liabilities"><span>{{ _("Борги") }}</span><span class="value"></span></div>
+            <div class="tooltip_expenses"><span>{{ _("Витрати") }}</span><span class="value"></span></div>
+            <div class="tooltip_real_estate"><span>{{ _("Нерухомість") }}</span><span class="value"></span></div>
+            <div class="tooltip_land"><span>{{ _("Земля") }}</span><span class="value"></span></div>
+            <hr/>
+            <div class="tooltip_assets">{{ _("Загальні статки") }}</span><span class="value"></span></div>
+        </div>
     </div>
     <style type="text/css">
         #tablo {
             width: 100%;
             height: 400px;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
         }
+
+        .chartjs-tooltip {
+            opacity: 0;
+            position: absolute;
+            background: rgba(0, 0, 0, .7);
+            color: white;
+            border-radius: 3px;
+            -webkit-transition: all .1s ease;
+            transition: all .1s ease;
+            pointer-events: none;
+            -webkit-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+            padding: 4px;
+        }
+
+        .chartjs-tooltip-key {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+        }
+
         .gray_text {
             font-family: Inter;
             font-style: normal;
