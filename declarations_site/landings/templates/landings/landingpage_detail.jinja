@@ -247,8 +247,28 @@
             });
 
             $("#sort").on("change", function(){
-                var el = $(this);
-                console.log(el, el.val());
+                var order = $(this).val();
+
+                $(".landing-page__declarants-table").each(function(i, table) {
+                    table = $(table);
+                    var items = table.find('tbody tr');
+
+                    items.sort(function(a, b) {
+                        switch (order) {
+                            case "assets":
+                            case "flags":
+                                return parseFloat($(b).data(order)) - parseFloat($(a).data(order));
+                            break;
+                            case "name":
+                                return $(a).data(order).localeCompare($(b).data(order));
+                            break;
+                        }
+                        
+                    });
+                        
+                    items.appendTo(table.find("tbody"));
+                });
+
             });
 
         });
@@ -258,17 +278,17 @@
 {% macro format_trend(prev_val, val, symbol) %}
     {% if prev_val %}
         {% if prev_val > val %}
-            <span class="minus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">- {{ '{0:0.2f}'.format((prev_val - val) / (prev_val) * 100) }}%</span>
+            <span class="minus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">-&nbsp;{{ '{0:0.2f}'.format((prev_val - val) / (prev_val) * 100) }}%</span>
         {% elif prev_val < val %}
-            <span class="plus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">+ {{ '{0:0.2f}'.format((val - prev_val) / (prev_val) * 100) }}%</span>
+            <span class="plus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">+&nbsp;{{ '{0:0.2f}'.format((val - prev_val) / (prev_val) * 100) }}%</span>
         {% else %}
-            <span class="no_change">0</span>
+            <span class="no_change"></span>
         {% endif %}
     {% else %}
         {% if val %}
             <span class="plus">+++</span>
         {% else %}
-            <span class="no_change">0</span>
+            <span class="no_change"></span>
         {% endif %}
     {% endif %}
 {% endmacro %}
@@ -350,7 +370,7 @@
                         </select>
                     </div>
                 </div>
-                <a href="?format=xlsx" class="n-btn n-btn_white">{{ _("експорт в excel") }}</a>
+                <a href="?format=xlsx" class="n-btn n-btn_white landing-page__export">{{ _("експорт в excel") }}</a>
             </div>
 
             <div class="search-card__items">
@@ -360,7 +380,7 @@
                         <thead class="n-table__thead">
                             <tr>
                                 <th class="n-table__th">{{ _("Повне ім’я") }}</th>
-                                <th class="n-table__th">{{ _("Червоні прапори") }}</th>
+                                <th class="n-table__th">{{ _("Ризики") }}</th>
                                 <th class="n-table__th">{{ _("Доходи") }}</th>
                                 <th class="n-table__th">{{ _("Активи") }}</th>
                                 <th class="n-table__th">{{ _("Авто") }}</th>
@@ -383,20 +403,32 @@
                                         <td class="n-table__td landing-page__declarants-table-flags">{%- if doc.flags|count %}
                                             {{ doc.flags|count }}
                                         {% endif -%}</td>
-                                        <td class="n-table__td landing-page__declarants-table-amount">
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger">
                                             {% if 'incomes.total' in doc.aggregated_data %}
-                                            {% set val = doc.aggregated_data["incomes.total"] %}
-                                                ₴ {{ val|string|curformat() }}
+                                                {% set val = doc.aggregated_data["incomes.total"] %}
+                                                <span class="landing-page__declarants-table-amount">
+                                                    ₴ {{ val|string|curformat() }}
+                                                </span>
                                                 {% if year - 1 in person.documents %}
                                                     {% set prev_val = person.documents[year - 1].aggregated_data["incomes.total"] %}
                                                     {{ format_trend(prev_val, val, "₴") }}
                                                 {% endif %}
                                             {% endif %}
+                                            <div class="n-tooltip">
+                                                <div class="n-tooltip__head">
+                                                    <div class="n-tooltip__title">{{ _("Доходи") }}</div>
+                                                </div>
+                                                <div class="n-tooltip__body">
+                                                    <canvas />
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td class="n-table__td landing-page__declarants-table-amount">
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend">
                                             {% if 'assets.total' in doc.aggregated_data %}
                                                 {% set val = doc.aggregated_data["assets.total"] %}
-                                                ₴ {{ val|string|curformat() }}
+                                                <span class="landing-page__declarants-table-amount">
+                                                    ₴ {{ val|string|curformat() }}
+                                                </span>
                                                 {% if year - 1 in person.documents %}
                                                     {% set prev_val = person.documents[year - 1].aggregated_data["assets.total"] %}
                                                     {{ format_trend(prev_val, val, "₴") }}
@@ -413,7 +445,9 @@
                                         <td class="n-table__td">
                                             {% if 'estate.total_other' in doc.aggregated_data %}
                                                 {% set val = person.documents[year].aggregated_data["estate.total_other"] %}
-                                                {{ val|string|curformat() }}{{ _("м²") }}
+                                                <span class="landing-page__declarants-table-amount">
+                                                    {{ val|string|curformat() }}{{ _("м²") }}
+                                                </span>
                                                 {% if year - 1 in person.documents %}
                                                     {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_other"] %}
                                                     {{ format_trend(prev_val, val, _("м²")) }}
@@ -423,7 +457,9 @@
                                         <td class="n-table__td">
                                             {% if 'estate.total_land' in doc.aggregated_data %}
                                                 {% set val = person.documents[year].aggregated_data["estate.total_land"] %}
-                                                {{ val|string|curformat() }}{{ _("м²") }}
+                                                <span class="landing-page__declarants-table-amount">
+                                                    {{ val|string|curformat() }}{{ _("м²") }}
+                                                </span>
                                                 {% if year - 1 in person.documents %}
                                                     {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_land"] %}
                                                     {{ format_trend(prev_val, val, _("м²")) }}
@@ -435,16 +471,19 @@
                             {% endfor %}
                             {% for person in summary.persons %}
                                 {% if year not in person.documents %}
-                                    <tr class="n-table__tr">
+                                    <tr class="n-table__tr"
+                                        data-name="{{ person.name }}"
+                                        data-assets="-1"
+                                        data-flags="-">
                                         <td class="n-table__td">
                                             <a href="{{ person.id }}">{{ person.name }}</a>
                                         </td>
-                                        <td class="n-table__td">—</td>
-                                        <td class="n-table__td">—</td>
-                                        <td class="n-table__td">—</td>
-                                        <td class="n-table__td">—</td>
-                                        <td class="n-table__td">—</td>
-                                        <td class="n-table__td">—</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
                                     </tr>
                                 {% endif %}
                             {% endfor %}

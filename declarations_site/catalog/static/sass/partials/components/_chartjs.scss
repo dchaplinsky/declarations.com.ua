@@ -12,6 +12,7 @@
   transform: translate(-50%, 0);
   -webkit-transition: all .1s ease;
   transition: all .1s ease;
+  z-index: 1;
   &__body,
   &__footer {
     padding: 12px 30px;

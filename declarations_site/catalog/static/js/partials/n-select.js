@@ -16,7 +16,8 @@
 
         $('<div class="n-select__item">' + option.html() + '</div>')
           .addClass(option.attr('selected') ? 'n-select__item_active' : '')
-          .appendTo(options);
+          .appendTo(options)
+          .data("orig_value", option.val());
       });
 
       options.appendTo(container);
@@ -53,7 +54,7 @@
       $('.n-select__item', list).removeClass('n-select__item_active');
       selectedItem.addClass('n-select__item_active');
       closeList(list);
-      list.find('select').val(selectedItem.text());
+      list.find('select').val(selectedItem.data("orig_value"));
       list.find('select').change();
     }
 
