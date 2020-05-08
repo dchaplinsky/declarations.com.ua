@@ -18,10 +18,23 @@
       background: url('../images/icon/flag-fill.svg');
       display: inline-block;
       height: 16px;
+      vertical-align: text-top;
       width: 16px;
     }
   }
   &__declarants-table-amount {
     white-space: nowrap;
+  }
+  &__export {
+    text-transform: uppercase;
+    &::after {
+      content: '';
+      background: url('../images/icon/file-excel.svg');
+      display: inline-block;
+      height: 14px;
+      margin-left: 8px;
+      vertical-align: bottom;
+      width: 14px;
+    }
   }
 }
