@@ -319,6 +319,7 @@
                     <th>{{ _("Активи") }}</th>
                     <th>{{ _("Авто") }}</th>
                     <th>{{ _("Нерухомість") }}</th>
+                    <th>{{ _("Земля") }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -356,6 +357,14 @@
                                 {{ format_trend(prev_val, val, _("м²")) }}
                             {% endif %}
                         </td>
+                        <td>
+                            {% set val = person.documents[year].aggregated_data["estate.total_land"] %}
+                            {{ val|string|curformat() }}{{ _("м²") }}
+                            {% if year - 1 in person.documents %}
+                                {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_land"] %}
+                                {{ format_trend(prev_val, val, _("м²")) }}
+                            {% endif %}
+                        </td>
                     {% endif %}
                 </tr>
                 {% endfor %}
@@ -365,6 +374,7 @@
                         <td>
                             <a href="{{ person.id }}">{{ person.name }}</a>
                         </td>
+                        <td>—</td>
                         <td>—</td>
                         <td>—</td>
                         <td>—</td>
