@@ -217,7 +217,7 @@ class Person(models.Model):
 
 
     def get_summary(self):
-        result = {"name": self.name, "id": self.pk, "documents": []}
+        result = {"name": self.name, "id": self.pk, "documents": {}}
 
         years = {}
 
@@ -234,14 +234,12 @@ class Person(models.Model):
                 years[d.year] = d
 
         for k in sorted(years.keys()):
-            result["documents"].append(
-                {
-                    "aggregated_data": years[k].source["aggregated_data"],
-                    "flags": self.get_flags(years[k].source["aggregated_data"]),
-                    "year": k,
-                    "infocard": years[k].source["infocard"],
-                }
-            )
+            result["documents"][k] = {
+                "aggregated_data": years[k].source["aggregated_data"],
+                "flags": self.get_flags(years[k].source["aggregated_data"]),
+                "year": k,
+                "infocard": years[k].source["infocard"],
+            }
 
         if years:
             result["min_year"] = min(years.keys())

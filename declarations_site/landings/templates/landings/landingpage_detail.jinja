@@ -179,39 +179,39 @@
 
                 for (var i = 0; i < all_data["persons"].length; i++) {
                     var docs = all_data["persons"][i]["documents"];
-                    for (var j = docs.length - 1; j >= 0; j--) {
-                        var doc = docs[j],
+                    for (var curr_year in docs) {
+                        if (curr_year != year)
+                            continue;
+
+                        var doc = docs[curr_year],
                             x = doc["aggregated_data"][param_x.name],
                             y = doc["aggregated_data"][param_y.name],
                             r = doc["aggregated_data"][param_r.name],
                             estate = doc["aggregated_data"]["estate.total_other"];
 
-                        if (doc["year"] == year) {
-                            if (r > max_r) {
-                                max_r = r;
-                            }
-                            if (estate > max_estate) {
-                                max_estate = estate;
-                            }
-
-                            data.push({
-                                "id": all_data["persons"][i]["id"],
-                                "name": all_data["persons"][i]["name"],
-                                "income": doc["aggregated_data"]["incomes.total"],
-                                "cash": doc["aggregated_data"]["assets.cash.total"],
-                                "liabilities": doc["aggregated_data"]["liabilities.total"],
-                                "expenses": doc["aggregated_data"]["expenses.total"],
-                                "land": doc["aggregated_data"]["estate.total_land"],
-                                "real_estate": doc["aggregated_data"]["estate.total_other"],
-                                "assets": doc["aggregated_data"]["assets.total"],
-                                "x": x,
-                                "y": y,
-                                "v": r,
-                                "flags": doc["flags"].length,
-                                "estate": estate,
-                            });
-                            break;
+                        if (r > max_r) {
+                            max_r = r;
                         }
+                        if (estate > max_estate) {
+                            max_estate = estate;
+                        }
+
+                        data.push({
+                            "id": all_data["persons"][i]["id"],
+                            "name": all_data["persons"][i]["name"],
+                            "income": doc["aggregated_data"]["incomes.total"],
+                            "cash": doc["aggregated_data"]["assets.cash.total"],
+                            "liabilities": doc["aggregated_data"]["liabilities.total"],
+                            "expenses": doc["aggregated_data"]["expenses.total"],
+                            "land": doc["aggregated_data"]["estate.total_land"],
+                            "real_estate": doc["aggregated_data"]["estate.total_other"],
+                            "assets": doc["aggregated_data"]["assets.total"],
+                            "x": x,
+                            "y": y,
+                            "v": r,
+                            "flags": doc["flags"].length,
+                            "estate": estate,
+                        });
                     }
                 }
 
@@ -289,6 +289,55 @@
             <hr/>
             <div class="tooltip_assets">{{ _("Загальні статки") }}</span><span class="value"></span></div>
         </div>
+
+        <a href="?format=xlsx">{{ _("експорт в excel") }}</a>
+        {% for year in range(summary.min_year, summary.max_year + 1) %}
+        <table id="declarants-{{ year }}" {% if year != CURR_YEAR - 1 %}style="display: none"{% endif %}>
+            <thead>
+                <tr>
+                    <th>{{ _("Повне ім’я") }}</th>
+                    <th>{{ _("Червоні прапори") }}</th>
+                    <th>{{ _("Доходи") }}</th>
+                    <th>{{ _("Активи") }}</th>
+                    <th>{{ _("Авто") }}</th>
+                    <th>{{ _("Нерухомість") }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in summary.persons %}
+                <tr>
+
+                    {% if year in person.documents %}
+                        <td>
+                            <a href="{{ person.id }}">{{ person.name }}</a>
+                        </td>
+                        {% set doc = person.documents[year] %}
+                        <td>{{ doc.flags|count }}</td>
+                        <td>₴{{ doc.aggregated_data["incomes.total"]|string|curformat() }}</td>
+                        <td>₴{{ doc.aggregated_data["assets.total"]|string|curformat() }}</td>
+                        <td>{{ doc.aggregated_data["vehicles.all_names"]|replace("; ", "<br/>")|safe }}</td>
+                        <td>{{ doc.aggregated_data["estate.total_other"]|string|curformat() }}{{ _("м²") }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                {% for person in summary.persons %}
+                <tr>
+                    {% if year not in person.documents %}
+                        <td>
+                            <a href="{{ person.id }}">{{ person.name }}</a>
+                        </td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>—</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        {% endfor %}
     </div>
     <style type="text/css">
         #tablo {
