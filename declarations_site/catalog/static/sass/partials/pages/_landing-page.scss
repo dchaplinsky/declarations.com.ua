@@ -1,0 +1,27 @@
+.landing-page {
+  &__people {
+    .search-card__items {
+      padding: 0;
+    }
+  }
+  &__declarants-table {
+    th {
+      @media (min-width: 1024px) {
+        white-space: nowrap;
+      }
+    }
+  }
+  &__declarants-table-flags {
+    color: #FF6B69;
+    &:not(:empty)::after {
+      content: '';
+      background: url('../images/icon/flag-fill.svg');
+      display: inline-block;
+      height: 16px;
+      width: 16px;
+    }
+  }
+  &__declarants-table-amount {
+    white-space: nowrap;
+  }
+}

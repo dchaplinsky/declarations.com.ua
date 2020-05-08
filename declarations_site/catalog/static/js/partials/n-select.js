@@ -2,6 +2,26 @@
 
   $(function() {
 
+    $('select').each(function() {
+      var self = $(this);
+
+      var container = self.hide()
+        .wrap('<div class="n-select"></div>').parent()
+        .append('<div class="n-select__selected">' + self.find('option[selected]').text() + '</div>');
+
+      var options = $('<div class="n-select__items"></div>');
+
+      self.find('option').each(function() {
+        var option = $(this);
+
+        $('<div class="n-select__item">' + option.html() + '</div>')
+          .addClass(option.attr('selected') ? 'n-select__item_active' : '')
+          .appendTo(options);
+      });
+
+      options.appendTo(container);
+    });
+
     var select = $('.n-select');
 
     $('.n-select__selected', select).on('click', function() {
@@ -33,6 +53,8 @@
       $('.n-select__item', list).removeClass('n-select__item_active');
       selectedItem.addClass('n-select__item_active');
       closeList(list);
+      list.find('select').val(selectedItem.text());
+      list.find('select').change();
     }
 
   });

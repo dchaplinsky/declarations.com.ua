@@ -37,14 +37,14 @@
                         var content = [dataPoint.xLabel, dataPoint.yLabel].join(': ');
                         var $tooltip = $('#main-tooltip');
 
-                        $tooltip.find(".tooltip_name .value").html(point.name);
-                        $tooltip.find(".tooltip_income .value").html(format_uah(point.income));
-                        $tooltip.find(".tooltip_cash .value").html(format_uah(point.cash));
-                        $tooltip.find(".tooltip_liabilities .value").html(format_uah(point.liabilities));
-                        $tooltip.find(".tooltip_expenses .value").html(format_uah(point.expenses));
-                        $tooltip.find(".tooltip_land .value").html(format_sqm(point.land));
-                        $tooltip.find(".tooltip_real_estate .value").html(format_sqm(point.real_estate));
-                        $tooltip.find(".tooltip_assets .value").html(format_uah(point.assets));
+                        $tooltip.find(".chartjs-tooltip__name .value").html(point.name);
+                        $tooltip.find(".chartjs-tooltip__income .value").html(format_uah(point.income));
+                        $tooltip.find(".chartjs-tooltip__cash .value").html(format_uah(point.cash));
+                        $tooltip.find(".chartjs-tooltip__liabilities .value").html(format_uah(point.liabilities));
+                        $tooltip.find(".chartjs-tooltip__expenses .value").html(format_uah(point.expenses));
+                        $tooltip.find(".chartjs-tooltip__land .value").html(format_sqm(point.land));
+                        $tooltip.find(".chartjs-tooltip__real_estate .value").html(format_sqm(point.real_estate));
+                        $tooltip.find(".chartjs-tooltip__assets .value").html(format_uah(point.assets));
 
 
                         $tooltip.css({
@@ -290,39 +290,162 @@
             </div>
         </div>
 
-        <select id="year">
-            {% for year in range(summary.min_year, summary.max_year + 1) %}
-                <option value="{{ year }}" {% if year == CURR_YEAR - 1 %}selected="selected"{% endif %}>{{ year }}</option>
-            {% endfor %}
-        </select>
-        <canvas id="tablo"></canvas>
-        <div class="chartjs-tooltip" id="main-tooltip">
-            <div class="tooltip_name"><span class="value"></span></div>
-            <div class="tooltip_income"><span>{{ _("Дохід") }}</span><span class="value"></span></div>
-            <div class="tooltip_cash"><span>{{ _("Кеш") }}</span><span class="value"></span></div>
-            <div class="tooltip_liabilities"><span>{{ _("Борги") }}</span><span class="value"></span></div>
-            <div class="tooltip_expenses"><span>{{ _("Витрати") }}</span><span class="value"></span></div>
-            <div class="tooltip_real_estate"><span>{{ _("Нерухомість") }}</span><span class="value"></span></div>
-            <div class="tooltip_land"><span>{{ _("Земля") }}</span><span class="value"></span></div>
-            <hr/>
-            <div class="tooltip_assets">{{ _("Загальні статки") }}</span><span class="value"></span></div>
+        <div class="search-card search-page__result-card">
+            <div class="search-card__top">
+                <div class="search-card__name">
+                    {{ _("Установа") }}
+                </div>
+                {# <div class="n-select">
+                    <div class="n-select__selected">{{ CURR_YEAR - 1 }}</div>
+                    <div class="n-select__items">
+                        {% for year in range(summary.min_year, summary.max_year + 1) %}
+                            <div class="n-select__item{% if year == CURR_YEAR - 1 %} n-select__item_active{% endif %}">{{ year }}</div>
+                        {% endfor %}
+                    </div>
+                </div> #}
+                <select id="year" style="display: none;">
+                    {% for year in range(summary.min_year, summary.max_year + 1) %}
+                        <option value="{{ year }}" {% if year == CURR_YEAR - 1 %}selected="selected"{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="search-card__items">
+                <div class="search-card__item">
+                    <canvas id="tablo"></canvas>
+                    <div class="chartjs-tooltip" id="main-tooltip">
+                        <div class="chartjs-tooltip__body">
+                            <div class="chartjs-tooltip__name"><span class="value"></span></div>
+                            <div class="chartjs-tooltip__legend">
+                                <div class="chartjs-tooltip__income"><span>{{ _("Дохід") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__cash"><span>{{ _("Кеш") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__liabilities"><span>{{ _("Борги") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__expenses"><span>{{ _("Витрати") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__real_estate"><span>{{ _("Нерухомість") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__land"><span>{{ _("Земля") }}</span><span class="value"></span></div>
+                            </div>
+                        </div>
+                        <div class="chartjs-tooltip__footer">
+                            <div class="chartjs-tooltip__assets">{{ _("Загальні статки") }}</span><span class="value"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <a href="?format=xlsx">{{ _("експорт в excel") }}</a>
-        {% for year in range(summary.min_year, summary.max_year + 1) %}
-        <table id="declarants-{{ year }}" {% if year != CURR_YEAR - 1 %}style="display: none"{% endif %}>
-            <thead>
-                <tr>
-                    <th>{{ _("Повне ім’я") }}</th>
-                    <th>{{ _("Червоні прапори") }}</th>
-                    <th>{{ _("Доходи") }}</th>
-                    <th>{{ _("Активи") }}</th>
-                    <th>{{ _("Авто") }}</th>
-                    <th>{{ _("Нерухомість") }}</th>
-                    <th>{{ _("Земля") }}</th>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="search-card search-page__result-card landing-page__people">
+            <div class="search-card__top">
+                <div class="sort-block">
+                    <div class="sort-block__title">{{ _("Сортувати по:") }}</div>
+                    <div class="sort-block__select">
+                        <select>
+                            <option selected="selected"><a href="?sort=rich-first">{{ _("Найбільш багаті") }}</a></option>
+                            <option><a href="?sort=poor-first">{{ _("Найменьш багаті") }}</a></option>
+                        </select>
+                    </div>
+                </div>
+                <a href="?format=xlsx" class="n-btn n-btn_white">{{ _("експорт в excel") }}</a>
+            </div>
+
+            <div class="search-card__items">
+                <div class="search-card__item">
+                    {% for year in range(summary.min_year, summary.max_year + 1) %}
+                    <table id="declarants-{{ year }}" {% if year != CURR_YEAR - 1 %}style="display: none"{% endif %} class="n-table landing-page__declarants-table">
+                        <thead class="n-table__thead">
+                            <tr>
+                                <th class="n-table__th">{{ _("Повне ім’я") }}</th>
+                                <th class="n-table__th">{{ _("Червоні прапори") }}</th>
+                                <th class="n-table__th">{{ _("Доходи") }}</th>
+                                <th class="n-table__th">{{ _("Активи") }}</th>
+                                <th class="n-table__th">{{ _("Авто") }}</th>
+                                <th class="n-table__th">{{ _("Нерухомість") }}</th>
+                                <th class="n-table__th">{{ _("Земля") }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="n-table__tbody">
+                            {% for person in summary.persons %}
+                                {% if year in person.documents %}
+                                    <tr class="n-table__tr">
+                                        <td class="n-table__td">
+                                            <a href="{{ person.id }}">{{ person.name }}</a>
+                                        </td>
+                                        {% set doc = person.documents[year] %}
+                                        <td class="n-table__td landing-page__declarants-table-flags">{%- if doc.flags|count %}
+                                                {{ doc.flags|count }}
+                                        {% endif -%}</td>
+                                        <td class="n-table__td landing-page__declarants-table-amount">
+                                            {% if 'incomes.total' in doc.aggregated_data %}
+                                            {% set val = doc.aggregated_data["incomes.total"] %}
+                                                ₴ {{ val|string|curformat() }}
+                                                {% if year - 1 in person.documents %}
+                                                    {% set prev_val = person.documents[year - 1].aggregated_data["incomes.total"] %}
+                                                    {{ format_trend(prev_val, val, "₴") }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td class="n-table__td landing-page__declarants-table-amount">
+                                            {% if 'assets.total' in doc.aggregated_data %}
+                                                {% set val = person.documents[year].aggregated_data["assets.total"] %}
+                                                ₴ {{ val|string|curformat() }}
+                                                {% if year - 1 in person.documents %}
+                                                    {% set prev_val = person.documents[year - 1].aggregated_data["assets.total"] %}
+                                                    {{ format_trend(prev_val, val, "₴") }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td class="n-table__td">
+                                            {% if 'vehicles.all_names' in doc.aggregated_data %}
+                                                {% if doc.aggregated_data["vehicles.all_names"] %}
+                                                    {{ doc.aggregated_data["vehicles.all_names"]|replace("; ", "<br/>")|safe }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td class="n-table__td">
+                                            {% if 'estate.total_other' in doc.aggregated_data %}
+                                                {% set val = person.documents[year].aggregated_data["estate.total_other"] %}
+                                                {{ val|string|curformat() }}{{ _("м²") }}
+                                                {% if year - 1 in person.documents %}
+                                                    {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_other"] %}
+                                                    {{ format_trend(prev_val, val, _("м²")) }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td class="n-table__td">
+                                            {% if 'estate.total_land' in doc.aggregated_data %}
+                                                {% set val = person.documents[year].aggregated_data["estate.total_land"] %}
+                                                {{ val|string|curformat() }}{{ _("м²") }}
+                                                {% if year - 1 in person.documents %}
+                                                    {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_land"] %}
+                                                    {{ format_trend(prev_val, val, _("м²")) }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            {% for person in summary.persons %}
+                                {% if year not in person.documents %}
+                                    <tr class="n-table__tr">
+                                        <td class="n-table__td">
+                                            <a href="{{ person.id }}">{{ person.name }}</a>
+                                        </td>
+                                        <td class="n-table__td">—</td>
+                                        <td class="n-table__td">—</td>
+                                        <td class="n-table__td">—</td>
+                                        <td class="n-table__td">—</td>
+                                        <td class="n-table__td">—</td>
+                                        <td class="n-table__td">—</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+            {# <tbody>
                 {% for person in summary.persons %}
                 <tr>
 
@@ -386,7 +509,7 @@
 
             </tbody>
         </table>
-        {% endfor %}
+        {% endfor %} #}
     </div>
     <style type="text/css">
         #tablo {
@@ -395,20 +518,6 @@
             -moz-user-select: none;
             -webkit-user-select: none;
             -ms-user-select: none;
-        }
-
-        .chartjs-tooltip {
-            opacity: 0;
-            position: absolute;
-            background: rgba(0, 0, 0, .7);
-            color: white;
-            border-radius: 3px;
-            -webkit-transition: all .1s ease;
-            transition: all .1s ease;
-            pointer-events: none;
-            -webkit-transform: translate(-50%, 0);
-            transform: translate(-50%, 0);
-            padding: 4px;
         }
 
         .chartjs-tooltip-key {

@@ -19,4 +19,12 @@
       background: url('../images/icon/error.svg') no-repeat;
     }
   }
+  &--info {
+    background: #2F80ED;
+    color: white;
+  }
+  &--warning {
+    background: #FF6B69;
+    color: white;
+  }
 }
