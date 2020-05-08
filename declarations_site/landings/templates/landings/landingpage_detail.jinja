@@ -250,6 +250,24 @@
     </script>
 {% endblock %}
 
+{% macro format_trend(prev_val, val, symbol) %}
+    {% if prev_val %}
+        {% if prev_val > val %}
+            <span class="minus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">- {{ '{0:0.2f}'.format((prev_val - val) / (prev_val) * 100) }}%</span>
+        {% elif prev_val < val %}
+            <span class="plus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">+ {{ '{0:0.2f}'.format((val - prev_val) / (prev_val) * 100) }}%</span>
+        {% else %}
+            <span class="no_change">0</span>
+        {% endif %}
+    {% else %}
+        {% if val %}
+            <span class="plus">+++</span>
+        {% else %}
+            <span class="no_change">0</span>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
 {% block content %}
 
     <div class="content container">
@@ -313,16 +331,37 @@
                         </td>
                         {% set doc = person.documents[year] %}
                         <td>{{ doc.flags|count }}</td>
-                        <td>₴{{ doc.aggregated_data["incomes.total"]|string|curformat() }}</td>
-                        <td>₴{{ doc.aggregated_data["assets.total"]|string|curformat() }}</td>
+                        <td>
+                            {% set val = doc.aggregated_data["incomes.total"] %}
+                            ₴ {{ val|string|curformat() }}
+                            {% if year - 1 in person.documents %}
+                                {% set prev_val = person.documents[year - 1].aggregated_data["incomes.total"] %}
+                                {{ format_trend(prev_val, val, "₴") }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% set val = person.documents[year].aggregated_data["assets.total"] %}
+                            ₴ {{ val|string|curformat() }}
+                            {% if year - 1 in person.documents %}
+                                {% set prev_val = person.documents[year - 1].aggregated_data["assets.total"] %}
+                                {{ format_trend(prev_val, val, "₴") }}
+                            {% endif %}
+                        </td>
                         <td>{{ doc.aggregated_data["vehicles.all_names"]|replace("; ", "<br/>")|safe }}</td>
-                        <td>{{ doc.aggregated_data["estate.total_other"]|string|curformat() }}{{ _("м²") }}</td>
+                        <td>
+                            {% set val = person.documents[year].aggregated_data["estate.total_other"] %}
+                            {{ val|string|curformat() }}{{ _("м²") }}
+                            {% if year - 1 in person.documents %}
+                                {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_other"] %}
+                                {{ format_trend(prev_val, val, _("м²")) }}
+                            {% endif %}
+                        </td>
                     {% endif %}
                 </tr>
                 {% endfor %}
                 {% for person in summary.persons %}
-                <tr>
-                    {% if year not in person.documents %}
+                {% if year not in person.documents %}
+                    <tr>
                         <td>
                             <a href="{{ person.id }}">{{ person.name }}</a>
                         </td>
@@ -331,8 +370,8 @@
                         <td>—</td>
                         <td>—</td>
                         <td>—</td>
-                    {% endif %}
-                </tr>
+                    </tr>
+                {% endif %}
                 {% endfor %}
 
             </tbody>
@@ -380,6 +419,12 @@
         .search-card__item-text img {
             float: left;
             padding-right: 10px;
+        }
+        .minus {
+            color: red;
+        }
+        .plus {
+            color: green;
         }
     </style>
 {% endblock %}

@@ -74,8 +74,6 @@ class LandingPageDetail(DetailView):
         row_num = 1
         max_len_of_name = 0
         for person in summary["persons"]:
-            if not person["documents"]:
-                continue
             for i, d in enumerate(person["documents"].values()):
                 if i == 0:
                     worksheet.set_row(row_num, 20, top_border)
@@ -87,7 +85,7 @@ class LandingPageDetail(DetailView):
                                     "&".join(
                                         "declaration_id={}".format(decl_id)
                                         for decl_id in jc("[*].infocard.id").search(
-                                            person["documents"]
+                                            list(person["documents"].values())
                                         )
                                     )
                                 )
