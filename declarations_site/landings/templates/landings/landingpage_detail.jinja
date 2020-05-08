@@ -3,291 +3,22 @@
 
 {% block extra_js %}
     {% javascript 'js_charts' %}
-
-
-    <script type="text/javascript">
-        function format_uah(value) {
-            return accounting.formatMoney(value, "₴", 2);
-        }
-        function format_sqm(value) {
-            return accounting.formatMoney(value, {symbol: "м²",  format: "%v %s"}, 2 )
-        }
-
-        $(function() {
-            var all_data, chart;
-
-            var customTooltips = function(tooltip) {
-                var this_chart = this;
-                $(this._chart.canvas).css('cursor', 'pointer');
-
-                var positionY = this._chart.canvas.offsetTop;
-                var positionX = this._chart.canvas.offsetLeft;
-
-                $('.chartjs-tooltip').css({
-                    opacity: 0,
-                });
-
-                if (!tooltip || !tooltip.opacity) {
-                    return;
-                }
-
-                if (tooltip.dataPoints.length > 0) {
-                    tooltip.dataPoints.forEach(function(dataPoint) {
-                        var point = this_chart._data.datasets[dataPoint.datasetIndex].data[dataPoint.index];
-                        var content = [dataPoint.xLabel, dataPoint.yLabel].join(': ');
-                        var $tooltip = $('#main-tooltip');
-
-                        $tooltip.find(".chartjs-tooltip__name .value").html(point.name);
-                        $tooltip.find(".chartjs-tooltip__income .value").html(format_uah(point.income));
-                        $tooltip.find(".chartjs-tooltip__cash .value").html(format_uah(point.cash));
-                        $tooltip.find(".chartjs-tooltip__liabilities .value").html(format_uah(point.liabilities));
-                        $tooltip.find(".chartjs-tooltip__expenses .value").html(format_uah(point.expenses));
-                        $tooltip.find(".chartjs-tooltip__land .value").html(format_sqm(point.land));
-                        $tooltip.find(".chartjs-tooltip__real_estate .value").html(format_sqm(point.real_estate));
-                        $tooltip.find(".chartjs-tooltip__assets .value").html(format_uah(point.assets));
-
-
-                        $tooltip.css({
-                            opacity: 1,
-                            top: positionY + dataPoint.y + 'px',
-                            left: positionX + dataPoint.x + 'px',
-                        });
-                    });
-                }
-            };
-
-            function build_main_chart() {
-                var year = parseInt($("#year").val());
-                var data = [],
-                    param_x = {
-                        "name": "incomes.declarant",
-                        "title": "Дохід декларанта"
-                    },
-                    param_y = {
-                        "name": "incomes.family",
-                        "title": "Дохід родини"
-                    },
-                    param_r = {
-                        "name": "assets.total",
-                        "title": "Статки"
-                    },
-
-                    max_r = 0,
-                    max_estate = 0,
-                    options = {
-                        legend: false,
-                        scales: {
-                            xAxes: [{
-                                scaleLabel: {
-                                    display: true,
-                                    labelString: param_x.title,
-                                    fontColor: "#5ECBA1",
-                                    fontSize: 14,
-                                    fontStyle: "bold",
-
-                                },
-                                ticks: {
-                                    fontColor: "#5ECBA1",
-                                    fontSize: 14,
-                                    fontStyle: "bold",
-                                    // Include a dollar sign in the ticks
-                                    callback: function(value, index, values) {
-                                        return format_uah(value);
-                                    }
-                                }
-                            }],
-                            yAxes: [{
-                                scaleLabel: {
-                                    fontColor: "#7175D8",
-                                    fontStyle: "bold",
-                                    fontSize: 14,
-                                    display: true,
-                                    labelString: param_y.title,
-                                },
-                                ticks: {
-                                    fontColor: "#7175D8",
-                                    fontSize: 14,
-                                    fontStyle: "bold",
-                                    // Include a dollar sign in the ticks
-                                    callback: function(value, index, values) {
-                                        return format_uah(value);
-                                    }
-                                }
-                            }]
-                        },
-                        tooltips: {
-                            mode: 'index',
-                            intersect: true,
-                            custom: customTooltips,
-                            enabled: false,
-
-                            callbacks: {
-                                label: function(tooltipItem, data) {
-                                    var point = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                                    return (point.label || '');
-                                },
-
-                                afterLabel: function(tooltipItem, data) {
-                                    var point = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
-                                    return [
-                                        param_x.title + ": " + format_uah(point.x),
-                                        param_y.title + ": " + format_uah(point.y),
-                                        param_r.title + ": " + format_uah(point.v),
-                                        "Прапорці: " + point.flags,
-                                        "Загальна площа нерухомості: " + point.estate
-                                    ];
-                                }
-                            }
-                        },
-
-                        elements: {
-                            point: {
-                                backgroundColor: function(context) {
-                                    var value = context.dataset.data[context.dataIndex],
-                                        level = value.scaled_estate,
-                                        r = Math.round(255 * (1 - level) + 113 * level),
-                                        g = Math.round(255 * (1 - level) + 118 * level),
-                                        b = Math.round(255 * (1 - level) + 216 * level);
-                                    return 'rgba(' + r + ',' + g + ',' + b + ',0.7)';
-                                },
-
-                                borderWidth: function(context) {
-                                    var value = context.dataset.data[context.dataIndex];
-                                    if (value.flags) {
-                                        return Math.min(value.flags / 3 + 0.5, 3);
-                                    }
-                                    return 1
-                                },
-
-                                hoverBackgroundColor: 'transparent',
-
-                                borderColor: function(context) {
-                                    var value = context.dataset.data[context.dataIndex];
-                                    if (value.flags) {
-                                        return "#FF6B69";
-                                    }
-                                },
-
-                                radius: function(context) {
-                                    var value = context.dataset.data[context.dataIndex],
-                                        size = context.chart.width;
-                                    return 5 + (size / 20) * value.scaled_r;
-                                }
-                            }
-                        }
-                    };
-
-                for (var i = 0; i < all_data["persons"].length; i++) {
-                    var docs = all_data["persons"][i]["documents"];
-                    for (var curr_year in docs) {
-                        if (curr_year != year)
-                            continue;
-
-                        var doc = docs[curr_year],
-                            x = doc["aggregated_data"][param_x.name],
-                            y = doc["aggregated_data"][param_y.name],
-                            r = doc["aggregated_data"][param_r.name],
-                            estate = doc["aggregated_data"]["estate.total_other"];
-
-                        if (r > max_r) {
-                            max_r = r;
-                        }
-                        if (estate > max_estate) {
-                            max_estate = estate;
-                        }
-
-                        data.push({
-                            "id": all_data["persons"][i]["id"],
-                            "name": all_data["persons"][i]["name"],
-                            "income": doc["aggregated_data"]["incomes.total"],
-                            "cash": doc["aggregated_data"]["assets.cash.total"],
-                            "liabilities": doc["aggregated_data"]["liabilities.total"],
-                            "expenses": doc["aggregated_data"]["expenses.total"],
-                            "land": doc["aggregated_data"]["estate.total_land"],
-                            "real_estate": doc["aggregated_data"]["estate.total_other"],
-                            "assets": doc["aggregated_data"]["assets.total"],
-                            "x": x,
-                            "y": y,
-                            "v": r,
-                            "flags": doc["flags"].length,
-                            "estate": estate,
-                        });
-                    }
-                }
-
-                for (var i = 0; i < data.length; i++) {
-                    data[i]["scaled_r"] = (data[i]["v"] + 0.1) / (max_r + 0.1);
-                    data[i]["scaled_estate"] = (Math.min(data[i]["estate"], 500) + 0.1) / (500 + 0.1);
-                }
-
-                if (typeof(chart) === "undefined") {
-                    chart = new Chart('tablo', {
-                        type: 'bubble',
-                        data: {
-                            datasets: [{
-                                "data": data
-                            }]
-                        },
-                        options: options
-                    });
-                } else {
-                    chart.data.datasets = [{"data": data}];
-                    chart.update();
-                }
-            };
-
-            $.getJSON("?format=json", function(data){
-                all_data = data;
-
-                build_main_chart();
-            });
-
-            $("#year").on("change", function() {
-                build_main_chart();
-            });
-
-            $("#sort").on("change", function(){
-                var order = $(this).val();
-
-                $(".landing-page__declarants-table").each(function(i, table) {
-                    table = $(table);
-                    var items = table.find('tbody tr');
-
-                    items.sort(function(a, b) {
-                        switch (order) {
-                            case "assets":
-                            case "flags":
-                                return parseFloat($(b).data(order)) - parseFloat($(a).data(order));
-                            break;
-                            case "name":
-                                return $(a).data(order).localeCompare($(b).data(order));
-                            break;
-                        }
-                        
-                    });
-                        
-                    items.appendTo(table.find("tbody"));
-                });
-            }).change();
-
-        });
-    </script>
 {% endblock %}
 
 {% macro format_trend(prev_val, val, symbol) %}
     {% if prev_val %}
         {% if prev_val > val %}
-            <span class="minus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">-&nbsp;{{ '{0:0.2f}'.format((prev_val - val) / (prev_val) * 100) }}%</span>
+            <span class="trend--minus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">{{ '{0:0.2f}'.format((prev_val - val) / (prev_val) * 100) }}%&darr;</span>
         {% elif prev_val < val %}
-            <span class="plus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">+&nbsp;{{ '{0:0.2f}'.format((val - prev_val) / (prev_val) * 100) }}%</span>
+            <span class="trend--plus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">{{ '{0:0.2f}'.format((val - prev_val) / (prev_val) * 100) }}%&uarr;</span>
         {% else %}
-            <span class="no_change"></span>
+            <span class="trend--no_change"></span>
         {% endif %}
     {% else %}
         {% if val %}
-            <span class="plus">+++</span>
+            <span class="trend--plus">+++</span>
         {% else %}
-            <span class="no_change"></span>
+            <span class="trend--no_change"></span>
         {% endif %}
     {% endif %}
 {% endmacro %}
@@ -304,7 +35,7 @@
 
             <div class="search-card__items">
                 <div class="search-card__item">
-                    <div class="search-card__item-text gray_text">
+                    <div class="search-card__item-text landing-page__desc">
                         {% if object.image %}
                         <img src="{{ object.image['avatar'].url }}" alt="{{ object.title }}"/>
                         {% endif %}
@@ -473,7 +204,7 @@
                                     <tr class="n-table__tr"
                                         data-name="{{ person.name }}"
                                         data-assets="-1"
-                                        data-flags="-">
+                                        data-flags="0">
                                         <td class="n-table__td">
                                             <a href="{{ person.id }}">{{ person.name }}</a>
                                         </td>
@@ -492,106 +223,5 @@
                 </div>
             </div>
         </div>
-
-            {# <tbody>
-                {% for person in summary.persons %}
-                <tr>
-
-                    {% if year in person.documents %}
-                        <td>
-                            <a href="{{ person.id }}">{{ person.name }}</a>
-                        </td>
-                        {% set doc = person.documents[year] %}
-                        <td>{{ doc.flags|count }}</td>
-                        <td>
-                            {% set val = doc.aggregated_data["incomes.total"] %}
-                            ₴ {{ val|string|curformat() }}
-                            {% if year - 1 in person.documents %}
-                                {% set prev_val = person.documents[year - 1].aggregated_data["incomes.total"] %}
-                                {{ format_trend(prev_val, val, "₴") }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% set val = person.documents[year].aggregated_data["assets.total"] %}
-                            ₴ {{ val|string|curformat() }}
-                            {% if year - 1 in person.documents %}
-                                {% set prev_val = person.documents[year - 1].aggregated_data["assets.total"] %}
-                                {{ format_trend(prev_val, val, "₴") }}
-                            {% endif %}
-                        </td>
-                        <td>{{ doc.aggregated_data["vehicles.all_names"]|replace("; ", "<br/>")|safe }}</td>
-                        <td>
-                            {% set val = person.documents[year].aggregated_data["estate.total_other"] %}
-                            {{ val|string|curformat() }}{{ _("м²") }}
-                            {% if year - 1 in person.documents %}
-                                {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_other"] %}
-                                {{ format_trend(prev_val, val, _("м²")) }}
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% set val = person.documents[year].aggregated_data["estate.total_land"] %}
-                            {{ val|string|curformat() }}{{ _("м²") }}
-                            {% if year - 1 in person.documents %}
-                                {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_land"] %}
-                                {{ format_trend(prev_val, val, _("м²")) }}
-                            {% endif %}
-                        </td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-                {% for person in summary.persons %}
-                {% if year not in person.documents %}
-                    <tr>
-                        <td>
-                            <a href="{{ person.id }}">{{ person.name }}</a>
-                        </td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                        <td>—</td>
-                    </tr>
-                {% endif %}
-                {% endfor %}
-
-            </tbody>
-        </table>
-        {% endfor %} #}
     </div>
-    <style type="text/css">
-        #tablo {
-            width: 100%;
-            height: 400px;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            -ms-user-select: none;
-        }
-
-        .chartjs-tooltip-key {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-        }
-
-        .gray_text {
-            font-family: Inter;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 16px;
-            line-height: 24px;
-            max-width: 100%;
-            color: #898D93;
-        }
-        .search-card__item-text img {
-            float: left;
-            padding-right: 10px;
-        }
-        .minus {
-            color: red;
-        }
-        .plus {
-            color: green;
-        }
-    </style>
 {% endblock %}

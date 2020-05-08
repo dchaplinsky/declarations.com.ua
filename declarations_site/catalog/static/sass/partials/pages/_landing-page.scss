@@ -4,6 +4,19 @@
       padding: 0;
     }
   }
+  &__desc {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 100%;
+    color: #898D93;
+
+    img {
+      float: left;
+      padding-right: 10px;
+    }
+  }
   &__declarants-table {
     th {
       @media (min-width: 1024px) {
@@ -37,4 +50,20 @@
       width: 14px;
     }
   }
+}
+.trend {
+  &--minus {
+    color: #FF6B69;
+  }
+  &--plus {
+    color: #56B8AD;
+  }
+}
+
+#tablo {
+  width: 100%;
+  height: 400px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }

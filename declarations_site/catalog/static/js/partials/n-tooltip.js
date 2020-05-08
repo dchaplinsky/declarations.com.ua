@@ -5,14 +5,15 @@
     }
 
     $('.n-tooltip__trigger').on('click', function() {
-      if (window.matchMedia('(max-width: 1023px)').matches) {
-        closeTooltips();
-        $(this).toggleClass('n-tooltip__trigger--active');
-      }
+      closeTooltips();
+      $(this).toggleClass('n-tooltip__trigger--active');
     });
 
-    $(document.body).on('click', function() {
-      if (window.matchMedia('(max-width: 1023px)').matches && !$(this).closest('.n-tooltip').length) {
+    $(document.body).on('click', function handleClickOutside(e) {
+      if (
+        !$(e.target).closest('.n-tooltip').length &&
+        !$(e.target).closest('.n-tooltip__trigger--active').length
+      ) {
         closeTooltips();
       }
     });
