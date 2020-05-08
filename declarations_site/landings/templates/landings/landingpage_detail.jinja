@@ -244,7 +244,12 @@
 
             $("#year").on("change", function() {
                 build_main_chart();
-            })
+            });
+
+            $("#sort").on("change", function(){
+                var el = $(this);
+                console.log(el, el.val());
+            });
 
         });
     </script>
@@ -338,9 +343,10 @@
                 <div class="sort-block">
                     <div class="sort-block__title">{{ _("Сортувати по:") }}</div>
                     <div class="sort-block__select">
-                        <select>
-                            <option selected="selected"><a href="?sort=rich-first">{{ _("Найбільш багаті") }}</a></option>
-                            <option><a href="?sort=poor-first">{{ _("Найменьш багаті") }}</a></option>
+                        <select id="sort">
+                            <option selected="selected" value="assets">{{ _("Найбільш багаті") }}</option>
+                            <option value="flags">{{ _("Найбільше ризиків") }}</option>
+                            <option value="name">{{ _("За ПІБ") }}</option>
                         </select>
                     </div>
                 </div>
@@ -364,14 +370,18 @@
                         </thead>
                         <tbody class="n-table__tbody">
                             {% for person in summary.persons %}
+                                {% set doc = person.documents[year] %}
                                 {% if year in person.documents %}
-                                    <tr class="n-table__tr">
+                                    <tr class="n-table__tr"
+                                        data-name="{{ person.name }}"
+                                        data-assets="{% if 'assets.total' in doc.aggregated_data %}{{ doc.aggregated_data['assets.total'] }}{% else %}-1{% endif %}"
+                                        data-flags="{{ doc.flags|count }}"
+                                        >
                                         <td class="n-table__td">
                                             <a href="{{ person.id }}">{{ person.name }}</a>
                                         </td>
-                                        {% set doc = person.documents[year] %}
                                         <td class="n-table__td landing-page__declarants-table-flags">{%- if doc.flags|count %}
-                                                {{ doc.flags|count }}
+                                            {{ doc.flags|count }}
                                         {% endif -%}</td>
                                         <td class="n-table__td landing-page__declarants-table-amount">
                                             {% if 'incomes.total' in doc.aggregated_data %}
@@ -385,7 +395,7 @@
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-amount">
                                             {% if 'assets.total' in doc.aggregated_data %}
-                                                {% set val = person.documents[year].aggregated_data["assets.total"] %}
+                                                {% set val = doc.aggregated_data["assets.total"] %}
                                                 ₴ {{ val|string|curformat() }}
                                                 {% if year - 1 in person.documents %}
                                                     {% set prev_val = person.documents[year - 1].aggregated_data["assets.total"] %}
