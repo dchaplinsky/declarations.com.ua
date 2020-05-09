@@ -3,6 +3,7 @@ from itertools import chain
 from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
 from django.core.serializers.json import DjangoJSONEncoder
+from django.urls import reverse
 
 from dateutil.parser import parse as dt_parse
 from elasticsearch.serializer import JSONSerializer
@@ -80,6 +81,9 @@ class LandingPage(models.Model):
     def __str__(self):
         return "%s (%s)" % (self.title, self.slug)
 
+    def get_absolute_url(self):
+        return reverse("landing_page_details", kwargs={"pk": self.pk})
+
     class Meta:
         verbose_name = "Лендінг-сторінка"
         verbose_name_plural = "Лендінг-сторінки"
@@ -102,6 +106,9 @@ class Person(models.Model):
 
     def __str__(self):
         return "%s (знайдено декларацій: %s)" % (self.name, self.declarations.count())
+
+    def get_absolute_url(self):
+        return reverse("landing_page_person", kwargs={"body_id": self.body_id, "pk": self.pk})
 
     def pull_declarations(self):
         def get_search_clause(kwd):

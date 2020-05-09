@@ -1,12 +1,18 @@
 import io
-from jmespath import compile as jc
+from collections import OrderedDict
+
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.generic import DetailView
-from collections import OrderedDict
+from django.utils.translation import get_language
+
+from jmespath import compile as jc
+from elasticsearch_dsl import Search
 import xlsxwriter
 
-from .models import LandingPage
+from .models import LandingPage, Person
+from catalog.elastic_models import Declaration, NACPDeclaration
+from catalog.constants import CATALOG_INDICES
 
 
 class LandingPageDetail(DetailView):
@@ -151,7 +157,7 @@ class LandingPageDetail(DetailView):
 
 
 class LandingPagePerson(DetailView):
-    model = LandingPage
+    model = Person
     template_name = "landings/landingpage_person.jinja"
 
     def get_context_data(self, **kwargs):
@@ -160,7 +166,36 @@ class LandingPagePerson(DetailView):
         return context
 
     def render_to_response(self, context):
+        language = get_language()
+
         if self.request.GET.get("format") == "json":
             return JsonResponse(context["object"].get_summary(), safe=False)
+        else:
+            summary = context["object"].get_summary()
+            declarations = set()
+            for d in summary["documents"].values():
+                declarations.add(d["infocard"]["id"])
 
-        return super().render_to_response(context)
+            search = (
+                Search(index=CATALOG_INDICES)
+                .doc_type(NACPDeclaration, Declaration)
+                .query({"ids": {"values": list(declarations)}})
+            )
+            results = search.execute()
+
+            results = sorted(
+                results,
+                key=lambda x: (
+                    str(x.intro.declaration_year or x.intro.date or x.declaration.date or ""),
+                    getattr(x.intro, "corrected", False),
+                    getattr(x, "source", "").lower() not in ["vulyk", "chesno"]
+                ),
+            )
+
+            for r in results:
+                r.prepare_translations(language, infocard_only=True)
+
+            context["summary"] = summary
+            context["results"] = results
+            context["declarations"] = declarations
+            return super().render_to_response(context)

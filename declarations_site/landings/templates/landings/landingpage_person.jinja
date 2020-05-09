@@ -28,22 +28,23 @@
 {% block content %}
     <div class="content container">
         <div class="person-brief landing-page__person-brief">
-            <div class="person-brief__image">
-                {% if object.image %}
-                <img src="{{ object.image['avatar'].url }}" alt="{{ object.title }}"/>
-                {% endif %}
-                {{ object.description|safe }}
-            </div>
             <div class="person-brief__text">
                 <h2 class="person-brief__name">
-                    Кузьмишин Віталій Миколайович
+                    {{ person.name }}, {{ person.body.title }}
                 </h2>
+                <a href="{{ person.body.get_absolute_url() }}">ВЗАД</a>
+                {% if summary.documents %}
                 <div class="person-brief__position">
-                    Головний спеціаліст з усього
+                    {% for y in summary.documents.keys()|sort %}
+                    <strong>{{ y }}</strong> {{ summary.documents[y]["infocard"]["position"] }} {{ _("в") }}
+                    {{ summary.documents[y]["infocard"]["office"] }} 
+                    {% endfor %}
                 </div>
                 <div class="person-brief__actuality landing-page__actuality">
-                    {{ _("Актуально на ") }} 03.04.2020
+                    {{ _("Актуально на ") }} 
+                    {{ summary.documents[summary.max_year]["infocard"]["created_date"]|date }}
                 </div>
+                {% endif %}
             </div>
         </div>
 
@@ -91,6 +92,56 @@
                         {{ _("Актуально на") }} 03.04.2020
                     </div>
                 </div>
+
+                <div id="incomes"
+                    data-format="money"
+                    data-labels="{{ summary.documents.keys()|list|tojson }}"
+                    data-family_values="{{ summary.documents.values()|extract('incomes.family')|tojson }}"
+                    data-declarant_values="{{ summary.documents.values()|extract('incomes.declarant')|tojson }}"
+                    data-family_label="{{ _("Родина") }}"
+                    data-declarant_label="{{ _("Декларант") }}">
+                </div>
+
+                <div id="assets"
+                    data-format="money"
+                    data-labels="{{ summary.documents.keys()|list|tojson }}"
+                    data-family_values="{{ summary.documents.values()|extract('assets.family')|tojson }}"
+                    data-declarant_values="{{ summary.documents.values()|extract('assets.declarant')|tojson }}"
+                    data-family_label="{{ _("Родина") }}"
+                    data-declarant_label="{{ _("Декларант") }}">
+                </div>
+
+                <div id="estate"
+                    data-format="area"
+                    data-labels="{{ summary.documents.keys()|list|tojson }}"
+                    data-family_values="{{ summary.documents.values()|extract('estate.family_other')|tojson }}"
+                    data-declarant_values="{{ summary.documents.values()|extract('estate.total_other')|tojson }}"
+                    data-family_label="{{ _("Родина") }}"
+                    data-declarant_label="{{ _("Декларант") }}">
+                </div>
+
+                <div id="land"
+                    data-format="area"
+                    data-labels="{{ summary.documents.keys()|list|tojson }}"
+                    data-family_values="{{ summary.documents.values()|extract('estate.family_land')|tojson }}"
+                    data-declarant_values="{{ summary.documents.values()|extract('estate.total_land')|tojson }}"
+                    data-family_label="{{ _("Родина") }}"
+                    data-declarant_label="{{ _("Декларант") }}">
+                </div>
+
+                <div id="liabilities"
+                    data-format="money"
+                    data-labels="{{ summary.documents.keys()|list|tojson }}"
+                    data-declarant_values="{{ summary.documents.values()|extract('liabilities.total')|tojson }}"
+                    data-declarant_label="{{ _("Декларант") }}">
+                </div>
+
+                <div id="expenses"
+                    data-format="money"
+                    data-labels="{{ summary.documents.keys()|list|tojson }}"
+                    data-declarant_values="{{ summary.documents.values()|extract('expenses.total')|tojson }}"
+                    data-declarant_label="{{ _("Декларант") }}">
+                </div>
             </div>
 
             <div class="search-card__items">
@@ -105,6 +156,12 @@
         </div>
 
         <div class="tabs__tab" id="docs" style="display: none">
+            <form action="{{ url("compare") }}" method="GET">
+                {% for d in declarations %}
+                <input type="hidden" name="declaration_id[]" value="{{ d }}" />
+                {% endfor %}
+                <input type="submit" value="ПОРІВНЯТИ" />
+            </form>
             {{ search_results(results, true) }}
         </div>
     </div>

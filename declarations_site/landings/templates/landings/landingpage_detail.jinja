@@ -128,7 +128,7 @@
                                         data-flags="{{ doc.flags|count }}"
                                         >
                                         <td class="n-table__td">
-                                            <a href="{{ person.id }}">{{ person.name }}</a>
+                                            <a href="{{ url("landing_page_person", pk=person.id, body_id=object.pk) }}">{{ person.name }}</a>
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-flags">{%- if doc.flags|count %}
                                             {{ doc.flags|count }}
@@ -177,7 +177,7 @@
                                             {% endif %}
                                             <div class="n-tooltip">
                                                 <div class="n-tooltip__head">
-                                                    <div class="n-tooltip__title">{{ _("Нерухомість") }}</div>
+                                                    <div class="n-tooltip__title">{{ _("Активи") }}</div>
                                                 </div>
                                                 <div class="n-tooltip__body">
                                                 </div>
@@ -209,7 +209,7 @@
                                             {% endif %}
                                             <div class="n-tooltip">
                                                 <div class="n-tooltip__head">
-                                                    <div class="n-tooltip__title">{{ _("Земля") }}</div>
+                                                    <div class="n-tooltip__title">{{ _("Нерухомість") }}</div>
                                                 </div>
                                                 <div class="n-tooltip__body">
                                                 </div>
@@ -234,7 +234,7 @@
                                             {% endif %}
                                             <div class="n-tooltip">
                                                 <div class="n-tooltip__head">
-                                                    <div class="n-tooltip__title">{{ _("Активи") }}</div>
+                                                    <div class="n-tooltip__title">{{ _("Земля") }}</div>
                                                 </div>
                                                 <div class="n-tooltip__body">
                                                 </div>
