@@ -64,8 +64,11 @@ class LandingPage(models.Model):
         max_years = []
         for p in self.persons.select_related("body").prefetch_related("declarations"):
             summary = p.get_summary()
-            min_years.append(summary["min_year"])
-            max_years.append(summary["max_year"])
+            if "min_year" in summary:
+                min_years.append(summary["min_year"])
+
+            if "max_year" in summary:
+                max_years.append(summary["max_year"])
             persons.append(summary)
 
         return {

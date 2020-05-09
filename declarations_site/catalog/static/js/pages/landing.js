@@ -272,6 +272,14 @@
       var anchor = $(e.target),
         tooltip = anchor.find(".n-tooltip__body"),
         canvas = tooltip.html('<canvas height="220">').find("canvas"),
+        fmt = function(x) {
+          if (anchor.data("format") == "area"){
+            return format_sqm(x)
+          } else {
+            return format_uah(x, 0, true);
+          }
+          
+        },
         config = {
           type: 'line',
           data: {
@@ -307,7 +315,7 @@
               callbacks: {
                 label: function(tooltipItem, data) {
                   var point = data.datasets[tooltipItem.datasetIndex];
-                  return (point.label || '') + ': ' + format_uah(tooltipItem.value, 0, true);
+                  return (point.label || '') + ': ' + fmt(tooltipItem.value);
                 }
               }
             },
@@ -324,7 +332,7 @@
                 display: true,
                 ticks: {
                   callback: function(value, index, values) {
-                    return format_uah(value, 0, true);
+                    return fmt(value);
                   }
                 }
               }]

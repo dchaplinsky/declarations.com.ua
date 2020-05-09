@@ -134,6 +134,7 @@
                                             {{ doc.flags|count }}
                                         {% endif -%}</td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-format="money"
                                             data-labels="{{ person.documents.keys()|list|tojson }}"
                                             data-family_values="{{ person.documents.values()|extract('incomes.family')|tojson }}"
                                             data-declarant_values="{{ person.documents.values()|extract('incomes.declarant')|tojson }}"
@@ -158,6 +159,7 @@
                                             </div>
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-format="money"
                                             data-labels="{{ person.documents.keys()|list|tojson }}"
                                             data-family_values="{{ person.documents.values()|extract('assets.family')|tojson }}"
                                             data-declarant_values="{{ person.documents.values()|extract('assets.declarant')|tojson }}"
@@ -175,7 +177,7 @@
                                             {% endif %}
                                             <div class="n-tooltip">
                                                 <div class="n-tooltip__head">
-                                                    <div class="n-tooltip__title">{{ _("Активи") }}</div>
+                                                    <div class="n-tooltip__title">{{ _("Нерухомість") }}</div>
                                                 </div>
                                                 <div class="n-tooltip__body">
                                                 </div>
@@ -189,6 +191,7 @@
                                             {% endif %}
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-format="area"
                                             data-labels="{{ person.documents.keys()|list|tojson }}"
                                             data-family_values="{{ person.documents.values()|extract('estate.family_other')|tojson }}"
                                             data-declarant_values="{{ person.documents.values()|extract('estate.total_other')|tojson }}"
@@ -206,13 +209,14 @@
                                             {% endif %}
                                             <div class="n-tooltip">
                                                 <div class="n-tooltip__head">
-                                                    <div class="n-tooltip__title">{{ _("Активи") }}</div>
+                                                    <div class="n-tooltip__title">{{ _("Земля") }}</div>
                                                 </div>
                                                 <div class="n-tooltip__body">
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-format="area"
                                             data-labels="{{ person.documents.keys()|list|tojson }}"
                                             data-family_values="{{ person.documents.values()|extract('estate.family_land')|tojson }}"
                                             data-declarant_values="{{ person.documents.values()|extract('estate.total_land')|tojson }}"
