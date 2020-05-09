@@ -214,8 +214,8 @@
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
                                             data-labels="{{ person.documents.keys()|list|tojson }}"
-                                            data-family_values="{{ person.documents.values()|extract('estate.family_other')|tojson }}"
-                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_other')|tojson }}"
+                                            data-family_values="{{ person.documents.values()|extract('estate.family_land')|tojson }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_land')|tojson }}"
                                             data-family_label="{{ _("Родина") }}"
                                             data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'estate.total_land' in doc.aggregated_data %}
