@@ -148,3 +148,19 @@ class LandingPageDetail(DetailView):
         else:
             context["summary"] = context["object"].get_summary()
             return super().render_to_response(context)
+
+
+class LandingPagePerson(DetailView):
+    model = LandingPage
+    template_name = "landings/landingpage_person.jinja"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
+
+    def render_to_response(self, context):
+        if self.request.GET.get("format") == "json":
+            return JsonResponse(context["object"].get_summary(), safe=False)
+
+        return super().render_to_response(context)

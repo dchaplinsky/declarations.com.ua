@@ -21,7 +21,10 @@
     &:first-child { padding-left: 0; }
     &:last-child { padding-right: 0; }
     @media all and (min-width: 1024px) {
-      padding: 0 24px !important;
+      padding: 0 24px;
     }
+  }
+  &__tab {
+    margin-top: 15px;
   }
 }

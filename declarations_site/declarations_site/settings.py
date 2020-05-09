@@ -318,6 +318,7 @@ PIPELINE = {
                 'js/partials/sort-block.js',
                 'js/partials/analytics-tabs.js',
                 'js/partials/declaration.js',
+                'js/partials/tabs.js',
                 'js/pages/landing.js',
             ),
             'output_filename': 'js/merged.js',

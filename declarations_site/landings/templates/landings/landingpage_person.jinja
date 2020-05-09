@@ -1,0 +1,111 @@
+{% from "_search_results.jinja" import search_results with context %}
+{% extends "base.jinja" %}
+
+{% block bodyclass %}landing-page__person{% endblock %}
+
+{% block extra_js %}
+    {% javascript 'js_charts' %}
+{% endblock %}
+
+{% macro format_trend(prev_val, val, symbol) %}
+    {% if prev_val %}
+        {% if prev_val > val %}
+            <span class="trend--minus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">{{ '{0:0.2f}'.format((prev_val - val) / (prev_val) * 100) }}%&darr;</span>
+        {% elif prev_val < val %}
+            <span class="trend--plus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">{{ '{0:0.2f}'.format((val - prev_val) / (prev_val) * 100) }}%&uarr;</span>
+        {% else %}
+            <span class="trend--no_change"></span>
+        {% endif %}
+    {% else %}
+        {% if val %}
+            <span class="trend--plus">+++</span>
+        {% else %}
+            <span class="trend--no_change"></span>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+    <div class="content container">
+        <div class="person-brief landing-page__person-brief">
+            <div class="person-brief__image">
+                {% if object.image %}
+                <img src="{{ object.image['avatar'].url }}" alt="{{ object.title }}"/>
+                {% endif %}
+                {{ object.description|safe }}
+            </div>
+            <div class="person-brief__text">
+                <h2 class="person-brief__name">
+                    Кузьмишин Віталій Миколайович
+                </h2>
+                <div class="person-brief__position">
+                    Головний спеціаліст з усього
+                </div>
+                <div class="person-brief__actuality landing-page__actuality">
+                    {{ _("Актуально на ") }} 03.04.2020
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs landing-page__tabs">
+            <div class="tabs__item">
+                <a href="#incomes" class="tabs__link tabs__link--active">
+                    {{ _("Графіки") }}
+                </a>
+            </div>
+            <div class="tabs__item">
+                <a href="#connections" class="tabs__link">
+                    {{ _("Зв’язки") }}
+                </a>
+            </div>
+            <div class="tabs__item">
+                <a href="#docs" class="tabs__link">
+                    {{ _("Список документів") }}
+                </a>
+            </div>
+        </div>
+
+        <div class="search-card search-page__result-card tabs__tab" id="incomes">
+            <div class="search-card__top">
+                <h2 class="search-card__title">
+                    {{ _("Статки") }}
+                </h2>
+                <div class="search-card__col">
+                    <div class="search-card__col-title">
+                        {{ _("Всього статків") }}
+                    </div>
+                    <div class="search-card__col-value">
+                        $25 184.15
+                    </div>
+                </div>
+                <div class="search-card__col">
+                    <div class="search-card__col-title">
+                        {{ _("Дохідність") }}
+                    </div>
+                    <div class="search-card__col-value">
+                        +$25 184.15
+                    </div>
+                </div>
+                <div class="search-card__col">
+                    <div class="landing-page__actuality">
+                        {{ _("Актуально на") }} 03.04.2020
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-card__items">
+                <div class="search-card__item">
+                    <canvas id="person"/>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-card tabs__tab" id="connections" style="display: none">
+            <canvas />
+        </div>
+
+        <div class="tabs__tab" id="docs" style="display: none">
+            {{ search_results(results, true) }}
+        </div>
+    </div>
+{% endblock %}

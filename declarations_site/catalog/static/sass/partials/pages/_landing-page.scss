@@ -10,7 +10,7 @@
     font-size: 16px;
     line-height: 24px;
     max-width: 100%;
-    color: #898D93;
+    color: $grey;
 
     img {
       float: left;
@@ -25,7 +25,7 @@
     }
   }
   &__declarants-table-flags {
-    color: #FF6B69;
+    color: $red-light;
     &:not(:empty)::after {
       content: '';
       background: url('../images/icon/flag-fill.svg');
@@ -50,13 +50,33 @@
       width: 14px;
     }
   }
+  &__person-brief {
+    display: flex;
+    flex-direction: row;
+  }
+  &__actuality {
+    color: $green;
+  }
+  &__tabs {
+    margin-top: 25px;
+    border-bottom: 1px solid rgba(#D9DCE0, 0.7);
+
+    & .tabs__link {
+      display: inline-block;
+      padding-bottom: 15px;
+
+      &--active {
+        border-bottom: 2px solid $green;
+      }
+    }
+  }
 }
 .trend {
   &--minus {
-    color: #FF6B69;
+    color: $red-light;
   }
   &--plus {
-    color: #56B8AD;
+    color: $green;
   }
 }
 
@@ -66,4 +86,13 @@
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+.person-brief__image {
+  flex-basis: 15%;
+  margin-right: 40px;
+}
+
+#connections {
+  padding: 24px;
 }
