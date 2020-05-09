@@ -11,7 +11,7 @@
   function formatNumber(n) {
     for (var i = 0; i < ranges.length; i++) {
       if (n >= ranges[i].divider) {
-        return '₴' + (n / ranges[i].divider).toString() + ranges[i].suffix;
+        return '₴' + Math.round((100 * n / ranges[i].divider)) / 100 + ranges[i].suffix;
       }
     }
 
@@ -271,7 +271,7 @@
     $(document.body).on("tooltip-shown", function(e) {
       var anchor = $(e.target),
         tooltip = anchor.find(".n-tooltip__body"),
-        canvas = tooltip.html("<canvas>").find("canvas"),
+        canvas = tooltip.html('<canvas height="220">').find("canvas"),
         config = {
           type: 'line',
           data: {
@@ -307,7 +307,7 @@
               callbacks: {
                 label: function(tooltipItem, data) {
                   var point = data.datasets[tooltipItem.datasetIndex];
-                  return (point.label || '') + ': ' + format_uah(tooltipItem.value);
+                  return (point.label || '') + ': ' + format_uah(tooltipItem.value, 0, true);
                 }
               }
             },

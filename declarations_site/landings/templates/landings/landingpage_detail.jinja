@@ -141,8 +141,8 @@
                                             data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'incomes.total' in doc.aggregated_data %}
                                                 {% set val = doc.aggregated_data["incomes.total"] %}
-                                                <span class="landing-page__declarants-table-amount">
-                                                    ₴ {{ val|string|curformat() }}
+                                                <span class="landing-page__declarants-table-amount" title="₴ {{ val|string|curformat() }}">
+                                                    ₴ {{ val|string|curformat(true) }}
                                                 </span>
                                                 {% if year - 1 in person.documents %}
                                                     {% set prev_val = person.documents[year - 1].aggregated_data["incomes.total"] %}
@@ -165,8 +165,8 @@
                                             data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'assets.total' in doc.aggregated_data %}
                                                 {% set val = doc.aggregated_data["assets.total"] %}
-                                                <span class="landing-page__declarants-table-amount">
-                                                    ₴ {{ val|string|curformat() }}
+                                                <span class="landing-page__declarants-table-amount" title="₴ {{ val|string|curformat() }}">
+                                                    ₴ {{ val|string|curformat(true) }}
                                                 </span>
                                                 {% if year - 1 in person.documents %}
                                                     {% set prev_val = person.documents[year - 1].aggregated_data["assets.total"] %}

@@ -29,8 +29,18 @@ def context_or_settings(context, name):
     return getattr(settings, 'DEFAULT_' + name.upper())
 
 
+ranges = [
+    { 'divider': 1e18, 'suffix': 'E' },
+    { 'divider': 1e15, 'suffix': 'P' },
+    { 'divider': 1e12, 'suffix': 'T' },
+    { 'divider': 1e9, 'suffix': 'G' },
+    { 'divider': 1e6, 'suffix': 'M' },
+    { 'divider': 1e3, 'suffix': 'k' }
+];
+
+
 @library.filter
-def curformat(value):
+def curformat(value, with_suffix = False):
     if value and value != "0":
         currency = ""
         if "$" in value:
@@ -46,10 +56,20 @@ def curformat(value):
             currency = "EUR "
 
         try:
-            return '{}{:,.2f}'.format(
-                currency,
-                float(value.replace(',', '.'))).replace(
-                    ',', ' ').replace('.', ',')
+            num = float(value.replace(',', '.'))
+            formatted ='{}{:,.2f}'.format(currency, num)
+
+            if with_suffix:
+                for order in ranges:
+                    if num >= order['divider']:
+                        formatted = '{}{:,.2f}{}'.format(
+                            currency,
+                            float(value.replace(',', '.')) / order['divider'],
+                            order['suffix']
+                        )
+                        break
+
+            return formatted.replace(',', ' ').replace('.', ',')
         except ValueError:
             return value
     else:
