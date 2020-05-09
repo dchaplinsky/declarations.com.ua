@@ -6,7 +6,7 @@
 
     $('.n-tooltip__trigger').on('click', function() {
       closeTooltips();
-      $(this).toggleClass('n-tooltip__trigger--active');
+      $(this).toggleClass('n-tooltip__trigger--active').trigger("tooltip-shown");
     });
 
     $(document.body).on('click', function handleClickOutside(e) {

@@ -245,6 +245,60 @@
           .show();
       });
 
+    $(document.body).on("tooltip-shown", function(e) {
+      var anchor = $(e.target),
+        tooltip = anchor.find(".n-tooltip__body"),
+        canvas = tooltip.html("<canvas>").find("canvas"),
+        config = {
+          type: 'line',
+          data: {
+            labels: anchor.data("labels"),
+            datasets: [{
+              label: anchor.data("family_label"),
+              backgroundColor: "#7175D8",
+              borderColor: "#7175D8",
+              data: anchor.data("family_values"),
+              fill: true,
+            }, {
+              label: anchor.data("declarant_label"),
+              backgroundColor: "#5ECBA1",
+              borderColor: "#5ECBA1",
+              data: anchor.data("declarant_values"),
+              fill: true,
+            }]
+          },
+          options: {
+            responsive: true,
+            legend: {
+              display: true,
+              position: "right",
+              labels: {
+                boxWidth: 10,
+                fontSize: 10
+              }
+            },
+            tooltips: {
+              mode: 'index',
+              intersect: false,
+            },
+            hover: {
+              mode: 'nearest',
+              intersect: true
+            },
+            scales: {
+              xAxes: [{
+                display: true,
+              }],
+              yAxes: [{
+                stacked: true,
+                display: true,
+              }]
+            }
+          }
+        },
+        chart = new Chart(canvas, config);
+    });
+
     $("#sort").on("change", function(){
       var order = $(this).val();
 

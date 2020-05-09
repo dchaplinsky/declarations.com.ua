@@ -106,6 +106,9 @@ def datetime(value):
             return ''
 
 
+@library.filter
+def extract(value, key, default=0):
+    return [v["aggregated_data"].get(key, default) for v in value]
 
 @library.global_function
 def parse_raw_family_string(family_raw):

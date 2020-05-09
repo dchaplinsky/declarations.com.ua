@@ -120,8 +120,8 @@
                         </thead>
                         <tbody class="n-table__tbody">
                             {% for person in summary.persons %}
-                                {% set doc = person.documents[year] %}
                                 {% if year in person.documents %}
+                                    {% set doc = person.documents[year] %}
                                     <tr class="n-table__tr"
                                         data-name="{{ person.name }}"
                                         data-assets="{% if 'assets.total' in doc.aggregated_data %}{{ doc.aggregated_data['assets.total'] }}{% else %}-1{% endif %}"
@@ -133,7 +133,12 @@
                                         <td class="n-table__td landing-page__declarants-table-flags">{%- if doc.flags|count %}
                                             {{ doc.flags|count }}
                                         {% endif -%}</td>
-                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger">
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-labels="{{ person.documents.keys()|list|tojson }}"
+                                            data-family_values="{{ person.documents.values()|extract('incomes.family')|tojson }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('incomes.declarant')|tojson }}"
+                                            data-family_label="{{ _("Родина") }}"
+                                            data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'incomes.total' in doc.aggregated_data %}
                                                 {% set val = doc.aggregated_data["incomes.total"] %}
                                                 <span class="landing-page__declarants-table-amount">
@@ -149,11 +154,15 @@
                                                     <div class="n-tooltip__title">{{ _("Доходи") }}</div>
                                                 </div>
                                                 <div class="n-tooltip__body">
-                                                    <canvas />
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="n-table__td landing-page__declarants-table-money-with-trend">
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-labels="{{ person.documents.keys()|list|tojson }}"
+                                            data-family_values="{{ person.documents.values()|extract('assets.family')|tojson }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('assets.declarant')|tojson }}"
+                                            data-family_label="{{ _("Родина") }}"
+                                            data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'assets.total' in doc.aggregated_data %}
                                                 {% set val = doc.aggregated_data["assets.total"] %}
                                                 <span class="landing-page__declarants-table-amount">
@@ -164,6 +173,13 @@
                                                     {{ format_trend(prev_val, val, "₴") }}
                                                 {% endif %}
                                             {% endif %}
+                                            <div class="n-tooltip">
+                                                <div class="n-tooltip__head">
+                                                    <div class="n-tooltip__title">{{ _("Активи") }}</div>
+                                                </div>
+                                                <div class="n-tooltip__body">
+                                                </div>
+                                            </div>
                                         </td>
                                         <td class="n-table__td">
                                             {% if 'vehicles.all_names' in doc.aggregated_data %}
@@ -172,7 +188,12 @@
                                                 {% endif %}
                                             {% endif %}
                                         </td>
-                                        <td class="n-table__td">
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-labels="{{ person.documents.keys()|list|tojson }}"
+                                            data-family_values="{{ person.documents.values()|extract('estate.family_other')|tojson }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_other')|tojson }}"
+                                            data-family_label="{{ _("Родина") }}"
+                                            data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'estate.total_other' in doc.aggregated_data %}
                                                 {% set val = person.documents[year].aggregated_data["estate.total_other"] %}
                                                 <span class="landing-page__declarants-table-amount">
@@ -183,8 +204,20 @@
                                                     {{ format_trend(prev_val, val, _("м²")) }}
                                                 {% endif %}
                                             {% endif %}
+                                            <div class="n-tooltip">
+                                                <div class="n-tooltip__head">
+                                                    <div class="n-tooltip__title">{{ _("Активи") }}</div>
+                                                </div>
+                                                <div class="n-tooltip__body">
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td class="n-table__td">
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-labels="{{ person.documents.keys()|list|tojson }}"
+                                            data-family_values="{{ person.documents.values()|extract('estate.family_other')|tojson }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_other')|tojson }}"
+                                            data-family_label="{{ _("Родина") }}"
+                                            data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'estate.total_land' in doc.aggregated_data %}
                                                 {% set val = person.documents[year].aggregated_data["estate.total_land"] %}
                                                 <span class="landing-page__declarants-table-amount">
@@ -195,6 +228,13 @@
                                                     {{ format_trend(prev_val, val, _("м²")) }}
                                                 {% endif %}
                                             {% endif %}
+                                            <div class="n-tooltip">
+                                                <div class="n-tooltip__head">
+                                                    <div class="n-tooltip__title">{{ _("Активи") }}</div>
+                                                </div>
+                                                <div class="n-tooltip__body">
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 {% endif %}
