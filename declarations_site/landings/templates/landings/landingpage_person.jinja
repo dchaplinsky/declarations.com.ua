@@ -84,9 +84,9 @@
                 <div class="search-card__content">
                     <div id="incomes"
                         data-format="money"
-                        data-labels="{{ summary.documents.keys()|list|tojson }}"
-                        data-family_values="{{ summary.documents.values()|extract('incomes.family')|tojson }}"
-                        data-declarant_values="{{ summary.documents.values()|extract('incomes.declarant')|tojson }}"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-family_values="{{ summary.documents.values()|extract('incomes.family')|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('incomes.declarant')|tojson|forceescape }}"
                         data-family_label="{{ _("Родина") }}"
                         data-declarant_label="{{ _("Декларант") }}">
                         <h3>{{ _("Дохід") }}</h3>
@@ -116,9 +116,9 @@
 
                     <div id="assets"
                         data-format="money"
-                        data-labels="{{ summary.documents.keys()|list|tojson }}"
-                        data-family_values="{{ summary.documents.values()|extract('assets.family')|tojson }}"
-                        data-declarant_values="{{ summary.documents.values()|extract('assets.declarant')|tojson }}"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-family_values="{{ summary.documents.values()|extract('assets.family')|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('assets.declarant')|tojson|forceescape }}"
                         data-family_label="{{ _("Родина") }}"
                         data-declarant_label="{{ _("Декларант") }}">
                         <h3>{{ _("Статки") }}</h3>
@@ -148,9 +148,9 @@
 
                     <div id="estate"
                         data-format="area"
-                        data-labels="{{ summary.documents.keys()|list|tojson }}"
-                        data-family_values="{{ summary.documents.values()|extract('estate.family_other')|tojson }}"
-                        data-declarant_values="{{ summary.documents.values()|extract('estate.total_other')|tojson }}"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-family_values="{{ summary.documents.values()|extract('estate.family_other')|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('estate.total_other')|tojson|forceescape }}"
                         data-family_label="{{ _("Родина") }}"
                         data-declarant_label="{{ _("Декларант") }}">
                         <h3>{{ _("Нерухомість") }}</h3>
@@ -180,9 +180,9 @@
 
                     <div id="land"
                         data-format="area"
-                        data-labels="{{ summary.documents.keys()|list|tojson }}"
-                        data-family_values="{{ summary.documents.values()|extract('estate.family_land')|tojson }}"
-                        data-declarant_values="{{ summary.documents.values()|extract('estate.total_land')|tojson }}"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-family_values="{{ summary.documents.values()|extract('estate.family_land')|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('estate.total_land')|tojson|forceescape }}"
                         data-family_label="{{ _("Родина") }}"
                         data-declarant_label="{{ _("Декларант") }}">
                         <h3>{{ _("Земля") }}</h3>
@@ -212,8 +212,8 @@
 
                     <div id="liabilities"
                         data-format="money"
-                        data-labels="{{ summary.documents.keys()|list|tojson }}"
-                        data-declarant_values="{{ summary.documents.values()|extract('liabilities.total')|tojson }}"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('liabilities.total')|tojson|forceescape }}"
                         data-declarant_label="{{ _("Декларант") }}">
                         <h3>{{ _("Зобов’язання") }}</h3>
                         <canvas id="liabilities-chart" class="landing-page__person-chart"></canvas>
@@ -235,8 +235,8 @@
 
                     <div id="expenses"
                         data-format="money"
-                        data-labels="{{ summary.documents.keys()|list|tojson }}"
-                        data-declarant_values="{{ summary.documents.values()|extract('expenses.total')|tojson }}"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('expenses.total')|tojson|forceescape }}"
                         data-declarant_label="{{ _("Декларант") }}">
                         <h3>{{ _("Витрати") }}</h3>
                         <canvas id="expenses-chart" class="landing-page__person-chart"></canvas>
@@ -260,7 +260,8 @@
         </div>
         
         <div class="search-card tabs__tab" id="connections" style="display: none">
-            <canvas></canvas>
+            <div id="cy" data-graph_data="{{ person.get_nodes()|tojson|forceescape }}" style="width: 100%; height: 600px">
+            </div>
         </div>
 
         <div class="tabs__tab" id="docs" style="display: none">

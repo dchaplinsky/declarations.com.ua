@@ -1,4 +1,5 @@
 from itertools import chain
+import hashlib
 
 from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
@@ -250,10 +251,7 @@ class Person(models.Model):
 
         years = {}
 
-        for d in self.declarations.all():
-            if d.doc_type == "Форма змін" or d.exclude:
-                continue
-
+        for d in self.declarations.exclude(doc_type="Форма змін").exclude(exclude=True):
             if d.year in years:
                 if dt_parse(d.source["infocard"]["created_date"]) > dt_parse(
                     years[d.year].source["infocard"]["created_date"]
@@ -274,6 +272,33 @@ class Person(models.Model):
             result["min_year"] = min(years.keys())
             result["max_year"] = max(years.keys())
         return result
+
+    def get_nodes(self):
+        persons = set()
+        companies = set()
+
+        for d in self.declarations.exclude(doc_type="Форма змін").exclude(exclude=True):
+            persons |= set(d.source["related_entities"]["people"]["family"])
+            companies |= set(d.source["related_entities"]["companies"]["owned"])
+            companies |= set(d.source["related_entities"]["companies"]["related"])
+
+        nodes = [{"data": {"id": "root", "label": self.name}, "classes": ["root", "person"]}]
+
+        edges = []
+
+        for p in persons:
+            id_ = hashlib.sha256(p.encode("utf-8")).hexdigest()
+
+            nodes.append({"data": {"id": id_, "label": p}, "classes": ["person"]})
+            edges.append({"data": {"source": "root", "target": id_}})
+
+        for c in companies:
+            id_ = hashlib.sha256(c.encode("utf-8")).hexdigest()
+
+            nodes.append({"data": {"id": id_, "label": c}, "classes": ["company"]})
+            edges.append({"data": {"source": "root", "target": id_}})
+
+        return {"nodes": nodes, "edges": edges}
 
     class Meta:
         verbose_name = "Фокус-персона"

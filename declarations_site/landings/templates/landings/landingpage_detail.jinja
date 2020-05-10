@@ -137,9 +137,9 @@
                                         {% endif -%}</td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
                                             data-format="money"
-                                            data-labels="{{ person.documents.keys()|list|tojson }}"
-                                            data-family_values="{{ person.documents.values()|extract('incomes.family')|tojson }}"
-                                            data-declarant_values="{{ person.documents.values()|extract('incomes.declarant')|tojson }}"
+                                            data-labels="{{ person.documents.keys()|list|tojson|forceescape }}"
+                                            data-family_values="{{ person.documents.values()|extract('incomes.family')|tojson|forceescape }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('incomes.declarant')|tojson|forceescape }}"
                                             data-family_label="{{ _("Родина") }}"
                                             data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'incomes.total' in doc.aggregated_data %}
@@ -162,9 +162,9 @@
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
                                             data-format="money"
-                                            data-labels="{{ person.documents.keys()|list|tojson }}"
-                                            data-family_values="{{ person.documents.values()|extract('assets.family')|tojson }}"
-                                            data-declarant_values="{{ person.documents.values()|extract('assets.declarant')|tojson }}"
+                                            data-labels="{{ person.documents.keys()|list|tojson|forceescape }}"
+                                            data-family_values="{{ person.documents.values()|extract('assets.family')|tojson|forceescape }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('assets.declarant')|tojson|forceescape }}"
                                             data-family_label="{{ _("Родина") }}"
                                             data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'assets.total' in doc.aggregated_data %}
@@ -194,9 +194,9 @@
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
                                             data-format="area"
-                                            data-labels="{{ person.documents.keys()|list|tojson }}"
-                                            data-family_values="{{ person.documents.values()|extract('estate.family_other')|tojson }}"
-                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_other')|tojson }}"
+                                            data-labels="{{ person.documents.keys()|list|tojson|forceescape }}"
+                                            data-family_values="{{ person.documents.values()|extract('estate.family_other')|tojson|forceescape }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_other')|tojson|forceescape }}"
                                             data-family_label="{{ _("Родина") }}"
                                             data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'estate.total_other' in doc.aggregated_data %}
@@ -219,9 +219,9 @@
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
                                             data-format="area"
-                                            data-labels="{{ person.documents.keys()|list|tojson }}"
-                                            data-family_values="{{ person.documents.values()|extract('estate.family_land')|tojson }}"
-                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_land')|tojson }}"
+                                            data-labels="{{ person.documents.keys()|list|tojson|forceescape }}"
+                                            data-family_values="{{ person.documents.values()|extract('estate.family_land')|tojson|forceescape }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_land')|tojson|forceescape }}"
                                             data-family_label="{{ _("Родина") }}"
                                             data-declarant_label="{{ _("Декларант") }}">
                                             {% if 'estate.total_land' in doc.aggregated_data %}
