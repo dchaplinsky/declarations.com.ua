@@ -563,5 +563,93 @@
         items.appendTo(table.find("tbody"));
       });
     }).change();
+
+
+    var viz = $("#cy");
+
+    if (viz.length) {
+      var graph = viz.data("graph_data"),
+        edge_length = Math.max(50, 3 * graph["nodes"].length);
+
+
+      var cy = cytoscape({
+        container: viz,
+
+        boxSelectionEnabled: false,
+        autounselectify: true,
+
+        style: [ // the stylesheet for the graph
+          {
+            selector: 'node',
+            style: {
+              'height': 50,
+              'width': 50,
+              'border-color': '#000',
+              'border-width': 0,
+              'border-opacity': 0.5,
+              "content": "data(label)",
+              "background-color": "#2F80ED",
+              "text-wrap": "wrap",
+              "text-max-width": 100,
+              "text-valign": "bottom",
+              "text-halign": "center",
+            }
+          },
+          {
+            selector: 'node.person',
+            style: {
+              "background-color": "#5ECBA1",
+            }
+          },
+          {
+            selector: 'node.root',
+            style: {
+              'height': 70,
+              'width': 70,
+              "background-color": "#7175D8",
+              'border-width': 4,
+              'border-color': '#2F80ED',
+              "background-fill": "radial-gradient",
+              "background-gradient-stop-colors": "#7175D8 #7175D8 #ffffff #ffffff",
+            }
+          },
+          {
+            selector: 'node.company',
+            style: {
+              "background-color": "#FF6B69",
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              'curve-style': 'bezier',
+              'width': 3,
+              'target-arrow-shape': 'triangle',
+              'line-color': '#ffaaaa',
+              'target-arrow-color': '#ffaaaa'
+            }
+          }
+        ],
+
+        elements: graph,
+        layout: {
+          name: 'cose',
+          animate: "end",
+          fit: true,
+          padding: 10,
+          initialTemp: 100,
+          animationDuration: 500,
+          nodeOverlap: 6,
+          maxIterations: 3000,
+          idealEdgeLength: edge_length,
+          nodeDimensionsIncludeLabels: true,
+          springLength: edge_length * 3,
+          gravity: -15,
+          theta: 1,
+
+          padding: 10
+        }
+      }); // cy init
+    }
   });
 })(jQuery);

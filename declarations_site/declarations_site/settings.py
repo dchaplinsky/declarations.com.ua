@@ -327,6 +327,7 @@ PIPELINE = {
         'js_charts': {
             'source_filenames': (
                 "js/Chart.bundle.js",
+                "js/cytoscape.min.js",
                 "js/accounting.js",
                 "js/compare-charts.js",
             ),
