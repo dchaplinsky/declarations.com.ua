@@ -42,10 +42,10 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="person-brief__actuality landing-page__actuality">
-                    {{ _("Актуально на ") }} 
+                {# <div class="person-brief__actuality landing-page__actuality">
+                    {{ _("Актуально на ") }}
                     {{ summary.documents[summary.max_year]["infocard"]["created_date"]|date }}
-                </div>
+                </div> #}
                 {% endif %}
             </div>
         </div>
@@ -83,17 +83,18 @@
                 </div>
                 <div class="search-card__col">
                     <div class="search-card__col-title">
-                        {{ _("Дохідність") }}
+                        {{ _("Дохід") }}
                     </div>
                     <div class="search-card__col-value">
                         ₴ {{ summary.documents[summary.max_year]["aggregated_data"]["incomes.total"]|string|curformat(true) }}
                     </div>
                 </div>
-                <div class="search-card__col">
-                    <div class="landing-page__actuality">
-                        {{ _("Актуально на") }} 03.04.2020
+                {# <div class="search-card__col">
+                    <div class="person-brief__actuality landing-page__actuality">
+                        {{ _("Актуально на ") }}
+                        {{ summary.documents[summary.max_year]["infocard"]["created_date"]|date }}
                     </div>
-                </div>
+                </div> #}
             </div>
 
             <div class="search-card__items">
@@ -280,12 +281,19 @@
         </div>
 
         <div class="tabs__tab" id="docs" style="display: none">
-            <form action="{{ url("compare") }}" method="GET">
-                {% for d in declarations %}
-                <input type="hidden" name="declaration_id[]" value="{{ d }}" />
-                {% endfor %}
-                <input type="submit" value="ПОРІВНЯТИ" />
-            </form>
+            <div>
+                <div class="search-page__header landing-page__search-page-header">
+                    <div class="search-page__result-name">
+                        {{ _("Всі") }} ({{ results|count }})
+                    </div>
+                    <form action="{{ url("compare") }}" method="GET">
+                        {% for d in declarations %}
+                        <input type="hidden" name="declaration_id[]" value="{{ d }}" />
+                        {% endfor %}
+                        <input class="n-btn" type="submit" value="ПОРІВНЯТИ" />
+                    </form>
+                </div>
+            </div>
             {{ search_results(results, true) }}
         </div>
     </div>
