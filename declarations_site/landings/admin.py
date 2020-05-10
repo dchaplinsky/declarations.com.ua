@@ -21,10 +21,15 @@ class DeclarationInline(nested_admin.NestedTabularInline):
     model = Declaration
     extra = 0
     max_num = 0
-    fields = ("declaration_snippet", "year", "corrected", "user_declarant_id", "exclude")
+    fields = (
+        "declaration_snippet",
+        "year",
+        "corrected",
+        "user_declarant_id",
+        "exclude",
+    )
     readonly_fields = ("declaration_snippet", "year", "corrected", "user_declarant_id")
     ordering = ("user_declarant_id", "year")
-
 
     def declaration_snippet(self, obj):
         return render_to_string("admin/decls_snippet.jinja", {"d": obj})
@@ -37,7 +42,6 @@ class PersonInline(nested_admin.NestedTabularInline):
     extra = 1
     fields = ("name", "extra_keywords")
     inlines = [DeclarationInline]
-
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)

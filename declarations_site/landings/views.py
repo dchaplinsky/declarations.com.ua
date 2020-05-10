@@ -21,12 +21,15 @@ class LandingPageList(ListView):
     template_name = "landings/landingpage_list.jinja"
 
     def get_queryset(self):
-        return self.model.objects.exclude(
-            region__isnull=True).exclude(
-            body_type__isnull=True).annotate(persons_count=Count("persons"))
+        return (
+            self.model.objects.exclude(region__isnull=True)
+            .exclude(body_type__isnull=True)
+            .annotate(persons_count=Count("persons"))
+            .select_related("region")
+        )
 
     def get_ordering(self):
-        return ["region", "body_type"]
+        return ["region__region_name", "body_type"]
 
 
 class LandingPageDetail(DetailView):
@@ -102,13 +105,13 @@ class LandingPageDetail(DetailView):
                     if field is None:
                         if i == 0:
                             url = "https://declarations.com.ua/compare?{}".format(
-                                    "&".join(
-                                        "declaration_id={}".format(decl_id)
-                                        for decl_id in jc("[*].infocard.id").search(
-                                            list(person["documents"].values())
-                                        )
+                                "&".join(
+                                    "declaration_id={}".format(decl_id)
+                                    for decl_id in jc("[*].infocard.id").search(
+                                        list(person["documents"].values())
                                     )
                                 )
+                            )
 
                             if len(url) < 255:
                                 worksheet.write_url(
@@ -120,10 +123,7 @@ class LandingPageDetail(DetailView):
                                 )
                             else:
                                 worksheet.write(
-                                    row_num,
-                                    col_num,
-                                    " " + url,
-                                    url_format_top_border,
+                                    row_num, col_num, " " + url, url_format_top_border
                                 )
 
                         continue
@@ -200,9 +200,14 @@ class LandingPagePerson(DetailView):
             results = sorted(
                 results,
                 key=lambda x: (
-                    str(x.intro.declaration_year or x.intro.date or x.declaration.date or ""),
+                    str(
+                        x.intro.declaration_year
+                        or x.intro.date
+                        or x.declaration.date
+                        or ""
+                    ),
                     getattr(x.intro, "corrected", False),
-                    getattr(x, "source", "").lower() not in ["vulyk", "chesno"]
+                    getattr(x, "source", "").lower() not in ["vulyk", "chesno"],
                 ),
             )
 

@@ -9,8 +9,8 @@
 
 {% block content %}
     <div class="content container">
-    	{% for region, regional_bodies in object_list|groupby("region") %}
-    		<h3>{{ region }}</h3>
+    	{% for region, regional_bodies in object_list|groupby("region_id") %}
+    		<h3>{{ regional_bodies[0].region.region_name }}</h3>
     		{% for body_type, bodies in regional_bodies|groupby("body_type") %}
     			<h4>{{ bodies[0].get_body_type_display() }}</h4>
     			{% for body in bodies %}

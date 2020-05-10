@@ -57,10 +57,15 @@ class LandingPage(models.Model):
     slug = models.SlugField("Ідентифікатор сторінки", primary_key=True, max_length=100)
     title = models.CharField("Заголовок сторінки", max_length=200)
     description = RichTextField("Опис сторінки", blank=True)
-    image = ThumbnailerImageField(blank=True, upload_to='landings')
+    image = ThumbnailerImageField(blank=True, upload_to="landings")
     region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.SET_NULL)
-    body_type = models.CharField("Тип держоргану", blank=True, null=True, choices=BODY_TYPES.items(),
-        max_length=30)
+    body_type = models.CharField(
+        "Тип держоргану",
+        blank=True,
+        null=True,
+        choices=BODY_TYPES.items(),
+        max_length=30,
+    )
 
     keywords = models.TextField(
         "Ключові слова для пошуку в деклараціях (по одному запиту на рядок)", blank=True
@@ -86,7 +91,7 @@ class LandingPage(models.Model):
         return {
             "max_year": max(max_years),
             "min_year": min(min_years),
-            "persons": persons
+            "persons": persons,
         }
 
     def __str__(self):
@@ -119,7 +124,9 @@ class Person(models.Model):
         return "%s (знайдено декларацій: %s)" % (self.name, self.declarations.count())
 
     def get_absolute_url(self):
-        return reverse("landing_page_person", kwargs={"body_id": self.body_id, "pk": self.pk})
+        return reverse(
+            "landing_page_person", kwargs={"body_id": self.body_id, "pk": self.pk}
+        )
 
     def pull_declarations(self):
         def get_search_clause(kwd):
@@ -228,14 +235,15 @@ class Person(models.Model):
         res = []
         for f, flag in NACPDeclaration.ENABLED_FLAGS.items():
             if str(aggregated_data.get(f, "false")).lower() == "true":
-                res.append({
-                    "flag": f,
-                    "text": flag["name"],
-                    "description": flag["description"],
-                })
+                res.append(
+                    {
+                        "flag": f,
+                        "text": flag["name"],
+                        "description": flag["description"],
+                    }
+                )
 
         return res
-
 
     def get_summary(self):
         result = {"name": self.name, "id": self.pk, "documents": {}}
