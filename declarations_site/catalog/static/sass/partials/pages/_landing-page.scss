@@ -96,3 +96,12 @@
 #connections {
   padding: 24px;
 }
+
+.chartjs-tooltip {
+  &__legend-color {
+    display: inline-block;
+    line-height: 17px;
+    margin-right: 18px;
+    vertical-align: sub;
+  }
+}

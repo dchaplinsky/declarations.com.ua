@@ -30,6 +30,14 @@
     return accounting.formatMoney(value, {symbol: "м²",  format: "%v %s"}, 2 )
   }
 
+  function formatter(format, x) {
+    if (format == 'area'){
+      return format_sqm(x);
+    } else {
+      return format_uah(x, 0, true);
+    }
+  }
+
   $(function() {
     var all_data, chart;
 
@@ -72,7 +80,7 @@
       }
     };
 
-    function build_main_chart() {
+    function buildMainChart() {
       var year = parseInt($("#year").val());
       var data = [],
         param_x = {
@@ -87,7 +95,6 @@
           "name": "assets.total",
           "title": "Статки"
         },
-
         max_r = 0,
         max_estate = 0,
         options = {
@@ -252,14 +259,135 @@
       }
     };
 
-    $.getJSON("?format=json", function(data) {
-      all_data = data;
-      build_main_chart();
-    });
+    function buildPersonCharts() {
+      ['#incomes', '#assets', '#estate', '#land', '#liabilities', '#expenses'].forEach(function(selector) {
+        var container = $(selector),
+          data = container.data(),
+          canvas = container.find('canvas'),
+          fmt = formatter.bind(null, data.format),
+          familyDataset = {
+            label: data.family_label,
+            backgroundColor: '#7175D8',
+            borderColor: '#7175D8',
+            data: data.family_values,
+            fill: true,
+          },
+          declarantDataset = {
+            label: data.declarant_label,
+            backgroundColor: '#5ECBA1',
+            borderColor: '#5ECBA1',
+            data: data.declarant_values,
+            fill: true,
+          },
+          config = {
+            type: 'line',
+            data: {
+              labels: data.labels,
+              datasets: data.family_values ?
+                [familyDataset, declarantDataset]
+                : [declarantDataset]
+            },
+            options: {
+              responsive: true,
+              legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                  boxWidth: 16,
+                  fontSize: 14
+                }
+              },
+              tooltips: {
+                mode: 'index',
+                intersect: false,
+                custom: function(tooltip) {
+                  $(this._chart.canvas).css('cursor', 'pointer');
+
+                  var positionY = this._chart.canvas.offsetTop;
+                  var positionX = this._chart.canvas.offsetLeft;
+
+                  $('.chartjs-tooltip').css({
+                    opacity: 0,
+                  });
+
+                  if (!tooltip || !tooltip.opacity) {
+                    return;
+                  }
+
+                  var $tooltip = $(selector + '-chart-tooltip');
+
+                  if (tooltip.dataPoints.length) {
+                    var hasFamilyData = tooltip.dataPoints.length === 2;
+                    var family = hasFamilyData ? tooltip.dataPoints[0] : null;
+                    var declarant = hasFamilyData ? tooltip.dataPoints[1] : tooltip.dataPoints[0];
+
+                    $tooltip.find('.chartjs-tooltip__name .value').html(declarant.label);
+
+                    if (hasFamilyData) {
+                      $tooltip.find('.chartjs-tooltip__family-value .value').html(fmt(family.value));
+                      $tooltip.find('.chartjs-tooltip__family-value .chartjs-tooltip__legend-color').css({
+                        backgroundColor: familyDataset.backgroundColor,
+                        height: 16,
+                        width: 16,
+                      });
+                    }
+
+                    $tooltip.find('.chartjs-tooltip__declarant-value .value').html(fmt(declarant.value));
+                    $tooltip.find('.chartjs-tooltip__declarant-value .chartjs-tooltip__legend-color').css({
+                      backgroundColor: declarantDataset.backgroundColor,
+                      height: 16,
+                      width: 16,
+                    });
+
+                    var tooltipPositionY = hasFamilyData && family.y - declarant.y > $tooltip.height() ?
+                      (family.y + declarant.y) / 2 - $tooltip.height() / 2
+                      : declarant.y;
+
+                    $tooltip.css({
+                      opacity: 1,
+                      top: positionY + tooltipPositionY + 'px',
+                      left: positionX + declarant.x + 'px',
+                    });
+                  }
+                },
+                enabled: false,
+              },
+              hover: {
+                mode: 'nearest',
+                intersect: true
+              },
+              scales: {
+                xAxes: [{
+                  display: true,
+                }],
+                yAxes: [{
+                  stacked: true,
+                  display: true,
+                  ticks: {
+                    callback: function(value, index, values) {
+                      return fmt(value);
+                    }
+                  }
+                }]
+              }
+            }
+          },
+          chart = new Chart(canvas, config);
+      });
+    };
+
+    if ($(document.body).hasClass('landing-page__details')) {
+      $.getJSON("?format=json", function(data) {
+        all_data = data;
+        buildMainChart();
+      });
+    } else {
+      buildPersonCharts();
+    }
 
     $('#year')
       .on('change', function() {
-        build_main_chart();
+        buildMainChart();
       })
       .on('change', function() {
         $('.landing-page__declarants-table')
@@ -272,14 +400,7 @@
       var anchor = $(e.target),
         tooltip = anchor.find(".n-tooltip__body"),
         canvas = tooltip.html('<canvas height="220">').find("canvas"),
-        fmt = function(x) {
-          if (anchor.data("format") == "area"){
-            return format_sqm(x)
-          } else {
-            return format_uah(x, 0, true);
-          }
-          
-        },
+        fmt = formatter.bind(null, anchor.data('format')),
         config = {
           type: 'line',
           data: {
