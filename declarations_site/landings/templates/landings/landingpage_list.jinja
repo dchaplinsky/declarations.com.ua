@@ -9,14 +9,25 @@
 
 {% block content %}
     <div class="content container">
-    	{% for region, regional_bodies in object_list|groupby("region_id") %}
-    		<h3>{{ regional_bodies[0].region.region_name }}</h3>
-    		{% for body_type, bodies in regional_bodies|groupby("body_type") %}
-    			<h4>{{ bodies[0].get_body_type_display() }}</h4>
-    			{% for body in bodies %}
-    				<a href="{{ body.get_absolute_url() }}">{{ body.title }}</a> ({{ body.persons_count }})
-    			{% endfor %}
-    		{% endfor %}
-    	{% endfor %}
+        <h1 id="page-header"><span>{{ _("Регіональні установи") }}</span></h1>
+        <div class="table-responsive">
+            <div id="glossarium">
+                {% for region, regional_bodies in object_list|groupby("region_id") %}
+                    <h3>{{ regional_bodies[0].region.region_name }}</h3>
+                    <table class="regions__table">
+                        {% for body_type, bodies in regional_bodies|groupby("body_type") %}
+                            {% for body in bodies %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ body.get_absolute_url() }}">{{ body.title }}</a>
+                                        ({{ body.persons_count }} {{ body.persons_count|uk_plural(_("працівник,працівника,працівників")) }})
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endblock %}

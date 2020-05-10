@@ -133,7 +133,16 @@
                                             <a href="{{ url("landing_page_person", pk=person.id, body_id=object.pk) }}">{{ person.name }}</a>
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-flags">{%- if doc.flags|count %}
-                                            {{ doc.flags|count }}
+                                            <div class="action-icon action-icon--inline">
+                                                <span>{{ doc.flags|count }}</span>
+                                                <div class="action-icon__tooltip">
+                                                    <div class="action-icon__tooltip-text">
+                                                        {% for flag in doc.flags %}
+                                                            <div>{{ flag.text }}</div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         {% endif -%}</td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
                                             data-format="money"

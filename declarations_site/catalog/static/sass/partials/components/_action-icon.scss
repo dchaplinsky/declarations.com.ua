@@ -16,6 +16,9 @@
       display: block;
     }
   }
+  &--inline {
+    display: inline-block;
+  }
   &_red:hover {
     path {
       fill: #ce2a1f;
