@@ -26,7 +26,7 @@
   }
   &__declarants-table-flags {
     color: $red-light;
-    &:not(:empty)::after {
+    &:not(:empty) .action-icon::after {
       content: '';
       background: url('../images/icon/flag-fill.svg');
       display: inline-block;
