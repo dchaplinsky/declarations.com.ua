@@ -1,0 +1,22 @@
+{% extends "base.jinja" %}
+
+{% block bodyclass %}landing-page__person{% endblock %}
+
+{% block extra_js %}
+    {% javascript 'js_charts' %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content container">
+    	{% for region, regional_bodies in object_list|groupby("region") %}
+    		<h3>{{ region }}</h3>
+    		{% for body_type, bodies in regional_bodies|groupby("body_type") %}
+    			<h4>{{ bodies[0].get_body_type_display() }}</h4>
+    			{% for body in bodies %}
+    				<a href="{{ body.get_absolute_url() }}">{{ body.title }}</a> ({{ body.persons_count }})
+    			{% endfor %}
+    		{% endfor %}
+    	{% endfor %}
+    </div>
+{% endblock %}

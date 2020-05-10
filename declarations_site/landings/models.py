@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
 from django.core.serializers.json import DjangoJSONEncoder
 from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from dateutil.parser import parse as dt_parse
 from elasticsearch.serializer import JSONSerializer
@@ -12,6 +13,7 @@ from ckeditor.fields import RichTextField
 from easy_thumbnails.fields import ThumbnailerImageField
 
 from catalog.elastic_models import NACPDeclaration
+from catalog.models import Region
 
 
 class DeclarationsManager(models.Manager):
@@ -47,10 +49,19 @@ class DeclarationsManager(models.Manager):
 
 
 class LandingPage(models.Model):
+    BODY_TYPES = {
+        "city_council": _("Міська рада"),
+        "regional_council": _("Обласна рада"),
+        "other": _("Інше"),
+    }
     slug = models.SlugField("Ідентифікатор сторінки", primary_key=True, max_length=100)
     title = models.CharField("Заголовок сторінки", max_length=200)
     description = RichTextField("Опис сторінки", blank=True)
     image = ThumbnailerImageField(blank=True, upload_to='landings')
+    region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.SET_NULL)
+    body_type = models.CharField("Тип держоргану", blank=True, null=True, choices=BODY_TYPES.items(),
+        max_length=30)
+
     keywords = models.TextField(
         "Ключові слова для пошуку в деклараціях (по одному запиту на рядок)", blank=True
     )

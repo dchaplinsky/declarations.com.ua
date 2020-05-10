@@ -47,7 +47,8 @@ class PersonInline(nested_admin.NestedTabularInline):
 class LandingPageAdmin(nested_admin.NestedModelAdmin):
     inlines = [PersonInline]
 
-    list_display = ("slug", "title", "keywords", "members")
+    list_display = ("slug", "title", "keywords", "members", "region", "body_type")
+    list_filter = ("region", "body_type")
 
     def members(self, obj):
         return obj.persons.count()

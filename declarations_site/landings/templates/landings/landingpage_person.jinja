@@ -7,23 +7,6 @@
     {% javascript 'js_charts' %}
 {% endblock %}
 
-{% macro format_trend(prev_val, val, symbol) %}
-    {% if prev_val %}
-        {% if prev_val > val %}
-            <span class="trend--minus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">{{ '{0:0.2f}'.format((prev_val - val) / (prev_val) * 100) }}%&darr;</span>
-        {% elif prev_val < val %}
-            <span class="trend--plus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">{{ '{0:0.2f}'.format((val - prev_val) / (prev_val) * 100) }}%&uarr;</span>
-        {% else %}
-            <span class="trend--no_change"></span>
-        {% endif %}
-    {% else %}
-        {% if val %}
-            <span class="trend--plus">+++</span>
-        {% else %}
-            <span class="trend--no_change"></span>
-        {% endif %}
-    {% endif %}
-{% endmacro %}
 
 {% block content %}
     <div class="content container">

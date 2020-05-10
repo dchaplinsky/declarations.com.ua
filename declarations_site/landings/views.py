@@ -2,8 +2,9 @@ import io
 from collections import OrderedDict
 
 from django.shortcuts import render
+from django.db.models import Count
 from django.http import JsonResponse, HttpResponse
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.utils.translation import get_language
 
 from jmespath import compile as jc
@@ -13,6 +14,19 @@ import xlsxwriter
 from .models import LandingPage, Person
 from catalog.elastic_models import Declaration, NACPDeclaration
 from catalog.constants import CATALOG_INDICES
+
+
+class LandingPageList(ListView):
+    model = LandingPage
+    template_name = "landings/landingpage_list.jinja"
+
+    def get_queryset(self):
+        return self.model.objects.exclude(
+            region__isnull=True).exclude(
+            body_type__isnull=True).annotate(persons_count=Count("persons"))
+
+    def get_ordering(self):
+        return ["region", "body_type"]
 
 
 class LandingPageDetail(DetailView):
