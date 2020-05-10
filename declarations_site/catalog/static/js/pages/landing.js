@@ -39,7 +39,11 @@
   }
 
   $(function() {
-    var all_data, chart;
+    var all_data,
+      chart,
+      back_button = $(".search-card__back"),
+      dog_tag = $(".search-card__name span"),
+      bird_view_data = [];
 
     var customTooltips = function(tooltip) {
       var this_chart = this;
@@ -82,8 +86,7 @@
 
     function buildMainChart() {
       var year = parseInt($("#year").val());
-      var data = [],
-        param_x = {
+      var param_x = {
           "name": "incomes.declarant",
           "title": "Дохід декларанта"
         },
@@ -196,10 +199,72 @@
                 return 5 + (size / 20) * value.scaled_r;
               }
             }
+          },
+          onClick: function(event, objs) {
+            if (objs.length > 0) {
+              try {
+                var person_bubble = this.config.data.datasets[objs[0]._datasetIndex].data[objs[0]._index],
+                  person_id = person_bubble.id,
+                  person = all_data["persons"][person_id],
+                  detailed_data = [];
+
+                if (!person_bubble.drilldown) {
+                  return;
+                }
+
+                for (var year in person["documents"]) {
+                  var doc = person["documents"][year],
+                    x = doc["aggregated_data"][param_x.name],
+                    y = doc["aggregated_data"][param_y.name],
+                    r = doc["aggregated_data"][param_r.name],
+                    estate = doc["aggregated_data"]["estate.total_other"];
+
+                  detailed_data.push({
+                    "id": person_id,
+                    "name": year + ", " + person["name"],
+                    "income": doc["aggregated_data"]["incomes.total"],
+                    "cash": doc["aggregated_data"]["assets.cash.total"],
+                    "liabilities": doc["aggregated_data"]["liabilities.total"],
+                    "expenses": doc["aggregated_data"]["expenses.total"],
+                    "land": doc["aggregated_data"]["estate.total_land"],
+                    "real_estate": doc["aggregated_data"]["estate.total_other"],
+                    "assets": doc["aggregated_data"]["assets.total"],
+                    "x": x,
+                    "y": y,
+                    "v": r,
+                    "flags": doc["flags"].length,
+                    "estate": estate,
+                    "drilldown": false
+                  });
+
+                }
+
+                $('.chartjs-tooltip').css({
+                  opacity: 0,
+                });
+
+                for (var i = 0; i < detailed_data.length; i++) {
+                  detailed_data[i]["scaled_r"] = (detailed_data[i]["v"] + 0.1) / (max_r + 0.1);
+                  detailed_data[i]["scaled_estate"] = (Math.min(detailed_data[i]["estate"], 500) + 0.1) / (500 + 0.1);
+                }
+
+                $(".landing-page__declarants-table tr").hide().filter(".person-" + person_id).show();
+                chart.data.datasets = [
+                  {"data": detailed_data, "type": "bubble"},
+                  {"data": detailed_data, "type": "line", "backgroundColor": "transparent"}
+                ];
+                chart.update();
+                back_button.show();
+                dog_tag.html(person["name"]);
+              } catch(error) {
+                  console.error(error);
+              }
+            };
           }
         };
 
-      for (var i = 0; i < all_data["persons"].length; i++) {
+      bird_view_data = [];
+      for (var i in all_data["persons"]) {
         var docs = all_data["persons"][i]["documents"];
         for (var curr_year in docs) {
           if (curr_year != year)
@@ -219,7 +284,7 @@
             max_estate = estate;
           }
 
-          data.push({
+          bird_view_data.push({
             "id": all_data["persons"][i]["id"],
             "name": all_data["persons"][i]["name"],
             "income": doc["aggregated_data"]["incomes.total"],
@@ -234,13 +299,14 @@
             "v": r,
             "flags": doc["flags"].length,
             "estate": estate,
+            "drilldown": true
           });
         }
       }
 
-      for (var i = 0; i < data.length; i++) {
-        data[i]["scaled_r"] = (data[i]["v"] + 0.1) / (max_r + 0.1);
-        data[i]["scaled_estate"] = (Math.min(data[i]["estate"], 500) + 0.1) / (500 + 0.1);
+      for (var i = 0; i < bird_view_data.length; i++) {
+        bird_view_data[i]["scaled_r"] = (bird_view_data[i]["v"] + 0.1) / (max_r + 0.1);
+        bird_view_data[i]["scaled_estate"] = (Math.min(bird_view_data[i]["estate"], 500) + 0.1) / (500 + 0.1);
       }
 
       if (typeof(chart) === "undefined") {
@@ -248,13 +314,13 @@
           type: 'bubble',
           data: {
             datasets: [{
-              "data": data
+              "data": bird_view_data
             }]
           },
           options: options
         });
       } else {
-        chart.data.datasets = [{"data": data}];
+        chart.data.datasets = [{"data": bird_view_data}];
         chart.update();
       }
     };
@@ -385,11 +451,24 @@
       buildPersonCharts();
     }
 
+    function restore_nav() {
+      back_button.hide();
+      dog_tag.html(dog_tag.data("default"));
+      $(".landing-page__declarants-table tr").show();
+    }
+
+    back_button.on("click", function(e) {
+      e.preventDefault();
+      restore_nav();
+      chart.data.datasets = [{"data": bird_view_data}];
+      chart.update();
+    });
+
     $('#year')
       .on('change', function() {
         buildMainChart();
-      })
-      .on('change', function() {
+        restore_nav();
+
         $('.landing-page__declarants-table')
           .hide()
           .filter('#declarants-' + $(this).val())

@@ -40,7 +40,7 @@ ranges = [
 
 
 @library.filter
-def curformat(value, with_suffix = False):
+def curformat(value, with_suffix=False):
     if value and value != "0":
         currency = ""
         if "$" in value:

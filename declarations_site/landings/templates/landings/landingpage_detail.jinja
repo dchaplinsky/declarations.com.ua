@@ -49,7 +49,7 @@
         <div class="search-card search-page__result-card">
             <div class="search-card__top">
                 <div class="search-card__name">
-                    {{ _("Установа") }}
+                    <a href="#" style="display: none" class="search-card__back">{{ _("Взад") }}</a> <span data-default="{{ _("Установа") }}">{{ _("Установа") }}</span>
                 </div>
                 {# <div class="n-select">
                     <div class="n-select__selected">{{ CURR_YEAR - 1 }}</div>
@@ -120,10 +120,10 @@
                             </tr>
                         </thead>
                         <tbody class="n-table__tbody">
-                            {% for person in summary.persons %}
+                            {% for person in summary.persons.values() %}
                                 {% if year in person.documents %}
                                     {% set doc = person.documents[year] %}
-                                    <tr class="n-table__tr"
+                                    <tr class="n-table__tr person-{{ person.id }}"
                                         data-name="{{ person.name }}"
                                         data-assets="{% if 'assets.total' in doc.aggregated_data %}{{ doc.aggregated_data['assets.total'] }}{% else %}-1{% endif %}"
                                         data-flags="{{ doc.flags|count }}"
@@ -244,9 +244,9 @@
                                     </tr>
                                 {% endif %}
                             {% endfor %}
-                            {% for person in summary.persons %}
+                            {% for person in summary.persons.values() %}
                                 {% if year not in person.documents %}
-                                    <tr class="n-table__tr"
+                                    <tr class="n-table__tr person-{{ person.id }}"
                                         data-name="{{ person.name }}"
                                         data-assets="-1"
                                         data-flags="0">
