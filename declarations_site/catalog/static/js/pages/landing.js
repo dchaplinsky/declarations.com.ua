@@ -254,14 +254,25 @@
                   {"data": detailed_data, "type": "line", "backgroundColor": "transparent"}
                 ];
                 chart.update();
+                chart.detailed_view = true;
                 back_button.show();
                 dog_tag.html(person["name"]);
               } catch(error) {
                   console.error(error);
               }
+            } else {
+              if (chart.detailed_view)
+                back_button.trigger("click");
             };
           }
         };
+
+      $(document.body).on("keypress", function( event ) {
+        if (event.which == 27) {
+          if (chart.detailed_view)
+            back_button.trigger("click");
+       }
+      });
 
       bird_view_data = [];
       for (var i in all_data["persons"]) {
@@ -304,6 +315,15 @@
         }
       }
 
+      bird_view_data.sort(function(a, b) {
+        if (a["v"] < b["v"])
+          return -1;
+        if (a["v"] > b["v"])
+          return 1;
+
+        return 0;
+      });
+
       for (var i = 0; i < bird_view_data.length; i++) {
         bird_view_data[i]["scaled_r"] = (bird_view_data[i]["v"] + 0.1) / (max_r + 0.1);
         bird_view_data[i]["scaled_estate"] = (Math.min(bird_view_data[i]["estate"], 500) + 0.1) / (500 + 0.1);
@@ -314,7 +334,7 @@
           type: 'bubble',
           data: {
             datasets: [{
-              "data": bird_view_data
+              "data": bird_view_data,
             }]
           },
           options: options
@@ -462,6 +482,7 @@
       restore_nav();
       chart.data.datasets = [{"data": bird_view_data}];
       chart.update();
+      chart.detailed_view = false;
     });
 
     $('#year')
@@ -503,7 +524,9 @@
             legend: {
               display: true,
               position: "bottom",
+              align: "start",
               labels: {
+                padding: 20,
                 boxWidth: 10,
                 fontSize: 10
               }
@@ -531,6 +554,7 @@
                 stacked: true,
                 display: true,
                 ticks: {
+                  maxTicksLimit: 5,
                   callback: function(value, index, values) {
                     return fmt(value);
                   }
