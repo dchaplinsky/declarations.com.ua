@@ -13,7 +13,7 @@
         markTabActive(tabLink);
 
         $('.tabs__tab').hide()
-          .filter(hash).show();
+          .filter(hash).show().trigger("activated");
       }
     }
 

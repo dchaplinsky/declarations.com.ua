@@ -52,14 +52,6 @@
                 <div class="search-card__name">
                     <span data-default="{{ _("Установа") }}">{{ _("Установа") }}</span>
                 </div>
-                {# <div class="n-select">
-                    <div class="n-select__selected">{{ CURR_YEAR - 1 }}</div>
-                    <div class="n-select__items">
-                        {% for year in range(summary.min_year, summary.max_year + 1) %}
-                            <div class="n-select__item{% if year == CURR_YEAR - 1 %} n-select__item_active{% endif %}">{{ year }}</div>
-                        {% endfor %}
-                    </div>
-                </div> #}
                 <select id="year" style="display: none;">
                     {% for year in range(summary.min_year, summary.max_year + 1) %}
                         <option value="{{ year }}" {% if year == CURR_YEAR - 1 %}selected="selected"{% endif %}>{{ year }}</option>
