@@ -36,7 +36,17 @@
   }
   &__td {
     border: none;
+    border-bottom: 1px solid #eeeff2;
     vertical-align: top;
+  }
+  &__th,
+  &__td {
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
   }
   &__row {
     position: relative;

@@ -36,7 +36,10 @@
       font-size: 14px;
       justify-content: space-between;
       line-height: 17px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
+  }
+  &__footer > div {
+    margin-bottom: 0;
   }
 }

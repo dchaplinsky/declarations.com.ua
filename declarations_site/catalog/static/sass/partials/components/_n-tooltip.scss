@@ -18,10 +18,24 @@
   }
   &__head {
     border-bottom: 1px solid #EEEFF2;
+    display: flex;
     font-weight: bold;
+    justify-content: space-between;
   }
   &__head,
   &__body {
     padding: 16px 20px;
+  }
+  &__close {
+    align-self: center;
+    background: url(../images/icon/close.svg);
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 12px;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -9999px;
+    width: 12px;
   }
 }
