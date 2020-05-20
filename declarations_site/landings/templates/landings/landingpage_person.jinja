@@ -1,0 +1,284 @@
+{% from "_search_results.jinja" import search_results with context %}
+{% extends "base.jinja" %}
+
+{% block bodyclass %}landing-page__person{% endblock %}
+
+{% block extra_js %}
+    {% javascript 'js_charts' %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content container">
+        <div class="person-brief landing-page__person-brief">
+            <div class="person-brief__text">
+                <h2 class="person-brief__name">
+                    {{ person.name }}, {{ person.body.title }}
+                </h2>
+                <a href="{{ person.body.get_absolute_url() }}" class="n-btn n-btn_back n-btn_ico n-btn--back-fixed">{{ _("Назад") }}</a>
+                {% if summary.documents %}
+                <div class="person-brief__position">
+                    {% for y in summary.documents.keys()|sort %}
+                    <div class="person-brief__position-by-year">
+                        <strong>{{ y }}</strong> {{ summary.documents[y]["infocard"]["position"] }} {{ _("в") }}
+                        {{ summary.documents[y]["infocard"]["office"] }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {# <div class="person-brief__actuality landing-page__actuality">
+                    {{ _("Актуально на ") }}
+                    {{ summary.documents[summary.max_year]["infocard"]["created_date"]|date }}
+                </div> #}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="tabs landing-page__tabs">
+            <div class="tabs__item">
+                <a href="#charts" class="tabs__link tabs__link--active">
+                    {{ _("Графіки") }}
+                </a>
+            </div>
+            <div class="tabs__item">
+                <a href="#connections" class="tabs__link">
+                    {{ _("Зв’язки") }}
+                </a>
+            </div>
+            <div class="tabs__item">
+                <a href="#docs" class="tabs__link">
+                    {{ _("Список документів") }}
+                </a>
+            </div>
+        </div>
+
+        <div class="search-card search-page__result-card tabs__tab" id="charts">
+            <div class="search-card__top">
+                <h2 class="search-card__title">
+                    {{ _("Статки") }}
+                </h2>
+                <div class="search-card__col">
+                    <div class="search-card__col-title">
+                        {{ _("Всього статків") }}
+                    </div>
+                    <div class="search-card__col-value">
+                        ₴ {{ summary.documents[summary.max_year]["aggregated_data"]["assets.total"]|string|curformat(true) }}
+                    </div>
+                </div>
+                <div class="search-card__col">
+                    <div class="search-card__col-title">
+                        {{ _("Дохід") }}
+                    </div>
+                    <div class="search-card__col-value">
+                        ₴ {{ summary.documents[summary.max_year]["aggregated_data"]["incomes.total"]|string|curformat(true) }}
+                    </div>
+                </div>
+                {# <div class="search-card__col">
+                    <div class="person-brief__actuality landing-page__actuality">
+                        {{ _("Актуально на ") }}
+                        {{ summary.documents[summary.max_year]["infocard"]["created_date"]|date }}
+                    </div>
+                </div> #}
+            </div>
+
+            <div class="search-card__items">
+                <div class="search-card__content">
+                    <div id="incomes"
+                        data-format="money"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-family_values="{{ summary.documents.values()|extract('incomes.family')|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('incomes.declarant')|tojson|forceescape }}"
+                        data-family_label="{{ _("Родина") }}"
+                        data-declarant_label="{{ _("Декларант") }}">
+                        <h3>{{ _("Дохід") }}</h3>
+                        <canvas id="incomes-chart" class="landing-page__person-chart"></canvas>
+                        <div class="chartjs-tooltip" id="incomes-chart-tooltip">
+                            <div class="chartjs-tooltip__body">
+                                <div class="chartjs-tooltip__name"><span class="value"></span></div>
+                                <div class="chartjs-tooltip__legend">
+                                    <div class="chartjs-tooltip__family-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Дохід родини") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                    <div class="chartjs-tooltip__declarant-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Дохід декларанта") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="assets"
+                        data-format="money"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-family_values="{{ summary.documents.values()|extract('assets.family')|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('assets.declarant')|tojson|forceescape }}"
+                        data-family_label="{{ _("Родина") }}"
+                        data-declarant_label="{{ _("Декларант") }}">
+                        <h3>{{ _("Статки") }}</h3>
+                        <canvas id="assets-chart" class="landing-page__person-chart"></canvas>
+                        <div class="chartjs-tooltip" id="assets-chart-tooltip">
+                            <div class="chartjs-tooltip__body">
+                                <div class="chartjs-tooltip__name"><span class="value"></span></div>
+                                <div class="chartjs-tooltip__legend">
+                                    <div class="chartjs-tooltip__family-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Статки родини") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                    <div class="chartjs-tooltip__declarant-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Статки декларанта") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="estate"
+                        data-format="area"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-family_values="{{ summary.documents.values()|extract('estate.family_other')|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('estate.total_other')|tojson|forceescape }}"
+                        data-family_label="{{ _("Родина") }}"
+                        data-declarant_label="{{ _("Декларант") }}">
+                        <h3>{{ _("Нерухомість") }}</h3>
+                        <canvas id="estate-chart" class="landing-page__person-chart"></canvas>
+                        <div class="chartjs-tooltip" id="estate-chart-tooltip">
+                            <div class="chartjs-tooltip__body">
+                                <div class="chartjs-tooltip__name"><span class="value"></span></div>
+                                <div class="chartjs-tooltip__legend">
+                                    <div class="chartjs-tooltip__family-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Нерухомість родини") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                    <div class="chartjs-tooltip__declarant-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Нерухомість декларанта") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="land"
+                        data-format="area"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-family_values="{{ summary.documents.values()|extract('estate.family_land')|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('estate.total_land')|tojson|forceescape }}"
+                        data-family_label="{{ _("Родина") }}"
+                        data-declarant_label="{{ _("Декларант") }}">
+                        <h3>{{ _("Земля") }}</h3>
+                        <canvas id="land-chart" class="landing-page__person-chart"></canvas>
+                        <div class="chartjs-tooltip" id="land-chart-tooltip">
+                            <div class="chartjs-tooltip__body">
+                                <div class="chartjs-tooltip__name"><span class="value"></span></div>
+                                <div class="chartjs-tooltip__legend">
+                                    <div class="chartjs-tooltip__family-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Земля родини") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                    <div class="chartjs-tooltip__declarant-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Земля декларанта") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="liabilities"
+                        data-format="money"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('liabilities.total')|tojson|forceescape }}"
+                        data-declarant_label="{{ _("Декларант") }}">
+                        <h3>{{ _("Зобов’язання") }}</h3>
+                        <canvas id="liabilities-chart" class="landing-page__person-chart"></canvas>
+                        <div class="chartjs-tooltip" id="liabilities-chart-tooltip">
+                            <div class="chartjs-tooltip__body">
+                                <div class="chartjs-tooltip__name"><span class="value"></span></div>
+                                <div class="chartjs-tooltip__legend">
+                                    <div class="chartjs-tooltip__declarant-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Зобов’язання декларанта") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="expenses"
+                        data-format="money"
+                        data-labels="{{ summary.documents.keys()|list|tojson|forceescape }}"
+                        data-declarant_values="{{ summary.documents.values()|extract('expenses.total')|tojson|forceescape }}"
+                        data-declarant_label="{{ _("Декларант") }}">
+                        <h3>{{ _("Витрати") }}</h3>
+                        <canvas id="expenses-chart" class="landing-page__person-chart"></canvas>
+                        <div class="chartjs-tooltip" id="expenses-chart-tooltip">
+                            <div class="chartjs-tooltip__body">
+                                <div class="chartjs-tooltip__name"><span class="value"></span></div>
+                                <div class="chartjs-tooltip__legend">
+                                    <div class="chartjs-tooltip__declarant-value">
+                                        <span>
+                                            <span class="chartjs-tooltip__legend-color"></span>
+                                            {{ _("Витрати декларанта") }}
+                                        </span>
+                                        <span class="value"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="search-card tabs__tab" id="connections" style="display: none">
+            <div id="cy" data-graph_data="{{ person.get_nodes()|tojson|forceescape }}" style="width: 100%; height: 600px">
+            </div>
+        </div>
+
+        <div class="tabs__tab" id="docs" style="display: none">
+            <div>
+                <div class="search-page__header landing-page__search-page-header">
+                    <div class="search-page__result-name">
+                        {{ _("Всі") }} ({{ results|count }})
+                    </div>
+                    <form action="{{ url("compare") }}" method="GET">
+                        {% for d in declarations %}
+                        <input type="hidden" name="declaration_id[]" value="{{ d }}" />
+                        {% endfor %}
+                        <input class="n-btn" type="submit" value="ПОРІВНЯТИ" />
+                    </form>
+                </div>
+            </div>
+            {{ search_results(results, true) }}
+        </div>
+    </div>
+{% endblock %}

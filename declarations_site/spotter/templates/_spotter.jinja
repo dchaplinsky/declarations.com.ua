@@ -1,6 +1,140 @@
 {% macro login_button(href) -%}
     {% set path = href|urlencode %}
-    <div id="login-button" data-url="{{ url("login_menu") }}">
+    {% if request.user.is_authenticated %}
+        <a class="account-block__login">
+            <svg class="account-block__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12C14.4862 12 16.5 9.98625 16.5 7.5C16.5 5.01375 14.4862 3 12 3C9.51375 3 7.5 5.01375 7.5 7.5C7.5 9.98625 9.51375 12 12 12ZM12 14.25C8.99625 14.25 3 15.7575 3 18.75V21H21V18.75C21 15.7575 15.0037 14.25 12 14.25Z"
+                        fill="#111111"/>
+            </svg>
+        </a>
+        <div class="account-block__dropdown">
+            <div class="account-block__dropdown-top">
+                <div class="account-block__user-name">
+                    {% if request.user.first_name %}
+                        {{ request.user.first_name }} {{ request.user.last_name }}
+                    {% else %}
+                        {{ request.user.username }}
+                    {% endif %}
+                </div>
+                <div class="account-block__user-email">{{ request.user.email }}</div>
+            </div>
+
+            <div class="account-block__menu">
+                <div class="account-block__menu-item">
+                    <a href="{{ url("search_list") }}" class="account-block__menu-link">{{ _("Мої запити") }}</a>
+                </div>
+                {# <div class="account-block__menu-item">
+                    <a href="profile-find.html" class="account-block__menu-link">{{ _("Мої знахідки") }}</a>
+                </div> #}
+            </div>
+
+            <div class="account-block__dropdown-bottom">
+                <a href="{{ url("logout") }}" class="account-block__logout">{{ _("Вийти") }}</a>
+            </div>
+
+        </div>
+    {% else %}
+        <a class="popup-btn" data-width="390px" href="login-template" title="{{ _("Увійти для перегляду підписок та збереженних пошуків") }}">
+            <svg class="account-block__icon account-block__not-login" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12C14.4862 12 16.5 9.98625 16.5 7.5C16.5 5.01375 14.4862 3 12 3C9.51375 3 7.5 5.01375 7.5 7.5C7.5 9.98625 9.51375 12 12 12ZM12 14.25C8.99625 14.25 3 15.7575 3 18.75V21H21V18.75C21 15.7575 15.0037 14.25 12 14.25Z"
+                        fill="#111111"/>
+            </svg>
+        </a>
+        <script type="text/html" id="login-template">
+            <div class="login-block" data-url="{{ url("login_menu") }}">
+                <div class="login-block__social">
+                    <div class="login-block__title">{{ _("Будь ласка, увійдіть") }}</div>
+                    <div class="login-block__text">
+                        {{ _("Щоб розпочати Моніторинг, або додати декларацію у Мої знахідки необхідно авторизуватись") }}
+                    </div>
+                    <div class="login-block__btns">
+                        <a href="{{ url("social:begin", "facebook") }}?next={{ path }}"
+                            class="n-btn n-btn_white login-block__btn_facebook">
+                            Facebook
+                        </a>
+                        <a href="{{ url("social:begin", "google-oauth2") }}?next={{ path }}"
+                            class="n-btn n-btn_white login-block__btn_google">
+                            Google
+                        </a>
+                    </div>
+
+                    <div class="login-block__bottom">
+                        <a href="#" class="login-block__other" data-show="email">
+                            <span class="login-block__other-text">{{ _("Увійдіть іншим способом") }}</span>
+                            <svg class="login-block__other-ico" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.66659 5.66659H5.66659V9.66659H4.33325V5.66659H0.333252V4.33325H4.33325V0.333252H5.66659V4.33325H9.66659V5.66659Z" fill="#56B8AD"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="login-block__email">
+                    <div class="login-block__title">{{ _("Введіть e-mail") }}</div>
+                    <div class="login-block__text">
+                        {{ _("Введіть адресу, з якої ви реєструвались. Якщо ви ще не зареєстровані — зареєструйтесь за допомогою Google або Facebook.") }}
+                    </div>
+
+                    <div class="login-block__btns">                
+                        <input
+                            type="email"
+                            name="email"
+                            id="login-email-input"
+                            class="n-input search-form__input"
+                            autocomplete="current-email"
+                            placeholder="{{ _("E-mail") }}">
+                    </div>
+
+                    <div class="login-block__bottom">
+                        <button class="login-block__other login-block__other--email-submit">
+                            <span class="login-block__other-text">
+                                {{ _("Надіслати лінк для входу") }}
+                            </span>
+                            <svg class="login-block__other-ico" width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.66659 5.66659H5.66659V9.66659H4.33325V5.66659H0.333252V4.33325H4.33325V0.333252H5.66659V4.33325H9.66659V5.66659Z" fill="#56B8AD"/>
+                            </svg>
+                        </button>
+                        <div class="login-block__loading">
+                            {{ _("Зачекайте...") }}
+                        </div>
+                    </div>
+                </div>
+                <div class="login-block__success">
+                    <div class="login-block__text">
+                        {{ _("Якщо ви зареєстровані на вказану адресу буде надіслано лист з посиланням для входу.") }}
+                        {{ _("Посилання діятиме протягом 15 хвилин.") }}
+                    </div>
+
+                    <div class="login-block__bottom">
+                        <button class="login-block__other popup__close popup__close--inline">
+                            <span class="login-block__other-text">
+                                {{ _("Закрити") }}
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="login-block__error">
+                    <div class="login-block__title">
+                        {{ _("Помилка входу") }}
+                    </div>
+                    <div class="login-block__text">
+                        {{ _("Помилка входу, не надано доступ.") }}
+                    </div>
+
+                    <div class="login-block__btns">                
+                        <button type="button" class="n-btn n-btn_white popup__close popup__close--inline" data-dismiss="modal">
+                            {{ _("Закрити") }}
+                        </button>
+                        <button class="n-btn n-btn_white login-block__other" data-show="email">
+                            {{ _("Повторити") }}
+                        </button>
+                    </div>
+
+                    <div class="login-block__bottom">
+                    </div>
+                </div>
+            </div>
+        </script>
+    {% endif %}
+    {# <div id="login-button" data-url="{{ url("login_menu") }}">
         <div class="dropdown profile-dropdown">
             <button class="btn btn-info dropdown-toggle" type="button" id="profile" title="{{ _("Увійти для перегляду підписок та збереженних пошуків") }}"
                 data-toggle="dropdown"><i class="fa fa-sign-in" aria-hidden="true"></i> {{ _("Увійти") }} <span class="caret"></span></button>
@@ -82,14 +216,22 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> #}
 {%- endmacro %}
+
 {% macro spotter_button(label, query_string, from) -%}
-{% set e_label = "e-mail" %}
-    <a id="save-search" class="btn btn-raised btn-sm save-search" data-target="#login-modal"
+{# {% set e_label = "e-mail" %} #}
+    <a id="save-search"
+       class="n-btn n-btn_gray monitoring-block__btn save-search"
+       data-target="#login-modal"
+       href="{{ url('save_search') }}?{{ query_string }}"
+       data-from="{{ from }}">
+        E-mail
+    </a>
+    {# <a id="save-search" class="btn btn-raised btn-sm save-search" data-target="#login-modal"
         href="{{ url('save_search') }}?{{ query_string }}" data-from="{{ from }}">
-        <i class="fa fa-envelope-o" aria-hidden="true"></i> {{ e_label }}</a>
-    <div class="modal" id="wait-modal" tabindex="-1" role="dialog">
+        <i class="fa fa-envelope-o" aria-hidden="true"></i> {{ e_label }}</a> #}
+    <div class="modal" id="wait-modal" tabindex="-1" role="dialog" style="display: none">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-body text-center">
@@ -99,6 +241,7 @@
         </div>
     </div>
 {%- endmacro %}
+
 {% macro subscribe_chatbot_links() -%}
     {{ _("Також ви можете підписатись і отримувати сповіщення у ваш улюблений месенджер:") }}
     <a href="https://join.skype.com/bot/aa05e543-5918-49bb-88e6-ae8064345dd8">Skype</a>,
@@ -110,9 +253,7 @@
     <div class="clearfix"></div>
     <div class="messages">
         {% for message in messages %}
-        <div class="alert alert-dismissible alert-{% if message.tags %}{{ message.tags }}{% endif %}">
-            <button type="button" class="close" data-dismiss="alert"
-                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <div class="alert{% if message.tags %} alert--{{ message.tags }}{% endif %}">
             {{ message }}
         </div>
         {% endfor %}

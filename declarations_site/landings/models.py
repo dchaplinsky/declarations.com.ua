@@ -1,14 +1,20 @@
 from itertools import chain
+import hashlib
 
 from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
 from django.core.serializers.json import DjangoJSONEncoder
+from django.urls import reverse
+from django.utils.translation import gettext as _
 
 from dateutil.parser import parse as dt_parse
 from elasticsearch.serializer import JSONSerializer
 from elasticsearch_dsl import Q
+from ckeditor.fields import RichTextField
+from easy_thumbnails.fields import ThumbnailerImageField
 
 from catalog.elastic_models import NACPDeclaration
+from catalog.models import Region
 
 
 class DeclarationsManager(models.Manager):
@@ -44,9 +50,24 @@ class DeclarationsManager(models.Manager):
 
 
 class LandingPage(models.Model):
+    BODY_TYPES = {
+        "city_council": _("Міська рада"),
+        "regional_council": _("Обласна рада"),
+        "other": _("Інше"),
+    }
     slug = models.SlugField("Ідентифікатор сторінки", primary_key=True, max_length=100)
     title = models.CharField("Заголовок сторінки", max_length=200)
-    description = models.TextField("Опис сторінки", blank=True)
+    description = RichTextField("Опис сторінки", blank=True)
+    image = ThumbnailerImageField(blank=True, upload_to="landings")
+    region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.SET_NULL)
+    body_type = models.CharField(
+        "Тип держоргану",
+        blank=True,
+        null=True,
+        choices=BODY_TYPES.items(),
+        max_length=30,
+    )
+
     keywords = models.TextField(
         "Ключові слова для пошуку в деклараціях (по одному запиту на рядок)", blank=True
     )
@@ -56,15 +77,29 @@ class LandingPage(models.Model):
             p.pull_declarations()
 
     def get_summary(self):
-        return [
-            p.get_summary()
-            for p in self.persons.select_related("body").prefetch_related(
-                "declarations"
-            )
-        ]
+        persons = {}
+        min_years = []
+        max_years = []
+        for p in self.persons.select_related("body").prefetch_related("declarations"):
+            summary = p.get_summary()
+            if "min_year" in summary:
+                min_years.append(summary["min_year"])
+
+            if "max_year" in summary:
+                max_years.append(summary["max_year"])
+            persons[p.pk] = summary
+
+        return {
+            "max_year": max(max_years),
+            "min_year": min(min_years),
+            "persons": persons,
+        }
 
     def __str__(self):
         return "%s (%s)" % (self.title, self.slug)
+
+    def get_absolute_url(self):
+        return reverse("landing_page_details", kwargs={"pk": self.pk})
 
     class Meta:
         verbose_name = "Лендінг-сторінка"
@@ -88,6 +123,11 @@ class Person(models.Model):
 
     def __str__(self):
         return "%s (знайдено декларацій: %s)" % (self.name, self.declarations.count())
+
+    def get_absolute_url(self):
+        return reverse(
+            "landing_page_person", kwargs={"body_id": self.body_id, "pk": self.pk}
+        )
 
     def pull_declarations(self):
         def get_search_clause(kwd):
@@ -191,15 +231,27 @@ class Person(models.Model):
 
         Declaration.objects.create_declarations(self, second_pass)
 
+    @staticmethod
+    def get_flags(aggregated_data):
+        res = []
+        for f, flag in NACPDeclaration.ENABLED_FLAGS.items():
+            if str(aggregated_data.get(f, "false")).lower() == "true":
+                res.append(
+                    {
+                        "flag": f,
+                        "text": flag["name"],
+                        "description": flag["description"],
+                    }
+                )
+
+        return res
+
     def get_summary(self):
-        result = {"name": self.name, "id": self.pk, "documents": []}
+        result = {"name": self.name, "id": self.pk, "documents": {}}
 
         years = {}
 
-        for d in self.declarations.all():
-            if d.doc_type == "Форма змін" or d.exclude:
-                continue
-
+        for d in self.declarations.exclude(doc_type="Форма змін").exclude(exclude=True):
             if d.year in years:
                 if dt_parse(d.source["infocard"]["created_date"]) > dt_parse(
                     years[d.year].source["infocard"]["created_date"]
@@ -209,18 +261,44 @@ class Person(models.Model):
                 years[d.year] = d
 
         for k in sorted(years.keys()):
-            result["documents"].append(
-                {
-                    "aggregated_data": years[k].source["aggregated_data"],
-                    "year": k,
-                    "infocard": years[k].source["infocard"],
-                }
-            )
+            result["documents"][k] = {
+                "aggregated_data": years[k].source["aggregated_data"],
+                "flags": self.get_flags(years[k].source["aggregated_data"]),
+                "year": k,
+                "infocard": years[k].source["infocard"],
+            }
 
         if years:
             result["min_year"] = min(years.keys())
             result["max_year"] = max(years.keys())
         return result
+
+    def get_nodes(self):
+        persons = set()
+        companies = set()
+
+        for d in self.declarations.exclude(doc_type="Форма змін").exclude(exclude=True):
+            persons |= set(d.source["related_entities"]["people"]["family"])
+            companies |= set(d.source["related_entities"]["companies"]["owned"])
+            companies |= set(d.source["related_entities"]["companies"]["related"])
+
+        nodes = [{"data": {"id": "root", "label": self.name}, "classes": ["root", "person"]}]
+
+        edges = []
+
+        for p in persons:
+            id_ = hashlib.sha256(p.encode("utf-8")).hexdigest()
+
+            nodes.append({"data": {"id": id_, "label": p}, "classes": ["person"]})
+            edges.append({"data": {"source": "root", "target": id_}})
+
+        for c in companies:
+            id_ = hashlib.sha256(c.encode("utf-8")).hexdigest()
+
+            nodes.append({"data": {"id": id_, "label": c}, "classes": ["company"]})
+            edges.append({"data": {"source": "root", "target": id_}})
+
+        return {"nodes": nodes, "edges": edges}
 
     class Meta:
         verbose_name = "Фокус-персона"

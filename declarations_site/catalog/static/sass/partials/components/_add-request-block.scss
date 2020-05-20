@@ -1,0 +1,79 @@
+.add-request-block {
+  &__title {
+    padding: 60px 16px 16px;
+    border-bottom: 1px solid #EEEFF2;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    @media all and (min-width: 400px) {
+      padding: 21px 24px;
+      font-size: 16px;
+    }
+  }
+  &__content {
+    padding: 16px;
+    @media all and (min-width: 400px) {
+      padding: 20px 24px;
+    }
+  }
+  &__bottom {
+    margin-top: 40px;
+    @media all and (min-width: 400px) {
+      @include flex($align-items: center);
+    }
+  }
+  &__btn {
+    width: 100%;
+    margin-top: 16px;
+    @media all and (min-width: 400px) {
+      width: 104px;
+      margin: 0;
+    }
+  }
+  &__count {
+    @include flex($justify-content: flex-start, $align-items: center);
+  }
+  &__count-text {
+    font-size: 16px;
+    margin-right: 8px;
+  }
+  &__count-number {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: $green;
+    line-height: 24px;
+    text-align: center;
+    color: $white;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  &__items {
+    margin-top: 16px;
+    border: 1px solid #C4C7CC;
+    border-radius: 2px;
+    padding: 12px;
+  }
+  &__item {
+    font-size: 12px;
+    color: $green;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-weight: 500;
+    transition: color 0.3s linear;
+    &:hover {
+      color: #347D74;
+    }
+  }
+  &__input {
+    width: 100%;
+    padding: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    box-sizing: border-box;
+  }
+  &__progress {
+    padding-bottom: 14px;
+  }
+}

@@ -1,4 +1,6 @@
 {% extends "base.jinja" %}
+{% from "_advantages.jinja" import advantages %}
+{% from "_search_form.jinja" import ex_search_form with context %}
 
 {% block extrahead %}
 {% endblock %}
@@ -8,64 +10,138 @@
 {% block infobox %}
 {% endblock %}
 {% block content %}
-<section id="page" style="min-height: 600px">
-    <div id="bi">
-        <ul class="nav bi-nav wizard" role="tablist">
-            <li role="presentation" class="active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab" data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=509df4e3-c87f-4a4f-b2bd-dabcb506d2ca&opt=currsel'>{{ _("Загальні дані") }}</a></li>
-            <li role="presentation"><a href="#incomes_and_assets" aria-controls="incomes_and_assets" role="tab" data-toggle="tab" data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=1c1e23d1-d729-472f-85d3-cd477113f925&opt=currsel'>{{ _("Доходи та активи") }}</a></li>
-            <li role="presentation"><a href="#liabilities" aria-controls="liabilities" role="tab" data-toggle="tab" data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=bcb0b49a-4b9f-4a4f-8042-0c478d7f8e35&opt=currsel'>{{ _("Зобов’язання та видатки") }}</a></li>
-            <li role="presentation"><a href="#realty" aria-controls="realty" role="tab" data-toggle="tab" data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=17ebd8ec-ec98-4851-b1d2-a5aaebce08ad&opt=currsel'>{{ _("Нерухомість") }}</a></li>
-            <li role="presentation"><a href="#vehicles" aria-controls="vehicles" role="tab" data-toggle="tab" data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=1a34f05f-8594-48eb-98df-9378a7ee5ca8&opt=currsel'>{{ _("Транспорт") }}</a></li>
-            <li role="presentation"><a href="#risks" aria-controls="risks" role="tab" data-toggle="tab" data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=b3d23282-6d01-4331-a6df-46cb43be7bc1&opt=currsel'>{{ _("Ризик-аналіз") }}</a></li>
-            <li role="presentation"><a href="#regions" aria-controls="regions" role="tab" data-toggle="tab" data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=e6c6953b-24df-41ca-a0c2-fb2076ceba12&opt=currsel'>{{ _("Регіональний зріз") }}</a></li>
-            <li role="presentation"><a href="#list_of_declarants" aria-controls="list_of_declarants" role="tab" data-toggle="tab" data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=0666db7e-eff0-4bc3-a05b-e073c207861c&opt=currsel'>{{ _("Список декларантів") }}</a></li>
-        </ul>
-        <div class="tab-content">
-            <div class="text-center">
-                <span class="dropdown">
-                    <a id="bi_manual" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-info subnav btn-green">{{ _("Інструкція та дані") }}
-                        <span class="caret"></a>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="bi_manual" id="bi_manual_menu">
-                        <li><a href="/static/data/manual_final.pdf" target="_blank"><i class="fa fa-info" aria-hidden="true"></i> {{ _("Інструкція") }}</a></li>
-                        <li><a href="/static/data/declarations_for_bi.csv.bz2" target="_blank"><i class="fa fa-download" aria-hidden="true"></i> {{ _("Дані у CSV (більше трьох мільйонів рядків!)") }}</a></li>
-                        <li><a href="https://docs.google.com/spreadsheets/d/1gkimFwc9g-Yi3HvdrA5lh8iQZ6tqIJnG3dLBIgnUmqY/edit?usp=sharing" target="_blank"><i class="fa fa-book" aria-hidden="true"></i>{{ _("Опис формату даних") }}</a></li>
-                    </ul>
-                </span>
-                <a href="#" id="cta" class="btn btn-info subnav">{{ _("Далі") }} <i class="fa fa-step-forward" aria-hidden="true"></i></a>
-            </div>
-            <div role="tabpanel" class="tab-pane active bi-frame" id="general">
-                <p class="text-danger">{{ _("Якщо дані не відображуються у браузері Safari, будь ласка,") }} <a href="https://bi.brdo.com.ua" target="_blank">{{ _("перейдіть за посиланням") }}</a>{{ _(", а потім перезавантажте цю сторінку") }}</p>
-                <iframe src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=509df4e3-c87f-4a4f-b2bd-dabcb506d2ca&opt=currsel'></iframe>
-            </div>
-            <div role="tabpanel" class="tab-pane bi-frame" id="incomes_and_assets">
-            </div>
-            <div role="tabpanel" class="tab-pane bi-frame" id="liabilities">
-            </div>
-            <div role="tabpanel" class="tab-pane bi-frame" id="realty">
-            </div>
-            <div role="tabpanel" class="tab-pane bi-frame" id="vehicles">
-            </div>
-            <div role="tabpanel" class="tab-pane bi-frame" id="risks">
-            </div>
-            <div role="tabpanel" class="tab-pane bi-frame" id="regions">
-            </div>
-            <div role="tabpanel" class="tab-pane bi-frame" id="list_of_declarants">
+<div class="content container">
+    <div class="analytics-page">
+        <div class="analytics-page__search">
+            {{ ex_search_form('', false) }}
+        </div>
+        <div class="analytics-page__header">
+            <h1 class="analytics-page__title">{{ _("Аналітика") }}</h1>
+            <div class="analytics-page__select">
+                <div class="n-select">
+                    <div class="n-select__selected">{{ _("Інструкції та дані") }}</div>
+                    <div class="n-select__items">
+                        <div class="n-select__item">
+                            <a href="/static/data/manual_final.pdf" target="_blank">{{ _("Інструкція") }}</a>
+                        </div>
+                        <div class="n-select__item">
+                            <a href="/static/data/declarations_for_bi.csv.bz2" target="_blank">{{ _("Дані у СSV (більше мільйона рядків)") }}</a>
+                        </div>
+                        <div class="n-select__item">
+                            <a href="https://docs.google.com/spreadsheets/d/1gkimFwc9g-Yi3HvdrA5lh8iQZ6tqIJnG3dLBIgnUmqY/edit?usp=sharing" target="_blank">{{ _("Опис формату даних") }}</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="analytics-page__tabs">
+            <div class="analytics-tabs">
+                <div class="analytics-tabs__tab analytics-tabs__tab--active">
+                    <a class="analytics-tabs__tab-name"
+                        role="presentation"
+                        href="#general"
+                        aria-controls="general"
+                        role="tab"
+                        data-toggle="tab"
+                        data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=509df4e3-c87f-4a4f-b2bd-dabcb506d2ca&opt=currsel'>
+                        {{ _("Загальні дані") }}
+                    </a>
+                </div>
+                <div class="analytics-tabs__tab">
+                    <a class="analytics-tabs__tab-name"
+                        href="#incomes_and_assets"
+                        aria-controls="incomes_and_assets"
+                        role="tab"
+                        data-toggle="tab"
+                        data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=1c1e23d1-d729-472f-85d3-cd477113f925&opt=currsel'>
+                        {{ _("Доходи та<br>активи") }}
+                    </a>
+                </div>
+                <div class="analytics-tabs__tab">
+                    <a class="analytics-tabs__tab-name"
+                        href="#liabilities"
+                        aria-controls="liabilities"
+                        role="tab"
+                        data-toggle="tab"
+                        data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=bcb0b49a-4b9f-4a4f-8042-0c478d7f8e35&opt=currsel'>
+                        {{ _("Зобов'язання<br>та видатки") }}
+                    </a>
+                </div>
+                <div class="analytics-tabs__tab">
+                    <a class="analytics-tabs__tab-name"
+                        href="#realty"
+                        aria-controls="realty"
+                        role="tab"
+                        data-toggle="tab"
+                        data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=17ebd8ec-ec98-4851-b1d2-a5aaebce08ad&opt=currsel'>
+                        {{ _("Нерухомість") }}
+                    </a>
+                </div>
+                <div class="analytics-tabs__tab">
+                    <a class="analytics-tabs__tab-name"
+                        href="#vehicles"
+                        aria-controls="vehicles"
+                        role="tab"
+                        data-toggle="tab"
+                        data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=1a34f05f-8594-48eb-98df-9378a7ee5ca8&opt=currsel'>
+                        {{ _("Транспорт") }}
+                    </a>
+                </div>
+                <div class="analytics-tabs__tab">
+                    <a class="analytics-tabs__tab-name"
+                        href="#risks"
+                        aria-controls="risks"
+                        role="tab"
+                        data-toggle="tab"
+                        data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=b3d23282-6d01-4331-a6df-46cb43be7bc1&opt=currsel'>
+                       {{ _("Ризик-аналіз") }}
+                    </a>
+                </div>
+                <div class="analytics-tabs__tab">
+                    <a class="analytics-tabs__tab-name"
+                        href="#regions"
+                        aria-controls="regions"
+                        role="tab"
+                        data-toggle="tab"
+                        data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=e6c6953b-24df-41ca-a0c2-fb2076ceba12&opt=currsel'>
+                        {{ _("Регіональний<br>зріз") }}
+                    </a>
+                </div>
+                <div class="analytics-tabs__tab">
+                    <a class="analytics-tabs__tab-name"
+                        href="#list_of_declarants"
+                        aria-controls="list_of_declarants"
+                        role="tab"
+                        data-toggle="tab"
+                        data-iframe-src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=0666db7e-eff0-4bc3-a05b-e073c207861c&opt=currsel'>
+                        {{ _("Список<br>декларантів") }}
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="analytics-page__iframe">
+            <iframe src='https://bi.brdo.com.ua/single/?appid=ce9cd08e-1f44-4f2c-84a6-2ad194083fb0&sheet=509df4e3-c87f-4a4f-b2bd-dabcb506d2ca&opt=currsel'></iframe>
+            {# <iframe src="frame.html" height="720"></iframe> #}
+        </div>
+
+        <div class="analytics-page__thank-to">
+            <div>
+                <a href="http://qlik.rbcgrp.com/" target="_blank" class="analytics-page__thank-to-rbc"></a>
+            </div>
+            <div>
+                <a href="http://en.brdo.com.ua/" target="_blank" class="analytics-page__thank-to-brdo"></a>
+            </div>
+            <div>
+                <a href="https://bihus.info/projects/go-kancelarska-sotna" target="_blank" title="{{ _("Канцелярська сотня") }}" class="analytics-page__thank-to-wh100">
+                    <svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#wh100") }}"></use></svg>
+                </a>
+            </div>
+        </div>
+
+        {{ advantages('analytics-page__advantages') }}
     </div>
-    <ul class="thank-to">
-        <li>
-            <a href="http://qlik.rbcgrp.com/" target="_blank" class="rbc"></a>
-        </li>
-        <li>
-            <a href="http://en.brdo.com.ua/" target="_blank" class="brdo"></a>
-        </li>
-        <li>
-            <a href="https://bihus.info/projects/go-kancelarska-sotna" target="_blank" title="{{ _("Канцелярська сотня") }}" class="wh100">
-                <span class="svg-image inline-logo media-object"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#wh100") }}"></use></svg></span>
-            </a>
-        </li>
-    </ul>
-</section>
+</div>
 {% endblock %}

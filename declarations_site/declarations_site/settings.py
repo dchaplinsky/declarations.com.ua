@@ -55,6 +55,11 @@ INSTALLED_APPS = (
     'pipeline',
     'django_jinja',
     'django_jinja.contrib._humanize',
+    "django_jinja.contrib._easy_thumbnails",
+    "easy_thumbnails",
+    "ckeditor",
+    "ckeditor_uploader",
+
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -290,28 +295,31 @@ PIPELINE = {
             ),
             'output_filename': 'css/merged.css',
             'extra_context': {},
-        },
-        'css_infographics': {
-            'source_filenames': (
-                'sass/infographics.scss',
-            ),
-            'output_filename': 'css/merged_infographics.css',
-            'extra_context': {},
         }
     },
     'JAVASCRIPT': {
         'js_all': {
             'source_filenames': (
-                "js/jquery-1.11.2.js",
-                "js/bootstrap.js",
-                "js/bootstrap3-typeahead.js",
-                "js/ripples.js",
-                "js/material.js",
-                'js/jquery.magnific-popup.js',
-                "js/main.js",
-                "js/decl-compare.js",
-                "js/user.js",
-                "js/analytics.js",
+                'js/jquery.min.js',
+                'js/typeahead.bundle.js',
+                'js/partials/popup.js',
+                'js/partials/mobile-menu.js',
+                'js/partials/n-select.js',
+                'js/partials/n-tooltip.js',
+                'js/partials/search-form.js',
+                'js/partials/modal.js',
+                'js/partials/account-block.js',
+                'js/partials/request-block.js',
+                'js/partials/login-block.js',
+                'js/partials/card-actions.js',
+                'js/partials/compare-card.js',
+                'js/partials/compare-popup.js',
+                'js/partials/add-request.js',
+                'js/partials/sort-block.js',
+                'js/partials/analytics-tabs.js',
+                'js/partials/declaration.js',
+                'js/partials/tabs.js',
+                'js/pages/landing.js',
             ),
             'output_filename': 'js/merged.js',
         },
@@ -319,19 +327,11 @@ PIPELINE = {
         'js_charts': {
             'source_filenames': (
                 "js/Chart.bundle.js",
+                "js/cytoscape.min.js",
                 "js/accounting.js",
                 "js/compare-charts.js",
             ),
             'output_filename': 'js/merged_charts.js',
-        },
-
-        'js_infographics': {
-            'source_filenames': (
-                "js/d3.js",
-                "js/d3-tip.js",
-                "js/infographics_on_main.js",
-            ),
-            'output_filename': 'js/merged_infographics.js',
         }
     }
 }
@@ -390,6 +390,15 @@ if SENTRY_DSN:
         ignore_logger(l)
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (250, 250), 'crop': True},
+    },
+}
 
 try:
     from .local_settings import *

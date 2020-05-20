@@ -1,0 +1,49 @@
+.declaration-page {
+  .content {
+    @media all and (max-width: 1232px) {
+      padding-top: 0;
+    }
+    @media all and (max-width: 1023px) {
+      padding-bottom: 68px;
+    }
+  }
+  &__navigation {
+    @media all and (max-width: 1232px) {
+      @include flex();
+      background: #F7F9FA;
+      padding: 12px 0;
+    }
+  }
+  &__contents {
+    z-index: 10;
+    @media all and (min-width: 1233px) {
+      position: fixed;
+      top: 117px;
+      right: 0;
+    }
+    @media all and (max-width: 1232px) {
+      .n-btn {
+        padding-top: 7px;
+        padding-bottom: 7px;
+      }
+    }
+  }
+  &__back {
+    border-radius: 0 2px 2px 0;
+    padding-left: 8px;
+    padding-right: 19px;
+    @media all and (min-width: 1233px) {
+      position: fixed;
+      top: 117px;
+      z-index: 10;
+      left: 0;
+    }
+    @media all and (max-width: 1232px) {
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  }
+  &__relevant-container {
+    margin: 60px auto;
+  }
+}

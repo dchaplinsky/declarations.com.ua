@@ -1,0 +1,22 @@
+.help-block {
+  color: #898D93;
+  &__btn {
+    display: block;
+    width: 23px;
+    height: 6px;
+    opacity: 0.8;
+    cursor: pointer;
+    @include flex();
+  }
+  &__btn-dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: $base;
+  }
+  &__text {
+    display: none;
+    margin-top: 10px;
+  }
+}

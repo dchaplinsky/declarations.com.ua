@@ -1,0 +1,33 @@
+{% extends "base.jinja" %}
+
+{% block bodyclass %}landing-page__person{% endblock %}
+
+{% block extra_js %}
+    {% javascript 'js_charts' %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="content container">
+        <h1 id="page-header"><span>{{ _("Регіональні установи") }}</span></h1>
+        <div class="table-responsive">
+            <div id="glossarium">
+                {% for region, regional_bodies in object_list|groupby("region_id") %}
+                    <h3>{{ regional_bodies[0].region.region_name }}</h3>
+                    <table class="regions__table">
+                        {% for body_type, bodies in regional_bodies|groupby("body_type") %}
+                            {% for body in bodies %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ body.get_absolute_url() }}">{{ body.title }}</a>
+                                        ({{ body.persons_count }} {{ body.persons_count|uk_plural(_("працівник,працівника,працівників")) }})
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

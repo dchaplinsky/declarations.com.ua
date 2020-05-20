@@ -1,0 +1,12 @@
+здесь положить файл, в который будет все собираться. например main.js  с таким содержимым:
+/*
+ * Third party
+ */
+@@include('source/jquery.min.js');
+@@include('source/owl.carousel.min.js');
+@@include('source/jquery.inview.min.js');
+
+/*
+ * Custom
+ */
+@@include('partials/app.js');

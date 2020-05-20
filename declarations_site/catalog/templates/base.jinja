@@ -1,4 +1,4 @@
-{% from "_social.jinja" import social -%}{% from "_spotter.jinja" import login_button -%}<!DOCTYPE html>
+{% from "_social.jinja" import social -%}{% from "_spotter.jinja" import login_button with context -%}{% from "_lang_switcher.jinja" import lang_switcher with context -%}<!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" prefix="og: http://ogp.me/ns#">
     <head>
         <meta charset="utf-8">
@@ -117,116 +117,82 @@
             }(document, 'script', 'facebook-jssdk'));</script>
     {% block branding %}{% endblock %}
     {% block brandingtop %}{% endblock %}
-    <div id="wrapper">
+    <div class="page">
         <header>
-            {% block infobox %}
-                <section id="infobox">
-                    <div class="container">
-                        <div id="stickyBannerWrapper" style="display:none; position: relative; z-index: 2; ">
-                            <div style="position: absolute; left: -170px; width: 160px">
-                                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
-                                    <div id='div-gpt-ad-1531830029689-5'>
-                                        <script>
-                                          googletag.cmd.push(function () {
-                                            googletag.display('div-gpt-ad-1531830029689-5');
-                                          });
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="position: absolute; right: -170px; width: 160px">
-                                <div style="width: 160px; height: 600px; position: fixed; top: 0;">
-                                    <div id='div-gpt-ad-1531830029689-4'>
-                                        <script>
-                                          googletag.cmd.push(function () {
-                                            googletag.display('div-gpt-ad-1531830029689-4');
-                                          });
-                                        </script>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="infobanner infobanner--bi">
-                            <div class="infobanner-content">
-                                <a class="banner-link" href="https://donate.bihus.info/" title="Підтримай Bihus.info!  | Bihus.info — антикорупційні журналістські розслідування"></a>
-                                <div class="infobanner-text text-center">
-                                    <p class="infobanner-top-text">{{ _("Підтримай команду журналістів та юристів Bihus.info") }}</p>
-                                    <a href="https://donate.bihus.info/" class="btn button-cta">{{ _("Я з вами") }}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            {% endblock %}
-
             {% block header %}
-                <div class="nav-block">
-                        <div class="container">
-                            <div class="row">
-                                <nav id="navbar" class="navbar navbar-default col-lg-8 col-md-12" role="navigation">
-                                    <div class="navbar-header">
-                                        <a href="{{ url("wagtail_serve", "") }}" class="logo pull-left">
-                                            <span class="svg-image inline-logo"><svg preserveAspectRatio="xMidYMid" focusable="false"><use xlink:href="{{ static("images/svg-images-sprite.svg#logo") }}"></use></svg></span>
-                                        </a>
-                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span><span class="glyphicon glyphicon glyphicon-remove"></span> </button>
+                <div class="header">
+                    <div class="header__inner">
+                        <div class="header__column header__mobile">
+                            <div class="mobile-menu-link">
+                                <div class="mobile-menu-link__line"></div>
+                                <div class="mobile-menu-link__line"></div>
+                                <div class="mobile-menu-link__line"></div>
+                            </div>
+
+                            {{ lang_switcher(LANGUAGES, 'header__lang-switch-mobile') }}
+                        </div>
+
+                        <div class="header__column">
+                            <div class="logo-block">
+                                <a href="{{ url("wagtail_serve", "") }}" class="logo-block__link">
+                                    <img class="logo-block__img_desktop" src="{{ static("images/logo.svg") }}" alt="Bihus logo">
+                                    <img class="logo-block__img_mobile" src="{{ static("images/logo-mobile.svg") }}" alt="Bihus logo">
+                                </a>
+                            </div>
+
+                            <div class="header__menu main-menu">
+                                {% for menuitem in top_menu %}
+                                    <div class="main-menu__item">
+                                        <a href="{{ menuitem.link }}" class="main-menu__link{% if menuitem.extra_class %} {{ menuitem.extra_class }}{% endif %}">{{ menuitem.translated_caption }}</a>
                                     </div>
-                                    <div class="collapse navbar-collapse navbar-ex1-collapse pull-left">
-                                        <ul class="nav navbar-nav">
-                                            {% for menuitem in top_menu %}
-                                            <li{% if menuitem.extra_class %} class="{{ menuitem.extra_class }}"{% endif %}><a href="{{ menuitem.link }}">{{ menuitem.translated_caption }}</a></li>
-                                            {% endfor %}
-                                            {% for language_code, language_name in LANGUAGES %}
-                                                {% if LANGUAGE_CODE != language_code %}
-                                                <li><a href="{{ translate_url(request, language_code) }}">{% if language_code == "uk" %}ua{% else %}{{ language_code }}{% endif %}</a></li>
-                                                {% endif %}
-                                            {% endfor %}                                            
-                                            <li class="bi-toggle-search"><a href="#" title="{{ _("розкрити пошук") }}"><i class="fa fa-search" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
-                                            <li class="social-mobile"><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </nav>
-                                <section id="block-sociallinksblock" class="col col-lg-4 col-md-4 col-sm-5 pull-right">
-                                    <ul>
-                                        <li><a href="https://www.facebook.com/bihus.info/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://twitter.com/BihusInfo" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://www.youtube.com/bihusinfo" target="_blank"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://bihus.info/follow-bihus"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://t.me/bihusinfo" target="_blank"><i class="fa fa-telegram" aria-hidden="true"></i></a></li>
-                                        <li><a href="https://bihus.info/news/rss.xml" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
-                                    </ul>
-                                </section>
-                                <div class="pull-right col">
-                                    {{ login_button(request.get_full_path()) }}
-                                    <button title="{{ _("Список порівнянь") }}" type="button" class="btn btn-info btn-green decl-compare-toggle hidden" data-toggle="modal" data-target=".decl-compare-modal"><i class="fa fa-balance-scale" aria-hidden="true"></i> <span class="badge"></span></button>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="header__column">
+                            <button class="compare-block header__compare modal__trigger hidden" data-modal-id="compare__popup">
+                                <div class="action-icon action-icon_dark compare-block__icon">
+                                    <img src="{{ static("images/icon/compare-black.svg") }}" alt="" class="action-icon__img">
+                                    <div class="action-icon__count action-icon__count-compared"></div>
                                 </div>
+                            </button>
+
+                            <div class="account-block header__account">
+                                {{ login_button(request.get_full_path()) }}
+                            </div>
+
+                            {{ lang_switcher(LANGUAGES, 'header__lang-switch') }}
+
+                            <div class="header__support support-project-block">
+                                <a class="n-btn support-project-block__btn"
+                                data-width="664px"
+                                href="https://donate.bihus.info/">{{ _("Підтримати проект") }}</a>
                             </div>
                         </div>
                     </div>
 
-                <div class="nav-search">
-                    <div class="container">
-                        <div class="row">
-                            <div class="search-block">
-                                <div id="front-searchbox" class="searchbox col-sm-12">
-                                    <form action="{{ url("search") }}" method="GET">
-                                        <div class="input-group">
-                                            <input type="text" name="q" class="form-control search-name" id="search-form" placeholder="{{ _("ПОШУК ДЕКЛАРАЦІЙ. Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба") }}" autocomplete="off" value="{% if query %}{{ query }}{% endif %}" />
-                                            <span id="search_scope" class="input-group-btn">
-                                                <div class="checkbox"><label title="{{ _("Шукати по всьому тексту декларації, а не тільки по імені та посаді") }}"><input type="checkbox" name="deepsearch" {% if context_or_settings('deepsearch') %}checked="checked"{% endif %}> <span>{{ _("Шукати скрізь") }}</span></label></div>
-                                            </span>
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default" type="submit"> <span class="glyphicon glyphicon-search"></span> </button>
-                                            </span>
-                                        </div>
-                                    </form>
-                                    <a class="ex-search-link" href="{{ url("search") }}#exsearch" class="text-right">{{ _("Розширений пошук") }}</a>
-                                </div>
+                    <div class="mobile-menu">
+                        <div class="mobile-menu__close-btn"></div>
+                        <div class="mobile-menu__inner">
+                            <div class="mobile-menu__top">
+                                <img src="{{ static("images/logo.svg") }}" alt="Bihus logo" class="mobile-menu__logo">
                             </div>
+
+                            <div class="mobile-menu__items">
+                                {% for menuitem in top_menu %}
+                                    <div class="mobile-menu__item">
+                                        <a class="mobile-menu__link popup-btn" href="{{ menuitem.link }}">{{ menuitem.translated_caption }}</a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="mobile-menu__description">
+                                {{ _("Bihus.info об'єднує антикорупційні проекти, які створює ГО \"ТОМ 14\" та ГО \"Канцелярська сотня\".") }}
+                            </div>
+
+                            <a class="n-btn mobile-menu__donation"
+                               data-width="664px"
+                               href="https://donate.bihus.info/">{{ _("Підтримати проект") }}</a>
                         </div>
                     </div>
                 </div>
@@ -248,7 +214,119 @@
         {% block content %}
         {% endblock %}
 
-        <footer id="footer">
+        <div class="footer">
+            <div class="container footer__inner">
+                <div class="footer__top">
+                    <div class="project-menu">
+                        <div class="project-menu__title">{{ _("Проекти") }}</div>
+
+                        <div class="project-menu__items">
+                            <div class="project-menu__item">
+                                <a href="https://declarations.com.ua/" class="project-menu__link">{{ _("декларації") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/laboratoriya-vikrittiv/" class="project-menu__link">{{ _("лабораторія викриттів") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://kotyky.org.ua/" class="project-menu__link">{{ _("котики") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/push" class="project-menu__link">{{ _("тисни!") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://ring.org.ua/" class="project-menu__link">{{ _("ring") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://www.youtube.com/playlist?list=PLj1W_YfyNdvmEDcNS9pAVpfBs8DKYCkvv" class="project-menu__link">{{ _("підсумки дна") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://www.youtube.com/playlist?list=PLj1W_YfyNdvlgQKoXEIdx3D4eVR4HlAtJ" class="project-menu__link">{{ _("наші гроші") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/programa-intervyu-vono-yak/" class="project-menu__link">{{ _("он воно як") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="http://posipaky.info/" class="project-menu__link">{{ _("посіпаки") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="http://posipaky-2.info/" class="project-menu__link">{{ _("посіпаки 2") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/gra-sliv/" class="project-menu__link">{{ _("гра слів") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/blogi-0/" class="project-menu__link">{{ _("блоги") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://declarations.com.ua/business-intelligence/" class="project-menu__link">{{ _("nevid") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://bihus.info/projects/elektronne-bti-ebti" class="project-menu__link">{{ _("e.БТІ") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://garnahata.in.ua/" class="project-menu__link">{{ _("гарнахата") }}</a>
+                            </div>
+                            <div class="project-menu__item">
+                                <a href="https://svoi.bihus.info/" class="project-menu__link">{{ _("свої люди") }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer__medium">
+
+                    <div class="project-description-block">
+                        <img src="{{ static("images/logo-white.svg") }}" alt="Bihus logo" class="project-description-block__logo">
+                        <div class="project-description-block__text">
+                            {{ _("Bihus.info об'єднує антикорупційні проекти, які створює ГО \"ТОМ 14\" та ГО \"Канцелярська сотня\".") }}
+                        </div>
+                    </div>
+
+                    <div class="footer__subscription subscription-block">
+                        <div class="subscription-block__title">{{ _("Підписатися на розсилку") }}</div>
+                        <iframe frameborder="0" src="https://secure.esputnik.com.ua/23oNbk6320s" width="80%" height="109" scrolling="no"></iframe>
+                        {# <form class="subscription-block__form subscription-form">
+                            <div class="subscription-form__input-wrap">
+                                <input class="n-input subscription-form__input" placeholder="Введіть ваш e-mail">
+                            </div>
+                            <button class="n-btn subscription-form__btn">Підписатись</button>
+                        </form> #}
+                    </div>
+                </div>
+
+                <div class="footer__bottom">
+                    <div class="social-block">
+                        <div class="social-block__title">{{ _("Ми у соцмережах") }}</div>
+                        <div class="social-block__items">
+                            <div class="social-block__item">
+                                <a href="https://www.facebook.com/bihus.info/" class="social-block__link social-link">
+                                    <img src="{{ static("images/social/facebook-white.svg") }}" alt="Facebook" class="social-link__icon">
+                                    <span class="social-link__title">Facebook</span>
+                                </a>
+                            </div>
+
+                            <div class="social-block__item">
+                                <a href="https://twitter.com/BihusInfo" class="social-block__link social-link">
+                                    <img src="{{ static("images/social/twitter-white.svg") }}" alt="Twitter" class="social-link__icon">
+                                    <span class="social-link__title">Twitter</span>
+                                </a>
+                            </div>
+
+                            <div class="social-block__item">
+                                <a href="https://www.youtube.com/bihusinfo" class="social-block__link social-link">
+                                    <img src="{{ static("images/social/youtube-white.svg") }}" alt="YouTube" class="social-link__icon">
+                                    <span class="social-link__title">YouTube</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="copyright-block footer__copyright">{{ _("Bihus.info &copy; 2015 - 2020") }}</div>
+                </div>
+            </div>
+        </div>
+
+        {# <footer id="footer">
             <div class="container wide-container">
                 <div class="row">
                     <div class="col-md-4 col wh100-col">
@@ -444,10 +522,10 @@
 
                 </div>
             </div>
-        </footer>
+        </footer> #}
     </div>
 
-    <div class="chatbot-menu">
+    {# <div class="chatbot-menu">
         <div class="btn trigger">
             <i class="fa fa-comments-o" aria-hidden="true"></i>
         </div>
@@ -482,15 +560,67 @@
             </div>
         </div>
         <span>{{ _("Чат боти декларацій") }}</span>
-    </div>
+    </div> #}
 
-    <div class="modal fade decl-compare-modal" tabindex="-1" role="dialog">
+    <div id="compare__popup" class="popup" style="display: none">
+        <div class="popup__wrap">
+            <div class="popup__content" style="opacity: 1;">
+                <div class="popup__close close-btn"></div>
+                <div class="compare-popup">
+                    <form method="GET" action="{{ url("compare") }}">
+                        <div class="compare-popup__title">{{ _("Список порівнянь") }}</div>
+                            <div class="compare-popup__body">
+                                <div class="compare-popup__top">
+                                    <div class="compare-popup__sort" style="visibility: hidden">
+                                        <div class="sort-block">
+                                            <div class="sort-block__title">{{ _("Сортувати по:") }}</div>
+                                            <div class="sort-block__select">
+                                                <div class="n-select">
+                                                    <div class="n-select__selected">{{ _("Дата додавання") }}</div>
+                                                    <div class="n-select__items">
+                                                        <div class="n-select__item">{{ _("П.І.Б") }}</div>
+                                                        <div class="n-select__item n-select__item_active">{{ _("Дата додавання") }}</div>
+                                                        <div class="n-select__item">{{ _("Рік") }}</div>
+                                                        <div class="n-select__item">{{ _("Кiлькiсть флагiв") }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="sort-block__icon sort-block__icon_desc"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="compare-popup__open-link">{{ _("Відкрити всі картки") }}</div>
+                                </div>
+
+                                <div class="compare-popup__items">
+                                </div>
+
+                                <div class="compare-popup__actions">
+                                    <div class="compare-popup__count-block count-block">
+                                        <div class="count-block__title">{{ _("У порівняннях:") }}</div>
+                                        <div class="count-block__count filter-count"></div>
+                                    </div>
+
+                                    <div class="compare-popup__btns">
+                                        <button class="compare-popup__btn compare-popup__btn-clear n-btn n-btn_gray">{{ _("Очистити") }}</button>
+                                        <button class="compare-popup__btn n-btn">{{ _("Порівняти") }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    {# <div class="modal fade decl-compare-modal" tabindex="-1" role="dialog">
         <form method="GET" action="{{ url("compare") }}">
             <div class="modal-dialog container" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">{{ _("Список порівнянь:") }}</h4>
+                        <h4 class="modal-title">{{ _("Список порівнянь") }}</h4>
                     </div>
                     <div class="modal-body">
                         <h2 class="empty-message">{{ _("Це сторінка порівняння декларацій. Ви не додали жодної декларації і нам нема чого порівнювати. Зробіть це. Зробіть швидше.") }}</h2>
@@ -503,12 +633,22 @@
                 </div>
             </div>
         </form>
-    </div>
+    </div> #}
 
     {% javascript 'js_all' %}
 
     {% block extra_js %}
     {% endblock %}
+
+    <script type="text/html" id="popup-template">
+        <div class="popup" style="display: block;">
+            <div class="popup__wrap">
+                <div class="popup__content">
+                    <div class="popup__close close-btn"></div>
+                </div>
+            </div>
+        </div>
+</script>
 
     <script>window.twttr = (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0],
@@ -563,6 +703,5 @@
         document.getElementById("mobileBannerCloseButton").style.display = 'none';
       }
     </script>
-
 </body>
 </html>

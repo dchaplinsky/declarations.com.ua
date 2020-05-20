@@ -1,0 +1,16 @@
+.block-title {
+  text-align: center;
+  margin: 0 0 40px;
+  padding-bottom: 18px;
+  position: relative;
+  &:before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100px;
+    height: 3px;
+    background: $red;
+    margin-left: -50px;
+  }
+}

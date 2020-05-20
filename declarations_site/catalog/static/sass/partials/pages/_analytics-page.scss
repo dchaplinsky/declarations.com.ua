@@ -1,0 +1,84 @@
+.analytics-page {
+  &__tabs {
+    margin: 36px 0 20px;
+    overflow: auto;
+    .analytics-tabs {
+      min-width: 970px;
+    }
+  }
+  &__header {
+    margin-top: 24px;
+    @media all and (min-width: 500px) {
+      @include flex($align-items: center);
+      margin-top: 48px;
+    }
+  }
+  &__title {
+    font-size: 20px;
+    margin: 0;
+  }
+  &__select {
+    display: inline-block;
+    margin-top: 15px;
+    @media all and (min-width: 1024px) {
+      min-width: 230px;
+      margin: 0;
+    }
+    .n-select__items {
+      @media all and (min-width: 500px) and (max-width: 1215px) {
+        right: 0;
+        left: auto;
+      }
+    }
+  }
+  &__iframe {
+    margin: 20px -16px 40px;
+    height: 720px;
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    @media all and (min-width: 1024px) {
+      margin: 20px 0 80px;
+    }
+  }
+  &__thank-to {
+    margin-bottom: 40px;
+    text-align: center;
+    @media all and (min-width: 1024px) {
+      margin-bottom: 80px;
+    }
+    div {
+      display: inline-block;
+      margin-right: 40px;
+      @media all and (max-width: 767px) {
+        display: block;
+        margin-right: 0;
+      }
+    }
+  }
+  &__thank-to-rbc {
+    display: inline-block;
+    background: url('../images/logo-rbc.png') no-repeat center center;
+    background-size: contain;
+    height: 70px;
+    width: 140px;
+  }
+  &__thank-to-brdo {
+    display: inline-block;
+    background: url('../images/logo_brdo.png') no-repeat center center;
+    background-size: contain;
+    height: 70px;
+    width: 140px;
+  }
+  &__thank-to-wh100 {
+    height: 70px;
+    width: 70px;
+    display: inline-block;
+    svg {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

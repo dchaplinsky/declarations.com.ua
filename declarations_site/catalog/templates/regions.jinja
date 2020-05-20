@@ -13,33 +13,23 @@
 
 {% block content %}
 <section id="page">
-    <div class="container">
-        <div id="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                <li class="active">{{ _("Регіони") }}</li>
-            </ol> 
-        </div>
+    <div class="content container">
         <h1 id="page-header"><span>{{ _("Регіони") }}</span></h1>
-        <div class="page-content">
-            <div class="box">
-                <div class="table-responsive">
-                    <div id="glossarium">
-                        <table class="table table-bordered table-striped">
-                            {% for f in facets %}
-                            <tr>
-                                <td>
-                                    {% if f.key %}
-                                    <a href="{{ url('region', region_name=f.key) }}">{{ translator.translate(f.key).translation }} ({{ f.doc_count }})</a>
-                                    {% else %}
-                                    {{ _("Не зазначено") }} ({{ f.doc_count }})
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
-                </div>
+        <div class="table-responsive">
+            <div id="glossarium">
+                <table class="regions__table">
+                    {% for f in facets %}
+                    <tr>
+                        <td>
+                            {% if f.key %}
+                            <a href="{{ url('region', region_name=f.key) }}">{{ translator.translate(f.key).translation }} ({{ f.doc_count }})</a>
+                            {% else %}
+                            {{ _("Не зазначено") }} ({{ f.doc_count }})
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
     </div>

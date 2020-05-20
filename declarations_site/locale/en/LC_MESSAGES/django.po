@@ -11,186 +11,183 @@ msgstr ""
 msgid "Електронні декларації чиновників та депутатів"
 msgstr "Electronic declarations of officials and deputies"
 
-#: catalog/templates/base.jinja:154 catalog/templates/declaration.jinja:49
+#: catalog/templates/declaration.jinja:50
 msgid "Я з вами"
 msgstr "I'm with you"
 
-#: catalog/templates/base.jinja:218
-#: cms_pages/templates/cms_pages/home.jinja:105
+#: catalog/templates/base.jinja:272
 msgid "ПОШУК ДЕКЛАРАЦІЙ. Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба"
 msgstr "SEARCH FOR DECLARATIONS. For example: Aivaras Abromavičius; Judge; Khmelnytskyi Oblast; State Fiscal Service"
 
-#: catalog/templates/_search_form.jinja:9 catalog/templates/base.jinja:220
-#: cms_pages/templates/cms_pages/home.jinja:107
+#: catalog/templates/_search_form.jinja:40
 msgid "Шукати по всьому тексту декларації, а не тільки по імені та посаді"
 msgstr "Search the entire text of the declaration instead of just the name and position"
 
-#: catalog/templates/_search_form.jinja:9 catalog/templates/base.jinja:220
-#: cms_pages/templates/cms_pages/home.jinja:107
+#: catalog/templates/_search_form.jinja:533 catalog/templates/base.jinja:274
 msgid "Шукати скрізь"
 msgstr "Deep search"
 
-#: catalog/templates/_search_form.jinja:17 catalog/templates/base.jinja:227
-#: cms_pages/templates/cms_pages/home.jinja:114
+#: catalog/templates/_search_form.jinja:541 catalog/templates/base.jinja:281
 msgid "Розширений пошук"
 msgstr "Advanced search"
 
-#: catalog/templates/base.jinja:262
+#: catalog/templates/base.jinja:340
 msgid "\"Канцелярська сотня\" - ініціатива зі створення інформаційних проектів із залученням тисяч волонтерів в інтернеті."
 msgstr "The White Collar Hundred is an initiative set on the creation of informational projects that involve thousands of volunteers on the Internet."
 
-#: catalog/templates/base.jinja:263 catalog/templates/base.jinja:276
-#: catalog/templates/base.jinja:288 catalog/templates/base.jinja:300
-#: catalog/templates/base.jinja:313 catalog/templates/base.jinja:325
-#: catalog/templates/base.jinja:332 catalog/templates/base.jinja:352
-#: catalog/templates/base.jinja:365 catalog/templates/base.jinja:377
-#: catalog/templates/base.jinja:389 catalog/templates/base.jinja:401
-#: catalog/templates/base.jinja:413
+#: catalog/templates/base.jinja:341 catalog/templates/base.jinja:354
+#: catalog/templates/base.jinja:366 catalog/templates/base.jinja:378
+#: catalog/templates/base.jinja:391 catalog/templates/base.jinja:403
+#: catalog/templates/base.jinja:410 catalog/templates/base.jinja:430
+#: catalog/templates/base.jinja:443 catalog/templates/base.jinja:455
+#: catalog/templates/base.jinja:467 catalog/templates/base.jinja:479
+#: catalog/templates/base.jinja:491
 msgid "Детальніше"
 msgstr "More"
 
-#: catalog/templates/base.jinja:266
+#: catalog/templates/base.jinja:344
 msgid "Інші проекті ГО \"Канцелярська сотня\":"
 msgstr "Other projects of the White Collar Hundred:"
 
-#: catalog/templates/base.jinja:269 catalog/templates/base.jinja:274
-#: catalog/templates/base.jinja:276
+#: catalog/templates/base.jinja:347 catalog/templates/base.jinja:352
+#: catalog/templates/base.jinja:354
 msgid "Декларації"
 msgstr "Declarations"
 
-#: catalog/templates/base.jinja:275
+#: catalog/templates/base.jinja:353
 msgid "Найбільша база декларацій українських чиновників, з адаптованим повнотекстовим пошуком та аналітичною системою."
 msgstr "The largest database of declarations of Ukrainian officials with tailored full-text search and analytics."
 
-#: catalog/templates/base.jinja:287
+#: catalog/templates/base.jinja:365
 msgid "Відкрита база даних помічників народних депутатів Верховної Ради України, створена з інформації агенції журналістських розслідувань “Слідство.Інфо”."
 msgstr "A public database of assistants to People's Deputies of the Verkhovna Rada of Ukraine, which was created using the information from the journalistic investigations of Slidstvo.Info."
 
-#: catalog/templates/base.jinja:298
+#: catalog/templates/base.jinja:376
 msgid "НЕВІД (DRAGNET)"
 msgstr "NEVID (DRAGNET)"
 
-#: catalog/templates/base.jinja:299
+#: catalog/templates/base.jinja:377
 msgid "IT-проект «Невід» (Dragnet) - це розробка програмно-аналітичного блоку ініціативи “Декларації”, створеної активістами “Канцелярської сотні” у 2014-му році."
 msgstr "IT project Nevid (Dragnet) is a development of the software and analytics module of the Declarations initiative, created by White Collar Hundred activists in 2014."
 
-#: catalog/templates/base.jinja:311 catalog/templates/base.jinja:313
+#: catalog/templates/base.jinja:389 catalog/templates/base.jinja:391
 msgid "ЕЛЕКТРОННЕ БТІ (ЕБТІ)"
 msgstr "Electronic Technical Inventory Office (EBTI)"
 
-#: catalog/templates/base.jinja:312
+#: catalog/templates/base.jinja:390
 msgid "Проект “Електронне БТІ” є продовженням створення серії інструментів, які розширюють доступ до даних про нерухомість."
 msgstr "The project Electronic Technical Inventory Office is the next in the series of tools that extend access to real estate data."
 
-#: catalog/templates/base.jinja:318 catalog/templates/base.jinja:323
-#: catalog/templates/base.jinja:325
+#: catalog/templates/base.jinja:396 catalog/templates/base.jinja:401
+#: catalog/templates/base.jinja:403
 msgid "ГАРНАХАТА"
 msgstr "HARNAKHATA"
 
-#: catalog/templates/base.jinja:324
+#: catalog/templates/base.jinja:402
 msgid "Cтартував одночасно із відкриттям Міністерством юстиції офіційного Реєстру речових прав на нерухоме майно. Простіше кажучи – реєстру нерухомості."
 msgstr "It was launched simultaneously with the Justice Ministry's opening of the official Register of Corporeal Rights to Real Estate, or, simply put, a property register."
 
-#: catalog/templates/base.jinja:332
+#: catalog/templates/base.jinja:190 catalog/templates/base.jinja:281
+#: catalog/templates/base.jinja:410
 msgid "Bihus.info об'єднує антикорупційні проекти, які створює ГО \"ТОМ 14\" та ГО \"Канцелярська сотня\"."
 msgstr "Bihus.Info unites anti-corruption projects created by the NGOs TOM 14 and the White Collar Hundred."
 
-#: catalog/templates/base.jinja:335
+#: catalog/templates/base.jinja:413
 msgid "Follow @BihusInfo"
 msgstr "Follow @BihusInfo"
 
-#: catalog/templates/base.jinja:337
+#: catalog/templates/base.jinja:415
 msgid "BIHUS.info"
 msgstr "BIHUS.info"
 
-#: catalog/templates/base.jinja:340
+#: catalog/templates/base.jinja:418
 msgid "Підпишись на новини"
 msgstr "Subscribe to the newsfeed"
 
-#: catalog/templates/base.jinja:347 catalog/templates/base.jinja:352
+#: catalog/templates/base.jinja:425 catalog/templates/base.jinja:430
 msgid "ТОМ 14"
 msgstr "TOM 14"
 
-#: catalog/templates/base.jinja:352
+#: catalog/templates/base.jinja:430
 msgid "Громадська організація \"ТОМ 14\". Центр журналістських розслідувань."
 msgstr "Civic organization TOM 14. Center for journalistic investigations."
 
-#: catalog/templates/base.jinja:355
+#: catalog/templates/base.jinja:433
 msgid "Проекти ГО \"ТОМ 14\":"
 msgstr "Projects of NGO TOM 14:"
 
-#: catalog/templates/base.jinja:363 catalog/templates/base.jinja:365
+#: catalog/templates/base.jinja:441 catalog/templates/base.jinja:443
 msgid "ТЕЛЕПРОГРАМА \"НАШІ ГРОШІ\""
 msgstr "TV-program Our Money"
 
-#: catalog/templates/base.jinja:364
+#: catalog/templates/base.jinja:442
 msgid "Проект антикорупційних розслідувань \"Наші гроші. Головна ідея програми - викриття корупційних схем українських чиновників."
 msgstr "Anti-corruption investigations project Our Money. The mission of the program is to expose the corrupt schemes of Ukrainian officials."
 
-#: catalog/templates/base.jinja:370 catalog/templates/base.jinja:375
-#: catalog/templates/base.jinja:377
+#: catalog/templates/base.jinja:448 catalog/templates/base.jinja:453
+#: catalog/templates/base.jinja:455
 msgid "ТИСНИ!"
 msgstr "Tysny! (Push!)"
 
-#: catalog/templates/base.jinja:376
+#: catalog/templates/base.jinja:454
 msgid "Юридична ініціатива ГО \"ТОМ 14\", спрямована на підтримку роботи журналістів після виходу розслідувань."
 msgstr "Legal initiative of NGO TOM 14, aimed at providing support of the journalists' work after the investigations are published."
 
-#: catalog/templates/base.jinja:382 catalog/templates/base.jinja:387
+#: catalog/templates/base.jinja:460 catalog/templates/base.jinja:465
 msgid "ПІДСУМКИ ДНА"
 msgstr "The Bottom Line"
 
-#: catalog/templates/base.jinja:388
+#: catalog/templates/base.jinja:466
 msgid "Чесна та відверта програма про наше сьогодення. Хіба що трохи занадто емоційна. В форматі 5 хвилин говоримо на актуальні теми."
 msgstr "An honest and frank program about current events. Maybe a bit too emotional. We discuss the topics of the day in a 5-minute format."
 
-#: catalog/templates/base.jinja:394 catalog/templates/base.jinja:399
-#: catalog/templates/base.jinja:401
+#: catalog/templates/base.jinja:472 catalog/templates/base.jinja:477
+#: catalog/templates/base.jinja:479
 msgid "НАРОДНЕ НАЗК"
 msgstr "People's NACP"
 
-#: catalog/templates/base.jinja:400
+#: catalog/templates/base.jinja:478
 msgid "Розслідувально-аналітичний проект ГО “ТОМ 14”. Стартував одразу після оприлюднення перших електронних декларацій."
 msgstr "An investigative and analytical project of NGO TOM 14. It was lauched right after the first electonic declarations were published."
 
-#: catalog/templates/base.jinja:406 catalog/templates/base.jinja:411
-#: catalog/templates/base.jinja:413
+#: catalog/templates/base.jinja:484 catalog/templates/base.jinja:489
+#: catalog/templates/base.jinja:491
 msgid "НАШІ ГРОШІ. ДОСУДИЛИСЯ."
 msgstr "Our Money. Judged Away."
 
-#: catalog/templates/base.jinja:412
+#: catalog/templates/base.jinja:490
 msgid "Телевезійний спецпроект про суди, суддів і судову реформу. За півроку «Досудилися» опублікували понад два десятки телерозслідувань."
 msgstr "Special TV project about courts, judges, and the judicial reform. In 6 months, Judged Away published more than 20 TV investigations."
 
-#: catalog/templates/base.jinja:430
+#: catalog/templates/base.jinja:508
 msgid "Фронтенд Лабораторії кота Шрьодінгера"
 msgstr "The Frontend of the Shroedinger's Cat Laboratory"
 
-#: catalog/templates/base.jinja:441
+#: catalog/templates/base.jinja:519
 msgid "У розробці проекту брали участь: Денис Бігус, Дмитро Чаплинський, Ольга Макарова, Артем Глувчинський, Володимир Фльонц, Андрій Ульяненко, Дмитро Нечипоренко, Андрій Турик, Дмитро Гамбаль, Гліб Козак, Володимир Гоцик, Олександр Ботезату, Ігор Рубан, Кирило Захаров"
 msgstr "The project was developed by Denys Bihus, Dmytro Chaplynskyi, Olha Makarova, Artem Hluvchynskyi, Volodymyr Flionts, Andriy Ulyanenko, Dmytro Nechyporenko, Andriy Turyk, Dmytro Hambal, Hlib Kozak, Volodymyr Hotsyk, Oleksandr Botetzatu, Ihor Ruban, Kyrylo Zakharov"
 
-#: catalog/templates/base.jinja:442
+#: catalog/templates/base.jinja:520
 msgid "Автори висловлюють вдячність Громадському люстраційному комітету й Громадському руху Чесно за допомогу у зборі декларацій"
 msgstr "The authors express their gratitude to the Public Lustration Committee and the CHESNO Civil Movement for their assistance in collecting declarations"
 
-#: catalog/templates/base.jinja:484
+#: catalog/templates/base.jinja:562
 msgid "Чат боти декларацій"
 msgstr "Chatbots of the Declarations"
 
-#: catalog/templates/base.jinja:493 catalog/templates/results.jinja:26
+#: catalog/templates/results.jinja:250
 msgid "Список порівнянь:"
 msgstr "Comparison list:"
 
-#: catalog/templates/base.jinja:496
+#: catalog/templates/base.jinja:626
 msgid "Це сторінка порівняння декларацій. Ви не додали жодної декларації і нам нема чого порівнювати. Зробіть це. Зробіть швидше."
 msgstr "This is the declaration comparison page. You didn't add any declarations and we have nothing to compare. Do it. Hurry."
 
-#: catalog/templates/base.jinja:500
+#: catalog/templates/base.jinja:607 catalog/templates/base.jinja:630
 msgid "Порівняти"
 msgstr "Compare"
 
-#: catalog/templates/base.jinja:501
+#: catalog/templates/base.jinja:631
 msgid "Очистити список"
 msgstr "Clear the list"
 
@@ -266,7 +263,8 @@ msgstr "3. Position"
 msgid "Відомство"
 msgstr "Department"
 
-#: catalog/templates/decl_form.jinja:86
+#: catalog/templates/_decl_teaser.jinja:214
+#: catalog/templates/decl_form.jinja:86 catalog/templates/declaration.jinja:122
 msgid "Посада"
 msgstr "Position"
 
@@ -703,182 +701,152 @@ msgstr "There is additional information:"
 msgid "Що саме не вмістилось:"
 msgstr "What did not fit:"
 
-#: catalog/templates/compare.jinja:12 catalog/templates/declaration.jinja:82
-#: catalog/templates/region_offices.jinja:14 catalog/templates/regions.jinja:19
-#: catalog/templates/results.jinja:41 catalog/templates/static.jinja:8
-#: spotter/templates/search_list.jinja:13
+#: catalog/templates/static.jinja:8
 msgid "Головна"
 msgstr "Home"
 
-#: cms_pages/templates/cms_pages/home.jinja:81
+#: cms_pages/templates/cms_pages/home.jinja:54
 msgid "Ми знаходимо, розшифровуємо та публікуємо декларації чиновників,<br>щоб викрити їхню брехню про статки та майно."
 msgstr "We find, decypher, and publish declarations of officials <br> to expose their lies about their wealth and property."
 
-#: cms_pages/templates/cms_pages/home.jinja:122
+#: cms_pages/templates/cms_pages/home.jinja:244
 msgid "Топ-100 за статками"
 msgstr "Top 100 by wealth"
 
-#: cms_pages/templates/cms_pages/home.jinja:123
-#: cms_pages/templates/cms_pages/home.jinja:130
+#: cms_pages/templates/cms_pages/home.jinja:245
+#: cms_pages/templates/cms_pages/home.jinja:252
 msgid "Завантаження..."
 msgstr "Loading..."
 
-#: cms_pages/templates/cms_pages/home.jinja:129
+#: cms_pages/templates/cms_pages/home.jinja:251
 msgid "Топ-100 за доходом"
 msgstr "Top 100 by revenue"
 
-#: catalog/templates/_search_form.jinja:25
-#: catalog/templates/_search_form.jinja:28
-#: catalog/templates/_search_form.jinja:32
-#: cms_pages/templates/cms_pages/home.jinja:137
+#: catalog/templates/_search_form.jinja:554
+#: catalog/templates/_search_form.jinja:557
+#: catalog/templates/_search_form.jinja:561
 msgid "Рік:"
 msgstr "Year:"
 
-#: cms_pages/templates/cms_pages/home.jinja:146
-#: cms_pages/templates/cms_pages/home.jinja:148
+#: cms_pages/templates/cms_pages/home.jinja:268
+#: cms_pages/templates/cms_pages/home.jinja:270
 msgid "Сфера діяльності:"
 msgstr "Field of activity:"
 
-#: cms_pages/templates/cms_pages/home.jinja:160
-#: cms_pages/templates/cms_pages/home.jinja:162
+#: cms_pages/templates/cms_pages/home.jinja:282
+#: cms_pages/templates/cms_pages/home.jinja:284
 msgid "Вся Україна:"
 msgstr "All Ukraine:"
 
-#: catalog/templates/_search_form.jinja:121
-#: cms_pages/templates/cms_pages/home.jinja:164
+#: catalog/templates/_search_form.jinja:650
 msgid "Харківська область"
 msgstr "Kharkiv Oblast"
 
-#: catalog/templates/_search_form.jinja:113
-#: cms_pages/templates/cms_pages/home.jinja:165
+#: catalog/templates/_search_form.jinja:642
 msgid "Львівська область"
 msgstr "Lviv Oblast"
 
-#: catalog/templates/_search_form.jinja:125
-#: cms_pages/templates/cms_pages/home.jinja:166
+#: catalog/templates/_search_form.jinja:654
 msgid "Чернівецька область"
 msgstr "Chernivtsi Oblast"
 
-#: catalog/templates/_search_form.jinja:106
-#: cms_pages/templates/cms_pages/home.jinja:167
+#: catalog/templates/_search_form.jinja:635
 msgid "Донецька область"
 msgstr "Donetsk Oblast"
 
-#: cms_pages/templates/cms_pages/home.jinja:168
+#: cms_pages/templates/cms_pages/home.jinja:290
 msgid "!не визначено"
 msgstr "!not specified"
 
-#: catalog/templates/_search_form.jinja:102
-#: cms_pages/templates/cms_pages/home.jinja:169
+#: catalog/templates/_search_form.jinja:631
 msgid "м. Київ"
 msgstr "Kyiv City"
 
-#: catalog/templates/_search_form.jinja:115
-#: cms_pages/templates/cms_pages/home.jinja:170
+#: catalog/templates/_search_form.jinja:644
 msgid "Миколаївська область"
 msgstr "Mykolaiv Oblast"
 
-#: catalog/templates/_search_form.jinja:105
-#: cms_pages/templates/cms_pages/home.jinja:171
+#: catalog/templates/_search_form.jinja:634
 msgid "Дніпропетровська область"
 msgstr "Dnipropetrovsk Oblast"
 
-#: catalog/templates/_search_form.jinja:107
-#: cms_pages/templates/cms_pages/home.jinja:172
+#: catalog/templates/_search_form.jinja:636
 msgid "Житомирська область"
 msgstr "Zhytomyr Oblast"
 
-#: catalog/templates/_search_form.jinja:118
-#: cms_pages/templates/cms_pages/home.jinja:173
+#: catalog/templates/_search_form.jinja:647
 msgid "Рівненська область"
 msgstr "Rivne Oblast"
 
-#: catalog/templates/_search_form.jinja:116
-#: cms_pages/templates/cms_pages/home.jinja:174
+#: catalog/templates/_search_form.jinja:645
 msgid "Одеська область"
 msgstr "Odesa Oblast"
 
-#: catalog/templates/_search_form.jinja:111
-#: cms_pages/templates/cms_pages/home.jinja:175
+#: catalog/templates/_search_form.jinja:640
 msgid "Київська область"
 msgstr "Kyiv Oblast"
 
-#: catalog/templates/_search_form.jinja:108
-#: cms_pages/templates/cms_pages/home.jinja:176
+#: catalog/templates/_search_form.jinja:637
 msgid "Закарпатська область"
 msgstr "Zakarpattia Oblast"
 
-#: catalog/templates/_search_form.jinja:109
-#: cms_pages/templates/cms_pages/home.jinja:177
+#: catalog/templates/_search_form.jinja:638
 msgid "Запорізька область"
 msgstr "Zaporizhzhia Oblast"
 
-#: catalog/templates/_search_form.jinja:124
-#: cms_pages/templates/cms_pages/home.jinja:178
+#: catalog/templates/_search_form.jinja:653
 msgid "Черкаська область"
 msgstr "Cherkasy Oblast"
 
-#: catalog/templates/_search_form.jinja:126
-#: cms_pages/templates/cms_pages/home.jinja:179
+#: catalog/templates/_search_form.jinja:655
 msgid "Чернігівська область"
 msgstr "Chernihiv Oblast"
 
-#: catalog/templates/_search_form.jinja:119
-#: cms_pages/templates/cms_pages/home.jinja:180
+#: catalog/templates/_search_form.jinja:648
 msgid "Сумська область"
 msgstr "Sumy Oblast"
 
-#: catalog/templates/_search_form.jinja:104
-#: cms_pages/templates/cms_pages/home.jinja:181
+#: catalog/templates/_search_form.jinja:633
 msgid "Волинська область"
 msgstr "Volyn Oblast"
 
-#: catalog/templates/_search_form.jinja:110
-#: cms_pages/templates/cms_pages/home.jinja:182
+#: catalog/templates/_search_form.jinja:639
 msgid "Івано-Франківська область"
 msgstr "Ivano-Frankivsk Oblast"
 
-#: catalog/templates/_search_form.jinja:122
-#: cms_pages/templates/cms_pages/home.jinja:183
+#: catalog/templates/_search_form.jinja:651
 msgid "Херсонська область"
 msgstr "Kherson Oblast"
 
-#: catalog/templates/_search_form.jinja:123
-#: cms_pages/templates/cms_pages/home.jinja:184
+#: catalog/templates/_search_form.jinja:652
 msgid "Хмельницька область"
 msgstr "Khmelnytskyi Oblast"
 
-#: catalog/templates/_search_form.jinja:120
-#: cms_pages/templates/cms_pages/home.jinja:185
+#: catalog/templates/_search_form.jinja:649
 msgid "Тернопільська область"
 msgstr "Ternopil Oblast"
 
-#: catalog/templates/_search_form.jinja:117
-#: cms_pages/templates/cms_pages/home.jinja:186
+#: catalog/templates/_search_form.jinja:646
 msgid "Полтавська область"
 msgstr "Poltava Oblast"
 
-#: catalog/templates/_search_form.jinja:112
-#: cms_pages/templates/cms_pages/home.jinja:187
+#: catalog/templates/_search_form.jinja:641
 msgid "Кіровоградська область"
 msgstr "Kirovohrad Oblast"
 
-#: catalog/templates/_search_form.jinja:114
-#: cms_pages/templates/cms_pages/home.jinja:188
+#: catalog/templates/_search_form.jinja:643
 msgid "Луганська область"
 msgstr "Luhansk Oblast"
 
-#: catalog/templates/_search_form.jinja:103
-#: cms_pages/templates/cms_pages/home.jinja:189
+#: catalog/templates/_search_form.jinja:632
 msgid "Вінницька область"
 msgstr "Vinnytsia Oblast"
 
-#: catalog/templates/_search_form.jinja:127
-#: cms_pages/templates/cms_pages/home.jinja:190
+#: catalog/templates/_search_form.jinja:656
 msgid "Кримська Автономна Республіка"
 msgstr "Autonomous Republic of Crimea"
 
-#: cms_pages/templates/cms_pages/home.jinja:195
+#: cms_pages/templates/cms_pages/home.jinja:317
 msgid "Ще більше крутої аналітики"
 msgstr "More cool analytics"
 
@@ -890,280 +858,293 @@ msgstr "Ukrainian"
 msgid "English"
 msgstr "English"
 
-#: spotter/templates/login_menu.jinja:6 spotter/templates/search_list.jinja:5
-#: spotter/templates/search_list.jinja:14
-#: spotter/templates/search_list.jinja:18
+#: spotter/templates/_spotter.jinja:24 spotter/templates/login_menu.jinja:6
+#: spotter/templates/search_list.jinja:6 spotter/templates/search_list.jinja:20
 msgid "Мої запити"
 msgstr "My requests"
 
-#: spotter/templates/login_menu.jinja:8
+#: spotter/templates/_spotter.jinja:32 spotter/templates/login_menu.jinja:8
 msgid "Вийти"
 msgstr "Exit"
 
-#: catalog/templates/base.jinja:183
+#: catalog/templates/base.jinja:237
 msgid "розкрити пошук"
 msgstr "expand search"
 
-#: catalog/templates/declaration.jinja:9
+#: catalog/templates/declaration.jinja:10
 msgid "Декларації:"
 msgstr "Declarations:"
 
-#: catalog/templates/declaration.jinja:9
+#: catalog/templates/declaration.jinja:10
 msgid "від НАЗК"
 msgstr "from the NACP"
 
-#: catalog/templates/declaration.jinja:12
+#: catalog/templates/declaration.jinja:13
 msgid "Д​екларації"
 msgstr "Declarations"
 
-#: catalog/templates/declaration.jinja:12
+#: catalog/templates/declaration.jinja:13
 msgid "НАЗК"
 msgstr "NACP"
 
-#: catalog/templates/declaration.jinja:12
+#: catalog/templates/declaration.jinja:13
 msgid "про майно, доходи, витрати та зобов'язання фінансового характеру"
 msgstr "of property, income, expenses, and financial obligations"
 
-#: catalog/templates/declaration.jinja:12
+#: catalog/templates/declaration.jinja:13
 msgid "за"
 msgstr "for"
 
-#: catalog/templates/declaration.jinja:12
+#: catalog/templates/declaration.jinja:13
 msgid "рік онлайн у відкритій базі даних проекту"
 msgstr "year online in the public database of the project"
 
-#: catalog/templates/base.jinja:153 catalog/templates/declaration.jinja:48
+#: catalog/templates/declaration.jinja:49
 msgid "Підтримай команду журналістів та юристів Bihus.info"
 msgstr "Support the journalists and lawyers of the Bihus.Info team"
 
-#: catalog/templates/declaration.jinja:83 catalog/templates/results.jinja:10
-#: catalog/templates/results.jinja:11 catalog/templates/results.jinja:42
+#: catalog/templates/results.jinja:11 catalog/templates/results.jinja:12
 msgid "Результати пошуку"
 msgstr "Search results"
 
-#: catalog/templates/_decl_teaser.jinja:23
-#: catalog/templates/declaration.jinja:113
+#: catalog/templates/_decl_teaser.jinja:15
+#: catalog/templates/_decl_teaser.jinja:193
 msgid "Уточнена"
 msgstr "Corrected"
 
-#: catalog/templates/_decl_teaser.jinja:37
-#: catalog/templates/declaration.jinja:115
+#: catalog/templates/_decl_teaser.jinja:273
 msgid "подана"
 msgstr "submitted"
 
-#: catalog/templates/declaration.jinja:122
+#: catalog/templates/declaration.jinja:235
 msgid "Моніторити декларанта по:"
 msgstr "Monitor the declarant on:"
 
-#: catalog/templates/declaration.jinja:123 catalog/templates/results.jinja:52
+#: catalog/templates/results.jinja:276
 msgid "Моніторити цей запит по RSS"
 msgstr "Monitor this request by RSS"
 
-#: catalog/templates/declaration.jinja:144
+#: catalog/templates/declaration.jinja:257
 msgid "Додати у список порівнянь"
 msgstr "Add to the comparison list"
 
-#: catalog/templates/declaration.jinja:144
+#: catalog/templates/declaration.jinja:257
 msgid "Додати декларацію у список порівнянь"
 msgstr "Add the declaration to comparison list"
 
-#: catalog/templates/declaration.jinja:148
+#: catalog/templates/declaration.jinja:293
 msgid "Оригінал декларації"
 msgstr "Declaration original"
 
-#: catalog/templates/declaration.jinja:201
+#: catalog/templates/declaration.jinja:315
 msgid "ПІБ іншими мовами"
 msgstr "Full name in other languages"
 
-#: catalog/templates/declaration.jinja:214
+#: catalog/templates/declaration.jinja:345
 msgid "Інші декларації, знайдені за ПІБ"
 msgstr "Other declarations found by this full name"
 
-#: catalog/templates/declaration.jinja:224
+#: catalog/templates/declaration.jinja:355
 msgid "Декларації осіб, що <u>можуть</u> бути родичами декларанта"
 msgstr "Declarations of persons who <u>may</u> be the declarant's relatives"
 
-#: cms_pages/templates/cms_pages/home.jinja:150
+#: cms_pages/templates/cms_pages/home.jinja:272
 msgid "Центральна влада"
 msgstr "Central authorities"
 
-#: cms_pages/templates/cms_pages/home.jinja:151
+#: cms_pages/templates/cms_pages/home.jinja:273
 msgid "Mісцева влада"
 msgstr "Local authorities"
 
-#: cms_pages/templates/cms_pages/home.jinja:152
+#: cms_pages/templates/cms_pages/home.jinja:274
 msgid "Cудді"
 msgstr "Judges"
 
-#: cms_pages/templates/cms_pages/home.jinja:153
+#: cms_pages/templates/cms_pages/home.jinja:275
 msgid "Прокурори"
 msgstr "Prosecutors"
 
-#: cms_pages/templates/cms_pages/home.jinja:154
+#: cms_pages/templates/cms_pages/home.jinja:276
 msgid "Лікарі"
 msgstr "Medical doctors"
 
-#: cms_pages/templates/cms_pages/home.jinja:155
+#: cms_pages/templates/cms_pages/home.jinja:277
 msgid "Iнспектори"
 msgstr "Inspectors"
 
-#: catalog/templates/_search_form.jinja:7
+#: catalog/templates/_search_form.jinja:531
 msgid "Наприклад: Айварас Абромавичус; Суддя; Хмельницька область; Державна фіскальна служба"
 msgstr "For example: Aivaras Abromavičius; Judge; Khmelnytskyi Oblast; State Fiscal Service"
 
-#: catalog/templates/_search_form.jinja:44
-#: catalog/templates/_search_form.jinja:47
-#: catalog/templates/_search_form.jinja:51
+#: catalog/templates/_search_form.jinja:573
+#: catalog/templates/_search_form.jinja:576
+#: catalog/templates/_search_form.jinja:580
 msgid "Тип документу:"
 msgstr "Type of document:"
 
-#: catalog/templates/_search_form.jinja:53
+#: catalog/templates/_search_form.jinja:245
+#: catalog/templates/_search_form.jinja:582
 msgid "Щорічна"
 msgstr "Annual"
 
-#: catalog/templates/_search_form.jinja:54
+#: catalog/templates/_search_form.jinja:257
+#: catalog/templates/_search_form.jinja:583
 msgid "Перед звільненням"
 msgstr "Before dismissal"
 
-#: catalog/templates/_search_form.jinja:55
+#: catalog/templates/_search_form.jinja:283
+#: catalog/templates/_search_form.jinja:584
 msgid "Після звільнення"
 msgstr "After dismissal"
 
-#: catalog/templates/_search_form.jinja:56
+#: catalog/templates/_search_form.jinja:269
+#: catalog/templates/_search_form.jinja:585
 msgid "Кандидата на посаду"
 msgstr "Of the candidate for the position"
 
-#: catalog/templates/_search_form.jinja:57
+#: catalog/templates/_search_form.jinja:295
+#: catalog/templates/_search_form.jinja:586
 msgid "Форма змін"
 msgstr "Correction blank"
 
-#: catalog/templates/_search_form.jinja:68
+#: catalog/templates/_search_form.jinja:303
+#: catalog/templates/_search_form.jinja:597
 msgid "Тип посади:"
 msgstr "Type of position:"
 
-#: catalog/templates/_search_form.jinja:72
+#: catalog/templates/_search_form.jinja:307
+#: catalog/templates/_search_form.jinja:601
 msgid "Посада державної служби"
 msgstr "State service position"
 
-#: catalog/templates/_search_form.jinja:78
+#: catalog/templates/_search_form.jinja:313
+#: catalog/templates/_search_form.jinja:607
 msgid "Посада в органах місцевого самоврядування"
 msgstr "Position in local self-government"
 
-#: catalog/templates/_search_form.jinja:84
+#: catalog/templates/_search_form.jinja:319
+#: catalog/templates/_search_form.jinja:352
+#: catalog/templates/_search_form.jinja:613
 msgid "Посадова особа юридичної особи публічного права"
 msgstr "Official of a legal person under public law"
 
-#: catalog/templates/_search_form.jinja:96
-#: catalog/templates/_search_form.jinja:100
+#: catalog/templates/_search_form.jinja:625
+#: catalog/templates/_search_form.jinja:629
 msgid "Регіон:"
 msgstr "Region:"
 
-#: catalog/templates/_search_form.jinja:128
+#: catalog/templates/_search_form.jinja:657
 msgid "м. Севастополь"
 msgstr "Sevastopol"
 
-#: catalog/templates/_search_form.jinja:137
+#: catalog/templates/_search_form.jinja:465
+#: catalog/templates/_search_form.jinja:666
 msgid "Регіон реєстрації"
 msgstr "Region of registration"
 
-#: catalog/templates/_search_form.jinja:143
+#: catalog/templates/_search_form.jinja:457
+#: catalog/templates/_search_form.jinja:672
 msgid "Регіон фактичного проживання"
 msgstr "Region of de-facto residence"
 
-#: catalog/templates/_search_form.jinja:149
+#: catalog/templates/_search_form.jinja:477
+#: catalog/templates/_search_form.jinja:678
 msgid "Регіон задекларованої нерухомості"
 msgstr "Region of the immovables declared"
 
-#: catalog/templates/_search_form.jinja:157
+#: catalog/templates/_search_form.jinja:686
 msgid "Скинути усі фільтри"
 msgstr "Reset all filters"
 
-#: catalog/templates/results.jinja:10
+#: catalog/templates/results.jinja:11
 msgid "в RSS 2.0"
 msgstr "RSS 2.0"
 
-#: catalog/templates/results.jinja:11
+#: catalog/templates/results.jinja:12
 msgid "в Atom"
 msgstr "Atom"
 
-#: catalog/templates/results.jinja:51
+#: catalog/templates/results.jinja:275
 msgid "Моніторити цей запит по:"
 msgstr "Monitor this request by:"
 
-#: catalog/templates/results.jinja:53
+#: catalog/templates/results.jinja:37
 msgid "Моніторити цей запит"
 msgstr "Monitor this request"
 
-#: catalog/templates/results.jinja:60
+#: catalog/templates/results.jinja:284
 msgid "Списком"
 msgstr "As a list"
 
-#: catalog/templates/results.jinja:63
+#: catalog/templates/results.jinja:287
 msgid "Картками"
 msgstr "As cards"
 
-#: catalog/templates/results.jinja:68
+#: catalog/templates/results.jinja:292
 msgid "Сортувати:"
 msgstr "Sort by:"
 
-#: catalog/templates/results.jinja:70
+#: catalog/templates/results.jinja:53 catalog/templates/results.jinja:59
 msgid "П.І.Б."
 msgstr "Full name"
 
-#: catalog/templates/results.jinja:71
-#: procurements/templates/_procurements.jinja:23
+#: catalog/templates/_search_form.jinja:60 catalog/templates/base.jinja:583
+#: catalog/templates/results.jinja:51 catalog/templates/results.jinja:60
+#: procurements/templates/_procurements.jinja:20
 msgid "Рік"
 msgstr "Year"
 
-#: catalog/templates/results.jinja:72
+#: catalog/templates/declaration.jinja:130 catalog/templates/results.jinja:55
+#: catalog/templates/results.jinja:61
 msgid "Дата подачі"
 msgstr "Date of submission"
 
-#: catalog/templates/base.jinja:205
+#: catalog/templates/_decl_teaser.jinja:147 catalog/templates/base.jinja:571
+#: catalog/templates/base.jinja:623
 msgid "Список порівнянь"
 msgstr "Comparison list"
 
-#: catalog/views.py:511
+#: catalog/views.py:524
 msgid "Загальна сума подарунків"
 msgstr "Total amount of gifts"
 
-#: catalog/views.py:512 catalog/views.py:521
+#: catalog/views.py:532 catalog/views.py:566
 msgid "Родина"
 msgstr "Family"
 
-#: catalog/views.py:513 catalog/views.py:522
+#: catalog/views.py:540 catalog/views.py:574
 msgid "Декларант"
 msgstr "The declarant"
 
-#: catalog/views.py:520
+#: catalog/views.py:558
 msgid "Загальна сума готівки"
 msgstr "Total amount of cash"
 
-#: catalog/views.py:529 catalog/views.py:543
+#: catalog/views.py:592 catalog/views.py:634
 msgid "Дохід"
 msgstr "Income"
 
-#: catalog/views.py:530 catalog/views.py:544
+#: catalog/views.py:600 catalog/views.py:642
 msgid "Грошові активи"
 msgstr "Cash assets"
 
-#: catalog/views.py:531 catalog/views.py:545
+#: catalog/views.py:608 catalog/views.py:650
 msgid "Фінансові зобов'язання"
 msgstr "Financial obligations"
 
-#: catalog/views.py:534 catalog/views.py:548
+#: catalog/views.py:616 catalog/views.py:658
 msgid "Витрати"
 msgstr "Expenses"
 
-#: catalog/views.py:557 catalog/views.py:565
+#: catalog/views.py:676 catalog/views.py:702
 msgid "Площа в родини"
 msgstr "Family-owned area"
 
-#: catalog/views.py:558 catalog/views.py:566
+#: catalog/views.py:684 catalog/views.py:710
 msgid "Площа в декларанта"
 msgstr "Declarant-owned area"
 
-#: catalog/views.py:573
+#: catalog/views.py:728
 msgid "Кількість у декларації"
 msgstr "Number in the declaration"
 
@@ -1171,81 +1152,79 @@ msgstr "Number in the declaration"
 msgid "Список порівнянь декларацій"
 msgstr "Declaration comparison list:"
 
-#: catalog/templates/compare.jinja:21
+#: catalog/templates/compare.jinja:20
 msgid "Декларації, що були використані для порівняння"
 msgstr "Declarations compared"
 
-#: catalog/templates/bi.jinja:14
+#: catalog/templates/bi.jinja:48
 msgid "Загальні дані"
 msgstr "General information"
 
-#: catalog/templates/bi.jinja:15
+#: catalog/templates/bi.jinja:38 catalog/templates/bi.jinja:159
 msgid "Доходи та активи"
 msgstr "Revenues and assets"
 
-#: catalog/templates/bi.jinja:16
+#: catalog/templates/bi.jinja:39 catalog/templates/bi.jinja:160
 msgid "Зобов’язання та видатки"
 msgstr "Obligations and expenses"
 
-#: catalog/templates/bi.jinja:17
+#: catalog/templates/bi.jinja:78
 msgid "Нерухомість"
 msgstr "Immovables"
 
-#: catalog/templates/bi.jinja:18
+#: catalog/templates/bi.jinja:88
 msgid "Транспорт"
 msgstr "Vehicles"
 
-#: catalog/templates/bi.jinja:19
+#: catalog/templates/bi.jinja:98
 msgid "Ризик-аналіз"
 msgstr "Risk analysis"
 
-#: catalog/templates/bi.jinja:20
+#: catalog/templates/bi.jinja:43 catalog/templates/bi.jinja:164
 msgid "Регіональний зріз"
 msgstr "Regional segment"
 
-#: catalog/templates/bi.jinja:21
+#: catalog/templates/bi.jinja:44 catalog/templates/bi.jinja:165
 msgid "Список декларантів"
 msgstr "List of declarants"
 
-#: catalog/templates/bi.jinja:26
+#: catalog/templates/bi.jinja:170
 msgid "Інструкція та дані"
 msgstr "Manual and data"
 
-#: catalog/templates/bi.jinja:30
+#: catalog/templates/bi.jinja:25
 msgid "Інструкція"
 msgstr "Manual"
 
-#: catalog/templates/bi.jinja:31
+#: catalog/templates/bi.jinja:175
 msgid "Дані у CSV (більше трьох мільйонів рядків!)"
 msgstr "Data in CSV (more than 3 million rows!)"
 
-#: catalog/templates/bi.jinja:32
+#: catalog/templates/bi.jinja:31
 msgid "Опис формату даних"
 msgstr "Data format description"
 
-#: catalog/templates/bi.jinja:35
+#: catalog/templates/bi.jinja:179
 msgid "Далі"
 msgstr "Next"
 
-#: catalog/templates/bi.jinja:38
+#: catalog/templates/bi.jinja:182
 msgid "Якщо дані не відображуються у браузері Safari, будь ласка,"
 msgstr "If the data doesn't get displayed in Safari, please,"
 
-#: catalog/templates/bi.jinja:38
+#: catalog/templates/bi.jinja:182
 msgid "перейдіть за посиланням"
 msgstr "follow the link"
 
-#: catalog/templates/bi.jinja:38
+#: catalog/templates/bi.jinja:182
 msgid ", а потім перезавантажте цю сторінку"
 msgstr ", and then refresh this page"
 
-#: catalog/templates/bi.jinja:65
+#: catalog/templates/bi.jinja:138
 msgid "Канцелярська сотня"
 msgstr "White Collar Hundred:"
 
-#: catalog/templates/region_offices.jinja:15
-#: catalog/templates/region_offices.jinja:19 catalog/templates/regions.jinja:20
-#: catalog/templates/regions.jinja:23
+#: catalog/templates/region_offices.jinja:12 catalog/templates/regions.jinja:17
 msgid "Регіони"
 msgstr "Regions"
 
@@ -1257,15 +1236,15 @@ msgstr "Declarations of Ukrainian officials by regions with online access: find 
 msgid "Всі оброблені податкові декларації українських чиновників надаються в нашому проекті по регіонах. База постійно поповнюється новими даними про прибутки і податки кожного чиновника."
 msgstr "Our project provides all processed tax returns of Ukrainian officials sorted by region. The database is constantly updated with new data on the income and taxes of every official."
 
-#: catalog/templates/regions.jinja:35
+#: catalog/templates/regions.jinja:27
 msgid "Не зазначено"
 msgstr "Not specified"
 
-#: catalog/views.py:491
+#: catalog/views.py:500
 msgid "щорічна"
 msgstr "annual"
 
-#: catalog/views.py:494
+#: catalog/views.py:503
 msgid "уточнена"
 msgstr "corrected"
 
@@ -1273,8 +1252,7 @@ msgstr "corrected"
 msgid "Виторг на тендерах компаній:"
 msgstr "Income from contracts of companies:"
 
-#: procurements/templates/_procurements.jinja:12
-#: procurements/templates/_procurements.jinja:74
+#: procurements/templates/_procurements.jinja:10
 msgid "— в яких декларант є бенефіціаром"
 msgstr "— where the declarant is a beneficiary"
 
@@ -1282,17 +1260,18 @@ msgstr "— where the declarant is a beneficiary"
 msgid "натисніть для деталізації"
 msgstr "click for more details"
 
-#: procurements/templates/_procurements.jinja:24
-#: procurements/templates/_procurements.jinja:45
+#: procurements/templates/_procurements.jinja:21
+#: procurements/templates/_procurements.jinja:44
+#: procurements/templates/_procurements.jinja:61
 msgid "Кількість виграних тендерів"
 msgstr "Number of procurement biddings won"
 
-#: procurements/templates/_procurements.jinja:25
-#: procurements/templates/_procurements.jinja:46
+#: procurements/templates/_procurements.jinja:65
 msgid "Сума"
 msgstr "Amount"
 
-#: procurements/templates/_procurements.jinja:44
+#: procurements/templates/_procurements.jinja:41
+#: procurements/templates/_procurements.jinja:55
 msgid "Компанія"
 msgstr "Company"
 
@@ -1300,83 +1279,84 @@ msgstr "Company"
 msgid "До переліку включені компанії, в яких декларант має корпоративні права, участь у статутному капіталі або вказав себе кінцевим бенефіціаром."
 msgstr "The list includes companies in which the declarant has corporate rights, participation in the authorized capital, or declared himself the ultimate beneficiary."
 
-#: catalog/elastic_models.py:1018 catalog/elastic_models.py:1025
+#: catalog/elastic_models.py:1079 catalog/elastic_models.py:1086
 msgid "<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над вирішенням проблеми</h2>"
 msgstr "<h2>Our apologies, the declaration is temporarily missing. We are already working to resolve the issue</h2>"
 
-#: spotter/templates/_spotter.jinja:5
+#: spotter/templates/_spotter.jinja:37 spotter/templates/_spotter.jinja:139
 msgid "Увійти для перегляду підписок та збереженних пошуків"
 msgstr "Log in to see your subscriptions and saved searches"
 
-#: spotter/templates/_spotter.jinja:6
+#: spotter/templates/_spotter.jinja:140
 msgid "Увійти"
 msgstr "Log in"
 
-#: spotter/templates/_spotter.jinja:9
+#: spotter/templates/_spotter.jinja:143
 msgid "Через Facebook"
 msgstr "With Facebook"
 
-#: spotter/templates/_spotter.jinja:11
+#: spotter/templates/_spotter.jinja:145
 msgid "Через Google"
 msgstr "With Google"
 
-#: spotter/templates/_spotter.jinja:13
+#: spotter/templates/_spotter.jinja:147
 msgid "Через E-mail"
 msgstr "With email"
 
-#: spotter/templates/_spotter.jinja:23
+#: spotter/templates/_spotter.jinja:46 spotter/templates/_spotter.jinja:157
 msgid "Будь ласка, увійдіть"
 msgstr "Log in, please"
 
-#: spotter/templates/_spotter.jinja:26
+#: spotter/templates/_spotter.jinja:160
 msgid "Щоб розпочати моніторинг необхідно авторизуватись"
 msgstr "You have to log in to initiate monitoring"
 
-#: spotter/templates/_spotter.jinja:46
+#: spotter/templates/_spotter.jinja:71 spotter/templates/_spotter.jinja:180
 msgid "Введіть e-mail"
 msgstr "Email"
 
-#: spotter/templates/_spotter.jinja:51
+#: spotter/templates/_spotter.jinja:185
 msgid "Введіть адресу з якої ви реєструвались."
 msgstr "Enter your sign up email."
 
-#: spotter/templates/_spotter.jinja:52
+#: spotter/templates/_spotter.jinja:186
 msgid "Якщо ви ще не зареєстровані - зареєструйтесь за допомогою Google або Facebook."
 msgstr "If you haven't signed up, you may do it using Google or Facebook."
 
-#: spotter/templates/_spotter.jinja:55
+#: spotter/templates/_spotter.jinja:89 spotter/templates/_spotter.jinja:189
 msgid "Надіслати лінк для входу"
 msgstr "Send log in link"
 
-#: spotter/templates/_spotter.jinja:59
+#: spotter/templates/_spotter.jinja:102 spotter/templates/_spotter.jinja:193
 msgid "Якщо ви зареєстровані на вказану адресу буде надіслано лист з посиланням для входу."
 msgstr "If you have signed up, you will receive an email with a link to log in."
 
-#: spotter/templates/_spotter.jinja:62
+#: spotter/templates/_spotter.jinja:109 spotter/templates/_spotter.jinja:124
+#: spotter/templates/_spotter.jinja:196
 msgid "Закрити"
 msgstr "Close"
 
-#: spotter/templates/_spotter.jinja:75
+#: spotter/templates/_spotter.jinja:116 spotter/templates/_spotter.jinja:209
 msgid "Помилка входу"
 msgstr "Login failed"
 
-#: spotter/templates/_spotter.jinja:78
+#: spotter/templates/_spotter.jinja:119 spotter/templates/_spotter.jinja:212
 msgid "Помилка входу, не надано доступ."
 msgstr "Login error, access not granted."
 
-#: spotter/templates/_spotter.jinja:80
+#: spotter/templates/_spotter.jinja:127 spotter/templates/_spotter.jinja:214
 msgid "Повторити"
 msgstr "Repeat"
 
-#: spotter/templates/_spotter.jinja:96 spotter/templates/search_list.jinja:154
+#: spotter/templates/_spotter.jinja:96 spotter/templates/_spotter.jinja:238
 msgid "Зачекайте..."
 msgstr "Loading..."
 
-#: spotter/templates/_spotter.jinja:103
+#: spotter/templates/_spotter.jinja:246
 msgid "Також ви можете підписатись і отримувати сповіщення у ваш улюблений месенджер:"
 msgstr "Subscribe to get notifications right to your favorite messenger app:"
 
-#: spotter/templates/_spotter.jinja:105
+#: spotter/templates/_spotter.jinja:248
 msgid "та"
 msgstr "and"
 
@@ -1388,11 +1368,12 @@ msgstr "Add a single request"
 msgid "Додати багато запитів"
 msgstr "Add multiple requests"
 
-#: spotter/templates/search_list.jinja:37
+#: spotter/templates/search_list.jinja:46
 msgid "Запит"
 msgstr "Request"
 
-#: spotter/templates/search_list.jinja:38
+#: spotter/templates/search_list.jinja:48
+#: spotter/templates/search_list.jinja:70
 msgid "Знайдено"
 msgstr "Found"
 
@@ -1408,27 +1389,29 @@ msgstr "Status"
 msgid "Операції"
 msgstr "Actions"
 
-#: spotter/templates/search_list.jinja:52
+#: spotter/templates/search_list.jinja:62
 msgid "Перейти до пошуку"
 msgstr "Go to search"
 
-#: spotter/templates/search_list.jinja:63
+#: spotter/templates/search_list.jinja:81
 msgid "В роботі"
 msgstr "In progress"
 
-#: spotter/templates/search_list.jinja:63
+#: spotter/templates/search_list.jinja:88
 msgid "На паузі"
 msgstr "Paused"
 
-#: spotter/templates/search_list.jinja:69
+#: spotter/templates/search_list.jinja:84
+#: spotter/templates/search_list.jinja:85
 msgid "Призупинити"
 msgstr "Pause"
 
-#: spotter/templates/search_list.jinja:72
+#: spotter/templates/search_list.jinja:91
+#: spotter/templates/search_list.jinja:92
 msgid "Відновити"
 msgstr "Resume"
 
-#: spotter/templates/search_list.jinja:75
+#: spotter/templates/search_list.jinja:99
 msgid "Видалити"
 msgstr "Delete"
 
@@ -1440,8 +1423,8 @@ msgstr "It's empty, try to create the first task."
 msgid "Щоб створити нове завдання спробуйте щось знайти, а потім нажміть \"Моніторити цей запит\"."
 msgstr "To create a new task, try finding something, then click \"Monitor this request\"."
 
-#: spotter/templates/search_list.jinja:105
-#: spotter/templates/search_list.jinja:124
+#: spotter/templates/search_list.jinja:34
+#: spotter/templates/search_list.jinja:113
 msgid "Додати запити"
 msgstr "Add requests"
 
@@ -1465,11 +1448,11 @@ msgstr "In the search results press the button \"Monitor this request\"."
 msgid "Впишіть запити які бажаєте моніторити по одному на рядок:"
 msgstr "Enter the requests you wish to monitor one per line:"
 
-#: spotter/templates/search_list.jinja:133
+#: spotter/templates/search_list.jinja:138
 msgid "Додаю..."
 msgstr "Adding..."
 
-#: spotter/templates/search_list.jinja:143
+#: spotter/templates/search_list.jinja:134
 msgid "Додати"
 msgstr "Add"
 
@@ -1477,145 +1460,723 @@ msgstr "Add"
 msgid "Відмінити"
 msgstr "Cancel"
 
-#: catalog/templates/results.jinja:96
+#: catalog/templates/results.jinja:320
 msgid "Всі"
 msgstr "All"
 
-#: catalog/elastic_models.py:919
+#: catalog/elastic_models.py:937
 msgid "Активи в 10+ разів перевищують доходи"
 msgstr "Assets exceed income 10+ times over"
 
-#: catalog/elastic_models.py:927
+#: catalog/elastic_models.py:945
 msgid "Зобов’язання в 2+ разів перевищують активи і доходи"
 msgstr "Obligations exceed assets and income 2+ times over"
 
-#: catalog/elastic_models.py:936
+#: catalog/elastic_models.py:954 catalog/elastic_models.py:1022
 msgid "Не вказано вартість нерухомості, права на яку набуті в поточному році"
 msgstr "The value of immovable property acquired during the current year was not declared"
 
-#: catalog/elastic_models.py:945
+#: catalog/elastic_models.py:963
 msgid "Не вказано вартість ТЗ, права на який набуто в поточному році"
 msgstr "The value of vehicles acquired during the current year was not declared"
 
-#: catalog/elastic_models.py:953
+#: catalog/elastic_models.py:971
 msgid "Готівка > 5 млн.грн."
 msgstr "Cash > UAH 5 million"
 
-#: catalog/elastic_models.py:961
+#: catalog/elastic_models.py:979
 msgid "Видатки в 3+ разів перевищують активи і доходи"
 msgstr "Expenses exceed assets and income 3+ times over"
 
-#: catalog/elastic_models.py:969
+#: catalog/elastic_models.py:987
 msgid "Подарунки, призи, благодійна допомога складають >75% доходу"
 msgstr "Gifts, prizes, charitable contributions make up >75% of income"
 
-#: catalog/elastic_models.py:978
+#: catalog/elastic_models.py:996
 msgid "Є будинок/ дача, немає землі"
 msgstr "Has a house/dacha, but no land"
 
-#: catalog/elastic_models.py:987
+#: catalog/elastic_models.py:1005
 msgid "Є гараж, немає авто"
 msgstr "Has a garage, but no car"
 
-#: catalog/elastic_models.py:996
+#: catalog/elastic_models.py:1014
 msgid "Є \"люксові\" авто*"
 msgstr "Has \"luxury\" cars"
 
-#: catalog/templates/declaration.jinja:158
+#: catalog/templates/declaration.jinja:272
 msgid "Ризик-аналіз: знайдено "
 msgstr "Risk analysis: found "
 
-#: catalog/templates/declaration.jinja:165
+#: catalog/templates/declaration.jinja:279
 msgid "Прапорець"
 msgstr "Flag"
 
-#: catalog/templates/declaration.jinja:166
+#: catalog/templates/declaration.jinja:280
 msgid "Опис"
 msgstr "Description"
 
-#: catalog/elastic_models.py:921
+#: catalog/elastic_models.py:939
 msgid "Сума грошових активів (розділ 12) декларанта і родини в 10+ разів вища за суму всіх доходів\n"
 "                (розділ 11) декларанта і родини. Суми, що зазначені у іноземній валюті, переведені в грн за\n"
 "                курсом на 31 грудня звітного року"
 msgstr "The sum of monetary assets (section 12) of the declarant and their family is 10+ times higher than the sum of all income (section 11) of the declarant and their family. Amounts stated in foreign currency, translated into UAH at the rate as of December 31 of the reporting year"
 
-#: catalog/elastic_models.py:929
+#: catalog/elastic_models.py:947
 msgid "Сума фінансових зобов'язань (розділ 13) декларанта і родини в 2+ рази перевищує суму грошових\n"
 "                активів (розділ 12) та доходів (розділ 11) декларанта і родини. Суми, що зазначені у іноземній\n"
 "                валюті, переведені в грн за курсом на 31 грудня звітного року"
 msgstr "The sum of financial obligations (section 13) of the declarant and their family is 2+ times greater than the sum of monetary assets (section 12) and income (section 11) of the declarant and their family. Amounts stated in foreign currency, translated into UAH at the rate as of December 31 of the reporting year"
 
-#: catalog/elastic_models.py:939
+#: catalog/elastic_models.py:957
 msgid "В декларації вказано об'єкт нерухомості (розділ 3), що належить декларанту чи члену родини\n"
 "                на праві власності (зокрема сумісної), при цьому дата набуття права співпадає зі звітним роком,\n"
 "                а показник вартості нерухомості на дату набуття права не вказано або дорівнює 0"
 msgstr "The declaration specifies a real estate object (section 3) belonging to the declarant or a family member on the right of property (incl. shared), with the date of acquisition of the right coinciding with the reporting year, and the value of the real estate at the date of acquisition of the right not specified or equal to 0"
 
-#: catalog/elastic_models.py:947
+#: catalog/elastic_models.py:965
 msgid "В декларації вказано транспортний засіб (розділ 6), що належить декларанту чи члену родини\n"
 "                на праві власності (зокрема сумісної), при цьому дата набуття права співпадає зі звітним роком,\n"
 "                а показник вартості ТЗ не вказано або дорівнює 0"
 msgstr "The declaration specifies a vehicle (section 6) belonging to the declarant or a family member on the right of property (incl. shared), with the date of acquisition coinciding with the reporting year, and the value of the vehicle is not specified or equal to 0"
 
-#: catalog/elastic_models.py:955
+#: catalog/elastic_models.py:973
 msgid "Сума грошових активів (розділ 12) декларанта і родини, вид активів \"готівкові кошти\"\n"
 "                перевищує 5 млн.грн Суми, що зазначені у іноземній валюті, переведені в грн за курсом на\n"
 "                31 грудня звітного року"
 msgstr "Amount of monetary assets (section 12) of the declarant and family, the type of asset \"cash\" exceeds 5 million. Amounts stated in foreign currency, translated into UAH at the rate as of December 31 of the reporting year"
 
-#: catalog/elastic_models.py:963
+#: catalog/elastic_models.py:981
 msgid "Сума видатків (розділ 14) декларанта в 3+ рази перевищує суму грошових активів (розділ 12)\n"
 "                та доходів (розділ 11) декларанта і родини. Суми, що зазначені у іноземній валюті, переведені\n"
 "                в грн за курсом на 31 грудня звітного року"
 msgstr "The amount of expenses (section 14) of the declarant is 3+ times the amount of cash assets (section 12) and income (section 11) of the declarant and their family. Amounts stated in foreign currency, translated into UAH at the rate as of December 31 of the reporting year"
 
-#: catalog/elastic_models.py:980
+#: catalog/elastic_models.py:998
 msgid "В декларації вказано об'єкт нерухомості (розділ 3), вид об'єкту \"Житловий будинок\" або\n"
 "                \"Садовий (дачний) будинок\", що належить декларанту чи члену родини на праві власності\n"
 "                (в т.ч. сумісної). При цьому в декларації не вказано об'єкт нерухомості типу \"Земельна ділянка\",\n"
 "                що належить декларанту чи члену родини на праві власності (зокрема сумісної)"
 msgstr "The declaration specifies a real estate object (section 3), the type of object \"Residential house\" or \"Garden house\" belonging to the declarant or a family member on the right of property (incl. shared). However, the declaration does not specify a real estate type \"Land\" belonging to the declarant or a family member on the right of property (incl. shared)"
 
-#: catalog/elastic_models.py:989
+#: catalog/elastic_models.py:1007
 msgid "В декларації вказано об'єкт нерухомості (розділ 3) виду \"Гараж\", що належить декларанту чи\n"
 "                члену родини на праві власності (зокрема сумісної). При цьому в декларації не вказано жодного\n"
 "                транспортного засобу (розділ 6), який належить декларанту чи члену родини на праві власності\n"
 "                (зокрема сумісної)"
 msgstr "The declaration specifies a property item (section 3) of the Garage type belonging to the declarant or a family member on the right of property (incl. shared). However, the declaration does not specify any vehicle (section 6) belonging to the declarant or a family member on the right of property (incl. shared)"
 
-#: catalog/elastic_models.py:998
+#: catalog/elastic_models.py:1016
 msgid "В декларації вказано транспортний засіб (розділ 6), рік випуску якого більше за 2011\n"
 "                (або рік випуску не вказано), марка і модель яких належить\n"
 "                <a href=\"https://docs.google.com/spreadsheets/d/1DJj2Ms5ivi7m61m5X_ib0XqCvZQRIDrbN3FYX1A_-HE/edit#gid=0\">до наступного списку</a>."
 msgstr "The declaration indicates the vehicle (section 6), the year of issue of which is more than 2011 (or the year of issue is not specified), the make and model of which is in <a href=\"https://docs.google.com/spreadsheets/d/1DJj2Ms5ivi7m61m5X_ib0XqCvZQRIDrbN3FYX1A_-HE/edit#gid=0\">the following list</a>."
 
-#: catalog/templates/declaration.jinja:235
+#: catalog/templates/declaration.jinja:366
 msgid "червоний прапорець"
 msgstr "red flag"
 
-#: catalog/templates/declaration.jinja:236
+#: catalog/templates/declaration.jinja:367
 msgid "червоних прапорця"
 msgstr "red flags"
 
-#: catalog/templates/declaration.jinja:237
+#: catalog/templates/declaration.jinja:368
 msgid "червоних прапорців"
 msgstr "red flags"
 
-#: catalog/elastic_models.py:912
+#: catalog/elastic_models.py:930
 msgid "Повідомлення про суттєві зміни в майновому стані подано пізніше встановленого законом терміну"
-msgstr "The amount of income (section 11) of the declarant and the family, the type of income \"Gift in a non-monetary form\", \"Gift in cash\", \"Charity\", \"Prize\" make up >75% of the total income of the declarant and their family.\n"
-"Amounts stated in foreign currency, translated into UAH at the rate as of December 31 of the reporting year"
+msgstr "Notification of significant changes in property was submitted later than the statutory deadline"
 
-#: catalog/elastic_models.py:914
+#: catalog/elastic_models.py:932
 msgid "Суб’єкт декларування не подав повідомлення про суттєві зміни в майновому стані у десятиденний\n"
 "                строк з моменту отримання доходу, придбання майна або здійснення видатку"
 msgstr "The declarant did not report any significant changes to their economic situation within ten days of receipt of income, acquisition of property, or carrying out of expenses"
-""
 
-#: catalog/elastic_models.py:971
+#: catalog/elastic_models.py:989
 msgid "Сума доходів (розділ 11) декларанта і родини, вид доходів \"Подарунок у негрошовій формі\",\n"
 "                \"Подарунок у грошовій формі\", \"Благодійна допомога\", \"Приз\" складають > 75% загальної суми\n"
 "                доходів декларанта і родини. Суми, що зазначені у іноземній валюті, переведені в грн за\n"
 "                курсом на 31 грудня звітного року"
 msgstr "The amount of income (section 11) of the declarant and the family, the type of income \"Gift in a non-monetary form\", \"Gift in cash\", \"Charity\", \"Prize\" make up >75% of the total income of the declarant and their family."
+
+#: catalog/templates/_advantages.jinja:5
+#: cms_pages/templates/cms_pages/home.jinja:108
+msgid "Чат-боти"
+msgstr "Chatbots"
+
+#: catalog/templates/_advantages.jinja:7
+msgid "Ми створили кишенькових помічників — чат-ботів у популярних месенджерах"
+msgstr "We have created your own pocket assistants, chatbots in popular messengers."
+
+#: catalog/templates/_advantages.jinja:25
+#: cms_pages/templates/cms_pages/home.jinja:125
+msgid "Покрокова iнструкцiя"
+msgstr "A step by step instruction"
+
+#: catalog/templates/_advantages.jinja:30
+#: cms_pages/templates/cms_pages/home.jinja:84
+msgid "Порівняння"
+msgstr "Comparison"
+
+#: catalog/templates/_advantages.jinja:37
+#: cms_pages/templates/cms_pages/home.jinja:92
+msgid "Моніторинг"
+msgstr "Monitoring"
+
+#: catalog/templates/_advantages.jinja:44 catalog/templates/bi.jinja:19
+#: cms_pages/templates/cms_pages/home.jinja:100
+msgid "Аналітика"
+msgstr "Analytics"
+
+#: catalog/templates/_decl_teaser.jinja:56
+#: catalog/templates/declaration.jinja:268
+msgid "Особливості"
+msgstr "Specifics"
+
+#: catalog/templates/_decl_teaser.jinja:135
+msgid "Дані декларанта за рік"
+msgstr "The declarant's annual data"
+
+#: catalog/templates/_decl_teaser.jinja:158
+msgid "Додати в Мої знахідки"
+msgstr "Add to My Findings"
+
+#: catalog/templates/_decl_teaser.jinja:178
+msgid "Тип/Рік"
+msgstr "Type/Year"
+
+#: catalog/templates/_decl_teaser.jinja:199
+#: catalog/templates/declaration.jinja:108
+msgid "Місце праці"
+msgstr "Place of work"
+
+#: catalog/templates/_decl_teaser.jinja:220
+msgid "Подана"
+msgstr "Submitted"
+
+#: catalog/templates/_search_form.jinja:31
+msgid "Приклад пошуку: Айварас Абромавичус; Cуддя; Хмельницька область"
+msgstr "For example, Aivaras Abromavicius; Judge; Khmelnytskyi Oblast"
+
+#: catalog/templates/_search_form.jinja:46
+msgid "Шукати"
+msgstr "Search"
+
+#: catalog/templates/_search_form.jinja:51
+msgid "Детальний пошук"
+msgstr "Advanced search"
+
+#: catalog/templates/_search_form.jinja:58
+msgid "Я шукаю декларацію"
+msgstr "I'm looking for a declaration"
+
+#: catalog/templates/_search_form.jinja:227
+msgid "Тип документу чи посади"
+msgstr "Type of document or position"
+
+#: catalog/templates/_search_form.jinja:228
+#: catalog/templates/_search_form.jinja:234
+msgid "Тип документу"
+msgstr "Type of document"
+
+#: catalog/templates/_search_form.jinja:325
+msgid "Тип посади"
+msgstr "Type of position"
+
+#: catalog/templates/_search_form.jinja:333
+msgid "Державна служба"
+msgstr "Public service"
+
+#: catalog/templates/_search_form.jinja:341
+msgid "Орган місцевого самоврядування"
+msgstr "Local self-government body"
+
+#: catalog/templates/_search_form.jinja:363
+msgid "Ризик-фактори"
+msgstr "Risk factors"
+
+#: catalog/templates/_search_form.jinja:383
+#: catalog/templates/_search_form.jinja:429
+msgid "Борги у 2+ разів перевищують активи та доходи"
+msgstr "Debts exceed assets and income 2+ times over"
+
+#: catalog/templates/_search_form.jinja:394
+msgid "Не вказана вартість нерухомості придбаної у поточному році"
+msgstr "The value of immovable property bought during the current year not specified"
+
+#: catalog/templates/_search_form.jinja:407
+msgid "Не вказана вартість транспорту придбаного у поточному&nbsp;році"
+msgstr "The value of immovable property bought during the current&nbsp;year not specified"
+
+#: catalog/templates/_search_form.jinja:418
+msgid "Готівка понад 5 млн грн"
+msgstr "Cash > UAH 5 million"
+
+#: catalog/templates/_search_form.jinja:440
+msgid "Регіон та область"
+msgstr "Region and Oblast"
+
+#: catalog/templates/_search_form.jinja:441
+#: catalog/templates/_search_form.jinja:446
+msgid "Регіон"
+msgstr "Region"
+
+#: catalog/templates/_search_form.jinja:239
+msgid "Кількість фільтрів:"
+msgstr "Number of filters:"
+
+#: catalog/templates/_search_form.jinja:242
+msgid "Скинути всі"
+msgstr "Reset all"
+
+#: catalog/templates/_search_form.jinja:243
+msgid "Застосувати"
+msgstr "Apply"
+
+#: catalog/templates/base.jinja:169 catalog/templates/base.jinja:195
+msgid "Підтримати проект"
+msgstr "Support the project"
+
+#: catalog/templates/base.jinja:221
+msgid "Проекти"
+msgstr "Projects"
+
+#: catalog/templates/base.jinja:225
+msgid "декларації"
+msgstr "declarations"
+
+#: catalog/templates/base.jinja:228
+msgid "лабораторія викриттів"
+msgstr "Laboratory of Exposure"
+
+#: catalog/templates/base.jinja:231
+msgid "котики"
+msgstr "Kotyky"
+
+#: catalog/templates/base.jinja:234
+msgid "тисни!"
+msgstr "Tysny!"
+
+#: catalog/templates/base.jinja:237
+msgid "ring"
+msgstr "The Ring"
+
+#: catalog/templates/base.jinja:240
+msgid "підсумки дна"
+msgstr "The Bottom Line"
+
+#: catalog/templates/base.jinja:243
+msgid "наші гроші"
+msgstr "Our Money"
+
+#: catalog/templates/base.jinja:246
+msgid "он воно як"
+msgstr "How It Is"
+
+#: catalog/templates/base.jinja:249
+msgid "посіпаки"
+msgstr "Posipaky"
+
+#: catalog/templates/base.jinja:252
+msgid "посіпаки 2"
+msgstr "Posipaky 2"
+
+#: catalog/templates/base.jinja:255
+msgid "гра слів"
+msgstr "Game of Words"
+
+#: catalog/templates/base.jinja:258
+msgid "блоги"
+msgstr "blogs"
+
+#: catalog/templates/base.jinja:261
+msgid "nevid"
+msgstr "Nevid"
+
+#: catalog/templates/base.jinja:264
+msgid "e.БТІ"
+msgstr "e.BTI"
+
+#: catalog/templates/base.jinja:267
+msgid "гарнахата"
+msgstr "HarnaKhata"
+
+#: catalog/templates/base.jinja:270
+msgid "свої люди"
+msgstr "The Point People"
+
+#: catalog/templates/base.jinja:286
+msgid "Підписатися на розсилку"
+msgstr "Subscribe to newsletter"
+
+#: catalog/templates/base.jinja:299
+msgid "Ми у соцмережах"
+msgstr "Our social media"
+
+#: catalog/templates/base.jinja:324
+msgid "Bihus.info &copy; 2015 - 2020"
+msgstr "Bihus.Info &copy; 2015 - 2020"
+
+#: catalog/templates/base.jinja:576 catalog/templates/results.jinja:46
+msgid "Сортувати по:"
+msgstr "Sort by:"
+
+#: catalog/templates/base.jinja:579 catalog/templates/base.jinja:582
+msgid "Дата додавання"
+msgstr "Date of addition"
+
+#: catalog/templates/base.jinja:581
+msgid "П.І.Б"
+msgstr "Full name"
+
+#: catalog/templates/base.jinja:584
+msgid "Кiлькiсть флагiв"
+msgstr "Number of flags"
+
+#: catalog/templates/base.jinja:593
+msgid "Відкрити всі картки"
+msgstr "Expand all cards"
+
+#: catalog/templates/base.jinja:601
+msgid "У порівняннях:"
+msgstr "To compare:"
+
+#: catalog/templates/base.jinja:606
+msgid "Очистити"
+msgstr "Clear"
+
+#: catalog/templates/bi.jinja:22
+msgid "Інструкції та дані"
+msgstr "Instructions and data"
+
+#: catalog/templates/bi.jinja:28
+msgid "Дані у СSV (більше мільйона рядків)"
+msgstr "Data in CSV (more a million rows!)"
+
+#: catalog/templates/bi.jinja:58
+msgid "Доходи та<br>активи"
+msgstr "Income and assets"
+
+#: catalog/templates/bi.jinja:68
+msgid "Зобов'язання<br>та видатки"
+msgstr "Obligations<br>and expenses"
+
+#: catalog/templates/bi.jinja:108
+msgid "Регіональний<br>зріз"
+msgstr "Regional<br>segment"
+
+#: catalog/templates/bi.jinja:118
+msgid "Список<br>декларантів"
+msgstr "List of<br>declarants"
+
+#: catalog/templates/compare.jinja:70
+msgid "Фінансові зобов’язання"
+msgstr "Financial obligations"
+
+#: catalog/templates/compare.jinja:80
+msgid "Доходи та грошові активи VS витрати та зобовязання"
+msgstr "Income and assets VS expenses and obligations"
+
+#: catalog/templates/declaration.jinja:79 spotter/templates/edit_email.jinja:47
+msgid "Назад"
+msgstr "Back"
+
+#: catalog/templates/declaration.jinja:82
+#: catalog/templates/declaration.jinja:90
+msgid "Зміст"
+msgstr "Contents"
+
+#: catalog/templates/declaration.jinja:288
+msgid "Додати у порівняння"
+msgstr "Add to the comparison list"
+
+#: catalog/templates/declaration.jinja:301 catalog/templates/results.jinja:35
+msgid "Моніторити запит:"
+msgstr "Monitor this request:"
+
+#: catalog/templates/declaration.jinja:308
+msgid "RSS"
+msgstr "RSS"
+
+#: cms_pages/templates/cms_pages/home.jinja:36
+msgid "Ми знаходимо, розшифровуємо та публікуємо декларації чиновників"
+msgstr "We find, decipher, and publish declarations of officials "
+
+#: cms_pages/templates/cms_pages/home.jinja:38
+msgid "Викриваємо брехню про статки та майно"
+msgstr "Expose lies about wealth and assets"
+
+#: cms_pages/templates/cms_pages/home.jinja:80
+msgid "Наші переваги"
+msgstr "Our advantages"
+
+#: cms_pages/templates/cms_pages/home.jinja:86
+msgid "Хочете дізнатися у кого більше грошей? Додавайте декларантів у список порівнянь та дивіться аналіз за різними показниками. Щоб почати порівнювати знайдіть декілька декларацій та натисніть \"Додати у порівняння\""
+msgstr "Want to know who has more money? Add declarants to the comparison list and see the analysis for different indicators. To start the comparison, find several declarations and click \"Add to Compare\""
+
+#: cms_pages/templates/cms_pages/home.jinja:94
+msgid "Слідкуйте за змінами чи появою нових документів за домогою нашого сервісу. Інформація буде надходити на E-mail або RSS. Щоб створити нове завдання спробуйте щось знайти, а потім нажміть \"Моніторити запит\"."
+msgstr "Follow the changes or appearance of new documents with the help of our service. The information will be sent to email or RSS. To create a new task, try to find something, and then click Monitor Request."
+
+#: cms_pages/templates/cms_pages/home.jinja:149
+msgid "Для тих хто любить цифри та графіки ми зробили круту аналітику і поділили ії на 8 розділів для вашої зручності Для тих хто любить цифри та графіки ми зробили круту аналітику i поділили ії на 8 розділів для вашої зручності"
+msgstr "For those who like numbers and graphs we've made some cool analytics and divided them into 8 sections for your convenience"
+
+#: cms_pages/templates/cms_pages/home.jinja:110
+msgid "Ми створили кишенькових помічників — чат-ботів у популярних месенджерах Telegram, Messenger та Skype. Щоб розпочати роботу з ботом, додайте його у контакти:"
+msgstr "We have created pocket assistants, chatbots in popular Telegram, Messenger and Skype messenger apps. To get started with the bot, add it to your contacts:"
+
+#: spotter/templates/_spotter.jinja:27 spotter/templates/search_list.jinja:25
+msgid "Мої знахідки"
+msgstr "My findings"
+
+#: spotter/templates/edit_email.jinja:20
+msgid "Мій профіль"
+msgstr "My account"
+
+#: spotter/templates/edit_email.jinja:29
+msgid "Для продовження необхідно вказати свій e-mail"
+msgstr "To continue, please enter your email"
+
+#: spotter/templates/search_list.jinja:49
+#: spotter/templates/search_list.jinja:74
+msgid "За тиждень"
+msgstr "In a week"
+
+#: spotter/templates/search_list.jinja:50
+#: spotter/templates/search_list.jinja:78
+msgid "E-mail нагадування"
+msgstr "Email notifications"
+
+#: spotter/templates/search_list.jinja:118
+msgid "Додавайте багато запитів вводячи їх з нового рядка. Тисніть кнопку Enter для того щоб завершити введення та перейти до нового запиту. Активні запити виділяються кольором, їх можно редагувати та видаляти."
+msgstr "Add many queries by entering them with a new line. Press Enter to complete the entry and proceed to the new request. Active requests are highlighted and can be edited and deleted."
+
+#: spotter/templates/search_list.jinja:130
+msgid "Кількість запитів:"
+msgstr "Number of requests:"
+
+#: catalog/elastic_models.py:1023
+msgid "В декларації вказано об'єкт нерухомості (розділ 3), що належить декларанту чи члену\n"
+"родини на праві власності (Власність \\ Спільна власність), при цьому дата набуття права співпадає зі звітним роком, \n"
+"а показники вартості нерухомості на дату набуття права та на дату останньої оцінки не вказано або дорівнюють 0"
+msgstr "The declaration specifies a real estate item (section 3) that remains to be declared by the family members on the right of ownership (Ownership\\Shared ownership), with the date of the acquisition of the right coinciding with the reporting year, while the property value entries as of the day of the acquisition of the right or as of the date of the last appraisal are either empty or equal to 0."
+
+#: catalog/elastic_models.py:1028
+msgid "Не вказано вартість ТЗ, право на який набуто в поточному році"
+msgstr "No indication of the value of a vehicle, the rights for which were acquired in the current year"
+
+#: catalog/elastic_models.py:1029
+msgid "В декларації вказано транспортний засіб (розділ 6), що належить декларанту чи члену\n"
+"родини на праві власності (Власність \\ Спільна власність), при цьому дата набуття права співпадає зі звітним роком, а показник \n"
+"вартості ТЗ не вказано або дорівнює 0"
+msgstr "The declaration specifies a vehicle (section 6) that belongs to the declarant or their family member on the right of ownership (Ownership\\Shared ownership), with the date of the acquisition of the right coinciding with the reporting year, while the entry of the vehicle’s value was not specified or equals 0."
+
+#: catalog/elastic_models.py:1034
+msgid "Призи / лотереї більше 10 тис"
+msgstr "Prizes/lottery winnings of more than 10,000"
+
+#: catalog/elastic_models.py:1035
+msgid "Задекларовано дохід (декларантом або членом родини) виграші в лотерею чи призи загальною\n"
+"сумою >= 10 тис. грн. Перевіряється тип доходу “Приз”, а також тип доходу “Інше” з пошуком в описі за ключовими словами\n"
+"типу “виграш” і т.п."
+msgstr "The declarant of a family member has declared income from a lottery winning or prizes with the total amount equal to or more than UAH 10,000 \n"
+"The income type “Prize” is being checked, as well as the income type “Other”, with a search in the description according to keywords such as “winnings”, etc"
+
+#: catalog/elastic_models.py:1040
+msgid "Є нерухомість за кордоном"
+msgstr "There is immovable property abroad"
+
+#: catalog/elastic_models.py:1041
+msgid "Задекларовано об'єкт нерухомості будь-якого типу, що належить декларанту чи члену родини\n"
+"(Власність / Спільна власність), і країною місцезнаходження об'єкту є не Україна"
+msgstr "A real estate item of any type owned by the declarant or a family member (Ownership\\Joint ownership) was declared, the country of the item’s location is not Ukraine."
+
+#: catalog/elastic_models.py:1045
+msgid "Має фінансові зобов’язання по відношенню не до банків, страхових чи лізингових компаній або пенсійних фондів"
+msgstr "Has financial obligations not to banks, insurance or leasing companies, or pension funds"
+
+#: catalog/elastic_models.py:1046
+msgid "Перевіряється назва особи, щодо якої є зобов’язання, порівнюється з списком назв банків та їхніх кодів ЄДРПОУ.\n"
+"Також перевіряється опис зобов’язання на предмет страхових чи  лізингових компаній та пенсійних фондів"
+msgstr "The name of the entity indebted to is checked against the list of names of banks and their EDRPOU codes. The description of liabilities is also checked for insurance or leasing companies and pension funds"
+
+#: catalog/elastic_models.py:1050
+msgid "Має повітряний транспортний засіб"
+msgstr "Has an aerial vehicle"
+
+#: catalog/elastic_models.py:1051
+msgid "Задекларовано ТЗ виду “Повітряний засіб”, на будь-якому праві власності"
+msgstr "A vehicle of the “Aerial vehicle” type was declared on any kind of ownership right"
+
+#: catalog/elastic_models.py:1054
+msgid "Має нерухомість площею більше 300 м2"
+msgstr "Has a property of more than 300 square meters"
+
+#: catalog/elastic_models.py:1055
+msgid "Задекларовано нерухомість (тип 'Житловий будинок', 'Квартира', 'Кімната', 'Садовий \n"
+"(дачний) будинок') площею більше 300 м2 на будь-якому праві власності"
+msgstr "A real estate item of an area of more than 300 square meters was declared (types: Residential Building, Flat, Room, Garden House (Dacha). On any kind of ownership right."
+
+#: catalog/elastic_models.py:1059
+msgid "Член сім’ї не надав інформацію"
+msgstr "A family member did not provide information"
+
+#: catalog/elastic_models.py:1060
+msgid "Щодо будь-якого задекларованого об’єкта є дані, які відсутні, бо член сім’ї не надав \n"
+"інформацію. Частина менш важливих даних, які в принципі можуть бути невідомі члену родини (податковий номер компанії, \n"
+"і т.п.) не перевіряється."
+msgstr "Data on a declared item is missing because a family member failed to provide information. Some of the less important data which may not be known to a family member (company tax ID, etc.) are not checked"
+
+#: catalog/templates/404.jinja:19
+msgid "404. Сторінка не знайдена."
+msgstr "404. Page not found."
+
+#: catalog/templates/404.jinja:22
+msgid "Нажаль, такої сторінки не існує. Але не засмучуйтесь, скористайтесь пошуком або верхнім меню."
+msgstr "Unfortunately, this page does not exist. Don't succumb to sorrow though, use the search or the top menu."
+
+#: catalog/templates/404.jinja:26
+msgid "На головну"
+msgstr "Home"
+
+#: catalog/templates/declaration.jinja:336
+msgid "Інші декларації цього декларанта"
+msgstr "Other declarations of this declarant"
+
+#: procurements/templates/_procurements.jinja:8
+msgid "Виторг в тендерах компаній"
+msgstr "Income from contracts of companies:"
+
+#: procurements/templates/_procurements.jinja:10
+#: procurements/templates/_procurements.jinja:30
+#: procurements/templates/_procurements.jinja:66
+msgid "грн."
+msgstr "UAH"
+
+#: procurements/templates/_procurements.jinja:22
+#: procurements/templates/_procurements.jinja:47
+msgid "Сума, грн"
+msgstr "Amount, UAH"
+
+#: spotter/templates/_spotter.jinja:48
+msgid "Щоб розпочати Моніторинг, або додати декларацію у Мої знахідки необхідно авторизуватись"
+msgstr "Please, sign in to initiate Monitoring or to add a declaration to My Findings"
+
+#: spotter/templates/_spotter.jinja:63
+msgid "Увійдіть іншим способом"
+msgstr "Sign in in another way"
+
+#: spotter/templates/_spotter.jinja:73
+msgid "Введіть адресу, з якої ви реєструвались. Якщо ви ще не зареєстровані — зареєструйтесь за допомогою Google або Facebook."
+msgstr "Enter the address you used to sign up. If you haven't signed up, you can do this via Google or Facebook."
+
+#: spotter/templates/_spotter.jinja:83
+msgid "E-mail"
+msgstr "Email"
+
+#: spotter/templates/edit_email.jinja:46
+msgid "Зберегти"
+msgstr "Save"
+
+#: catalog/templates/_advantages.jinja:32
+msgid "Додавайте декларантів у список порівнянь та дивіться аналіз за різними показниками"
+msgstr "Add declarants to the comparison list and see the analysis on various indicators"
+
+#: catalog/templates/_advantages.jinja:39
+msgid "Слідкуйте за змінами чи появою нових документів по E-mail, RSS та у месенжерах"
+msgstr "Monitor changes or the submission of new documents by email, RSS, and in messenger apps"
+
+#: catalog/templates/_advantages.jinja:46
+msgid "Ми зробили круту аналітику і поділили ії на 8 розділів для вашої зручності"
+msgstr "We made a cool analysis and divided it into 8 sections for your convenience"
+
+#: catalog/templates/_search_form.jinja:31
+msgid "Наприклад: Айварас Абромавичус; Cуддя; Хмельницька область"
+msgstr "For example, Aivaras Abromavicius; Judge; Khmelnytskyi Oblast"
+
+#: catalog/templates/_search_form.jinja:42
+msgid "всюди"
+msgstr "Deep search"
+
+#: catalog/templates/compare.jinja:17
+msgid "Як порівнювати декларації?"
+msgstr "How do I compare declarations?"
+
+#: catalog/templates/compare.jinja:32
+msgid "Доходи та грошові активи VS витрати та зобов'язання"
+msgstr "Income and assets VS expenses and obligations"
+
+#: catalog/templates/compare.jinja:36
+msgid "Дохід декларанта, родини та загальна сума подарунків"
+msgstr "The income of the declarant, their family, and the total amount of gifts"
+
+#: catalog/templates/compare.jinja:40
+msgid "Грошові активи декларанта, родини та загальна сума готівки"
+msgstr "Assets of the declarant, their family, and total cash"
+
+#: catalog/templates/compare.jinja:44
+msgid "Квартири, будинки, та інша нерухомість (м²)"
+msgstr "Flats, houses, and other immovables (m²)"
+
+#: catalog/templates/compare.jinja:48
+msgid "Земельні ділянки (м²)"
+msgstr "Land plots (m²)"
+
+#: catalog/templates/compare.jinja:52
+msgid "Машини та інші транспортні засоби"
+msgstr "Cars and other vehicles"
+
+#: catalog/templates/results.jinja:150
+msgid "Нажаль, по вашому запиту нічого не знайдено. Спробуйте&nbsp;ще."
+msgstr "Unfortunately, nothing was found. Please try again."
+
+#: cms_pages/templates/cms_pages/home.jinja:102
+msgid "Для тих хто любить цифри та графіки ми зробили круту аналітику і поділили ії на 8 розділів для вашої зручності."
+msgstr "For those who like numbers and graphs we've made some cool analytics and divided them into 8 sections for your convenience"
+
+#: spotter/templates/_spotter.jinja:103
+msgid "Посилання діятиме протягом 15 хвилин."
+msgstr "The link will be active for 15 minutes."
+
+#: spotter/templates/search_list.jinja:41
+msgid "Щоб створити нове завдання нажмiть “Додати запити”, або спробуйте щось знайти та нажмiть “Монiторити запит” Також ви можете підписатись і отримувати сповіщення у ваш улюблений месенджер: Skype, Telegram та Facebook Messenger."
+msgstr "To create a new task, click “Add requests” or try searching for something and click “Monitor this request”. In addition, you can subscribe and receive notifications in your favourite messenger: Skype, Telegram or Facebook Messenger."
+
+#: catalog/templates/404.jinja:22
+msgid "На жаль, такої сторінки не існує. Але не засмучуйтесь, скористайтесь пошуком або верхнім меню."
+msgstr "Unfortunately, this page does not exist. Don't succumb to sorrow though, use the search or the top menu."
+
+#: catalog/templates/_decl_teaser.jinja:230
+msgid "Сума доходів декларанта"
+msgstr "Sum of declarant's income"
+
+#: catalog/templates/_decl_teaser.jinja:231
+msgid "Сума доходів членів родини"
+msgstr "Sum of family members' income"
+
+#: catalog/templates/_decl_teaser.jinja:232
+msgid "Сума грошових активів"
+msgstr "Sum of monetary assets"
+
+#: catalog/templates/_decl_teaser.jinja:233
+msgid "Сума грошових активів родини"
+msgstr "Sum of the family's monetary assets"
+
+#: catalog/templates/_decl_teaser.jinja:234
+msgid "Площа земельних ділянок декларанта"
+msgstr "Area of declarant-owned land"
+
+#: catalog/templates/_decl_teaser.jinja:235
+msgid "Площа земельних ділянок родини"
+msgstr "Area of family-owned land"
+
+#: catalog/templates/_decl_teaser.jinja:236
+msgid "Авто в декларанта та родини"
+msgstr "Cars of the declarant and their family"
+
+#: catalog/templates/results.jinja:150
+msgid "На жаль, по вашому запиту нічого не знайдено. Спробуйте&nbsp;ще."
+msgstr "Unfortunately, nothing was found. Please try again."
 

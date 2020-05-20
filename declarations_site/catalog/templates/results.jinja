@@ -1,6 +1,7 @@
 {% extends "base.jinja" %}
 {% from "_search_results.jinja" import search_results with context %}
-{% from "_search_form.jinja" import ex_search_form  with context %}
+{% from "_search_form.jinja" import ex_search_form with context %}
+{% from "_search_form.jinja" import sort_direction with context %}
 {% from "_spotter.jinja" import spotter_button -%}
 
 {% block extrahead %}
@@ -18,82 +19,136 @@
 {% block bodyclass %}not-front search-page{% endblock %}
 
 {% block content %}
-
-{{ ex_search_form(query, deepsearch) }}
-
-<section id="page">
-    <div class="compare-list container hidden">
-        <h2>{{ _("Список порівнянь:") }}</h2>
-        <div class="row"></div>
-
-    </div>
-    <div class="container">
-        <div id='div-gpt-ad-1531830029689-0' style="display: none; width: 970px; margin: 15px auto;">
-            <script>
-              googletag.cmd.push(function() { googletag.display('div-gpt-ad-1531830029689-0'); });
-            </script>
-        </div>
-    </div>
-    <div class="container rc">
-        <div class="breadcrumbs-container">
-            <div id="breadcrumbs">
-                <ol class="breadcrumb pull-left">
-                    <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                    <li class="active">{{ _("Результати пошуку") }}</li>
-                </ol>
+    <div class="content container">
+        <div class="search-page">
+            <div class="search-page__form-block">
+                {{ ex_search_form(query, deepsearch) }}
             </div>
 
-            <h1 id="page-header"><span>{{ query|default(_("Всі"), true)|escape }} ({{ results.paginator.count }})</span></h1>
-        </div>
+            {% if results.paginator.count %}
+                <div class="search-page__header">
+                    <div class="search-page__result-name">
+                        {{ query|default(_("Всі"), true)|escape }} ({{ results.paginator.count }})
+                    </div>
 
-        {% if request.META['QUERY_STRING'] %}
-        <div class="watching-block">
-            <p>{{ _("Моніторити цей запит по:") }}</p>
-            <a title="{{ _("Моніторити цей запит по RSS") }}" class="btn btn-raised btn-sm save-search rss-feed" href="{{ SITE_URL }}{{ request.get_full_path() }}&amp;format=rss"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a>
-            {{ spotter_button(_("Моніторити цей запит"), request.META['QUERY_STRING'], "from-search") }}
-        </div>
-        {% endif %}
+                    <div class="search-page__monitoring monitoring-block">
+                        <div class="monitoring-block__title">{{ _("Моніторити запит:") }}</div>
+                        <div class="monitoring-block__btns">
+                            {{ spotter_button(_("Моніторити цей запит"), request.META['QUERY_STRING'], "from-search") }}
+                            <a href="{{ SITE_URL }}{{ request.get_full_path() }}&amp;format=rss" class="n-btn n-btn_gray monitoring-block__btn">
+                                RSS
+                            </a>
+                        </div>
+                    </div>
 
-        <div class="page-content">
-            <div class="btn-group toggle-view">
-                <a href="#" id="list" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-th-list"></span> {{ _("Списком") }}
-                </a>
-                <a href="#" id="grid" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-th"></span> {{ _("Картками") }}
-                </a>
-            </div>
+                    <div class="search-page__sort">
+                        <div class="sort-block">
+                            <div class="sort-block__title">{{ _("Сортувати по:") }}</div>
+                            <div class="sort-block__select">
+                                <div class="n-select">
+                                    <div class="n-select__selected">
+                                        {% if 'sort' not in request.GET or request.GET['sort'].startswith('year') %}
+                                            {{ _("Рік") }}
+                                        {% elif request.GET['sort'].startswith('name') %}
+                                            {{ _("П.І.Б.") }}
+                                        {% elif request.GET['sort'].startswith('date') %}
+                                            {{ _("Дата подачі") }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="n-select__items">
+                                        <div><a href="?{{ replace_arg(request, 'sort', 'name', 'name_desc') }}" id="sort-name" class="n-select__item">{{ _("П.І.Б.") }}</a></div>
+                                        <div><a href="?{{ replace_arg(request, 'sort', 'year_desc', 'year') }}" id="sort-year" class="n-select__item">{{ _("Рік") }}</a></div>
+                                        <div><a href="?{{ replace_arg(request, 'sort', 'date_desc', 'date') }}" id="sort-date" class="n-select__item">{{ _("Дата подачі") }}</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{ sort_direction(request, 'year') }}
+                        </div>
+                    </div>
+                </div>
 
-            <div class="toggle-search">
-                <span>{{ _("Сортувати:") }}</span>
-                    <div class="btn-group">
-                        <a href="?{{ replace_arg(request, 'sort', 'name', 'name_desc') }}" id="sort-name" class="btn btn-default btn-sm">{{ _("П.І.Б.") }} {{ sort_flag(request, 'sort', 'name', 'name_desc') }}</a>
-                        <a href="?{{ replace_arg(request, 'sort', 'year_desc', 'year') }}" id="sort-year" class="btn btn-default btn-sm">{{ _("Рік") }} {{ sort_flag(request, 'sort', 'year', 'year_desc') }}</a>
-                        <a href="?{{ replace_arg(request, 'sort', 'date_desc', 'date') }}" id="sort-year" class="btn btn-default btn-sm">{{ _("Дата подачі") }} {{ sort_flag(request, 'sort', 'date', 'date_desc') }}</a>
-                  </div>
-            </div>
+                <div class="search-page__results-block">
+                    {{ search_results(results) }}
+                </div>
 
-            <div class="row list-group search-results">
-                {{ search_results(results) }}
-            </div>
-
-            {% if results.paginator.num_pages > 1 %}
-            <ul class="pagination">
-                <li{% if not results.has_previous() %} class="disabled"{% endif %}><a href="{% if results.has_previous() %}?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}{% endif %}">«</a></li>
-                {% for page_num in results.contextual_page_range %}
-                {% if page_num == None %}
-                    <li class="disabled"><a href="#">&hellip;</a></li>
-                {% else %}
-                    <li{% if results.number == page_num %} class="active"{% endif %}><a href="?{{ updated_querystring(request, {'page': page_num}) }}">{{ page_num }}</a></li>
+                {% if results.paginator.num_pages > 1 %}
+                    <div class="pager search-page__pager">
+                        <div class="pager__item">
+                            {% if results.has_previous() %}
+                                <a href="?{{ updated_querystring(request, {'page': results.previous_page_number()}) }}" class="pager__prev">
+                                    <svg width="24" height="25"
+                                        class="pager__arrow"
+                                        viewBox="0 0 24 25"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.99 13.0448L20 13.0448L20 11.0379L7.99 11.0379L7.99 8.02755L4 12.0414L7.99 16.0552L7.99 13.0448Z"
+                                            fill="#111111"/>
+                                    </svg>
+                                </a>
+                            {% else %}
+                                <span class="pager__prev">
+                                    <svg width="24" height="25"
+                                        class="pager__arrow"
+                                        viewBox="0 0 24 25"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M7.99 13.0448L20 13.0448L20 11.0379L7.99 11.0379L7.99 8.02755L4 12.0414L7.99 16.0552L7.99 13.0448Z"
+                                            fill="#111111"/>
+                                    </svg>
+                                </span>
+                            {% endif %}
+                        </div>
+                        {% for page_num in results.contextual_page_range %}
+                            {% if page_num == None %}
+                                <div class="pager__item">
+                                    <span class="pager__dots">
+                                    <span class="pager__dot"></span>
+                                    <span class="pager__dot"></span>
+                                    <span class="pager__dot"></span>
+                                    </span>
+                                </div>
+                            {% else %}
+                                <div class="pager__item">
+                                    {% if results.number == page_num %}
+                                        <span class="pager__link pager__link_active">{{ page_num }}</span>
+                                    {% else %}
+                                        <a href="?{{ updated_querystring(request, {'page': page_num}) }}" class="pager__link">
+                                            {{ page_num }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        <div class="pager__item">
+                            {% if results.has_next() %}
+                                <a href="?{{ updated_querystring(request, {'page': results.next_page_number()}) }}" class="pager__next">
+                                    <svg class="pager__arrow"
+                                        width="24" height="25"
+                                        viewBox="0 0 24 25"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16.01 11.0379H4V13.0449H16.01V16.0552L20 12.0414L16.01 8.02759V11.0379Z"
+                                            fill="#111111"/>
+                                    </svg>
+                                </a>
+                            {% else %}
+                                <span class="pager__next">
+                                    <svg class="pager__arrow"
+                                        width="24" height="25"
+                                        viewBox="0 0 24 25"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16.01 11.0379H4V13.0449H16.01V16.0552L20 12.0414L16.01 8.02759V11.0379Z"
+                                            fill="#111111"/>
+                                    </svg>
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endif %}
-                {% endfor %}
-                <li{% if not results.has_next() %} class="disabled"{% endif %}><a href="{% if results.has_next() %}?{{ updated_querystring(request, {'page': results.next_page_number()}) }}{% endif %}">»</a></li>
-            </ul>
+            {% else %}
+                <div class="search-page__no-result">{{ _("На жаль, по вашому запиту нічого не знайдено. Спробуйте&nbsp;ще.") }}</div>
             {% endif %}
+        </div>
     </div>
-</section>
-{#
-    {{ _("Всі") }}
-#}
-
 {% endblock %}

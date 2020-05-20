@@ -1,60 +1,63 @@
 {% extends "base.jinja" %}
 {% from "_search_results.jinja" import search_results with context %}
+{% from "_search_form.jinja" import ex_search_form with context %}
+{% from "_advantages.jinja" import advantages %}
+{% from "_decl_teaser.jinja" import decl_teaser with context %}
 
 {% block bodyclass %}not-front compare-page{% endblock %}
 
 {% block content %}
-
-<section id="page">
-    <div class="container">
-        <div id="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="{{ url("wagtail_serve", "") }}">{{ _("Головна") }}</a></li>
-                <li class="active">{{ _("Список порівнянь декларацій") }}</li>
-            </ol>
+<div class="content container">
+    <div class="compare-page">
+        <div class="compare-page__search">
+            {{ ex_search_form('', false) }}
         </div>
 
-        <h1 class="page-header"><span>{{ _("Список порівнянь декларацій") }}</span></h1>
-
-        <div class="page-content">
+        <div class="compare-page__header">
+            <a href="#" class="compare-page__help-link">{{ _("Як порівнювати декларації?") }}</a>
+            
             {% if results %}
-                <h2>{{ _("Декларації, що були використані для порівняння") }}</h2>
-                <div class="search-page">
-                    <div class="row list-group search-results">
-                        {{ search_results(results) }}
-                    </div>
-                </div>
-
-                <div class="comparedata-section">
-                    <canvas id="decl_global" data-caption="{{ _("Доходи та грошові активи VS витрати та зобов'язання") }}"></canvas>
-                </div>
-
-                <div class="comparedata-section">
-                    <canvas id="decl_incomes" data-caption="{{ _("Дохід декларанта, родини та загальна сума подарунків") }}"></canvas>
-                </div>
-
-                <div class="comparedata-section">
-                    <canvas id="decl_assets" data-caption="{{ _("Грошові активи декларанта, родини та загальна сума готівки") }}"></canvas>
-                </div>
-
-                <div class="comparedata-section">
-                    <canvas id="decl_realty" data-caption="{{ _("Квартири, будинки, та інша нерухомість (м²)") }}"></canvas>
-                </div>
-
-                <div class="comparedata-section">
-                    <canvas id="decl_land" data-caption="{{ _("Земельні ділянки (м²)") }}"></canvas>
-                </div>
-
-                <div class="comparedata-section">
-                    <canvas id="decl_cars" data-caption="{{ _("Машини та інші транспортні засоби") }}"></canvas>
-                </div>
+                <h1 class="compare-page__title">{{ _("Декларації, що були використані для порівняння") }}</h1>
             {% endif %}
-
-        {% block static_content %}
-        {% endblock %}
         </div>
+
+        <div class="compare-page__items">
+            {% if results %}
+                {{ search_results(results, true) }}
+            {% endif %}
+        </div>
+
+        {% if results %}
+            <div class="compare-page__chart">
+                <canvas id="decl_global" data-caption="{{ _("Доходи та грошові активи VS витрати та зобов'язання") }}"></canvas>
+            </div>
+
+            <div class="compare-page__chart">
+                <canvas id="decl_incomes" data-caption="{{ _("Дохід декларанта, родини та загальна сума подарунків") }}"></canvas>
+            </div>
+
+            <div class="compare-page__chart">
+                <canvas id="decl_assets" data-caption="{{ _("Грошові активи декларанта, родини та загальна сума готівки") }}"></canvas>
+            </div>
+
+            <div class="compare-page__chart">
+                <canvas id="decl_realty" data-caption="{{ _("Квартири, будинки, та інша нерухомість (м²)") }}"></canvas>
+            </div>
+
+            <div class="compare-page__chart">
+                <canvas id="decl_land" data-caption="{{ _("Земельні ділянки (м²)") }}"></canvas>
+            </div>
+
+            <div class="compare-page__chart">
+                <canvas id="decl_cars" data-caption="{{ _("Машини та інші транспортні засоби") }}"></canvas>
+            </div>
+        {% endif %}
+        {{ advantages('compare-page__advantages') }}
     </div>
-</section>
+</div>
+
+{% block static_content %}
+{% endblock %}
 
 {% endblock %}
 
@@ -74,7 +77,7 @@
     {% else %}
         <script type="text/javascript">
             $(function() {
-                $('.decl-compare-modal').modal('show');
+                $('.header__compare').click();
             });
         </script>
     {% endif %}

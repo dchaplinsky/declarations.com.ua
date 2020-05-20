@@ -1,0 +1,44 @@
+.email-notification {
+  @include flex($justify-content: flex-start, $align-items: center);
+  &__status {
+    margin-right: 16px;
+  }
+  &__icon {
+    cursor: pointer;
+    font-size: 0;
+    height: 14px;
+    vertical-align: middle;
+    width: 12px;
+    @include transparent-button;
+  }
+  &__play {
+    overflow: hidden;
+    &:before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-color: transparent transparent transparent $green;
+      border-width: 7px 10px;
+      display: block;
+      margin-left: 1px;
+    }
+  }
+  &__pause {
+    position: relative;
+    &:before, &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      background: #FFBB00;
+      width: 4px;
+    }
+    &:before {
+      left: 0;
+    }
+    &:after {
+      right: 0;
+    }
+  }
+}

@@ -1,3 +1,278 @@
 {% extends "base.jinja" %}
 
-Like Whatever
+{% block bodyclass %}landing-page__details{% endblock %}
+
+{% block extra_js %}
+    {% javascript 'js_charts' %}
+{% endblock %}
+
+{% macro format_trend(prev_val, val, symbol) %}
+    {% if prev_val %}
+        {% if prev_val > val %}
+            <span class="trend--minus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">{{ '{0:0.2f}'.format((prev_val - val) / (prev_val) * 100) }}%&darr;</span>
+        {% elif prev_val < val %}
+            <span class="trend--plus" title="{{ _("Попередній період: ")}} {{ symbol }} {{ prev_val|string|curformat() }}">{{ '{0:0.2f}'.format((val - prev_val) / (prev_val) * 100) }}%&uarr;</span>
+        {% else %}
+            <span class="trend--no_change"></span>
+        {% endif %}
+    {% else %}
+        {% if val %}
+            <span class="trend--plus">+++</span>
+        {% else %}
+            <span class="trend--no_change"></span>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% block content %}
+
+    <div class="content container">
+        <div class="search-card search-page__result-card">
+            <div class="search-card__top">
+                <div class="search-card__name">
+                    {{ object.title }}
+                </div>
+            </div>
+
+            <div class="search-card__items">
+                <div class="search-card__item">
+                    <div class="search-card__item-text landing-page__desc">
+                        {% if object.image %}
+                        <img src="{{ object.image['avatar'].url }}" alt="{{ object.title }}"/>
+                        {% endif %}
+                        {{ object.description|safe }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-card search-page__result-card">
+            <div class="search-card__top">
+                <a href="#" style="display: none" class="search-card__back n-btn n-btn_ico n-btn_back">{{ _("Назад") }}</a>
+                <div class="search-card__name">
+                    <span data-default="{{ _("Установа") }}">{{ _("Установа") }}</span>
+                </div>
+                <select id="year" style="display: none;">
+                    {% for year in range(summary.min_year, summary.max_year + 1) %}
+                        <option value="{{ year }}" {% if year == CURR_YEAR - 1 %}selected="selected"{% endif %}>{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="search-card__items">
+                <div class="search-card__item">
+                    <canvas id="tablo"></canvas>
+                    <div class="chartjs-tooltip" id="main-tooltip">
+                        <div class="chartjs-tooltip__body">
+                            <div class="chartjs-tooltip__name"><span class="value"></span></div>
+                            <div class="chartjs-tooltip__legend">
+                                <div class="chartjs-tooltip__income"><span>{{ _("Дохід") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__cash"><span>{{ _("Кеш") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__liabilities"><span>{{ _("Борги") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__expenses"><span>{{ _("Витрати") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__real_estate"><span>{{ _("Нерухомість") }}</span><span class="value"></span></div>
+                                <div class="chartjs-tooltip__land"><span>{{ _("Земля") }}</span><span class="value"></span></div>
+                            </div>
+                        </div>
+                        <div class="chartjs-tooltip__footer">
+                            <div class="chartjs-tooltip__assets">{{ _("Загальні статки") }}</span><span class="value"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-card search-page__result-card landing-page__people">
+            <div class="search-card__top">
+                <div class="sort-block">
+                    <div class="sort-block__title">{{ _("Сортувати по:") }}</div>
+                    <div class="sort-block__select">
+                        <select id="sort">
+                            <option selected="selected" value="assets">{{ _("Найбільш багаті") }}</option>
+                            <option value="flags">{{ _("Найбільше ризиків") }}</option>
+                            <option value="name">{{ _("За ПІБ") }}</option>
+                        </select>
+                    </div>
+                </div>
+                <a href="?format=xlsx" class="n-btn n-btn_white landing-page__export">{{ _("експорт в excel") }}</a>
+            </div>
+
+            <div class="search-card__items">
+                <div class="search-card__item">
+                    {% for year in range(summary.min_year, summary.max_year + 1) %}
+                    <table id="declarants-{{ year }}" {% if year != CURR_YEAR - 1 %}style="display: none"{% endif %} class="n-table landing-page__declarants-table">
+                        <thead class="n-table__thead">
+                            <tr>
+                                <th class="n-table__th">{{ _("Повне ім’я") }}</th>
+                                <th class="n-table__th">{{ _("Ризики") }}</th>
+                                <th class="n-table__th">{{ _("Доходи") }}</th>
+                                <th class="n-table__th">{{ _("Активи") }}</th>
+                                <th class="n-table__th">{{ _("Авто") }}</th>
+                                <th class="n-table__th">{{ _("Нерухомість") }}</th>
+                                <th class="n-table__th">{{ _("Земля") }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="n-table__tbody">
+                            {% for person in summary.persons.values() %}
+                                {% if year in person.documents %}
+                                    {% set doc = person.documents[year] %}
+                                    <tr class="n-table__tr person-{{ person.id }}"
+                                        data-name="{{ person.name }}"
+                                        data-assets="{% if 'assets.total' in doc.aggregated_data %}{{ doc.aggregated_data['assets.total'] }}{% else %}-1{% endif %}"
+                                        data-flags="{{ doc.flags|count }}"
+                                        >
+                                        <td class="n-table__td">
+                                            <a href="{{ url("landing_page_person", pk=person.id, body_id=object.pk) }}">{{ person.name }}</a>
+                                        </td>
+                                        <td class="n-table__td landing-page__declarants-table-flags">{%- if doc.flags|count %}
+                                            <div class="action-icon action-icon--inline">
+                                                <span>{{ doc.flags|count }}</span>
+                                                <div class="action-icon__tooltip">
+                                                    <div class="action-icon__tooltip-text">
+                                                        {% for flag in doc.flags %}
+                                                            <div>{{ flag.text }}</div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif -%}</td>
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-format="money"
+                                            data-labels="{{ person.documents.keys()|list|tojson|forceescape }}"
+                                            data-family_values="{{ person.documents.values()|extract('incomes.family')|tojson|forceescape }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('incomes.declarant')|tojson|forceescape }}"
+                                            data-family_label="{{ _("Родина") }}"
+                                            data-declarant_label="{{ _("Декларант") }}">
+                                            {% if 'incomes.total' in doc.aggregated_data %}
+                                                {% set val = doc.aggregated_data["incomes.total"] %}
+                                                <span class="landing-page__declarants-table-amount" title="₴ {{ val|string|curformat() }}">
+                                                    ₴ {{ val|string|curformat(true) }}
+                                                </span>
+                                                {% if year - 1 in person.documents %}
+                                                    {% set prev_val = person.documents[year - 1].aggregated_data["incomes.total"] %}
+                                                    {{ format_trend(prev_val, val, "₴") }}
+                                                {% endif %}
+                                            {% endif %}
+                                            <div class="n-tooltip">
+                                                <div class="n-tooltip__head">
+                                                    <div class="n-tooltip__title">{{ _("Доходи") }}</div>
+                                                    <button class="n-tooltip__close">&times;</button>
+                                                </div>
+                                                <div class="n-tooltip__body">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-format="money"
+                                            data-labels="{{ person.documents.keys()|list|tojson|forceescape }}"
+                                            data-family_values="{{ person.documents.values()|extract('assets.family')|tojson|forceescape }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('assets.declarant')|tojson|forceescape }}"
+                                            data-family_label="{{ _("Родина") }}"
+                                            data-declarant_label="{{ _("Декларант") }}">
+                                            {% if 'assets.total' in doc.aggregated_data %}
+                                                {% set val = doc.aggregated_data["assets.total"] %}
+                                                <span class="landing-page__declarants-table-amount" title="₴ {{ val|string|curformat() }}">
+                                                    ₴ {{ val|string|curformat(true) }}
+                                                </span>
+                                                {% if year - 1 in person.documents %}
+                                                    {% set prev_val = person.documents[year - 1].aggregated_data["assets.total"] %}
+                                                    {{ format_trend(prev_val, val, "₴") }}
+                                                {% endif %}
+                                            {% endif %}
+                                            <div class="n-tooltip">
+                                                <div class="n-tooltip__head">
+                                                    <div class="n-tooltip__title">{{ _("Активи") }}</div>
+                                                    <button class="n-tooltip__close">&times;</button>
+                                                </div>
+                                                <div class="n-tooltip__body">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="n-table__td">
+                                            {% if 'vehicles.all_names' in doc.aggregated_data %}
+                                                {% if doc.aggregated_data["vehicles.all_names"] %}
+                                                    {{ doc.aggregated_data["vehicles.all_names"]|replace("; ", "<br/>")|safe }}
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-format="area"
+                                            data-labels="{{ person.documents.keys()|list|tojson|forceescape }}"
+                                            data-family_values="{{ person.documents.values()|extract('estate.family_other')|tojson|forceescape }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_other')|tojson|forceescape }}"
+                                            data-family_label="{{ _("Родина") }}"
+                                            data-declarant_label="{{ _("Декларант") }}">
+                                            {% if 'estate.total_other' in doc.aggregated_data %}
+                                                {% set val = person.documents[year].aggregated_data["estate.total_other"] %}
+                                                <span class="landing-page__declarants-table-amount">
+                                                    {{ val|string|curformat() }}{{ _("м²") }}
+                                                </span>
+                                                {% if year - 1 in person.documents %}
+                                                    {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_other"] %}
+                                                    {{ format_trend(prev_val, val, _("м²")) }}
+                                                {% endif %}
+                                            {% endif %}
+                                            <div class="n-tooltip">
+                                                <div class="n-tooltip__head">
+                                                    <div class="n-tooltip__title">{{ _("Нерухомість") }}</div>
+                                                    <button class="n-tooltip__close">&times;</button>
+                                                </div>
+                                                <div class="n-tooltip__body">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
+                                            data-format="area"
+                                            data-labels="{{ person.documents.keys()|list|tojson|forceescape }}"
+                                            data-family_values="{{ person.documents.values()|extract('estate.family_land')|tojson|forceescape }}"
+                                            data-declarant_values="{{ person.documents.values()|extract('estate.total_land')|tojson|forceescape }}"
+                                            data-family_label="{{ _("Родина") }}"
+                                            data-declarant_label="{{ _("Декларант") }}">
+                                            {% if 'estate.total_land' in doc.aggregated_data %}
+                                                {% set val = person.documents[year].aggregated_data["estate.total_land"] %}
+                                                <span class="landing-page__declarants-table-amount">
+                                                    {{ val|string|curformat() }}{{ _("м²") }}
+                                                </span>
+                                                {% if year - 1 in person.documents %}
+                                                    {% set prev_val = person.documents[year - 1].aggregated_data["estate.total_land"] %}
+                                                    {{ format_trend(prev_val, val, _("м²")) }}
+                                                {% endif %}
+                                            {% endif %}
+                                            <div class="n-tooltip">
+                                                <div class="n-tooltip__head">
+                                                    <div class="n-tooltip__title">{{ _("Земля") }}</div>
+                                                    <button class="n-tooltip__close">&times;</button>
+                                                </div>
+                                                <div class="n-tooltip__body">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                            {% for person in summary.persons.values() %}
+                                {% if year not in person.documents %}
+                                    <tr class="n-table__tr person-{{ person.id }}"
+                                        data-name="{{ person.name }}"
+                                        data-assets="-1"
+                                        data-flags="0">
+                                        <td class="n-table__td">
+                                            <a href="{{ person.id }}">{{ person.name }}</a>
+                                        </td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                        <td class="n-table__td">-</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

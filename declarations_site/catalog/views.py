@@ -431,7 +431,9 @@ def prepare_datasets_for_charts(declarations, labels, columns):
         data = {
             "label": label,
             "backgroundColor": colors[i],
+            "borderWidth": 0,
             "data": data,
+            "order": i,
             "type": columns[label]["type"]
         }
 
@@ -474,6 +476,7 @@ def compare_declarations(request):
         key=lambda x: (
             str(x.intro.declaration_year or x.intro.date or x.declaration.date or ""),
             getattr(x.intro, "corrected", False),
+            getattr(x, "source", "").lower() not in ["vulyk", "chesno"]
         ),
     )
 

@@ -1,0 +1,114 @@
+.login-block {
+  padding: 60px 16px;
+  box-sizing: border-box;
+  max-width: 390px;
+  margin: 0 auto;
+  @media all and (min-width: 400px) {
+    text-align: center;
+    padding: 44px 40px;
+  }
+  &__email,
+  &__error,
+  &__success {
+    display: none;
+  }
+  &--email {
+    & .login-block__social,
+    & .login-block__loading {
+      display: none;
+    }
+    & .login-block__email {
+      display: block;
+    }
+  }
+  &--success {
+    & .login-block__social,
+    & .login-block__email {
+      display: none;
+    }
+    & .login-block__success {
+      display: block;
+    }
+  }
+  &--error {
+    & .login-block__social,
+    & .login-block__email,
+    & .login-block__error {
+      display: none;
+    }
+    & .login-block__error {
+      display: block;
+    }
+  }
+  &--loading {
+    & .login-block__social,
+    .login-block__other--email-submit {
+      display: none;
+    }
+    & .login-block__email,
+    .login-block__loading {
+      display: block;
+    }
+  }
+  &__title {
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1;
+    font-size: 20px;
+    @media all and (min-width: 400px) {
+      font-size: 28px;
+    }
+  }
+  &__btns {
+    margin: 25px 0;
+    button {
+      width: 100%;
+    }
+  }
+  &__btn_facebook, &__btn_google {
+    width: 100%;
+    box-sizing: border-box;
+    &:before {
+      content: "";
+      width: 24px;
+      height: 24px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      top: -2px;
+      margin-right: 10px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+    }
+  }
+  &__btn_facebook {
+    margin-bottom: 12px;
+    &:before {
+      background-image: url('../images/icon/facebook.svg');
+    }
+  }
+  &__btn_google {
+    &:before {
+      background-image: url('../images/icon/google.svg');
+    }
+  }
+  &__bottom {
+    text-align: center;
+  }
+  &__other {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 0 18px;
+    @include transparent-button;
+    &-text {
+      margin-right: 5px;
+    }
+    &:hover {
+      color: darken($green, 10%);
+      path { fill: darken($green, 10%); }
+    }
+  }
+}
