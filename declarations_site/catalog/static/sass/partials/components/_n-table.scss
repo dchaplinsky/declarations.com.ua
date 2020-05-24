@@ -55,4 +55,25 @@
       padding: 14px 24px;
     }
   }
+  &__collapsable {
+    cursor: pointer;
+    height: 4.2em;
+    overflow: hidden;
+    position: relative;
+    &::after {
+      background: linear-gradient(0deg, #fff 0%, #fffb 70%, #0000 100%);
+      bottom: 0;
+      content: '';
+      display: block;
+      height: 1.3em;
+      position: absolute;
+      width: 100%;
+    }
+    &--expanded {
+      height: auto;
+      &::after {
+        content: none;
+      }
+    }
+  }
 }

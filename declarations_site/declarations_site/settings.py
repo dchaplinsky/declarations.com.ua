@@ -306,6 +306,7 @@ PIPELINE = {
                 'js/partials/mobile-menu.js',
                 'js/partials/n-select.js',
                 'js/partials/n-tooltip.js',
+                'js/partials/n-table.js',
                 'js/partials/search-form.js',
                 'js/partials/modal.js',
                 'js/partials/account-block.js',

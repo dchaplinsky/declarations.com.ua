@@ -189,11 +189,13 @@
                                             </div>
                                         </td>
                                         <td class="n-table__td">
-                                            {% if 'vehicles.all_names' in doc.aggregated_data %}
-                                                {% if doc.aggregated_data["vehicles.all_names"] %}
-                                                    {{ doc.aggregated_data["vehicles.all_names"]|replace("; ", "<br/>")|safe }}
+                                            <div class="n-table__collapsable" title="Click to expand">
+                                                {% if 'vehicles.all_names' in doc.aggregated_data %}
+                                                    {% if doc.aggregated_data["vehicles.all_names"] %}
+                                                        {{ doc.aggregated_data["vehicles.all_names"]|replace("; ", "<br/>")|safe }}
+                                                    {% endif %}
                                                 {% endif %}
-                                            {% endif %}
+                                            </div>
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-money-with-trend n-tooltip__trigger"
                                             data-format="area"

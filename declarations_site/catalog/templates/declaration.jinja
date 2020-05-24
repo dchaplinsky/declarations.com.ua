@@ -332,6 +332,16 @@
         </div>
 
         <div class="declaration-page__relevant-container">
+            <h3 id="other_wordings"><span>{{ _("ПІБ іншими мовами") }}</span></h3>
+            {% set pipe = joiner(", ") %}
+            <div class="content-container">
+                {% for t in generate_all_names(declaration.general.last_name, declaration.general.name, declaration.general.patronymic) -%}
+                {{ pipe() }}<span itemprop="alternateName">{{ t }}</span>
+                {%- endfor %}
+            </div>
+        </div>
+
+        <div class="declaration-page__relevant-container">
             {% set similar_declarations = declaration.similar_declarations(language=language) %}
 
             {% if similar_declarations["exact"] %}

@@ -38,7 +38,7 @@
           });
 
           // add related blocks to TOC
-          links += ['#exact_by_surname', '#similar_by_surname', '#similar_by_relations']
+          links += ['#other_wordings', '#exact_by_surname', '#similar_by_surname', '#similar_by_relations']
             .map(createContentsItem)
             .join('');
 

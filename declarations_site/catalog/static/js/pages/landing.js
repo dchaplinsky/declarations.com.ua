@@ -26,13 +26,16 @@
     return accounting.formatMoney(value, "₴", precision !== undefined ? precision : 2);
   }
 
-  function format_sqm(value) {
-    return accounting.formatMoney(value, {symbol: "м²",  format: "%v %s"}, 2 )
+  function format_sqm(value, precision) {
+    return accounting.formatMoney(
+      value,
+      {symbol: "м²",  format: "%v %s", precision: precision !== undefined ? precision : 2 }
+    );
   }
 
-  function formatter(format, x) {
-    if (format == 'area'){
-      return format_sqm(x);
+  function formatter(format, x, precision) {
+    if (format == 'area') {
+      return format_sqm(x, precision);
     } else {
       return format_uah(x, 0, true);
     }
@@ -115,6 +118,7 @@
                 fontColor: "#5ECBA1",
                 fontSize: 14,
                 fontStyle: "bold",
+                padding: 10,
                 // Include a dollar sign in the ticks
                 callback: function(value, index, values) {
                   return format_uah(value, 0, true);
@@ -133,6 +137,7 @@
                 fontColor: "#7175D8",
                 fontSize: 14,
                 fontStyle: "bold",
+                padding: 10,
                 // Include a dollar sign in the ticks
                 callback: function(value, index, values) {
                     return format_uah(value, 0, true);
@@ -549,14 +554,18 @@
             scales: {
               xAxes: [{
                 display: true,
+                ticks: {
+                  padding: 10,
+                },
               }],
               yAxes: [{
                 stacked: true,
                 display: true,
                 ticks: {
                   maxTicksLimit: 5,
+                  padding: 10,
                   callback: function(value, index, values) {
-                    return fmt(value);
+                    return fmt(value, 0);
                   }
                 }
               }]
