@@ -53,6 +53,7 @@
 
         <div class="search-card search-page__result-card tabs__tab" id="charts">
             <div class="search-card__top">
+                {% if summary.max_year and summary.documents[summary.max_year] %}
                 <h2 class="search-card__title">
                     {{ _("Статки") }}
                 </h2>
@@ -78,6 +79,7 @@
                         {{ summary.documents[summary.max_year]["infocard"]["created_date"]|date }}
                     </div>
                 </div> #}
+                {% endif %}
             </div>
 
             <div class="search-card__items">

@@ -106,10 +106,16 @@ ROOT_URLCONF = 'declarations_site.urls'
 
 WSGI_APPLICATION = 'declarations_site.wsgi.application'
 
+PROMETHEUS_ENABLE = get_env_bool("PROMETHEUS_ENABLE", False)
+db_backend = "django.db.backends.postgresql_psycopg2"
+if PROMETHEUS_ENABLE:
+    db_backend = "django_prometheus.db.backends.postgresql"
+
+
 DATABASES = {
     'default': {
         # Strictly PostgreSQL
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': db_backend,
         'NAME': get_env_str('DB_NAME', None),
         'USER': get_env_str('DB_USER', None),
         'PASSWORD': get_env_str('DB_PASS', None),
@@ -400,6 +406,15 @@ THUMBNAIL_ALIASES = {
         'avatar': {'size': (250, 250), 'crop': True},
     },
 }
+
+if PROMETHEUS_ENABLE:
+    MIDDLEWARE = (
+        ['django_prometheus.middleware.PrometheusBeforeMiddleware',] +
+        MIDDLEWARE +
+        ['django_prometheus.middleware.PrometheusAfterMiddleware',]
+    )
+
+    INSTALLED_APPS = INSTALLED_APPS + ['django_prometheus',]
 
 try:
     from .local_settings import *

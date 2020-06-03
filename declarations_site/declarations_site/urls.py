@@ -45,6 +45,11 @@ if "debug_toolbar" in settings.INSTALLED_APPS:
 
     urlpatterns += [url(r"^__debug__/", include(debug_toolbar.urls))]
 
+
+if settings.PROMETHEUS_ENABLE:
+    urlpatterns = [url('^prometheus/', include('django_prometheus.urls'))] + urlpatterns
+
+
 urlpatterns += i18n_patterns(
     path("search", catalog_views.search, name="search"),
     path("declaration/<str:declaration_id>", catalog_views.details, name="details"),

@@ -29,3 +29,4 @@ tqdm==4.24.0
 sentry-sdk==0.14.0
 django-ckeditor==5.9.0
 easy-thumbnails==2.7
+django-prometheus==2.0.0
