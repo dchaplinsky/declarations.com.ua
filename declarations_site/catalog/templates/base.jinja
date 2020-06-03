@@ -181,7 +181,7 @@
                             <div class="mobile-menu__items">
                                 {% for menuitem in top_menu %}
                                     <div class="mobile-menu__item">
-                                        <a class="mobile-menu__link popup-btn" href="{{ menuitem.link }}">{{ menuitem.translated_caption }}</a>
+                                        <a class="mobile-menu__link{% if menuitem.extra_class %} {{ menuitem.extra_class }}{% endif %}" href="{{ menuitem.link }}">{{ menuitem.translated_caption }}</a>
                                     </div>
                                 {% endfor %}
                             </div>
