@@ -45,7 +45,7 @@ ALLOWED_HOSTS = get_env_str_list('ALLOWED_HOSTS', [])
 
 # Application definition
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -85,9 +85,9 @@ INSTALLED_APPS = (
     'catalog',
     'cms_pages',
     'procurements',
-)
+]
 
-MIDDLEWARE = (
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -100,7 +100,7 @@ MIDDLEWARE = (
 
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
-)
+]
 
 ROOT_URLCONF = 'declarations_site.urls'
 
