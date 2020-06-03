@@ -89,8 +89,8 @@
     .on('click', '.card-actions__action-add-to-compare', function(e) {
       e.preventDefault();
 
-      var $this = $(e.target),
-        $parentBox = $this.parents('.search-card'),
+      var $this = $(this),
+        $parentBox = $($this.data('search-card')),
         $compareContainer = $('.compare-popup .compare-popup__items'),
         $cloneItem = $parentBox.clone(),
         declarationID = $parentBox.data('declid');
@@ -121,8 +121,10 @@
       updateCompareStrings(-1);
 
     })
-    .on('click', '.card-actions__action--expand', function() {
+    .on('click', '.card-actions__action--expand', function(e) {
       var $this = $(this);
+
+      e.preventDefault();
       $this.toggleClass('drop-down-btn_opened');
       $this.closest('.search-card').toggleClass('search-card--collapsed');
     });

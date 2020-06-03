@@ -283,10 +283,13 @@
                     </div>
                 {% endif %}
             {% endif %}
+            <div style="display: none">
+                {{ decl_teaser(declaration, true) }}
+            </div>
             <div class="declaration-card__actions">
                 <div class="declaration-card__btns">
                     {% if declaration.aggregated %}
-                        <button class="n-btn n-btn_ico n-btn_compare declaration-card__btn card-actions__action-add-to-compare">
+                        <button class="n-btn n-btn_ico n-btn_compare declaration-card__btn card-actions__action-add-to-compare" data-search-card="#{{ declaration.meta.id }}">
                             {{ _("Додати у порівняння") }}
                         </button>
                     {% endif %}
