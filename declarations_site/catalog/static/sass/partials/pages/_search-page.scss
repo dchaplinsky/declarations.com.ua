@@ -41,10 +41,14 @@
     }
   }
   &__monitoring {
-    margin: 24px 0 16px;
+    margin: 24px 10px 16px;
     @media all and (min-width: 1024px) {
-      margin: 0;
+      margin: 0 10px;
     }
+  }
+  &__monitoring,
+  &__sort {
+    flex-shrink: 0;
   }
   &__no-result {
     text-align: center;

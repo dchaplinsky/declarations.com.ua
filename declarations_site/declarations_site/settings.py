@@ -326,11 +326,15 @@ PIPELINE = {
                 'js/partials/analytics-tabs.js',
                 'js/partials/declaration.js',
                 'js/partials/tabs.js',
-                'js/pages/landing.js',
             ),
             'output_filename': 'js/merged.js',
         },
-
+        'js_landing': {
+            'source_filenames': (
+                'js/pages/landing.js',
+            ),
+            'output_filename': 'js/merged_landing.js',
+        },
         'js_charts': {
             'source_filenames': (
                 "js/Chart.bundle.js",

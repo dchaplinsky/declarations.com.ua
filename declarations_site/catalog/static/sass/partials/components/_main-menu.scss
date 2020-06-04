@@ -16,6 +16,7 @@
   }
   &__item {
     margin: 0 12px;
+    white-space: nowrap;
     &:first-child {
       margin-left: 0;
     }

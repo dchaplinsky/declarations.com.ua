@@ -95,6 +95,8 @@
         $cloneItem = $parentBox.clone(),
         declarationID = $parentBox.data('declid');
 
+      $cloneItem.find('.card-actions__items').hide();
+
       //add only if not in list already
       if (localStorage.getItem(keyPrefix + declarationID) === null) {
         localStorage.setItem(keyPrefix + declarationID, $cloneItem.addClass('search-card--collapsed selected').prop('outerHTML'));
