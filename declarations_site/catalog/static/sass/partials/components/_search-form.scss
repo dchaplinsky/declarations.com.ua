@@ -9,7 +9,7 @@
     flex: auto;
     position: relative;
     @media all and (min-width: 1024px) {
-      @include flex();
+      @include flex($align-items: center);
       padding-right: 20px;
     }
   }
@@ -31,10 +31,15 @@
       right: 32px;
       top: 8px;
     }
+
+    .n-checkbox__label-text {
+      vertical-align: top;
+    }
   }
   &__everywhere-label {
     @media all and (max-width: 1023px) {
       font-size: 12px;
+      line-height: 20px;
     }
   }
   &__autocomplete {
@@ -151,7 +156,7 @@
       left: 0;
       right: 0;
       margin-top: 10px;
-      z-index: 50;
+      z-index: 9;
     }
   }
 }

@@ -44,7 +44,6 @@
                     <div class="request-block__list">
                         <div class="request-block__list-header">
                             <div class="request-block__list-title">{{ _("Запит")}}</div>
-                            <div class="request-block__list-title"></div>
                             <div class="request-block__list-title">{{ _("Знайдено") }}</div>
                             <div class="request-block__list-title">{{ _("За тиждень") }}</div>
                             <div class="request-block__list-title">{{ _("E-mail нагадування") }}</div>
@@ -52,53 +51,48 @@
                         </div>
 
                         {% for task in task_list %}
-                            <form method="POST" action="{{ url('edit_search', task.id )}}">
-                                {% csrf_token %}
-                                <div class="request-block__list-item request-row">
-                                    <div class="request-row__name">
-                                        <a href="{{ url('search') }}?q={{ task.query }}{%
-                                            if task.deepsearch %}&deepsearch=on{% endif %}{%
-                                                    if task.query_params %}&{{ task.query_params }}{% endif %}"
-                                                    title="{{ _("Перейти до пошуку") }}">
-                                                {{ task.query_title }}
-                                        </a>
+                            <form method="POST" action="{{ url('edit_search', task.id )}}" class="request-block__list-item request-row">
+                                <div class="request-row__name">
+                                    {% csrf_token %}
+                                    <a href="{{ url('search') }}?q={{ task.query }}{%
+                                        if task.deepsearch %}&deepsearch=on{% endif %}{%
+                                                if task.query_params %}&{{ task.query_params }}{% endif %}"
+                                                title="{{ _("Перейти до пошуку") }}">
+                                            {{ task.query_title }}
+                                    </a>
+                                </div>
+                                <div class="request-row__find">
+                                    <div class="request-row__item-name">{{ _("Знайдено") }}</div>
+                                    <div class="request-row__item-count">{{ task.found_total }}</div>
+                                </div>
+                                <div class="request-row__week">
+                                    <div class="request-row__item-name">{{ _("За тиждень") }}</div>
+                                    <div class="request-row__item-count">{{ task.found_week }}</div>
+                                </div>
+                                <div class="request-row__email">
+                                    <div class="request-row__item-name">{{ _("E-mail нагадування") }}</div>
+                                    <div class="email-notification">
+                                        {% if task.is_enabled %}
+                                            <span class="email-notification__status">{{ _("В роботі") }}</span>
+                                            <button class="email-notification__icon email-notification__pause"
+                                                type="submit" name="action" value="disable"
+                                                title="{{ _("Призупинити") }}">
+                                                {{ _("Призупинити") }}
+                                            </button>
+                                        {% else %}
+                                            <span class="email-notification__status">{{ _("На паузі") }}</span>
+                                            <button class="email-notification__icon email-notification__play"
+                                                type="submit" name="action" value="enable"
+                                                title="{{ _("Відновити") }}">
+                                                {{ _("Відновити") }}
+                                            </button>
+                                        {% endif %}
                                     </div>
-                                    {# <div class="request-row__rss">
-                                        <button class="n-btn n-btn_gray request-row__rss-btn">RSS</button>
-                                    </div> #}
-                                    <div class="request-row__find">
-                                        <div class="request-row__item-name">{{ _("Знайдено") }}</div>
-                                        <div class="request-row__item-count">{{ task.found_total }}</div>
-                                    </div>
-                                    <div class="request-row__week">
-                                        <div class="request-row__item-name">{{ _("За тиждень") }}</div>
-                                        <div class="request-row__item-count">{{ task.found_week }}</div>
-                                    </div>
-                                    <div class="request-row__email">
-                                        <div class="request-row__item-name">{{ _("E-mail нагадування") }}</div>
-                                        <div class="email-notification">
-                                            {% if task.is_enabled %}
-                                                <span class="email-notification__status">{{ _("В роботі") }}</span>
-                                                <button class="email-notification__icon email-notification__pause"
-                                                    type="submit" name="action" value="disable"
-                                                    title="{{ _("Призупинити") }}">
-                                                    {{ _("Призупинити") }}
-                                                </button>
-                                            {% else %}
-                                                <span class="email-notification__status">{{ _("На паузі") }}</span>
-                                                <button class="email-notification__icon email-notification__play"
-                                                    type="submit" name="action" value="enable"
-                                                    title="{{ _("Відновити") }}">
-                                                    {{ _("Відновити") }}
-                                                </button>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="request-row__close">
-                                        <button class="close-btn" type="submit" name="action" value="delete">
-                                            {{ _("Видалити") }}
-                                        </button>
-                                    </div>
+                                </div>
+                                <div class="request-row__close">
+                                    <button class="close-btn" type="submit" name="action" value="delete">
+                                        {{ _("Видалити") }}
+                                    </button>
                                 </div>
                             </form>
                         {% endfor %}
@@ -128,7 +122,7 @@
                     <div class="add-request-block__bottom">
                         <div class="add-request-block__count">
                             <div class="add-request-block__count-text">{{ _("Кількість запитів:") }}</div>
-                            <div class="add-request-block__count-number">2</div>
+                            <div class="add-request-block__count-number">0</div>
                         </div>
 
                         <button class="n-btn add-request-block__btn">{{ _("Додати") }}</button>

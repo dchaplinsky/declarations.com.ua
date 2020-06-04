@@ -121,7 +121,7 @@
     padding: 0 16px 11px;
     @media all and (min-width: 1024px) {
       border-top: 1px solid #EEEFF2;
-      @include flex($align-items: center);
+      @include flex($align-items: start);
       padding: 24px;
       margin: 18px -24px 0;
     }

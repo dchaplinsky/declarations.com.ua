@@ -9,6 +9,8 @@
     }
   }
   &__list {
+    display: table;
+    width: 100%;
     @media all and (max-width: 1023px) {
       padding-bottom: 68px;
     }
@@ -20,29 +22,27 @@
   &__list-header {
     display: none;
     @media all and (min-width: 1024px) {
-      @include flex();
-      padding: 14px 24px;
-      border-bottom: 1px solid #EEEFF2;
+      display: table-row;
     }
   }
   &__list-title {
+    border-bottom: 1px solid #EEEFF2;
+    display: table-cell;
     font-size: 16px;
+    padding: 14px 24px;
     &:nth-child(1) {
       flex: auto;
     }
     &:nth-child(2) {
-      width: 9%;
+      width: 18%;
     }
     &:nth-child(3) {
       width: 18%;
     }
     &:nth-child(4) {
-      width: 18%;
-    }
-    &:nth-child(5) {
       width: 28%;
     }
-    &:nth-child(6) {
+    &:nth-child(5) {
       width: 14px;
     }
   }
@@ -63,11 +63,15 @@
 }
 
 .request-row {
+  display: table-row;
   position: relative;
-  padding: 16px 16px 50px;
-  @media all and (min-width: 1024px) {
-    @include flex($align-items: center);
-    padding: 14px 24px;
+  &__name,
+  &__find,
+  &__week,
+  &__email,
+  &__close {
+    display: table-cell;
+    padding: 16px 24px;
   }
   &__rss-btn {
     font-size: 10px;
