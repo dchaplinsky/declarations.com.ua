@@ -96,7 +96,8 @@ class LandingPageDetail(DetailView):
 
         row_num = 1
         max_len_of_name = 0
-        for person in summary["persons"]:
+        
+        for person in summary["persons"].values():
             for i, d in enumerate(person["documents"].values()):
                 if i == 0:
                     worksheet.set_row(row_num, 20, top_border)

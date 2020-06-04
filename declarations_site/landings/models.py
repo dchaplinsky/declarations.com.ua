@@ -82,11 +82,13 @@ class LandingPage(models.Model):
         max_years = []
         for p in self.persons.select_related("body").prefetch_related("declarations"):
             summary = p.get_summary()
+
             if "min_year" in summary:
                 min_years.append(summary["min_year"])
 
             if "max_year" in summary:
                 max_years.append(summary["max_year"])
+
             persons[p.pk] = summary
 
         return {
@@ -271,6 +273,7 @@ class Person(models.Model):
         if years:
             result["min_year"] = min(years.keys())
             result["max_year"] = max(years.keys())
+
         return result
 
     def get_nodes(self):
