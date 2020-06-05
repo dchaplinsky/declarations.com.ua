@@ -49,6 +49,7 @@ if "debug_toolbar" in settings.INSTALLED_APPS:
 if settings.PROMETHEUS_ENABLE:
     urlpatterns = [url('^prometheus/', include('django_prometheus.urls'))] + urlpatterns
 
+handler404 = TemplateView.as_view(template_name="404.jinja")
 
 urlpatterns += i18n_patterns(
     path("search", catalog_views.search, name="search"),

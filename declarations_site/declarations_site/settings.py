@@ -387,6 +387,7 @@ LOGGERS_TO_IGNORE = [
 ]
 
 SENTRY_DSN = get_env_str('SENTRY_DSN', None)
+
 if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
