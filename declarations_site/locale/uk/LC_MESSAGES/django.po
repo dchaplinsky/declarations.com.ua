@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-20 16:47+0300\n"
+"POT-Creation-Date: 2020-06-05 12:59+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -693,7 +693,7 @@ msgid "Чат боти декларацій"
 msgstr ""
 
 #: catalog/templates/base.jinja:576 catalog/templates/results.jinja:46
-#: landings/templates/landings/landingpage_detail.jinja:88
+#: landings/templates/landings/landingpage_detail.jinja:89
 msgid "Сортувати по:"
 msgstr ""
 
@@ -744,7 +744,7 @@ msgid "Інструкція"
 msgstr ""
 
 #: catalog/templates/bi.jinja:28
-msgid "Дані у СSV (більше мільйона рядків)"
+msgid "Дані у СSV (більше трьох мільйонів рядків)"
 msgstr ""
 
 #: catalog/templates/bi.jinja:31
@@ -764,10 +764,10 @@ msgid "Зобов'язання<br>та видатки"
 msgstr ""
 
 #: catalog/templates/bi.jinja:78
-#: landings/templates/landings/landingpage_detail.jinja:73
-#: landings/templates/landings/landingpage_detail.jinja:111
-#: landings/templates/landings/landingpage_detail.jinja:217
-#: landings/templates/landings/landingpage_person.jinja:156
+#: landings/templates/landings/landingpage_detail.jinja:74
+#: landings/templates/landings/landingpage_detail.jinja:112
+#: landings/templates/landings/landingpage_detail.jinja:220
+#: landings/templates/landings/landingpage_person.jinja:159
 msgid "Нерухомість"
 msgstr ""
 
@@ -1400,8 +1400,8 @@ msgid "Я з вами"
 msgstr ""
 
 #: catalog/templates/declaration.jinja:79
-#: landings/templates/landings/landingpage_detail.jinja:51
-#: landings/templates/landings/landingpage_person.jinja:18
+#: landings/templates/landings/landingpage_detail.jinja:52
+#: landings/templates/landings/landingpage_person.jinja:19
 #: spotter/templates/edit_email.jinja:47
 msgid "Назад"
 msgstr ""
@@ -1416,43 +1416,47 @@ msgstr ""
 msgid "Дата подачі"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:290
+#: catalog/templates/declaration.jinja:293
 msgid "Додати у порівняння"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:295
+#: catalog/templates/declaration.jinja:298
 msgid "Оригінал декларації"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:303 catalog/templates/results.jinja:35
+#: catalog/templates/declaration.jinja:306 catalog/templates/results.jinja:35
 msgid "Моніторити запит:"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:310
+#: catalog/templates/declaration.jinja:313
 msgid "RSS"
 msgstr ""
 
 #: catalog/templates/declaration.jinja:338
+msgid "ПІБ іншими мовами"
+msgstr ""
+
+#: catalog/templates/declaration.jinja:351
 msgid "Інші декларації цього декларанта"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:347
+#: catalog/templates/declaration.jinja:360
 msgid "Інші декларації, знайдені за ПІБ"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:358
+#: catalog/templates/declaration.jinja:371
 msgid "Декларації осіб, що <u>можуть</u> бути родичами декларанта"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:370
+#: catalog/templates/declaration.jinja:383
 msgid "червоний прапорець"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:371
+#: catalog/templates/declaration.jinja:384
 msgid "червоних прапорця"
 msgstr ""
 
-#: catalog/templates/declaration.jinja:372
+#: catalog/templates/declaration.jinja:385
 msgid "червоних прапорців"
 msgstr ""
 
@@ -1514,28 +1518,28 @@ msgid "Загальна сума подарунків"
 msgstr ""
 
 #: catalog/views.py:534 catalog/views.py:568
-#: landings/templates/landings/landingpage_detail.jinja:144
-#: landings/templates/landings/landingpage_detail.jinja:170
-#: landings/templates/landings/landingpage_detail.jinja:203
-#: landings/templates/landings/landingpage_detail.jinja:229
-#: landings/templates/landings/landingpage_person.jinja:90
-#: landings/templates/landings/landingpage_person.jinja:122
-#: landings/templates/landings/landingpage_person.jinja:154
-#: landings/templates/landings/landingpage_person.jinja:186
+#: landings/templates/landings/landingpage_detail.jinja:145
+#: landings/templates/landings/landingpage_detail.jinja:171
+#: landings/templates/landings/landingpage_detail.jinja:206
+#: landings/templates/landings/landingpage_detail.jinja:232
+#: landings/templates/landings/landingpage_person.jinja:93
+#: landings/templates/landings/landingpage_person.jinja:125
+#: landings/templates/landings/landingpage_person.jinja:157
+#: landings/templates/landings/landingpage_person.jinja:189
 msgid "Родина"
 msgstr ""
 
 #: catalog/views.py:542 catalog/views.py:576
-#: landings/templates/landings/landingpage_detail.jinja:145
-#: landings/templates/landings/landingpage_detail.jinja:171
-#: landings/templates/landings/landingpage_detail.jinja:204
-#: landings/templates/landings/landingpage_detail.jinja:230
-#: landings/templates/landings/landingpage_person.jinja:91
-#: landings/templates/landings/landingpage_person.jinja:123
-#: landings/templates/landings/landingpage_person.jinja:155
-#: landings/templates/landings/landingpage_person.jinja:187
-#: landings/templates/landings/landingpage_person.jinja:217
-#: landings/templates/landings/landingpage_person.jinja:240
+#: landings/templates/landings/landingpage_detail.jinja:146
+#: landings/templates/landings/landingpage_detail.jinja:172
+#: landings/templates/landings/landingpage_detail.jinja:207
+#: landings/templates/landings/landingpage_detail.jinja:233
+#: landings/templates/landings/landingpage_person.jinja:94
+#: landings/templates/landings/landingpage_person.jinja:126
+#: landings/templates/landings/landingpage_person.jinja:158
+#: landings/templates/landings/landingpage_person.jinja:190
+#: landings/templates/landings/landingpage_person.jinja:220
+#: landings/templates/landings/landingpage_person.jinja:243
 msgid "Декларант"
 msgstr ""
 
@@ -1544,9 +1548,9 @@ msgid "Загальна сума готівки"
 msgstr ""
 
 #: catalog/views.py:594 catalog/views.py:636
-#: landings/templates/landings/landingpage_detail.jinja:69
-#: landings/templates/landings/landingpage_person.jinja:69
-#: landings/templates/landings/landingpage_person.jinja:92
+#: landings/templates/landings/landingpage_detail.jinja:70
+#: landings/templates/landings/landingpage_person.jinja:71
+#: landings/templates/landings/landingpage_person.jinja:95
 msgid "Дохід"
 msgstr ""
 
@@ -1559,8 +1563,8 @@ msgid "Фінансові зобов'язання"
 msgstr ""
 
 #: catalog/views.py:618 catalog/views.py:660
-#: landings/templates/landings/landingpage_detail.jinja:72
-#: landings/templates/landings/landingpage_person.jinja:241
+#: landings/templates/landings/landingpage_detail.jinja:73
+#: landings/templates/landings/landingpage_person.jinja:244
 msgid "Витрати"
 msgstr ""
 
@@ -1615,11 +1619,11 @@ msgid ""
 "контакти:"
 msgstr ""
 
-#: declarations_site/settings.py:214
+#: declarations_site/settings.py:220
 msgid "Ukrainian"
 msgstr ""
 
-#: declarations_site/settings.py:215
+#: declarations_site/settings.py:221
 msgid "English"
 msgstr ""
 
@@ -1635,158 +1639,158 @@ msgstr ""
 msgid "Інше"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:12
-#: landings/templates/landings/landingpage_detail.jinja:14
+#: landings/templates/landings/landingpage_detail.jinja:13
+#: landings/templates/landings/landingpage_detail.jinja:15
 msgid "Попередній період: "
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:53
+#: landings/templates/landings/landingpage_detail.jinja:54
 msgid "Установа"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:70
+#: landings/templates/landings/landingpage_detail.jinja:71
 msgid "Кеш"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:71
+#: landings/templates/landings/landingpage_detail.jinja:72
 msgid "Борги"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:74
-#: landings/templates/landings/landingpage_detail.jinja:112
-#: landings/templates/landings/landingpage_detail.jinja:243
-#: landings/templates/landings/landingpage_person.jinja:188
+#: landings/templates/landings/landingpage_detail.jinja:75
+#: landings/templates/landings/landingpage_detail.jinja:113
+#: landings/templates/landings/landingpage_detail.jinja:246
+#: landings/templates/landings/landingpage_person.jinja:191
 msgid "Земля"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:78
+#: landings/templates/landings/landingpage_detail.jinja:79
 msgid "Загальні статки"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:91
+#: landings/templates/landings/landingpage_detail.jinja:92
 msgid "Найбільш багаті"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:92
+#: landings/templates/landings/landingpage_detail.jinja:93
 msgid "Найбільше ризиків"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:93
+#: landings/templates/landings/landingpage_detail.jinja:94
 msgid "За ПІБ"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:97
+#: landings/templates/landings/landingpage_detail.jinja:98
 msgid "експорт в excel"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:106
+#: landings/templates/landings/landingpage_detail.jinja:107
 msgid "Повне ім’я"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:107
+#: landings/templates/landings/landingpage_detail.jinja:108
 msgid "Ризики"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:108
-#: landings/templates/landings/landingpage_detail.jinja:158
+#: landings/templates/landings/landingpage_detail.jinja:109
+#: landings/templates/landings/landingpage_detail.jinja:159
 msgid "Доходи"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:109
-#: landings/templates/landings/landingpage_detail.jinja:184
+#: landings/templates/landings/landingpage_detail.jinja:110
+#: landings/templates/landings/landingpage_detail.jinja:185
 msgid "Активи"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:110
+#: landings/templates/landings/landingpage_detail.jinja:111
 msgid "Авто"
 msgstr ""
 
-#: landings/templates/landings/landingpage_detail.jinja:208
-#: landings/templates/landings/landingpage_detail.jinja:212
-#: landings/templates/landings/landingpage_detail.jinja:234
-#: landings/templates/landings/landingpage_detail.jinja:238
+#: landings/templates/landings/landingpage_detail.jinja:211
+#: landings/templates/landings/landingpage_detail.jinja:215
+#: landings/templates/landings/landingpage_detail.jinja:237
+#: landings/templates/landings/landingpage_detail.jinja:241
 msgid "м²"
 msgstr ""
 
-#: landings/templates/landings/landingpage_list.jinja:12
+#: landings/templates/landings/landingpage_list.jinja:11
 msgid "Регіональні установи"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:23
+#: landings/templates/landings/landingpage_person.jinja:24
 msgid "в"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:29
-#: landings/templates/landings/landingpage_person.jinja:77
+#: landings/templates/landings/landingpage_person.jinja:30
+#: landings/templates/landings/landingpage_person.jinja:79
 msgid "Актуально на "
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:39
+#: landings/templates/landings/landingpage_person.jinja:40
 msgid "Графіки"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:44
+#: landings/templates/landings/landingpage_person.jinja:45
 msgid "Зв’язки"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:49
+#: landings/templates/landings/landingpage_person.jinja:50
 msgid "Список документів"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:57
-#: landings/templates/landings/landingpage_person.jinja:124
+#: landings/templates/landings/landingpage_person.jinja:59
+#: landings/templates/landings/landingpage_person.jinja:127
 msgid "Статки"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:61
+#: landings/templates/landings/landingpage_person.jinja:63
 msgid "Всього статків"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:101
+#: landings/templates/landings/landingpage_person.jinja:104
 msgid "Дохід родини"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:108
+#: landings/templates/landings/landingpage_person.jinja:111
 msgid "Дохід декларанта"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:133
+#: landings/templates/landings/landingpage_person.jinja:136
 msgid "Статки родини"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:140
+#: landings/templates/landings/landingpage_person.jinja:143
 msgid "Статки декларанта"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:165
+#: landings/templates/landings/landingpage_person.jinja:168
 msgid "Нерухомість родини"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:172
+#: landings/templates/landings/landingpage_person.jinja:175
 msgid "Нерухомість декларанта"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:197
+#: landings/templates/landings/landingpage_person.jinja:200
 msgid "Земля родини"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:204
+#: landings/templates/landings/landingpage_person.jinja:207
 msgid "Земля декларанта"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:218
+#: landings/templates/landings/landingpage_person.jinja:221
 msgid "Зобов’язання"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:227
+#: landings/templates/landings/landingpage_person.jinja:230
 msgid "Зобов’язання декларанта"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:250
+#: landings/templates/landings/landingpage_person.jinja:253
 msgid "Витрати декларанта"
 msgstr ""
 
-#: landings/templates/landings/landingpage_person.jinja:271
+#: landings/templates/landings/landingpage_person.jinja:274
 msgid "Всі"
 msgstr ""
 
@@ -1957,7 +1961,7 @@ msgid "Зберегти"
 msgstr ""
 
 #: spotter/templates/search_list.jinja:34
-#: spotter/templates/search_list.jinja:113
+#: spotter/templates/search_list.jinja:107
 msgid "Додати запити"
 msgstr ""
 
@@ -1973,62 +1977,62 @@ msgstr ""
 msgid "Запит"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:48
-#: spotter/templates/search_list.jinja:70
+#: spotter/templates/search_list.jinja:47
+#: spotter/templates/search_list.jinja:65
 msgid "Знайдено"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:49
-#: spotter/templates/search_list.jinja:74
+#: spotter/templates/search_list.jinja:48
+#: spotter/templates/search_list.jinja:69
 msgid "За тиждень"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:50
-#: spotter/templates/search_list.jinja:78
+#: spotter/templates/search_list.jinja:49
+#: spotter/templates/search_list.jinja:73
 msgid "E-mail нагадування"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:62
+#: spotter/templates/search_list.jinja:60
 msgid "Перейти до пошуку"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:81
+#: spotter/templates/search_list.jinja:76
 msgid "В роботі"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:84
-#: spotter/templates/search_list.jinja:85
+#: spotter/templates/search_list.jinja:79
+#: spotter/templates/search_list.jinja:80
 msgid "Призупинити"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:88
+#: spotter/templates/search_list.jinja:83
 msgid "На паузі"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:91
-#: spotter/templates/search_list.jinja:92
+#: spotter/templates/search_list.jinja:86
+#: spotter/templates/search_list.jinja:87
 msgid "Відновити"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:99
+#: spotter/templates/search_list.jinja:94
 msgid "Видалити"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:118
+#: spotter/templates/search_list.jinja:112
 msgid ""
 "Додавайте багато запитів вводячи їх з нового рядка. Тисніть кнопку Enter для "
 "того щоб завершити введення та перейти до нового запиту. Активні запити "
 "виділяються кольором, їх можно редагувати та видаляти."
 msgstr ""
 
-#: spotter/templates/search_list.jinja:130
+#: spotter/templates/search_list.jinja:124
 msgid "Кількість запитів:"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:134
+#: spotter/templates/search_list.jinja:128
 msgid "Додати"
 msgstr ""
 
-#: spotter/templates/search_list.jinja:138
+#: spotter/templates/search_list.jinja:132
 msgid "Додаю..."
 msgstr ""
