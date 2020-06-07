@@ -63,15 +63,22 @@
 }
 
 .request-row {
-  display: table-row;
   position: relative;
+  padding: 16px 16px 0;
+  @media all and (min-width: 1024px) {
+    display: table-row;
+    padding: 0;
+  }
   &__name,
   &__find,
   &__week,
   &__email,
   &__close {
-    display: table-cell;
-    padding: 16px 24px;
+    @media all and (min-width: 1024px) {
+      border-bottom: 1px solid #EEEFF2;
+      display: table-cell;
+      padding: 16px 24px;
+    }
   }
   &__rss-btn {
     font-size: 10px;
@@ -114,7 +121,6 @@
       width: 28%;
     }
     @media all and (max-width: 1023px) {
-      border-bottom: 1px solid #EEEFF2;
       padding: 9px 0;
       @include flex($align-items: center);
     }
