@@ -11,15 +11,23 @@
         <h1 id="page-header"><span>{{ _("Регіональні установи") }}</span></h1>
         <div class="table-responsive">
             <div id="glossarium">
-                {% for region, regional_bodies in object_list|groupby("region_id") %}
-                    <h3>{{ regional_bodies[0].region.region_name }}</h3>
+                {% for _, regional_bodies in object_list|groupby("region_id") %}
+                    {% set region = regional_bodies[0].region %}
+                    <h3>{% if LANGUAGE_CODE == "en" and region.region_name_en %}{{ region.region_name_en }}{% else %}
+                    {{ region.region_name }}{% endif %}</h3>
                     <table class="regions__table">
                         {% for body_type, bodies in regional_bodies|groupby("body_type") %}
                             {% for body in bodies %}
                                 <tr>
                                     <td>
-                                        <a href="{{ body.get_absolute_url() }}">{{ body.title }}</a>
-                                        ({{ body.persons_count }} {{ body.persons_count|uk_plural(_("працівник,працівника,працівників")) }})
+                                        <a href="{{ body.get_absolute_url() }}">
+                                        {% if LANGUAGE_CODE == "en" and body.title_en %}{{ body.title_en }}{% else %}{{ body.title }}{% endif %}</a>
+                                        ({{ body.persons_count }}
+                                        {% if LANGUAGE_CODE == "uk" %}
+                                            {{ body.persons_count|uk_plural("працівник,працівника,працівників") }})
+                                        {% else %}
+                                            {{ body.persons_count|uk_plural("employee,employees,employees") }})
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}

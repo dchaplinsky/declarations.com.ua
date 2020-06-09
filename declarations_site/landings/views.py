@@ -218,4 +218,5 @@ class LandingPagePerson(DetailView):
             context["summary"] = summary
             context["results"] = results
             context["declarations"] = declarations
+            context["language"] = language
             return super().render_to_response(context)

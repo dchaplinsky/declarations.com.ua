@@ -34,7 +34,6 @@ urlpatterns = [
     re_path(r"^documents/", include(wagtaildocs_urls)),
     re_path(r"^pages/", include(wagtail_urls)),
     url(r"^bot/", include(chatbot_urls)),
-    url(r"^l/", include(landing_urls)),
     url(r"user/", include("social_django.urls", namespace="social")),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
@@ -68,6 +67,7 @@ urlpatterns += i18n_patterns(
 
     url(r"^compare$", catalog_views.compare_declarations, name="compare"),
     url(r"user/", include(spotter_urls)),
+    url(r"^l/", include(landing_urls)),
     url(r"", include(wagtail_urls)),
     prefix_default_language=False,
 )

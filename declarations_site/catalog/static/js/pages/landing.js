@@ -88,18 +88,19 @@
     };
 
     function buildMainChart() {
-      var year = parseInt($("#year").val());
+      var year = parseInt($("#year").val()),
+          chart_container = $("#tablo");
       var param_x = {
           "name": "incomes.declarant",
-          "title": "Дохід декларанта"
+          "title": chart_container.data("param_x")
         },
         param_y = {
           "name": "incomes.family",
-          "title": "Дохід родини"
+          "title": chart_container.data("param_y")
         },
         param_r = {
           "name": "assets.total",
-          "title": "Статки"
+          "title": chart_container.data("param_r")
         },
         max_r = 0,
         max_estate = 0,

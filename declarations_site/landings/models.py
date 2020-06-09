@@ -5,13 +5,15 @@ from django.db import models
 from django.contrib.postgres.fields import JSONField, ArrayField
 from django.core.serializers.json import DjangoJSONEncoder
 from django.urls import reverse
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, get_language
+
 
 from dateutil.parser import parse as dt_parse
 from elasticsearch.serializer import JSONSerializer
 from elasticsearch_dsl import Q
 from ckeditor.fields import RichTextField
 from easy_thumbnails.fields import ThumbnailerImageField
+from translitua import translit
 
 from catalog.elastic_models import NACPDeclaration
 from catalog.models import Region
@@ -58,6 +60,8 @@ class LandingPage(models.Model):
     slug = models.SlugField("Ідентифікатор сторінки", primary_key=True, max_length=100)
     title = models.CharField("Заголовок сторінки", max_length=200)
     description = RichTextField("Опис сторінки", blank=True)
+    title_en = models.CharField("Заголовок сторінки [en]", max_length=200, blank=True)
+    description_en = RichTextField("Опис сторінки [en]", blank=True)
     image = ThumbnailerImageField(blank=True, upload_to="landings")
     region = models.ForeignKey(Region, blank=True, null=True, on_delete=models.SET_NULL)
     body_type = models.CharField(
@@ -277,20 +281,28 @@ class Person(models.Model):
         return result
 
     def get_nodes(self):
+        language = get_language()
         persons = set()
         companies = set()
+        name = self.name
+
+        if language == "en":
+            name = translit(name)
+
 
         for d in self.declarations.exclude(doc_type="Форма змін").exclude(exclude=True):
             persons |= set(d.source["related_entities"]["people"]["family"])
             companies |= set(d.source["related_entities"]["companies"]["owned"])
             companies |= set(d.source["related_entities"]["companies"]["related"])
 
-        nodes = [{"data": {"id": "root", "label": self.name}, "classes": ["root", "person"]}]
+        nodes = [{"data": {"id": "root", "label": name}, "classes": ["root", "person"]}]
 
         edges = []
 
         for p in persons:
             id_ = hashlib.sha256(p.encode("utf-8")).hexdigest()
+            if language == "en":
+                p = translit(p)
 
             nodes.append({"data": {"id": id_, "label": p}, "classes": ["person"]})
             edges.append({"data": {"source": "root", "target": id_}})

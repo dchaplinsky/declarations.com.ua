@@ -31,7 +31,11 @@
         <div class="search-card search-page__result-card">
             <div class="search-card__top">
                 <div class="search-card__name">
-                    {{ object.title }}
+                    {% if LANGUAGE_CODE == "en" and object.title_en %}
+                        {{ object.title_en }}
+                    {% else %}
+                        {{ object.title }}
+                    {% endif %}
                 </div>
             </div>
 
@@ -41,7 +45,11 @@
                         {% if object.image %}
                         <img src="{{ object.image['avatar'].url }}" alt="{{ object.title }}"/>
                         {% endif %}
-                        {{ object.description|safe }}
+                        {% if LANGUAGE_CODE == "en" and object.description_en %}
+                            {{ object.description_en|safe }}
+                        {% else %}
+                            {{ object.description|safe }}
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -62,7 +70,7 @@
 
             <div class="search-card__items">
                 <div class="search-card__item">
-                    <canvas id="tablo"></canvas>
+                    <canvas id="tablo" data-param_x="{{ _("Дохід декларанта") }}" data-param_y="{{ _("Дохід родини") }}" data-param_r="{{ _("Статки") }}"></canvas>
                     <div class="chartjs-tooltip" id="main-tooltip">
                         <div class="chartjs-tooltip__body">
                             <div class="chartjs-tooltip__name"><span class="value"></span></div>
@@ -123,7 +131,8 @@
                                         data-flags="{{ doc.flags|count }}"
                                         >
                                         <td class="n-table__td">
-                                            <a href="{{ url("landing_page_person", pk=person.id, body_id=object.pk) }}">{{ person.name }}</a>
+                                            <a href="{{ url("landing_page_person", pk=person.id, body_id=object.pk) }}">
+                                            {% if LANGUAGE_CODE == "en" %}{{ person.name|translit_to_en }}{% else %}{{ person.name }}{% endif %}</a>
                                         </td>
                                         <td class="n-table__td landing-page__declarants-table-flags">{%- if doc.flags|count %}
                                             <div class="action-icon action-icon--inline">

@@ -14,15 +14,20 @@
         <div class="person-brief landing-page__person-brief">
             <div class="person-brief__text">
                 <h2 class="person-brief__name">
-                    {{ person.name }}, {{ person.body.title }}
+                    {% if LANGUAGE_CODE == "en" %}
+                        {{ person.name|translit_to_en }},
+                        {% if person.body.title_en %}{{ person.body.title_en }}{% else %}{{ person.body.title }}{% endif %}
+                    {% else %}
+                        {{ person.name }}, {{ person.body.title }}
+                    {% endif %}</a>
                 </h2>
                 <a href="{{ person.body.get_absolute_url() }}" class="n-btn n-btn_back n-btn_ico n-btn--back-fixed">{{ _("Назад") }}</a>
-                {% if summary.documents %}
+                {% if results %}
                 <div class="person-brief__position">
-                    {% for y in summary.documents.keys()|sort %}
+                    {% for declaration in results %}
                     <div class="person-brief__position-by-year">
-                        <strong>{{ y }}</strong> {{ summary.documents[y]["infocard"]["position"] }} {{ _("в") }}
-                        {{ summary.documents[y]["infocard"]["office"] }}
+                        <strong>{% if declaration.intro.declaration_year %}{{ declaration.intro.declaration_year -}}{% endif %}</strong> {{ declaration._position(language) }} {{ _("в") }}
+                        {{ declaration._office(language) }}
                     </div>
                     {% endfor %}
                 </div>
@@ -277,7 +282,7 @@
                         {% for d in declarations %}
                         <input type="hidden" name="declaration_id[]" value="{{ d }}" />
                         {% endfor %}
-                        <input class="n-btn" type="submit" value="ПОРІВНЯТИ" />
+                        <input class="n-btn" type="submit" value="{{ _("ПОРІВНЯТИ") }}" />
                     </form>
                 </div>
             </div>
