@@ -28,7 +28,7 @@
             {% if results.paginator.count %}
                 <div class="search-page__header">
                     <div class="search-page__result-name">
-                        {{ query|default(_("Всі"), true)|escape }} ({{ results.paginator.count }})
+                        {{ query|default(exact_query)|default(_("Всі"), true)|escape }} ({{ results.paginator.count }})
                     </div>
 
                     <div class="search-page__monitoring monitoring-block">

@@ -28,7 +28,7 @@ class Translator:
             .replace("\xa0", " ")
             .replace("\u200b", "")
             .lower()
-            .strip(" ,.;")
+            .strip(" ,.;\t\n")
         )
 
     @staticmethod

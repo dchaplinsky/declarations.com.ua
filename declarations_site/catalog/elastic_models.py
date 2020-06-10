@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.db.models.functions import ExtractYear
 from django.db.models import Sum, Count
 from django.template.loader import render_to_string
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy as _, get_language
 
 from elasticsearch_dsl import (
     DocType,
@@ -114,6 +114,15 @@ class AbstractDeclaration(object):
     def guid(self):
         return self.meta.id
 
+    def extra_phrases(self):
+        return [
+            self.general.post.post,
+            self.general.post.office,
+            self.general.post.region,
+            getattr(self.general.post, "actual_region", ""),
+            self.intro.doc_type
+        ]
+
     def prepare_translations(self, language, infocard_only=False):
         assert self.CONTENT_SELECTORS, "You should define CONTENT_SELECTORS first"
 
@@ -134,13 +143,7 @@ class AbstractDeclaration(object):
                 self.translator = HTMLTranslator(
                     html=self.raw_html(),
                     selectors=self.CONTENT_SELECTORS,
-                    extra_phrases=[
-                        self.general.post.post,
-                        self.general.post.office,
-                        self.general.post.region,
-                        getattr(self.general.post, "actual_region", ""),
-                        self.intro.doc_type
-                    ],
+                    extra_phrases=self.extra_phrases(),
                 )
 
     def raw_en_html(self):
@@ -631,14 +634,45 @@ class Declaration(DocType, AbstractDeclaration):
     def aggregated_data(self):
         return self.aggregated
 
+    def extra_phrases(self):
+        res = super().extra_phrases()
+
+        for vehicle in self.get_vehicles():
+            res += vehicle
+
+        return res
+
     def red_flags(self):
         return []
+
+    def get_vehicles(self):
+        res = []
+        if hasattr(self, "vehicle"):
+            for field in [
+                "34",
+                "35",
+                "36",
+                "37",
+                "38",
+                "39",
+                "40",
+                "41",
+                "42",
+                "43",
+                "44",
+            ]:
+                car_infos = getattr(self.vehicle, field, [])
+                for car_info in car_infos:
+                    res.append([car_info["brand"], car_info["brand_info"]])
+        return res
+
 
     # Temporary solution to provide enough aggregated data
     # to make it possible to compare old and new declarations
     # TODO: REPLACE ME
     @property
     def aggregated(self):
+        language = get_language()
         if hasattr(self, "_aggregated"):
             return self._aggregated
 
@@ -753,27 +787,20 @@ class Declaration(DocType, AbstractDeclaration):
             resp["assets.total"] = resp["assets.family"] + resp["assets.declarant"]
 
         vehicles = []
-        if hasattr(self, "vehicle"):
-            for field in [
-                "34",
-                "35",
-                "36",
-                "37",
-                "38",
-                "39",
-                "40",
-                "41",
-                "42",
-                "43",
-                "44",
-            ]:
-                car_infos = getattr(self.vehicle, field, [])
-                for car_info in car_infos:
-                    vehicles.append(
-                        "{} {}".format(
-                            car_info["brand"], car_info["brand_info"]
-                        ).replace(";", "")
-                    )
+        for brand, brand_info in self.get_vehicles():
+            if language == "en" and hasattr(self, "translator"):
+                vehicles.append(
+                    "{} {}".format(
+                        self._translate_one_field(brand, language),
+                        self._translate_one_field(brand_info, language)
+                    ).replace(";", "")
+                )
+            else:
+                vehicles.append(
+                    "{} {}".format(
+                        brand, brand_info
+                    ).replace(";", "")
+                )
 
             resp["vehicles.all_names"] += ";".join(vehicles)
 

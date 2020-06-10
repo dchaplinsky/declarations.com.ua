@@ -255,7 +255,6 @@ def region(request, region_name):
     search.aggs.bucket("per_office", "terms", field="general.post.office.raw", size=100)
     res = search.execute()
 
-
     if language == "en":
         translator = Translator()
         to_translate = [region_name]
@@ -290,10 +289,24 @@ def region_office(request, region_name, office_name):
 
     results = paginated_search(request, search)
 
+    if language == "en":
+        translator = Translator()
+        to_translate = [region_name, office_name]
+
+        translator.fetch_partial_dict_from_db(to_translate)
+    else:
+        translator = NoOpTranslator()
+
     for r in results:
         r.prepare_translations(language, infocard_only=True)
 
-    return {"language": language, "query": office_name, "results": results}
+    return {
+        "language": language,
+        "exact_query": translator.translate(office_name)["translation"],
+        "deepsearch": True,
+        "results": results,
+        "translator": translator,
+    }
 
 
 @hybrid_response("results.jinja")
@@ -308,11 +321,24 @@ def office(request, office_name):
 
     results = paginated_search(request, search)
 
+    if language == "en":
+        translator = Translator()
+        to_translate = [office_name]
+
+        translator.fetch_partial_dict_from_db(to_translate)
+    else:
+        translator = NoOpTranslator()
+
     for r in results:
         r.prepare_translations(language, infocard_only=True)
 
-    return {"language": language, "query": office_name, "results": results}
-
+    return {
+        "language": language,
+        "exact_query": translator.translate(office_name)["translation"],
+        "results": results,
+        "deepsearch": True,
+        "translator": translator,
+    }
 
 def sitemap_general(request):
     # TODO: REFACTOR ME?

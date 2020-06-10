@@ -5,6 +5,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import include, url, re_path
 from django.urls import path
+from django.views.i18n import JavaScriptCatalog
+
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
@@ -67,6 +69,7 @@ urlpatterns += i18n_patterns(
 
     url(r"^compare$", catalog_views.compare_declarations, name="compare"),
     url(r"user/", include(spotter_urls)),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     url(r"^l/", include(landing_urls)),
     url(r"", include(wagtail_urls)),
     prefix_default_language=False,
