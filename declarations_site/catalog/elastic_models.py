@@ -127,23 +127,18 @@ class AbstractDeclaration(object):
         assert self.CONTENT_SELECTORS, "You should define CONTENT_SELECTORS first"
 
         if language == "en":
+            extra_phrases = self.extra_phrases()
             if infocard_only:
                 self.translator = HTMLTranslator(
                     html=None,
                     selectors=[],
-                    extra_phrases=[
-                        self.general.post.post,
-                        self.general.post.office,
-                        self.general.post.region,
-                        getattr(self.general.post, "actual_region", ""),
-                        self.intro.doc_type
-                    ]
+                    extra_phrases=extra_phrases
                 )
             else:
                 self.translator = HTMLTranslator(
                     html=self.raw_html(),
                     selectors=self.CONTENT_SELECTORS,
-                    extra_phrases=self.extra_phrases(),
+                    extra_phrases=extra_phrases,
                 )
 
     def raw_en_html(self):
@@ -802,7 +797,7 @@ class Declaration(DocType, AbstractDeclaration):
                     ).replace(";", "")
                 )
 
-            resp["vehicles.all_names"] += ";".join(vehicles)
+        resp["vehicles.all_names"] += "; ".join(vehicles)
 
         if hasattr(self, "estate"):
             for d_key, k in (

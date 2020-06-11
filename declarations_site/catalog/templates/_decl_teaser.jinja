@@ -101,12 +101,7 @@
                                                 'field': 'estate.family_land',
                                                 'label': _("Площа земельних ділянок родини"),
                                                 'unit': _("м2"),
-                                            },
-                                            {
-                                                'field': 'vehicles.all_names',
-                                                'label': _("Авто в декларанта та родини"),
-                                                'unit': _(""),
-                                            },
+                                            }
                                         ] %}
                                         {% for field in assets_fields %}
                                             {% if field['field'] in declaration.aggregated %}
@@ -128,6 +123,17 @@
                                             </div>
                                             {% endif %}
                                         {% endfor %}
+                                        <div class="action-icon__details-item">
+                                            <div class="action-icon__details-item-name">
+                                                {{ _("Авто в декларанта та родини") }}
+                                            </div>
+                                            <div class="action-icon__details-item-value">
+                                                {% if declaration.aggregated['vehicles.all_names'] %}
+                                                    {{ declaration.aggregated['vehicles.all_names']|replace("; ", "<br/>")|safe }}
+                                                {% else %} —
+                                                {% endif %}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             {% endif %}
@@ -204,7 +210,7 @@
                             <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="homeLocation">{{ declaration._region(language) }}</a><span>,</span>
                         {% endif %}
                         <a href="{{ url('office', office_name=declaration.general.post.office) }}">
-                            {{ declaration._office(language) }}
+                            {{ declaration._office(language)|safe }}
                         </a>
                     </div>
                 </div>
@@ -212,7 +218,7 @@
             {% if declaration.general.post.post %}
                 <div class="search-card__item">
                     <div class="search-card__item-name">{{ _("Посада") }}</div>
-                    <div class="search-card__item-text" itemprop="jobTitle">{{ declaration._position(language) }}</div>
+                    <div class="search-card__item-text" itemprop="jobTitle">{{ declaration._position(language)|safe }}</div>
                 </div>
             {% endif %}
             {% if declaration.intro.date %}
