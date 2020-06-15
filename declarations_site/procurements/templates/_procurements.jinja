@@ -1,3 +1,5 @@
+{% from "_youcontrol.jinja" import yc_dossier, yc_check_person %}
+
 {% macro procurements_details(declaration) -%}
     {% set affiliated_earnings = declaration.get_procurement_earnings_by_year(True) %}
     {% if affiliated_earnings %}
@@ -56,6 +58,9 @@
                                     <a href="http://z.texty.org.ua/seller/{{ earning.seller__pk }}" target="_blank">
                                         {{ earning.seller__name }}, ЄДРПОУ {{ '{:0>8}'.format(earning.seller__code) }}
                                     </a>
+                                    {{ yc_dossier('a') }}
+                                    {{ yc_dossier('b') }}
+                                    {{ yc_dossier('c') }}
                                 </div>
                                 <div class="tenders__companies-column">
                                     <div class="tenders__companies-mobile-title">{{ _("Кількість виграних тендерів") }}</div>

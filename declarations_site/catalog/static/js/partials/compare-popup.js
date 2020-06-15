@@ -96,6 +96,7 @@
         declarationID = $parentBox.data('declid');
 
       $cloneItem.find('.card-actions__items').hide();
+      $cloneItem.find('.card-actions__action-youcontrol').clone().appendTo($cloneItem.find('.search-card__name'));
 
       //add only if not in list already
       if (localStorage.getItem(keyPrefix + declarationID) === null) {

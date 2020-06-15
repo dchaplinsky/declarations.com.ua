@@ -4,6 +4,7 @@
 {% from "_spotter.jinja" import spotter_button %}
 {% from "_decl_teaser.jinja" import decl_year_type with context %}
 {% from "_decl_teaser.jinja" import decl_teaser with context %}
+{% from "_youcontrol.jinja" import yc_dossier, yc_check_person %}
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
@@ -99,7 +100,13 @@
                 <div class="personal-info">
                     <div class="personal-info__top">
                         <div class="personal-info__name" itemprop="name">
-                            {{ declaration._full_name(language) }}
+                            <span class="youcontrol-tooltip__trigger">
+                                {{ declaration._full_name(language) }}
+                            </span>
+                            {{ yc_check_person('a') }}
+                            {{ yc_check_person('b') }}
+                            {{ yc_check_person('c') }}
+                            {{ yc_check_person('d') }}
                         </div>
                         <div class="personal-info__position">{{ decl_year_type(declaration) }}</div>
                     </div>
@@ -113,8 +120,12 @@
                                     <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="address">{{ declaration._region(language) }}</a>{% if declaration.general.post.office %}<span>,</span>{% endif %}
                                 {% endif %}
                                 {% if declaration.general.post.office %}
-                                    <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name">{{ declaration._office(language) }}</span></a>
+                                    <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name" class="youcontrol-tooltip__trigger">{{ declaration._office(language) }}</span></a>
                                 {% endif %}
+                                {{ yc_dossier('c') }}
+                                {{ yc_dossier('d') }}
+                                <div>{{ yc_dossier('a') }}</div>
+                                <div>{{ yc_dossier('b') }}</div>
                             </div>
                         </div>
                         {% if declaration.general.post.post %}
@@ -298,6 +309,7 @@
                             <span>{{ _("Оригінал декларації") }}</span>
                         </a>
                     {% endif %}
+                    {{ yc_check_person('a', 'declaration-card__btn', 'lg') }}
                     {# <button class="n-btn n-btn_ico n-btn_find declaration-card__btn">Додати у знахідки</button> #}
                 </div>
 

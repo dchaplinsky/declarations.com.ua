@@ -1,3 +1,5 @@
+{% from "_youcontrol.jinja" import yc_check_person, yc_dossier %}
+
 {% macro decl_year_type(declaration) %}
     {% if declaration.intro.declaration_year %}
         {{ declaration.intro.declaration_year -}}
@@ -20,11 +22,15 @@
     <div id="{{ declaration.meta.id }}" data-declid="{{ declaration.meta.id }}" class="search-card search-page__result-card{% if default_collapsed %} search-card--collapsed{% endif %}" itemscope itemtype="http://schema.org/Person">
         <div class="search-card__top">
             <div class="search-card__name">
-            {% if declaration.meta.id %}
-                <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name">{{ declaration._full_name(language) }}</a>
-            {% else %}
-                {{ declaration._full_name(language) }}
-            {% endif %}
+                {% if declaration.meta.id %}
+                    <a href="{{ url("details", declaration_id=declaration.meta.id) }}" itemprop="name" class="youcontrol-tooltip__trigger">{{ declaration._full_name(language) }}</a>
+                {% else %}
+                    {{ declaration._full_name(language) }}
+                {% endif %}
+                {{ yc_check_person('a') }}
+                {{ yc_check_person('b') }}
+                {{ yc_check_person('c') }}
+                {{ yc_check_person('d') }}
             </div>
             <div class="search-card__position">
                 {{ decl_year_type(declaration) }}
@@ -154,7 +160,7 @@
                                 </div>
                             </button>
                         {% endif %}
-
+                        {{ yc_check_person('a', 'action-icon card-actions__action card-actions__action--youcontrol') }}
                         {# <button class="action-icon card-actions__action">
                             <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 17.27L18.18 20.998L16.544 13.968L22 9.24402L14.81 8.62602L12 1.99902L9.19 8.62502L2 9.24302L7.454 13.969L5.819 20.998L12 17.27Z" fill="#56B8AD"/>
@@ -209,9 +215,13 @@
                             {% elif declaration.general.post.region %}
                             <a href="{{ url('region', region_name=declaration.general.post.region) }}" itemprop="homeLocation">{{ declaration._region(language) }}</a><span>,</span>
                         {% endif %}
-                        <a href="{{ url('office', office_name=declaration.general.post.office) }}">
+                        <a href="{{ url('office', office_name=declaration.general.post.office) }}" class="youcontrol-tooltip__trigger">
                             {{ declaration._office(language)|safe }}
                         </a>
+                        {{ yc_dossier('a') }}
+                        {{ yc_dossier('b') }}
+                        {{ yc_dossier('c') }}
+                        {{ yc_dossier('d') }}
                     </div>
                 </div>
             {% endif %}

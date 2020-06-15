@@ -41,9 +41,12 @@
     @media all and (max-width: 1023px) {
       margin-bottom: 30px;
     }
+    .card-actions__items .action-icon {
+      display: none;
+    }
     .card-actions__action--expand,
     .card-actions__action--close {
-      display: none;
+      display: block;
     }
   }
   &__item {

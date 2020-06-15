@@ -1,0 +1,92 @@
+{% set count = 0 %}
+{% macro icon_external(class_name) %}
+    <svg{% if class_name %} class="{{ class_name }}"{% endif %} width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.16667 0.75V1.91667H9.26083L3.52667 7.65083L4.34917 8.47333L10.0833 2.73917V4.83333H11.25V0.75H7.16667ZM10.0833 10.0833H1.91667V1.91667H6V0.75H1.91667C1.26917 0.75 0.75 1.275 0.75 1.91667V10.0833C0.75 10.3928 0.872916 10.6895 1.09171 10.9083C1.3105 11.1271 1.60725 11.25 1.91667 11.25H10.0833C10.3928 11.25 10.6895 11.1271 10.9083 10.9083C11.1271 10.6895 11.25 10.3928 11.25 10.0833V6H10.0833V10.0833Z" fill="#56B8AD"/>
+    </svg>
+{% endmacro %}
+
+{% macro yc_check_person(option, class_name = '', size = 'sm') %}
+    {% if size == 'sm' %}
+        {% if option == 'a' %}
+        <a href="#" class="{{ class_name }} youcontrol__check-person youcontrol__check-person--option-a youcontrol__check-person--sm" title="{{ _("Досьє від Youcontrol") }}">
+            <svg class="action-icon__img youcontrol__check-person-icon" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4.98267 8.68999C5.13799 9.63833 5.91809 10.8453 7.19944 11.2698C7.72539 11.4422 8.30076 11.4455 8.82672 11.2664C10.0869 10.8387 10.8917 9.63502 11.0505 8.68999C11.22 8.67672 11.4424 8.45456 11.6824 7.65543C12.0107 6.5645 11.6612 6.40202 11.3647 6.42855C11.4212 6.27933 11.4635 6.1268 11.4918 5.9809C11.993 3.15244 10.5105 3.05628 10.5105 3.05628C10.5105 3.05628 10.2634 2.61195 9.61741 2.27704C9.18324 2.03498 8.57963 1.84929 7.7854 1.9123C7.52772 1.92224 7.28416 1.97198 7.05471 2.04162C6.76173 2.13446 6.49346 2.27041 6.2499 2.42958C5.95339 2.60532 5.671 2.82417 5.42391 3.07286C5.03209 3.45087 4.68263 3.93831 4.53085 4.54512C4.40377 4.99939 4.43201 5.47357 4.53791 5.98422C4.56615 6.13343 4.6085 6.28265 4.66498 6.43186C4.36847 6.40533 4.01901 6.56781 4.34729 7.65874C4.59085 8.45456 4.81324 8.67672 4.98267 8.68999Z" fill="#56B8AD"/>
+                <path d="M14.5024 12.4575C12.4921 11.9461 10.8595 10.7974 10.8595 10.7974L9.58493 14.8297L9.34496 15.5889L9.34103 15.5771L9.13253 16.2223L8.45982 14.3143C10.1121 12.009 8.12543 12.0326 8.01528 12.0366C7.90513 12.0326 5.91848 12.009 7.57074 14.3143L6.89804 16.2223L6.68954 15.5771L6.6856 15.5889L6.44563 14.8297L5.16709 10.7974C5.16709 10.7974 3.5345 11.9461 1.52425 12.4575C0.0254089 12.8391 -0.0454024 14.57 0.013607 15.4237C0.013607 15.4237 0.100154 16.5842 0.186701 17.0956C0.186701 17.0956 3.11357 18.9957 8.01528 18.9997C12.917 18.9997 15.8439 17.0956 15.8439 17.0956C15.9304 16.5842 16.017 15.4237 16.017 15.4237C16.072 14.57 16.0012 12.8391 14.5024 12.4575Z" fill="#56B8AD"/>
+                <path d="M14.25 4.7502L18.05 0.950195M18.05 0.950195H14.25M18.05 0.950195V4.7502" stroke="#56B8AD" stroke-width="1.5"/>
+            </svg>
+            {{ icon_external('youcontrol__check-person-icon--mobile') }}
+
+            <span class="action-icon__tooltip">
+                <span class="action-icon__tooltip-text">{{ _("Перевірити як фізичну особу") }}</span>
+            </span>
+        </a>
+        {% elif option == 'b' %}
+            <a href="#" class="{{ class_name }} youcontrol__check-person youcontrol__check-person--option-b youcontrol__check-person--sm" title="{{ _("Перевірити як фізичну особу") }}">
+                {{ _("Перевірити як фізичну особу") }}
+                {{ icon_external('youcontrol__check-person-icon') }}
+            </a>
+        {% elif option == 'c' %}
+            <a href="#" class="{{ class_name }} action-icon youcontrol__check-person youcontrol__check-person--option-c youcontrol__check-person--sm" title="{{ _("Перевірити як фізичну особу") }}">
+                {{ icon_external('youcontrol__check-person-icon') }}
+                <div class="action-icon__tooltip">
+                    <div class="action-icon__tooltip-text">
+                        {{ _("Перевірити як фізичну особу") }}
+                    </div>
+                </div>
+            </a>
+        {% elif option == 'd' %}
+            <div style="display: none">
+                <div class="youcontrol-tooltip__contents">
+                    <a href="#" title="{{ _("Перевірити фіз. особу у YouControl") }}">
+                        {{ _("Перевірити фіз. особу у YouControl") }}
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    {% if size == 'lg' %}
+        {% if option == 'a' %}
+        <a href="#" class="{{ class_name }} youcontrol__check-person youcontrol__check-person--option-a youcontrol__check-person--lg" title="{{ _("Досьє від Youcontrol") }}">
+            {{ icon_external('youcontrol__check-person-icon') }}
+            {{ _("Перевірити фізособу в YouControl") }}
+        </a>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
+
+{% macro yc_dossier(option) %}
+    {% if option == 'a' %}
+        <a href="#" class="search-card__item-dossier youcontrol__dossier youcontrol__dossier--option-a">
+            <span class="youcontrol__dossier-title">{{ _("Досьє від YouControl") }}</span>
+            <span class="youcontrol__dossier-title--mobile">{{ _("Досьє компанії від YouControl") }}</span>
+            {{ icon_external() }}
+        </a>
+    {% elif option == 'b' %}
+        <a href="#" class="search-card__item-dossier youcontrol__dossier youcontrol__dossier--option-b">
+            <span class="youcontrol__dossier-title">{{ _("Досьє від YouControl") }}</span>
+            <span class="youcontrol__dossier-title--mobile">{{ _("Досьє компанії від YouControl") }}</span>
+            {{ icon_external() }}
+        </a>
+    {% elif option == 'c' %}
+        <a href="#" class="action-icon youcontrol__dossier youcontrol__dossier--option-c">
+            {{ icon_external('youcontrol__check-person-icon') }}
+            <span class="action-icon__tooltip">
+                <span class="action-icon__tooltip-text">
+                    {{ _("Досьє від YouControl") }}
+                </span>
+            </span>
+        </a>
+    {% elif option == 'd' %}
+        <!-- <a class="youcontrol-tooltip__trigger youcontrol__dossier youcontrol__dossier--option-d"
+            data-tooltip-content="#youcontrol-tooltip__contents--{{ count }}">
+            {{ icon_external('youcontrol__check-person-icon') }}
+        </a> -->
+        <div style="display: none">
+            <div class="youcontrol-tooltip__contents">
+                <a href="#" title="{{ _("Відкрити досьє у YouControl") }}">
+                    {{ _("Відкрити досьє у YouControl") }}
+                </a>
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
