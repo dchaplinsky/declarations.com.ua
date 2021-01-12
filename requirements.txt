@@ -16,7 +16,7 @@ parsel==1.5.1
 glob2==0.5
 translitua==1.2.4
 raven==6.10.0
-XlsxWriter==0.9.6
+xlsxwriter<2.0
 pyjwt==1.5.0
 cryptography==2.5
 jmespath==0.9.3

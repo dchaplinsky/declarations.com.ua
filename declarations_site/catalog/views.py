@@ -201,7 +201,7 @@ def details(request, declaration_id):
 
         if "source" in request.GET:
             return redirect(
-                declaration["declaration"]["url"]
+                declaration.original_url
                 or reverse("details", kwargs={"declaration_id": declaration._id})
             )
 
