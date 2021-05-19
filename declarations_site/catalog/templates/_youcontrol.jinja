@@ -5,7 +5,7 @@
     </svg>
 {% endmacro %}
 
-{% macro yc_check_person(option, class_name = '', size = 'sm') %}
+{% macro yc_check_person(option, class_name = '', size = 'sm', name = '', page = '') %}
     {% if size == 'sm' %}
         {% if option == 'a' %}
         <a href="#" class="{{ class_name }} youcontrol__check-person youcontrol__check-person--option-a youcontrol__check-person--sm" title="{{ _("Досьє від Youcontrol") }}">
@@ -15,30 +15,29 @@
                 <path d="M14.25 4.7502L18.05 0.950195M18.05 0.950195H14.25M18.05 0.950195V4.7502" stroke="#56B8AD" stroke-width="1.5"/>
             </svg>
             {{ icon_external('youcontrol__check-person-icon--mobile') }}
-
             <span class="action-icon__tooltip">
-                <span class="action-icon__tooltip-text">{{ _("Перевірити як фізичну особу") }}</span>
+                <span class="action-icon__tooltip-text">{{ _("Перевірити як фізичну особу в YouControl") }}</span>
             </span>
         </a>
         {% elif option == 'b' %}
-            <a href="#" class="{{ class_name }} youcontrol__check-person youcontrol__check-person--option-b youcontrol__check-person--sm" title="{{ _("Перевірити як фізичну особу") }}">
-                {{ _("Перевірити як фізичну особу") }}
+            <a href="https://youcontrol.com.ua/partners/declarations/?query={{ name }}&utm_source=declarations.com.ua&utm_medium=partner&utm_campaign=test-apr21&utm_content=np|{{ page }}" class="{{ class_name }} youcontrol__check-person youcontrol__check-person--option-b youcontrol__check-person--sm" title="{{ _("Перевірити як фізичну особу в YouControl") }}">
+                {{ _("Перевірити як фізичну особу в YouControl") }}
                 {{ icon_external('youcontrol__check-person-icon') }}
             </a>
         {% elif option == 'c' %}
-            <a href="#" class="{{ class_name }} action-icon youcontrol__check-person youcontrol__check-person--option-c youcontrol__check-person--sm" title="{{ _("Перевірити як фізичну особу") }}">
+            <a href="#" class="{{ class_name }} action-icon youcontrol__check-person youcontrol__check-person--option-c youcontrol__check-person--sm" title="{{ _("Перевірити як фізичну особу у YouControl") }}">
                 {{ icon_external('youcontrol__check-person-icon') }}
                 <div class="action-icon__tooltip">
                     <div class="action-icon__tooltip-text">
-                        {{ _("Перевірити як фізичну особу") }}
+                        {{ _("Перевірити як фізичну особу в YouControl") }}
                     </div>
                 </div>
             </a>
         {% elif option == 'd' %}
             <div style="display: none">
                 <div class="youcontrol-tooltip__contents">
-                    <a href="#" title="{{ _("Перевірити фіз. особу у YouControl") }}">
-                        {{ _("Перевірити фіз. особу у YouControl") }}
+                    <a href="#" title="{{ _("Перевірити фіз. особу в YouControl") }}">
+                        {{ _("Перевірити фіз. особу в YouControl") }}
                     </a>
                 </div>
             </div>

@@ -4,6 +4,7 @@ from operator import or_
 from functools import reduce
 from datetime import date
 import logging
+import urllib.parse
 
 from django.conf import settings
 from django.urls import reverse
@@ -144,6 +145,13 @@ class AbstractDeclaration(object):
     def raw_en_html(self):
         assert hasattr(self, "translator"), "You should call prepare_translations first"
         return self.translator.get_translated_html()
+
+    def _name_search_query(self):
+        name = "{} {} {}".format(
+            self.general.last_name, self.general.name, self.general.patronymic
+        ).strip()
+
+        return urllib.parse.quote(name)
 
     def _full_name(self, language):
         name = "{} {} {}".format(

@@ -16,7 +16,7 @@
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}{{ super() }}{% endif %}{% endblock %}
 {% block html_title %}{% if meta %}{{ meta.title }}{% else %}{{ super() }}{% endif %}{% endblock %}
 
-{% block bodyclass %}not-front search-page{% endblock %}
+{% block bodyclass %}not-front body--yc-option-b search-page{% endblock %}
 
 {% block content %}
     <div class="content container">
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="search-page__results-block">
-                    {{ search_results(results) }}
+                    {{ search_results(results, false, 'search') }}
                 </div>
 
                 {% if results.paginator.num_pages > 1 %}
