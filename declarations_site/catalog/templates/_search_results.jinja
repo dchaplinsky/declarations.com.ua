@@ -1,7 +1,7 @@
 {% from "_decl_teaser.jinja" import decl_teaser with context %}
 
-{% macro search_results(results, default_collapsed=false) -%}
+{% macro search_results(results, default_collapsed=false, parent_section='') -%}
     {% for r in results %}
-        {{ decl_teaser(r, false, default_collapsed) }}
+        {{ decl_teaser(r, false, default_collapsed, parent_section) }}
     {% endfor %}
 {%- endmacro %}

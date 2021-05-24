@@ -4,7 +4,7 @@
 {% from "_spotter.jinja" import spotter_button %}
 {% from "_decl_teaser.jinja" import decl_year_type with context %}
 {% from "_decl_teaser.jinja" import decl_teaser with context %}
-{% from "_youcontrol.jinja" import yc_dossier, yc_check_person %}
+{% from "_youcontrol.jinja" import yc_check_person %}
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
@@ -13,7 +13,7 @@
 
 {% block html_desc %}{% if meta %}{{ meta.description }}{% else %}{{ _("Д​екларації") }}{% if declaration.declaration.source == "NACP" %} {{ _("НАЗК") }}{% endif %} {{ _("про майно, доходи, витрати та зобов'язання фінансового характеру") }} {{ declaration.general.last_name }} {{ declaration.general.name }} {{ _("за") }} {{ declaration.intro.declaration_year }} {{ _("рік онлайн у відкритій базі даних проекту") }}{% endif %}{% endblock %}
 
-{% block bodyclass %}not-front {% if branding_link %}branding-page {% endif %}declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
+{% block bodyclass %}not-front body--yc-option-b {% if branding_link %}branding-page {% endif %}declaration-page {% if declaration.declaration.source == "NACP" %}declaration-page-nacp{% endif %}{% endblock %}
 
 
 {% block infobox %}
@@ -103,10 +103,10 @@
                             <span class="youcontrol-tooltip__trigger">
                                 {{ declaration._full_name(language) }}
                             </span>
-                            {{ yc_check_person('a') }}
-                            {{ yc_check_person('b') }}
-                            {{ yc_check_person('c') }}
-                            {{ yc_check_person('d') }}
+                            {{ yc_check_person('a', '', 'sm', declaration._name_search_query(), 'declaration') }}
+                            {{ yc_check_person('b', '', 'sm', declaration._name_search_query(), 'declaration') }}
+                            {{ yc_check_person('c', '', 'sm', declaration._name_search_query(), 'declaration') }}
+                            {{ yc_check_person('d', '', 'sm', declaration._name_search_query(), 'declaration') }}
                         </div>
                         <div class="personal-info__position">{{ decl_year_type(declaration) }}</div>
                     </div>
@@ -122,10 +122,6 @@
                                 {% if declaration.general.post.office %}
                                     <a href="{{ url('office', office_name=declaration.general.post.office) }}" itemprop="name" class="youcontrol-tooltip__trigger">{{ declaration._office(language) }}</span></a>
                                 {% endif %}
-                                {{ yc_dossier('c') }}
-                                {{ yc_dossier('d') }}
-                                <div>{{ yc_dossier('a') }}</div>
-                                <div>{{ yc_dossier('b') }}</div>
                             </div>
                         </div>
                         {% if declaration.general.post.post %}
@@ -295,7 +291,7 @@
                 {% endif %}
             {% endif %}
             <div style="display: none">
-                {{ decl_teaser(declaration, true) }}
+                {{ decl_teaser(declaration, true, 'declaration') }}
             </div>
             <div class="declaration-card__actions">
                 <div class="declaration-card__btns">
@@ -309,7 +305,7 @@
                             <span>{{ _("Оригінал декларації") }}</span>
                         </a>
                     {% endif %}
-                    {{ yc_check_person('a', 'declaration-card__btn', 'lg') }}
+                    {{ yc_check_person('a', 'declaration-card__btn', 'lg', declaration._name_search_query(), 'declaration') }}
                     {# <button class="n-btn n-btn_ico n-btn_find declaration-card__btn">Додати у знахідки</button> #}
                 </div>
 
@@ -363,7 +359,7 @@
             <h3 id="exact_by_surname"><span>{{ _("Інші декларації цього декларанта") }}</span></h3>
             <div class="search-page">
                 <div class="search-results">
-                    {{ search_results(similar_declarations["exact"]) }}
+                    {{ search_results(similar_declarations["exact"], false, 'declaration_another') }}
                 </div>
             </div>
             {% endif %}
@@ -372,7 +368,7 @@
             <h3 id="similar_by_surname"><span>{{ _("Інші декларації, знайдені за ПІБ") }}</span> «{{ declaration._full_name(language) }}»</h3>
             <div class="search-page">
                 <div class="search-results">
-                    {{ search_results(similar_declarations["maybe"]) }}
+                    {{ search_results(similar_declarations["maybe"], false, 'declaration_another') }}
                 </div>
             </div>
             {% endif %}
@@ -384,7 +380,7 @@
             </h3>
             <div class="search-page">
                 <div class="search-results">
-                    {{ search_results(family_declarations) }}
+                    {{ search_results(family_declarations, false, 'declaration_another') }}
                 </div>
             </div>
             {% endif %}
