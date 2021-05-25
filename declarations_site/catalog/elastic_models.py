@@ -102,6 +102,10 @@ class AbstractDeclaration(object):
     def related_entities(self):
         raise NotImplemented()
 
+    @property
+    def original_url(self):
+        raise NotImplemented()
+
     def _is_change_form(self):
         raise NotImplemented
 
@@ -633,6 +637,10 @@ class Declaration(DocType, AbstractDeclaration):
 
     def _is_change_form(self):
         return False
+
+    @property
+    def original_url(self):
+        return self.declaration.url
 
     def aggregated_data(self):
         return self.aggregated
@@ -1317,9 +1325,12 @@ class NACPDeclaration(DocType, AbstractDeclaration):
 
     def raw_source(self):
         return {
-            "url": "https://public-api.nazk.gov.ua/v1/declaration/%s"
-            % self.meta.id.replace("nacp_", "")
+            "url": "https://public-api.nazk.gov.ua/v2/documents/%s" % self.meta.id.replace("nacp_", "")
         }
+
+    @property
+    def original_url(self):
+        return "https://public.nazk.gov.ua/documents/%s" % self.meta.id.replace("nacp_", "")
 
     def related_entities(self):
         src = self.nacp_orig.to_dict()

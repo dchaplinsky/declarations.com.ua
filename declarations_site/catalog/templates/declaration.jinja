@@ -300,8 +300,8 @@
                             {{ _("Додати у порівняння") }}
                         </button>
                     {% endif %}
-                    {% if declaration.declaration.url %}
-                        <a href="{{ declaration.declaration.url }}" class="n-btn declaration-card__btn" target="_blank" rel="nofollow">
+                    {% if declaration.original_url %}
+                        <a href="{{ declaration.original_url }}" class="n-btn declaration-card__btn" target="_blank" rel="nofollow">
                             <span>{{ _("Оригінал декларації") }}</span>
                         </a>
                     {% endif %}
