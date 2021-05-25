@@ -1,4 +1,4 @@
-FROM python:3.6.8-alpine3.9
+FROM python:3.6.13-alpine3.13
 
 ARG root=/app
 ARG R_BASE_VERSION=3.5.2
@@ -23,7 +23,7 @@ COPY dragnet/utils/requirements.txt ${root}/dragnet/utils/requirements.txt
 
 RUN apk add --no-cache su-exec postgresql-libs libjpeg libxml2 libstdc++ binutils libffi libxslt \
     && apk add --no-cache --virtual .build-deps jpeg-dev zlib-dev postgresql-dev build-base \
-        libffi-dev libxml2-dev libxslt-dev \
+        libffi-dev libxml2-dev libxslt-dev rust cargo \
     && PREFIX=/usr/local pip install cython -r ${root}/requirements.txt \
     # do not mix this with above
     && PREFIX=/usr/local pip install -r ${root}/dragnet/utils/requirements.txt \
