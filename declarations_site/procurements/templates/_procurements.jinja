@@ -1,5 +1,3 @@
-{% from "_youcontrol.jinja" import yc_dossier %}
-
 {% macro procurements_details(declaration) -%}
     {% set affiliated_earnings = declaration.get_procurement_earnings_by_year(True) %}
     {% if affiliated_earnings %}

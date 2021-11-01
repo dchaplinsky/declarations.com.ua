@@ -143,3 +143,11 @@ def parse_raw_family_string(family_raw):
 @library.filter
 def translit_to_en(value):
     return translit(value)
+
+
+@library.global_function
+def display_val(value):
+    if value:
+        return value
+
+    return ""

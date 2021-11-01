@@ -28,7 +28,7 @@
         </ul>
         {% if declaration %}
             <div class="declaration-card" data-declid="{{ declaration.id }}" itemscope itemtype="http://schema.org/Person">
-                <a href="https://declarations.com.ua{{ url('details', 'nacp_' + declaration.id )}}" target="_blank">В старому дизайні</a>
+                <a href="https://declarations.com.ua{{ url('details', 'nacp_' + declaration.id )}}" target="_blank">В старому дизайні</a> <br/>
                 <a href="https://public.nazk.gov.ua/documents/{{ declaration.id }}" target="_blank">На сайті НАЗК</a>
             </div>
 
@@ -44,7 +44,7 @@
                     <div class="card-body">
                         {% set step_data = declaration["data"]["step_" + step|string] %}
                         {% set step_description = "Step description #" + step|string %}
-                        {% set step_template = 'steps/step_' + step|string + '.html' %}
+                        {% set step_template = 'steps/step_' + step|string + '.jinja' %}
                         {% include step_template with context%}
                     </div>
                 </div>
