@@ -4,7 +4,6 @@
 {% from "_spotter.jinja" import spotter_button %}
 {% from "_decl_teaser.jinja" import decl_year_type with context %}
 {% from "_decl_teaser.jinja" import decl_teaser with context %}
-{% from "_youcontrol.jinja" import yc_check_person %}
 
 {% block html_title -%}
 {% if meta %}{{ meta.title }}{% else %}
@@ -103,10 +102,6 @@
                             <span class="youcontrol-tooltip__trigger">
                                 {{ declaration._full_name(language) }}
                             </span>
-                            {{ yc_check_person('a', '', 'sm', declaration._name_search_query(), 'declaration') }}
-                            {{ yc_check_person('b', '', 'sm', declaration._name_search_query(), 'declaration') }}
-                            {{ yc_check_person('c', '', 'sm', declaration._name_search_query(), 'declaration') }}
-                            {{ yc_check_person('d', '', 'sm', declaration._name_search_query(), 'declaration') }}
                         </div>
                         <div class="personal-info__position">{{ decl_year_type(declaration) }}</div>
                     </div>
@@ -305,7 +300,6 @@
                             <span>{{ _("Оригінал декларації") }}</span>
                         </a>
                     {% endif %}
-                    {{ yc_check_person('a', 'declaration-card__btn', 'lg', declaration._name_search_query(), 'declaration') }}
                     {# <button class="n-btn n-btn_ico n-btn_find declaration-card__btn">Додати у знахідки</button> #}
                 </div>
 

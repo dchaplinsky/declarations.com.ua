@@ -55,6 +55,7 @@ handler404 = TemplateView.as_view(template_name="404.jinja")
 urlpatterns += i18n_patterns(
     path("search", catalog_views.search, name="search"),
     path("declaration/<str:declaration_id>", catalog_views.details, name="details"),
+    path("sample/<str:declaration_id>", catalog_views.sample_details, name="sample_details"),
     url(r"^region$", catalog_views.regions_home, name="regions_home"),
     url(r"^office$", catalog_views.offices_home, name="offices_home"),
     url(r"^BI/$", catalog_views.business_intelligence, name="business_intelligence"),
