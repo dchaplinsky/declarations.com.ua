@@ -1,0 +1,144 @@
+@mixin gi {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+X - equal to the letter-tracking value in Photoshop
+S - the font-size in pixels
+*/
+@mixin letter-spacing($x, $s) {
+  letter-spacing: $x * $s / 1000 * 1px;
+}
+
+@mixin rft($mysizeValue-min, $mysizeValue-max) {
+
+  $delta: $mysizeValue-max - $mysizeValue-min;
+  $step: $delta / 3;
+
+  font-size: $mysizeValue-min * 1px;
+
+  @media (min-width: $screen-sm-min) {
+    font-size: $mysizeValue-max - $step * 2 * 1px;
+  }
+  @media (min-width: $screen-md-min) {
+    font-size: ($mysizeValue-max - $step) * 1px;
+  }
+  @media (min-width: $screen-lg-min) {
+    font-size: $mysizeValue-max * 1px;
+  }
+}
+
+@mixin gradient-animation($order, $start, $end, $transTime ){
+  background-size: 100%;
+  background-image: -webkit-linear-gradient($order, $start, $end);
+  background-image: linear-gradient($order, $start, $end);
+  position: relative;
+  z-index: 100;
+
+  &:before {
+    border-radius: inherit;
+    background-image: -webkit-linear-gradient($order, $end, $start);
+    background-image: linear-gradient($order, $end, $start);
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
+    z-index: -100;
+    -moz-transition: opacity $transTime ease-in-out;
+    -webkit-transition: opacity $transTime ease-in-out;
+    transition: opacity $transTime ease-in-out;
+  }
+
+  &:hover {
+    &:before {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin greenGradient() {
+  background: $decl-green;
+  background: -moz-linear-gradient(left, #02aab0 0%, #00ccac 100%);
+  background: -webkit-linear-gradient(left, #02aab0 0%,#00ccac 100%);
+  background: linear-gradient(to right, #02aab0 0%,#00ccac 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#02aab0', endColorstr='#00ccac',GradientType=1 );
+}
+
+@mixin blueGradient() {
+  background: $decl-blue;
+  background: -moz-linear-gradient(left, #2e68f6 0%, #01adef 100%);
+  background: -webkit-linear-gradient(left, #2e68f6 0%,#01adef 100%);
+  background: linear-gradient(to right, #2e68f6 0%,#01adef 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2e68f6', endColorstr='#01adef',GradientType=1 );
+}
+
+@mixin gradient-text($gradient) {
+  @supports(mix-blend-mode: lighten) {
+    display: inline-block;
+    position: relative;
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0; right: 0; bottom: 0; left: 0;
+      background: unquote($gradient);
+      pointer-events: none;
+    }
+
+    color: #000;
+    background: #fff;
+    mix-blend-mode: multiply;
+
+    &::after {
+      mix-blend-mode: screen;
+    }
+  }
+}
+
+.pulse {
+  cursor: pointer;
+  box-shadow: 0 0 0 rgba(204,169,44, 0.4);
+  animation: pulse 1s 10;
+}
+
+.pulse:hover {
+  animation: none;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+    box-shadow: 0 0 0 10px rgba(204,169,44, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+    box-shadow: 0 0 0 0 rgba(204,169,44, 0);
+  }
+}

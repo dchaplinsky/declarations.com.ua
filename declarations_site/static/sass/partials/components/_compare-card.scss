@@ -1,0 +1,92 @@
+.compare-card {
+  border: 1px solid #EEEFF2;
+  background: $white;
+  border-radius: 4px;
+  &_opened {
+    .compare-card__items {
+      display: block;
+    }
+    @media all and (min-width: 1024px) {
+      .compare-card__position {
+        display: none;
+      }
+    }
+  }
+  &__title {
+    font-weight: 700;
+    @media all and (min-width: 1024px) {
+      font-size: 16px;
+      width: 35%;
+      text-decoration: underline;
+    }
+  }
+  &__header {
+    position: relative;
+    padding: 12px 16px;
+    @media all and (min-width: 1024px) {
+      padding: 11px 24px;
+      @include flex($align-items: center);
+    }
+  }
+  &__items {
+    padding: 0 16px;
+    border-top: 1px solid #EEEFF2;
+    display: none;
+    @media all and (min-width: 1024px) {
+      padding: 0 24px;
+    }
+  }
+  &__item {
+    border-bottom: 1px solid #EEEFF2;
+    padding: 10px 0;
+    &:last-child {
+      border: none;
+    }
+    @media all and (min-width: 1024px) {
+      @include flex();
+    }
+  }
+  &__item-name {
+    color: #898D93;
+    @media all and (min-width: 1024px) {
+      width: 128px;
+      flex-shrink: 0;
+    }
+    @media all and (max-width: 1023px) {
+      font-weight: 500;
+      font-size: 9px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+  }
+  &__item-value {
+    font-size: 12px;
+    @media all and (min-width: 1024px) {
+      flex: auto;
+      font-size: 14px;
+    }
+  }
+
+  &__actions {
+    @media all and (max-width: 1023px) {
+      position: absolute;
+      top: 50%;
+      margin-top: -10px;
+      right: 18px;
+    }
+  }
+
+  &__position {
+    flex: auto;
+    @media all and (max-width: 1023px) {
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+
+  &__desktop {
+    @media all and (max-width: 1023px) {
+      display: none;
+    }
+  }
+}

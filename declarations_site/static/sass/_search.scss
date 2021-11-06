@@ -1,0 +1,227 @@
+#stats {
+    display: none;
+}
+
+.nav-search {
+    display: none;
+}
+
+#front-searchbox {
+    visibility: hidden;
+    height: 0;
+
+    @media (max-width: 460px) {
+        margin-bottom: 0;
+    }
+}
+
+.page-content {
+    margin-top: $pad20;
+    clear: both;
+
+    @media (min-width: 767px) {
+        clear: both;
+    }
+}
+
+#ex-search-form {
+    clear: both;
+    margin-top: 20px;
+
+    @media(min-width:768px) {
+        margin-top: 0;
+    }
+
+    form {
+        padding: 24px 24px 5px 24px;
+
+        .ex-search-link {
+            display: block;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: black;
+            //font-family: 'arsenalbold';
+            margin-top: 15px;
+            margin-bottom: 5px;
+
+            &:hover {
+                color: $decl-green;
+            }
+        }
+
+        .row {
+            @media(min-width:768px) {
+                display: flex;
+            }
+
+            .col {
+                float: none;
+            }
+        }
+    }
+
+    .col-1 {
+        .fieldset-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+
+            > fieldset {
+                height: 50%;
+                margin: 0;
+            }
+        }
+    }
+
+    .col-2 {
+        fieldset {
+            .form-group {
+                display: block;
+            }
+        }
+    }
+
+    .col-2,
+    .col-3 {
+        fieldset {
+            height: 100%;
+        }
+    }
+
+    .search-string {
+        display: block;
+
+        .input-group-btn {
+            width: auto;
+        }
+
+        @media(min-width:768px) {
+            display: table;
+
+            .input-group-btn {
+                width: 1%;
+            }
+        }
+
+        input {
+            background-image: -webkit-gradient(linear, left top, left bottom, from(#009688), to(#009688)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2));
+            background-image: -webkit-linear-gradient(#009688, #009688), -webkit-linear-gradient(#D2D2D2, #D2D2D2);
+            background-image: -o-linear-gradient(#009688, #009688), -o-linear-gradient(#D2D2D2, #D2D2D2);
+            background-image: linear-gradient(#009688, #009688), linear-gradient(#D2D2D2, #D2D2D2);
+            -webkit-background-size: 100% 2px, 100% 1px;
+            background-size: 100% 2px, 100% 1px;
+        }
+
+        .is-focused {
+            input {
+                background-image: -webkit-gradient(linear, left top, left bottom, from(#03a9f4), to(#03a9f4)), -webkit-gradient(linear, left top, left bottom, from(#D2D2D2), to(#D2D2D2));
+                background-image: -webkit-linear-gradient(#03a9f4, #03a9f4), -webkit-linear-gradient(#D2D2D2, #D2D2D2);
+                background-image: -o-linear-gradient(#03a9f4, #03a9f4), -o-linear-gradient(#D2D2D2, #D2D2D2);
+                background-image: linear-gradient(#03a9f4, #03a9f4), linear-gradient(#D2D2D2, #D2D2D2);
+                -webkit-background-size: 100% 3px, 100% 1px;
+                background-size: 100% 2px, 100% 1px;
+            }
+        }
+
+        #search_scope {
+            padding-left: 0;
+
+            @media(min-width:768px) {
+                padding: 0 12px 0 30px;
+            }
+        }
+
+        .input-group-btn {
+            padding-right: 0;
+        }
+
+        button {
+            background: #eee;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+            margin: 0;
+
+            &:hover {
+                background: $decl-blue;
+                color: white;
+            }
+        }
+    }
+
+    .form-group .checkbox label,
+    .form-group .radio label,
+    .form-group label,
+    .checkbox label,
+    .radio label,
+    label {
+        color: #333;
+    }
+
+    .checkbox {
+        .checkbox-material + span {
+            padding-left: 10px;
+        }
+
+        .checkbox-material {
+            &:before {
+                top: auto;
+            }
+        }
+    }
+
+    .dropdown {
+        width: 100%;
+
+        button {
+            width: 100%;
+            text-align: left;
+            background: #eee;
+
+            &:hover {
+                background: $decl-blue;
+                color: white;
+            }
+        }
+    }
+
+    #clear-filters {
+        margin-top: 5px;
+        display: block;
+        text-align: right;
+        text-transform: uppercase;
+        font-size: 14px;
+        color: black;
+    }
+
+    //we have some params in search url
+    &.ex-search {
+        .ex-search-link {
+            display: none;
+        }
+    }
+}
+
+.toggle-view {
+    @media(max-width: 767px) {
+        display: none;
+    }
+}
+
+.toggle-search {
+    @media(min-width: 768px) {
+        float: right;
+    }
+
+    #sort-date {
+        border-left: $line 1px solid;
+        border-right: $line 1px solid;
+    }
+
+    > span {
+        text-transform: uppercase;
+        font-size: 11px;
+        font-weight: bold;
+        //font-family: 'Roboto Slab', serif;
+        margin-right: 5px;
+    }
+}

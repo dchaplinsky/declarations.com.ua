@@ -1,0 +1,145 @@
+.request-block {
+  &__description {
+    color: #898D93;
+    margin-bottom: 15px;
+    max-width: 790px;
+    @media all and (min-width: 1024px) {
+      padding: 0 25px 0 0;
+      margin-bottom: 50px;
+    }
+  }
+  &__list {
+    display: table;
+    width: 100%;
+    @media all and (max-width: 1023px) {
+      padding-bottom: 68px;
+    }
+    @media all and (min-width: 1024px) {
+      background: $white;
+      border: 1px solid #EEEFF2;
+    }
+  }
+  &__list-header {
+    display: none;
+    @media all and (min-width: 1024px) {
+      display: table-row;
+    }
+  }
+  &__list-title {
+    border-bottom: 1px solid #EEEFF2;
+    display: table-cell;
+    font-size: 16px;
+    padding: 14px 24px;
+    &:nth-child(1) {
+      flex: auto;
+    }
+    &:nth-child(2) {
+      width: 18%;
+    }
+    &:nth-child(3) {
+      width: 18%;
+    }
+    &:nth-child(4) {
+      width: 28%;
+    }
+    &:nth-child(5) {
+      width: 14px;
+    }
+  }
+  &__list-item {
+    @media all and (max-width: 1023px) {
+      margin: 0 -17px 16px;
+      border: 1px solid #EEEFF2;
+      background: $white;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    @media all and (min-width: 1024px) {
+      border-bottom: 1px solid #EEEFF2;
+      &:last-child { border: none; }
+    }
+  }
+}
+
+.request-row {
+  position: relative;
+  padding: 16px 16px 0;
+  @media all and (min-width: 1024px) {
+    display: table-row;
+    padding: 0;
+  }
+  &__name,
+  &__find,
+  &__week,
+  &__email,
+  &__close {
+    @media all and (min-width: 1024px) {
+      border-bottom: 1px solid #EEEFF2;
+      display: table-cell;
+      padding: 16px 24px;
+    }
+  }
+  &__rss-btn {
+    font-size: 10px;
+    padding: 6px 9px;
+    width: 48px;
+  }
+  &__name {
+    @media all and (min-width: 1024px) {
+      flex: auto;
+    }
+    @media all and (max-width: 1023px) {
+      font-weight: 700;
+      border-bottom: 1px solid #EEEFF2;
+      margin: 0 -16px;
+      padding: 0 42px 16px 16px;
+    }
+  }
+  &__rss {
+    @media all and (min-width: 1024px) {
+      width: 9%;
+    }
+    @media all and (max-width: 1023px) {
+      position: absolute;
+      bottom: 14px;
+      left: 16px;
+    }
+  }
+  &__find, &__week {
+    @media all and (min-width: 1024px) {
+      width: 18%;
+    }
+    @media all and (max-width: 1023px) {
+      border-bottom: 1px solid #EEEFF2;
+      padding: 9px 0;
+      @include flex($align-items: center);
+    }
+  }
+  &__email {
+    @media all and (min-width: 1024px) {
+      width: 28%;
+    }
+    @media all and (max-width: 1023px) {
+      padding: 9px 0;
+      @include flex($align-items: center);
+    }
+  }
+  &__close {
+    font-size: 0;
+    @media all and (min-width: 1024px) {
+      width: 14px;
+    }
+    @media all and (max-width: 1023px) {
+      position: absolute;
+      top: 19px;
+      right: 16px;
+      height: 14px;
+    }
+  }
+  &__item-name {
+    @media all and (min-width: 1024px) {
+      display: none;
+    }
+  }
+}

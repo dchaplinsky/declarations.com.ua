@@ -15,5 +15,8 @@
   "scripts": {
     "grunt": "grunt",
     "jenkins": "grunt jenkins"
+  },
+  "dependencies": {
+    "bootstrap": "^5.1.3"
   }
 }

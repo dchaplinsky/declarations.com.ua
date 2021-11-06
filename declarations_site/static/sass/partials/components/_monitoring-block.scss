@@ -1,0 +1,26 @@
+.monitoring-block {
+  @include flex($justify-content: flex-start, $align-items: center);
+  &__title {
+    font-weight: 600;
+    font-size: 12px;
+    color: $black;
+    margin-right: 12px;
+    @media all and (min-width: 1024px) {
+      margin-right: 18px;
+    }
+  }
+  &__btn {
+    margin-right: 15px;
+    min-width: 70px;
+    &:last-child {
+      margin: 0;
+    }
+    @media all and (max-width: 1023px) {
+      padding: 5px 10px;
+      margin-right: 10px;
+      min-width: 56px;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+  }
+}

@@ -1,0 +1,38 @@
+.card-actions {
+  position: relative;
+  &__items-inner {
+    @include flex($justify-content: flex-start, $align-items: center);
+  }
+  &__action-link {
+    @media all and (min-width: 1024px) {
+      display: none;
+    }
+  }
+  &__action {
+    margin-left: 20px;
+    @include transparent-button;
+    &:first-child {
+      margin: 0;
+    }
+    &--expand,
+    &--close {
+      display: none;
+    }
+  }
+  &__items {
+    display: none;
+    @media all and (min-width: 1024px) {
+      display: block !important;
+    }
+    @media all and (max-width: 1023px) {
+      background: $white;
+      border: 1px solid #EEEFF2;
+      border-radius: 2px;
+      padding: 15px 22px;
+      position: absolute;
+      right: 0;
+      bottom: 100%;
+      margin-bottom: 5px;
+    }
+  }
+}

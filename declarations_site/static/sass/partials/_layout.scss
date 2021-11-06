@@ -1,0 +1,50 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap-grid";
+
+$page-width: 1016px;
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body.menu-is-open {
+  @media (max-width: 1023px) {
+    .page {
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+}
+
+.page {
+  overflow: hidden;
+}
+
+.container {
+  max-width: $page-width;
+  margin: 0 auto;
+  padding: 0 16px;
+  @media all and (min-width: 1024px) {
+    padding: 0 20px;
+  }
+}
+
+.content {
+  @include ext-background(#F7F9FA);
+  padding: 45px 16px 0;
+  @media all and (min-width: 1024px) {
+    padding: 45px 20px 160px;
+  }
+  &__main {
+    padding-top: 0;
+    @include ext-background($white);
+    @media all and (min-width: 1024px) {
+      padding-bottom: 80px;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

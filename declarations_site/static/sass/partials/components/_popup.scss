@@ -1,0 +1,53 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200;
+  overflow: auto;
+  //overflow-y: scroll;
+  background: rgba($base, 0.7);
+  &__wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    @media all and (max-width: 1023px) {
+      width: 100% !important;
+    }
+    @media all and (min-width: 1024px) {
+      top: 10%;
+      left: 50%;
+      padding-bottom: 100px;
+      width: 90%;
+      max-width: 1032px;
+      transform: translate3d(-50%, 0, 0);
+      box-sizing: border-box;
+    }
+  }
+  &__content {
+    opacity: 0;
+    background: $white;
+    @media all and (max-width: 1023px) {
+      min-height: 100vh;
+    }
+  }
+  &__close {
+    position: absolute;
+    top: 23px;
+    right: 24px;
+    &--inline {
+      position: static;
+    }
+  }
+}
+
+.popup-lock {
+  height: auto;
+  overflow: hidden !important;
+  width: auto;
+  body {
+    overflow: hidden !important;
+    height: 100%;
+  }
+}

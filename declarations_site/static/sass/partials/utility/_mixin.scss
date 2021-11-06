@@ -1,0 +1,57 @@
+@mixin ext-background($background: 0, $position: relative) {
+  position: $position;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -999em;
+    right: -999em;
+    z-index: -1;
+    @if $background {
+      background: $background;
+    }
+  }
+}
+
+@mixin flex($flex-direction: row, $flex-wrap: nowrap, $justify-content: space-between, $align-items: flex-start) {
+  display: flex;
+  flex-direction: $flex-direction;
+  flex-wrap: $flex-wrap;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+
+@mixin cross($size, $line-thickness, $color, $color-hover) {
+  position: relative;
+  width: $size;
+  height: $size;
+  display: block;
+  cursor: pointer;
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    background: $color;
+    height: $line-thickness;
+    margin-top: $line-thickness/2;
+  }
+  &:before {
+    transform: rotate(45deg);
+  }
+  &:after {
+    transform: rotate(-45deg);
+  }
+}
+@mixin transparent-button {
+  background: none;
+  border: 0;
+  padding: 0;
+
+  &:focus,
+  &:active {
+    outline: none;
+  }
+}

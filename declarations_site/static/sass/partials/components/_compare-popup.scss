@@ -1,0 +1,94 @@
+.compare-popup {
+  overflow: hidden;
+  &__title {
+    background: #F7F9FA;
+    padding: 60px 16px 13px;
+    font-size: 20px;
+    font-weight: 700;
+    @media all and (min-width: 1024px) {
+      background: $white;
+      padding: 13px 24px;
+    }
+  }
+  &__body {
+    background: #F7F9FA;
+    padding: 16px 16px 40px;
+  }
+  &__top {
+    margin-bottom: 8px;
+    @media all and (min-width: 1024px) {
+      padding: 0 16px;
+      @include flex($align-items: center);
+    }
+  }
+  &__open-link {
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12px;
+    display: none;
+    position: relative;
+    padding-right: 16px;
+    transition: color 0.3s linear;
+    &:before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-color: $base transparent transparent transparent;
+      border-width: 4px;
+      border-style: solid;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      margin-top: -2px;
+      transition: border-color 0.3s linear;
+    }
+    &:hover {
+      color: $green;
+      &:before {
+        border-color: $green transparent transparent transparent;
+      }
+    }
+    @media all and (min-width: 1024px) {
+      display: block;
+    }
+  }
+  &__actions {
+    margin-top: 24px;
+    @media all and (min-width: 1024px) {
+      margin-top: 94px;
+      @include flex($justify-content: flex-end, $align-items: center);
+    }
+  }
+  &__btns {
+    margin-top: 20px;
+    @include flex($justify-content: flex-start);
+    @media all and (min-width: 1024px) {
+      margin: 0 0 0 32px;
+    }
+  }
+  &__btn {
+    margin-left: 12px;
+    margin-top: 0;
+    &:first-child {
+      margin: 0;
+    }
+    @media all and (max-width: 1023px) {
+      width: 50%;
+    }
+    @media all and (min-width: 1024px) {
+      font-size: 16px;
+      padding: 15px 24px;
+      margin-left: 16px;
+    }
+  }
+  .count-block__title {
+    font-size: 16px;
+  }
+  .action-icon {
+    display: none;
+  }
+  .card-actions__action--expand,
+  .card-actions__action--close {
+    display: block;
+  }
+}

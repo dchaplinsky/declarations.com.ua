@@ -1,0 +1,7 @@
+// A good use for this is to manage z-index
+// e.g. .my-el {z-index: index($elements, modal)}
+// ~ z-index: 3
+
+//For use with z-index
+//Keep you layer stack organised
+$elements: base-element, before, after, dropdown, hover, feedback, admin-overlay, modal, preloader;

@@ -1,2 +1,6 @@
 *
 !.gitignore
+
+!sass
+!sass/**
+sass/.sass-cache

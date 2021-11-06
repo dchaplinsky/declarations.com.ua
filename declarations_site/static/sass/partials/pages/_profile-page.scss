@@ -1,0 +1,59 @@
+.profile-page {
+  &__result-card {
+    margin: 0 -18px 12px;
+    @media all and (min-width: 1024px) {
+      margin: 0 0 16px;
+    }
+  }
+  &__result-cards {
+    padding-bottom: 70px;
+    @media all and (min-width: 1024px) {
+      padding: 0;
+    }
+  }
+  &__form-block {
+    margin-bottom: 18px;
+    @media all and (min-width: 1024px) {
+      margin-bottom: 50px;
+    }
+  }
+  &__top {
+    @include flex($align-items: center);
+    margin-bottom: 17px;
+  }
+  &__request-btn {
+    @media all and (max-width: 1023px) {
+      font-size: 10px;
+      text-transform: uppercase;
+      padding: 6px 9px;
+    }
+    @media all and (min-width: 1024px) {
+      font-size: 16px;
+      width: 176px;
+      padding: 15px 0;
+    }
+  }
+  &__panel {
+    background: white;
+    border: 1px solid #EEEFF2;
+    padding: 16px 24px;
+  }
+  &__actions {
+    margin-top: 40px;
+  }
+  &__action {
+    margin-right: 50px;
+  }
+  &__email-input {
+    width: 308px;
+    max-width: 100%;
+  }
+  &__footer {
+    margin: 0;
+    padding: 40px;
+    text-align: center;
+    @media all and (max-width: 767px) {
+      padding: 20px;
+    }
+  }
+}

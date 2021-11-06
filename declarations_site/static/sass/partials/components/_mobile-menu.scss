@@ -1,0 +1,65 @@
+.mobile-menu {
+  display: none;
+  text-align: center;
+  padding: 60px 16px;
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $white;
+  z-index: 100;
+  &_open {
+    display: block;
+  }
+  &__inner {
+    box-sizing: border-box;
+    @media all and (min-height: 520px) {
+      @include flex($flex-direction: column, $align-items: center);
+      height: 100%;
+    }
+  }
+  &__items {
+    padding: 40px 0;
+  }
+  &__link {
+    color: $base;
+    font-weight: 600;
+  }
+  &__item {
+    margin: 18px 0;
+  }
+  &__donation {
+    width: 100%;
+    margin: 25px auto 0;
+    max-width: 400px;
+  }
+  &__description {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  &__close-btn {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    &:before, &:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: $base;
+      top: 50%;
+      margin-top: -1px;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.analytics-tabs {
+  @include flex($align-items: stretch);
+  background: $white;
+  border: 1px solid #EEEFF2;
+  border-radius: 2px;
+  overflow: hidden;
+
+  &__tab {
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px 23px;
+    text-align: center;
+    line-height: 1.3;
+    cursor: pointer;
+    transition: background-color 0.3s linear;
+    @include flex($justify-content: center, $align-items: center);
+    &:hover {
+      background: darken($white, 3%);
+    }
+    &_active {
+      color: $white;
+      background: $green;
+      &:hover {
+        background: $green;
+        cursor: default;
+      }
+    }
+  }
+
+}

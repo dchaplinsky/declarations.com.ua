@@ -1,0 +1,176 @@
+.nav-search {
+  @include greenGradient();
+  padding-top: $pad20;
+  padding-bottom: $pad20;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+#navbar {
+  border: none;
+  background: none;
+  border-radius: 0;
+  margin-bottom: 0;
+  padding-right: 0;
+
+  @media (min-width: 767px) {
+    margin-top: $pad;
+  }
+
+  a {
+    color: #535353;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-top: 0;
+    transition: all 0.3s linear;
+    padding: 10px;
+
+    &:hover {
+      color: $decl-blue;
+      text-decoration: none;
+    }
+  }
+
+  .navbar-toggle {
+    margin-right: 0;
+    margin-top: 30px;
+
+    @media (min-width: $screen-sm-min) {
+      margin-top: $pad20 * 2;
+    }
+
+    span.icon-bar {
+      background: $decl-blue;
+      border: none;
+    }
+
+    .glyphicon-remove {
+      color: $decl-blue;
+      display: none;
+      opacity: 1;
+      width: 22px;
+      text-align: center;
+    }
+
+    &:hover {
+      span.icon-bar {
+        background: $decl-green;
+      }
+    }
+
+    &.open {
+      .glyphicon-remove {
+        display: inline-block;
+      }
+
+      .icon-bar {
+        display: none;
+      }
+    }
+  }
+
+  .navbar-collapse {
+    padding: 0;
+
+    @media (max-width: 767px) {
+      margin-bottom: 20px;
+    }
+
+    @media (min-width: 767px) {
+      margin-top: 5px;
+    }
+
+    ul {
+      margin-top: 35px;
+    }
+
+    &.in,
+    &.collapsing {
+      width: 100%;
+
+      ul {
+        margin: 0;
+      }
+    }
+  }
+}
+
+#joinus {
+  margin-top: 12px;
+  margin-bottom: 0;
+
+  @media (max-width: $joinus-bp) {
+    display: none;
+  }
+}
+
+#navbar {
+  li {
+    margin-right: $pad20;
+
+    &.joinus {
+      @media (min-width: $joinus-bp+1) {
+        display: none;
+      }
+    }
+  }
+
+  .navbar-nav li {
+    @media (max-width: $screen-xs-max) {
+      display: block !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+
+      &.hidden-xs {
+        display: none !important;
+      }
+
+      &.social-mobile {
+        display: inline-block !important;
+        width: auto;
+      }
+    }
+
+    @media (min-width: $screen-sm-min) {
+      &.social-mobile {
+        display: none;
+      }
+    }
+  }
+}
+
+.nav-block {
+  //overflow: hidden;
+  background: white;
+  //margin-top: 10px;
+  //margin-bottom: 20px;
+}
+
+.decl-compare-toggle{
+  display: inline-block;
+}
+
+.not-front #login-button{
+  margin: 10px 0;
+  display: inline-block;
+  vertical-align: middle;
+
+  #profile {
+    margin-top: 0;
+  }
+}
+
+#navbar .fucking_awesome {
+  color: darkred;
+  border-bottom: 2px solid darkred;
+
+  a {
+    color: darkred;
+
+    &:hover {
+      color: $decl-blue;
+    }
+  }
+}

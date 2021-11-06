@@ -1,0 +1,218 @@
+{% if step_data %}
+    {# <pre>{{ step_data|pprint }}</pre> #}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">№</th>
+                <th>Зв'язок із суб'єктом декларування</th>
+                <th>Прізвище, ім'я, по батькові</th>
+                <th>Громадянство</th>
+                <th>Податковий номер</th>
+                <th>passport</th>
+                <th>nzr</th>
+                <th>actual_living_place</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for person in step_data %}
+                {% set related_person = step_data[person] %}
+                <tr>
+                    <td>{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>{# Зв'язок із суб'єктом декларування #}
+                        {{ related_person.subjectRelation }}
+                    </td>
+                    <td>{# Прізвище, ім'я, по батькові #}
+                        {% if related_person.citizenship == '1' %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">Прізвище: </span>
+                                    <span>{{ related_person.lastname }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">Ім'я: </span>
+                                    <span>{{ related_person.firstname }}</span>
+                                </div>
+                                {% if related_person.middlename %}
+                                    <div class="col-12">
+                                        <span class="color-1">По батькові (за наявності):</span>
+                                        <span>{{ related_person.middlename }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% if related_person.changedName == 1 %}
+                                <div class="row mb-2 mr-1">
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.previous_lastname }}</span>
+                                        <span>{{ related_person.previous_lastname }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.previous_firstname }}</span>
+                                        <span>{{ related_person.previous_firstname }}</span>
+                                    </div>
+                                    {% if related_person.previous_middlename %}
+                                        <div class="col-12">
+                                            <span class="color-1">{{ related_person.previous_middlename }}</span>
+                                            <span>{{ related_person.previous_middlename }}</span>
+                                        </div>
+                                    {% endif%}
+                                </div>
+                            {% endif%}{# if related_person.changedName == 1 #}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">Дата народження:</span>
+                                    <span>{{ related_person.birthday }}</span>
+                                </div>
+                            </div>
+                        {% else %}{# if related_person.citizenship != '1' #}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ related_person.eng_full_name }}</span>
+                                    <span>{{ related_person.eng_full_name }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ related_person.ukr_full_name }}</span>
+                                    <span>{{ related_person.ukr_full_name }}</span>
+                                </div>
+                            </div>
+                            {% if related_person.changedName == 1 %}
+                                <div class="row mb-2 mr-1">
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.revious_eng_full_name }}</span>
+                                        <span>{{ related_person.eng_full_name }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.revious_ukr_full_name }}</span>
+                                        <span>{{ related_person.ukr_full_name }}</span>
+                                    </div>
+                                </div>
+                            {% endif%}{# if related_person.changedName == 1 #}
+                        {% endif %}{# if related_person.citizenship == '1' #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ related_person.birthday }}</span>
+                                <span>{{ related_person.birthday }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# Громадянство #}
+                        {% if related_person.citizenship %}
+                            {{ related_person.citizenship }}{# todo:Dima match number & country name #}
+                        {% else %}
+                            {{ 'Без громадянства' }}
+                        {% endif %}
+                    </td>
+                    <td>{# Податковий номер #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>
+                                    {% if related_person.citizenship == 1 %}
+                                        {{ related_person.taxNumber }}
+                                    {% else %}
+                                        {{ related_person.eng_identification_code }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# passport #}
+                        {% if related_person.citizenship == 1 %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span>{{ related_person.passport }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if related_person.citizenship == 1 %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span>{{ related_person.unzr }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </td>{# unzr #}
+                    <td>{# actual_living_place #}
+                        {% if related_person.citizenship == 1 %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ related_person.country }}</span>
+                                    <span>{{ related_person.country }}{# todo: Dima #}</span>
+                                </div>
+                                {% if related_person.postCode %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.ua_postCode }}</span>
+                                        <span>{{ related_person.postCode }}</span>
+                                    </div>
+                                {% endif %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ related_person.ua_cityType }}</span>
+                                    <span>{{ related_person.ua_cityType }}</span>
+                                </div>
+                                {% if related_person.streetType %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.streetType_v3 }}</span>
+                                        <span>{{ related_person.streetType }}</span>
+                                    </div>
+                                {% endif %}
+
+                                {% if related_person.street %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.street_v3 }}</span>
+                                        <span>{{ related_person.street }}</span>
+                                    </div>
+                                {% endif %}
+
+                                {% if related_person.ua_houseNum %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.ua_houseNum }}</span>
+                                        <span>{{ related_person.ua_houseNum }}</span>
+                                    </div>
+                                {% endif %}
+
+                                {% if related_person.housePartNum %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.ua_housePartNum }}</span>
+                                        <span>{{ related_person.housePartNum }}</span>
+                                    </div>
+                                {% endif %}
+
+                                {% if related_person.apartmentsNum %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.ua_apartmentsNum }}</span>
+                                        <span>{{ related_person.apartmentsNum }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="row mb-2 mr-1">
+                                {# DRD2-1262
+                                    <div class="col-12">
+                                        <span class="color-1">{{ related_person.country }}</span>
+                                         {% if related_person.citizenship %}
+                                            {{ related_person.citizenship }}
+                                        {% else %}
+                                            {{ 'Без громадянства' }}
+                                        {% endif %}
+                                    </div>
+                                #}
+                                <div class="col-12">
+                                    <span class="color-1">{{ related_person.eng_full_address }}</span>
+                                    <span>{{ related_person.eng_full_address }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ related_person.ukr_full_address }}</span>
+                                    <span>{{ related_person.ukr_full_address }}</span>
+                                </div>
+                            </div>
+                        {% endif%}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}

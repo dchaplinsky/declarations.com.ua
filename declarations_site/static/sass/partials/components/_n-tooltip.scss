@@ -1,0 +1,41 @@
+.n-tooltip {
+  background: white;
+  border: 1px solid #EEEFF2;
+  border-radius: 2px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 100%;
+  z-index: 2;
+  &__trigger {
+    cursor: pointer;
+    position: relative;
+  }
+  .n-tooltip__trigger--active & {
+    display: block;
+  }
+  &__head {
+    border-bottom: 1px solid #EEEFF2;
+    display: flex;
+    font-weight: bold;
+    justify-content: space-between;
+  }
+  &__head,
+  &__body {
+    padding: 16px 20px;
+  }
+  &__close {
+    align-self: center;
+    background: url(../images/icon/close.svg);
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 12px;
+    overflow: hidden;
+    padding: 0;
+    text-indent: -9999px;
+    width: 12px;
+  }
+}
