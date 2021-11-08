@@ -36,10 +36,37 @@
                         </div>
                     </td>
                     <td>{# ХАРАКТЕРИСТИКА #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _('trademark') }}</span>
+                                <span>{{ display_val(data_item.trademark) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _('manufacturerName_v3') }}</span>
+                                <span>{{ display_val(data_item.manufacturerName) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _('propertyDescr') }}</span>
+                                <span>{{ display_val(data_item.propertyDescr) }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            {% if data_item.acqBeforeFD %}
+                                <div class="col-12">
+                                    <span>{{ _('acqBeforeFD_v3') }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
                     </td>
                     <td>{# ВАРТІСТЬ НА ДАТУ НАБУТТЯ У ВЛАСНІСТЬ, ВОЛОДІННЯ ЧИ КОРИСТУВАННЯ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.costDateUse) }}</span>
+                            </div>
+                        </div>
                     </td>
                     <td>{# ІНФОРМАЦІЯ ЩОДО ПРАВ НА МАЙНО #}
+                        {% include 'steps/_rights.jinja' with context %}
                     </td>
                 </tr>
             {% endfor %}
