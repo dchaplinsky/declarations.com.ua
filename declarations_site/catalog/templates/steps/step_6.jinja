@@ -6,8 +6,8 @@
                 <th class="doc-num-row-col">{{ _('№') }}</th>
                 <th>{{ _('table_header_common_info') }}</th>
                 <th>{{ _('table_header_properties') }}</th>
-                <th>{{ _('table_header_costDateUse_v3') }}</th>
-                <th>{{ _('table_header_step5_rights') }}</th>
+                <th>{{ _('table_header_step6_costDate_v3') }}</th>
+                <th>{{ _('table_header_step6_rights') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -20,48 +20,46 @@
                     <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _('objectType_step5') }}</span>
+                                <span class="color-1">{{ _('objectType_step6') }}</span>
                                 <span>{{ display_val(data_item.objectType) }}</span>
                             </div>
                             {% if data_item.otherObjectType %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _('otherObjectType_step5') }}</span>
+                                    <span class="color-1">{{ _('otherObjectType_step6') }}</span>
                                     <span>{{ display_val(data_item.otherObjectType) }}</span>
                                 </div>
                             {% endif %}
                             <div class="col-12">
-                                <span class="color-1">{{ _('dateUse') }}</span>
-                                <span>{{ display_val(data_item.dateUse) }}</span>
+                                <span class="color-1">{{ _('owningDate') }}</span>
+                                <span>{{ display_val(data_item.owningDate) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _('object_identificationNumber_v3') }}</span>
+                                <span>{{ display_val(data_item.object_identificationNumber) }}</span>
                             </div>
                         </div>
                     </td>
                     <td>{# ХАРАКТЕРИСТИКА #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _('trademark') }}</span>
-                                <span>{{ display_val(data_item.trademark) }}</span>
+                                <span class="color-1">{{ _( 'brand' ) }}</span>
+                                <span>{{ display_val(data_item.brand) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _('manufacturerName_v3') }}</span>
-                                <span>{{ display_val(data_item.manufacturerName) }}</span>
+                                <span class="color-1">{{ _( 'model' ) }}</span>
+                                <span>{{ display_val(data_item.model) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _('propertyDescr') }}</span>
-                                <span>{{ display_val(data_item.propertyDescr) }}</span>
+                                <span class="color-1">{{ _( 'graduationYear' ) }}</span>
+                                <span>{{ display_val(data_item.graduationYear) }}</span>
                             </div>
                         </div>
-                        <div class="row mb-2 mr-1">
-                            {% if data_item.acqBeforeFD %}
-                                <div class="col-12">
-                                    <span>{{ _('acqBeforeFD_v3') }}</span>
-                                </div>
-                            {% endif %}
-                        </div>
+
                     </td>
                     <td>{# ВАРТІСТЬ НА ДАТУ НАБУТТЯ У ВЛАСНІСТЬ, ВОЛОДІННЯ ЧИ КОРИСТУВАННЯ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span>{{ display_val(data_item.costDateUse) }}</span>
+                                <span>{{ display_val(data_item.costDate) }}</span>
                             </div>
                         </div>
                     </td>
