@@ -7,7 +7,7 @@
                 <th>{{ _('table_header_common_info') }}</th>
                 <th>{{ _('table_header_address') }}</th>
                 <th>{{ _('table_header_costDate_v3') }}</th>
-                <th>ВАРТІСТЬ ЗА ОСТАННЬОЮ ОЦІНКОЮ</th>
+                <th>{ _('ВАРТІСТЬ ЗА ОСТАННЬОЮ ОЦІНКОЮ') }}</th>
                 <th>{{ _('table_header_rights') }}</th>
             </tr>
             </thead>
@@ -124,113 +124,7 @@
                         </div>
                     </td>
                     <td>{# ІНФОРМАЦІЯ ЩОДО ПРАВ НА ОБ'ЄКТ #}
-                        {% for item in data_item.rights %}
-                            {% set rights_item = data_item.rights[item] %}
-                            <div class="row mb-2 mr-1">
-                                {% if rights_item.ownershipType  %}
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _('ownershipType') }}</span>
-                                        <span>{{ display_val(rights_item.ownershipType) }}</span>
-                                    </div>
-                                {% endif %}
-                                {% if rights_item.otherOwnership  %}
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _('otherOwnership') }}</span>
-                                        <span>{{ display_val(rights_item.otherOwnership) }}</span>
-                                    </div>
-                                {% endif %}
-                                {% if rights_item['percent-ownership']  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('percent-ownership') }}</span>
-                                    <span>{{ rights_item['percent-ownership'] }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.citizen  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('citizen') }}</span>
-                                    <span>{{ display_val(rights_item.citizen) }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.ua_firstname  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('ua_firstname') }}</span>
-                                    <span>{{ display_val(rights_item.ua_firstname) }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.ua_lastname  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('ua_lastname') }}</span>
-                                    <span>{{ display_val(rights_item.ua_lastname) }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.ua_middlename  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('ua_middlename') }}</span>
-                                    <span>{{ display_val(rights_item.ua_middlename) }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.ua_livingAddressFull  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('ua_livingAddressFull') }}</span>
-                                    <span>{{ display_val(rights_item.ua_livingAddressFull) }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.ua_regAddressFull  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('ua_regAddressFull') }}</span>
-                                    <span>{{ display_val(rights_item.ua_regAddressFull) }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.ua_sameRegLivingAddress  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('ua_sameRegLivingAddress') }}</span>
-                                    <span>{{ display_val(rights_item.ua_sameRegLivingAddress) }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.ua_taxNumber  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _('ua_taxNumber') }}</span>
-                                    <span>{{ display_val(rights_item.ua_taxNumber) }}</span>
-                                </div>
-                                {% endif %}
-                                {% if rights_item.eng_company_name %}
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _('eng_company_name') }}</span>
-                                        <span>{{ display_val(rights_item.eng_company_name) }}</span>
-                                    </div>
-                                {% endif %}
-                                {% if rights_item['percent-ownership_extendedstatus'] %}
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _('percent-ownership_extendedstatus') }}</span>
-                                        <span>{{ display_val(rights_item['percent-ownership_extendedstatus']) }}</span>
-                                    </div>
-                                {% endif %}
-                                {% if rights_item.eng_company_address %}
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _('eng_company_address') }}</span>
-                                        <span>{{ display_val(rights_item.eng_company_address) }}</span>
-                                    </div>
-                                {% endif %}
-                                {% if rights_item.eng_company_code %}
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _('eng_company_code') }}</span>
-                                        <span>{{ display_val(rights_item.eng_company_code) }}</span>
-                                    </div>
-                                {% endif %}
-                                {% if rights_item.ukr_company_address %}
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _('ukr_company_address') }}</span>
-                                        <span>{{ display_val(rights_item.ukr_company_address) }}</span>
-                                    </div>
-                                {% endif %}
-                                {% if rights_item.ukr_company_name %}
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _('ukr_company_name') }}</span>
-                                        <span>{{ display_val(rights_item.ukr_company_name) }}</span>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
+                        {% include 'steps/_rights.jinja' with context %}
                     </td>
                 </tr>
             {% endfor %}
