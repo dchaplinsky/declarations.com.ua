@@ -1,0 +1,318 @@
+{% if step_data %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">№</th>
+                <th>{{ _('table_header_common_info') }}</th>
+                <th>{{ _('table_header_address') }}</th>
+                <th>{{ _('table_header_belongsSubjectOfDeclaration') }}</th>
+                <th>{{ _('table_header_person_who_care_info')}}</th>
+                <th>{{ _('table_header_rights') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td class="doc-num-row-col">{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _('objectType') }}</span>
+                                <span>{{ display_val(data_item.objectType) }}</span>
+                            </div>
+                            {% if data_item.otherObjectType %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('otherObjectType') }}</span>
+                                    <span>{{ display_val(data_item.otherObjectType) }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _('owningDate') }}</span>
+                                <span>{{ display_val(data_item.owningDate) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">Загальна площа (м<sup><small>2</small></sup>): </span>
+                                <span>{{ display_val(data_item.totalArea) }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _('regNumber_v3') }}</span>
+                                <span>{{ display_val(data_item.regNumber) }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {# todo: Dima, check, lookslike we do not need this to display #}
+                                <span>{{ display_val(data_item.unfinishConstruct) }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.exploitation) }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.dontRegistered) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# МІСЦЕЗНАХОДЖЕННЯ #}
+                        {% if data_item.country == '1' %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'country' ) }}</span>
+                                    <span>{{ display_val(data_item.country) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('ua_postCode') }}</span>
+                                    <span>{{ display_val(data_item.ua_postCode) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('ua_cityType') }}</span>
+                                    <span>{{ display_val(data_item.ua_cityType) }}</span>
+                                </div>
+                                {% if data_item.ua_streetType %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('streetType_v3') }}</span>
+                                        <span>{{ display_val(data_item.ua_streetType) }}</span>
+                                    </div>
+                                {% endif%}
+                                {% if data_item.ua_street %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('street_v3') }}</span>
+                                        <span>{{ display_val(data_item.ua_street) }}</span>
+                                    </div>
+                                {% endif%}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('ua_houseNum') }}</span>
+                                    <span>{{ display_val(data_item.ua_houseNum) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1"> {{ _('ua_housePartNum') }}</span>
+                                    <span>{{ display_val(data_item.ua_housePartNum) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('ua_apartmentsNum') }}</span>
+                                    <span>{{ display_val(data_item.ua_apartmentsNum) }}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('cadasterNumber') }}</span>
+                                    <span>{{ display_val(data_item.cadNumber) }}</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('country') }}</span>
+                                    <span>{{ display_val(data_item.country) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('postCode') }}</span>
+                                    <span>{{ display_val(data_item.postCode) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('loc_engLivingAddress') }}</span>
+                                    <span>{{ display_val(data_item.loc_engLivingAddress) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1"> {{ _('loc_ukrLivingAddress') }}</span>
+                                    <span>{{ display_val(data_item.loc_ukrLivingAddress) }}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('eng_regNumber') }}</span>
+                                    <span>{{ display_val(data_item.eng_regNumber) }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>{# ЗВ'ЯЗОК ІЗ СУБ'ЄКТОМ ДЕКЛАРУВАННЯ #}
+                        <div class="row mb-2 mr-1">
+                            {% if data_item.belongsSubjectOfDeclaration %}
+                                <div class="col-12">
+                                    <span>{{ display_val(data_item.belongsSubjectOfDeclaration) }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            {% if data_item.builtOnTerritoryOrRent %}
+                                <div class="col-12">
+                                    <span>{{ display_val(data_item.builtOnTerritoryOrRent) }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            {% if data_item.builtMaterialsOrFunds %}
+                                <div class="col-12">
+                                    <span>{{ display_val(data_item.builtMaterialsOrFunds) }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>{# table_header_person_who_care_info #}
+
+                            <div class="row mb-2 mr-1">
+                                {% if data_item.thirdOwner_citizen  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('thirdOwner_citizen') }}</span>
+                                        <span>{{ display_val(data_item.thirdOwner_citizen) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.addition_eng_company_name  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('addition_eng_company_name') }}</span>
+                                        <span>{{ display_val(data_item.addition_eng_company_name) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.addition_ua_company_name  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('addition_ua_company_name') }}</span>
+                                        <span>{{ display_val(data_item.addition_ua_company_name) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.addition_eng_company_code  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('addition_eng_company_code') }}</span>
+                                        <span>{{ display_val(data_item.addition_eng_company_code) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.addition_eng_company_address  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('addition_eng_company_address') }}</span>
+                                        <span>{{ display_val(data_item.addition_eng_company_address) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.addition_ua_company_address  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('addition_ua_company_address') }}</span>
+                                        <span>{{ display_val(data_item.addition_ua_company_address) }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                    </td>
+                    <td>{# ІНФОРМАЦІЯ ЩОДО ВЛАСНИКА #}
+                        {% for item in data_item.rights %}
+                            {% set rights_item = data_item.rights[item] %}
+                            <div class="row mb-2 mr-1">
+                                {% if rights_item.ownershipType  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ownershipType') }}</span>
+                                        <span>{{ display_val(rights_item.ownershipType) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.otherOwnership  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('otherOwnership') }}</span>
+                                        <span>{{ display_val(rights_item.otherOwnership) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item['percent-ownership']  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('percent-ownership') }}</span>
+                                        <span>{{ rights_item['percent-ownership'] }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.citizen  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('citizen') }}</span>
+                                        <span>{{ display_val(rights_item.citizen) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ua_firstname  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ua_firstname') }}</span>
+                                        <span>{{ display_val(rights_item.ua_firstname) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ua_lastname  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ua_lastname') }}</span>
+                                        <span>{{ display_val(rights_item.ua_lastname) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ua_middlename  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ua_middlename') }}</span>
+                                        <span>{{ display_val(rights_item.ua_middlename) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ua_livingAddressFull  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ua_livingAddressFull') }}</span>
+                                        <span>{{ display_val(rights_item.ua_livingAddressFull) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ua_regAddressFull  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ua_regAddressFull') }}</span>
+                                        <span>{{ display_val(rights_item.ua_regAddressFull) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ua_sameRegLivingAddress  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ua_sameRegLivingAddress') }}</span>
+                                        <span>{{ display_val(rights_item.ua_sameRegLivingAddress) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ua_taxNumber  %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ua_taxNumber') }}</span>
+                                        <span>{{ display_val(rights_item.ua_taxNumber) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.eng_company_name %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('eng_company_name') }}</span>
+                                        <span>{{ display_val(rights_item.eng_company_name) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item['percent-ownership_extendedstatus'] %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('percent-ownership_extendedstatus') }}</span>
+                                        <span>{{ display_val(rights_item['percent-ownership_extendedstatus']) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.eng_company_address %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('eng_company_address') }}</span>
+                                        <span>{{ display_val(rights_item.eng_company_address) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.eng_company_code %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('eng_company_code') }}</span>
+                                        <span>{{ display_val(rights_item.eng_company_code) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ukr_company_address %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ukr_company_address') }}</span>
+                                        <span>{{ display_val(rights_item.ukr_company_address) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if rights_item.ukr_company_name %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _('ukr_company_name') }}</span>
+                                        <span>{{ display_val(rights_item.ukr_company_name) }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </td>
+                </tr>
+                <pre>{{ data_item|pprint }}</pre>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}

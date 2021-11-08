@@ -80,3 +80,12 @@ p {
     height: auto;
   }
 }
+
+.color-1 {
+  color: $grey;
+
+  &:after {
+    content: ': ';
+    display: inline;
+  }
+}
