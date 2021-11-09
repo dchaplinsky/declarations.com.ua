@@ -18,13 +18,13 @@ from elasticsearch_dsl import Search, Q
 from cms_pages.models import MetaData, NewsPage, PersonMeta
 from dateutil.parser import parse as dt_parse
 
-from .elastic_models import Declaration, NACPDeclaration
+from .elastic_models import Declaration, NACPDeclaration, NACPDeclarationNewFormat
 from .paginator import paginated_search
 from .api import hybrid_response
 from .utils import replace_apostrophes, base_search_query, apply_search_sorting, orig_translate_url, robust_getlist
 from .models import Office
 from .translator import Translator, NoOpTranslator
-from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
+from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX, NACP_DECLARATION_NEW_FORMAT_INDEX
 
 
 class SuggestView(View):
@@ -129,9 +129,13 @@ def fuzzy_search(request):
     query = request.GET.get("q", "")
     submitted_since = request.GET.get("submitted_since", "")
 
+    # base_search = Search(
+    #     index=CATALOG_INDICES + (NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
+    #     NACPDeclarationNewFormat, NACPDeclaration, Declaration
+    # )
     base_search = Search(
-        index=CATALOG_INDICES).doc_type(
-        NACPDeclaration, Declaration
+        index=(NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
+        NACPDeclarationNewFormat, NACPDeclaration, Declaration
     )
 
     if submitted_since:
@@ -206,6 +210,13 @@ def details(request, declaration_id):
             )
 
     except (ValueError, NotFoundError):
+        if "source" in request.GET:
+            return redirect(
+                # Temporary hack to enable redirect for new declarations that are yet not in main
+                # index
+                "http://public.nazk.gov.ua/documents/" + declaration_id.replace("nacp_", "")
+            )
+
         raise Http404("Таких не знаємо!")
 
     return {"declaration": declaration, "language": language, "meta": meta}
