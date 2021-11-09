@@ -1,0 +1,108 @@
+{% if step_data %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _( 'table_header_step9_company_v3' ) }}</th>
+                <th>{{ _( 'table_header_step9_address' ) }}</th>
+                <th>{{ _( 'table_header_person_who_care_info' ) }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td class="doc-num-row-col">{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>{# КІНЦЕВИЙ БЕНЕФІЦІАРНИЙ ВЛАСНИК (КОНТРОЛЕР) #}
+                        <div class="row mb-2 mr-1">
+                            {% set country_beneficial_owner = display_val(data_item.country_beneficial_owner) | int %}
+                            {% if country_beneficial_owner == 1 %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'company_name_beneficial_owner' ) }}</span>
+                                    <span>{{ display_val(data_item.company_name_beneficial_owner) }}</span>
+                                </div>
+                            {% else %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'en_company_name_beneficial_owner' ) }}</span>
+                                    <span>{{ display_val(data_item.en_company_name_beneficial_owner) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'ua_company_name_beneficial_owner' ) }}</span>
+                                    <span>{{ display_val(data_item.ua_company_name_beneficial_owner) }}</span>
+                                </div>
+                            {% endif %}
+                            {% set company_code = '' %}
+                            {% if  data_item.ua_company_code_beneficial_owner %}
+                                {% set company_code = display_val(data_item.ua_company_code_beneficial_owner) %}
+                            {% else %}
+                                {% set company_code = display_val(data_item.company_code_beneficial_owner) %}
+                            {% endif%}
+
+                            {% if country_beneficial_owner > 1 %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'company_code_beneficial_owner' ) }}</span>
+                                    {% if company_code %}
+                                        <span>{{ company_code }}</span>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'ua_company_code' ) }}</span>
+                                    {% if company_code %}
+                                        <span>{{ company_code }}</span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'legalForm' ) }}</span>
+                                <span>{{ display_val(data_item.legalForm) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'country_beneficial_owner' ) }}</span>
+                                <span>{{ display_val(data_item.country_beneficial_owner) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# ЮРИДИЧНА ОСОБА #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'phone' ) }}</span>
+                                <span>{{ display_val(data_item.phone) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'fax' ) }}</span>
+                                <span>{{ display_val(data_item.fax) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'mail_v3' ) }}</span>
+                                <span>{{ display_val(data_item.mail) }}</span>
+                            </div>
+                            {% if country_beneficial_owner == 1 or country_beneficial_owner == 0 %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'address' ) }}</span>
+                                    <span>{{ display_val(data_item.address_beneficial_owner) }}</span>
+                                </div>
+                            {% else %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'en_company_address_beneficial_owner' ) }}</span>
+                                    <span>{{ display_val(data_item.en_company_address_beneficial_owner) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'ua_company_address_beneficial_owner' ) }}</span>
+                                    <span>{{ display_val(data_item.ua_company_address_beneficial_owner) }}</span>
+                                </div>
+                            {% endif%}
+                        </div>
+                    </td>
+                    <td>{# АДРЕСА ТА КОНТАКТИ ЮРИДИЧНОЇ ОСОБИ #}
+                        {{ display_val(data_item.person_who_care) }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
