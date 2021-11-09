@@ -42,6 +42,7 @@ from .constants import (
     MONETARY_ASSETS_TYPES,
     OLD_DECLARATION_INDEX,
     NACP_DECLARATION_INDEX,
+    NACP_DECLARATION_NEW_FORMAT_INDEX,
     NUMBER_OF_SHARDS,
     NUMBER_OF_REPLICAS,
     NACP_SELECTORS_TO_TRANSLATE,
@@ -1374,5 +1375,20 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         return res
 
 
+    class Meta:
+        doc_type = "nacp_declaration_doctype"
+
+
+nacp_declarations_new_format_idx = Index(NACP_DECLARATION_NEW_FORMAT_INDEX)
+nacp_declarations_new_format_idx.settings(
+    number_of_shards=NUMBER_OF_SHARDS, number_of_replicas=NUMBER_OF_REPLICAS
+)
+
+nacp_declarations_new_format_idx.analyzer(namesAutocompleteAnalyzer)
+nacp_declarations_new_format_idx.analyzer(namesAutocompleteSearchAnalyzer)
+
+
+@nacp_declarations_new_format_idx.doc_type
+class NACPDeclarationNewFormat(NACPDeclaration):
     class Meta:
         doc_type = "nacp_declaration_doctype"
