@@ -210,6 +210,13 @@ def details(request, declaration_id):
             )
 
     except (ValueError, NotFoundError):
+        if "source" in request.GET:
+            return redirect(
+                # Temporary hack to enable redirect for new declarations that are yet not in main
+                # index
+                "http://public.nazk.gov.ua/documents/" + declaration_id.replace("nacp_", "")
+            )
+
         raise Http404("Таких не знаємо!")
 
     return {"declaration": declaration, "language": language, "meta": meta}
