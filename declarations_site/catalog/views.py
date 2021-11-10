@@ -6,11 +6,10 @@ from django.urls import reverse
 from django.http import JsonResponse, Http404
 from django.conf import settings
 from django.core.paginator import PageNotAnInteger, EmptyPage
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, get_language
 
 from django.views import View
 from django.template.loader import render_to_string
-from django.utils.translation import get_language
 
 from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
@@ -126,15 +125,17 @@ def search(request):
 
 @hybrid_response('results.jinja')
 def fuzzy_search(request):
+    number_of_results = {
+        1: 300,
+        2: 100,
+        3: 100
+    }
     query = request.GET.get("q", "")
-    submitted_since = request.GET.get("submitted_since", "")
+    submitted_since = replace_apostrophes(request.GET.get("submitted_since", ""))
+    user_declarant_ids = set(filter(str.isdigit, robust_getlist(request.GET, "user_declarant_ids")))
 
-    # base_search = Search(
-    #     index=CATALOG_INDICES + (NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
-    #     NACPDeclarationNewFormat, NACPDeclaration, Declaration
-    # )
     base_search = Search(
-        index=(NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
+        index=CATALOG_INDICES + (NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
         NACPDeclarationNewFormat, NACPDeclaration, Declaration
     )
 
@@ -145,6 +146,9 @@ def fuzzy_search(request):
                 "gte": dt_parse(submitted_since, dayfirst=True)
             }
         )
+
+    if user_declarant_ids:
+        base_search = base_search.query("terms", intro__user_declarant_id=list(user_declarant_ids))
 
     fuzziness = 1
 
@@ -175,7 +179,7 @@ def fuzzy_search(request):
     return {
         "query": query,
         "fuzziness": fuzziness - 1,
-        "results": paginated_search(request, search, 100)
+        "results": paginated_search(request, search, number_of_results.get(fuzziness, 100))
     }
 
 
