@@ -4,6 +4,11 @@
             <thead>
             <tr>
                 <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _( 'table_header_common_info' ) }}</th>
+                <th>{{ _( 'table_header_person_has_account' ) }}</th>
+                <th>{{ _( 'table_header_person_open_account' ) }}</th>
+                <th>{{ _( 'table_header_establishment' ) }}</th>
+                <th>{{ _( 'table_header_person_who_care_info' ) }}</th>
             </tr>
             </thead>
             <tbody>
@@ -13,8 +18,41 @@
                     <td class="doc-num-row-col">{# № #}
                         {{ loop.index }}
                     </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'bank_name' ) }}</span>
+                                <span>{{ display_val(data_item.bank_name) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'account_type' ) }}</span>
+                                <span>{{ display_val(data_item.account_type) }}</span>
+                            </div>
+                            {% if data_item.other_account_type %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'other_account_type' ) }}</span>
+                                    <span>{{ display_val(data_item.other_account_type) }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'account_number' ) }}</span>
+                                <span>{{ display_val(data_item.account_number) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {# todo: Dima #}
+                    </td>
+                    <td>
+                        {# todo: Dima #}
+                    </td>
+                    <td>
+                        {# todo: Dima #}
+                    </td>
+                    <td>
+                        {# todo: Dima #}
+                    </td>
                 </tr>
-                <pre>{{ data_item|pprint }}</pre>
             {% endfor %}
             </tbody>
         </table>
