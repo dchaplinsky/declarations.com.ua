@@ -1,4 +1,4 @@
-{% if step_data %}
+{% if not step_data['empty'] %}
     <div class="table-responsive">
         <table class="table table-striped table-bordered card-table border corner-round dataTable">
             <thead>
@@ -105,4 +105,6 @@
             </tbody>
         </table>
     </div>
+{% else %}
+    {{ step_data['empty'] }}
 {% endif %}
