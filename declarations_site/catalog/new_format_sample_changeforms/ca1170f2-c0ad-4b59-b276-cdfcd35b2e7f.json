@@ -1,0 +1,216 @@
+{
+    "corruption_affected": 0,
+    "created_date": "30.11.2017 20:36:56",
+    "data": {
+        "step_0": {
+            "changesYear": "2017",
+            "declarationType": "0"
+        },
+        "step_1": {
+            "firstname": "ІГОР",
+            "lastname": "СЕМЕНІВ",
+            "middlename": "ПЕТРОВИЧ",
+            "postCategory": "[Не застосовується]",
+            "postCategory_extendedstatus": "1",
+            "postType": "Посадова особа юридичної особи публічного права",
+            "taxNumber": "[Конфіденційна інформація]",
+            "workPlace": "Клінічна лікарня \"Феофанія\" Державного управління справами",
+            "workPost": "головний лікар"
+        },
+        "step_10": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_11": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_12": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_13": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_14": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_15": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_16": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_17": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_2": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_3": {
+            "1511967154342": {
+                "city": "[Не застосовується]",
+                "cityPath": "[Конфіденційна інформація]",
+                "city_extendedstatus": "1",
+                "costAssessment": "466320",
+                "costAssessment_extendedstatus": "0",
+                "costDate": "155439",
+                "country": "1",
+                "district": "[Конфіденційна інформація]",
+                "iteration": "1511967154342",
+                "objectType": "Земельна ділянка",
+                "owningDate": "22.11.2017",
+                "person": "1",
+                "regNumber": "[Конфіденційна інформація]",
+                "region": "[Конфіденційна інформація]",
+                "rights": {
+                    "ignore_me_1": {
+                        "citizen": "Громадянин України",
+                        "rightBelongs": "Інша особа (фізична або юридична)",
+                        "rights_id": "1511968662732",
+                        "seller": "Продавець",
+                        "ua_birthday": "[Конфіденційна інформація]",
+                        "ua_firstname": "Андрій",
+                        "ua_lastname": "Селепей",
+                        "ua_middlename": "Ігорович",
+                        "ua_regAddressFull": "[Конфіденційна інформація]",
+                        "ua_sameRegLivingAddress": true,
+                        "ua_taxNumber": "[Конфіденційна інформація]"
+                    },
+                    "ignore_me_2": {
+                        "citizen": "Громадянин України",
+                        "rightBelongs": "Інша особа (фізична або юридична)",
+                        "rights_id": "1511971194001",
+                        "seller": "Продавець",
+                        "ua_birthday": "[Конфіденційна інформація]",
+                        "ua_firstname": "Ярослав",
+                        "ua_lastname": "Волковецький",
+                        "ua_middlename": "Степанович",
+                        "ua_regAddressFull": "[Конфіденційна інформація]",
+                        "ua_sameRegLivingAddress": true,
+                        "ua_taxNumber": "[Конфіденційна інформація]"
+                    },
+                    "ignore_me_3": {
+                        "citizen": "Громадянин України",
+                        "rightBelongs": "Інша особа (фізична або юридична)",
+                        "seller": "Продавець",
+                        "ua_birthday": "[Конфіденційна інформація]",
+                        "ua_firstname": "Андрій",
+                        "ua_lastname": "Кривутенко  ",
+                        "ua_middlename": "Анатолійович",
+                        "ua_regAddressFull": "[Конфіденційна інформація]",
+                        "ua_sameRegLivingAddress": true,
+                        "ua_taxNumber": "[Конфіденційна інформація]"
+                    }
+                },
+                "totalArea": "622.34",
+                "ua_apartmentsNum": "[Конфіденційна інформація]",
+                "ua_apartmentsNum_extendedstatus": "1",
+                "ua_cityType": "Івано-Франківськ / Івано-Франківська область / Україна",
+                "ua_houseNum": "[Конфіденційна інформація]",
+                "ua_houseNum_extendedstatus": "1",
+                "ua_housePartNum": "[Конфіденційна інформація]",
+                "ua_housePartNum_extendedstatus": "1",
+                "ua_postCode": "[Конфіденційна інформація]",
+                "ua_postCode_extendedstatus": "1",
+                "ua_street": "[Конфіденційна інформація]",
+                "ua_streetType": "[Конфіденційна інформація]"
+            },
+            "1511972100074": {
+                "city": "[Не застосовується]",
+                "cityPath": "[Конфіденційна інформація]",
+                "city_extendedstatus": "1",
+                "costAssessment": "3963720",
+                "costAssessment_extendedstatus": "0",
+                "costDate": "1398960",
+                "country": "1",
+                "district": "[Конфіденційна інформація]",
+                "iteration": "1511972100074",
+                "objectType": "Інше",
+                "otherObjectType": "станція технічного обслуговування автомобілів ",
+                "owningDate": "22.11.2017",
+                "person": "1",
+                "regNumber": "[Конфіденційна інформація]",
+                "region": "[Конфіденційна інформація]",
+                "rights": {
+                    "ignore_me_4": {
+                        "citizen": "Громадянин України",
+                        "rightBelongs": "Інша особа (фізична або юридична)",
+                        "seller": "Продавець",
+                        "ua_birthday": "[Конфіденційна інформація]",
+                        "ua_firstname": "Андрій",
+                        "ua_lastname": "Селепей",
+                        "ua_middlename": "Ігорович",
+                        "ua_regAddressFull": "[Конфіденційна інформація]",
+                        "ua_sameRegLivingAddress": true,
+                        "ua_taxNumber": "[Конфіденційна інформація]"
+                    },
+                    "ignore_me_5": {
+                        "citizen": "Громадянин України",
+                        "rightBelongs": "Інша особа (фізична або юридична)",
+                        "seller": "Продавець",
+                        "ua_birthday": "[Конфіденційна інформація]",
+                        "ua_firstname": "Ярослав",
+                        "ua_lastname": "Волковецький ",
+                        "ua_middlename": "Степанович",
+                        "ua_regAddressFull": "[Конфіденційна інформація]",
+                        "ua_sameRegLivingAddress": true,
+                        "ua_taxNumber": "[Конфіденційна інформація]"
+                    },
+                    "ignore_me_6": {
+                        "citizen": "Громадянин України",
+                        "rightBelongs": "Інша особа (фізична або юридична)",
+                        "seller": "Продавець",
+                        "ua_birthday": "[Конфіденційна інформація]",
+                        "ua_firstname": "Андрій",
+                        "ua_lastname": "Кривутенко",
+                        "ua_middlename": "Анатолійович",
+                        "ua_regAddressFull": "[Конфіденційна інформація]",
+                        "ua_sameRegLivingAddress": true,
+                        "ua_taxNumber": "[Конфіденційна інформація]"
+                    }
+                },
+                "totalArea": "537,95",
+                "ua_apartmentsNum": "[Конфіденційна інформація]",
+                "ua_apartmentsNum_extendedstatus": "1",
+                "ua_cityType": "Івано-Франківськ / Івано-Франківська область / Україна",
+                "ua_houseNum": "[Конфіденційна інформація]",
+                "ua_housePartNum": "[Конфіденційна інформація]",
+                "ua_housePartNum_extendedstatus": "1",
+                "ua_postCode": "[Конфіденційна інформація]",
+                "ua_postCode_extendedstatus": "1",
+                "ua_street": "[Конфіденційна інформація]",
+                "ua_streetType": "[Конфіденційна інформація]"
+            }
+        },
+        "step_4": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_5": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_6": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_7": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_8": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        },
+        "step_9": {
+            "empty": "У суб'єкта декларування відсутні об'єкти для декларування в цьому розділі."
+        }
+    },
+    "declaration_type": 0,
+    "declaration_year": 2017,
+    "id": "ca1170f2-c0ad-4b59-b276-cdfcd35b2e7f",
+    "lastmodified_date": "30.11.2017 20:36:56",
+    "options": {
+        "based_on_full_check": 0,
+        "has_changed_version": 0
+    },
+    "post_category": 0,
+    "post_type": 4,
+    "responsible_position": 0,
+    "schema_version": 2,
+    "type": 2,
+    "user_declarant_id": 1032447
+}

@@ -784,3 +784,22 @@ def sample_details(request, declaration_id):
             declaration = json.load(fp)
 
     return {"declaration": declaration, "language": language, "samples": samples}
+
+
+@hybrid_response("new_change_form.jinja")
+def sample_details_change_form(request, declaration_id):
+    import os.path
+    from glob import glob
+    import json
+    language = get_language()
+
+    samples = {}
+    for l in glob("catalog/new_format_sample_changeforms/*.json"):
+        samples[os.path.basename(l).replace(".json", "")] = l
+
+    declaration = None
+    if declaration_id in samples:
+        with open(samples[declaration_id], "r") as fp:
+            declaration = json.load(fp)
+
+    return {"declaration": declaration, "language": language, "samples": samples}
