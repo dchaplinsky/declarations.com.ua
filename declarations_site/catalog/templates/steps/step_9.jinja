@@ -18,6 +18,18 @@
                     </td>
                     <td>{# КІНЦЕВИЙ БЕНЕФІЦІАРНИЙ ВЛАСНИК (КОНТРОЛЕР) #}
                         <div class="row mb-2 mr-1">
+                            {% if data_item.name %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'name' ) }}</span>
+                                    <span>{{ display_val(data_item.name) }}</span>
+                                </div>
+                            {% endif %}
+                            {% if data_item.beneficial_owner_company_code %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'beneficial_owner_company_code' ) }}</span>
+                                    <span>{{ display_val(data_item.beneficial_owner_company_code) }}</span>
+                                </div>
+                            {% endif %}
                             {% set country_beneficial_owner = display_val(data_item.country_beneficial_owner) | int %}
                             {% if country_beneficial_owner == 1 %}
                                 <div class="col-12">
@@ -25,16 +37,21 @@
                                     <span>{{ display_val(data_item.company_name_beneficial_owner) }}</span>
                                 </div>
                             {% else %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _( 'en_company_name_beneficial_owner' ) }}</span>
-                                    <span>{{ display_val(data_item.en_company_name_beneficial_owner) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _( 'ua_company_name_beneficial_owner' ) }}</span>
-                                    <span>{{ display_val(data_item.ua_company_name_beneficial_owner) }}</span>
-                                </div>
+                                {% if data_item.en_company_name_beneficial_owner %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _( 'en_company_name_beneficial_owner' ) }}</span>
+                                        <span>{{ display_val(data_item.en_company_name_beneficial_owner) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.ua_company_name_beneficial_owner %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _( 'ua_company_name_beneficial_owner' ) }}</span>
+                                        <span>{{ display_val(data_item.ua_company_name_beneficial_owner) }}</span>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                             {% set company_code = '' %}
+
                             {% if  data_item.ua_company_code_beneficial_owner %}
                                 {% set company_code = display_val(data_item.ua_company_code_beneficial_owner) %}
                             {% else %}
@@ -42,28 +59,30 @@
                             {% endif%}
 
                             {% if country_beneficial_owner > 1 %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _( 'company_code_beneficial_owner' ) }}</span>
-                                    {% if company_code %}
+                                {% if company_code %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _( 'company_code_beneficial_owner' ) }}</span>
                                         <span>{{ company_code }}</span>
-                                    {% endif %}
-                                </div>
+                                    </div>
+                                {% endif %}
                             {% else %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _( 'ua_company_code' ) }}</span>
-                                    {% if company_code %}
+                                {% if company_code %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _( 'ua_company_code' ) }}</span>
                                         <span>{{ company_code }}</span>
-                                    {% endif %}
-                                </div>
+                                    </div>
+                                {% endif %}
                             {% endif %}
                             <div class="col-12">
                                 <span class="color-1">{{ _( 'legalForm' ) }}</span>
                                 <span>{{ display_val(data_item.legalForm) }}</span>
                             </div>
-                            <div class="col-12">
-                                <span class="color-1">{{ _( 'country_beneficial_owner' ) }}</span>
-                                <span>{{ display_val(data_item.country_beneficial_owner) }}</span>
-                            </div>
+                            {% if country_beneficial_owner %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'country_beneficial_owner' ) }}</span>
+                                    <span>{{ display_val(data_item.country_beneficial_owner) }}</span>
+                                </div>
+                            {% endif %}
                         </div>
                     </td>
                     <td>{# ЮРИДИЧНА ОСОБА #}
@@ -83,7 +102,7 @@
                             {% if country_beneficial_owner == 1 or country_beneficial_owner == 0 %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _( 'address' ) }}</span>
-                                    <span>{{ display_val(data_item.address_beneficial_owner) }}</span>
+                                    <span>{{ display_val(data_item.address) }}</span>
                                 </div>
                             {% else %}
                                 <div class="col-12">
