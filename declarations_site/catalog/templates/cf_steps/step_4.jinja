@@ -1,0 +1,23 @@
+{% if not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+                <tr>
+                    <th class="doc-num-row-col">№</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td>{# № #}
+                        {{ loop.index }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ step_data['empty'] }}
+{% endif %}
