@@ -1,0 +1,36 @@
+{% for source in data_item.sources %}
+    <div class="row mb-2 mr-1">
+        <div class="col-12">
+            <span class="color-1">{{ _('sourceType') }}</span>
+            <span>{{ display_val(source.sourceType) }}</span>
+        </div>
+        <div class="col-12">
+            <span class="color-1">{{ _('ua_lastname') }}</span>
+            <span>{{ display_val(source.ua_lastname) }}</span>
+        </div>
+        <div class="col-12">
+            <span class="color-1">{{ _('ua_firstname') }}</span>
+            <span>{{ display_val(source.ua_firstname) }}</span>
+        </div>
+        <div class="col-12">
+            <span class="color-1">{{ _('ua_middlename') }}</span>
+            <span>{{ display_val(source.ua_middlename) }}</span>
+        </div>
+        <div class="col-12">
+            <span class="color-1">{{ _('ua_birthday') }}</span>
+            <span>{{ display_val(source.ua_birthday) }}</span>
+        </div>
+        <div class="col-12">
+            <span class="color-1">{{ _('ua_taxNumber') }}</span>
+            <span>{{ display_val(source.ua_taxNumber) }}</span>
+        </div>
+        <div class="col-12">
+            <span class="color-1">{{ _('ua_regAddressFull') }}</span>
+            <span>{{ display_val(source.ua_regAddressFull) }}</span>
+        </div>
+        <div class="col-12">
+            <span class="color-1">{{ _('ua_livingAddressFull') }}</span>
+            <span>{{ display_val(source.ua_livingAddressFull) }}</span>
+        </div>
+    </div>
+{% endfor %}

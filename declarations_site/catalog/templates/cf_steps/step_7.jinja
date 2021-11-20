@@ -4,6 +4,11 @@
             <thead>
                 <tr>
                     <th class="doc-num-row-col">№</th>
+                    <th>{{ _('table_header_common_info') }}</th>
+                    <th>{{ _('table_header_type_info') }}</th>
+                    <th>{{ _('table_header_costDate') }}</th>
+                    <th>{{ _('table_header_costAssessment_info') }}</th>
+                    <th>{{ _('table_header_sources_info') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -12,6 +17,77 @@
                 <tr>
                     <td>{# № #}
                         {{ loop.index }}
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _('objectType_step5') }}</span>
+                                {% if data_item.objectType %}
+                                    <span>{{ display_val(data_item.objectType) }}</span>
+                                {% endif %}
+                            </div>
+                            {% if data_item.otherObjectType %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _('otherObjectType_step5') }}</span>
+                                    <span>{{ display_val(data_item.otherObjectType) }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _('dateUse') }}</span>
+                                {% if data_item.dateUse %}
+                                    <span>{{ display_val(data_item.dateUse) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _('trademark') }}</span>
+                                {% if data_item.trademark %}
+                                    <span>{{ display_val(data_item.trademark) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _('manufacturerName') }}</span>
+                                {% if data_item.manufacturerName %}
+                                    <span>{{ display_val(data_item.manufacturerName) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _('propertyDescr') }}</span>
+                                {% if data_item.propertyDescr %}
+                                    <span>{{ display_val(data_item.propertyDescr) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.costDateUse %}
+                                    <span>{{ display_val(data_item.costDateUse) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.costLast %}
+                                    <span>{{ display_val(data_item.costLast) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {% include 'cf_steps/_sources.jinja' with context %}
                     </td>
                 </tr>
             {% endfor %}
