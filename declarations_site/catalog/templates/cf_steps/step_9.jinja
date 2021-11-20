@@ -4,6 +4,11 @@
             <thead>
                 <tr>
                     <th class="doc-num-row-col">№</th>
+                    <th>{{ _('table_header_expenseType') }}</th>
+                    <th>{{ _('table_header_expenseSpec') }}</th>
+                    <th>{{ _('table_header_expenseCountry') }}</th>
+                    <th>{{ _('table_header_expenseSize') }}</th>
+                    <th>{{ _('table_header_expenseDate') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -12,6 +17,57 @@
                 <tr>
                     <td>{# № #}
                         {{ loop.index }}
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseType %}
+                                    <span>{{ display_val(data_item.expenseType) }}</span>
+                                {% endif %}
+                                {% if data_item.otherExpenseType %}
+                                    <span>{{ display_val(data_item.otherExpenseType) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseSpec %}
+                                    <span>{{ display_val(data_item.expenseSpec) }}</span>
+                                {% endif %}
+                                {% if data_item.otherExpenseSpec %}
+                                    <span>{{ display_val(data_item.otherExpenseSpec) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseCountry %}
+                                    <span>{{ display_val(data_item.expenseCountry) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseSize %}
+                                    <span>{{ display_val(data_item.expenseSize) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseDate %}
+                                    <span>{{ display_val(data_item.expenseDate) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
