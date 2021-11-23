@@ -6,11 +6,10 @@ from django.urls import reverse
 from django.http import JsonResponse, Http404
 from django.conf import settings
 from django.core.paginator import PageNotAnInteger, EmptyPage
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext as _, get_language
 
 from django.views import View
 from django.template.loader import render_to_string
-from django.utils.translation import get_language
 
 from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
@@ -18,13 +17,13 @@ from elasticsearch_dsl import Search, Q
 from cms_pages.models import MetaData, NewsPage, PersonMeta
 from dateutil.parser import parse as dt_parse
 
-from .elastic_models import Declaration, NACPDeclaration
+from .elastic_models import Declaration, NACPDeclaration, NACPDeclarationNewFormat
 from .paginator import paginated_search
 from .api import hybrid_response
 from .utils import replace_apostrophes, base_search_query, apply_search_sorting, orig_translate_url, robust_getlist
 from .models import Office
 from .translator import Translator, NoOpTranslator
-from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX
+from .constants import CATALOG_INDICES, OLD_DECLARATION_INDEX, NACP_DECLARATION_NEW_FORMAT_INDEX
 
 
 class SuggestView(View):
@@ -126,12 +125,18 @@ def search(request):
 
 @hybrid_response('results.jinja')
 def fuzzy_search(request):
+    number_of_results = {
+        1: 300,
+        2: 100,
+        3: 100
+    }
     query = request.GET.get("q", "")
-    submitted_since = request.GET.get("submitted_since", "")
+    submitted_since = replace_apostrophes(request.GET.get("submitted_since", ""))
+    user_declarant_ids = set(filter(str.isdigit, robust_getlist(request.GET, "user_declarant_ids")))
 
     base_search = Search(
-        index=CATALOG_INDICES).doc_type(
-        NACPDeclaration, Declaration
+        index=CATALOG_INDICES + (NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
+        NACPDeclarationNewFormat, NACPDeclaration, Declaration
     )
 
     if submitted_since:
@@ -141,6 +146,9 @@ def fuzzy_search(request):
                 "gte": dt_parse(submitted_since, dayfirst=True)
             }
         )
+
+    if user_declarant_ids:
+        base_search = base_search.query("terms", intro__user_declarant_id=list(user_declarant_ids))
 
     fuzziness = 1
 
@@ -171,7 +179,7 @@ def fuzzy_search(request):
     return {
         "query": query,
         "fuzziness": fuzziness - 1,
-        "results": paginated_search(request, search, 100)
+        "results": paginated_search(request, search, number_of_results.get(fuzziness, 100))
     }
 
 
@@ -206,6 +214,13 @@ def details(request, declaration_id):
             )
 
     except (ValueError, NotFoundError):
+        if "source" in request.GET:
+            return redirect(
+                # Temporary hack to enable redirect for new declarations that are yet not in main
+                # index
+                "http://public.nazk.gov.ua/documents/" + declaration_id.replace("nacp_", "")
+            )
+
         raise Http404("Таких не знаємо!")
 
     return {"declaration": declaration, "language": language, "meta": meta}
