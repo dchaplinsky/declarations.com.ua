@@ -4,13 +4,13 @@
             <thead>
             <tr>
                 <th class="doc-num-row-col">№</th>
-                <th>{{ _("Зв'язок із суб'єктом декларування") }}</th>
-                <th>{{ _("Прізвище, ім'я, по батькові") }}</th>
-                <th>{{ _("Громадянство") }}</th>
-                <th>{{ _("Податковий номер") }}</th>
-                <th>{{ _("Серія та номер паспорта громадянина України або ID-картка або свідоцтво про народження") }}</th>
-                <th>{{ _("Унікальний номер запису в Єдиному державному демографічному реєстрі") }}</th>
-                <th>{{ _("Зареєстроване місце проживання") }}</th>
+                <th>{{ _('table_header_subjectRelation') }}</th>
+                <th>{{ _('table_header_person_info') }}</th>
+                <th>{{ _('table_header_citizenship') }}</th>
+                <th>{{ _('table_header_taxNumber') }}</th>
+                <th>{{ _('table_header_passport') }}</th>
+                <th>{{ _('table_header_unzr') }}</th>
+                <th>{{ _('table_header_actual_living_place') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -27,16 +27,16 @@
                         {% if related_person.citizenship == '1' %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Прізвище: ") }}</span>
+                                    <span class="color-1">{{ _('lastname') }}</span>
                                     <span>{{ display_val(related_person.lastname) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Ім'я: ") }}</span>
+                                    <span class="color-1">{{ _('firstname') }}</span>
                                     <span>{{ display_val(related_person.firstname) }}</span>
                                 </div>
                                 {% if related_person.middlename %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("По батькові: ") }}</span>
+                                        <span class="color-1">{{ _('middlename') }}</span>
                                         <span>{{ display_val(related_person.middlename) }}</span>
                                     </div>
                                 {% endif %}
@@ -44,16 +44,16 @@
                             {% if related_person.changedName == 1 %}
                                 <div class="row mb-2 mr-1">
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Прізвище: ") }}</span>
+                                        <span class="color-1">{{ _('lastname') }}</span>
                                         <span>{{ display_val(related_person.previous_lastname) }}</span>
                                     </div>
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Ім'я: ") }}</span>
+                                        <span class="color-1">{{ _('firstname') }}</span>
                                         <span>{{ display_val(related_person.previous_firstname) }}</span>
                                     </div>
                                     {% if related_person.previous_middlename %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Попереднє по батькові: ") }}</span>
+                                            <span class="color-1">{{ _('previous_middlename') }}</span>
                                             <span>{{ display_val(related_person.previous_middlename) }}</span>
                                         </div>
                                     {% endif%}
@@ -62,22 +62,22 @@
                         {% else %}{# if related_person.citizenship != '1' #}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Повне ім'я (англійською): ") }}</span>
+                                    <span class="color-1">{{ _('eng_full_name') }}</span>
                                     <span>{{ display_val(related_person.eng_full_name) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Повне ім'я (українською): ") }}</span>
+                                    <span class="color-1">{{ _('ukr_full_name') }}</span>
                                     <span>{{ display_val(related_person.ukr_full_name) }}</span>
                                 </div>
                             </div>
                             {% if related_person.changedName == 1 %}
                                 <div class="row mb-2 mr-1">
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Попереднє повне ім’я (англійською): ") }}</span>
+                                        <span class="color-1">{{ _('previous_eng_full_name') }}</span>
                                         <span>{{ display_val(related_person.previous_eng_full_name) }}</span>
                                     </div>
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Попереднє повне ім’я (українською): ") }}</span>
+                                        <span class="color-1">{{ _('previous_ukr_fullname') }}</span>
                                         <span>{{ display_val(related_person.previous_ukr_full_name) }}</span>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                         {% endif %}{# if related_person.citizenship == '1' #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Дата народження: ") }}</span>
+                                <span class="color-1">{{ _('birthday') }}</span>
                                 <span>{{ display_val(related_person.birthday) }}</span>
                             </div>
                         </div>
@@ -132,50 +132,50 @@
                         {% if related_person.citizenship == 1 %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Країна: ") }}</span>
+                                    <span class="color-1">{{ _('country') }}</span>
                                     <span>{{ display_val(related_person.country) }}{# todo: Dima #}</span>
                                 </div>
                                 {% if related_person.postCode %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                        <span class="color-1">{{ _('ua_postCode') }}</span>
                                         <span>{{ display_val(related_person.postCode) }}</span>
                                     </div>
                                 {% endif %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Населений пункт: ") }}</span>
+                                    <span class="color-1">{{ _('ua_cityType') }}</span>
                                     <span>{{ display_val(related_person.ua_cityType) }}</span>
                                 </div>
                                 {% if related_person.streetType %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Тип: ") }}</span>
+                                        <span class="color-1">{{ _('streetType_v3') }}</span>
                                         <span>{{ display_val(related_person.streetType) }}</span>
                                     </div>
                                 {% endif %}
 
                                 {% if related_person.street %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Назва: ") }}</span>
+                                        <span class="color-1">{{ _('street_v3') }}</span>
                                         <span>{{ display_val(related_person.street) }}</span>
                                     </div>
                                 {% endif %}
 
                                 {% if related_person.ua_houseNum %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Номер будинку: ") }}</span>
+                                        <span class="color-1">{{ _('ua_houseNum') }}</span>
                                         <span>{{ display_val(related_person.ua_houseNum) }}</span>
                                     </div>
                                 {% endif %}
 
                                 {% if related_person.housePartNum %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Номер корпусу: ") }}</span>
+                                        <span class="color-1">{{ _('ua_housePartNum') }}</span>
                                         <span>{{ display_val(related_person.housePartNum) }}</span>
                                     </div>
                                 {% endif %}
 
                                 {% if related_person.apartmentsNum %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Номер квартири: ") }}</span>
+                                        <span class="color-1">{{ _('ua_apartmentsNum') }}</span>
                                         <span>{{ display_val(related_person.apartmentsNum) }}</span>
                                     </div>
                                 {% endif %}
@@ -183,11 +183,11 @@
                         {% else %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Місце проживання (англійською): ") }}</span>
+                                    <span class="color-1">{{ _('eng_full_address') }}</span>
                                     <span>{{ display_val(related_person.eng_full_address) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Місце проживання (українською): ") }}</span>
+                                    <span class="color-1">{{ _('ukr_full_address') }}</span>
                                     <span>{{ display_val(related_person.ukr_full_address) }}</span>
                                 </div>
                             </div>

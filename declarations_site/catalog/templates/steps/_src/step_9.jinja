@@ -4,9 +4,9 @@
             <thead>
             <tr>
                 <th class="doc-num-row-col">{{ _('№') }}</th>
-                <th>{{ _("Юридична особа") }}</th>
-                <th>{{ _("Адреса та контакти юридичної особи") }}</th>
-                <th>{{ _("Інформація про особу, якої стосується") }}</th>
+                <th>{{ _( 'table_header_step9_company_v3' ) }}</th>
+                <th>{{ _( 'table_header_step9_address' ) }}</th>
+                <th>{{ _( 'table_header_person_who_care_info' ) }}</th>
             </tr>
             </thead>
             <tbody>
@@ -20,32 +20,32 @@
                         <div class="row mb-2 mr-1">
                             {% if data_item.name %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування юридичної особи: ") }}</span>
+                                    <span class="color-1">{{ _( 'name' ) }}</span>
                                     <span>{{ display_val(data_item.name) }}</span>
                                 </div>
                             {% endif %}
                             {% if data_item.beneficial_owner_company_code %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                    <span class="color-1">{{ _( 'beneficial_owner_company_code' ) }}</span>
                                     <span>{{ display_val(data_item.beneficial_owner_company_code) }}</span>
                                 </div>
                             {% endif %}
                             {% set country_beneficial_owner = display_val(data_item.country_beneficial_owner) | int %}
                             {% if country_beneficial_owner == 1 %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування: ") }}</span>
+                                    <span class="color-1">{{ _( 'company_name_beneficial_owner' ) }}</span>
                                     <span>{{ display_val(data_item.company_name_beneficial_owner) }}</span>
                                 </div>
                             {% else %}
                                 {% if data_item.en_company_name_beneficial_owner %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Найменування юридичної особи (англійською): ") }}</span>
+                                        <span class="color-1">{{ _( 'en_company_name_beneficial_owner' ) }}</span>
                                         <span>{{ display_val(data_item.en_company_name_beneficial_owner) }}</span>
                                     </div>
                                 {% endif %}
                                 {% if data_item.ua_company_name_beneficial_owner %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Найменування юридичної особи (українською): ") }}</span>
+                                        <span class="color-1">{{ _( 'ua_company_name_beneficial_owner' ) }}</span>
                                         <span>{{ display_val(data_item.ua_company_name_beneficial_owner) }}</span>
                                     </div>
                                 {% endif %}
@@ -61,25 +61,25 @@
                             {% if country_beneficial_owner > 1 %}
                                 {% if company_code %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Реєстраційний номер: ") }}</span>
+                                        <span class="color-1">{{ _( 'company_code_beneficial_owner' ) }}</span>
                                         <span>{{ company_code }}</span>
                                     </div>
                                 {% endif %}
                             {% else %}
                                 {% if company_code %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                        <span class="color-1">{{ _( 'ua_company_code' ) }}</span>
                                         <span>{{ company_code }}</span>
                                     </div>
                                 {% endif %}
                             {% endif %}
                             <div class="col-12">
-                                <span class="color-1">{{ _("Організаційно-правова форма: ") }}</span>
+                                <span class="color-1">{{ _( 'legalForm' ) }}</span>
                                 <span>{{ display_val(data_item.legalForm) }}</span>
                             </div>
                             {% if country_beneficial_owner %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Країна реєстрації головного офісу: ") }}</span>
+                                    <span class="color-1">{{ _( 'country_beneficial_owner' ) }}</span>
                                     <span>{{ display_val(data_item.country_beneficial_owner) }}</span>
                                 </div>
                             {% endif %}
@@ -88,29 +88,29 @@
                     <td>{# ЮРИДИЧНА ОСОБА #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Телефон: ") }}</span>
+                                <span class="color-1">{{ _( 'phone' ) }}</span>
                                 <span>{{ display_val(data_item.phone) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Факс: ") }}</span>
+                                <span class="color-1">{{ _( 'fax' ) }}</span>
                                 <span>{{ display_val(data_item.fax) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Адреса електронної пошти (e-mail): ") }}</span>
+                                <span class="color-1">{{ _( 'mail_v3' ) }}</span>
                                 <span>{{ display_val(data_item.mail) }}</span>
                             </div>
                             {% if country_beneficial_owner == 1 or country_beneficial_owner == 0 %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Адреса юридичної особи: ") }}</span>
+                                    <span class="color-1">{{ _( 'address' ) }}</span>
                                     <span>{{ display_val(data_item.address) }}</span>
                                 </div>
                             {% else %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження головного офісу (англійською): ") }}</span>
+                                    <span class="color-1">{{ _( 'en_company_address_beneficial_owner' ) }}</span>
                                     <span>{{ display_val(data_item.en_company_address_beneficial_owner) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження головного офісу (українською): ") }}</span>
+                                    <span class="color-1">{{ _( 'ua_company_address_beneficial_owner' ) }}</span>
                                     <span>{{ display_val(data_item.ua_company_address_beneficial_owner) }}</span>
                                 </div>
                             {% endif%}

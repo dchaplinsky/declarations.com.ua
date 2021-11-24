@@ -4,11 +4,11 @@
             <thead>
             <tr>
                 <th class="doc-num-row-col">{{ _('№') }}</th>
-                <th>{{ _("Загальна інформація") }}</th>
-                <th>{{ _("Вартість у грошовому вираженні") }}</th>
-                <th>{{ _("Інформація про передачу корпоративних прав в управління") }}</th>
-                <th>{{ _("%% від загального капіталу") }}</th>
-                <th>{{ _("Інформація про права на об'єкт") }}</th>
+                <th>{{ _( 'table_header_common_info' ) }}</th>
+                <th>{{ _( 'table_header_step8_cost' ) }}</th>
+                <th>{{ _( 'table_header_step8_is_transferred' ) }}</th>
+                <th>{{ _( 'table_header_step8_cost_percent' ) }}</th>
+                <th>{{ _( 'table_header_step8_rights' ) }}</th>
             </tr>
             </thead>
             <tbody>
@@ -23,28 +23,28 @@
                             {% set country = data_item.country | int %}
                             {% if country > 1 %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування юридичної особи (англійською): ") }}</span>
+                                    <span class="color-1">{{ _('en_name') }}</span>
                                     <span>{{ display_val(data_item.en_name) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Ідентифікаційний номер: ") }}</span>
+                                    <span class="color-1">{{ _('en_corporate_rights_company_code') }}</span>
                                     <span>{{ display_val(data_item.en_corporate_rights_company_code) }}</span>
                                 </div>
                             {% else%}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                    <span class="color-1">{{ _('corporate_rights_company_code') }}</span>
                                     <span>{{ display_val(data_item.corporate_rights_company_code) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Організаційно-правова форма: ") }}</span>
+                                    <span class="color-1">{{ _( 'legalForm' ) }}</span>
                                     <span>{{ display_val(data_item.legalForm) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Країна реєстрації головного офіса: ") }}</span>
+                                    <span class="color-1">{{ _( 'corporate_rights_country' ) }}</span>
                                     <span>{{ display_val(data_item.country) }}</span>{# todo: check Dima #}
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Дата придбання майна (набуття права): ") }}</span>
+                                    <span class="color-1">{{ _( 'owningDate_step8' ) }}</span>
                                     <span>{{ display_val(data_item.owningDate) }}</span>
                                 </div>
                             {% endif %}

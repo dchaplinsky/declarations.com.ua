@@ -5,9 +5,9 @@
                 <tr>
                     <th class="doc-num-row-col">№</th>
                     <th>{{ _('table_header_sources_info') }}</th>
-                    <th>{{ _("Дата отримання доходу (набуття у власність)") }}</th>
-                    <th>{{ _("Вид доходу") }}</th>
-                    <th>{{ _("Розмір (вартість)") }}</th>
+                    <th>{{ _('table_header_income_owningDate') }}</th>
+                    <th>{{ _('table_header_typeIncome') }}</th>
+                    <th>{{ _('table_header_sizeIncome') }}</th>
 
                 </tr>
             </thead>
@@ -24,11 +24,11 @@
                                 <span>{{ display_val(data_item.source_citizen) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Найменування: ") }}</span>
+                                <span class="color-1">{{ _('source_ua_company_name') }}</span>
                                 <span>{{ display_val(data_item.source_ua_company_name) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                <span class="color-1">{{ _('source_ua_company_code') }}</span>
                                 <span>{{ display_val(data_item.sosource_ua_company_code) }}</span>
                             </div>
                         </div>

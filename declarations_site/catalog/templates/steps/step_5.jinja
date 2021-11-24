@@ -1,13 +1,13 @@
-{% if not step_data['empty'] %}
+{% if step_data and not step_data['empty'] %}
     <div class="table-responsive">
         <table class="table table-striped table-bordered card-table border corner-round dataTable">
             <thead>
             <tr>
                 <th class="doc-num-row-col">{{ _('№') }}</th>
-                <th>{{ _('table_header_common_info') }}</th>
-                <th>{{ _('table_header_properties') }}</th>
-                <th>{{ _('table_header_costDateUse_v3') }}</th>
-                <th>{{ _('table_header_step5_rights') }}</th>
+                <th>{{ _("Загальна інформація") }}</th>
+                <th>{{ _("Характеристика") }}</th>
+                <th>{{ _("Вартість на дату набуття у власність, володіння чи користування або за останньою грошовою оцінкою") }}</th>
+                <th>{{ _("Інформація щодо прав на майно") }}</th>
             </tr>
             </thead>
             <tbody>
@@ -20,17 +20,17 @@
                     <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _('objectType_step5') }}</span>
+                                <span class="color-1">{{ _("Вид майна: ") }}</span>
                                 <span>{{ display_val(data_item.objectType) }}</span>
                             </div>
                             {% if data_item.otherObjectType %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _('otherObjectType_step5') }}</span>
+                                    <span class="color-1">{{ _("Інший вид майна: ") }}</span>
                                     <span>{{ display_val(data_item.otherObjectType) }}</span>
                                 </div>
                             {% endif %}
                             <div class="col-12">
-                                <span class="color-1">{{ _('dateUse') }}</span>
+                                <span class="color-1">{{ _("Дата набуття права: ") }}</span>
                                 <span>{{ display_val(data_item.dateUse) }}</span>
                             </div>
                         </div>
@@ -38,22 +38,22 @@
                     <td>{# ХАРАКТЕРИСТИКА #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _('trademark') }}</span>
+                                <span class="color-1">{{ _("Торгова марка: ") }}</span>
                                 <span>{{ display_val(data_item.trademark) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _('manufacturerName_v3') }}</span>
+                                <span class="color-1">{{ _("Найменування виробника: ") }}</span>
                                 <span>{{ display_val(data_item.manufacturerName) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _('propertyDescr') }}</span>
+                                <span class="color-1">{{ _("Опис майна: ") }}</span>
                                 <span>{{ display_val(data_item.propertyDescr) }}</span>
                             </div>
                         </div>
                         <div class="row mb-2 mr-1">
                             {% if data_item.acqBeforeFD %}
                                 <div class="col-12">
-                                    <span>{{ _('acqBeforeFD_v3') }}</span>
+                                    <span>{{ _("Право на майно набуто до подання першої декларації поданої відповідно до Закону «Про запобігання корупції»") }}</span>
                                 </div>
                             {% endif %}
                         </div>
@@ -74,5 +74,5 @@
         </table>
     </div>
 {% else %}
-    {{ step_data['empty'] }}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
 {% endif %}

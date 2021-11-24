@@ -4,9 +4,9 @@
             <thead>
             <tr>
                 <th class="doc-num-row-col">{{ _('№') }}</th>
-                <th>{{ _("Найменування організації") }}</th>
-                <th>{{ _("Організаційно-правова форма") }}</th>
-                <th>{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань") }}</th>
+                <th>{{ _( 'table_header_org_objectName' ) }}</th>
+                <th>{{ _( 'table_header_org_objectType' ) }}</th>
+                <th>{{ _( 'table_header_org_reestrCode' ) }}</th>
             </tr>
             </thead>
             <tbody>
@@ -50,5 +50,5 @@
 {% endif %}
 
 <hr>
-<p>{{ _("Документ підписано: ") }}:</p>
+<p>{{ _('table_footer_sign_info') }}:</p>
 <p>{{ display_val(personal_info.lastname)|upper }} {{ display_val(personal_info.firstname)|upper }} {{ display_val(personal_info.middlename)|upper }}</p>

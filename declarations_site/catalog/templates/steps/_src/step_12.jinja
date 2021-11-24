@@ -4,10 +4,10 @@
             <thead>
             <tr>
                 <th class="doc-num-row-col">{{ _('№') }}</th>
-                <th>{{ _("Установа, в якій відкриті такі рахунки або до якої зроблені відповідні внески, або фізична особа") }}</th>
-                <th>{{ _("Вид активу") }}</th>
-                <th>{{ _("Розмір активу") }}</th>
-                <th>{{ _("Інформація щодо права на об'єкт") }}</th>
+                <th>{{ _('table_header_organization_v3') }}</th>
+                <th>{{ _('table_header_objectType') }}</th>
+                <th>{{ _('table_header_sizeAssets') }}</th>
+                <th>{{ _('table_header_step12_rights') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -24,23 +24,23 @@
                                     <span>{{ display_val(data_item.organization_type) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
+                                    <span class="color-1">{{ _( 'organization_eng_company_name' ) }}</span>
                                     <span>{{ display_val(data_item.organization_eng_company_name) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування (українською): ") }}</span>
+                                    <span class="color-1">{{ _( 'organization_ukr_company_name' ) }}</span>
                                     <span>{{ display_val(data_item.organization_ukr_company_name) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Ідентифікаційний код: ") }}</span>
+                                    <span class="color-1">{{ _( 'organization_eng_company_code' ) }}</span>
                                     <span>{{ display_val(data_item.organization_eng_company_code) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження (англійською): ") }}</span>
+                                    <span class="color-1">{{ _( 'organization_eng_company_address' ) }}</span>
                                     <span>{{ display_val(data_item.organization_eng_company_address) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження (українською): ") }}</span>
+                                    <span class="color-1">{{ _( 'organization_ukr_company_address' ) }}</span>
                                     <span>{{ display_val(data_item.organization_ukr_company_address) }}</span>
                                 </div>
                             {% elif data_item.organization_type == 'Юридична особа, зареєстрована в Україні'%}
@@ -48,11 +48,11 @@
                                     <span>{{ display_val(data_item.organization_type) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування: ") }}</span>
+                                    <span class="color-1">{{ _( 'organization_ua_company_name' ) }}</span>
                                     <span>{{ display_val(data_item.organization_ua_company_name) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                    <span class="color-1">{{ _( 'organization_ua_company_code' ) }}</span>
                                     <span>{{ display_val(data_item.organization_ua_company_code) }}</span>
                                 </div>
                             {% else %}
@@ -80,11 +80,11 @@
                     <td>{# РОЗМІР АКТИВУ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Розмір: ") }}</span>
+                                <span class="color-1">{{ _( 'sizeObligation' ) }}</span>
                                 <span>{{ display_val(data_item.sizeAssets) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Валюта: ") }}</span>
+                                <span class="color-1">{{ _( 'assetsCurrency' ) }}</span>
                                 <span>{{ display_val(data_item.assetsCurrency) }}</span>
                             </div>
                         </div>

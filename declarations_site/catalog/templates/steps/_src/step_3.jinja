@@ -4,10 +4,10 @@
             <thead>
             <tr>
                 <th class="doc-num-row-col">№</th>
-                <th>{{ _("Загальна інформація") }}</th>
-                <th>{{ _("Місцезнаходження") }}</th>
-                <th>{{ _("Вартість на дату набуття права або за останньою грошовою оцінкою") }}</th>
-                <th>{{ _("Інформація щодо прав на об'єкт") }}</th>
+                <th>{{ _('table_header_common_info') }}</th>
+                <th>{{ _('table_header_address') }}</th>
+                <th>{{ _('table_header_costDate_v3') }}</th>
+                <th>{{ _('table_header_rights') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -20,17 +20,17 @@
                     <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Вид об'єкта: ") }}</span>
+                                <span class="color-1">{{ _('objectType') }}</span>
                                 <span>{{ display_val(data_item.objectType) }}</span>
                             </div>
                             {% if data_item.otherObjectType %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Інший вид об'єкта: ") }}</span>
+                                    <span class="color-1">{{ _('otherObjectType') }}</span>
                                     <span>{{ display_val(data_item.otherObjectType) }}</span>
                                 </div>
                             {% endif %}
                             <div class="col-12">
-                                <span class="color-1">{{ _("Дата набуття права: ") }}</span>
+                                <span class="color-1">{{ _('owningDate') }}</span>
                                 <span>{{ display_val(data_item.owningDate) }}</span>
                             </div>
                             <div class="col-12">
@@ -40,7 +40,7 @@
                         </div>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Реєстраційний номер (кадастровий номер для земельної ділянки): ") }}</span>
+                                <span class="color-1">{{ _('regNumber_v3') }}</span>
                                 <span>{{ display_val(data_item.regNumber) }}</span>
                             </div>
                         </div>
@@ -49,56 +49,56 @@
                         <div class="row mb-2 mr-1">
                             {% if data_item.country == '1' %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Країна: ") }}</span>
+                                    <span class="color-1">{{ _( 'country' ) }}</span>
                                     <span>{{ display_val(data_item.country) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                    <span class="color-1">{{ _('ua_postCode') }}</span>
                                     <span>{{ display_val(data_item.ua_postCode) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Населений пункт: ") }}</span>
+                                    <span class="color-1">{{ _('ua_cityType') }}</span>
                                     <span>{{ display_val(data_item.ua_cityType) }}</span>
                                 </div>
                                 {% if data_item.ua_streetType %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Тип: ") }}</span>
+                                        <span class="color-1">{{ _('streetType_v3') }}</span>
                                         <span>{{ display_val(data_item.ua_streetType) }}</span>
                                     </div>
                                 {% endif%}
                                 {% if data_item.ua_street %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _("Назва: ") }}</span>
+                                        <span class="color-1">{{ _('street_v3') }}</span>
                                         <span>{{ display_val(data_item.ua_street) }}</span>
                                     </div>
                                 {% endif%}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Номер будинку: ") }}</span>
+                                    <span class="color-1">{{ _('ua_houseNum') }}</span>
                                     <span>{{ display_val(data_item.ua_houseNum) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1"> {{ _("Номер корпусу: ") }}</span>
+                                    <span class="color-1"> {{ _('ua_housePartNum') }}</span>
                                     <span>{{ display_val(data_item.ua_housePartNum) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Номер квартири: ") }}</span>
+                                    <span class="color-1">{{ _('ua_apartmentsNum') }}</span>
                                     <span>{{ display_val(data_item.ua_apartmentsNum) }}</span>
                                 </div>
                             {% else %}{# if data_item.country != '1' #}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Країна: ") }}</span>
+                                    <span class="color-1">{{ _('country') }}</span>
                                     <span>{{ display_val(data_item.country) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                    <span class="color-1">{{ _('postCode') }}</span>
                                     <span>{{ display_val(data_item.postCode) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Адреса (англійською): ") }}</span>
+                                    <span class="color-1">{{ _('loc_engLivingAddress') }}</span>
                                     <span>{{ display_val(data_item.loc_engLivingAddress) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1"> {{ _("Адреса (українською): ") }}</span>
+                                    <span class="color-1"> {{ _('loc_ukrLivingAddress') }}</span>
                                     <span>{{ display_val(data_item.loc_ukrLivingAddress) }}</span>
                                 </div>
                             {% endif%}{# if data_item.country == '1' #}

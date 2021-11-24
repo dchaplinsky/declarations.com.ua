@@ -4,10 +4,10 @@
             <thead>
                 <tr>
                     <th class="doc-num-row-col">№</th>
-                    <th>{{ _("Загальна інформація") }}</th>
-                    <th>{{ _("Вартість у грошовому вираженні") }}</th>
-                    <th>{{ _("%% від загального капіталу") }}</th>
-                    <th>{{ _("Вартість на дату набуття") }}</th>
+                    <th>{{ _('table_header_common_info') }}</th>
+                    <th>{{ _('table_header_money_amount_info') }}</th>
+                    <th>{{ _('table_header_percent_amount_info') }}</th>
+                    <th>{{ _('table_header_costDate') }}</th>
                     <th>{{ _('table_header_sources_info') }}</th>
                 </tr>
             </thead>
@@ -21,7 +21,7 @@
                     <td>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Найменування юридичної особи:") }}</span>
+                                <span class="color-1">{{ _('name_ur') }}</span>
                                 <span>{{ display_val(data_item.name) }}</span>
                             </div>
                         </div>
@@ -36,13 +36,13 @@
                         {% if country > 1 %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування юридичної особи (англійською):") }}</span>
+                                    <span class="color-1">{{ _('en_name_ur') }}</span>
                                     <span>{{ display_val(data_item.en_name) }}</span>
                                 </div>
                             </div>
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Реєстраційний номер: ") }}</span>
+                                    <span class="color-1">{{ _('regNumber') }}</span>
                                     {% if company_code %}
                                         <span>{{ display_val(company_code) }}</span>
                                     {% endif %}
@@ -51,7 +51,7 @@
                         {% else %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                <span class="color-1">{{ _('ua_company_code') }}</span>
                                     {% if company_code %}
                                         <span>{{ display_val(company_code) }}</span>
                                     {% endif %}
@@ -60,7 +60,7 @@
                         {% endif %}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Організаційно-правова форма: ") }}</span>
+                                <span class="color-1">{{ _('legalForm') }}</span>
                                 {% if data_item.legalForm %}
                                     <span>{{ display_val(data_item.legalForm) }}</span>
                                 {% endif %}
@@ -68,7 +68,7 @@
                         </div>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Країна реєстрації головного офіса:") }}</span>
+                                <span class="color-1">{{ _('country_corporate_rights') }}</span>
                                 {% if data_item.country %}
                                     <span>{{ display_val(data_item.country) }}</span>
                                 {% endif %}

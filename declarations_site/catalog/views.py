@@ -14,7 +14,7 @@ from django.template.loader import render_to_string
 from elasticsearch.exceptions import NotFoundError, TransportError
 from elasticsearch_dsl import Search, Q
 
-from cms_pages.models import MetaData, NewsPage, PersonMeta
+from cms_pages.models import MetaData, NewsPage
 from dateutil.parser import parse as dt_parse
 
 from .elastic_models import Declaration, NACPDeclaration, NACPDeclarationNewFormat
@@ -100,11 +100,6 @@ def search(request):
     search = apply_search_sorting(search, request.GET.get("sort", ""))
 
     try:
-        meta = PersonMeta.objects.get(fullname=query)
-    except PersonMeta.DoesNotExist:
-        meta = None
-
-    try:
         results = paginated_search(request, search)
     except EmptyPage:
         raise Http404("Page is empty")
@@ -116,7 +111,6 @@ def search(request):
 
     return {
         "query": query,
-        "meta": meta,
         "deepsearch": deepsearch,
         "results": results,
         "language": language,
@@ -135,7 +129,8 @@ def fuzzy_search(request):
     user_declarant_ids = set(filter(str.isdigit, robust_getlist(request.GET, "user_declarant_ids")))
 
     base_search = Search(
-        index=CATALOG_INDICES + (NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
+        # index=CATALOG_INDICES + (NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
+        index=(NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
         NACPDeclarationNewFormat, NACPDeclaration, Declaration
     )
 
@@ -188,24 +183,14 @@ def details(request, declaration_id):
     language = get_language()
     try:
         try:
-            declaration = NACPDeclaration.get(id=declaration_id)
+            declaration = NACPDeclarationNewFormat.get(id=declaration_id, index=NACP_DECLARATION_NEW_FORMAT_INDEX)
         except NotFoundError:
-            declaration = Declaration.get(id=declaration_id)
+            try:
+                declaration = NACPDeclaration.get(id=declaration_id)
+            except NotFoundError:
+                declaration = Declaration.get(id=declaration_id)
 
         declaration.prepare_translations(language)
-
-        try:
-            meta = PersonMeta.objects.get(
-                fullname=declaration.general.full_name,
-                year=int(declaration.intro.declaration_year),
-            )
-        except (PersonMeta.DoesNotExist, ValueError, TypeError):
-            try:
-                meta = PersonMeta.objects.get(
-                    fullname=declaration.general.full_name, year__isnull=True
-                )
-            except PersonMeta.DoesNotExist:
-                meta = None
 
         if "source" in request.GET:
             return redirect(
@@ -223,7 +208,7 @@ def details(request, declaration_id):
 
         raise Http404("Таких не знаємо!")
 
-    return {"declaration": declaration, "language": language, "meta": meta}
+    return {"declaration": declaration, "language": language}
 
 
 @hybrid_response("regions.jinja")

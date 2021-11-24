@@ -4,10 +4,10 @@
             <thead>
                 <tr>
                     <th class="doc-num-row-col">№</th>
-                    <th>{{ _("Загальна інформація") }}</th>
-                    <th>{{ _("Характеристика") }}</th>
-                    <th>{{ _("Вартість на дату набуття у власність, володіння чи користування") }}</th>
-                    <th>{{ _("Вартість за останньою грошовою оцінкою") }}</th>
+                    <th>{{ _('table_header_common_info') }}</th>
+                    <th>{{ _('table_header_type_info') }}</th>
+                    <th>{{ _('table_header_costDate_info') }}</th>
+                    <th>{{ _('table_header_costAssessment_info') }}</th>
                     <th>{{ _('table_header_sources_info') }}</th>
                 </tr>
             </thead>
@@ -21,17 +21,17 @@
                     <td>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Вид майна: ") }}</span>
+                                <span class="color-1">{{ _('objectType_step5') }}</span>
                                 <span>{{ display_val(data_item.objectType) }}</span>
                             </div>
                             {% if otherObjectType %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Інший вид майна: ") }}</span>
+                                    <span class="color-1">{{ _('otherObjectType_step5') }}</span>
                                     <span>{{ display_val(data_item.otherObjectType) }}</span>
                                 </div>
                             {% endif %}
                             <div class="col-12">
-                                <span class="color-1">{{ _("Дата набуття права: ") }}</span>
+                                <span class="color-1">{{ _('owningDate') }}</span>
                                 <span>{{ display_val(data_item.owningDate) }}</span>
                             </div>
                             <div class="col-12">
@@ -43,15 +43,15 @@
                     <td>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Марка: ") }}</span>
+                                <span class="color-1">{{ _('brand') }}</span>
                                 <span>{{ display_val(data_item.brand) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Модель: ") }}</span>
+                                <span class="color-1">{{ _('model') }}</span>
                                 <span>{{ display_val(data_item.model) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Рік випуску: ") }}</span>
+                                <span class="color-1">{{ _('graduationYear') }}</span>
                                 <span>{{ display_val(data_item.graduationYear) }}</span>
                             </div>
                         </div>

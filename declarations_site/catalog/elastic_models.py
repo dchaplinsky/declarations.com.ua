@@ -1390,5 +1390,10 @@ nacp_declarations_new_format_idx.analyzer(namesAutocompleteSearchAnalyzer)
 
 @nacp_declarations_new_format_idx.doc_type
 class NACPDeclarationNewFormat(NACPDeclaration):
+    def raw_html(self):
+        doc = render_to_string("nacp_declaration_form.jinja", {"declaration": self})
+
+        return doc
+
     class Meta:
         doc_type = "nacp_declaration_doctype"

@@ -31,7 +31,15 @@
                 <a href="https://declarations.com.ua{{ url('details', 'nacp_' + declaration.id )}}" target="_blank">В старому дизайні</a> <br/>
                 <a href="https://public.nazk.gov.ua/documents/{{ declaration.id }}" target="_blank">На сайті НАЗК</a>
             </div>
-
+            {% if declaration.data.step_1 %}
+                {% set personal_info = {
+                    "firstname": declaration.data.step_1.firstname,
+                    "middlename": declaration.data.step_1.middlename,
+                    "lastname": declaration.data.step_1.lastname,
+                } %}
+            {% else %}
+                {% set personal_info = {} %}
+            {% endif %}
             {% for step in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17] %}
             <div class="declaration-details" data-type="1">
                 <div class="card" id="step-data-{{ step}}}">

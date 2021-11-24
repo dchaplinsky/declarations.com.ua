@@ -3,19 +3,19 @@
     <div class="row mb-2 mr-1">
         {% if rights_item.ownershipType  %}
             <div class="col-12">
-                <span class="color-1">{{ _("Тип права: ") }}</span>
+                <span class="color-1">{{ _('ownershipType') }}</span>
                 <span>{{ display_val(rights_item.ownershipType) }}</span>
             </div>
         {% endif %}
         {% if rights_item.otherOwnership  %}
             <div class="col-12">
-                <span class="color-1">{{ _("Інший тип: ") }}</span>
+                <span class="color-1">{{ _('otherOwnership') }}</span>
                 <span>{{ display_val(rights_item.otherOwnership) }}</span>
             </div>
         {% endif %}
         {% if rights_item['percent-ownership']  %}
             <div class="col-12">
-                <span class="color-1">{{ _("Відсоток, %%: ") }}, %</span>
+                <span class="color-1">{{ _('percent-ownership') }}, %</span>
                 <span>{{ rights_item['percent-ownership'] }}</span>
             </div>
         {% endif %}
@@ -45,19 +45,19 @@
         {% endif %}
         {% if rights_item.ua_livingAddressFull  %}
             <div class="col-12">
-                <span class="color-1">{{ _("Місце фактичного проживання: ") }}</span>
+                <span class="color-1">{{ _('ua_livingAddressFull') }}</span>
                 <span>{{ display_val(rights_item.ua_livingAddressFull) }}</span>
             </div>
         {% endif %}
         {% if rights_item.ua_regAddressFull  %}
             <div class="col-12">
-                <span class="color-1">{{ _("Зареєстроване місце проживання: ") }}</span>
+                <span class="color-1">{{ _('ua_regAddressFull') }}</span>
                 <span>{{ display_val(rights_item.ua_regAddressFull) }}</span>
             </div>
         {% endif %}
         {% if rights_item.ua_sameRegLivingAddress  %}
             <div class="col-12">
-                <span class="color-1">{{ _("збігається з зареєстрованим місцем проживання") }}</span>
+                <span class="color-1">{{ _('ua_sameRegLivingAddress') }}</span>
                 <span>{{ display_val(rights_item.ua_sameRegLivingAddress) }}</span>
             </div>
         {% endif %}
@@ -69,7 +69,7 @@
         {% endif %}
         {% if rights_item.eng_company_name %}
             <div class="col-12">
-                <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
+                <span class="color-1">{{ _('eng_company_name') }}</span>
                 <span>{{ display_val(rights_item.eng_company_name) }}</span>
             </div>
         {% endif %}
@@ -81,25 +81,25 @@
         {% endif %}
         {% if rights_item.eng_company_address %}
             <div class="col-12">
-                <span class="color-1">{{ _("Місцезнаходження (англійською): ") }}</span>
+                <span class="color-1">{{ _('eng_company_address') }}</span>
                 <span>{{ display_val(rights_item.eng_company_address) }}</span>
             </div>
         {% endif %}
         {% if rights_item.eng_company_code %}
             <div class="col-12">
-                <span class="color-1">{{ _("Ідентифікаційний код: ") }}</span>
+                <span class="color-1">{{ _('eng_company_code') }}</span>
                 <span>{{ display_val(rights_item.eng_company_code) }}</span>
             </div>
         {% endif %}
         {% if rights_item.ukr_company_address %}
             <div class="col-12">
-                <span class="color-1">{{ _("Місцезнаходження (українською): ") }}</span>
+                <span class="color-1">{{ _('ukr_company_address') }}</span>
                 <span>{{ display_val(rights_item.ukr_company_address) }}</span>
             </div>
         {% endif %}
         {% if rights_item.ukr_company_name %}
             <div class="col-12">
-                <span class="color-1">{{ _("Найменування (українською): ") }}</span>
+                <span class="color-1">{{ _('ukr_company_name') }}</span>
                 <span>{{ display_val(rights_item.ukr_company_name) }}</span>
             </div>
         {% endif %}

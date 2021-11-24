@@ -4,11 +4,11 @@
             <thead>
                 <tr>
                     <th class="doc-num-row-col">№</th>
-                    <th>{{ _("Загальна інформація") }}</th>
+                    <th>{{ _( 'table_header_common_info' ) }}</th>
                     <th>{{ _( 'table_header_emitent_info' ) }}</th>
                     <th>{{ _( 'table_header_v3_amount_info' ) }}</th>
                     <th>{{ _( 'table_header_v3_nominal_value_info' ) }}</th>
-                    <th>{{ _("Вартість на дату набуття") }}</th>
+                    <th>{{ _( 'table_header_costDate' ) }}</th>
                     <th>{{ _( 'table_header_sources_info' ) }}</th>
                 </tr>
             </thead>
@@ -22,7 +22,7 @@
                     <td>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Вид паперів: ") }}</span>
+                                <span class="color-1">{{ _('typeProperty') }}</span>
                                 {% if data_item.typeProperty %}
                                     <span>{{ display_val(data_item.typeProperty) }}</span>
                                 {% endif %}
@@ -37,7 +37,7 @@
                                 {% endif %}
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Дата набуття права: ") }}</span>
+                                <span class="color-1">{{ _('owningDate') }}</span>
                                 <span>{{ display_val(data_item.owningDate) }}</span>
                             </div>
                         </div>
@@ -53,15 +53,15 @@
                                             </div>
                                         {% endif %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Прізвище: ") }}</span>
+                                            <span class="color-1">{{ _('lastname') }}</span>
                                             <span>{{ display_val(emitent_info.lastname) }}</span>
                                         </div>
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Ім'я: ") }}</span>
+                                            <span class="color-1">{{ _('firstname') }}</span>
                                             <span>{{ display_val(emitent_info.firstname) }}</span>
                                         </div>
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("По батькові: ") }}</span>
+                                            <span class="color-1">{{ _('middlename') }}</span>
                                             <span>{{ display_val(emitent_info.middlename) }}</span>
                                         </div>
                                     {% endif%}
@@ -72,172 +72,172 @@
                                     </div>
                                 {% endif %}
 
-                                {% if data_item.emitent_type == _("Юридична особа, зареєстрована в Україні") %}
+                                {% if data_item.emitent_type == _( 'source_ua_company' ) %}
                                     {% if data_item.emitent_ua_company_name %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Найменування: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_company_name') }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_company_name) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ua_company_code %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_company_code') }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_company_code) }}</span>
                                         </div>
                                     {% endif %}
-                                {% elif data_item.emitent_type == _("Іноземний громадянин") %}
+                                {% elif data_item.emitent_type == _( 'source_foreign_citizen' ) %}
                                     {% if data_item.emitent_eng_lastname or data_item.emitent_eng_lastname_extendedstatus %}
                                         {% if data_item.emitent_eng_lastname %}
                                             <div class="col-12">
-                                                <span class="color-1">{{ _("Прізвище англійською: ") }}</span>
+                                                <span class="color-1">{{ _('emitent_eng_lastname') }}</span>
                                                 <span>{{ display_val(data_item.emitent_eng_lastname) }}</span>
                                             </div>
                                         {% endif %}
                                         {% if data_item.emitent_ukr_lastname %}
                                             <div class="col-12">
-                                                <span class="color-1">{{ _("Прізвище українською: ") }}</span>
+                                                <span class="color-1">{{ _('emitent_ukr_lastname') }}</span>
                                                 <span>{{ display_val(data_item.emitent_ukr_lastname) }}</span>
                                             </div>
                                         {% endif %}
                                         {% if data_item.emitent_eng_firstname %}
                                             <div class="col-12">
-                                                <span class="color-1">{{ _("Ім'я англійською: ") }}</span>
+                                                <span class="color-1">{{ _('emitent_eng_firstname') }}</span>
                                                 <span>{{ display_val(data_item.emitent_eng_firstname) }}</span>
                                             </div>
                                         {% endif %}
                                         {% if data_item.emitent_ukr_firstname %}
                                             <div class="col-12">
-                                                <span class="color-1">{{ _("Ім'я українською: ") }}</span>
+                                                <span class="color-1">{{ _('emitent_ukr_firstname') }}</span>
                                                 <span>{{ display_val(data_item.emitent_ukr_firstname) }}</span>
                                             </div>
                                         {% endif %}
                                         {% if data_item.emitent_eng_middlename %}
                                             <div class="col-12">
-                                                <span class="color-1">{{ _("По батькові англійською: ") }}</span>
+                                                <span class="color-1">{{ _('emitent_eng_middlename') }}</span>
                                                 <span>{{ display_val(data_item.emitent_eng_middlename) }}</span>
                                             </div>
                                         {% endif %}
                                         {% if data_item.emitent_ukr_middlename %}
                                             <div class="col-12">
-                                                <span class="color-1">{{ _("По батькові українською: ") }}</span>
+                                                <span class="color-1">{{ _('emitent_ukr_middlename') }}</span>
                                                 <span>{{ display_val(data_item.emitent_ukr_middlename) }}</span>
                                             </div>
                                         {% endif %}
                                     {% else %}
                                         {% if data_item.emitent_eng_fullname %}
                                             <div class="col-12">
-                                                <span class="color-1">{{ _("Повне ім'я (англійською): ") }}</span>
+                                                <span class="color-1">{{ _('emitent_eng_fullname') }}</span>
                                                 <span>{{ display_val(data_item.emitent_eng_fullname) }}</span>
                                             </div>
                                         {% endif %}
                                         {% if data_item.emitent_ukr_fullname %}
                                             <div class="col-12">
-                                                <span class="color-1">{{ _("Повне ім'я (українською): ") }}</span>
+                                                <span class="color-1">{{ _('emitent_ukr_fullname') }}</span>
                                                 <span>{{ display_val(data_item.emitent_ukr_fullname) }}</span>
                                             </div>
                                         {% endif %}
                                     {% endif %}
                                     {% if data_item.emitent_eng_birthday %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Дата народження: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_eng_birthday') }}</span>
                                             <span>{{ display_val(data_item.emitent_eng_birthday) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_eng_taxNumber %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Ідентифікаційний номер: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_eng_taxNumber') }}</span>
                                             <span>{{ display_val(data_item.emitent_eng_taxNumber) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_eng_regAddress %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Місце проживання (англійською): ") }}</span>
+                                            <span class="color-1">{{ _('emitent_eng_regAddress') }}</span>
                                             <span>{{ display_val(data_item.emitent_eng_regAddress) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ukr_regAddress %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Місце проживання (українською): ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ukr_regAddress') }}</span>
                                             <span>{{ display_val(data_item.emitent_ukr_regAddress) }}</span>
                                         </div>
                                     {% endif %}
 
-                                {% elif data_item.emitent_type == _("Юридична особа, зареєстрована за кордоном") %}
+                                {% elif data_item.emitent_type == _( 'source_foreign_company' ) %}
                                     {% if data_item.emitent_eng_company_name %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
+                                            <span class="color-1">{{ _('emitent_eng_company_name') }}</span>
                                             <span>{{ display_val(data_item.emitent_eng_company_name) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ukr_company_name %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Найменування (українською): ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ukr_company_name') }}</span>
                                             <span>{{ display_val(data_item.emitent_ukr_company_name) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_eng_company_code %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Ідентифікаційний код: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_eng_company_code') }}</span>
                                             <span>{{ display_val(data_item.emitent_eng_company_code) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_eng_company_address %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Місцезнаходження (англійською): ") }}</span>
+                                            <span class="color-1">{{ _('emitent_eng_company_address') }}</span>
                                             <span>{{ display_val(data_item.emitent_eng_company_address) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ukr_company_address %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Місцезнаходження (українською): ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ukr_company_address') }}</span>
                                             <span>{{ display_val(data_item.emitent_ukr_company_address) }}</span>
                                         </div>
                                     {% endif %}
                                 {% else %}
                                     {% if data_item.emitent_ua_lastname %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Прізвище: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_lastname') }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_lastname) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ua_firstname %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Ім'я: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_firstname') }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_firstname) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ua_middlename %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("По батькові: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_middlename') }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_middlename) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ua_birthday %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Дата народження: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_birthday') }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_birthday) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ua_taxNumber %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Податковий номер: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_taxNumber') }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_taxNumber) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ua_regAddress %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Зареєстроване місце проживання: ") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_regAddress') }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_regAddress) }}</span>
                                         </div>
                                     {% endif %}
                                     {% if data_item.emitent_ua_regAddress %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Місце фактичного проживання: ") }}</span>
-                                            <span>{{ _("збігається з зареєстрованим місцем проживання") }}</span>
+                                            <span class="color-1">{{ _('emitent_ua_actualAddress') }}</span>
+                                            <span>{{ _('emitent_ua_sameRegLivingAddress') }}</span>
                                         </div>
                                     {% elif data_item.emitent_ua_sameRegLivingAddress %}
                                         <div class="col-12">
-                                            <span class="color-1">{{ _("Місце фактичного проживання: ") }}</span>
+                                            <span class="color-1">{{ _( 'emitent_ua_actualAddress' ) }}</span>
                                             <span>{{ display_val(data_item.emitent_ua_actualAddress) }}</span>
                                         </div>
                                     {% endif %}

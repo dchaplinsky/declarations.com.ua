@@ -4,11 +4,11 @@
             <thead>
             <tr>
                 <th class="doc-num-row-col">{{ _('№') }}</th>
-                <th>{{ _("Загальна інформація") }}</th>
-                <th>{{ _("Особа, на користь якої виникло зобов'язання") }}</th>
-                <th>{{ _("Розмір") }}</th>
-                <th>{{ _("Інформація щодо поручителів та майнового забезпечення") }}</th>
-                <th>{{_("Інформація про особу, якої стосується") }}</th>
+                <th>{{ _( 'table_header_generalInformation' ) }}</th>
+                <th>{{ _( 'table_header_emitent' ) }}</th>
+                <th>{{ _( 'table_header_sizeObligation' ) }}</th>
+                <th>{{ _( 'table_header_infoGuarantor' ) }}</th>
+                <th>{{_( 'table_header_person_who_care_info') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -21,16 +21,16 @@
                     <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Вид зобов'язання: ") }}</span>
+                                <span class="color-1">{{ _('objectType_step13') }}</span>
                                 <span>{{ display_val(data_item.objectType) }}</span>
                             </div>
                             {% if data_item.otherObjectType %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Інший вид зобов'язання: ") }}</span>
+                                    <span class="color-1">{{ _('otherObjectType_step13') }}</span>
                                     <span>{{ display_val(data_item.otherObjectType) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Дата виникнення: ") }}</span>
+                                    <span class="color-1">{{ _('dateOrigin') }}</span>
                                     <span>{{ display_val(data_item.dateOrigin) }}</span>
                                 </div>
                             {% endif %}
@@ -39,19 +39,19 @@
                         {% if data_item.objectType == 'Отримані кредити' or data_item.objectType == 'Отримані позики' %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Залишок позики (кредиту) станом на кінець звітного періоду: ") }}</span>
+                                    <span class="color-1">{{ _( 'credit_rest' ) }}</span>
                                     <span>{{ display_val(data_item.credit_rest) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Розмір сплачених коштів у рахунок основної суми позики (кредиту): ") }}</span>
+                                    <span class="color-1">{{ _( 'credit_paid' ) }}</span>
                                     <span>{{ display_val(data_item.credit_paid) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Розмір сплачених відсотків за позикою (кредитом): ") }}</span>
+                                    <span class="color-1">{{ _( 'credit_percent_paid' ) }}</span>
                                     <span>{{ display_val(data_item.credit_percent_paid) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Дата виникнення: ") }}</span>
+                                    <span class="color-1">{{ _('dateOrigin') }}</span>
                                     <span>{{ display_val(data_item.dateOrigin) }}</span>
                                 </div>
                             </div>
@@ -69,11 +69,11 @@
                                     <span>{{ display_val(data_item.emitent_citizen) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування: ") }}</span>
+                                    <span class="color-1">{{ _('emitent_ua_company_name') }}</span>
                                     <span>{{ display_val(data_item.emitent_ua_company_name) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                    <span class="color-1">{{ _('emitent_ua_company_code') }}</span>
                                     <span>{{ display_val(data_item.emitent_ua_company_code) }}</span>
                                 </div>
                             {% elif data_item.emitent_citizen == 'Юридична особа, зареєстрована за кордоном' %}
@@ -81,23 +81,23 @@
                                     <span>{{ display_val(data_item.emitent_citizen) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
+                                    <span class="color-1">{{ _( 'emitent_eng_company_name' ) }}</span>
                                     <span>{{ display_val(data_item.emitent_eng_company_name) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування (українською): ") }}</span>
+                                    <span class="color-1">{{ _( 'emitent_ukr_company_name' ) }}</span>
                                     <span>{{ display_val(data_item.emitent_ukr_company_name) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Ідентифікаційний код: ") }}</span>
+                                    <span class="color-1">{{ _( 'emitent_eng_company_code' ) }}</span>
                                     <span>{{ display_val(data_item.emitent_eng_company_code) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження (англійською): ") }}</span>
+                                    <span class="color-1">{{ _( 'emitent_eng_company_address' ) }}</span>
                                     <span>{{ display_val(data_item.emitent_eng_company_address) }}</span>
                                 </div>
                                 <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження (українською): ") }}</span>
+                                    <span class="color-1">{{ _( 'emitent_ukr_company_address' ) }}</span>
                                     <span>{{ display_val(data_item.emitent_ukr_company_address) }}</span>
                                 </div>
                             {% else %}
@@ -108,11 +108,11 @@
                     <td>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span class="color-1">{{ _("Розмір: ") }}</span>
+                                <span class="color-1">{{ _('sizeObligation') }}</span>
                                 <span>{{ display_val(data_item.sizeObligation) }}</span>
                             </div>
                             <div class="col-12">
-                                <span class="color-1">{{ _("Валюта: ") }}</span>
+                                <span class="color-1">{{ _('currency') }}</span>
                                 <span>{{ display_val(data_item.currency) }}</span>
                             </div>
                         </div>

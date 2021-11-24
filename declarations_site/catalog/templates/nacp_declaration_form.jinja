@@ -1,0 +1,40 @@
+{% if declaration._is_change_form() %}
+    {% set folder = "cf_steps" %}
+    {% set steps = range(1, 10) %}
+{% else %}
+    {% set folder = "steps" %}
+    {% set steps = range(0, 18) %}
+{% endif %}
+
+{% if declaration.nacp_orig.step_1 %}
+    {% set personal_info = {
+        "firstname": declaration.nacp_orig.step_1.firstname,
+        "middlename": declaration.nacp_orig.step_1.middlename,
+        "lastname": declaration.nacp_orig.step_1.lastname,
+    } %}
+{% else %}
+    {% set personal_info = {} %}
+{% endif %}
+
+{% for step in steps %}
+<div class="declaration-details" data-type="1">
+    <div class="card" id="step-data-{{ step}}}">
+        <header class="card-header" id="heading-{{ step }}">
+            <h2 class="card-header-title">
+
+                <span class="title">STEP {{ step }}</span>
+            </h2>
+        </header>
+        <div class="card-body">
+            {% if "step_" + step|string in declaration["nacp_orig"] %}
+                {% set step_data = declaration["nacp_orig"]["step_" + step|string] %}
+            {% else %}
+                {% set step_data = {} %}
+            {% endif %}
+            {% set step_description = "Step description #" + step|string %}
+            {% set step_template = folder + '/step_' + step|string + '.jinja' %}
+            {% include step_template with context %}
+        </div>
+    </div>
+</div>
+{% endfor %}
