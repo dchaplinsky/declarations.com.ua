@@ -1,4 +1,18 @@
 {% if step_data and not step_data['empty'] %}
+    {% set type1 = [] %}
+    {% set type2 = [] %}
+
+    {% for item in step_data %}
+        {% set data_item = step_data[item] %}
+        {% if data_item.type == 1 %}
+            {% set type1 = type1.append(data_item) %}
+        {% endif %}
+
+        {% if data_item.type == 2 %}
+            {% set type2 = type2.append(data_item) %}
+        {% endif %}
+    {% endfor %}
+
     <div class="table-responsive">
         <table class="table table-striped table-bordered card-table border corner-round dataTable">
             <thead>
@@ -11,14 +25,114 @@
             </tr>
             </thead>
             <tbody>
-            {% for item in step_data %}
-                {% set data_item = step_data[item] %}
+            {% for item in type1 %}
+                {% set data_item = item %}
                 <tr>
-                    <td class="doc-num-row-col">{# № #}
+                    <td class="doc-num-row-col">
                         {{ loop.index }}
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _( 'Вид правочину, який спричинив видаток' ) }}</span>
+                                <span>{{ display_val(data_item.specExpenses) }}</span>
+                            </div>
+                            {% if data_item.specOtherExpenses %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'Інший вид правочину' ) }}</span>
+                                    <span>{{ display_val(data_item.specOtherExpenses) }}</span>
+                                </div>
+                            {% endif %}
+                            {% if data_item.specExpensesSubject %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'Предмет правочину' ) }}</span>
+                                    <span>{{ display_val(data_item.specExpensesSubject) }}</span>
+                                </div>
+                            {% endif %}
+                            {% if data_item.specExpensesMovableSubject %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'Вид рухомого майна' ) }}</span>
+                                    <span>{{ display_val(data_item.specExpensesMovableSubject) }}</span>
+                                </div>
+                            {% endif %}
+                            {% if data_item.specExpensesOtherMovableSubject %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'Вкажіть яке саме рухоме майно' ) }}</span>
+                                    <span>{{ display_val(data_item.specExpensesOtherMovableSubject) }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.country) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.costAmount) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.date_costAmount) }}</span>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive mt-5">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+                <tr>
+                    <th class="doc-num-row-col">{{ _('№') }}</th>
+                    <th>{{ _("ІНФОРМАЦІЯ ЩОДО ІНШОГО ПРАВОЧИНУ") }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in type2 %}
+                    {% set data_item = item %}
+                    <tr>
+                        <td class="doc-num-row-col">
+                            {{ loop.index }}
+                        </td>
+                        <td>
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'Вид правочину, який спричинив видаток' ) }}</span>
+                                    <span>{{ display_val(data_item.specExpenses) }}</span>
+                                </div>
+                                {% if data_item.specOtherExpenses %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _( 'Інший вид правочину' ) }}</span>
+                                        <span>{{ display_val(data_item.specOtherExpenses) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.specExpensesSubject %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _( 'Предмет правочину' ) }}</span>
+                                        <span>{{ display_val(data_item.specExpensesSubject) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.specExpensesMovableSubject %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _( 'Вид рухомого майна' ) }}</span>
+                                        <span>{{ display_val(data_item.specExpensesMovableSubject) }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
