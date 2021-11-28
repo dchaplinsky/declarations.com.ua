@@ -80,7 +80,7 @@
                             {% if country_beneficial_owner %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Країна реєстрації головного офісу: ") }}</span>
-                                    <span>{{ display_val(data_item.country_beneficial_owner) }}</span>
+                                    <span>{{ declaration.get_country(data_item.country_beneficial_owner) }}</span>
                                 </div>
                             {% endif %}
                         </div>
@@ -98,7 +98,6 @@
                             <div class="col-12">
                                 <span class="color-1">{{ _("Адреса електронної пошти (e-mail): ") }}</span>
                                 <span>{{ display_val(data_item.mail) }}</span>
-                                {{ country_beneficial_owner }}
                             </div>
                             {% if country_beneficial_owner|string == "1" or country_beneficial_owner|string == "0" %}
                                 <div class="col-12">
