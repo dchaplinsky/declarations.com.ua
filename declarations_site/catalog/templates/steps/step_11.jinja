@@ -79,7 +79,7 @@
                             {% else %}
                                 <div class="row mb-2 mr-1">
                                     <div class="col-12">
-                                        <span class="color-1">{{ _( 'source_citizen' ) }}</span>
+                                        <span class="color-1">{{ _( 'Джерело доходу: ' ) }}</span>
                                         <span>{{ display_val(data_item.source_citizen) }}</span>
                                     </div>
                                     <div class="col-12">
@@ -93,12 +93,6 @@
                                 </div>
                             {% endif%}
                         {% endif %}
-                        <div class="row mb-2 mr-1">
-                            <div class="col-12">
-                                <span class="color-1">{{ _( 'person' ) }}</span>
-                                <span>{{ display_val(data_item.person) }}</span>
-                            </div>
-                        </div>
                     </td>
                     <td>{# ВИД ДОХОДУ #}
                         <div class="row mb-2 mr-1">
@@ -119,7 +113,7 @@
                     </td>
                     <td>{# ІНФОРМАЦІЯ ЩОДО ПРАВА НА ОБ'ЄКТ #}
                         {# todo: check #}
-                        {{ display_val(data_item.person_who_care) }}
+                        {% include 'steps/_care.jinja' with context %}
                     </td>
                 </tr>
             {% endfor %}

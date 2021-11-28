@@ -4,11 +4,11 @@
 
     {% for item in step_data %}
         {% set data_item = step_data[item] %}
-        {% if data_item.type == 1 %}
+        {% if data_item.type|string == "1" %}
             {% set type1 = type1.append(data_item) %}
         {% endif %}
 
-        {% if data_item.type == 2 %}
+        {% if data_item.type|string == "2" %}
             {% set type2 = type2.append(data_item) %}
         {% endif %}
     {% endfor %}

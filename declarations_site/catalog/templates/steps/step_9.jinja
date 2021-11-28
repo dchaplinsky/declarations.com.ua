@@ -31,7 +31,7 @@
                                 </div>
                             {% endif %}
                             {% set country_beneficial_owner = display_val(data_item.country_beneficial_owner) | int %}
-                            {% if country_beneficial_owner == 1 %}
+                            {% if country_beneficial_owner|string == "1" %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Найменування: ") }}</span>
                                     <span>{{ display_val(data_item.company_name_beneficial_owner) }}</span>
@@ -99,7 +99,7 @@
                                 <span class="color-1">{{ _("Адреса електронної пошти (e-mail): ") }}</span>
                                 <span>{{ display_val(data_item.mail) }}</span>
                             </div>
-                            {% if country_beneficial_owner == 1 or country_beneficial_owner == 0 %}
+                            {% if country_beneficial_owner|string == "1" or country_beneficial_owner|string == "0" %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Адреса юридичної особи: ") }}</span>
                                     <span>{{ display_val(data_item.address) }}</span>

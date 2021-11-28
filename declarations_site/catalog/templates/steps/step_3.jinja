@@ -47,10 +47,10 @@
                     </td>
                     <td>{# МІСЦЕЗНАХОДЖЕННЯ #}
                         <div class="row mb-2 mr-1">
-                            {% if data_item.country == '1' %}
+                            {% if data_item.country|string == "1" %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Країна: ") }}</span>
-                                    <span>{{ display_val(data_item.country) }}</span>
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
                                 </div>
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
@@ -87,7 +87,7 @@
                             {% else %}{# if data_item.country != '1' #}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Країна: ") }}</span>
-                                    <span>{{ display_val(data_item.country) }}</span>
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
                                 </div>
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Поштовий індекс: ") }}</span>

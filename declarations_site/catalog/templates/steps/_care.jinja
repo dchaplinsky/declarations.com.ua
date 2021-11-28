@@ -1,0 +1,45 @@
+{% set person = data_item.person_who_care %}
+
+{% if person %}
+    <div class="row mb-2 mr-1">
+        {% if person.ua_lastname  %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Прізвище: ') }}</span>
+                <span>{{ display_val(person.ua_lastname) }}</span>
+            </div>
+        {% endif %}
+        {% if person.ua_firstname  %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                <span>{{ display_val(person.ua_firstname) }}</span>
+            </div>
+        {% endif %}
+        {% if person.ua_middlename  %}
+            <div class="col-12">
+                <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                <span>{{ display_val(person.ua_middlename) }}</span>
+            </div>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="row mb-2 mr-1">
+        {% if personal_info.lastname  %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Прізвище: ') }}</span>
+                <span>{{ display_val(personal_info.lastname) }}</span>
+            </div>
+        {% endif %}
+        {% if personal_info.firstname  %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                <span>{{ display_val(personal_info.firstname) }}</span>
+            </div>
+        {% endif %}
+        {% if personal_info.middlename  %}
+            <div class="col-12">
+                <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                <span>{{ display_val(personal_info.middlename) }}</span>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

@@ -41,7 +41,7 @@
                                     </div>
                                 {% endif %}
                             </div>
-                            {% if related_person.changedName == 1 %}
+                            {% if related_person.changedName|string == "1" %}
                                 <div class="row mb-2 mr-1">
                                     <div class="col-12">
                                         <span class="color-1">{{ _("Прізвище: ") }}</span>
@@ -58,7 +58,7 @@
                                         </div>
                                     {% endif%}
                                 </div>
-                            {% endif%}{# if related_person.changedName == 1 #}
+                            {% endif%}{# if related_person.changedName|string == "1" #}
                         {% else %}{# if related_person.citizenship != '1' #}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
@@ -70,7 +70,7 @@
                                     <span>{{ display_val(related_person.ukr_full_name) }}</span>
                                 </div>
                             </div>
-                            {% if related_person.changedName == 1 %}
+                            {% if related_person.changedName|string == "1" %}
                                 <div class="row mb-2 mr-1">
                                     <div class="col-12">
                                         <span class="color-1">{{ _("Попереднє повне ім’я (англійською): ") }}</span>
@@ -81,7 +81,7 @@
                                         <span>{{ display_val(related_person.previous_ukr_full_name) }}</span>
                                     </div>
                                 </div>
-                            {% endif%}{# if related_person.changedName == 1 #}
+                            {% endif%}{# if related_person.changedName|string == "1" #}
                         {% endif %}{# if related_person.citizenship == '1' #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
@@ -92,7 +92,7 @@
                     </td>
                     <td>{# Громадянство #}
                         {% if related_person.citizenship %}
-                            {{ display_val(related_person.citizenship) }}{# todo:Dima match number & country name #}
+                            {{ declaration.get_country(related_person.citizenship) }}
                         {% else %}
                             {{ 'Без громадянства' }}
                         {% endif %}
@@ -101,7 +101,7 @@
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
                                 <span>
-                                    {% if related_person.citizenship == 1 %}
+                                    {% if related_person.citizenship|string == "1" %}
                                         {{ display_val(related_person.taxNumber) }}
                                     {% else %}
                                         {{ display_val(related_person.eng_identification_code) }}
@@ -111,7 +111,7 @@
                         </div>
                     </td>
                     <td>{# passport #}
-                        {% if related_person.citizenship == 1 %}
+                        {% if related_person.citizenship|string == "1" %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
                                     <span>{{ display_val(related_person.passport) }}</span>
@@ -120,7 +120,7 @@
                         {% endif %}
                     </td>
                     <td>
-                        {% if related_person.citizenship == 1 %}
+                        {% if related_person.citizenship|string == "1" %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
                                     <span>{{ display_val(related_person.unzr) }}</span>
@@ -129,11 +129,11 @@
                         {% endif %}
                     </td>{# unzr #}
                     <td>{# actual_living_place #}
-                        {% if related_person.citizenship == 1 %}
+                        {% if related_person.citizenship|string == "1" %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Країна: ") }}</span>
-                                    <span>{{ display_val(related_person.country) }}{# todo: Dima #}</span>
+                                    <span>{{ declaration.get_country(related_person.country) }}</span>
                                 </div>
                                 {% if related_person.postCode %}
                                     <div class="col-12">
@@ -143,7 +143,7 @@
                                 {% endif %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Населений пункт: ") }}</span>
-                                    <span>{{ display_val(related_person.ua_cityType) }}</span>
+                                    <span>{{ display_val(related_person.cityType) }}</span>
                                 </div>
                                 {% if related_person.streetType %}
                                     <div class="col-12">

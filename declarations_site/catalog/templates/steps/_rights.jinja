@@ -1,13 +1,13 @@
 {% for item in data_item.rights %}
     {% set rights_item = data_item.rights[item] %}
     <div class="row mb-2 mr-1">
-        {% if rights_item.ownershipType  %}
+        {% if rights_item.ownershipType %}
             <div class="col-12">
                 <span class="color-1">{{ _("Тип права: ") }}</span>
                 <span>{{ display_val(rights_item.ownershipType) }}</span>
             </div>
         {% endif %}
-        {% if rights_item.otherOwnership  %}
+        {% if rights_item.otherOwnership %}
             <div class="col-12">
                 <span class="color-1">{{ _("Інший тип: ") }}</span>
                 <span>{{ display_val(rights_item.otherOwnership) }}</span>
@@ -15,31 +15,30 @@
         {% endif %}
         {% if rights_item['percent-ownership']  %}
             <div class="col-12">
-                <span class="color-1">{{ _("Відсоток, %%: ") }}, %</span>
+                <span class="color-1">{{ _("Відсоток, %%: ") }}</span>
                 <span>{{ rights_item['percent-ownership'] }}</span>
             </div>
         {% endif %}
-        {% if rights_item.citizen  %}
+        {% if rights_item.citizen %}
             <div class="col-12">
-                <span class="color-1">{{ _('citizen') }}</span>
                 <span>{{ display_val(rights_item.citizen) }}</span>
-            </div>
-        {% endif %}
-        {% if rights_item.ua_firstname  %}
-            <div class="col-12">
-                <span class="color-1">{{ _('ua_firstname') }}</span>
-                <span>{{ display_val(rights_item.ua_firstname) }}</span>
             </div>
         {% endif %}
         {% if rights_item.ua_lastname  %}
             <div class="col-12">
-                <span class="color-1">{{ _('ua_lastname') }}</span>
+                <span class="color-1">{{ _('Прізвище: ') }}</span>
                 <span>{{ display_val(rights_item.ua_lastname) }}</span>
+            </div>
+        {% endif %}
+        {% if rights_item.ua_firstname  %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                <span>{{ display_val(rights_item.ua_firstname) }}</span>
             </div>
         {% endif %}
         {% if rights_item.ua_middlename  %}
             <div class="col-12">
-                <span class="color-1">{{ _('ua_middlename') }}</span>
+                <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
                 <span>{{ display_val(rights_item.ua_middlename) }}</span>
             </div>
         {% endif %}
@@ -55,15 +54,15 @@
                 <span>{{ display_val(rights_item.ua_regAddressFull) }}</span>
             </div>
         {% endif %}
-        {% if rights_item.ua_sameRegLivingAddress  %}
+        {% if rights_item.ua_sameRegLivingAddress %}
             <div class="col-12">
                 <span class="color-1">{{ _("збігається з зареєстрованим місцем проживання") }}</span>
                 <span>{{ display_val(rights_item.ua_sameRegLivingAddress) }}</span>
             </div>
         {% endif %}
-        {% if rights_item.ua_taxNumber  %}
+        {% if rights_item.ua_taxNumber %}
             <div class="col-12">
-                <span class="color-1">{{ _('ua_taxNumber') }}</span>
+                <span class="color-1">{{ _('Податковий номер: ') }}</span>
                 <span>{{ display_val(rights_item.ua_taxNumber) }}</span>
             </div>
         {% endif %}

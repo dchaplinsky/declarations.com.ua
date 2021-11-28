@@ -46,7 +46,7 @@ from .constants import (
     NUMBER_OF_SHARDS,
     NUMBER_OF_REPLICAS,
     NACP_SELECTORS_TO_TRANSLATE,
-    PAPER_SELECTORS_TO_TRANSLATE
+    PAPER_SELECTORS_TO_TRANSLATE,
 )
 
 
@@ -56,6 +56,7 @@ from .converters import PaperToNACPConverter, ConverterError
 from .translator import HTMLTranslator
 
 logger = logging.getLogger(__name__)
+
 
 class NoneAwareDate(Date):
     """Elasticsearch DSL Date field chokes on None values and parses empty
@@ -81,12 +82,7 @@ namesAutocompleteAnalyzer = analyzer(
 )
 
 namesAutocompleteSearchAnalyzer = analyzer(
-    "namesAutocompleteSearchAnalyzer",
-    tokenizer=tokenizer("whitespace"),
-
-    filter=[
-        "lowercase"
-    ]
+    "namesAutocompleteSearchAnalyzer", tokenizer=tokenizer("whitespace"), filter=["lowercase"]
 )
 
 
@@ -126,7 +122,7 @@ class AbstractDeclaration(object):
             self.general.post.office,
             self.general.post.region,
             getattr(self.general.post, "actual_region", ""),
-            self.intro.doc_type
+            self.intro.doc_type,
         ]
 
     def prepare_translations(self, language, infocard_only=False):
@@ -135,11 +131,7 @@ class AbstractDeclaration(object):
         if language == "en":
             extra_phrases = self.extra_phrases()
             if infocard_only:
-                self.translator = HTMLTranslator(
-                    html=None,
-                    selectors=[],
-                    extra_phrases=extra_phrases
-                )
+                self.translator = HTMLTranslator(html=None, selectors=[], extra_phrases=extra_phrases)
             else:
                 self.translator = HTMLTranslator(
                     html=self.raw_html(),
@@ -152,21 +144,15 @@ class AbstractDeclaration(object):
         return self.translator.get_translated_html()
 
     def _name_search_query(self):
-        name = "{} {} {}".format(
-            self.general.last_name, self.general.name, self.general.patronymic
-        ).strip()
+        name = "{} {} {}".format(self.general.last_name, self.general.name, self.general.patronymic).strip()
 
         return urllib.parse.quote(name)
 
     def _full_name(self, language):
-        name = "{} {} {}".format(
-            self.general.last_name, self.general.name, self.general.patronymic
-        ).strip()
+        name = "{} {} {}".format(self.general.last_name, self.general.name, self.general.patronymic).strip()
 
         if language == "en":
-            assert hasattr(
-                self, "translator"
-            ), "You should call prepare_translations first"
+            assert hasattr(self, "translator"), "You should call prepare_translations first"
 
             phrase = self.translator.translate(name, just_transliterate=True)
             return phrase["translation"]
@@ -176,9 +162,7 @@ class AbstractDeclaration(object):
     def _translate_one_field(self, field, language):
         if field:
             if language == "en":
-                assert hasattr(
-                    self, "translator"
-                ), "You should call prepare_translations first"
+                assert hasattr(self, "translator"), "You should call prepare_translations first"
 
                 phrase = self.translator.translate(field)
                 return phrase["translation"]
@@ -203,38 +187,29 @@ class AbstractDeclaration(object):
         return self._translate_one_field(self.intro.doc_type, language)
 
     def api_response(self, fields=None):
-        all_fields = [
-            "guid",
-            "infocard",
-            "raw_source",
-            "unified_source",
-            "related_entities"
-        ]
+        all_fields = ["guid", "infocard", "raw_source", "unified_source", "related_entities"]
 
         if fields is None:
             fields = all_fields
         else:
-            fields = [
-                f for f in fields if f in set(all_fields + ["guid", "aggregated_data", "related_documents"])
-            ]
+            fields = [f for f in fields if f in set(all_fields + ["guid", "aggregated_data", "related_documents"])]
 
         return {f: getattr(self, f)() for f in fields}
 
     def similar_declarations(self, language=None, limit=12):
-        res = {
-            "exact": [],
-            "maybe": []
-        }
+        res = {"exact": [], "maybe": []}
 
         if getattr(self.intro, "user_declarant_id", None):
             index = OLD_DECLARATION_INDEX
 
-            res["exact"] = NACPDeclaration.search().filter(
-                "term", **{"intro.user_declarant_id": self.intro.user_declarant_id}
-            ).query(~Q("term", _id=self.meta.id)).sort("-intro.doc_type")
+            res["exact"] = (
+                NACPDeclaration.search()
+                .filter("term", **{"intro.user_declarant_id": self.intro.user_declarant_id})
+                .query(~Q("term", _id=self.meta.id))
+                .sort("-intro.doc_type")
+            )
         else:
             index = CATALOG_INDICES
-
 
         fields = [
             "general.last_name",
@@ -256,7 +231,7 @@ class AbstractDeclaration(object):
 
         for k, s in res.items():
             if not s:
-                continue            
+                continue
             s = s.doc_type(NACPDeclaration, Declaration)
 
             if k == "maybe":
@@ -330,17 +305,13 @@ class AbstractDeclaration(object):
                 if hasattr(member, "family_name"):
                     yield member.family_name
         else:
-            for member in parse_raw_family_string(
-                getattr(self.general, "family_raw", "")
-            ):
+            for member in parse_raw_family_string(getattr(self.general, "family_raw", "")):
                 if "family_name" in member:
                     yield member["family_name"]
 
 
 declarations_idx = Index(OLD_DECLARATION_INDEX)
-declarations_idx.settings(
-    number_of_shards=NUMBER_OF_SHARDS, number_of_replicas=NUMBER_OF_REPLICAS
-)
+declarations_idx.settings(number_of_shards=NUMBER_OF_SHARDS, number_of_replicas=NUMBER_OF_REPLICAS)
 declarations_idx.analyzer(namesAutocompleteAnalyzer)
 declarations_idx.analyzer(namesAutocompleteSearchAnalyzer)
 
@@ -366,9 +337,7 @@ class Declaration(DocType, AbstractDeclaration):
         properties={
             "full_name_suggest": Completion(preserve_separators=False),
             "full_name": Text(index=True, analyzer="ukrainian"),
-            "full_name_for_sorting": Keyword(
-                index=True, ignore_above=100
-            ),  # only for sorting purposes
+            "full_name_for_sorting": Keyword(index=True, ignore_above=100),  # only for sorting purposes
             "name": Text(index=True, analyzer="ukrainian"),
             "patronymic": Text(index=True, analyzer="ukrainian"),
             "last_name": Text(index=True, analyzer="ukrainian"),
@@ -610,14 +579,11 @@ class Declaration(DocType, AbstractDeclaration):
             "position": self.general.post.post,
             "source": getattr(self.declaration, "source", getattr(self, "source", "")),
             "id": self.meta.id,
-            "url": settings.SITE_URL
-            + reverse("details", kwargs={"declaration_id": self.meta.id}),
+            "url": settings.SITE_URL + reverse("details", kwargs={"declaration_id": self.meta.id}),
             "document_type": self.intro.doc_type,
             "is_corrected": False,
             "declaration_year": getattr(self.intro, "declaration_year"),
-            "created_date": getattr(
-                self.intro, "date", getattr(self.declaration, "date", "")
-            ),
+            "created_date": getattr(self.intro, "date", getattr(self.declaration, "date", "")),
         }
 
     def related_entities(self):
@@ -678,7 +644,6 @@ class Declaration(DocType, AbstractDeclaration):
                     res.append([car_info["brand"], car_info["brand_info"]])
         return res
 
-
     # Temporary solution to provide enough aggregated data
     # to make it possible to compare old and new declarations
     # TODO: REPLACE ME
@@ -692,7 +657,7 @@ class Declaration(DocType, AbstractDeclaration):
             try:
                 return float(str(getattr(doc, key, "0") or "0").replace(",", "."))
             except ValueError:
-                return 0.
+                return 0.0
 
         def get_exchange_rate(year, curr):
             rates = {
@@ -749,9 +714,7 @@ class Declaration(DocType, AbstractDeclaration):
         if hasattr(self, "income"):
             resp["incomes.declarant"] = to_float(self.income["5"], "value")
             resp["incomes.family"] = to_float(self.income["5"], "family")
-            resp["incomes.presents.all"] = to_float(
-                self.income["11"], "value"
-            ) + to_float(self.income["11"], "family")
+            resp["incomes.presents.all"] = to_float(self.income["11"], "value") + to_float(self.income["11"], "family")
 
             resp["incomes.total"] = resp["incomes.declarant"] + resp["incomes.family"]
 
@@ -770,9 +733,7 @@ class Declaration(DocType, AbstractDeclaration):
                 "64",
             ]:
                 if hasattr(self.liabilities, field):
-                    resp["liabilities.total"] += to_float(
-                        getattr(self.liabilities, field), "sum"
-                    )
+                    resp["liabilities.total"] += to_float(getattr(self.liabilities, field), "sum")
 
         if hasattr(self, "banks"):
             for d_key, k in (("45", "declarant"), ("51", "family")):
@@ -784,9 +745,7 @@ class Declaration(DocType, AbstractDeclaration):
                             currency = "UAH"
 
                         if currency != "UAH":
-                            rate = get_exchange_rate(
-                                str(self.intro.declaration_year), currency
-                            )
+                            rate = get_exchange_rate(str(self.intro.declaration_year), currency)
                             if rate is None:
                                 continue
 
@@ -803,16 +762,11 @@ class Declaration(DocType, AbstractDeclaration):
             if language == "en" and hasattr(self, "translator"):
                 vehicles.append(
                     "{} {}".format(
-                        self._translate_one_field(brand, language),
-                        self._translate_one_field(brand_info, language)
+                        self._translate_one_field(brand, language), self._translate_one_field(brand_info, language)
                     ).replace(";", "")
                 )
             else:
-                vehicles.append(
-                    "{} {}".format(
-                        brand, brand_info
-                    ).replace(";", "")
-                )
+                vehicles.append("{} {}".format(brand, brand_info).replace(";", ""))
 
         resp["vehicles.all_names"] += "; ".join(vehicles)
 
@@ -845,7 +799,6 @@ class Declaration(DocType, AbstractDeclaration):
         self._aggregated = resp
         return resp
 
-
     def raw_html(self):
         doc = render_to_string("decl_form.jinja", {"declaration": self})
 
@@ -858,9 +811,7 @@ class Declaration(DocType, AbstractDeclaration):
 
 
 nacp_declarations_idx = Index(NACP_DECLARATION_INDEX)
-nacp_declarations_idx.settings(
-    number_of_shards=NUMBER_OF_SHARDS, number_of_replicas=NUMBER_OF_REPLICAS
-)
+nacp_declarations_idx.settings(number_of_shards=NUMBER_OF_SHARDS, number_of_replicas=NUMBER_OF_REPLICAS)
 
 nacp_declarations_idx.analyzer(namesAutocompleteAnalyzer)
 nacp_declarations_idx.analyzer(namesAutocompleteSearchAnalyzer)
@@ -886,9 +837,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
     general = Object(
         properties={
             "full_name": Text(index=True, analyzer="ukrainian"),
-            "full_name_for_sorting": Keyword(
-                index=True, ignore_above=100
-            ),  # only for sorting purposes
+            "full_name_for_sorting": Keyword(index=True, ignore_above=100),  # only for sorting purposes
             "name": Text(index=True, analyzer="ukrainian"),
             "patronymic": Text(index=True, analyzer="ukrainian"),
             "last_name": Text(index=True, analyzer="ukrainian"),
@@ -924,13 +873,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         }
     )
     declaration = Object(properties={"date": NoneAwareDate()})
-    estate = Object(
-        properties={
-            "region": Text(
-                index=True, analyzer="ukrainian", fields={"raw": Keyword(index=True)}
-            )
-        }
-    )
+    estate = Object(properties={"region": Text(index=True, analyzer="ukrainian", fields={"raw": Keyword(index=True)})})
     intro = Object(
         properties={
             "declaration_year": Keyword(index=True),
@@ -989,9 +932,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             ),
         },
         "estate_purch_no_cost_flag": {
-            "name": _(
-                "Не вказано вартість нерухомості, права на яку набуті в поточному році"
-            ),
+            "name": _("Не вказано вартість нерухомості, права на яку набуті в поточному році"),
             "description": _(
                 """В декларації вказано об'єкт нерухомості (розділ 3), що належить декларанту чи члену родини
                 на праві власності (зокрема сумісної), при цьому дата набуття права співпадає зі звітним роком,
@@ -1059,48 +1000,325 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         },
         "estate_purch_no_cost_flag": {
             "name": _("Не вказано вартість нерухомості, права на яку набуті в поточному році"),
-            "description": _("""В декларації вказано об'єкт нерухомості (розділ 3), що належить декларанту чи члену
+            "description": _(
+                """В декларації вказано об'єкт нерухомості (розділ 3), що належить декларанту чи члену
 родини на праві власності (Власність \ Спільна власність), при цьому дата набуття права співпадає зі звітним роком, 
-а показники вартості нерухомості на дату набуття права та на дату останньої оцінки не вказано або дорівнюють 0""")
+а показники вартості нерухомості на дату набуття права та на дату останньої оцінки не вказано або дорівнюють 0"""
+            ),
         },
         "vehicle_purch_no_cost_flag": {
             "name": _("Не вказано вартість ТЗ, право на який набуто в поточному році"),
-            "description": _("""В декларації вказано транспортний засіб (розділ 6), що належить декларанту чи члену
+            "description": _(
+                """В декларації вказано транспортний засіб (розділ 6), що належить декларанту чи члену
 родини на праві власності (Власність \ Спільна власність), при цьому дата набуття права співпадає зі звітним роком, а показник 
-вартості ТЗ не вказано або дорівнює 0""")
+вартості ТЗ не вказано або дорівнює 0"""
+            ),
         },
         "has_huge_prize": {
             "name": _("Призи / лотереї більше 10 тис"),
-            "description": _("""Задекларовано дохід (декларантом або членом родини) виграші в лотерею чи призи загальною
+            "description": _(
+                """Задекларовано дохід (декларантом або членом родини) виграші в лотерею чи призи загальною
 сумою >= 10 тис. грн. Перевіряється тип доходу “Приз”, а також тип доходу “Інше” з пошуком в описі за ключовими словами
-типу “виграш” і т.п.""")
+типу “виграш” і т.п."""
+            ),
         },
         "has_foreign_real_estate": {
             "name": _("Є нерухомість за кордоном"),
-            "description": _("""Задекларовано об'єкт нерухомості будь-якого типу, що належить декларанту чи члену родини
-(Власність / Спільна власність), і країною місцезнаходження об'єкту є не Україна""")
+            "description": _(
+                """Задекларовано об'єкт нерухомості будь-якого типу, що належить декларанту чи члену родини
+(Власність / Спільна власність), і країною місцезнаходження об'єкту є не Україна"""
+            ),
         },
         "has_non_bank_liabilities": {
-            "name": _("Має фінансові зобов’язання по відношенню не до банків, страхових чи лізингових компаній або пенсійних фондів"),
-            "description": _("""Перевіряється назва особи, щодо якої є зобов’язання, порівнюється з списком назв банків та їхніх кодів ЄДРПОУ.
-Також перевіряється опис зобов’язання на предмет страхових чи  лізингових компаній та пенсійних фондів""")
+            "name": _(
+                "Має фінансові зобов’язання по відношенню не до банків, страхових чи лізингових компаній або пенсійних фондів"
+            ),
+            "description": _(
+                """Перевіряється назва особи, щодо якої є зобов’язання, порівнюється з списком назв банків та їхніх кодів ЄДРПОУ.
+Також перевіряється опис зобов’язання на предмет страхових чи  лізингових компаній та пенсійних фондів"""
+            ),
         },
         "has_aircraft_flag": {
             "name": _("Має повітряний транспортний засіб"),
-            "description": _("""Задекларовано ТЗ виду “Повітряний засіб”, на будь-якому праві власності""")
+            "description": _("""Задекларовано ТЗ виду “Повітряний засіб”, на будь-якому праві власності"""),
         },
         "has_major_real_estate": {
             "name": _("Має нерухомість площею більше 300 м2"),
-            "description": _("""Задекларовано нерухомість (тип 'Житловий будинок', 'Квартира', 'Кімната', 'Садовий 
-(дачний) будинок') площею більше 300 м2 на будь-якому праві власності""")
+            "description": _(
+                """Задекларовано нерухомість (тип 'Житловий будинок', 'Квартира', 'Кімната', 'Садовий 
+(дачний) будинок') площею більше 300 м2 на будь-якому праві власності"""
+            ),
         },
         "family_member_did_not_provide_information": {
             "name": _("Член сім’ї не надав інформацію"),
-            "description": _("""Щодо будь-якого задекларованого об’єкта є дані, які відсутні, бо член сім’ї не надав 
+            "description": _(
+                """Щодо будь-якого задекларованого об’єкта є дані, які відсутні, бо член сім’ї не надав 
 інформацію. Частина менш важливих даних, які в принципі можуть бути невідомі члену родини (податковий номер компанії, 
-і т.п.) не перевіряється.""")
+і т.п.) не перевіряється."""
+            ),
         },
     }
+
+    COUNTRIES = {
+        "1": _("Україна"),
+        "2": _("Австралія"),
+        "3": _("Австрія"),
+        "4": _("Азербайджан"),
+        "5": _("Аландські острови"),
+        "6": _("Албанія"),
+        "7": _("Алжир"),
+        "8": _("Американське Самоа"),
+        "9": _("Американські Віргінські острови"),
+        "10": _("Ангілья"),
+        "11": _("Ангола"),
+        "12": _("Андорра"),
+        "13": _("Антарктида"),
+        "14": _("Антигуа і Барбуда"),
+        "15": _("Аргентина"),
+        "16": _("Аруба"),
+        "17": _("Афганістан"),
+        "18": _("Багамські Острови"),
+        "19": _("Бангладеш"),
+        "20": _("Барбадос"),
+        "21": _("Бахрейн"),
+        "23": _("Бельгія"),
+        "22": _("Беліз"),
+        "24": _("Бенін"),
+        "25": _("Бермудські острови"),
+        "26": _("Білорусь"),
+        "27": _("Болгарія"),
+        "28": _("Болівія"),
+        "29": _("Боснія і Герцеговина"),
+        "30": _("Ботсвана"),
+        "31": _("Бразилія"),
+        "32": _("Британська територія в Індійському океані"),
+        "33": _("Британські Віргінські острови"),
+        "34": _("Бруней"),
+        "35": _("Буркіна-Фасо"),
+        "36": _("Бурунді"),
+        "37": _("Бутан"),
+        "38": _("Вануату"),
+        "39": _("Ватикан"),
+        "40": _("Велика Британія"),
+        "41": _("Венесуела"),
+        "42": _("В'єтнам"),
+        "43": _("Вірменія"),
+        "44": _("Волліс і Футуна"),
+        "45": _("Габон"),
+        "46": _("Гаїті"),
+        "48": _("Гамбія"),
+        "49": _("Гана"),
+        "47": _("Гаяна"),
+        "50": _("Гваделупа"),
+        "51": _("Гватемала"),
+        "52": _("Гвінея"),
+        "53": _("Гвінея-Бісау"),
+        "54": _("Гернсі"),
+        "61": _("Гібралтар"),
+        "55": _("Гондурас"),
+        "56": _("Гонконг"),
+        "57": _("Гренада"),
+        "58": _("Греція"),
+        "59": _("Грузія"),
+        "60": _("Гуам"),
+        "62": _("Ґренландія"),
+        "63": _("Данія"),
+        "65": _("Джерсі"),
+        "66": _("Джибуті"),
+        "67": _("Домініка"),
+        "68": _("Домініканська Республіка"),
+        "64": _("ДР Конго"),
+        "75": _("Єгипет"),
+        "70": _("Еквадор"),
+        "71": _("Екваторіальна Гвінея"),
+        "76": _("Ємен"),
+        "72": _("Еритрея"),
+        "73": _("Естонія"),
+        "74": _("Ефіопія"),
+        "77": _("Замбія"),
+        "78": _("Західна Сахара"),
+        "79": _("Зімбабве"),
+        "69": _("Зовнішні малі острови США"),
+        "80": _("Ізраїль"),
+        "81": _("Індія"),
+        "82": _("Індонезія"),
+        "83": _("Ірак"),
+        "84": _("Іран"),
+        "85": _("Ірландія"),
+        "86": _("Ісландія"),
+        "87": _("Іспанія"),
+        "88": _("Італія"),
+        "89": _("Йорданія"),
+        "90": _("Кабо-Верде"),
+        "91": _("Казахстан"),
+        "92": _("Кайманові острови"),
+        "93": _("Камбоджа"),
+        "94": _("Камерун"),
+        "95": _("Канада"),
+        "96": _("Катар"),
+        "97": _("Кенія"),
+        "98": _("Киргизстан"),
+        "101": _("Кіпр"),
+        "102": _("Кірибаті"),
+        "99": _("КНР"),
+        "103": _("Кокосові острови (Кілінг)"),
+        "104": _("Колумбія"),
+        "105": _("Коморські Острови"),
+        "106": _("Конго"),
+        "107": _("Коста-Рика"),
+        "108": _("Кот-д'Івуар"),
+        "109": _("Куба"),
+        "110": _("Кувейт"),
+        "111": _("Лаос"),
+        "112": _("Латвія"),
+        "113": _("Лесото"),
+        "114": _("Литва"),
+        "115": _("Ліберія"),
+        "116": _("Ліван"),
+        "117": _("Лівія"),
+        "118": _("Ліхтенштейн"),
+        "119": _("Люксембург"),
+        "120": _("Маврикій"),
+        "121": _("Мавританія"),
+        "122": _("Мадагаскар"),
+        "123": _("Майотта"),
+        "124": _("Макао"),
+        "125": _("Македонія"),
+        "126": _("Малаві"),
+        "127": _("Малайзія"),
+        "129": _("Мальдіви"),
+        "128": _("Малі"),
+        "130": _("Мальта"),
+        "131": _("Марокко"),
+        "132": _("Мартиніка"),
+        "133": _("Маршаллові Острови"),
+        "134": _("Мексика"),
+        "135": _("Мозамбік"),
+        "136": _("Молдова"),
+        "137": _("Монако"),
+        "138": _("Монголія"),
+        "139": _("Монтсеррат"),
+        "140": _("М'янма"),
+        "141": _("Намібія"),
+        "142": _("Науру"),
+        "143": _("Непал"),
+        "144": _("Нігер"),
+        "145": _("Нігерія"),
+        "146": _("Нідерланди"),
+        "147": _("Нідерландські Антильські острови"),
+        "148": _("Нікарагуа"),
+        "149": _("Німеччина"),
+        "150": _("Ніуе"),
+        "151": _("Нова Зеландія"),
+        "152": _("Нова Каледонія"),
+        "153": _("Норвегія"),
+        "154": _("ОАЕ"),
+        "155": _("Оман"),
+        "156": _("Острів Буве"),
+        "157": _("Острів Мен"),
+        "158": _("Острів Норфолк"),
+        "159": _("Острів Різдва"),
+        "161": _("Острови Герд і Макдональд"),
+        "162": _("Острови Кука"),
+        "160": _("Острови Святої Єлени, Вознесіння і Тристан-да-Кунья"),
+        "214": _("Острови Теркс і Кайкос"),
+        "163": _("Пакистан"),
+        "164": _("Палау"),
+        "165": _("Палестина"),
+        "166": _("Панама"),
+        "167": _("Папуа - Нова Гвінея"),
+        "173": _("ПАР"),
+        "168": _("Парагвай"),
+        "169": _("Перу"),
+        "170": _("Південна Джорджія та Південні Сандвічеві острови"),
+        "171": _("Південна Корея"),
+        "172": _("Південний Судан"),
+        "100": _("Північна Корея"),
+        "174": _("Північні Маріанські острови"),
+        "175": _("Піткерн"),
+        "176": _("Польща"),
+        "177": _("Португалія"),
+        "178": _("Пуерто-Рико"),
+        "179": _("Реюньйон"),
+        "180": _("Росія"),
+        "181": _("Руанда"),
+        "182": _("Румунія"),
+        "183": _("Сальвадор"),
+        "184": _("Самоа"),
+        "185": _("Сан-Марино"),
+        "186": _("Сан-Томе і Принсіпі"),
+        "187": _("Саудівська Аравія"),
+        "188": _("Свазіленд"),
+        "189": _("Свальбард і Ян-Маєн"),
+        "190": _("Сейшельські Острови"),
+        "191": _("Сен-Бартельмі"),
+        "192": _("Сенегал"),
+        "193": _("Сен-Мартін"),
+        "194": _("Сен-П'єр і Мікелон"),
+        "195": _("Сент-Вінсент і Гренадини"),
+        "196": _("Сент-Кіттс і Невіс"),
+        "197": _("Сент-Люсія"),
+        "198": _("Сербія"),
+        "209": _("Сьєрра-Леоне"),
+        "199": _("Сирія"),
+        "200": _("Сінгапур"),
+        "201": _("Словаччина"),
+        "202": _("Словенія"),
+        "203": _("Соломонові Острови"),
+        "204": _("Сомалі"),
+        "206": _("Судан"),
+        "207": _("Суринам"),
+        "208": _("Східний Тимор"),
+        "205": _("США"),
+        "210": _("Таджикистан"),
+        "211": _("Таїланд"),
+        "212": _("Тайвань"),
+        "213": _("Танзанія"),
+        "215": _("Того"),
+        "216": _("Токелау"),
+        "217": _("Тонга"),
+        "218": _("Тринідад і Тобаго"),
+        "219": _("Тувалу"),
+        "220": _("Туніс"),
+        "221": _("Туреччина"),
+        "222": _("Туркменістан"),
+        "223": _("Уганда"),
+        "224": _("Угорщина"),
+        "225": _("Узбекистан"),
+        "227": _("Уругвай"),
+        "228": _("Фарерські острови"),
+        "229": _("Федеративні Штати Мікронезії"),
+        "230": _("Фіджі"),
+        "231": _("Філіппіни"),
+        "232": _("Фінляндія"),
+        "233": _("Фолклендські (Мальвінські) острови"),
+        "234": _("Франція"),
+        "235": _("Французька Гвіана"),
+        "236": _("Французька Полінезія"),
+        "237": _("Французькі Південні території"),
+        "238": _("Хорватія"),
+        "239": _("Центральноафриканська Республіка"),
+        "240": _("Чад"),
+        "241": _("Чехія"),
+        "242": _("Чилі"),
+        "243": _("Чорногорія"),
+        "244": _("Швейцарія"),
+        "245": _("Швеція"),
+        "246": _("Шрі-Ланка"),
+        "247": _("Ямайка"),
+        "248": _("Японія"),
+    }
+
+    def get_country(self, country_id):
+        country_id = str(country_id)
+
+        if country_id not in self.COUNTRIES:
+            return _("Невідома країна ") + country_id
+        else:
+            return self.COUNTRIES[country_id]
+
+    def resolve_relative(self, person_id):
+        pass
 
     def raw_html(self):
         fname = os.path.join(
@@ -1125,14 +1343,11 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             return _("<h2>Вибачте, декларація тимчасово відсутня, але ми вже працюємо над вирішенням проблеми</h2>")
 
         # OH LORD, THAT'S NOT WHAT I'VE BEEN TAUGHT IN UNIVERSITY
-        doc = declaration_html.replace(
-            "</div></div></div><header><h2>", "</div></div><header><h2>"
-        )
+        doc = declaration_html.replace("</div></div></div><header><h2>", "</div></div><header><h2>")
         # MY ASS IS ON FIRE
         doc = re.sub(r"</table>\s*<header>", "</table></div><header>", doc)
         doc = re.sub(r"</h2>\s*<div", "</h2></header><div", doc)
         doc = re.sub(r"</span></h2>У", "</span></h2></header>У", doc)
-        
 
         companies = self._all_companies()
 
@@ -1231,12 +1446,8 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         jmespath.compile("step_13.*.emitent_ua_company_code[]"),
         jmespath.compile("step_13.*.emitent_ua_company_name[]"),
         jmespath.compile("step_13.*.guarantor[].*.guarantor_ua_company_code[]"),
-        jmespath.compile(
-            "step_13.*.guarantor_realty[].*.realty_rights_ua_company_code[]"
-        ),
-        jmespath.compile(
-            "step_13.*.guarantor_realty[].*.realty_rights_ua_company_code[]"
-        ),
+        jmespath.compile("step_13.*.guarantor_realty[].*.realty_rights_ua_company_code[]"),
+        jmespath.compile("step_13.*.guarantor_realty[].*.realty_rights_ua_company_code[]"),
         jmespath.compile("step_15.*.emitent_ua_company_code[]"),
         jmespath.compile("step_16.org.*.reestrCode[]"),
         jmespath.compile("step_16.part_org.*.reestrCode[]"),
@@ -1316,8 +1527,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             "source": self.declaration.source,
             "id": self.meta.id,
             "user_declarant_id": getattr(self.intro, "user_declarant_id"),
-            "url": settings.SITE_URL
-            + reverse("details", kwargs={"declaration_id": self.meta.id}),
+            "url": settings.SITE_URL + reverse("details", kwargs={"declaration_id": self.meta.id}),
             "document_type": self.intro.doc_type,
             "is_corrected": self.intro.corrected,
             "created_date": self.intro.date,
@@ -1325,9 +1535,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         }
 
     def raw_source(self):
-        return {
-            "url": "https://public-api.nazk.gov.ua/v2/documents/%s" % self.meta.id.replace("nacp_", "")
-        }
+        return {"url": "https://public-api.nazk.gov.ua/v2/documents/%s" % self.meta.id.replace("nacp_", "")}
 
     @property
     def original_url(self):
@@ -1366,23 +1574,22 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         if hasattr(self, "aggregated"):
             for f, flag in self.ENABLED_FLAGS.items():
                 if str(getattr(self.aggregated, f, "false")).lower() == "true":
-                    res.append({
-                        "flag": f,
-                        "text": flag["name"],
-                        "description": flag["description"],
-                    })
+                    res.append(
+                        {
+                            "flag": f,
+                            "text": flag["name"],
+                            "description": flag["description"],
+                        }
+                    )
 
         return res
-
 
     class Meta:
         doc_type = "nacp_declaration_doctype"
 
 
 nacp_declarations_new_format_idx = Index(NACP_DECLARATION_NEW_FORMAT_INDEX)
-nacp_declarations_new_format_idx.settings(
-    number_of_shards=NUMBER_OF_SHARDS, number_of_replicas=NUMBER_OF_REPLICAS
-)
+nacp_declarations_new_format_idx.settings(number_of_shards=NUMBER_OF_SHARDS, number_of_replicas=NUMBER_OF_REPLICAS)
 
 nacp_declarations_new_format_idx.analyzer(namesAutocompleteAnalyzer)
 nacp_declarations_new_format_idx.analyzer(namesAutocompleteSearchAnalyzer)

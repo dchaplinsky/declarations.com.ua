@@ -50,7 +50,7 @@
     <legend><i>{{ _("Зареєстроване місце проживання") }}</i></legend>
     <div class="row mb-3 mr-1">
         <div class="col-5 align-self-end color-1">{{ _("Країна") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.country) }}</div>
+        <div class="col-7 align-self-end border-bottom">{{ declaration.get_country(step_data.country) }}</div>
     </div>
 
 {% if not step_data.country or step_data.country in [1, "1"] %}
