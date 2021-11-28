@@ -29,87 +29,40 @@
                                     <span class="color-1">{{ _("Інший вид зобов'язання: ") }}</span>
                                     <span>{{ display_val(data_item.otherObjectType) }}</span>
                                 </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Дата виникнення: ") }}</span>
-                                    <span>{{ display_val(data_item.dateOrigin) }}</span>
-                                </div>
                             {% endif %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Дата виникнення: ") }}</span>
+                                <span>{{ display_val(data_item.dateOrigin) }}</span>
+                            </div>
                         </div>
 
                         {% if data_item.objectType == 'Отримані кредити' or data_item.objectType == 'Отримані позики' %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Залишок позики (кредиту) станом на кінець звітного періоду: ") }}</span>
-                                    <span>{{ display_val(data_item.credit_rest) }}</span>
+                                    <span>{{ display_val(data_item.credit_rest)|amount_format }}</span>
                                 </div>
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Розмір сплачених коштів у рахунок основної суми позики (кредиту): ") }}</span>
-                                    <span>{{ display_val(data_item.credit_paid) }}</span>
+                                    <span>{{ display_val(data_item.credit_paid)|amount_format }}</span>
                                 </div>
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Розмір сплачених відсотків за позикою (кредитом): ") }}</span>
-                                    <span>{{ display_val(data_item.credit_percent_paid) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Дата виникнення: ") }}</span>
-                                    <span>{{ display_val(data_item.dateOrigin) }}</span>
+                                    <span>{{ display_val(data_item.credit_percent_paid)|amount_format }}</span>
                                 </div>
                             </div>
                         {% endif %}
-                        <div class="row mb-2 mr-1">
-                            <div class="col-12">
-                                <span>{{ display_val(data_item.person) }}</span>
-                            </div>
-                        </div>
                     </td>
                     <td>
                         <div class="row mb-2 mr-1">
-                            {% if data_item.emitent_citizen == 'Юридична особа, зареєстрована в Україні' %}
-                                <div class="col-12">
-                                    <span>{{ display_val(data_item.emitent_citizen) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування: ") }}</span>
-                                    <span>{{ display_val(data_item.emitent_ua_company_name) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
-                                    <span>{{ display_val(data_item.emitent_ua_company_code) }}</span>
-                                </div>
-                            {% elif data_item.emitent_citizen == 'Юридична особа, зареєстрована за кордоном' %}
-                                <div class="col-12">
-                                    <span>{{ display_val(data_item.emitent_citizen) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
-                                    <span>{{ display_val(data_item.emitent_eng_company_name) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування (українською): ") }}</span>
-                                    <span>{{ display_val(data_item.emitent_ukr_company_name) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Ідентифікаційний код: ") }}</span>
-                                    <span>{{ display_val(data_item.emitent_eng_company_code) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження (англійською): ") }}</span>
-                                    <span>{{ display_val(data_item.emitent_eng_company_address) }}</span>
-                                </div>
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження (українською): ") }}</span>
-                                    <span>{{ display_val(data_item.emitent_ukr_company_address) }}</span>
-                                </div>
-                            {% else %}
-                                {# todo: not sure #}
-                            {% endif %}
+                            {% include 'steps/_emitent.jinja' with context %}
                         </div>
                     </td>
                     <td>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
                                 <span class="color-1">{{ _("Розмір: ") }}</span>
-                                <span>{{ display_val(data_item.sizeObligation) }}</span>
+                                <span>{{ display_val(data_item.sizeObligation)|amount_format }}</span>
                             </div>
                             <div class="col-12">
                                 <span class="color-1">{{ _("Валюта: ") }}</span>
@@ -128,8 +81,7 @@
                         </div>
                     </td>
                     <td>
-                        {# todo: check #}
-                        {{ display_val(data_item.person_who_care) }}
+                        {% include 'steps/_care.jinja' with context %}
                     </td>
                 </tr>
             {% endfor %}

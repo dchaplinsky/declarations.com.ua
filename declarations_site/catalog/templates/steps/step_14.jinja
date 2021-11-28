@@ -32,6 +32,7 @@
                         {{ loop.index }}
                     </td>
                     <td>
+                        {# TODO find sample and validate #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
                                 <span class="color-1">{{ _( 'Вид правочину, який спричинив видаток' ) }}</span>
@@ -85,6 +86,12 @@
                         </div>
                     </td>
                 </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">
+                        <div class="col-12">{{ _("Даних немає") }}</div>
+                    </td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>
@@ -107,31 +114,56 @@
                         </td>
                         <td>
                             <div class="row mb-2 mr-1">
-                                <div class="col-12">
-                                    <span class="color-1">{{ _( 'Вид правочину, який спричинив видаток' ) }}</span>
-                                    <span>{{ display_val(data_item.specExpenses) }}</span>
-                                </div>
+                                {% if data_item.specResultExpenses %}
+                                    <div class="col-12">
+                                        <span>{{ display_val(data_item.specResultExpenses) }}</span>
+                                    </div>
+                                {% endif %}
                                 {% if data_item.specOtherExpenses %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _( 'Інший вид правочину' ) }}</span>
+                                        <span class="color-1">{{ _( 'Інший вид правочину: ' ) }}</span>
                                         <span>{{ display_val(data_item.specOtherExpenses) }}</span>
                                     </div>
                                 {% endif %}
-                                {% if data_item.specExpensesSubject %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'Предмет правочину: ' ) }}</span>
+                                    <span>{{ display_val(data_item.specExpensesSubject) }}</span>
+                                </div>
+                                {% if data_item.specExpensesRealtySubject %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _( 'Предмет правочину' ) }}</span>
-                                        <span>{{ display_val(data_item.specExpensesSubject) }}</span>
+                                        <span>{{ display_val(data_item.specExpensesRealtySubject) }}</span>
                                     </div>
                                 {% endif %}
                                 {% if data_item.specExpensesMovableSubject %}
                                     <div class="col-12">
-                                        <span class="color-1">{{ _( 'Вид рухомого майна' ) }}</span>
                                         <span>{{ display_val(data_item.specExpensesMovableSubject) }}</span>
                                     </div>
                                 {% endif %}
+                                {% if data_item.specExpensesAssetsSubject %}
+                                    <div class="col-12">
+                                        <span>{{ display_val(data_item.specExpensesAssetsSubject) }}</span>
+                                    </div>
+                                {% endif %}
+                                {% if data_item.specOtherExpensesSubject %}
+                                    <div class="col-12">
+                                        <span>{{ display_val(data_item.specOtherExpensesSubject) }}</span>
+                                    </div>
+                                {% endif %}
+
+                                <div class="col-12">
+                                    <span class="color-1">{{ _( 'Дата вчинення правочину: ' ) }}</span>
+                                    <span>{{ display_val(data_item.date_specExpenses) }}</span>
+                                </div>
                             </div>
                         </td>
                     </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">
+                            <div class="col-12">{{ _("Даних немає") }}</div>
+                        </td>
+                    </tr>
+
                 {% endfor %}
             </tbody>
         </table>

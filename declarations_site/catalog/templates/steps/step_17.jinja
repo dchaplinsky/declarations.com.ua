@@ -30,7 +30,7 @@
                             </div>
                             {% if data_item.other_account_type %}
                                 <div class="col-12">
-                                    <span class="color-1">{{ _( 'other_account_type' ) }}</span>
+                                    <span class="color-1">{{ _( 'Інший тип рахунку: ' ) }}</span>
                                     <span>{{ display_val(data_item.other_account_type) }}</span>
                                 </div>
                             {% endif %}
@@ -41,16 +41,136 @@
                         </div>
                     </td>
                     <td>
-                        {# todo: Dima #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if display_val(data_item.person_has_account).startswith("[") %}
+                                    {{ display_val(data_item.person_has_account) }}
+                                {% else %}
+                                    {% if data_item.person_has_account and not data_item.person_has_account|string == "1" %}
+                                        {% set relative = declaration.resolve_relative(data_item.person_has_account) %}
+                                        {% if relative %}
+                                            <div class="row mb-2 mr-1">
+                                                <div class="col-12">
+                                                    <span>{{ display_val(relative.subjectRelation) }}</span>
+                                                </div>
+                                                {% if relative.lastname %}
+                                                    <div class="col-12">
+                                                        <span class="color-1">{{ _('Прізвище: ') }}</span>
+                                                        <span>{{ display_val(relative.lastname) }}</span>
+                                                    </div>
+                                                {% endif %}
+                                                {% if relative.firstname %}
+                                                    <div class="col-12">
+                                                        <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                                                        <span>{{ display_val(relative.firstname) }}</span>
+                                                    </div>
+                                                {% endif %}
+                                                {% if relative.middlename %}
+                                                    <div class="col-12">
+                                                        <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                                                        <span>{{ display_val(relative.middlename) }}</span>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="row mb-2 mr-1">
+                                            {% if personal_info.lastname %}
+                                                <div class="col-12">
+                                                    <span class="color-1">{{ _('Прізвище: ') }}</span>
+                                                    <span>{{ display_val(personal_info.lastname) }}</span>
+                                                </div>
+                                            {% endif %}
+                                            {% if personal_info.firstname %}
+                                                <div class="col-12">
+                                                    <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                                                    <span>{{ display_val(personal_info.firstname) }}</span>
+                                                </div>
+                                            {% endif %}
+                                            {% if personal_info.middlename %}
+                                                <div class="col-12">
+                                                    <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                                                    <span>{{ display_val(personal_info.middlename) }}</span>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        {# todo: Dima #}
+                        <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    {% if display_val(data_item.person_open_account).startswith("[") %}
+                                        {{ display_val(data_item.person_open_account) }}
+                                    {% else %}
+                                        {% if data_item.person_open_account and not data_item.person_open_account|string == "1" %}
+                                            {% set relative = declaration.resolve_relative(data_item.person_open_account) %}
+                                            {% if relative %}
+                                                <div class="row mb-2 mr-1">
+                                                    <div class="col-12">
+                                                        <span>{{ display_val(relative.subjectRelation) }}</span>
+                                                    </div>
+                                                    {% if relative.lastname %}
+                                                        <div class="col-12">
+                                                            <span class="color-1">{{ _('Прізвище: ') }}</span>
+                                                            <span>{{ display_val(relative.lastname) }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if relative.firstname %}
+                                                        <div class="col-12">
+                                                            <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                                                            <span>{{ display_val(relative.firstname) }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% if relative.middlename %}
+                                                        <div class="col-12">
+                                                            <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                                                            <span>{{ display_val(relative.middlename) }}</span>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            {% endif %}
+                                        {% else %}
+                                            <div class="row mb-2 mr-1">
+                                                {% if personal_info.lastname %}
+                                                    <div class="col-12">
+                                                        <span class="color-1">{{ _('Прізвище: ') }}</span>
+                                                        <span>{{ display_val(personal_info.lastname) }}</span>
+                                                    </div>
+                                                {% endif %}
+                                                {% if personal_info.firstname %}
+                                                    <div class="col-12">
+                                                        <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                                                        <span>{{ display_val(personal_info.firstname) }}</span>
+                                                    </div>
+                                                {% endif %}
+                                                {% if personal_info.middlename %}
+                                                    <div class="col-12">
+                                                        <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                                                        <span>{{ display_val(personal_info.middlename) }}</span>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td>
-                        {# todo: Dima #}
+                        <div class="col-12">
+                            <span class="color-1">{{ _("Найменування: ") }}</span>
+                            <span>{{ display_val(data_item.establishment_ua_company_name )}}</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань:") }}</span>
+                            <span>{{ display_val(data_item.establishment_ua_company_code )}}</span>
+                        </div>
                     </td>
                     <td>
-                        {# todo: Dima #}
+                        {% include 'steps/_care.jinja' with context %}
                     </td>
                 </tr>
             {% endfor %}

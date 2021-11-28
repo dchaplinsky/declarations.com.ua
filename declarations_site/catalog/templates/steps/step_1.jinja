@@ -108,7 +108,7 @@
 {% else %}
     <div class="row mb-3 mr-1">
         <div class="col-5 align-self-end color-1">{{ _("Країна: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_country) }}</div>
+        <div class="col-7 align-self-end border-bottom">{{ declaration.get_country(step_data.actual_country) }}</div>
     </div>
 
     {% if not step_data.actual_country or step_data.actual_country in [1, "1"] %}

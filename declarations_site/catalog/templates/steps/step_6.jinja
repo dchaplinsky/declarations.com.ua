@@ -52,7 +52,7 @@
                             <div class="col-12">
                                 <span class="color-1">{{ _("Рік випуску: ") }}</span>
                                 {# todo: int #}
-                                <span>{{ display_val(data_item.graduationYear) }}</span>
+                                <span>{{ display_val(data_item.graduationYear)|maybe_year }}</span>
                             </div>
                         </div>
 
@@ -60,6 +60,7 @@
                     <td>{# ВАРТІСТЬ НА ДАТУ НАБУТТЯ У ВЛАСНІСТЬ, ВОЛОДІННЯ ЧИ КОРИСТУВАННЯ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
+                                {# todo: costDate=[Не відомо]#}
                                 <span>{{ display_val(data_item.costDate)|amount_format }}</span>
                             </div>
                         </div>

@@ -160,3 +160,12 @@ def amount_format(value):
         return "{:.2f}".format(num)
     except ValueError:
         return value
+
+
+@library.filter
+def maybe_year(value):
+    try:
+        num = int(float(value))
+        return str(num)
+    except ValueError:
+        return value

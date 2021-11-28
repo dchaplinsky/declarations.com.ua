@@ -1320,7 +1320,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
     def _parse_relatives(self):
         if self.nacp_orig.step_2:
             return {
-                str(person["id"] or person_id): person for person_id, person in self.nacp_orig.step_2.to_dict().items()
+                str(person.get("id", person_id)): person for person_id, person in self.nacp_orig.step_2.to_dict().items()
             }
         else:
             return {}
