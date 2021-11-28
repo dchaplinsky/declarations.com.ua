@@ -47,18 +47,17 @@
                         </div>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                {# todo: Dima, check, lookslike we do not need this to display #}
-                                <span>{{ display_val(data_item.unfinishConstruct) }}</span>
+                                <span>{% if data_item.unfinishConstruct %}{{ _("Об'єкт незавершеного будівництва") }}{% endif %}</span>
                             </div>
                         </div>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span>{{ display_val(data_item.exploitation) }}</span>
+                                <span>{% if data_item.exploitation %}{{ _("Об'єкт, не прийнятий в експлуатацію") }}{% endif %}</span>
                             </div>
                         </div>
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span>{{ display_val(data_item.dontRegistered) }}</span>
+                                <span>{% if data_item.dontRegistered %}{{ _("Об'єкт, право власності на який не зареєстроване в установленому законом порядку") }}{% endif %}</span>
                             </div>
                         </div>
                     </td>
@@ -67,7 +66,7 @@
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Країна: ") }}</span>
-                                    <span>{{ display_val(data_item.country) }}</span>
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
                                 </div>
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
@@ -112,7 +111,7 @@
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Країна: ") }}</span>
-                                    <span>{{ display_val(data_item.country) }}</span>
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
                                 </div>
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
@@ -139,21 +138,21 @@
                         <div class="row mb-2 mr-1">
                             {% if data_item.belongsSubjectOfDeclaration %}
                                 <div class="col-12">
-                                    <span>{{ display_val(data_item.belongsSubjectOfDeclaration) }}</span>
+                                    <span>{{ _("Об'єкт належить суб'єкту декларування чи члену його сім'ї на праві власності відповідно до Цивільного кодексу України.") }}</span>
                                 </div>
                             {% endif %}
                         </div>
                         <div class="row mb-2 mr-1">
                             {% if data_item.builtOnTerritoryOrRent %}
                                 <div class="col-12">
-                                    <span>{{ display_val(data_item.builtOnTerritoryOrRent) }}</span>
+                                    <span>{{ _("Об'єкт розташований на земельній ділянці, що належить суб'єкту декларування або членам його сім'ї на праві приватної власності, включаючи спільну власність, або переданий їм в оренду чи на іншому праві користування, незалежно від правових підстав набуття такого права.") }}</span>
                                 </div>
                             {% endif %}
                         </div>
                         <div class="row mb-2 mr-1">
                             {% if data_item.builtMaterialsOrFunds %}
                                 <div class="col-12">
-                                    <span>{{ display_val(data_item.builtMaterialsOrFunds) }}</span>
+                                    <span>{{ _("Об'єкт повністю або частково побудований з матеріалів чи за кошти суб'єкта декларування або члена його сім'ї.") }}</span>
                                 </div>
                             {% endif %}
                         </div>

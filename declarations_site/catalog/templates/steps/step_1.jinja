@@ -1,45 +1,45 @@
 <div class="row mb-3 mr-1">
-    <div class="col-5 align-self-end color-1">{{ _("Прізвище") }}</div>
+    <div class="col-5 align-self-end color-1">{{ _("Прізвище: ") }}</div>
     <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.lastname) }}</div>
 </div>
 <div class="row mb-3 mr-1">
-    <div class="col-5 align-self-end color-1">{{ _("Ім'я") }}</div>
+    <div class="col-5 align-self-end color-1">{{ _("Ім'я: ") }}</div>
     <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.firstname) }}</div>
 </div>
 <div class="row mb-3 mr-1">
-    <div class="col-5 align-self-end color-1">{{ _("По батькові") }}</div>
+    <div class="col-5 align-self-end color-1">{{ _("По батькові: ") }}</div>
     <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.middlename) }}</div>
 </div>
 <div class="row mb-3 mr-1">
-    <div class="col-5 align-self-end color-1">{{ _("Податковий номер") }}</div>
+    <div class="col-5 align-self-end color-1">{{ _("Податковий номер: ") }}</div>
     <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.taxNumber) }}</div>
 </div>
 <div class="row mb-3 mr-1">
-    <div class="col-5 align-self-end color-1">{{ _("Серія та номер паспорта громадянина України (ID-картка)") }}</div>
+    <div class="col-5 align-self-end color-1">{{ _("Серія та номер паспорта громадянина України (ID-картка): ") }}</div>
     <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.passport) }}</div>
 </div>
 <div class="row mb-3 mr-1">
-    <div class="col-5 align-self-end color-1">{{ _("Унікальний номер запису в Єдиному державному демографічному реєстрі") }}</div>
+    <div class="col-5 align-self-end color-1">{{ _("Унікальний номер запису в Єдиному державному демографічному реєстрі: ") }}</div>
     <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.unzr) }}</div>
 </div>
 <div class="row mb-3 mr-1">
-    <div class="col-5 align-self-end color-1">{{ _("Дата народження") }}</div>
+    <div class="col-5 align-self-end color-1">{{ _("Дата народження: ") }}</div>
     <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.birthday) }}</div>
 </div>
 
 {% if step_data.changedName %}
     <fieldset class="line-height">
-        <legend><i>{{ _("У звітному періоді було змінено прізвище, ім'я або по батькові") }}</i></legend>
+        <legend><i>{{ _("У звітному періоді було змінено прізвище, ім'я або по батькові: ") }}</i></legend>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Попереднє прізвище")}}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Попереднє прізвище: ")}}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.previous_lastname) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Попереднє ім'я")}}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Попереднє ім'я: ")}}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.previous_firstname) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Попереднє по батькові")}}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Попереднє по батькові: ")}}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.previous_middlename) }}</div>
         </div>
     </fieldset>
@@ -49,108 +49,108 @@
 <fieldset class="line-height">
     <legend><i>{{ _("Зареєстроване місце проживання") }}</i></legend>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Країна") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Країна: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ declaration.get_country(step_data.country) }}</div>
     </div>
 
 {% if not step_data.country or step_data.country in [1, "1"] %}
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.postCode) }} </div>
     </div>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Місто, селище чи село") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Місто, селище чи село: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.cityType) }} </div>
     </div>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Тип") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Тип: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.streetType) }} </div>
     </div>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Назва") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Назва: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.street) }} </div>
     </div>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Номер будинку") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Номер будинку: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.houseNum) }} </div>
     </div>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Номер корпусу") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Номер корпусу: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.housePartNum) }} </div>
     </div>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Номер квартири") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Номер квартири: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.apartmentsNum) }} </div>
     </div>
 {% else %}
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.eng_reg_postCode) }} </div>
     </div>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Адреса (англійською)") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Адреса (англійською): ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.eng_reg_address) }} </div>
     </div>
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Адреса (українською)") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Адреса (українською): ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.ukr_reg_address) }} </div>
     </div>
 {% endif %}
 </fieldset>
 
 <fieldset class="line-height">
-    <legend class="line-height"><i>{{ _("Місце фактичного проживання або поштова адреса, на яку Національне агентство з питань запобігання корупції може надсилати кореспонденцію суб'єкту декларування") }}</i></legend>
+    <legend class="line-height"><i>{{ _("Місце фактичного проживання або поштова адреса, на яку Національне агентство з питань запобігання корупції може надсилати кореспонденцію суб'єкту декларування: ") }}</i></legend>
 
 {% if step_data.sameRegLivingAddress %}
     <div class="mb-3">
-        <div class="align-self-end color-1">{{ _("Збігається з місцем реєстрації") }}</div>
+        <div class="align-self-end color-1">{{ _("Збігається з місцем реєстрації: ") }}</div>
     </div>
 {% else %}
     <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Країна") }}</div>
+        <div class="col-5 align-self-end color-1">{{ _("Країна: ") }}</div>
         <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_country) }}</div>
     </div>
 
     {% if not step_data.actual_country or step_data.actual_country in [1, "1"] %}
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс: ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_postCode) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Місто, селище чи село") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Місто, селище чи село: ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_cityType) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Тип") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Тип: ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_streetType) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Назва") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Назва: ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_street) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Номер будинку") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Номер будинку: ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_houseNum) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Номер корпусу") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Номер корпусу: ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_housePartNum) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Номер квартири") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Номер квартири: ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_apartmentsNum) }}</div>
         </div>
     {% else %}
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс: ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.eng_actualPostCode) }}</div>
         </div>
         <div class="row mb-3 mr-1">
-                <div class="col-5 align-self-end color-1">{{ _("Адреса (англійською)") }}</div>
+                <div class="col-5 align-self-end color-1">{{ _("Адреса (англійською): ") }}</div>
                 <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.eng_actualAddress) }}>/div>
         </div>
         <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Адреса (українською)") }}</div>
+            <div class="col-5 align-self-end color-1">{{ _("Адреса (українською): ") }}</div>
             <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.ukr_actualAddress) }}</div>
         </div>
     {% endif %}

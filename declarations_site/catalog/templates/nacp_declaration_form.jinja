@@ -63,10 +63,10 @@
             {% set step_description = "Step description #" + step|string %}
             {% set step_template = folder + '/step_' + step|string + '.jinja' %}
             {% include step_template with context %}
-            <hr>
-            <p>{{ _("Документ підписано: ") }}:</p>
-            <p>{{ display_val(personal_info.lastname)|upper }} {{ display_val(personal_info.firstname)|upper }} {{ display_val(personal_info.middlename)|upper }}</p>
         </div>
     </div>
 </div>
 {% endfor %}
+<hr>
+<p>{{ _("Документ підписано: ") }}:</p>
+<p>{{ display_val(personal_info.lastname)|upper }} {{ display_val(personal_info.firstname)|upper }} {{ display_val(personal_info.middlename)|upper }}</p>
