@@ -61,7 +61,7 @@
                     <td>{# ВАРТІСТЬ НА ДАТУ НАБУТТЯ У ВЛАСНІСТЬ, ВОЛОДІННЯ ЧИ КОРИСТУВАННЯ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span>{{ display_val(data_item.costDateUse) }}</span>
+                                <span>{{ display_val(data_item.costDateUse)|amount_format }}</span>
                             </div>
                         </div>
                     </td>

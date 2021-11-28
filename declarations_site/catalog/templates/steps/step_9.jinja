@@ -98,11 +98,12 @@
                             <div class="col-12">
                                 <span class="color-1">{{ _("Адреса електронної пошти (e-mail): ") }}</span>
                                 <span>{{ display_val(data_item.mail) }}</span>
+                                {{ country_beneficial_owner }}
                             </div>
                             {% if country_beneficial_owner|string == "1" or country_beneficial_owner|string == "0" %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Адреса юридичної особи: ") }}</span>
-                                    <span>{{ display_val(data_item.address) }}</span>
+                                    <span>{{ display_val(data_item.address_beneficial_owner) }}</span>
                                 </div>
                             {% else %}
                                 <div class="col-12">
@@ -117,7 +118,7 @@
                         </div>
                     </td>
                     <td>{# АДРЕСА ТА КОНТАКТИ ЮРИДИЧНОЇ ОСОБИ #}
-                        {{ display_val(data_item.person_who_care) }}
+                        {% include 'steps/_care.jinja' with context %}
                     </td>
                 </tr>
             {% endfor %}

@@ -20,6 +20,11 @@
                         </td>
                         <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
                             <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Найменування юридичної особи: ") }}</span>
+                                <span>{{ display_val(data_item.name) }}</span>
+                            </div>
+
                             {% set country = data_item.country | int %}
                             {% if country > 1 %}
                                 <div class="col-12">
@@ -30,7 +35,7 @@
                                     <span class="color-1">{{ _("Ідентифікаційний номер: ") }}</span>
                                     <span>{{ display_val(data_item.en_corporate_rights_company_code) }}</span>
                                 </div>
-                            {% else%}
+                            {% else %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
                                     <span>{{ display_val(data_item.corporate_rights_company_code) }}</span>
@@ -53,7 +58,7 @@
                         <td>{# ВАРТІСТЬ У ГРОШОВОМУ ВИРАЖЕННІ #}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
-                                    <span>{{ display_val(data_item.cost) }}</span>
+                                    <span>{% if data_item.cost %}{{ display_val(data_item.cost) }}{% else %}-{% endif %}</span>
                                 </div>
                             </div>
                         </td>
