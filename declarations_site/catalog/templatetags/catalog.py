@@ -151,3 +151,12 @@ def display_val(value):
         return value
 
     return ""
+
+
+@library.filter
+def amount_format(value):
+    try:
+        num = float(str(value).replace(",", "."))
+        return "{:.2f}".format(num)
+    except ValueError:
+        return value

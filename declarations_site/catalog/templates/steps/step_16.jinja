@@ -48,7 +48,3 @@
 {% else %}
     {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
 {% endif %}
-
-<hr>
-<p>{{ _("Документ підписано: ") }}:</p>
-<p>{{ display_val(personal_info.lastname)|upper }} {{ display_val(personal_info.firstname)|upper }} {{ display_val(personal_info.middlename)|upper }}</p>

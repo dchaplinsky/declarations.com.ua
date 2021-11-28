@@ -107,7 +107,7 @@
                     <td>{# ВАРТІСТЬ НА ДАТУ НАБУТТЯ #}
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
-                                <span>{{ display_val(data_item.cost_date_assessment) }}</span>
+                                <span>{{ display_val(data_item.cost_date_assessment)|amount_format }}</span>
                             </div>
                         </div>
                     </td>

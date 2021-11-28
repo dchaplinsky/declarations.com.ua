@@ -1317,8 +1317,17 @@ class NACPDeclaration(DocType, AbstractDeclaration):
         else:
             return self.COUNTRIES[country_id]
 
+    def _parse_relatives(self):
+        if self.nacp_orig.step_2:
+            return {
+                str(person["id"] or person_id): person for person_id, person in self.nacp_orig.step_2.to_dict().items()
+            }
+        else:
+            return {}
+
     def resolve_relative(self, person_id):
-        pass
+        parsed = self._parse_relatives()
+        return parsed.get(str(person_id), None)
 
     def raw_html(self):
         fname = os.path.join(
