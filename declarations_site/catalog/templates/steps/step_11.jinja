@@ -21,77 +21,7 @@
                         {% if data_item.revenue_source %}
                             {# todo: not sure what to do. Dima please, check #}
                         {% else %}
-                            {% if data_item.source_citizen == 'Громадянин України' %}
-                                <div class="row mb-2 mr-1">
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Прізвище: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_lastname) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Ім'я: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_firstname) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("По батькові: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_middlename) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Дата народження: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_birthday) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Податковий номер: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_taxNumber) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Зареєстроване місце проживання: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_regAddress) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Місце фактичного проживання: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_actualAddress) }}</span>
-                                    </div>
-                                </div>
-
-                            {% elif data_item.source_citizen == 'Іноземний громадянин' %}
-                                <div class="row mb-2 mr-1">
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Повне ім'я (англійською): ") }}</span>
-                                        <span>{{ display_val(data_item.source_eng_fullname) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Повне ім'я (українською): ") }}</span>
-                                        <span>{{ display_val(data_item.source_ukr_fullname) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Ідентифікаційний номер: ") }}</span>
-                                        <span>{{ display_val(data_item.source_eng_taxNumber) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Місце проживання (англійською): ") }}</span>
-                                        <span>{{ display_val(data_item.source_eng_regAddress) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Місце проживання (українською): ") }}</span>
-                                        <span>{{ display_val(data_item.source_ukr_regAddress) }}</span>
-                                    </div>
-                                </div>
-                            {% else %}
-                                <div class="row mb-2 mr-1">
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _( 'Джерело доходу: ' ) }}</span>
-                                        <span>{{ display_val(data_item.source_citizen) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Найменування: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_company_name) }}</span>
-                                    </div>
-                                    <div class="col-12">
-                                        <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
-                                        <span>{{ display_val(data_item.source_ua_company_code) }}</span>
-                                    </div>
-                                </div>
-                            {% endif%}
+                            {% include 'steps/_income.jinja' with context %}
                         {% endif %}
                     </td>
                     <td>{# ВИД ДОХОДУ #}
@@ -112,7 +42,6 @@
                         </div>
                     </td>
                     <td>{# ІНФОРМАЦІЯ ЩОДО ПРАВА НА ОБ'ЄКТ #}
-                        {# todo: check #}
                         {% include 'steps/_care.jinja' with context %}
                     </td>
                 </tr>

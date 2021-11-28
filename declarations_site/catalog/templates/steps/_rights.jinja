@@ -106,16 +106,16 @@
                 <span>{{ display_val(rights_item.ua_taxNumber) }}</span>
             </div>
         {% endif %}
-        {% if rights_item.ua_livingAddressFull  %}
-            <div class="col-12">
-                <span class="color-1">{{ _("Місце фактичного проживання: ") }}</span>
-                <span>{{ display_val(rights_item.ua_livingAddressFull) }}</span>
-            </div>
-        {% endif %}
         {% if rights_item.ua_regAddressFull  %}
             <div class="col-12">
                 <span class="color-1">{{ _("Зареєстроване місце проживання: ") }}</span>
                 <span>{{ display_val(rights_item.ua_regAddressFull) }}</span>
+            </div>
+        {% endif %}
+        {% if rights_item.ua_livingAddressFull  %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Місце фактичного проживання: ") }}</span>
+                <span>{{ display_val(rights_item.ua_livingAddressFull) }}</span>
             </div>
         {% endif %}
         {% if rights_item.ua_sameRegLivingAddress %}
