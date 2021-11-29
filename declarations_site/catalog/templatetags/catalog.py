@@ -3,6 +3,8 @@ from django_jinja import library
 from django.conf import settings
 from django.utils.safestring import mark_safe
 from django.utils import formats
+from django.utils.translation import gettext_lazy as _
+
 from translitua import translit
 from dateutil.parser import parse as dt_parse
 from catalog.utils import parse_family_member
@@ -167,5 +169,25 @@ def maybe_year(value):
     try:
         num = int(float(value))
         return str(num)
+    except ValueError:
+        return value
+
+
+@library.filter
+def extended_status(value):
+    try:
+        num = int(value)
+
+        if num == 0:
+            return ""
+        if num == 1:
+            return _("[Не застосовується]")
+        elif num == 2:
+            return _("[Не відомо]")
+        elif num == 3:
+            return _("[Член сім'ї не надав інформацію]")
+        else:
+            return value
+
     except ValueError:
         return value

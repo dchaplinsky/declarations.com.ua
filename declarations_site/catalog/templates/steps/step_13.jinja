@@ -81,6 +81,12 @@
                                     <span class="color-1">{{ _("Майнове забезпечення: ") }}</span>
                                     <span>{{ display_val(guarantor_realty.realty_objectType) }}</span>
                                 </div>
+                                {% if guarantor_realty.realty_otherObjectType %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Інше майнове забезпечення: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_otherObjectType) }}</span>
+                                    </div>
+                                {% endif %}
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Вартість: ") }}</span>
                                     <span>{{ display_val(guarantor_realty.realty_cost)|amount_format }}</span>
