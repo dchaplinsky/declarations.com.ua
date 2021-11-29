@@ -1,36 +1,68 @@
 {% for source in data_item.sources %}
     <div class="row mb-2 mr-1">
-        <div class="col-12">
-            <span class="color-1">{{ _('Джерело: ') }}</span>
-            <span>{{ display_val(source.sourceType) }}</span>
-        </div>
-        <div class="col-12">
-            <span class="color-1">{{ _('ua_lastname') }}</span>
-            <span>{{ display_val(source.ua_lastname) }}</span>
-        </div>
-        <div class="col-12">
-            <span class="color-1">{{ _('ua_firstname') }}</span>
-            <span>{{ display_val(source.ua_firstname) }}</span>
-        </div>
-        <div class="col-12">
-            <span class="color-1">{{ _('ua_middlename') }}</span>
-            <span>{{ display_val(source.ua_middlename) }}</span>
-        </div>
-        <div class="col-12">
-            <span class="color-1">{{ _('ua_birthday') }}</span>
-            <span>{{ display_val(source.ua_birthday) }}</span>
-        </div>
-        <div class="col-12">
-            <span class="color-1">{{ _('ua_taxNumber') }}</span>
-            <span>{{ display_val(source.ua_taxNumber) }}</span>
-        </div>
-        <div class="col-12">
-            <span class="color-1">{{ _("Зареєстроване місце проживання: ") }}</span>
-            <span>{{ display_val(source.ua_regAddressFull) }}</span>
-        </div>
-        <div class="col-12">
-            <span class="color-1">{{ _("Місце фактичного проживання: ") }}</span>
-            <span>{{ display_val(source.ua_livingAddressFull) }}</span>
-        </div>
+        {% if source.sourceType %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Джерело: ') }}</span>
+                <span>{{ display_val(source.sourceType) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_lastname %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Прізвище: ') }}</span>
+                <span>{{ display_val(source.ua_lastname) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_firstname %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Ім'я: ") }}</span>
+                <span>{{ display_val(source.ua_firstname) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_middlename %}
+            <div class="col-12">
+                <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                <span>{{ display_val(source.ua_middlename) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_birthday %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Дата народження: ') }}</span>
+                <span>{{ display_val(source.ua_birthday) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_company_name %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Найменування: ') }}</span>
+                <span>{{ display_val(source.ua_company_name) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_company_code %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ') }}</span>
+                <span>{{ display_val(source.ua_company_code) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_taxNumber %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Податковий номер: ') }}</span>
+                <span>{{ display_val(source.ua_taxNumber) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_regAddressFull %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Зареєстроване місце проживання: ") }}</span>
+                <span>{{ display_val(source.ua_regAddressFull) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ua_sameRegLivingAddress == '1' or source.ua_livingAddressFull %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Місце фактичного проживання: ") }}</span>
+                {% if source.ua_sameRegLivingAddress == '1' %}
+                    <span>{{ _('збігається з зареєстрованим місцем проживання') }}</span>
+                {% else %}
+                    <span>{{ display_val(source.ua_livingAddressFull) }}</span>
+                {% endif%}
+            </div>
+        {% endif %}
     </div>
 {% endfor %}

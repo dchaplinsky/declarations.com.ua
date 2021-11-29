@@ -45,154 +45,43 @@
     </fieldset>
 {% endif %}
 
+{% if step_data.workPlace and step_data.workPost and step_data.postType and step_data.postCategory %}
+    <fieldset class="line-height">
+        <legend><i>{{ _("Місце роботи: ") }}</i></legend>
+        <div class="row mb-3 mr-1">
+            <div class="col-12 align-self-end color-1">{{ _("Місце роботи або проходження служби <small>(або місце майбутньої роботи чи проходження служби для кандидатів)</small>: ") }}</div>
+            <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.workPlace) }}</div>
+        </div>
+        <div class="row mb-3 mr-1">
+            <div class="col-12 align-self-end color-1">{{ _("Займана посада <small>(або посада, на яку претендуєте як кандидат)</small>: ") }}</div>
+            <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.workPost) }}</div>
+        </div>
+    </fieldset>
 
-<fieldset class="line-height">
-    <legend><i>{{ _("Зареєстроване місце проживання: ") }}</i></legend>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Країна: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.country) }}</div>
-    </div>
+    <fieldset class="line-height">
+        <legend><i>{{ _("Категорія посади (заповніть, якщо це вас стосується): ") }}</i></legend>
+        <div class="row mb-3 mr-1">
+            <div class="col-5 align-self-end color-1">{{ _("Тип посади: ") }}</div>
+            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.postType) }}</div>
+        </div>
+        <div class="row mb-3 mr-1">
+            <div class="col-5 align-self-end color-1">{{ _("Категорія посади: ") }}</div>
+            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.postCategory) }}</div>
+        </div>
+    </fieldset>
 
-{% if not step_data.country or step_data.country in [1, "1"] %}
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.postCode) }} </div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Місто, селище чи село: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.cityType) }} </div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Тип: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.streetType) }} </div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Назва: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.street) }} </div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Номер будинку: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.houseNum) }} </div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Номер корпусу: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.housePartNum) }} </div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Номер квартири: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.apartmentsNum) }} </div>
-    </div>
-{% else %}
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.eng_reg_postCode) }} </div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Адреса (англійською): ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.eng_reg_address) }} </div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Адреса (українською): ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.ukr_reg_address) }} </div>
-    </div>
+    <fieldset class="line-height">
+        <div class="row mb-3 mr-1">
+            <div class="col-12 align-self-end color-1">{{ _("Чи відноситесь ви до службових осіб, які займають відповідальне та особливо відповідальне становище, відповідно до статті 50 Закону України “Про запобігання корупції”?") }}</div>
+            <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.responsiblePosition) }}</div>
+        </div>
+        <div class="row mb-3 mr-1">
+            <div class="col-12 align-self-end color-1">{{ _("Чи належить ваша посада до посад, пов'язаних з високим рівнем корупційних ризиків, згідно з переліком, затвердженим Національним агентством з питань запобігання корупції?") }}</div>
+            <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.corruptionAffected) }}</div>
+        </div>
+        <div class="row mb-3 mr-1">
+            <div class="col-12 align-self-end color-1">{{ _("Чи належите Ви до національних публічних діячів відповідно до Закону України “Про запобігання та протидію легалізації (відмиванню) доходів, одержаних злочинним шляхом, фінансуванню тероризму та фінансуванню розповсюдження зброї масового знищення”?") }}</div>
+            <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.public_person) }}</div>
+        </div>
+    </fieldset>
 {% endif %}
-
-</fieldset>
-
-<fieldset class="line-height">
-    <legend class="line-height"><i>{{ _("Місце фактичного проживання або поштова адреса, на яку Національне агентство з питань запобігання корупції може надсилати кореспонденцію суб'єкту декларування: ") }}</i></legend>
-
-{% if step_data.sameRegLivingAddress %}
-    <div class="mb-3">
-        <div class="align-self-end color-1">{{ _("Збігається з місцем реєстрації") }}</div>
-    </div>
-{% else %}
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Країна: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ _('actual_country') }}</div>
-    </div>
-
-    {% if not step_data.actual_country or step_data.actual_country in [1, "1"] %}
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс: ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_postCode) }}</div>
-        </div>
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Місто, селище чи село: ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_cityType) }}</div>
-        </div>
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Тип: ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_streetType) }}</div>
-        </div>
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Назва: ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_street) }}</div>
-        </div>
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Номер будинку: ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_houseNum) }}</div>
-        </div>
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Номер корпусу: ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_housePartNum) }}</div>
-        </div>
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Номер квартири: ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.actual_apartmentsNum) }}</div>
-        </div>
-    {% else %}
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Поштовий індекс: ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.eng_actualPostCode) }}</div>
-        </div>
-        <div class="row mb-3 mr-1">
-                <div class="col-5 align-self-end color-1">{{ _("Адреса (англійською): ") }}</div>
-                <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.eng_actualAddress) }}>/div>
-        </div>
-        <div class="row mb-3 mr-1">
-            <div class="col-5 align-self-end color-1">{{ _("Адреса (українською): ") }}</div>
-            <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.ukr_actualAddress) }}</div>
-        </div>
-    {% endif %}
-</fieldset>
-{% endif %}
-
-<fieldset class="line-height">
-    <legend><i>{{ _("Місце роботи: ") }}</i></legend>
-    <div class="row mb-3 mr-1">
-        <div class="col-12 align-self-end color-1">{{ _("Місце роботи або проходження служби <small>(або місце майбутньої роботи чи проходження служби для кандидатів)</small>: ") }}</div>
-        <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.workPlace) }}</div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-12 align-self-end color-1">{{ _("Займана посада <small>(або посада, на яку претендуєте як кандидат)</small>: ") }}</div>
-        <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.workPost) }}</div>
-    </div>
-</fieldset>
-
-<fieldset class="line-height">
-    <legend><i>{{ _("Категорія посади (заповніть, якщо це вас стосується): ") }}</i></legend>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Тип посади: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.postType) }}</div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-5 align-self-end color-1">{{ _("Категорія посади: ") }}</div>
-        <div class="col-7 align-self-end border-bottom">{{ display_val(step_data.postCategory) }}</div>
-    </div>
-</fieldset>
-
-<fieldset class="line-height">
-    <div class="row mb-3 mr-1">
-        <div class="col-12 align-self-end color-1">{{ _("Чи відноситесь ви до службових осіб, які займають відповідальне та особливо відповідальне становище, відповідно до статті 50 Закону України “Про запобігання корупції”?") }}</div>
-        <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.responsiblePosition) }}</div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-12 align-self-end color-1">{{ _("Чи належить ваша посада до посад, пов'язаних з високим рівнем корупційних ризиків, згідно з переліком, затвердженим Національним агентством з питань запобігання корупції?") }}</div>
-        <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.corruptionAffected) }}</div>
-    </div>
-    <div class="row mb-3 mr-1">
-        <div class="col-12 align-self-end color-1">{{ _("Чи належите Ви до національних публічних діячів відповідно до Закону України “Про запобігання та протидію легалізації (відмиванню) доходів, одержаних злочинним шляхом, фінансуванню тероризму та фінансуванню розповсюдження зброї масового знищення”?") }}</div>
-        <div class="col-12 align-self-end border-bottom">{{ display_val(step_data.public_person) }}</div>
-    </div>
-</fieldset>
