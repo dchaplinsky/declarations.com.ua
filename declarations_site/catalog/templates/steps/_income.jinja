@@ -1,7 +1,7 @@
 {% if data_item.incomeSource and data_item.incomeSource != "j" %}
     {% set persons = [data_item.incomeSource] %}
 {% else %}
-    {% set persons = data_item.person%}
+    {% set persons = data_item.person %}
 {% endif %}
 {% for person in persons %}
     {% if data_item.source_citizen == 'Громадянин України' %}

@@ -71,10 +71,9 @@
                         </div>
                     </td>
                     <td>
-                        <div class="row mb-2 mr-1">
-                            {# todo: not sure #}
-                            {{ display_val(data_item.guarantor) }}
-                        </div>
+                        {% if data_item.guarantor %}
+                            {% include "steps/_guarantor.jinja" with context %}
+                        {% endif %}
                         {% if data_item.guarantor_realty %}
                             {% for guarantor_realty in data_item.guarantor_realty %}
                             <div class="row mb-2 mr-1">
