@@ -6,7 +6,7 @@
                     <th class="doc-num-row-col">№</th>
                     <th>{{ _("Загальна інформація") }}</th>
                     <th>{{ _("Місцезнаходження об'єкта") }}</th>
-                    <th>{{ _('table_header_step3_costDate') }}</th>
+                    <th>{{ _('Вартість на дату набуття права') }}</th>
                     <th>{{ _("Вартість за останньою грошовою оцінкою") }}</th>
                     <th>{{ _('Інформація про джерело') }}</th>
                 </tr>
@@ -49,7 +49,7 @@
                         </div>
                     </td>
                     <td>
-                        {% if not data_item.country or data_item.country|string != "1" %}
+                        {% if not data_item.country or data_item.country in [1, "1"] %}
                             <div class="row mb-2 mr-1">
                                 <div class="col-12">
                                     <span class="color-1">{{ _("Країна: ") }}</span>
@@ -119,10 +119,14 @@
                         {{ display_val(data_item.costDate) }}
                     </td>
                     <td>
-                        {{ display_val(data_item.costAssessment) }}
+                        {% if data_item.costAssessment == 0 %}
+                            {{ _("[Не застосовується]") }}
+                        {% else %}
+                            {{ display_val(data_item.costAssessment) }}
+                        {% endif%}
                     </td>
                     <td>
-                        {% include 'steps/_rights.jinja' with context %}
+                        {% include 'cf_steps/_sources.jinja' with context %}
                     </td>
                 </tr>
             {% endfor %}
