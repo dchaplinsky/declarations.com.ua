@@ -161,13 +161,31 @@
                     </td>
                     <td>
                         <div class="col-12">
-                            <span class="color-1">{{ _("Найменування: ") }}</span>
-                            <span>{{ display_val(data_item.establishment_ua_company_name )}}</span>
+                            <span>{{ display_val(data_item.establishment_type )}}</span>
                         </div>
-                        <div class="col-12">
-                            <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань:") }}</span>
-                            <span>{{ display_val(data_item.establishment_ua_company_code )}}</span>
-                        </div>
+                        {% if data_item.establishment_type == "Юридична особа, зареєстрована в Україні" %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Найменування: ") }}</span>
+                                <span>{{ display_val(data_item.establishment_ua_company_name )}}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань:") }}</span>
+                                <span>{{ display_val(data_item.establishment_ua_company_code )}}</span>
+                            </div>
+                        {% elif data_item.establishment_type == "Юридична особа, зареєстрована за кордоном" %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Найменування (англійською): " )}}</span>
+                                <span>{{ display_val(data_item.establishment_eng_company_name) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Найменування (українською): " )}}</span>
+                                <span>{{ display_val(data_item.establishment_ukr_company_name) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Ідентифікаційний код: " )}}</span>
+                                <span>{{ display_val(data_item.establishment_eng_company_code) }}</span>
+                            </div>
+                        {% endif %}
                     </td>
                     <td>
                         {% include 'steps/_care.jinja' with context %}

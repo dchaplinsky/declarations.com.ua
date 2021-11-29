@@ -1,4 +1,9 @@
-{% for person in data_item.person %}
+{% if data_item.incomeSource and data_item.incomeSource != "j" %}
+    {% set persons = [data_item.incomeSource] %}
+{% else %}
+    {% set persons = data_item.person%}
+{% endif %}
+{% for person in persons %}
     {% if data_item.source_citizen == 'Громадянин України' %}
         <div class="row mb-2 mr-1">
             <div class="col-12">
@@ -86,7 +91,6 @@
             </div>
         </div>
     {% elif data_item.source_citizen == 'Юридична особа, зареєстрована за кордоном' %}
-        {# TODO: find and validate #}
         <div class="row mb-2 mr-1">
             <div class="col-12">
                 <span class="color-1">{{ _( 'Джерело доходу: ' ) }}</span>

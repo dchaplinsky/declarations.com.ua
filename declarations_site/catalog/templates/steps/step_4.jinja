@@ -158,44 +158,7 @@
                         </div>
                     </td>
                     <td>{# table_header_person_who_care_info #}
-                        <div class="row mb-2 mr-1">
-                            {% if data_item.thirdOwner_citizen  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Власник: ") }}</span>
-                                    <span>{{ display_val(data_item.thirdOwner_citizen) }}</span>
-                                </div>
-                            {% endif %}
-                            {% if data_item.addition_eng_company_name  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
-                                    <span>{{ display_val(data_item.addition_eng_company_name) }}</span>
-                                </div>
-                            {% endif %}
-                            {% if data_item.addition_ua_company_name  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Найменування (українською): ") }}</span>
-                                    <span>{{ display_val(data_item.addition_ua_company_name) }}</span>
-                                </div>
-                            {% endif %}
-                            {% if data_item.addition_eng_company_code  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Ідентифікаційний код: ") }}</span>
-                                    <span>{{ display_val(data_item.addition_eng_company_code) }}</span>
-                                </div>
-                            {% endif %}
-                            {% if data_item.addition_eng_company_address  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження (англійською): ") }}</span>
-                                    <span>{{ display_val(data_item.addition_eng_company_address) }}</span>
-                                </div>
-                            {% endif %}
-                            {% if data_item.addition_ua_company_address  %}
-                                <div class="col-12">
-                                    <span class="color-1">{{ _("Місцезнаходження (українською): ") }}</span>
-                                    <span>{{ display_val(data_item.addition_ua_company_address) }}</span>
-                                </div>
-                            {% endif %}
-                        </div>
+                        {% include 'steps/_care_step_4.jinja' with context %}
                     </td>
                     <td>{# ІНФОРМАЦІЯ ЩОДО ВЛАСНИКА #}
                         {% include 'steps/_rights.jinja' with context %}

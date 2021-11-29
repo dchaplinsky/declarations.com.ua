@@ -1,0 +1,110 @@
+{% for person in data_item.person_who_care %}
+    {% if person and not person.person|string == "1" %}
+        {% set relative = declaration.resolve_relative(person.person) %}
+        {% if relative %}
+            <div class="row mb-2 mr-1">
+                <div class="col-12">
+                    <span>{{ display_val(relative.subjectRelation) }}</span>
+                </div>
+                {% if relative.lastname %}
+                    <div class="col-12">
+                        <span class="color-1">{{ _('Прізвище: ') }}</span>
+                        <span>{{ display_val(relative.lastname) }}</span>
+                    </div>
+                {% endif %}
+                {% if relative.firstname %}
+                    <div class="col-12">
+                        <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                        <span>{{ display_val(relative.firstname) }}</span>
+                    </div>
+                {% endif %}
+                {% if relative.middlename %}
+                    <div class="col-12">
+                        <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                        <span>{{ display_val(relative.middlename) }}</span>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="row mb-2 mr-1">
+            {% if personal_info.lastname %}
+                <div class="col-12">
+                    <span class="color-1">{{ _('Прізвище: ') }}</span>
+                    <span>{{ display_val(personal_info.lastname) }}</span>
+                </div>
+            {% endif %}
+            {% if personal_info.firstname %}
+                <div class="col-12">
+                    <span class="color-1">{{ _('Ім\'я: ') }}</span>
+                    <span>{{ display_val(personal_info.firstname) }}</span>
+                </div>
+            {% endif %}
+            {% if personal_info.middlename %}
+                <div class="col-12">
+                    <span class="color-1">{{ _('По батькові (за наявності): ') }}</span>
+                    <span>{{ display_val(personal_info.middlename) }}</span>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}
+
+{% if data_item.thirdOwner_citizen %}
+    <div class="row mb-2 mr-1">
+        {% if data_item.thirdOwner_citizen %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Власник: ") }}</span>
+                <span>{{ display_val(data_item.thirdOwner_citizen) }}</span>
+            </div>
+        {% endif %}
+        {% if data_item.addition_company_name %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Найменування: ") }}</span>
+                <span>{{ display_val(data_item.addition_company_name) }}</span>
+            </div>
+        {% endif %}
+        {% if data_item.addition_company_code %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                <span>{{ display_val(data_item.addition_company_code) }}</span>
+            </div>
+        {% endif %}
+        {% if data_item.addition_eng_company_name %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
+                <span>{{ display_val(data_item.addition_eng_company_name) }}</span>
+            </div>
+        {% endif %}
+        {% if data_item.addition_eng_company_name %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
+                <span>{{ display_val(data_item.addition_eng_company_name) }}</span>
+            </div>
+        {% endif %}
+        {% if data_item.addition_ua_company_name %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Найменування (українською): ") }}</span>
+                <span>{{ display_val(data_item.addition_ua_company_name) }}</span>
+            </div>
+        {% endif %}
+        {% if data_item.addition_eng_company_code %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Ідентифікаційний код: ") }}</span>
+                <span>{{ display_val(data_item.addition_eng_company_code) }}</span>
+            </div>
+        {% endif %}
+        {% if data_item.addition_eng_company_address %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Місцезнаходження (англійською): ") }}</span>
+                <span>{{ display_val(data_item.addition_eng_company_address) }}</span>
+            </div>
+        {% endif %}
+        {% if data_item.addition_ua_company_address %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Місцезнаходження (українською): ") }}</span>
+                <span>{{ display_val(data_item.addition_ua_company_address) }}</span>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

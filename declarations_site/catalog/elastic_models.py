@@ -1318,7 +1318,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
             return self.COUNTRIES[country_id]
 
     def _parse_relatives(self):
-        if self.nacp_orig.step_2:
+        if hasattr(self.nacp_orig, "step_2"):
             return {
                 str(person.get("id", person_id)): person for person_id, person in self.nacp_orig.step_2.to_dict().items()
             }

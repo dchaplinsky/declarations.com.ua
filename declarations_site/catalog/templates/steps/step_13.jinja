@@ -75,10 +75,67 @@
                             {# todo: not sure #}
                             {{ display_val(data_item.guarantor) }}
                         </div>
-                        <div class="row mb-2 mr-1">
-                            {# todo: not sure #}
-                            {{ display_val(data_item.guarantor_realty) }}
-                        </div>
+                        {% if data_item.guarantor_realty %}
+                            {% for guarantor_realty in data_item.guarantor_realty %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Майнове забезпечення: ") }}</span>
+                                    <span>{{ display_val(guarantor_realty.realty_objectType) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Вартість: ") }}</span>
+                                    <span>{{ display_val(guarantor_realty.realty_cost)|amount_format }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Країна: ") }}</span>
+                                    <span>{{ declaration.get_country(guarantor_realty.realty_country) }}</span>
+                                </div>
+                                {% if guarantor_realty.realty_country|string == "1" %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_postCode) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Місто, селище чи село: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_cityType) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Тип: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_streetType) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Назва: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_street) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Номер будинку: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_houseNum) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Номер корпусу: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_housePartNum) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Номер квартири: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_apartmentsNum) }}</span>
+                                    </div>
+                                {% else %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_postCode) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Адреса (англійською): ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_loc_engLivingAddress) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Адреса (українською): ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_loc_ukrLivingAddress) }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
                     </td>
                     <td>
                         {% include 'steps/_care.jinja' with context %}
