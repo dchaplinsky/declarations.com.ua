@@ -64,5 +64,35 @@
                 {% endif%}
             </div>
         {% endif %}
+        {% if source.eng_company_name %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Найменування (англійською): ') }}</span>
+                <span>{{ display_val(source.eng_company_name) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ukr_company_name %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Найменування (українською): ') }}</span>
+                <span>{{ display_val(source.ukr_company_name) }}</span>
+            </div>
+        {% endif %}
+        {% if source.eng_company_code %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Ідентифікаційний код: ') }}</span>
+                <span>{{ display_val(source.eng_company_code) }}</span>
+            </div>
+        {% endif %}
+        {% if source.eng_company_address %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Місцезнаходження (англійською): ') }}</span>
+                <span>{{ display_val(source.eng_company_address) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ukr_company_address %}
+            <div class="col-12">
+                <span class="color-1">{{ _('Місцезнаходження (українською): ') }}</span>
+                <span>{{ display_val(source.ukr_company_address) }}</span>
+            </div>
+        {% endif %}
     </div>
 {% endfor %}
