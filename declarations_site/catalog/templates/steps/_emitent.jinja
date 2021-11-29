@@ -108,6 +108,9 @@
         {% set relative = declaration.resolve_relative(data_item['margin-emitent']) %}
         {% if relative %}
             <div class="row mb-2 mr-1">
+                <div class="col-12">
+                    <span>{{ relative.subjectRelation }}</span>
+                </div>
                 {% if relative.lastname %}
                     <div class="col-12">
                         <span class="color-1">{{ _('Прізвище: ') }}</span>

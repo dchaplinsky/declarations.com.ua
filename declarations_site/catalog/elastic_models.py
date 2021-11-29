@@ -1060,6 +1060,7 @@ class NACPDeclaration(DocType, AbstractDeclaration):
     }
 
     COUNTRIES = {
+        "0": _("Без громадянства"),
         "1": _("Україна"),
         "2": _("Австралія"),
         "3": _("Австрія"),
