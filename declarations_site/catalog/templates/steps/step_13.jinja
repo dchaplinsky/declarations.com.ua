@@ -1,0 +1,155 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _("Загальна інформація") }}</th>
+                <th>{{ _("Особа, на користь якої виникло зобов'язання") }}</th>
+                <th>{{ _("Розмір") }}</th>
+                <th>{{ _("Інформація щодо поручителів та майнового забезпечення") }}</th>
+                <th>{{_("Інформація про особу, якої стосується") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td class="doc-num-row-col">{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Вид зобов'язання: ") }}</span>
+                                <span>{{ display_val(data_item.objectType) }}</span>
+                            </div>
+                            {% if data_item.otherObjectType %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Інший вид зобов'язання: ") }}</span>
+                                    <span>{{ display_val(data_item.otherObjectType) }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Дата виникнення: ") }}</span>
+                                <span>{{ display_val(data_item.dateOrigin) }}</span>
+                            </div>
+                        </div>
+
+                        {% if data_item.objectType == 'Отримані кредити' or data_item.objectType == 'Отримані позики' %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Залишок позики (кредиту) станом на кінець звітного періоду: ") }}</span>
+                                    <span>{{ display_val(data_item.credit_rest)|amount_format }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Розмір сплачених коштів у рахунок основної суми позики (кредиту): ") }}</span>
+                                    <span>{{ display_val(data_item.credit_paid)|amount_format }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Розмір сплачених відсотків за позикою (кредитом): ") }}</span>
+                                    <span>{{ display_val(data_item.credit_percent_paid)|amount_format }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            {% include 'steps/_emitent.jinja' with context %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Розмір: ") }}</span>
+                                <span>{{ display_val(data_item.sizeObligation)|amount_format }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Валюта: ") }}</span>
+                                <span>{{ display_val(data_item.currency) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {% if data_item.guarantor %}
+                            {% include "steps/_guarantor.jinja" with context %}
+                        {% endif %}
+                        {% if data_item.guarantor_realty %}
+                            {% for guarantor_realty in data_item.guarantor_realty %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Майнове забезпечення: ") }}</span>
+                                    <span>{{ display_val(guarantor_realty.realty_objectType) }}</span>
+                                </div>
+                                {% if guarantor_realty.realty_otherObjectType %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Інше майнове забезпечення: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_otherObjectType) }}</span>
+                                    </div>
+                                {% endif %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Вартість: ") }}</span>
+                                    <span>{{ display_val(guarantor_realty.realty_cost)|amount_format }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Країна: ") }}</span>
+                                    <span>{{ declaration.get_country(guarantor_realty.realty_country) }}</span>
+                                </div>
+                                {% if guarantor_realty.realty_country|string == "1" %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_postCode) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Місто, селище чи село: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_cityType) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Тип: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_streetType) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Назва: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_street) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Номер будинку: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_houseNum) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Номер корпусу: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_housePartNum) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Номер квартири: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_ua_apartmentsNum) }}</span>
+                                    </div>
+                                {% else %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_postCode) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Адреса (англійською): ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_loc_engLivingAddress) }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Адреса (українською): ") }}</span>
+                                        <span>{{ display_val(guarantor_realty.realty_loc_ukrLivingAddress) }}</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% include 'steps/_care.jinja' with context %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

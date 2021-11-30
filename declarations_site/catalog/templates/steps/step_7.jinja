@@ -1,0 +1,122 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _("Загальна інформація") }}</th>
+                <th>{{ _("Емітент") }}</th>
+                {# <th>{{ _("Інформація щодо передачі в управління іншій особі") }}</th> #}
+                <th>{{ _("Кількість цінних паперів") }}</th>
+                <th>{{ _("Номінальна вартість цінного папера") }}</th>
+                <th>{{ _("Інформація щодо права власності") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td class="doc-num-row-col">{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Вид паперів: ") }}</span>
+                                {% if data_item.typeProperty %}
+                                    <span>{{ display_val(data_item.typeProperty) }}</span>
+                                {% endif %}
+                                {% if data_item.subTypeProperty1 %}
+                                    <span>{{ display_val(data_item.subTypeProperty1) }}</span>
+                                {% endif %}
+                                {% if data_item.subTypeProperty2 %}
+                                    <span>{{ display_val(data_item.subTypeProperty2) }}</span>
+                                {% endif %}
+                            </div>
+                            {% if data_item.subTypeProperty1 %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Інший вид паперів: ") }}</span>
+                                    <span>{{ display_val(data_item.otherObjectType) }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Дата набуття права: ") }}</span>
+                                <span>{{ display_val(data_item.owningDate) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# ЕМІТЕНТ ЦІННИХ ПАПЕРІВ #}
+                        {# todo: Dima, not sure how to check type properly #}
+                        {% if data_item.emitent_type == 'Юридична особа, зареєстрована в Україні' %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span>{{ display_val(data_item.emitent_type) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Найменування: ") }}</span>
+                                    <span>{{ display_val(data_item.emitent_ua_company_name) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                    <span>{{ display_val(data_item.emitent_ua_company_code) }}</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span>{{ display_val(data_item.emitent_type) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Найменування (англійською): ") }}</span>
+                                    <span>{{ display_val(data_item.emitent_eng_company_name) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Найменування (українською): ") }}</span>
+                                    <span>{{ display_val(data_item.emitent_ukr_company_name) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Ідентифікаційний код: ") }}</span>
+                                    <span>{{ display_val(data_item.emitent_eng_company_code) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Місцезнаходження (англійською): ") }}</span>
+                                    <span>{{ display_val(data_item.emitent_eng_company_address) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Місцезнаходження (українською): ") }}</span>
+                                    <span>{{ display_val(data_item.emitent_ukr_company_address) }}</span>
+                                </div>
+                            </div>
+                        {% endif%}
+                    </td>
+                    {# todo: check Dima. Looks like we need to hide this column? #}
+                    {#
+                    <td>
+                        {{ display_val(data_item.person) }}
+                    </td>
+                    #}
+                    <td>{# КІЛЬКІСТЬ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.amount) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# НОМІНАЛЬНА ВАРТІСТЬ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.cost) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# ІНФОРМАЦІЯ ЩОДО ПРАВА ВЛАСНОСТІ ТА ОСОБУ, ЯКІЙ ЦІННІ ПАПЕРИ БУЛИ ПЕРЕДАНІ В УПРАВЛІННЯ #}
+                        {% include 'steps/_rights.jinja' with context %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

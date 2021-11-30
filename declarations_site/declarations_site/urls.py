@@ -56,6 +56,8 @@ urlpatterns += i18n_patterns(
     path("search", catalog_views.search, name="search"),
     path("declaration/<str:declaration_id>", catalog_views.details, name="details"),
     path("sample/<str:declaration_id>", catalog_views.sample_details, name="sample_details"),
+    path("sample_changeform/<str:declaration_id>", catalog_views.sample_details_change_form, name="sample_details_change_form"),
+    
     url(r"^region$", catalog_views.regions_home, name="regions_home"),
     url(r"^office$", catalog_views.offices_home, name="offices_home"),
     url(r"^BI/$", catalog_views.business_intelligence, name="business_intelligence"),

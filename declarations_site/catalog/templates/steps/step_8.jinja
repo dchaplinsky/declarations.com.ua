@@ -1,0 +1,89 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _("Загальна інформація") }}</th>
+                <th>{{ _("Вартість у грошовому вираженні") }}</th>
+                <th>{{ _("Інформація про передачу корпоративних прав в управління") }}</th>
+                <th>{{ _("%% від загального капіталу") }}</th>
+                <th>{{ _("Інформація про права на об'єкт") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for item in step_data %}
+                    {% set data_item = step_data[item] %}
+                    <tr>
+                        <td class="doc-num-row-col">{# № #}
+                            {{ loop.index }}
+                        </td>
+                        <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
+                            <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Найменування юридичної особи: ") }}</span>
+                                <span>{{ display_val(data_item.name) }}</span>
+                            </div>
+
+                            {% set country = data_item.country | int %}
+                            {% if country > 1 %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Найменування юридичної особи (англійською): ") }}</span>
+                                    <span>{{ display_val(data_item.en_name) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Ідентифікаційний номер: ") }}</span>
+                                    <span>{{ display_val(data_item.en_corporate_rights_company_code) }}</span>
+                                </div>
+                            {% else %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                    <span>{{ display_val(data_item.corporate_rights_company_code) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Організаційно-правова форма: ") }}</span>
+                                    <span>{{ display_val(data_item.legalForm) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Країна реєстрації головного офіса: ") }}</span>
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Дата придбання майна (набуття права): ") }}</span>
+                                    <span>{{ display_val(data_item.owningDate) }}</span>
+                                </div>
+                            {% endif %}
+                            </div>
+                        </td>
+                        <td>{# ВАРТІСТЬ У ГРОШОВОМУ ВИРАЖЕННІ #}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span>{% if data_item.cost %}{{ display_val(data_item.cost) }}{% else %}-{% endif %}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{# todo: check if we need display this column #}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span>{{ display_val(data_item.is_transferred) }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{# % ВІД ЗАГАЛЬНОГО КАПІТАЛУ #}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span>{{ display_val(data_item.cost_percent) }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{# ІНФОРМАЦІЯ ПРО ПРАВА НА ОБ'ЄКТ #}
+                            {% include 'steps/_rights.jinja' with context %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

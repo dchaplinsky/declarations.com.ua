@@ -1,0 +1,79 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+                <tr>
+                    <th class="doc-num-row-col">№</th>
+                    <th>{{ _('Вид видатку') }}</th>
+                    <th>{{ _('Предмет правочину, який спричинив видаток') }}</th>
+                    <th>{{ _('Країна, у якій було здійснено видаток') }}</th>
+                    <th>{{ _('Розмір видатку') }}</th>
+                    <th>{{ _('Дата здійсненняння видатку') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td>{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseType %}
+                                    <span>{{ display_val(data_item.expenseType) }}</span>
+                                {% endif %}
+                                {% if data_item.otherExpenseType %}
+                                    <span>{{ display_val(data_item.otherExpenseType) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseSpec %}
+                                    <span>{{ display_val(data_item.expenseSpec) }}</span>
+                                {% endif %}
+                                {% if data_item.otherExpenseSpec %}
+                                    <span>{{ display_val(data_item.otherExpenseSpec) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseCountry %}
+                                    <span>{{ declaration.get_country(data_item.expenseCountry) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseSize %}
+                                    <span>{{ display_val(data_item.expenseSize)|amount_format }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.expenseDate %}
+                                    <span>{{ display_val(data_item.expenseDate) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

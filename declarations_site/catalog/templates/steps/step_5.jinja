@@ -1,0 +1,81 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _("Загальна інформація") }}</th>
+                <th>{{ _("Характеристика") }}</th>
+                <th>{{ _("Вартість на дату набуття у власність, володіння чи користування або за останньою грошовою оцінкою") }}</th>
+                <th>{{ _("Інформація щодо прав на майно") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td class="doc-num-row-col">{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Вид майна: ") }}</span>
+                                <span>{{ display_val(data_item.objectType) }}</span>
+                            </div>
+                            {% if data_item.otherObjectType %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Інший вид майна: ") }}</span>
+                                    <span>{{ display_val(data_item.otherObjectType) }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Дата набуття права: ") }}</span>
+                                <span>{{ display_val(data_item.dateUse) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# ХАРАКТЕРИСТИКА #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Торгова марка: ") }}</span>
+                                <span>{{ display_val(data_item.trademark) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Найменування виробника: ") }}</span>
+                                <span>{{ display_val(data_item.manufacturerName) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Опис майна: ") }}</span>
+                                <span>{{ display_val(data_item.propertyDescr) }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            {% if data_item.acqBeforeFD %}
+                                <div class="col-12">
+                                    <span>{{ _("Право на майно набуто до подання першої декларації поданої відповідно до Закону «Про запобігання корупції»") }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>{# ВАРТІСТЬ НА ДАТУ НАБУТТЯ У ВЛАСНІСТЬ, ВОЛОДІННЯ ЧИ КОРИСТУВАННЯ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.costDateUse_extendedstatus %}
+                                    <span>{{ data_item.costDateUse_extendedstatus|extended_status }}</span>
+                                {% endif %}
+                                <span>{{ display_val(data_item.costDateUse)|amount_format }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# ІНФОРМАЦІЯ ЩОДО ПРАВ НА МАЙНО #}
+                        {% include 'steps/_rights.jinja' with context %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}
