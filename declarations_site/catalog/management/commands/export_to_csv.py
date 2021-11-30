@@ -4,8 +4,13 @@ import json
 import dpath.util
 from csv import DictWriter
 import argparse
+
+from elasticsearch_dsl import Search, Q
+
 from django.core.management.base import BaseCommand
-from catalog.elastic_models import Declaration, NACPDeclaration
+
+from catalog.elastic_models import Declaration, NACPDeclaration, NACPDeclarationNewFormat
+from catalog.constants import NACP_DECLARATION_INDEX, NACP_DECLARATION_NEW_FORMAT_INDEX
 
 
 class FilterException(Exception):
@@ -13,7 +18,7 @@ class FilterException(Exception):
 
 
 class Command(BaseCommand):
-    help = 'Checks if we have all sources of the declarations'
+    help = "Checks if we have all sources of the declarations"
 
     office_list = {
         "[Пп]резидента?": "офіс президента",
@@ -42,26 +47,21 @@ class Command(BaseCommand):
         "управління державного майна": "фонд",
         "Фонд ": "фонд",
         "[Вв]нутрішніх": "міліція",
-        'міська рада': 'міська рада'
+        "міська рада": "міська рада",
     }
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            '--field', nargs='*', default=["declaration.url"])
-        parser.add_argument(
-            '--from', default=0, type=int)
-        parser.add_argument(
-            '--to', default=None, type=int)
-        parser.add_argument(
-            '--outfile', nargs='?', type=argparse.FileType('w'),
-            default=sys.stdout)
+        parser.add_argument("--field", nargs="*", default=["declaration.url"])
+        parser.add_argument("--from", default=0, type=int)
+        parser.add_argument("--to", default=None, type=int)
+        parser.add_argument("--outfile", nargs="?", type=argparse.FileType("w"), default=sys.stdout)
 
     def classify_office(self, res):
         for office_re in self.office_list:
             if re.search(office_re, res[0], flags=re.I):
                 return self.office_list[office_re]
 
-        return 'інше'
+        return "інше"
 
     def apply_operation(self, res, operation):
         def floatify(val):
@@ -83,8 +83,7 @@ class Command(BaseCommand):
             return len(list(filter(None, res)))
         elif flt == "join":
             if len(chunks) != 2:
-                raise FilterException(
-                    "filter %s requires exactly 1 param" % flt)
+                raise FilterException("filter %s requires exactly 1 param" % flt)
 
             return chunks[1].join(res)
         else:
@@ -99,7 +98,7 @@ class Command(BaseCommand):
             return ""
 
         try:
-            res = dpath.util.values(doc, path, separator='.')
+            res = dpath.util.values(doc, path, separator=".")
         except KeyError:
             res = []
 
@@ -112,26 +111,27 @@ class Command(BaseCommand):
             return res
 
     def handle(self, *args, **options):
-        all_decls = NACPDeclaration.search().query('match_all')
+        all_decls = (
+            Search(index=(NACP_DECLARATION_INDEX, NACP_DECLARATION_NEW_FORMAT_INDEX))
+            .doc_type(NACPDeclaration, NACPDeclarationNewFormat)
+            .query("match_all")
+        )
+
         if options["to"] is not None:
-            all_decls = all_decls[options["from"]:options["to"]].execute()
+            all_decls = all_decls[options["from"] : options["to"]].execute()
         elif options["from"]:
-            all_decls = all_decls[options["from"]:].execute()
+            all_decls = all_decls[options["from"] :].execute()
         else:
             all_decls = all_decls.scan()
 
-        w = DictWriter(
-            options["outfile"], fieldnames=["_id"] + options["field"])
+        w = DictWriter(options["outfile"], fieldnames=["_id"] + options["field"])
 
         w.writeheader()
 
         for decl in all_decls:
             decl_dict = decl.to_dict()
 
-            row = {
-                field: self.fetch_field(decl_dict, field)
-                for field in options["field"]
-            }
+            row = {field: self.fetch_field(decl_dict, field) for field in options["field"]}
 
             row["_id"] = decl.meta.id
 

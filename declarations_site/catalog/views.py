@@ -92,7 +92,7 @@ def search(request):
         base_search = Declaration.search()
     else:
         base_search = Search(index=CATALOG_INDICES).doc_type(
-            NACPDeclaration, Declaration
+            NACPDeclaration, Declaration, NACPDeclarationNewFormat
         )
 
 
@@ -129,8 +129,7 @@ def fuzzy_search(request):
     user_declarant_ids = set(filter(str.isdigit, robust_getlist(request.GET, "user_declarant_ids")))
 
     base_search = Search(
-        # index=CATALOG_INDICES + (NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
-        index=(NACP_DECLARATION_NEW_FORMAT_INDEX, )).doc_type(
+        index=CATALOG_INDICES).doc_type(
         NACPDeclarationNewFormat, NACPDeclaration, Declaration
     )
 
@@ -282,10 +281,11 @@ def region_office(request, region_name, office_name):
 
     search = (
         Search(index=CATALOG_INDICES)
-        .doc_type(NACPDeclaration, Declaration)
+        .doc_type(NACPDeclaration, Declaration, NACPDeclarationNewFormat)
         .query("term", general__post__region__raw=region_name)
         .query("term", general__post__office__raw=office_name)
     )
+    search = apply_search_sorting(search, request.GET.get("sort", ""))
 
     results = paginated_search(request, search)
 
@@ -315,9 +315,11 @@ def office(request, office_name):
 
     search = (
         Search(index=CATALOG_INDICES)
-        .doc_type(NACPDeclaration, Declaration)
+        .doc_type(NACPDeclaration, Declaration, NACPDeclarationNewFormat)
         .query("term", general__post__office__raw=office_name)
     )
+
+    search = apply_search_sorting(search, request.GET.get("sort", ""))
 
     results = paginated_search(request, search)
 
@@ -492,7 +494,7 @@ def compare_declarations(request):
 
     search = (
         Search(index=CATALOG_INDICES)
-        .doc_type(NACPDeclaration, Declaration)
+        .doc_type(NACPDeclaration, Declaration, NACPDeclarationNewFormat)
         .query({"ids": {"values": declarations}})
     )
     results = search.execute()
