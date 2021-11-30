@@ -1,0 +1,173 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _("Загальна інформація") }}</th>
+                <th>{{ _("Місцезнаходження") }}</th>
+                <th>{{ _("Зв'язок із суб'єктом декларування") }}</th>
+                <th>{{ _("Інформація про особу, якої стосується")}}</th>
+                <th>{{ _("Інформація щодо прав на об'єкт") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td class="doc-num-row-col">{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>{# ЗАГАЛЬНА ІНФОРМАЦІЯ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Вид об'єкта: ") }}</span>
+                                <span>{{ display_val(data_item.objectType) }}</span>
+                            </div>
+                            {% if data_item.otherObjectType %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Інший вид об'єкта: ") }}</span>
+                                    <span>{{ display_val(data_item.otherObjectType) }}</span>
+                                </div>
+                            {% endif %}
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Дата набуття права: ") }}</span>
+                                <span>{{ display_val(data_item.owningDate) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span class="color-1">Загальна площа (м<sup><small>2</small></sup>): </span>
+                                <span>{{ display_val(data_item.totalArea) }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Реєстраційний номер (кадастровий номер для земельної ділянки): ") }}</span>
+                                <span>{{ display_val(data_item.regNumber) }}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{% if data_item.unfinishConstruct %}{{ _("Об'єкт незавершеного будівництва") }}{% endif %}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{% if data_item.exploitation %}{{ _("Об'єкт, не прийнятий в експлуатацію") }}{% endif %}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{% if data_item.dontRegistered %}{{ _("Об'єкт, право власності на який не зареєстроване в установленому законом порядку") }}{% endif %}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# МІСЦЕЗНАХОДЖЕННЯ #}
+                        {% if data_item.country == '1' %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Країна: ") }}</span>
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                    <span>{{ display_val(data_item.ua_postCode) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Населений пункт: ") }}</span>
+                                    <span>{{ display_val(data_item.ua_cityType) }}</span>
+                                </div>
+                                {% if data_item.ua_streetType %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Тип: ") }}</span>
+                                        <span>{{ display_val(data_item.ua_streetType) }}</span>
+                                    </div>
+                                {% endif%}
+                                {% if data_item.ua_street %}
+                                    <div class="col-12">
+                                        <span class="color-1">{{ _("Назва: ") }}</span>
+                                        <span>{{ display_val(data_item.ua_street) }}</span>
+                                    </div>
+                                {% endif%}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Номер будинку: ") }}</span>
+                                    <span>{{ display_val(data_item.ua_houseNum) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1"> {{ _("Номер корпусу: ") }}</span>
+                                    <span>{{ display_val(data_item.ua_housePartNum) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Номер квартири: ") }}</span>
+                                    <span>{{ display_val(data_item.ua_apartmentsNum) }}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Кадастровий номер: ") }}</span>
+                                    <span>{{ display_val(data_item.cadNumber) }}</span>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Країна: ") }}</span>
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Поштовий індекс: ") }}</span>
+                                    <span>{{ display_val(data_item.postCode) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Адреса (англійською): ") }}</span>
+                                    <span>{{ display_val(data_item.loc_engLivingAddress) }}</span>
+                                </div>
+                                <div class="col-12">
+                                    <span class="color-1"> {{ _("Адреса (українською): ") }}</span>
+                                    <span>{{ display_val(data_item.loc_ukrLivingAddress) }}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Реєстраційний номер: ") }}</span>
+                                    <span>{{ display_val(data_item.eng_regNumber) }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </td>
+                    <td>{# ЗВ'ЯЗОК ІЗ СУБ'ЄКТОМ ДЕКЛАРУВАННЯ #}
+                        <div class="row mb-2 mr-1">
+                            {% if data_item.belongsSubjectOfDeclaration %}
+                                <div class="col-12">
+                                    <span>{{ _("Об'єкт належить суб'єкту декларування чи члену його сім'ї на праві власності відповідно до Цивільного кодексу України.") }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            {% if data_item.builtOnTerritoryOrRent %}
+                                <div class="col-12">
+                                    <span>{{ _("Об'єкт розташований на земельній ділянці, що належить суб'єкту декларування або членам його сім'ї на праві приватної власності, включаючи спільну власність, або переданий їм в оренду чи на іншому праві користування, незалежно від правових підстав набуття такого права.") }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            {% if data_item.builtMaterialsOrFunds %}
+                                <div class="col-12">
+                                    <span>{{ _("Об'єкт повністю або частково побудований з матеріалів чи за кошти суб'єкта декларування або члена його сім'ї.") }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>{# table_header_person_who_care_info #}
+                        {% include 'steps/_care_step_4.jinja' with context %}
+                    </td>
+                    <td>{# ІНФОРМАЦІЯ ЩОДО ВЛАСНИКА #}
+                        {% include 'steps/_rights.jinja' with context %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

@@ -1,0 +1,99 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+                <tr>
+                    <th class="doc-num-row-col">№</th>
+                    <th>{{ _("Загальна інформація") }}</th>
+                    <th>{{ _("Характеристика") }}</th>
+                    <th>{{ _("Вартість на дату набуття") }}</th>
+                    <th>{{ _("Вартість за останньою грошовою оцінкою") }}</th>
+                    <th>{{ _('Інформація про джерело') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td>{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Вид майна: ") }}</span>
+                                {% if data_item.objectType %}
+                                    <span>{{ display_val(data_item.objectType) }}</span>
+                                {% endif %}
+                            </div>
+                            {% if data_item.otherObjectType %}
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Інший вид майна: ") }}</span>
+                                    <span>{{ display_val(data_item.otherObjectType) }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Дата набуття права: ") }}</span>
+                                {% if data_item.dateUse %}
+                                    <span>{{ display_val(data_item.dateUse) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Торгова марка: ") }}</span>
+                                {% if data_item.trademark %}
+                                    <span>{{ display_val(data_item.trademark) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Назва виробника: ") }}</span>
+                                {% if data_item.manufacturerName %}
+                                    <span>{{ display_val(data_item.manufacturerName) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Опис майна: ") }}</span>
+                                {% if data_item.propertyDescr %}
+                                    <span>{{ display_val(data_item.propertyDescr) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.costDateUse %}
+                                    <span>{{ display_val(data_item.costDateUse)|amount_format }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                {% if data_item.costLast %}
+                                    <span>{{ display_val(data_item.costLast)|amount_format }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {% include 'cf_steps/_sources.jinja' with context %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

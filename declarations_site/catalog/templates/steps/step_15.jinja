@@ -1,0 +1,45 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _("Посада або опис роботи, що виконується (виконувалася) за сумісництвом") }}</th>
+                <th>{{ _("Оплачуваність") }}</th>
+                <th>{{ _("Фізична або юридична особа, для якої виконувалась робота (у якій особа займала посаду за сумісництвом)") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td class="doc-num-row-col">{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.description) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.paid) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            {% include 'steps/_emitent.jinja' with context %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

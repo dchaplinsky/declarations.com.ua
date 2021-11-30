@@ -1,0 +1,97 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+                <tr>
+                    <th class="doc-num-row-col">№</th>
+                    <th>{{ _("Загальна інформація") }}</th>
+                    <th>{{ _("Вартість у грошовому вираженні") }}</th>
+                    <th>{{ _("%% від загального капіталу") }}</th>
+                    <th>{{ _("Вартість на дату набуття") }}</th>
+                    <th>{{ _('Інформація про джерело') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td>{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Найменування юридичної особи:") }}</span>
+                                <span>{{ display_val(data_item.name) }}</span>
+                            </div>
+                        </div>
+                        {% if data_item.regNumber %}
+                            {% set company_code = data_item.regNumber %}
+                        {% else %}
+                            {% if data_item.corporate_rights_company_code %}
+                                {% set company_code = data_item.corporate_rights_company_code %}
+                            {% endif%}
+                        {% endif %}
+                        {% set country = display_val(data_item.name) | int  %}
+                        {% if country > 1 %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Найменування юридичної особи (англійською):") }}</span>
+                                    <span>{{ display_val(data_item.en_name) }}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                    <span class="color-1">{{ _("Реєстраційний номер: ") }}</span>
+                                    {% if company_code %}
+                                        <span>{{ display_val(company_code) }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row mb-2 mr-1">
+                                <div class="col-12">
+                                <span class="color-1">{{ _("Код в Єдиному державному реєстрі юридичних осіб, фізичних осіб – підприємців та громадських формувань: ") }}</span>
+                                    {% if company_code %}
+                                        <span>{{ display_val(company_code) }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Організаційно-правова форма: ") }}</span>
+                                {% if data_item.legalForm %}
+                                    <span>{{ display_val(data_item.legalForm) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span class="color-1">{{ _("Країна реєстрації головного офіса:") }}</span>
+                                {% if data_item.country %}
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        {{ display_val(data_item.cost)|amount_format }}
+                    </td>
+                    <td>
+                        {{ display_val(data_item.cost_percent) }}
+                    </td>
+                    <td>
+                        {{ display_val(data_item.costDate)|amount_format }}
+                    </td>
+                    <td>
+                        {% include 'cf_steps/_sources.jinja' with context %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

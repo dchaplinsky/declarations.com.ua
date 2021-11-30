@@ -1,0 +1,54 @@
+{% if step_data and not step_data['empty'] %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered card-table border corner-round dataTable">
+            <thead>
+            <tr>
+                <th class="doc-num-row-col">{{ _('№') }}</th>
+                <th>{{ _("Джерело доходу") }}</th>
+                <th>{{ _("Вид доходу") }}</th>
+                <th>{{ _("Розмір (вартість)") }}</th>
+                <th>{{ _("Інформація про особу, якої стосується") }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in step_data %}
+                {% set data_item = step_data[item] %}
+                <tr>
+                    <td class="doc-num-row-col">{# № #}
+                        {{ loop.index }}
+                    </td>
+                    <td>{# ДЖЕРЕЛО ДОХОДУ #}
+                        {% if data_item.revenue_source %}
+                            {# todo: not sure what to do. Dima please, check #}
+                        {% else %}
+                            {% include 'steps/_income.jinja' with context %}
+                        {% endif %}
+                    </td>
+                    <td>{# ВИД ДОХОДУ #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.objectType) }}</span>
+                            </div>
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.otherObjectType) }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# РОЗМІР (ВАРТІСТЬ) #}
+                        <div class="row mb-2 mr-1">
+                            <div class="col-12">
+                                <span>{{ display_val(data_item.sizeIncome)|amount_format }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{# ІНФОРМАЦІЯ ЩОДО ПРАВА НА ОБ'ЄКТ #}
+                        {% include 'steps/_care.jinja' with context %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    {{ _("У суб'єкта декларування чи членів його сім'ї відсутні об'єкти для декларування в цьому розділі.") }}
+{% endif %}

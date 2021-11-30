@@ -1,5 +1,3 @@
-{% from "_youcontrol.jinja" import yc_check_person %}
-
 {% macro decl_year_type(declaration) %}
     {% if declaration.intro.declaration_year %}
         {{ declaration.intro.declaration_year -}}
@@ -27,10 +25,6 @@
                 {% else %}
                     {{ declaration._full_name(language) }}
                 {% endif %}
-                {{ yc_check_person('a', '', 'sm', declaration._name_search_query(), parent_section) }}
-                {{ yc_check_person('b', '', 'sm', declaration._name_search_query(), parent_section) }}
-                {{ yc_check_person('c', '', 'sm', declaration._name_search_query(), parent_section) }}
-                {{ yc_check_person('d', '', 'sm', declaration._name_search_query(), parent_section) }}
             </div>
             <div class="search-card__position">
                 {{ decl_year_type(declaration) }}
@@ -160,7 +154,6 @@
                                 </div>
                             </button>
                         {% endif %}
-                        {{ yc_check_person('a', 'action-icon card-actions__action card-actions__action--youcontrol') }}
                         {# <button class="action-icon card-actions__action">
                             <svg class="action-icon__img" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 17.27L18.18 20.998L16.544 13.968L22 9.24402L14.81 8.62602L12 1.99902L9.19 8.62502L2 9.24302L7.454 13.969L5.819 20.998L12 17.27Z" fill="#56B8AD"/>
