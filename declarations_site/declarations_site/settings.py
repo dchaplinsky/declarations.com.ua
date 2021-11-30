@@ -326,7 +326,6 @@ PIPELINE = {
                 'js/partials/analytics-tabs.js',
                 'js/partials/declaration.js',
                 'js/partials/tabs.js',
-                'js/partials/youcontrol.js',
             ),
             'output_filename': 'js/merged.js',
         },

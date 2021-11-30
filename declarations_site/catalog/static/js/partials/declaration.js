@@ -124,7 +124,7 @@
   
         $('.nacp-section').each(function(index) {
           var $this = $(this);
-          var someInfo = $this.find('table, .personal-info, label');
+          var someInfo = $this.find('table, .personal-info, label, .color-1');
           var dataEmpty = someInfo.length ? 'full' : 'empty';
 
           if (someInfo.length) {

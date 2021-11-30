@@ -47,10 +47,9 @@
 
 {% for step, step_description in steps.items() %}
 <div class="declaration-details" data-type="1">
-    <div class="card" id="step-data-{{ step}}}">
+    <div class="card" id="step-data-{{ step }}">
         <header class="card-header" id="heading-{{ step }}">
             <h2 class="card-header-title">
-
                 <span class="title">{{ step_description }}</span>
             </h2>
         </header>
@@ -60,7 +59,6 @@
             {% else %}
                 {% set step_data = {} %}
             {% endif %}
-            {% set step_description = "Step description #" + step|string %}
             {% set step_template = folder + '/step_' + step|string + '.jinja' %}
             {% include step_template with context %}
         </div>
