@@ -72,7 +72,7 @@
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
                                 {% if data_item.costDateUse %}
-                                    <span>{{ display_val(data_item.costDateUse) }}</span>
+                                    <span>{{ display_val(data_item.costDateUse)|amount_format }}</span>
                                 {% endif %}
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
                                 {% if data_item.costLast %}
-                                    <span>{{ display_val(data_item.costLast) }}</span>
+                                    <span>{{ display_val(data_item.costLast)|amount_format }}</span>
                                 {% endif %}
                             </div>
                         </div>

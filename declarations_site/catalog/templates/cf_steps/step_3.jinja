@@ -116,13 +116,13 @@
                         {% endif%}
                     </td>
                     <td>
-                        {{ display_val(data_item.costDate) }}
+                        {{ display_val(data_item.costDate)|amount_format }}
                     </td>
                     <td>
                         {% if data_item.costAssessment == 0 %}
                             {{ _("[Не застосовується]") }}
                         {% else %}
-                            {{ display_val(data_item.costAssessment) }}
+                            {{ display_val(data_item.costAssessment)|amount_format }}
                         {% endif%}
                     </td>
                     <td>

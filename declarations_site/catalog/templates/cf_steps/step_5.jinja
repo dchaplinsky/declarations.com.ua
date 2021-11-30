@@ -249,10 +249,10 @@
                         {{ display_val(data_item.amount) }}
                     </td>
                     <td>
-                        {{ display_val(data_item.cost) }}
+                        {{ display_val(data_item.cost)|amount_format }}
                     </td>
                     <td>
-                        {{ display_val(data_item.costDate) }}
+                        {{ display_val(data_item.costDate)|amount_format }}
                     </td>
                     <td>
                         {% include 'cf_steps/_sources.jinja' with context %}

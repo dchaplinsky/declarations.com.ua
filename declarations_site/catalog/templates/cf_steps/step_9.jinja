@@ -46,8 +46,7 @@
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
                                 {% if data_item.expenseCountry %}
-                                    {# todo: Dima #}
-                                    <span>{{ display_val(data_item.expenseCountry) }}</span>
+                                    <span>{{ declaration.get_country(data_item.expenseCountry) }}</span>
                                 {% endif %}
                             </div>
                         </div>
@@ -56,7 +55,7 @@
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
                                 {% if data_item.expenseSize %}
-                                    <span>{{ display_val(data_item.expenseSize) }}</span>
+                                    <span>{{ display_val(data_item.expenseSize)|amount_format }}</span>
                                 {% endif %}
                             </div>
                         </div>

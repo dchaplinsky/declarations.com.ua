@@ -54,7 +54,7 @@
                         <div class="row mb-2 mr-1">
                             <div class="col-12">
                                 {% if data_item.costDateOrigin %}
-                                    <span>{{ display_val(data_item.costDateOrigin) }}</span>
+                                    <span>{{ display_val(data_item.costDateOrigin)|amount_format }}</span>
                                 {% endif %}
                             </div>
                         </div>

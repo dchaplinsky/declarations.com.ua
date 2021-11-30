@@ -64,6 +64,44 @@
                 {% endif%}
             </div>
         {% endif %}
+
+        {% if source.eng_fullname %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Повне ім'я (англійською): ") }}</span>
+                <span>{{ display_val(source.eng_fullname) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ukr_fullname %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Повне ім'я (українською): ") }}</span>
+                <span>{{ display_val(source.ukr_fullname) }}</span>
+            </div>
+        {% endif %}
+        {% if source.eng_birthday %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Дата народження: ") }}</span>
+                <span>{{ display_val(source.eng_birthday) }}</span>
+            </div>
+        {% endif %}
+        {% if source.eng_taxNumber %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Ідентифікаційний номер: ") }}</span>
+                <span>{{ display_val(source.eng_taxNumber) }}</span>
+            </div>
+        {% endif %}
+        {% if source.eng_regAddress %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Місце проживання (англійською): ") }}</span>
+                <span>{{ display_val(source.eng_regAddress) }}</span>
+            </div>
+        {% endif %}
+        {% if source.ukr_actualAddress %}
+            <div class="col-12">
+                <span class="color-1">{{ _("Місце проживання (українською): ") }}</span>
+                <span>{{ display_val(source.ukr_actualAddress) }}</span>
+            </div>
+        {% endif %}
+
         {% if source.eng_company_name %}
             <div class="col-12">
                 <span class="color-1">{{ _('Найменування (англійською): ') }}</span>

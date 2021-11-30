@@ -57,10 +57,10 @@
                         </div>
                     </td>
                     <td>
-                        {{ display_val(data_item.costDate) }}
+                        {{ display_val(data_item.costDate)|amount_format }}
                     </td>
                     <td>
-                        {{ display_val(data_item.costLast) }}
+                        {{ display_val(data_item.costLast)|amount_format }}
                     </td>
                     <td>{# sources #}
                         {% include 'cf_steps/_sources.jinja' with context %}

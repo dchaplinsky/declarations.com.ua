@@ -70,20 +70,19 @@
                             <div class="col-12">
                                 <span class="color-1">{{ _("Країна реєстрації головного офіса:") }}</span>
                                 {% if data_item.country %}
-                                    {# todo: Dima #}
-                                    <span>{{ display_val(data_item.country) }}</span>
+                                    <span>{{ declaration.get_country(data_item.country) }}</span>
                                 {% endif %}
                             </div>
                         </div>
                     </td>
                     <td>
-                        {{ display_val(data_item.cost) }}
+                        {{ display_val(data_item.cost)|amount_format }}
                     </td>
                     <td>
                         {{ display_val(data_item.cost_percent) }}
                     </td>
                     <td>
-                        {{ display_val(data_item.costDate) }}
+                        {{ display_val(data_item.costDate)|amount_format }}
                     </td>
                     <td>
                         {% include 'cf_steps/_sources.jinja' with context %}
