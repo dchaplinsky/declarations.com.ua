@@ -216,113 +216,114 @@
         {% endblock %}
 
         <div class="footer">
-            <div class="container footer__inner">
-                <div class="footer__top">
-                    <div class="project-menu">
-                        <div class="project-menu__title">{{ _("Проекти") }}</div>
+            <div class="container footer__inner px-0">
+                <div class="px-12">
+                    <div class="footer__top">
+                        <div class="project-menu">
+                            <div class="project-menu__title">{{ _("Проекти") }}</div>
 
-                        <div class="project-menu__items">
-                            <div class="project-menu__item">
-                                <a href="https://declarations.com.ua/" class="project-menu__link">{{ _("декларації") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://bihus.info/projects/laboratoriya-vikrittiv/" class="project-menu__link">{{ _("лабораторія викриттів") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://kotyky.org.ua/" class="project-menu__link">{{ _("котики") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://bihus.info/projects/push" class="project-menu__link">{{ _("тисни!") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://ring.org.ua/" class="project-menu__link">{{ _("ring") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://www.youtube.com/playlist?list=PLj1W_YfyNdvmEDcNS9pAVpfBs8DKYCkvv" class="project-menu__link">{{ _("підсумки дна") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://www.youtube.com/playlist?list=PLj1W_YfyNdvlgQKoXEIdx3D4eVR4HlAtJ" class="project-menu__link">{{ _("наші гроші") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://bihus.info/projects/programa-intervyu-vono-yak/" class="project-menu__link">{{ _("он воно як") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="http://posipaky.info/" class="project-menu__link">{{ _("посіпаки") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="http://posipaky-2.info/" class="project-menu__link">{{ _("посіпаки 2") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://bihus.info/projects/gra-sliv/" class="project-menu__link">{{ _("гра слів") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://bihus.info/projects/blogi-0/" class="project-menu__link">{{ _("блоги") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://declarations.com.ua/business-intelligence/" class="project-menu__link">{{ _("nevid") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://bihus.info/projects/elektronne-bti-ebti" class="project-menu__link">{{ _("e.БТІ") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://garnahata.in.ua/" class="project-menu__link">{{ _("гарнахата") }}</a>
-                            </div>
-                            <div class="project-menu__item">
-                                <a href="https://svoi.bihus.info/" class="project-menu__link">{{ _("свої люди") }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="footer__medium">
-
-                    <div class="project-description-block">
-                        <img src="{{ static("images/logo-white.svg") }}" alt="Bihus logo" class="project-description-block__logo">
-                        <div class="project-description-block__text">
-                            {{ _("Bihus.info об'єднує антикорупційні проекти, які створює ГО \"ТОМ 14\" та ГО \"Канцелярська сотня\".") }}
-                        </div>
-                    </div>
-
-                    <div class="footer__subscription subscription-block">
-                        <div class="subscription-block__title">{{ _("Підписатися на розсилку") }}</div>
-                        <iframe frameborder="0" src="https://secure.esputnik.com.ua/23oNbk6320s" width="80%" height="109" scrolling="no"></iframe>
-                        {# <form class="subscription-block__form subscription-form">
-                            <div class="subscription-form__input-wrap">
-                                <input class="n-input subscription-form__input" placeholder="Введіть ваш e-mail">
-                            </div>
-                            <button class="n-btn subscription-form__btn">Підписатись</button>
-                        </form> #}
-                    </div>
-                </div>
-
-                <div class="footer__bottom">
-                    <div class="social-block">
-                        <div class="social-block__title">{{ _("Ми у соцмережах") }}</div>
-                        <div class="social-block__items">
-                            <div class="social-block__item">
-                                <a href="https://www.facebook.com/bihus.info/" class="social-block__link social-link">
-                                    <img src="{{ static("images/social/facebook-white.svg") }}" alt="Facebook" class="social-link__icon">
-                                    <span class="social-link__title">Facebook</span>
-                                </a>
-                            </div>
-
-                            <div class="social-block__item">
-                                <a href="https://twitter.com/BihusInfo" class="social-block__link social-link">
-                                    <img src="{{ static("images/social/twitter-white.svg") }}" alt="Twitter" class="social-link__icon">
-                                    <span class="social-link__title">Twitter</span>
-                                </a>
-                            </div>
-
-                            <div class="social-block__item">
-                                <a href="https://www.youtube.com/bihusinfo" class="social-block__link social-link">
-                                    <img src="{{ static("images/social/youtube-white.svg") }}" alt="YouTube" class="social-link__icon">
-                                    <span class="social-link__title">YouTube</span>
-                                </a>
+                            <div class="project-menu__items">
+                                <div class="project-menu__item">
+                                    <a href="https://declarations.com.ua/" class="project-menu__link">{{ _("декларації") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://bihus.info/projects/laboratoriya-vikrittiv/" class="project-menu__link">{{ _("лабораторія викриттів") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://kotyky.org.ua/" class="project-menu__link">{{ _("котики") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://bihus.info/projects/push" class="project-menu__link">{{ _("тисни!") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://ring.org.ua/" class="project-menu__link">{{ _("ring") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://www.youtube.com/playlist?list=PLj1W_YfyNdvmEDcNS9pAVpfBs8DKYCkvv" class="project-menu__link">{{ _("підсумки дна") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://www.youtube.com/playlist?list=PLj1W_YfyNdvlgQKoXEIdx3D4eVR4HlAtJ" class="project-menu__link">{{ _("наші гроші") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://bihus.info/projects/programa-intervyu-vono-yak/" class="project-menu__link">{{ _("он воно як") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="http://posipaky.info/" class="project-menu__link">{{ _("посіпаки") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="http://posipaky-2.info/" class="project-menu__link">{{ _("посіпаки 2") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://bihus.info/projects/gra-sliv/" class="project-menu__link">{{ _("гра слів") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://bihus.info/projects/blogi-0/" class="project-menu__link">{{ _("блоги") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://declarations.com.ua/business-intelligence/" class="project-menu__link">{{ _("nevid") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://bihus.info/projects/elektronne-bti-ebti" class="project-menu__link">{{ _("e.БТІ") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://garnahata.in.ua/" class="project-menu__link">{{ _("гарнахата") }}</a>
+                                </div>
+                                <div class="project-menu__item">
+                                    <a href="https://svoi.bihus.info/" class="project-menu__link">{{ _("свої люди") }}</a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="copyright-block footer__copyright">{{ _("Bihus.info &copy; 2015 - 2020") }}</div>
+                    <div class="footer__medium">
+                        <div class="project-description-block">
+                            <img src="{{ static("images/logo-white.svg") }}" alt="Bihus logo" class="project-description-block__logo">
+                            <div class="project-description-block__text">
+                                {{ _("Bihus.info об'єднує антикорупційні проекти, які створює ГО \"ТОМ 14\" та ГО \"Канцелярська сотня\".") }}
+                            </div>
+                        </div>
+
+                        <div class="footer__subscription subscription-block">
+                            <div class="subscription-block__title">{{ _("Підписатися на розсилку") }}</div>
+                            <iframe frameborder="0" src="https://secure.esputnik.com.ua/23oNbk6320s" width="80%" height="109" scrolling="no"></iframe>
+                            {# <form class="subscription-block__form subscription-form">
+                                <div class="subscription-form__input-wrap">
+                                    <input class="n-input subscription-form__input" placeholder="Введіть ваш e-mail">
+                                </div>
+                                <button class="n-btn subscription-form__btn">Підписатись</button>
+                            </form> #}
+                        </div>
+                    </div>
+
+                    <div class="footer__bottom">
+                        <div class="social-block">
+                            <div class="social-block__title">{{ _("Ми у соцмережах") }}</div>
+                            <div class="social-block__items">
+                                <div class="social-block__item">
+                                    <a href="https://www.facebook.com/bihus.info/" class="social-block__link social-link">
+                                        <img src="{{ static("images/social/facebook-white.svg") }}" alt="Facebook" class="social-link__icon">
+                                        <span class="social-link__title">Facebook</span>
+                                    </a>
+                                </div>
+
+                                <div class="social-block__item">
+                                    <a href="https://twitter.com/BihusInfo" class="social-block__link social-link">
+                                        <img src="{{ static("images/social/twitter-white.svg") }}" alt="Twitter" class="social-link__icon">
+                                        <span class="social-link__title">Twitter</span>
+                                    </a>
+                                </div>
+
+                                <div class="social-block__item">
+                                    <a href="https://www.youtube.com/bihusinfo" class="social-block__link social-link">
+                                        <img src="{{ static("images/social/youtube-white.svg") }}" alt="YouTube" class="social-link__icon">
+                                        <span class="social-link__title">YouTube</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="copyright-block footer__copyright">{{ _("Bihus.info &copy; 2015 - 2020") }}</div>
+                    </div>
                 </div>
             </div>
         </div>

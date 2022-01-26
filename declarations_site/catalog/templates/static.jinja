@@ -2,13 +2,14 @@
 
 {% block content %}
 <section id="page">
-    <div class="content container">
+    <div class="content container px-0">
+        <div class="px-12">
+            <h1 class="main-page__title"><span>{% block page_header %}{% endblock %}</span></h1>
 
-        <h1 class="main-page__title"><span>{% block page_header %}{% endblock %}</span></h1>
-
-        <div class="page-content">
-        {% block static_content %}
-        {% endblock %}
+            <div class="page-content">
+            {% block static_content %}
+            {% endblock %}
+            </div>
         </div>
     </div>
 </section>
