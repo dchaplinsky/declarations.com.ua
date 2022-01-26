@@ -1,11 +1,18 @@
-html {
-  overflow-x: hidden;
-}
-
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  overflow-x: hidden;
+}
+
+.px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.px-12 {
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 body.menu-is-open {
