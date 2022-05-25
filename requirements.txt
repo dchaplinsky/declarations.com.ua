@@ -17,7 +17,7 @@ glob2==0.5
 translitua==1.2.4
 raven==6.10.0
 xlsxwriter<2.0
-pyjwt==1.5.0
+pyjwt==2.4.0
 cryptography>=3.2
 jmespath==0.9.3
 python-telegram-bot==10.0.1
